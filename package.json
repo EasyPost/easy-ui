@@ -1,0 +1,31 @@
+{
+  "name": "easy-ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Resources, components, and guidelines behind UI at EasyPost",
+  "author": "EasyPost",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EasyPost/easy-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EasyPost/easy-ui/issues"
+  },
+  "engines": {
+    "node": "^16.14.0"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "library",
+    "design-system"
+  ],
+  "workspaces": [
+    "easy-ui-icons",
+    "easy-ui-react",
+    "easy-ui-tokens",
+    "easy-ui-storybook",
+    "stylelint-easy-ui",
+    "eslint-config-easy-ui"
+  ]
+}
