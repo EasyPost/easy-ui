@@ -14,7 +14,7 @@ The EasyPost/easy-ui repository is a monorepo made up of NPM packages and websit
 easy-ui/
 ├── documentation               # Documentation for working with Easy UI
 ├── easy-ui-icons               # Icons for Easy UI
-├── easy-ui-react               # Components for @easypost/ui package
+├── easy-ui-react               # Components for @easypost/easy-ui package
 ├── easy-ui-tokens              # Design tokens for Easy UI
 ├── easy-ui-storybook           # Storybook website
 └── stylelint-easy-ui           # Style rules for Easy UI
