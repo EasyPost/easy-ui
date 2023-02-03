@@ -1,7 +1,7 @@
 ---
 status: Accepted
 date: 2023-02-02
-deciders: EasyPost UI Platform
+deciders: @stephenjwatkins, @OskiTheCoder, @kevinalexliu
 ---
 
 # Use NPM as package manager
@@ -36,4 +36,4 @@ NPM is a good option if maturity, ecosystem compatibility, team familiarity, pro
 
 PNPM has become the de-facto choice of monorepo tooling in OSS. It's a good option if we’re willing to sacrifice some familiarity, consistency, maturity, EasyPost system parity, and potential lack of ecosystem compatibility for a more emergent, more performant and generally-capable package manager.
 
-See [spike](https://docs.google.com/document/d/1P7xwKrW3Y4R2kUa0Wtlx7sR1G3UCi2ywKrFl2Lz1-WE) for details on research.
+See [spike](https://docs.google.com/document/d/1P7xwKrW3Y4R2kUa0Wtlx7sR1G3UCi2ywKrFl2Lz1-WE) (internal) for details on research.
