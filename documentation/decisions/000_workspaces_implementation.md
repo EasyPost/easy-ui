@@ -1,7 +1,7 @@
 ---
 status: Accepted
 date: 2023-02-02
-deciders: @stephenjwatkins, @OskiTheCoder, @kevinalexliu
+deciders: stephenjwatkins, OskiTheCoder, kevinalexliu
 ---
 
 # Use NPM as package manager
