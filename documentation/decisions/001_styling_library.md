@@ -36,5 +36,3 @@ After researching options above, the best options came to CSS Modules and Vanill
 Vanilla Extract has a lot to offer. Mark Dalgleish, who co-created CSS Modules, created Vanilla Extract as a spiritual successor of CSS Modules. It most-notably has first-class type support. However, due to its learning curve and relatively nascent status, it's not recommended as the first choice at EasyPost.
 
 Given that the UI Engineering team has worked with CSS directly for so long, CSS Modules is a natural, effective extension to that existing paradigm. It allows the team to use a familiar format while providing safeguards around encapsulation for scalability. CSS Modules also provides maturity, extensive capabilities through plugging into the PostCSS pipeline, and community support.
-
-See [spike](https://docs.google.com/document/d/1jO2JRB-tPX779Wu4IyshCGrwSFUg2IEmnwrcS3UfIe8) (internal) for details on research.
