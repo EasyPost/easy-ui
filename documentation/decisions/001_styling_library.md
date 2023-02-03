@@ -1,7 +1,7 @@
 ---
 status: Accepted
 date: 2023-02-03
-deciders: EasyPost UI Platform
+deciders: @stephenjwatkins, @OskiTheCoder, @kevinalexliu
 ---
 
 # Use CSS Modules as styling library
@@ -37,4 +37,4 @@ Vanilla Extract has a lot to offer. Mark Dalgleish, who co-created CSS Modules, 
 
 Given that the UI Engineering team has worked with CSS directly for so long, CSS Modules is a natural, effective extension to that existing paradigm. It allows the team to use a familiar format while providing safeguards around encapsulation for scalability. CSS Modules also provides maturity, extensive capabilities through plugging into the PostCSS pipeline, and community support.
 
-See [spike](https://docs.google.com/document/d/1jO2JRB-tPX779Wu4IyshCGrwSFUg2IEmnwrcS3UfIe8) for details on research.
+See [spike](https://docs.google.com/document/d/1jO2JRB-tPX779Wu4IyshCGrwSFUg2IEmnwrcS3UfIe8) (internal) for details on research.
