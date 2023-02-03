@@ -35,5 +35,3 @@ NPM and PNPM are both reasonable choices dependent on what the team wants to pri
 NPM is a good option if maturity, ecosystem compatibility, team familiarity, project consistency and EasyPost system parity is important.
 
 PNPM has become the de-facto choice of monorepo tooling in OSS. It's a good option if we’re willing to sacrifice some familiarity, consistency, maturity, EasyPost system parity, and potential lack of ecosystem compatibility for a more emergent, more performant and generally-capable package manager.
-
-See [spike](https://docs.google.com/document/d/1P7xwKrW3Y4R2kUa0Wtlx7sR1G3UCi2ywKrFl2Lz1-WE) (internal) for details on research.
