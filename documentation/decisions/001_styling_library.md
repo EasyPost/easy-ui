@@ -1,7 +1,7 @@
 ---
 status: Accepted
 date: 2023-02-03
-deciders: @stephenjwatkins, @OskiTheCoder, @kevinalexliu
+deciders: stephenjwatkins, OskiTheCoder, kevinalexliu
 ---
 
 # Use CSS Modules as styling library
