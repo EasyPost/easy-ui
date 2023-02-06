@@ -4,7 +4,7 @@ date: 2023-02-03
 deciders: stephenjwatkins, OskiTheCoder, kevinalexliu
 ---
 
-# Design component APIs based on common patterns that exist across popular libraries.
+# Use standard conventions for component APIs
 
 ## Context and Problem Statement
 
@@ -12,24 +12,18 @@ Easy UI should have a set of basic standards and conventions for designing compo
 
 ## Decision Drivers
 
-- Scalability: As the project increaes in complexity, conventions should streamline the development process and provide reliability.
+- Scalability: As the project increases in complexity, conventions should streamline the development process and provide reliability.
 - Intuitiveness: Easy UI component APIs should be approachable and easy to use.
 - Adaptability: The level of effort to adapt components to conform to API guidelines should be relatively low.
 
 ## Considered Options
 
 - MUI
-
 - Shopify Polaris
-
 - Chakra UI
-
 - Ant Design
-
 - Twilio Paste
-
 - Adobe Spectrum
-
 - GitHub Primer
 
 1. Picking an existing above library to use as a single point of reference when designing component APIs.
@@ -37,7 +31,7 @@ Easy UI should have a set of basic standards and conventions for designing compo
 
 ## Decision Outcome
 
-We decided on developing standards and conventions by looking at common API design pattersn that exist across popular component libraries.
+We decided on developing standards and conventions by looking at common API design patterns that exist across popular component libraries.
 
 ## More Information
 
