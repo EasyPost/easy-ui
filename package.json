@@ -27,5 +27,11 @@
     "easy-ui-storybook",
     "stylelint-easy-ui",
     "eslint-config-easy-ui"
-  ]
+  ],
+  "scripts": {
+    "clean": "turbo run clean && rm -rf ./node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^1.7.3"
+  }
 }
