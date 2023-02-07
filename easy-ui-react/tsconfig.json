@@ -1,0 +1,3 @@
+{
+  "extends": "@easypost/easy-ui-tsconfig/library"
+}
