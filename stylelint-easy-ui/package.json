@@ -1,4 +1,9 @@
 {
   "name": "@easypost/stylelint-easy-ui",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "devDependencies": {
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-recommended": "^9.0.0",
+    "stylelint-prettier": "^2.0.0"
+  }
 }
