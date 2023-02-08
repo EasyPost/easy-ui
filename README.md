@@ -15,10 +15,11 @@ easy-ui/
 ├── documentation               # Documentation for working with Easy UI
 ├── easy-ui-icons               # Icons for Easy UI
 ├── easy-ui-react               # Components for @easypost/easy-ui package
-├── easy-ui-tokens              # Design tokens for Easy UI
 ├── easy-ui-storybook           # Storybook website
-└── stylelint-easy-ui           # Style rules for Easy UI
+├── easy-ui-tokens              # Design tokens for Easy UI
+├── easy-ui-tsconfig            # TypeScript configuration for Easy UI
 └── eslint-config-easy-ui       # ESLint rules for Easy UI
+└── stylelint-easy-ui           # Style rules for Easy UI
 ```
 
 ## Commands
