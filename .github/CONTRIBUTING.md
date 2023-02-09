@@ -12,19 +12,19 @@ If your pull request involves changes to any component APIs, please read over ou
 
 ### One-offs
 
-We define a one-off as a deviation from best practices. We understand that one-offs are virtually inevitable, so when we create them, we should have a good reason for doing so as creating one-offs adds additional context for contributors and users as well as introduces the possibility of creating inconsistent UX.
+- We define a one-off as a deviation from best practices. We understand that one-offs are virtually inevitable, so when we create them, we should have a good reason for doing so as creating one-offs adds additional context for contributors and users as well as introduces the possibility of creating inconsistent UX.
 
 ### Intuitive naming
 
-Property names should be descriptive and intuitive of what they do. Intuitive names are preferred over descriptive names. For example, for a button, `urlLinkDestination` is a descriptive name, but `href` is intuitive.
+- Property names should be descriptive and intuitive of what they do. Intuitive names are preferred over descriptive names. For a button, `urlLinkDestination` is a descriptive name, but `href` is intuitive.
 
 ### Consistent naming
 
-Properties that have identical purposes across different components should share the same name. Similarly, properties that have identical purposes should also share the same type. If one component has a boolean `isValid`, other components that intend to control validity should do the same.
+- Properties that have identical purposes across different components should share the same name. Similarly, properties that have identical purposes should also share the same type. If one component has a boolean `isValid`, other components that intend to control validity should do the same.
 
 ### Property dependency
 
-Although unavoidable at times, we should do our best to not create properties that are dependent upon another. This helps avoid configurations that lead to invalid states. If a component has multiple dependent properties, take a closer look at the overall structure of the component.
+- Although unavoidable at times, we should do our best to not create properties that are dependent upon another. This helps avoid configurations that lead to invalid states. If a component has multiple dependent properties, take a closer look at the overall structure of the component.
 
 ### Booleans
 
@@ -32,8 +32,8 @@ Although unavoidable at times, we should do our best to not create properties th
 - By default booleans should be false. This makes the notation a bit cleaner for when the boolean is active:
 
 ```JSX
-  // avoid
-  <Button isNotDisabled={false} />
+// avoid
+<Button isNotDisabled={false} />
 ```
 
 ```JSX
@@ -54,4 +54,4 @@ Although unavoidable at times, we should do our best to not create properties th
 
 ### Styling
 
-- Components should not expose the classname name property as we run the risk of creating inconsistent UX.
+- Components should not expose the `className` property as we run the risk of creating inconsistent UX.
