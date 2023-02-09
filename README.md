@@ -32,7 +32,7 @@ npm i
 
 ## Contribute to this repo
 
-Pull requests are welcome. See the [contribution guidelines](https://github.com/EasyPost/easy-ui/.github/CONTRIBUTING.md) for more information.
+Pull requests are welcome. See the [contribution guidelines](https://github.com/EasyPost/easy-ui/blob/main/.github/CONTRIBUTING.md) for more information.
 
 ## Licenses
 
