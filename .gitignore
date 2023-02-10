@@ -1,3 +1,5 @@
 .DS_STORE
 .turbo
+.vscode/settings.json
 node_modules
+storybook-static
