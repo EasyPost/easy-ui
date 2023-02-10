@@ -12,10 +12,10 @@ The EasyPost/easy-ui repository is a monorepo made up of NPM packages and websit
 
 ```sh
 easy-ui/
+├── .storybook                  # Storybook website
 ├── documentation               # Documentation for working with Easy UI
 ├── easy-ui-icons               # Icons for Easy UI
 ├── easy-ui-react               # Components for @easypost/easy-ui package
-├── easy-ui-storybook           # Storybook website
 ├── easy-ui-tokens              # Design tokens for Easy UI
 ├── easy-ui-tsconfig            # TypeScript configuration for Easy UI
 └── eslint-config-easy-ui       # ESLint rules for Easy UI
