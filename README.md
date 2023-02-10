@@ -3,7 +3,7 @@
 > Resources, components, and design guidelines for shaping the shipper experience at EasyPost.
 
 | Status | Owner            | Help                                                        |
-| ------ | ---------------- | ----------------------------------------------------------- |
+| :----- | :--------------- | :---------------------------------------------------------- |
 | Active | EasyPost/easy-ui | [New issue](https://github.com/EasyPost/easy-ui/issues/new) |
 
 ## About this repo
@@ -24,11 +24,12 @@ easy-ui/
 
 ## Commands
 
-//Setup and utilities://
+_Setup and utilities:_
 
-| **Command** | **Runs**
-| `npm i` | Installs project dependencies
-| `npm run build --workspace @easypost/easy-ui-tokens` | Builds Easy UI design tokens
+| Command                                              | Runs                          |
+| :--------------------------------------------------- | :---------------------------- |
+| `npm i`                                              | Installs project dependencies |
+| `npm run build --workspace @easypost/easy-ui-tokens` | Builds Easy UI design tokens  |
 
 ## Contribute to this repo
 
