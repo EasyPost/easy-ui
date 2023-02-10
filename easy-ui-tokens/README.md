@@ -36,4 +36,6 @@ CSS variables are prefixed with `--ezui` to signal that these variables are Easy
 
 ```js
 const tokens = require("@easypost/easy-ui-tokens/json/tokens.json");
+
+console.log(tokens["color-blue-100"]);
 ```
