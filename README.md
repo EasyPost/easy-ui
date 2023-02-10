@@ -24,11 +24,11 @@ easy-ui/
 
 ## Commands
 
-### Install dependencies
+//Setup and utilities://
 
-```sh
-npm i
-```
+| **Command** | **Runs**
+| `npm i` | Installs project dependencies
+| `npm run build --workspace @easypost/easy-ui-tokens` | Builds Easy UI design tokens
 
 ## Contribute to this repo
 

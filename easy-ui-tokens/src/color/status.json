@@ -1,0 +1,11 @@
+{
+  "color": {
+    "status": {
+      "system": { "value": "{color.blue.800.value}" },
+      "info": { "value": "{color.blue.500.value}" },
+      "success": { "value": "{color.green.500.value}" },
+      "warning": { "value": "{color.purple.500.value}" },
+      "error": { "value": "{color.red.500.value}" }
+    }
+  }
+}
