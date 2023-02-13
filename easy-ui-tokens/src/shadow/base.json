@@ -1,0 +1,10 @@
+{
+  "shadow": {
+    "button": {
+      "value": "0px 0px 0px 3px rgba(69, 132, 255, 0.4)"
+    },
+    "input": {
+      "value": "0px 0px 0px 3px rgba(1, 70, 130, 0.25)"
+    }
+  }
+}

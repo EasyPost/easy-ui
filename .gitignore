@@ -2,4 +2,5 @@
 .turbo
 .vscode/settings.json
 node_modules
+dist
 storybook-static
