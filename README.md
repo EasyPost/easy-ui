@@ -24,11 +24,10 @@ easy-ui/
 
 ## Commands
 
-_Setup and utilities:_
-
 | Command                                              | Runs                          |
 | :--------------------------------------------------- | :---------------------------- |
 | `npm i`                                              | Installs project dependencies |
+| `npm run storybook`                                  | Runs Storybook                |
 | `npm run build --workspace @easypost/easy-ui-tokens` | Builds Easy UI design tokens  |
 
 ## Contribute to this repo
