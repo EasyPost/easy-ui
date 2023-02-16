@@ -28,7 +28,6 @@ module.exports = {
         "color/css",
         "ezui/unit/rem",
         "ezui/unit/em",
-        "ezui/font/parenthesis",
       ],
       prefix: "ezui",
       files: [
