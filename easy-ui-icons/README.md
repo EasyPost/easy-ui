@@ -42,13 +42,13 @@ Import the `Icon` component from Easy UI React and any icon from Easy UI Icons i
 2. Import an icon from Easy UI Icons:
 
    ```tsx
-   import ExpandMoreIcon from "@easypost/easy-ui-icons/ExpandMore";
+   import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
    ```
 
 3. Pass the imported Easy UI icon to the `symbol` prop of the `Icon` component:
 
    ```tsx
-   <Icon symbol={ExpandMoreIcon} />
+   <Icon symbol={CheckCircleIcon} />
    ```
 
 ### SVG files

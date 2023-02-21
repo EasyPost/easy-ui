@@ -4,6 +4,7 @@
   "exports": {
     ".": "./dist/js/tokens.js",
     "./css/*": "./dist/css/*",
+    "./scss/*": "./dist/scss/*",
     "./json/*": "./dist/json/*"
   },
   "scripts": {

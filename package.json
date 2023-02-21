@@ -29,12 +29,13 @@
     "eslint-config-easy-ui"
   ],
   "scripts": {
-    "clean": "turbo run clean && rm -rf ./node_modules",
+    "clean": "FORCE_COLOR=1 turbo run clean && rm -rf ./node_modules",
     "format": "prettier . --write",
     "start:storybook": "start-storybook -p 9003",
     "build:storybook": "build-storybook",
-    "build:icons": "turbo run build --filter=@easypost/easy-ui-icons",
-    "build:tokens": "turbo run build --filter=@easypost/easy-ui-tokens"
+    "build:icons": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui-icons",
+    "build:tokens": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui-tokens",
+    "test": "FORCE_COLOR=1 turbo run test"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -50,8 +51,9 @@
     "eslint": "^8.33.0",
     "prettier": "^2.8.3",
     "stylelint": "^14.16.1",
-    "turbo": "^1.7.3",
+    "turbo": "^1.8.2",
     "typescript": "^4.9.5",
-    "vite": "^4.1.1"
+    "vite": "^4.1.1",
+    "vitest": "^0.28.5"
   }
 }

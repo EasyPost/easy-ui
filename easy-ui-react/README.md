@@ -80,3 +80,9 @@ ReactDOM.render(
 ## Development
 
 We use Storybook to create a simple, hot-reloading playground for development on these components.
+
+### Commands
+
+| Command        | Runs              |
+| :------------- | :---------------- |
+| `npm run test` | Tests the project |
