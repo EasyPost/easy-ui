@@ -1,4 +1,16 @@
 {
   "name": "@easypost/easy-ui-icons",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "exports": {
+    ".": "./dist/*"
+  },
+  "scripts": {
+    "clean": "rm -rf .turbo dist node_modules",
+    "build": "vite build --config ./vite.config.ts"
+  },
+  "devDependencies": {
+    "@material-symbols/svg-300": "^0.4.5",
+    "@svgr/cli": "^6.5.1",
+    "glob": "^8.1.0"
+  }
 }

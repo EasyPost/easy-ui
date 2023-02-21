@@ -31,8 +31,10 @@
   "scripts": {
     "clean": "turbo run clean && rm -rf ./node_modules",
     "format": "prettier . --write",
-    "storybook": "start-storybook -p 9003",
-    "build-storybook": "build-storybook"
+    "start:storybook": "start-storybook -p 9003",
+    "build:storybook": "build-storybook",
+    "build:icons": "turbo run build --filter=@easypost/easy-ui-icons",
+    "build:tokens": "turbo run build --filter=@easypost/easy-ui-tokens"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
