@@ -31,5 +31,5 @@ jobs:
               state: "success",
               target_url: "${{ steps.chromatic.outputs.storybookUrl }}",
               description: "Storybook preview generated!",
-              context: "Chromatic/storybook"
+              context: "Chromatic / storybook (push)"
             });
