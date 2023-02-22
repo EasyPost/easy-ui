@@ -4,12 +4,6 @@
 
 Easy UI Tokens uses [Style Dictionary](https://amzn.github.io/style-dictionary) as its organizational paradigm and build tool. It transpiles JSON configuration values to platform-specific variables.
 
-## Commands
-
-| Command         | Runs                         |
-| :-------------- | :--------------------------- |
-| `npm run build` | Builds Easy UI design tokens |
-
 ## Usage
 
 ### JavaScript
@@ -39,3 +33,11 @@ const tokens = require("@easypost/easy-ui-tokens/json/tokens.json");
 
 console.log(tokens["color-blue-100"]);
 ```
+
+## Development
+
+### Commands
+
+| Command         | Runs                         |
+| :-------------- | :--------------------------- |
+| `npm run build` | Builds Easy UI design tokens |
