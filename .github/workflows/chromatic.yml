@@ -24,16 +24,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            await github.rest.checks.create({
+            await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head_sha: context.sha,
-              name: "storybook",
-              status: "completed",
-              conclusion: "${{ steps.chromatic.conclusion }}",
-              details_url: "${{ steps.chromatic.outputs.storybookUrl }}",
-              output: {
-                title: "Storybook",
-                summary: "Storybook preview URL"
-              },
+              sha: context.sha,
+              state: "success",
+              target_url: "${{ steps.chromatic.outputs.storybookUrl }}",
+              description: "Storybook preview generated!"
             });
