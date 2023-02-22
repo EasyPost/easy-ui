@@ -16,6 +16,27 @@ jobs:
       - name: Build icons
         run: npm run build:icons
       - name: Publish to Chromatic
+        id: chromatic
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+  chromatic-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Create a check run"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head_sha: context.sha,
+              name: "storybook",
+              status: "completed",
+              conclusion: "${{ jobs.chromatic-deployment.result }}",
+              details_url: "${{ jobs.chromatic-deployment.storybookUrl }}",
+              output: {
+                title: "Storybook",
+                summary: "Storybook preview URL"
+              },
+            });
