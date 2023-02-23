@@ -30,8 +30,9 @@ easy-ui/
 | `npm run clean`           | Removes temp directories from workspaces |
 | `npm run format`          | Formats files with prettier              |
 | `npm run start:storybook` | Starts Storybook for dev                 |
+| `npm run build:icons`     | Builds Easy UI Icons                     |
 | `npm run build:storybook` | Builds Storybook for serving             |
-| `npm run build:icons`     | Builds Easy UI icons                     |
+| `npm run build:react`     | Builds Easy UI React                     |
 | `npm run build:tokens`    | Builds Easy UI design tokens             |
 | `npm run test`            | Tests Easy UI                            |
 

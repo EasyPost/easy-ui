@@ -1,8 +1,10 @@
 {
   "extends": "@easypost/easy-ui-tsconfig/library",
   "compilerOptions": {
+    "emitDeclarationOnly": true,
     "baseUrl": "./src",
-    "rootDir": "."
+    "rootDir": ".",
+    "outDir": "./dist/ts",
   },
   "include": ["./src/**/*"]
 }
