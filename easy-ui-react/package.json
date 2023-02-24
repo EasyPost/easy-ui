@@ -4,20 +4,15 @@
   "scripts": {
     "clean": "rm -rf node_modules dist .turbo",
     "test": "vitest run",
-    "build": "run-p build:js build:types",
+    "build": "run-s build:js build:types",
     "build:js": "vite build",
     "build:types": "tsc --build"
   },
   "exports": {
-    "./*": {
-      "types": "./dist/ts/src/*",
-      "import": "./dist/js/esm/*",
-      "require": "./dist/js/cjs/*"
-    },
-    "./style.css": "./dist/js/style.css"
+    "./*": "./dist/*"
   },
   "files": [
-    "dist/"
+    "dist/*"
   ],
   "sideEffects": [
     "**/*.css"
