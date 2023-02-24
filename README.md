@@ -33,6 +33,7 @@ easy-ui/
 | `npm run build:storybook` | Builds Storybook for serving             |
 | `npm run build:icons`     | Builds Easy UI icons                     |
 | `npm run build:tokens`    | Builds Easy UI design tokens             |
+| `npm run test`            | Tests Easy UI                            |
 
 ## Contribute to this repo
 

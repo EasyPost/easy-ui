@@ -2,8 +2,16 @@
   "name": "@easypost/easy-ui-icons",
   "version": "1.0.0",
   "exports": {
-    ".": "./dist/*"
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js"
+    },
+    "./svg/*.svg": "./dist/svg/*.svg"
   },
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "clean": "rm -rf .turbo dist node_modules",
     "build": "vite build --config ./vite.config.ts"

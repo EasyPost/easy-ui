@@ -1,0 +1,35 @@
+name: "Chromatic"
+on: push
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js v16
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+      - name: Install dependencies
+        run: npm i
+      - name: Build tokens
+        run: npm run build:tokens
+      - name: Build icons
+        run: npm run build:icons
+      - name: Publish to Chromatic
+        id: chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      - name: Generate Storybook preview
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: "success",
+              target_url: "${{ steps.chromatic.outputs.storybookUrl }}",
+              description: "Storybook preview generated!",
+              context: "Chromatic / storybook (push)"
+            });

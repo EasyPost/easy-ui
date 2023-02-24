@@ -17,7 +17,7 @@ console.log(tokens["color-blue-100"]);
 ### CSS
 
 ```js
-import '@easypost/easy-ui-tokens/css/styles.css';
+import '@easypost/easy-ui-tokens/css/variables.css';
 
 div {
   background: var(--ezui-color-blue-100);
@@ -25,6 +25,18 @@ div {
 ```
 
 CSS variables are prefixed with `--ezui` to signal that these variables are Easy UI variables.
+
+### SCSS
+
+```scss
+@import "@easypost/easy-ui-tokens/scss/variables.scss";
+
+div {
+  background: $ezui-color-blue-100;
+}
+```
+
+SCSS variables are prefixed with `$ezui` to signal that these variables are Easy UI variables.
 
 ### JSON
 

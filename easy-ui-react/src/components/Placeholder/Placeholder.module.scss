@@ -1,0 +1,38 @@
+@import "../../styles/common";
+
+.Placeholder {
+  display: flex;
+  gap: var(--ezui-space-2);
+  padding: var(--ezui-space-3);
+  border-radius: var(--ezui-shape-border-radius-base);
+  background-color: var(--ezui-color-purple-100);
+
+  &.statusSuccess {
+    background-color: var(--ezui-color-green-100);
+  }
+
+  &.statusWarning {
+    background-color: var(--ezui-color-yellow-300);
+  }
+
+  &.statusCritical {
+    background-color: var(--ezui-color-red-100);
+  }
+}
+
+.PlaceholderMessage {
+  & > p:first-child {
+    margin-top: 0;
+  }
+  & > p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.PlaceholderIcon {
+  display: inline-flex;
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}

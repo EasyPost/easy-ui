@@ -18,6 +18,26 @@ module.exports = {
     },
   },
   platforms: {
+    scss: {
+      transforms: [
+        "attribute/cti",
+        "name/cti/kebab",
+        "time/seconds",
+        "content/icon",
+        "size/rem",
+        "color/css",
+        "ezui/unit/rem",
+        "ezui/unit/em",
+        "ezui/font/parenthesis",
+      ],
+      prefix: "ezui",
+      files: [
+        {
+          format: "scss/variables",
+          destination: "dist/scss/variables.scss",
+        },
+      ],
+    },
     css: {
       transforms: [
         "attribute/cti",
