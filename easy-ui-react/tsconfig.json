@@ -10,8 +10,5 @@
       "@easypost/easy-ui-tokens/*": ["../../easy-ui-tokens/dist/*"]
     }
   },
-  "include": [
-    "./src/**/index.ts",
-    "./src/utilities/*"
-  ]
+  "include": ["./src/**/*"]
 }

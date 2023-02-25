@@ -4,7 +4,7 @@
   "scripts": {
     "clean": "rm -rf node_modules dist .turbo",
     "test": "vitest run",
-    "build": "run-s build:js build:types",
+    "build": "run-p build:js build:types",
     "build:js": "vite build",
     "build:types": "tsc --build"
   },
@@ -12,7 +12,8 @@
     "./*": "./dist/*"
   },
   "files": [
-    "dist/*"
+    "dist/*",
+    "src/*"
   ],
   "sideEffects": [
     "**/*.css"
