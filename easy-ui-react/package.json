@@ -11,10 +11,6 @@
   "exports": {
     "./*": "./dist/*"
   },
-  "files": [
-    "dist/*",
-    "src/*"
-  ],
   "sideEffects": [
     "**/*.css"
   ],
@@ -34,6 +30,7 @@
     "jsdom": "^21.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.58.3"
+    "sass": "^1.58.3",
+    "vite-plugin-static-copy": "^0.13.1"
   }
 }
