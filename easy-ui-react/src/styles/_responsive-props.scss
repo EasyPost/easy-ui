@@ -11,7 +11,11 @@
 // https://github.com/Shopify/polaris/blob/main/polaris-react/src/styles/shared/_responsive-props.scss
 //
 // See documentation/decisions/007_support_responsive_props for more info
-@mixin responsive-props($componentName, $componentProp) {
+@mixin responsive-props(
+  $componentName,
+  $componentProp,
+  $defaultValue: initial
+) {
   // Create a mapping of breakpoints and a list of aliases from
   // the breakpoint namespace of our design tokens
   $bps: ();
@@ -26,7 +30,7 @@
 
   // For each of our breakpoints, initialize an initial value (literally)
   @each $bp-alias in $bp-aliases {
-    --ezui-c-#{$componentName}-#{$componentProp}-#{$bp-alias}: initial;
+    --ezui-c-#{$componentName}-#{$componentProp}-#{$bp-alias}: #{$defaultValue};
   }
 
   // For each of our breakpoints, create a media query block and assign a
@@ -56,7 +60,7 @@
       @content ($var);
     } @else {
       @media (min-width: #{$bp}) {
-        $this-bp-value: initial;
+        $this-bp-value: #{$defaultValue};
         @for $j from 1 through $i {
           $this-bp-alias: list.nth($bp-aliases, $j);
           $this-bp-value: var(
@@ -72,8 +76,14 @@
 }
 
 // Shorthand for applying a CSS variable template to a single CSS prop
-@mixin responsive-prop($componentName, $componentProp, $declarationProp) {
-  @include responsive-styles($componentName, $componentProp) using ($var) {
+@mixin responsive-prop(
+  $componentName,
+  $componentProp,
+  $declarationProp,
+  $defaultValue: initial
+) {
+  @include responsive-styles($componentName, $componentProp, $defaultValue)
+    using ($var) {
     #{$declarationProp}: $var;
   }
 }
