@@ -1,8 +1,15 @@
 {
   "extends": "@easypost/easy-ui-tsconfig/library",
   "compilerOptions": {
+    "emitDeclarationOnly": true,
     "baseUrl": "./src",
-    "rootDir": "."
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "paths": {
+      "@easypost/easy-ui-icons/*": ["../../easy-ui-icons/dist/*"],
+      "@easypost/easy-ui-tokens/*": ["../../easy-ui-tokens/dist/*"]
+    }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["./src/**/*.test.ts*"]
 }

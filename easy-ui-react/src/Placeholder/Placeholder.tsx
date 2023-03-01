@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { classNames, variationName } from "../../utilities/css";
+import { classNames, variationName } from "../utilities/css";
 
 import DocumentScannerIcon from "@easypost/easy-ui-icons/DocumentScanner";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";

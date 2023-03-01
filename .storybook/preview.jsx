@@ -1,5 +1,5 @@
 import React from "react";
-import { Provider as EasyUIProvider } from "@easypost/easy-ui/src/components/Provider";
+import { Provider as EasyUIProvider } from "../easy-ui-react/src/Provider";
 
 import "./poppins.css";
 
