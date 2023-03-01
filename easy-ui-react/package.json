@@ -2,8 +2,18 @@
   "name": "@easypost/easy-ui",
   "version": "1.0.0",
   "scripts": {
-    "test": "vitest run"
+    "clean": "rm -rf node_modules dist .turbo",
+    "test": "vitest run",
+    "build": "run-p build:js build:types",
+    "build:js": "vite build",
+    "build:types": "tsc --build"
   },
+  "exports": {
+    "./*": "./dist/*"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "dependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10"
@@ -16,9 +26,11 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@vitejs/plugin-react": "^3.1.0",
     "jsdom": "^21.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.58.3"
+    "sass": "^1.58.3",
+    "vite-plugin-static-copy": "^0.13.1"
   }
 }

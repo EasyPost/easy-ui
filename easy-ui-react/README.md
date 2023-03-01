@@ -55,13 +55,13 @@ npm install @easypost/easy-ui --save
 2.  Import the CSS directly into your project if your asset packager supports it:
 
 ```js
-import "@easypost/easy-ui/dist/styles.css";
+import "@easypost/easy-ui/styles.css";
 ```
 
 3.  Include the provider and any relevant components in your project:
 
 ```js
-import { Provider as EasyUIProvider } from "@easypost/easy-ui";
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 ```
 
 4.  Tell React to render the element in the DOM:
@@ -83,6 +83,7 @@ We use Storybook to create a simple, hot-reloading playground for development on
 
 ### Commands
 
-| Command        | Runs              |
-| :------------- | :---------------- |
-| `npm run test` | Tests the project |
+| Command         | Runs               |
+| :-------------- | :----------------- |
+| `npm run build` | Builds the project |
+| `npm run test`  | Tests the project  |
