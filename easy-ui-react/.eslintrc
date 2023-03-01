@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "extends": ["@easypost/eslint-config-easy-ui"],
+  "overrides": [
+    {
+      "files": ["src/components/**/*.tsx"],
+      "rules": {}
+    }
+  ]
+}

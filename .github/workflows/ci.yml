@@ -21,7 +21,7 @@ jobs:
         run: npm run build:tokens
       - name: Build icons
         run: npm run build:icons
-      - name: Formatting
-        run: npm run format
+      - name: Linting
+        run: npm run lint
       - name: Unit tests
         run: npm run test

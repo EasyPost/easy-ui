@@ -1,0 +1,13 @@
+{
+  "root": true,
+  "extends": ["@easypost/stylelint-easy-ui"],
+  "overrides": [
+    {
+      "files": ["src/**/*.scss"],
+      "customSyntax": "postcss-scss"
+    },
+    {
+      "files": ["src/**/*.css"]
+    }
+  ]
+}

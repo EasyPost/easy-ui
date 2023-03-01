@@ -2,6 +2,7 @@
   "name": "@easypost/easy-ui",
   "version": "1.0.0",
   "scripts": {
+    "lint": "eslint src --ext .ts,.tsx && stylelint 'src/**/*.{css,scss}' && npx prettier --check ./src",
     "test": "vitest run"
   },
   "dependencies": {
