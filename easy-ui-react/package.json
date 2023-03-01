@@ -4,10 +4,10 @@
   "scripts": {
     "lint": "eslint src --ext .ts,.tsx && stylelint 'src/**/*.{css,scss}' && npx prettier --check ./src",
     "clean": "rm -rf node_modules dist .turbo",
-    "test": "vitest run",
     "build": "run-p build:js build:types",
     "build:js": "vite build",
-    "build:types": "tsc --build"
+    "build:types": "tsc --build",
+    "test": "vitest run"
   },
   "exports": {
     "./*": "./dist/*"
