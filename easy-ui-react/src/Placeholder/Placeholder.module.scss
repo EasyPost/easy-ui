@@ -30,9 +30,14 @@
 }
 
 .PlaceholderIcon {
+  @include responsive-props("placeholder-icon", "size") using ($var) {
+    width: $var;
+    height: $var;
+  }
   display: inline-flex;
   svg {
-    width: 24px;
-    height: 24px;
+    display: block;
+    width: 100%;
+    height: auto;
   }
 }

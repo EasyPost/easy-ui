@@ -1,13 +1,20 @@
 import React, { ReactNode } from "react";
-import { classNames, variationName } from "../utilities/css";
+import type { ResponsiveProp } from "../utilities/css";
+import { TokenNamespace } from "../utilities/types";
+import {
+  classNames,
+  getResponsiveToken,
+  variationName,
+} from "../utilities/css";
 
-import DocumentScannerIcon from "@easypost/easy-ui-icons/DocumentScanner";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
-import WarningIcon from "@easypost/easy-ui-icons/Warning";
+import DocumentScannerIcon from "@easypost/easy-ui-icons/DocumentScanner";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
+import WarningIcon from "@easypost/easy-ui-icons/Warning";
 
 import styles from "./Placeholder.module.scss";
 
+export type IconSize = TokenNamespace<"size-icon">;
 export type PlaceholderStatus = "info" | "success" | "warning" | "critical";
 
 export interface PlaceholderProps {
@@ -15,10 +22,22 @@ export interface PlaceholderProps {
   message: ReactNode;
   /** Sets the status of the Placeholder. */
   status?: PlaceholderStatus;
+  /** Size of the attached status icon. */
+  iconSize?: ResponsiveProp<IconSize>;
 }
 
-export function Placeholder({ message, status = "info" }: PlaceholderProps) {
+export function Placeholder({
+  message,
+  status = "info",
+  iconSize = "md",
+}: PlaceholderProps) {
   const IconSymbol = usePlaceholderIconSymbol(status);
+  const style = getResponsiveToken(
+    "placeholder-icon",
+    "size",
+    "size-icon",
+    iconSize,
+  );
   return (
     <div
       className={classNames(
@@ -27,7 +46,7 @@ export function Placeholder({ message, status = "info" }: PlaceholderProps) {
       )}
     >
       <div>
-        <span className={styles.PlaceholderIcon}>
+        <span className={styles.PlaceholderIcon} style={style}>
           <IconSymbol />
         </span>
       </div>

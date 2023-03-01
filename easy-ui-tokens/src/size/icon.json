@@ -1,0 +1,9 @@
+{
+  "size": {
+    "icon": {
+      "sm": { "value": "16px", "attributes": { "unit": "rem" } },
+      "md": { "value": "24px", "attributes": { "unit": "rem" } },
+      "lg": { "value": "32px", "attributes": { "unit": "rem" } }
+    }
+  }
+}

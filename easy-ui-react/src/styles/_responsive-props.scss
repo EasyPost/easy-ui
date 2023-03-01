@@ -1,0 +1,79 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:string";
+
+// Builds CSS variable templates that are pinned to breakpoints defined in
+// our design tokens. The variables are passed to the mixin to be
+// used in CSS modules
+//
+// Inspired by Shopify's responsive system but more flexible and
+// pinned to our tokens:
+// https://github.com/Shopify/polaris/blob/main/polaris-react/src/styles/shared/_responsive-props.scss
+//
+// See documentation/decisions/007_support_responsive_props for more info
+@mixin responsive-props($componentName, $componentProp) {
+  // Create a mapping of breakpoints and a list of aliases from
+  // the breakpoint namespace of our design tokens
+  $bps: ();
+  $bp-aliases: ();
+  @each $key, $value in $ezui-tokens {
+    @if string.index($key, "breakpoint-") == 1 {
+      $bp-alias: string.slice($key, string.length("breakpoint-") + 1);
+      $bps: map.set($bps, $bp-alias, $value);
+      $bp-aliases: list.append($bp-aliases, $bp-alias);
+    }
+  }
+
+  // For each of our breakpoints, initialize an initial value (literally)
+  @each $bp-alias in $bp-aliases {
+    --ezui-c-#{$componentName}-#{$componentProp}-#{$bp-alias}: initial;
+  }
+
+  // For each of our breakpoints, create a media query block and assign a
+  // variable to that media query scope, passing the variable to the
+  // mixin content
+  //
+  // Resulting SCSS looks something like this for a "lg" breakpoint:
+  // @media (min-width: 992px) {
+  //   $var: var(
+  //     --ezui-c-#{$componentName}-#{$componentProp}-lg,
+  //     var(
+  //       --ezui-c-#{$componentName}-#{$componentProp}-md,
+  //       var(
+  //         --ezui-c-#{$componentName}-#{$componentProp}-sm,
+  //         var(--ezui-c-#{$componentName}-#{$componentProp}-xs)
+  //       )
+  //     )
+  //   );
+  //   @content($var);
+  // }
+  @for $i from 1 through list.length($bp-aliases) {
+    $bp-alias: list.nth($bp-aliases, $i);
+    $bp: map.get($bps, $bp-alias);
+
+    @if $i == 1 {
+      $var: var(--ezui-c-#{$componentName}-#{$componentProp}-#{$bp-alias});
+      @content ($var);
+    } @else {
+      @media (min-width: #{$bp}) {
+        $this-bp-value: initial;
+        @for $j from 1 through $i {
+          $this-bp-alias: list.nth($bp-aliases, $j);
+          $this-bp-value: var(
+            --ezui-c-#{$componentName}-#{$componentProp}-#{$this-bp-alias},
+            $this-bp-value
+          );
+        }
+        $var: $this-bp-value;
+        @content ($var);
+      }
+    }
+  }
+}
+
+// Shorthand for applying a CSS variable template to a single CSS prop
+@mixin responsive-prop($componentName, $componentProp, $declarationProp) {
+  @include responsive-styles($componentName, $componentProp) using ($var) {
+    #{$declarationProp}: $var;
+  }
+}
