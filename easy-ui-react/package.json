@@ -2,7 +2,9 @@
   "name": "@easypost/easy-ui",
   "version": "1.0.0",
   "scripts": {
-    "lint": "eslint src --ext .ts,.tsx && stylelint 'src/**/*.{css,scss}' && npx prettier --check ./src",
+    "lint": "run-p lint:*",
+    "lint:js": "eslint src --ext .ts,.tsx",
+    "lint:styles": "stylelint 'src/**/*.{css,scss}'",
     "clean": "rm -rf node_modules dist .turbo",
     "build": "run-p build:js build:types",
     "build:js": "vite build",

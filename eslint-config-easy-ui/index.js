@@ -2,18 +2,11 @@
 module.exports = {
   extends: [
     "turbo",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:storybook/recommended",
     "plugin:prettier/recommended",
   ],
-  plugins: ["@typescript-eslint"],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaVersion: "2021",
-  },
   settings: {
     react: {
       version: "detect",
@@ -23,4 +16,20 @@ module.exports = {
     node: true,
     browser: true,
   },
+  overrides: [
+    {
+      files: ["**/*.js", "**/*.jsx"],
+      extends: ["eslint:recommended"],
+      parserOptions: {
+        ecmaVersion: "2021",
+        sourceType: "module",
+      },
+    },
+    {
+      files: ["**/*.ts", "**/*.tsx"],
+      extends: ["plugin:@typescript-eslint/recommended"],
+      plugins: ["@typescript-eslint"],
+      parser: "@typescript-eslint/parser",
+    },
+  ],
 };
