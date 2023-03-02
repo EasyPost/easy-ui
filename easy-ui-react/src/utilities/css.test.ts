@@ -62,7 +62,7 @@ describe("getResponsiveValue", () => {
   });
   it("takes an object with a breakpoint and null value and sanitizes its output", () => {
     expect(
-      getResponsiveValue("stack", "space", { xs: "2", md: null }),
+      getResponsiveValue("stack", "space", { xs: "2", md: undefined }),
     ).toMatchObject({
       "--ezui-c-stack-space-xs": "2",
     });

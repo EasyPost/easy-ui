@@ -21,6 +21,20 @@ export function sanitizeCustomProperties(
   return nonNullValues.length ? Object.fromEntries(nonNullValues) : undefined;
 }
 
+export function getComponentToken(
+  componentName: string,
+  componentProp: string,
+  tokenSubgroup: string,
+  token?: string,
+) {
+  if (!token) {
+    return {};
+  }
+  return {
+    [`--ezui-c-${componentName}-${componentProp}`]: `var(--ezui-${tokenSubgroup}-${token})`,
+  };
+}
+
 export function getResponsiveToken(
   componentName: string,
   componentProp: string,

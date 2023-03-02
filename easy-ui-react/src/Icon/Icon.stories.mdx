@@ -1,0 +1,46 @@
+import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
+import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
+import ErrorIcon from "@easypost/easy-ui-icons/Error";
+import { Icon } from "./Icon";
+import { createLabelledOptionsControl } from "../utilities/storybook";
+
+<Meta
+  title="Icon"
+  argTypes={{
+    symbol: createLabelledOptionsControl({
+      "CheckCircle Icon": CheckCircleIcon,
+      "Error Icon": ErrorIcon,
+    }),
+    size: createLabelledOptionsControl({
+      md: "md",
+      lg: "lg",
+      "Responsive -- xs-sm md-md lg-lg": { xs: "sm", md: "md", lg: "lg" },
+    }),
+    color: createLabelledOptionsControl({
+      currentColor: undefined,
+      "blue-100": "blue-100",
+      "green-100": "green-100",
+    }),
+    accessibilityLabel: {
+      control: "text",
+    },
+  }}
+  component={Icon}
+/>
+
+export const Template = (args) => <Icon {...args} />;
+
+# Icon
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      symbol: CheckCircleIcon,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />

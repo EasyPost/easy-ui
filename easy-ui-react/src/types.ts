@@ -1,4 +1,5 @@
 import type tokens from "@easypost/easy-ui-tokens/js/tokens";
+import React from "react";
 
 export type DesignTokens = typeof tokens;
 export type DesignTokenAliases = keyof DesignTokens;
@@ -19,3 +20,10 @@ export type TokenNamespace<Needle extends string> = Namespace<
   DesignTokenAliases,
   `${Needle}-`
 >;
+
+type IconSymbolProps = React.SVGProps<SVGSVGElement> & {
+  title?: string;
+  titleId?: string;
+};
+
+export type IconSymbol = React.FunctionComponent<IconSymbolProps>;
