@@ -1,5 +1,5 @@
 import React from "react";
-import type { Falsy, TokenNamespace } from "./types";
+import type { Falsy, TokenNamespace } from "../types";
 
 export type BreakpointsAlias = TokenNamespace<"breakpoint">;
 export type ResponsiveProp<T> = T | { [Breakpoint in BreakpointsAlias]?: T };

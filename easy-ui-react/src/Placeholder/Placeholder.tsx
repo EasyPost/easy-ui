@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import type { ResponsiveProp } from "../utilities/css";
-import { TokenNamespace } from "../utilities/types";
+import { TokenNamespace } from "../types";
 import {
   classNames,
   getResponsiveToken,
