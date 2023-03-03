@@ -83,7 +83,10 @@ We use Storybook to create a simple, hot-reloading playground for development on
 
 ### Commands
 
-| Command         | Runs               |
-| :-------------- | :----------------- |
-| `npm run build` | Builds the project |
-| `npm run test`  | Tests the project  |
+| Command              | Runs                                            |
+| :------------------- | :---------------------------------------------- |
+| `npm run build`      | Builds the project                              |
+| `npm run clean`      | Removes temp directories                        |
+| `npm run lint`       | Lints the project (ESLint, Stylelint, Prettier) |
+| `npm run test`       | Tests the project                               |
+| `npm run test:watch` | Tests the project in watch mod                  |
