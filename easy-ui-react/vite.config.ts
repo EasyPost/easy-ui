@@ -24,7 +24,7 @@ export default defineConfig({
     lib: {
       entry: buildEntryObject([
         ...glob.sync("src/**/index.ts"),
-        ...glob.sync("src/utilities/*.ts"),
+        ...glob.sync("src/utilities/*.ts", { ignore: ["**/*.test.ts"] }),
       ]),
     },
     rollupOptions: {

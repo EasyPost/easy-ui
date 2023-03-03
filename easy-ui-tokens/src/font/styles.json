@@ -1,6 +1,6 @@
 {
   "font": {
-    "styles": {
+    "style": {
       "heading1": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },

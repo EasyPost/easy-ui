@@ -1,3 +1,5 @@
+const { formatHelpers } = require("style-dictionary");
+
 module.exports = {
   source: ["./src/**/*.json"],
   transform: {
@@ -7,7 +9,7 @@ module.exports = {
       type: "value",
       matcher(token) {
         return (
-          token.name.includes("ezui-font") &&
+          token.name.includes("font") &&
           token.name.includes("family") &&
           token.original.value.includes(",")
         );
@@ -17,19 +19,43 @@ module.exports = {
       },
     },
   },
+  format: {
+    "ezui/typescript/module-flat-declarations": ({ dictionary, file }) =>
+      [
+        formatHelpers.fileHeader({ file }),
+        "declare const tokens: {",
+        ...dictionary.allProperties.map(
+          (prop) => `  "${prop.name}": ${getPropValueType(prop.value)};`,
+        ),
+        "}",
+        "export default tokens;",
+      ].join("\n"),
+  },
+  transformGroup: {
+    "ezui-scss": [
+      "attribute/cti",
+      "name/cti/kebab",
+      "time/seconds",
+      "content/icon",
+      "color/css",
+      "ezui/unit/rem",
+      "ezui/unit/em",
+      "ezui/font/parenthesis",
+    ],
+    "ezui-css": [
+      "attribute/cti",
+      "name/cti/kebab",
+      "time/seconds",
+      "content/icon",
+      "color/css",
+      "ezui/unit/rem",
+      "ezui/unit/em",
+    ],
+    "ezui-js": ["attribute/cti", "name/cti/kebab", "color/hex"],
+  },
   platforms: {
     scss: {
-      transforms: [
-        "attribute/cti",
-        "name/cti/kebab",
-        "time/seconds",
-        "content/icon",
-        "size/rem",
-        "color/css",
-        "ezui/unit/rem",
-        "ezui/unit/em",
-        "ezui/font/parenthesis",
-      ],
+      transformGroup: "ezui-scss",
       prefix: "ezui",
       files: [
         {
@@ -38,17 +64,18 @@ module.exports = {
         },
       ],
     },
-    css: {
-      transforms: [
-        "attribute/cti",
-        "name/cti/kebab",
-        "time/seconds",
-        "content/icon",
-        "size/rem",
-        "color/css",
-        "ezui/unit/rem",
-        "ezui/unit/em",
+    scssMap: {
+      transformGroup: "ezui-scss",
+      files: [
+        {
+          format: "scss/map-flat",
+          destination: "dist/scss/map.scss",
+          mapName: "ezui-tokens",
+        },
       ],
+    },
+    css: {
+      transformGroup: "ezui-css",
       prefix: "ezui",
       files: [
         {
@@ -58,16 +85,20 @@ module.exports = {
       ],
     },
     js: {
-      transforms: ["attribute/cti", "name/cti/kebab", "size/rem", "color/hex"],
+      transformGroup: "ezui-js",
       files: [
         {
           format: "javascript/module-flat",
           destination: "dist/js/tokens.js",
         },
+        {
+          format: "ezui/typescript/module-flat-declarations",
+          destination: "dist/js/tokens.d.ts",
+        },
       ],
     },
     json: {
-      transforms: ["attribute/cti", "name/cti/kebab", "size/rem", "color/hex"],
+      transformGroup: "ezui-js",
       files: [
         {
           format: "json/flat",
@@ -94,4 +125,14 @@ function createEmLikeTransform(unit) {
       return `${valueAsRem}${unit}`;
     },
   };
+}
+
+function escapeQuotes(str) {
+  return str.replace(/(["])/g, "\\$1");
+}
+
+function getPropValueType(value) {
+  return typeof value === "string"
+    ? `"${escapeQuotes(value)}"`
+    : formatHelpers.getTypeScriptType(value);
 }

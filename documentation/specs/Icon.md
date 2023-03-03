@@ -3,13 +3,11 @@
 ```typescript
 interface IconSymbol extends SVGProps<SVGSVGElement> {}
 
-type DesignTokens = keyof typeof designTokens;
-type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-type IconSize = "sm" | "md";
+type IconSize = TokenNamespace<"size-icon">;
 type ResponsiveIconSize = {
-  [key in Breakpoint]: IconSize;
+  [key in TokenNamespace<"breakpoint">]: IconSize;
 };
-type IconColor = StartsWith<DesignTokens, "color">;
+type IconColor = TokenNamespace<"color">;
 
 interface Icon {
   symbol: ReactElement<IconSymbol>;
@@ -30,7 +28,7 @@ import ChevronIcon from "@easypost/easy-ui-icons/Chevron";
   // size: uses t-shirt sizes. defaults to md
   size="lg"
   // size: as responsive size prop
-  size={{ sm: "xs", md: "sm", ["arbitrary"]: "xl" }}
+  size={{ sm: "sm", md: "md", lg: "lg" }}
   // color: default to currentColor, uses token color space
   color="status.info"
   accessibilityLabel="Add to cart"

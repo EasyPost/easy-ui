@@ -9,7 +9,7 @@ Easy UI Tokens uses [Style Dictionary](https://amzn.github.io/style-dictionary) 
 ### JavaScript
 
 ```js
-import tokens from "@easypost/easy-ui-tokens";
+import tokens from "@easypost/easy-ui-tokens/js/tokens.js";
 
 console.log(tokens["color-blue-100"]);
 ```
@@ -33,6 +33,13 @@ CSS variables are prefixed with `--ezui` to signal that these variables are Easy
 
 div {
   background: $ezui-color-blue-100;
+}
+
+// Map:
+@import "@easypost/easy-ui-tokens/scss/map.scss";
+
+div {
+  background: map-get($ezui-tokens, "color-blue-100");
 }
 ```
 
