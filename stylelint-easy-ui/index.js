@@ -5,6 +5,6 @@ module.exports = {
     "stylelint-prettier/recommended",
   ],
   rules: {
-    "scss/comment-no-empty": false,
+    "scss/comment-no-empty": null,
   },
 };
