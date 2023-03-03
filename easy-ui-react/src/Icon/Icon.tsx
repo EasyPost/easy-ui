@@ -14,11 +14,11 @@ export type IconColor = TokenNamespace<"color">;
 export type IconProps = {
   /** Icon symbol SVG source from @easypost/easy-ui-icons */
   symbol: IconSymbol;
-  /** Size of the icon. */
+  /** Size of the icon */
   size?: ResponsiveProp<IconSize>;
-  /** Color of the icon. */
+  /** Color of the icon */
   color?: IconColor;
-  /** Description of icon for non-decorative symbols. */
+  /** Description of icon for informative symbols */
   accessibilityLabel?: string;
 };
 
