@@ -3,6 +3,7 @@ import {
   variationName,
   getResponsiveToken,
   getResponsiveValue,
+  getComponentToken,
 } from "./css";
 
 describe("classNames", () => {
@@ -27,6 +28,14 @@ describe("classNames", () => {
 describe("variationName", () => {
   it("returns a name with the first character in the value capitalized", () => {
     expect(variationName("size", "medium")).toBe("sizeMedium");
+  });
+});
+
+describe("getComponentToken", () => {
+  it("takes a string and returns the custom token", () => {
+    expect(getComponentToken("stack", "space", "space", "4")).toMatchObject({
+      "--ezui-c-stack-space": "var(--ezui-space-4)",
+    });
   });
 });
 

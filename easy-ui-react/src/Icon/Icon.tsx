@@ -37,9 +37,9 @@ export function Icon({
       <Symbol
         className={styles.Svg}
         focusable="false"
-        aria-hidden={!accessibilityLabel ? "true" : undefined}
-        role={accessibilityLabel ? "img" : "presentation"}
+        role="img"
         title={accessibilityLabel}
+        aria-hidden={!accessibilityLabel ? "true" : undefined}
       />
     </span>
   );

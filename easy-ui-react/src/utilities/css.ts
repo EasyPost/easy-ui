@@ -12,9 +12,7 @@ export function variationName(name: string, value: string) {
   return `${name}${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
 
-export function sanitizeCustomProperties(
-  styles: React.CSSProperties,
-): React.CSSProperties | undefined {
+export function sanitizeCustomProperties(styles: React.CSSProperties) {
   const nonNullValues = Object.entries(styles).filter(
     ([, value]) => value != null,
   );
@@ -40,7 +38,7 @@ export function getResponsiveToken(
   componentProp: string,
   tokenSubgroup: string,
   responsiveProp?: ResponsiveProp<string>,
-): React.CSSProperties {
+) {
   if (!responsiveProp) {
     return {};
   }
@@ -61,7 +59,7 @@ export function getResponsiveValue(
   componentName: string,
   componentProp: string,
   responsiveValue?: ResponsiveProp<string>,
-): React.CSSProperties | undefined {
+) {
   if (!responsiveValue) {
     return {};
   }
