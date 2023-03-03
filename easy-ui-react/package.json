@@ -2,6 +2,9 @@
   "name": "@easypost/easy-ui",
   "version": "1.0.0",
   "scripts": {
+    "lint": "run-p lint:*",
+    "lint:js": "eslint src --ext .ts,.tsx",
+    "lint:styles": "stylelint 'src/**/*.{css,scss}'",
     "clean": "rm -rf node_modules dist .turbo",
     "test": "vitest run",
     "test:watch": "vitest",

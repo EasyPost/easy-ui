@@ -1,5 +1,5 @@
-import type tokens from "@easypost/easy-ui-tokens/js/tokens";
 import React from "react";
+import type tokens from "@easypost/easy-ui-tokens/js/tokens";
 
 export type DesignTokens = typeof tokens;
 export type DesignTokenAliases = keyof DesignTokens;
