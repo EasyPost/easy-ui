@@ -31,6 +31,7 @@
   "scripts": {
     "clean": "FORCE_COLOR=1 turbo run clean && rm -rf ./node_modules",
     "format": "prettier . --write",
+    "lint": "FORCE_COLOR=1 turbo run lint",
     "start:storybook": "start-storybook -p 9003",
     "build:icons": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui-icons",
     "build:react": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui",
