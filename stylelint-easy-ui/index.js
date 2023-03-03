@@ -1,4 +1,7 @@
 /** @type {import('stylelint').Config} */
 module.exports = {
-  extends: ["stylelint-config-recommended", "stylelint-prettier/recommended"],
+  extends: [
+    "stylelint-config-recommended-scss",
+    "stylelint-prettier/recommended",
+  ],
 };
