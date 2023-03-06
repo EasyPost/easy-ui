@@ -5,7 +5,7 @@
         "value": "Poppins, \"Poppins Fallback\""
       },
       "mono": {
-        "value": "\"Fira Mono\", Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+        "value": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"
       },
       "icon": {
         "value": "\"Material Symbols Outlined\""
