@@ -1,0 +1,10 @@
+{
+  "breakpoint": {
+    "xs": { "value": "0px", "attributes": { "unit": "em" } },
+    "sm": { "value": "480px", "attributes": { "unit": "em" } },
+    "md": { "value": "640px", "attributes": { "unit": "em" } },
+    "lg": { "value": "1024px", "attributes": { "unit": "em" } },
+    "xl": { "value": "1360px", "attributes": { "unit": "em" } },
+    "xxl": { "value": "1920px", "attributes": { "unit": "em" } }
+  }
+}
