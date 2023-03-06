@@ -3,7 +3,7 @@
     "style": {
       "heading1": {
         "family": { "value": "{font.family.sans.value}" },
-        "weight": { "value": "{font.weight.normal.value}" },
+        "weight": { "value": "{font.weight.medium.value}" },
         "size": { "value": "{font.size.600.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.tighten_5.value}"
@@ -12,7 +12,7 @@
       },
       "heading2": {
         "family": { "value": "{font.family.sans.value}" },
-        "weight": { "value": "{font.weight.normal.value}" },
+        "weight": { "value": "{font.weight.medium.value}" },
         "size": { "value": "{font.size.500.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
@@ -108,6 +108,15 @@
           "value": "{font.letter_spacing.normal.value}"
         },
         "line_height": { "value": "{font.line_height.2.value}" }
+      },
+      "small_button": {
+        "family": { "value": "{font.family.sans.value}" },
+        "weight": { "value": "{font.weight.medium.value}" },
+        "size": { "value": "{font.size.50.value}" },
+        "letter_spacing": {
+          "value": "{font.letter_spacing.normal.value}"
+        },
+        "line_height": { "value": "{font.line_height.1.value}" }
       }
     }
   }
