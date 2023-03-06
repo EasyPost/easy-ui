@@ -3,111 +3,120 @@
     "style": {
       "heading1": {
         "family": { "value": "{font.family.sans.value}" },
-        "weight": { "value": "{font.weight.normal.value}" },
-        "size": { "value": "{font.size.4xl.value}" },
+        "weight": { "value": "{font.weight.medium.value}" },
+        "size": { "value": "{font.size.600.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.tighten_5.value}"
         },
-        "line_height": { "value": "{font.line_height.tight.value}" }
+        "line_height": { "value": "{font.line_height.6.value}" }
       },
       "heading2": {
         "family": { "value": "{font.family.sans.value}" },
-        "weight": { "value": "{font.weight.normal.value}" },
-        "size": { "value": "{font.size.3xl.value}" },
+        "weight": { "value": "{font.weight.medium.value}" },
+        "size": { "value": "{font.size.500.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
         },
-        "line_height": { "value": "{font.line_height.tight.value}" }
+        "line_height": { "value": "{font.line_height.5.value}" }
       },
       "heading3": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },
-        "size": { "value": "{font.size.2xl.value}" },
+        "size": { "value": "{font.size.400.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_3.value}"
         },
-        "line_height": { "value": "{font.line_height.tight.value}" }
+        "line_height": { "value": "{font.line_height.4.value}" }
       },
       "heading4": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },
-        "size": { "value": "{font.size.xl.value}" },
+        "size": { "value": "{font.size.300.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
         },
-        "line_height": { "value": "{font.line_height.tight.value}" }
+        "line_height": { "value": "{font.line_height.3.value}" }
       },
       "heading5": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.semibold.value}" },
-        "size": { "value": "{font.size.lg.value}" },
+        "size": { "value": "{font.size.200.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_2.value}"
         },
-        "line_height": { "value": "{font.line_height.normal.value}" }
+        "line_height": { "value": "{font.line_height.2.value}" }
       },
       "subtitle1": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.semibold.value}" },
-        "size": { "value": "{font.size.sm.value}" },
+        "size": { "value": "{font.size.100.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_2.value}"
         },
-        "line_height": { "value": "{font.line_height.normal.value}" }
+        "line_height": { "value": "{font.line_height.2.value}" }
       },
       "subtitle2": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.medium.value}" },
-        "size": { "value": "{font.size.xs.value}" },
+        "size": { "value": "{font.size.75.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_1.value}"
         },
-        "line_height": { "value": "{font.line_height.normal.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "body1": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },
-        "size": { "value": "{font.size.sm.value}" },
+        "size": { "value": "{font.size.100.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_5.value}"
         },
-        "line_height": { "value": "{font.line_height.normal.value}" }
+        "line_height": { "value": "{font.line_height.2.value}" }
       },
       "body2": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },
-        "size": { "value": "{font.size.xs.value}" },
+        "size": { "value": "{font.size.75.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_3.value}"
         },
-        "line_height": { "value": "{font.line_height.relaxed.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "caption": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },
-        "size": { "value": "{font.size.2xs.value}" },
+        "size": { "value": "{font.size.50.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_4.value}"
         },
-        "line_height": { "value": "{font.line_height.relaxed.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "overline": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },
-        "size": { "value": "{font.size.3xs.value}" },
+        "size": { "value": "{font.size.25.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_6.value}"
         },
-        "line_height": { "value": "{font.line_height.relaxed.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "button": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.medium.value}" },
-        "size": { "value": "{font.size.base.value}" },
+        "size": { "value": "{font.size.100.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
         },
-        "line_height": { "value": "{font.line_height.normal.value}" }
+        "line_height": { "value": "{font.line_height.2.value}" }
+      },
+      "small_button": {
+        "family": { "value": "{font.family.sans.value}" },
+        "weight": { "value": "{font.weight.medium.value}" },
+        "size": { "value": "{font.size.50.value}" },
+        "letter_spacing": {
+          "value": "{font.letter_spacing.normal.value}"
+        },
+        "line_height": { "value": "{font.line_height.1.value}" }
       }
     }
   }

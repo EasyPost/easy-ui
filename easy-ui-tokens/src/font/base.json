@@ -12,28 +12,29 @@
       }
     },
     "size": {
-      "3xs": { "value": "10px", "attributes": { "unit": "rem" } },
-      "2xs": { "value": "12px", "attributes": { "unit": "rem" } },
-      "xs": { "value": "13px", "attributes": { "unit": "rem" } },
-      "sm": { "value": "15px", "attributes": { "unit": "rem" } },
-      "base": { "value": "16px", "attributes": { "unit": "rem" } },
-      "lg": { "value": "19px", "attributes": { "unit": "rem" } },
-      "xl": { "value": "23px", "attributes": { "unit": "rem" } },
-      "2xl": { "value": "33px", "attributes": { "unit": "rem" } },
-      "3xl": { "value": "46px", "attributes": { "unit": "rem" } },
-      "4xl": { "value": "58px", "attributes": { "unit": "rem" } }
+      "25": { "value": "10px", "attributes": { "unit": "rem" } },
+      "50": { "value": "12px", "attributes": { "unit": "rem" } },
+      "75": { "value": "13px", "attributes": { "unit": "rem" } },
+      "100": { "value": "15px", "attributes": { "unit": "rem" } },
+      "200": { "value": "19px", "attributes": { "unit": "rem" } },
+      "300": { "value": "23px", "attributes": { "unit": "rem" } },
+      "400": { "value": "33px", "attributes": { "unit": "rem" } },
+      "500": { "value": "46px", "attributes": { "unit": "rem" } },
+      "600": { "value": "52px", "attributes": { "unit": "rem" } }
+    },
+    "line_height": {
+      "1": { "value": "16px", "attributes": { "unit": "rem" } },
+      "2": { "value": "24px", "attributes": { "unit": "rem" } },
+      "3": { "value": "32px", "attributes": { "unit": "rem" } },
+      "4": { "value": "40px", "attributes": { "unit": "rem" } },
+      "5": { "value": "56px", "attributes": { "unit": "rem" } },
+      "6": { "value": "64px", "attributes": { "unit": "rem" } }
     },
     "weight": {
       "normal": { "value": "400" },
       "medium": { "value": "500" },
       "semibold": { "value": "600" },
       "bold": { "value": "700" }
-    },
-    "line_height": {
-      "none": { "value": "1" },
-      "tight": { "value": "1.25" },
-      "normal": { "value": "1.5" },
-      "relaxed": { "value": "1.7" }
     },
     "letter_spacing": {
       "tighten_6": { "value": "-1.5px", "attributes": { "unit": "rem" } },
