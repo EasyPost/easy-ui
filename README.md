@@ -24,17 +24,19 @@ easy-ui/
 
 ## Commands
 
-| Command                   | Runs                                     |
-| :------------------------ | :--------------------------------------- |
-| `npm i`                   | Installs project dependencies            |
-| `npm run clean`           | Removes temp directories from workspaces |
-| `npm run format`          | Formats files with prettier              |
-| `npm run start:storybook` | Starts Storybook for dev                 |
-| `npm run build:icons`     | Builds Easy UI Icons                     |
-| `npm run build:storybook` | Builds Storybook for serving             |
-| `npm run build:react`     | Builds Easy UI React                     |
-| `npm run build:tokens`    | Builds Easy UI design tokens             |
-| `npm run test`            | Tests Easy UI                            |
+| Command                    | Runs                                     |
+| :------------------------- | :--------------------------------------- |
+| `npm i`                    | Installs project dependencies            |
+| `npm run build:icons`      | Builds Easy UI Icons                     |
+| `npm run build:storybook`  | Builds Storybook for serving             |
+| `npm run build:react`      | Builds Easy UI React                     |
+| `npm run build:tokens`     | Builds Easy UI design tokens             |
+| `npm run lint`             | Lints Easy UI                            |
+| `npm run clean`            | Removes temp directories from workspaces |
+| `npm run format`           | Formats files with prettier              |
+| `npm run start:storybook`  | Starts Storybook for dev                 |
+| `npm run test`             | Tests Easy UI                            |
+| `npm run test:watch:react` | Tests Easy UI React in watch mode        |
 
 ## Contribute to this repo
 

@@ -37,7 +37,8 @@
     "build:react": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui",
     "build:storybook": "build-storybook",
     "build:tokens": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui-tokens",
-    "test": "FORCE_COLOR=1 turbo run test"
+    "test": "FORCE_COLOR=1 turbo run test",
+    "test:watch:react": "npm run test:watch --workspace @easypost/easy-ui"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

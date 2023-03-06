@@ -77,3 +77,11 @@
     #{$declarationProp}: $var;
   }
 }
+
+@mixin component-token($componentName, $componentProp, $value) {
+  --ezui-c-#{$componentName}-#{$componentProp}: $value;
+}
+
+@function component-token($componentName, $componentProp) {
+  @return var(--ezui-c-#{$componentName}-#{$componentProp});
+}

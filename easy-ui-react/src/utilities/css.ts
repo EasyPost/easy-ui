@@ -12,13 +12,25 @@ export function variationName(name: string, value: string) {
   return `${name}${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
 
-export function sanitizeCustomProperties(
-  styles: React.CSSProperties,
-): React.CSSProperties | undefined {
+export function sanitizeCustomProperties(styles: React.CSSProperties) {
   const nonNullValues = Object.entries(styles).filter(
     ([, value]) => value != null,
   );
   return nonNullValues.length ? Object.fromEntries(nonNullValues) : undefined;
+}
+
+export function getComponentToken(
+  componentName: string,
+  componentProp: string,
+  tokenSubgroup: string,
+  token?: string,
+) {
+  if (!token) {
+    return {};
+  }
+  return {
+    [`--ezui-c-${componentName}-${componentProp}`]: `var(--ezui-${tokenSubgroup}-${token})`,
+  };
 }
 
 export function getResponsiveToken(
@@ -26,7 +38,7 @@ export function getResponsiveToken(
   componentProp: string,
   tokenSubgroup: string,
   responsiveProp?: ResponsiveProp<string>,
-): React.CSSProperties {
+) {
   if (!responsiveProp) {
     return {};
   }
@@ -47,7 +59,7 @@ export function getResponsiveValue(
   componentName: string,
   componentProp: string,
   responsiveValue?: ResponsiveProp<string>,
-): React.CSSProperties | undefined {
+) {
   if (!responsiveValue) {
     return {};
   }
