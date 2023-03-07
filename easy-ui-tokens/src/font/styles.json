@@ -119,7 +119,7 @@
         "line_height": { "value": "{font.line_height.1.value}" }
       }
     },
-    "responsive_style": {
+    "responsive_mapping": {
       "heading1": { "value": "heading2" },
       "heading2": { "value": "heading3" },
       "heading3": { "value": "heading4" }
