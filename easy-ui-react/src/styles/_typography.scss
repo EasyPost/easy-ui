@@ -2,8 +2,8 @@
 @use "sass:map";
 @use "sass:string";
 
-/// Apply font styles to element
-@mixin font-style($style) {
+/// Apply font styles to element as-is. This doesn't map responsive styles
+@mixin font-style-static($style) {
   font-family: map.get($ezui-tokens, "font-style-#{$style}-family");
   font-weight: map.get($ezui-tokens, "font-style-#{$style}-weight");
   font-size: map.get($ezui-tokens, "font-style-#{$style}-size");
@@ -11,23 +11,21 @@
   line-height: map.get($ezui-tokens, "font-style-#{$style}-line-height");
 }
 
-/// Apply responsive font styles to element
-///
-/// Some headings reduce their size on smaller screens. This mixin looks
-/// at the tokens file to determine if it needs to reduce its size and
-/// applies the size at the appropriate breakpoint
-@mixin responsive-font-style($style) {
+/// Apply responsive font styles to element. Large headings reduce their size
+/// on samller screens
+@mixin font-style($style) {
   $responsive_style: map.get($ezui-tokens, "font-responsive-mapping-#{$style}");
   @if $responsive_style {
-    @include font-style($responsive_style);
+    @include font-style-static($responsive_style);
     @media (min-width: #{$ezui-breakpoint-sm}) {
-      @include font-style($style);
+      @include font-style-static($style);
     }
   } @else {
-    @include font-style($style);
+    @include font-style-static($style);
   }
 }
 
+/// Retrieve names for our font styles
 @function font-style-aliases() {
   $aliases: ();
   @each $key, $value in $ezui-tokens {
