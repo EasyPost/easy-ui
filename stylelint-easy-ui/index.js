@@ -6,5 +6,6 @@ module.exports = {
   ],
   rules: {
     "scss/comment-no-empty": null,
+    "scss/dollar-variable-pattern": [/^ezui-/, { ignore: "local" }],
   },
 };

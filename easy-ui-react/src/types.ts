@@ -21,6 +21,26 @@ export type TokenNamespace<Needle extends string> = Namespace<
   `${Needle}-`
 >;
 
+export type NamespaceWithSuffix<
+  Set,
+  NeedlePrefix extends string,
+  NeedleSuffix extends string,
+> = Set extends `${NeedlePrefix}${infer _X}${NeedleSuffix}` ? _X : never;
+
+// Returns types narrowed for the specified namespace and suffix in
+// our tokens file:
+//
+// type FontStyles = TokenNamespaceWithSuffix<"font-style", "family">
+//   heading1 | heading2 | heading3 ...
+export type TokenNamespaceWithSuffix<
+  NeedlePrefix extends string,
+  NeedleSuffix extends string,
+> = NamespaceWithSuffix<
+  DesignTokenAliases,
+  `${NeedlePrefix}-`,
+  `-${NeedleSuffix}`
+>;
+
 type IconSymbolProps = React.SVGProps<SVGSVGElement> & {
   title?: string;
   titleId?: string;

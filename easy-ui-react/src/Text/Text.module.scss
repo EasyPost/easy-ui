@@ -1,0 +1,43 @@
+@import "../styles/common";
+
+.Text {
+  @include component-token("text", "color", inherit);
+  margin: 0;
+  text-align: inherit;
+  color: component-token("text", "color");
+}
+
+// Do not modify actual font styles in here. This component is one of several
+// different ways typography can be applied in EasyPost. Adjust tokens or
+// higher-order CSS instead
+@include font-classes();
+
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.block {
+  display: block;
+}
+
+.visuallyHidden {
+  @include visually-hidden;
+}
+
+.start {
+  text-align: start;
+}
+
+.center {
+  text-align: center;
+}
+
+.end {
+  text-align: end;
+}
+
+.justify {
+  text-align: justify;
+}

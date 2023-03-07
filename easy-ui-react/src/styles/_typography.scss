@@ -1,0 +1,56 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:string";
+
+/// Apply font styles to element
+@mixin font-style($style) {
+  font-family: map.get($ezui-tokens, "font-style-#{$style}-family");
+  font-weight: map.get($ezui-tokens, "font-style-#{$style}-weight");
+  font-size: map.get($ezui-tokens, "font-style-#{$style}-size");
+  letter-spacing: map.get($ezui-tokens, "font-style-#{$style}-letter-spacing");
+  line-height: map.get($ezui-tokens, "font-style-#{$style}-line-height");
+}
+
+/// Apply responsive font styles to element
+///
+/// Some headings reduce their size on smaller screens. This mixin looks
+/// at the tokens file to determine if it needs to reduce its size and
+/// applies the size at the appropriate breakpoint
+@mixin responsive-font-style($style) {
+  $style_on_sm_screen: map.get(
+    $ezui-tokens,
+    "font-style-#{$style}-style-on-sm-screen"
+  );
+  @if $style_on_sm_screen {
+    @include font-style($style_on_sm_screen);
+    @media (min-width: #{$ezui-breakpoint-sm}) {
+      @include font-style($style);
+    }
+  } @else {
+    @include font-style($style);
+  }
+}
+
+@function font-style-aliases() {
+  $aliases: ();
+  @each $key, $value in $ezui-tokens {
+    @if string.index($key, "font-style-") and string.index($key, "-family") {
+      $alias: string.slice($key, string.length("font-style-") + 1);
+      $alias: string.slice($alias, 0, string.index($alias, "-family") - 1);
+      $aliases: list.append($aliases, $alias);
+    }
+  }
+  @return $aliases;
+}
+
+/// Create utility classes for the font styles in our tokens
+///
+/// These can be defined globally or locally scoped to a CSS module.
+/// See <Text /> as an example of them being defined locally
+@mixin font-classes() {
+  @each $key in font-style-aliases() {
+    .#{$key} {
+      @include responsive-font-style($key);
+    }
+  }
+}

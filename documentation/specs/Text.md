@@ -6,21 +6,26 @@ type TextAs = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
 type TextColor = TokenNamespace<"color">;
 
 type Text = {
-  // Adjusts the style of text that's rendered
-  //   defaults to body1
-  variant?: TextVariant;
   // Adjusts horizontal alignment of text
   //   defaults to start
   alignment?: "start" | "center" | "end" | "justify";
   // Adjusts the underlying element of the text
   //   defaults to span
   as?: TextAs;
+  // Text content
+  children: ReactNode;
   // Adjust color of text
   //   defaults to inherited color
   color?: TextColor;
   // HTML id attribute
   //   defaults to none
   id?: string;
+  // Truncate text overflow with ellipsis
+  //   defaults to false
+  truncate?: boolean;
+  // Adjusts the style of text that's rendered
+  //   defaults to body1
+  variant?: TextVariant;
   // Visually hide the text but keep it accessible
   //   defaults to false
   visuallyHidden?: boolean;
