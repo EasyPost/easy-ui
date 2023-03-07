@@ -1,0 +1,18 @@
+/// Helpers for referencing tokens in components in a structured way. Supports
+/// a consistent naming between CSS and JS.
+///
+/// To define a component token:
+/// @include component-token("text", "color", inherit);
+///
+/// To use a component token:
+/// color: component-token("text", "color");
+///
+/// See utilities/css.ts for using component tokens in JS
+
+@mixin component-token($componentName, $componentProp, $value) {
+  --ezui-c-#{$componentName}-#{$componentProp}: $value;
+}
+
+@function component-token($componentName, $componentProp) {
+  @return var(--ezui-c-#{$componentName}-#{$componentProp});
+}

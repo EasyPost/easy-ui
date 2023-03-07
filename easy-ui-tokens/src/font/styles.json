@@ -8,8 +8,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.tighten_5.value}"
         },
-        "line_height": { "value": "{font.line_height.6.value}" },
-        "style_on_sm_screen": { "value": "heading2" }
+        "line_height": { "value": "{font.line_height.6.value}" }
       },
       "heading2": {
         "family": { "value": "{font.family.sans.value}" },
@@ -18,8 +17,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
         },
-        "line_height": { "value": "{font.line_height.5.value}" },
-        "style_on_sm_screen": { "value": "heading3" }
+        "line_height": { "value": "{font.line_height.5.value}" }
       },
       "heading3": {
         "family": { "value": "{font.family.sans.value}" },
@@ -28,8 +26,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_3.value}"
         },
-        "line_height": { "value": "{font.line_height.4.value}" },
-        "style_on_sm_screen": { "value": "heading4" }
+        "line_height": { "value": "{font.line_height.4.value}" }
       },
       "heading4": {
         "family": { "value": "{font.family.sans.value}" },
@@ -121,6 +118,11 @@
         },
         "line_height": { "value": "{font.line_height.1.value}" }
       }
+    },
+    "responsive_style": {
+      "heading1": { "value": "heading2" },
+      "heading2": { "value": "heading3" },
+      "heading3": { "value": "heading4" }
     }
   }
 }

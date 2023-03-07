@@ -17,12 +17,9 @@
 /// at the tokens file to determine if it needs to reduce its size and
 /// applies the size at the appropriate breakpoint
 @mixin responsive-font-style($style) {
-  $style_on_sm_screen: map.get(
-    $ezui-tokens,
-    "font-style-#{$style}-style-on-sm-screen"
-  );
-  @if $style_on_sm_screen {
-    @include font-style($style_on_sm_screen);
+  $responsive_style: map.get($ezui-tokens, "font-responsive-style-#{$style}");
+  @if $responsive_style {
+    @include font-style($responsive_style);
     @media (min-width: #{$ezui-breakpoint-sm}) {
       @include font-style($style);
     }

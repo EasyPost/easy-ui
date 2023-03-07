@@ -24,6 +24,7 @@ describe("getTokenAliases", () => {
       "md",
     ]);
   });
+
   it("returns aliases for key in the middle", () => {
     expect(getTokenAliases(tokens, "font-style-{alias}-family")).toEqual([
       "heading1",
@@ -32,5 +33,11 @@ describe("getTokenAliases", () => {
       "heading4",
       "small-button",
     ]);
+  });
+
+  it("throws for bad pattern supplied", () => {
+    expect(() => getTokenAliases(tokens, "color-red")).toThrow(
+      "must include {alias}",
+    );
   });
 });

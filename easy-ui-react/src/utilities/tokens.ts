@@ -1,4 +1,7 @@
 export function getTokenAliases<T extends object>(tokens: T, pattern: string) {
+  if (!pattern.includes("{alias}")) {
+    throw new Error("Provided pattern must include {alias}");
+  }
   const regex = new RegExp(`^${pattern.replace("{alias}", "([a-z0-9-]+)")}$`);
   const aliases = Object.keys(tokens)
     .filter((token) => regex.test(token))
