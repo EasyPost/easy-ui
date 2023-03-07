@@ -1,4 +1,4 @@
-# Icon
+# Text
 
 ```typescript
 type TextVariant = TokenNamespace<"font-style">;
