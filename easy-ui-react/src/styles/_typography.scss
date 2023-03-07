@@ -45,7 +45,7 @@
 @mixin font-classes() {
   @each $key in font-style-aliases() {
     .#{$key} {
-      @include responsive-font-style($key);
+      @include font-style($key);
     }
   }
 }
