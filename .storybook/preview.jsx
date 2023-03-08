@@ -1,5 +1,6 @@
 import React from "react";
 import { Provider as EasyUIProvider } from "../easy-ui-react/src/Provider";
+import { viewports } from "./viewports";
 
 import "./poppins.css";
 
@@ -9,6 +10,9 @@ export const parameters = {
     matchers: {
       date: /Date$/,
     },
+  },
+  viewport: {
+    viewports,
   },
 };
 
