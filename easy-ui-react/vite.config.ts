@@ -41,7 +41,7 @@ export default defineConfig({
 
 // Maps entry filenames to entries with proper aliases:
 //
-// src/Placeholder/index.ts -> Placeholder/index
+// src/Icon/index.ts -> Icon/index
 // src/utilities/css.ts -> utilities/css
 function buildEntryObject(entries: string[]) {
   return entries.reduce((o, entry) => {
