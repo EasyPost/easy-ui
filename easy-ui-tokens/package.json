@@ -2,7 +2,11 @@
   "name": "@easypost/easy-ui-tokens",
   "version": "1.0.0",
   "exports": {
-    ".": "./dist/js/tokens.js",
+    "./js/*": {
+      "types": "./dist/js/*.d.ts",
+      "import": "./dist/js/*.mjs",
+      "require": "./dist/js/*.js"
+    },
     "./css/*": "./dist/css/*",
     "./scss/*": "./dist/scss/*",
     "./json/*": "./dist/json/*"
