@@ -1,6 +1,8 @@
 import { create } from "@storybook/theming";
 import tokens from "../easy-ui-tokens/dist/js/tokens";
 
+export const gridCellSize = 8;
+
 export const backgrounds = {
   dark: tokens["color-gray-800"],
   light: tokens["color-gray-000"],
@@ -13,15 +15,21 @@ const colors = {
   border: tokens["color-gray-200"],
   surface: tokens["color-white"],
   text: tokens["color-gray-700"],
+  textMuted: tokens["color-gray-400"],
 };
 
 export const theme = create({
   base: "light",
+  gridCellSize,
+
   brandTitle: "EasyPost Easy UI Storybook",
   brandUrl: "/",
   brandImage: "/easypost-logo.svg?v=20230308",
+  brandTarget: "_self",
+
   appBg: colors.background,
   appContentBg: colors.background,
+  appBorderColor: colors.border,
   appBorderRadius: tokens["shape-border-radius-base"],
 
   // Main colors
@@ -31,6 +39,7 @@ export const theme = create({
   // Typography
   textColor: colors.text,
   textInverseColor: colors.surface,
+  textMutedColor: colors.textMuted,
   fontBase: 'Poppins, "Poppins Fallback"',
 
   // Toolbar default and active colors

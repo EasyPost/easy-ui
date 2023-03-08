@@ -1,4 +1,4 @@
-import tokens from "@easypost/easy-ui-tokens/js/tokens";
+import tokens from "../easy-ui-tokens/dist/js/tokens";
 
 export const viewports = Object.fromEntries(
   Object.entries(tokens)
