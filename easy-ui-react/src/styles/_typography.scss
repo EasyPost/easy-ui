@@ -1,0 +1,51 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:string";
+
+/// Apply font styles to element as-is. This doesn't map responsive styles
+@mixin font-style-static($style) {
+  font-family: map.get($ezui-tokens, "font-style-#{$style}-family");
+  font-weight: map.get($ezui-tokens, "font-style-#{$style}-weight");
+  font-size: map.get($ezui-tokens, "font-style-#{$style}-size");
+  letter-spacing: map.get($ezui-tokens, "font-style-#{$style}-letter-spacing");
+  line-height: map.get($ezui-tokens, "font-style-#{$style}-line-height");
+}
+
+/// Apply responsive font styles to element. Large headings reduce their size
+/// on samller screens
+@mixin font-style($style) {
+  $responsive_style: map.get($ezui-tokens, "font-responsive-mapping-#{$style}");
+  @if $responsive_style {
+    @include font-style-static($responsive_style);
+    @media (min-width: #{$ezui-breakpoint-sm}) {
+      @include font-style-static($style);
+    }
+  } @else {
+    @include font-style-static($style);
+  }
+}
+
+/// Retrieve names for our font styles
+@function font-style-aliases() {
+  $aliases: ();
+  @each $key, $value in $ezui-tokens {
+    @if string.index($key, "font-style-") and string.index($key, "-family") {
+      $alias: string.slice($key, string.length("font-style-") + 1);
+      $alias: string.slice($alias, 0, string.index($alias, "-family") - 1);
+      $aliases: list.append($aliases, $alias);
+    }
+  }
+  @return $aliases;
+}
+
+/// Create utility classes for the font styles in our tokens
+///
+/// These can be defined globally or locally scoped to a CSS module.
+/// See <Text /> as an example of them being defined locally
+@mixin font-classes() {
+  @each $key in font-style-aliases() {
+    .#{$key} {
+      @include font-style($key);
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-import "../styles/global.css";
+import "../styles/global.scss";
 
 export interface ProviderProps {
   children: ReactElement;

@@ -1,4 +1,4 @@
-const { formatHelpers } = require("style-dictionary");
+const { formatHelpers, format } = require("style-dictionary");
 
 module.exports = {
   source: ["./src/**/*.json"],
@@ -20,7 +20,15 @@ module.exports = {
     },
   },
   format: {
-    "ezui/typescript/module-flat-declarations": ({ dictionary, file }) =>
+    "ezui/javascript/es6-flat": function ({ dictionary, file }) {
+      return (
+        formatHelpers.fileHeader({ file }) +
+        "export default " +
+        format["json/flat"]({ dictionary }) +
+        ";"
+      );
+    },
+    "ezui/typescript/flat-declarations": ({ dictionary, file }) =>
       [
         formatHelpers.fileHeader({ file }),
         "declare const tokens: {",
@@ -92,7 +100,11 @@ module.exports = {
           destination: "dist/js/tokens.js",
         },
         {
-          format: "ezui/typescript/module-flat-declarations",
+          format: "ezui/javascript/es6-flat",
+          destination: "dist/js/tokens.mjs",
+        },
+        {
+          format: "ezui/typescript/flat-declarations",
           destination: "dist/js/tokens.d.ts",
         },
       ],
