@@ -1,12 +1,6 @@
 /** @type {import('@storybook/react/types').StorybookConfig} */
 module.exports = {
-  stories: [
-    {
-      directory: "../easy-ui-react/src/",
-      titlePrefix: "Components",
-      files: "**/*.stories.mdx",
-    },
-  ],
+  stories: ["../easy-ui-react/src/**/*.stories.mdx"],
   addons: ["@storybook/addon-essentials", "@storybook/addon-a11y"],
   framework: "@storybook/react",
   core: {
