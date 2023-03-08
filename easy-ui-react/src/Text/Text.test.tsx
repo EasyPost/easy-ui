@@ -55,6 +55,31 @@ describe("<Text />", () => {
     );
   });
 
+  it("should apply weight", () => {
+    render(<Text weight="bold">Here is some text</Text>);
+    expect(screen.getByText("Here is some text")).toHaveAttribute(
+      "class",
+      expect.stringContaining("bold"),
+    );
+  });
+
+  it("should apply word break", () => {
+    render(<Text breakWord>Here is some text</Text>);
+    expect(screen.getByText("Here is some text")).toHaveAttribute(
+      "class",
+      expect.stringContaining("break"),
+    );
+  });
+
+  it("should nest", () => {
+    render(
+      <Text variant="body1">
+        Here is some text with <Text weight="bold">inner text</Text>
+      </Text>,
+    );
+    expect(screen.getByText("inner text")).toBeInTheDocument();
+  });
+
   it("should apply visuallyHidden", () => {
     render(<Text visuallyHidden>Here is some text</Text>);
     expect(screen.getByText("Here is some text")).toHaveAttribute(

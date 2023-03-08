@@ -12,6 +12,22 @@
 // higher-order CSS instead
 @include font-classes();
 
+.normal {
+  font-weight: var(--ezui-font-weight-normal);
+}
+
+.medium {
+  font-weight: var(--ezui-font-weight-medium);
+}
+
+.semibold {
+  font-weight: var(--ezui-font-weight-semibold);
+}
+
+.bold {
+  font-weight: var(--ezui-font-weight-bold);
+}
+
 .truncate {
   overflow: hidden;
   white-space: nowrap;
@@ -40,4 +56,12 @@
 
 .justify {
   text-align: justify;
+}
+
+.break {
+  overflow-wrap: break-word;
+}
+
+.numeric {
+  font-variant-numeric: tabular-nums lining-nums;
 }

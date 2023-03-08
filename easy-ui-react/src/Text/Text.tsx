@@ -7,12 +7,15 @@ import styles from "./Text.module.scss";
 export type TextAs = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
 export type TextColor = TokenNamespace<"color">;
 export type TextVariant = TokenNamespaceWithSuffix<"font-style", "family">;
+export type TextWeight = "normal" | "medium" | "semibold" | "bold";
 
 export type TextProps = {
   /* Adjusts horizontal alignment of text */
   alignment?: "start" | "center" | "end" | "justify";
   /* Adjusts the underlying element of the text */
   as?: TextAs;
+  /* Prevent text from overflowing inline container */
+  breakWord?: boolean;
   /** Text to display */
   children: ReactNode;
   /* Adjust color of text */
@@ -25,23 +28,29 @@ export type TextProps = {
   variant?: TextVariant;
   /* Visually hide the text but keep it accessible */
   visuallyHidden?: boolean;
+  /** Adjust weight of text */
+  weight?: TextWeight;
 };
 
 export function Text({
   alignment = "start",
   as: Component = "span",
+  breakWord = false,
   children,
   color,
   id,
   truncate = false,
-  variant = "body1",
+  variant,
   visuallyHidden = false,
+  weight,
 }: TextProps) {
   const className = classNames(
     styles.Text,
-    styles[variant],
+    variant && styles[variant],
+    weight && styles[weight],
     (alignment || truncate) && styles.block,
     alignment && styles[alignment],
+    breakWord && styles.break,
     truncate && styles.truncate,
     visuallyHidden && styles.visuallyHidden,
   );
