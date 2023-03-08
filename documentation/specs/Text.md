@@ -8,7 +8,7 @@ type TextWeight = "normal" | "medium" | "semibold" | "bold";
 
 type Text = {
   // Adjusts horizontal alignment of text
-  //   defaults to start
+  //   defaults to inherit
   alignment?: "start" | "center" | "end" | "justify";
   // Adjusts the underlying element of the text
   //   defaults to span

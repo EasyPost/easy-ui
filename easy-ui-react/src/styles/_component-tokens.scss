@@ -10,7 +10,7 @@
 /// See utilities/css.ts for using component tokens in JS
 
 @mixin component-token($componentName, $componentProp, $value) {
-  --ezui-c-#{$componentName}-#{$componentProp}: $value;
+  --ezui-c-#{$componentName}-#{$componentProp}: #{$value};
 }
 
 @function component-token($componentName, $componentProp) {

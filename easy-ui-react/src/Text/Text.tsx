@@ -33,7 +33,7 @@ export type TextProps = {
 };
 
 export function Text({
-  alignment = "start",
+  alignment,
   as: Component = "span",
   breakWord = false,
   children,
