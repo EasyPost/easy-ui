@@ -1,12 +1,18 @@
 import { create } from "@storybook/theming";
+import tokens from "../easy-ui-tokens/dist/js/tokens";
+
+export const backgrounds = {
+  dark: tokens["color-gray-800"],
+  light: tokens["color-gray-000"],
+};
 
 const colors = {
-  primary: "#164dff",
-  secondary: "#164dff",
-  background: "#f8f9fc",
-  border: "#c6cfe0",
-  surface: "#ffffff",
-  text: "#384359",
+  background: backgrounds.light,
+  primary: tokens["color-blue-500"],
+  secondary: tokens["color-blue-500"],
+  border: tokens["color-gray-200"],
+  surface: tokens["color-white"],
+  text: tokens["color-gray-700"],
 };
 
 export const theme = create({
@@ -16,7 +22,7 @@ export const theme = create({
   brandImage: "/easypost-logo.svg?v=20230308",
   appBg: colors.background,
   appContentBg: colors.background,
-  appBorderRadius: 4,
+  appBorderRadius: tokens["shape-border-radius-base"],
 
   // Main colors
   colorPrimary: colors.primary,
@@ -36,5 +42,5 @@ export const theme = create({
   inputBg: colors.background,
   inputBorder: colors.border,
   inputTextColor: colors.text,
-  inputBorderRadius: 4,
+  inputBorderRadius: tokens["shape-border-radius-base"],
 });

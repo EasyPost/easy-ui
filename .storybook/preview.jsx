@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider as EasyUIProvider } from "../easy-ui-react/src/Provider";
+import { backgrounds, theme } from "./theme";
 import { viewports } from "./viewports";
-import { theme } from "./theme";
 
 import "./poppins.css";
 
@@ -17,6 +17,11 @@ export const parameters = {
   },
   docs: {
     theme,
+  },
+  backgrounds: {
+    values: Object.entries(backgrounds).map(([name, value]) => {
+      return { name, value };
+    }),
   },
 };
 
