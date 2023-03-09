@@ -1,0 +1,367 @@
+import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
+import { createLabelledOptionsControl } from "../utilities/storybook";
+import { Button } from "./Button";
+import { Icon } from "../Icon";
+import AddIcon from "@easypost/easy-ui-icons/Add";
+import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
+import InfoIcon from "@easypost/easy-ui-icons/Info";
+import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
+
+<Meta
+  title="Button"
+  argTypes={{
+    children: {
+      control: "text",
+    },
+  }}
+  component={Button}
+/>
+
+export const Template = (args) => <Button {...args} />;
+
+# Button
+
+<Canvas>
+  <Story name="Default" args={{}}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+Filled buttons
+
+<Canvas>
+  <Story
+    name="Secondary"
+    args={{
+      color: "secondary",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Success"
+    args={{
+      color: "success",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Warning"
+    args={{
+      color: "warning",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Neutral"
+    args={{
+      color: "neutral",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+Outlined buttons
+
+<Canvas>
+  <Story
+    name="PrimaryOutlined"
+    args={{
+      appearance: "outlined",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SecondaryOutlined"
+    args={{
+      color: "secondary",
+      appearance: "outlined",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SuccessOutlined"
+    args={{
+      color: "success",
+      appearance: "outlined",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="WarningOutlined"
+    args={{
+      color: "warning",
+      appearance: "outlined",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SupportOutlined"
+    args={{
+      color: "support",
+      appearance: "outlined",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="InverseOutlined"
+    args={{
+      color: "inverse",
+      appearance: "outlined",
+    }}
+  >
+    <div
+      style={{
+        width: "100px",
+        height: "58px",
+        backgroundColor: "var(--ezui-color-blue-800)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Button color="inverse" appearance="outlined" />
+    </div>
+  </Story>
+</Canvas>
+
+Link buttons
+
+<Canvas>
+  <Story
+    name="PrimaryLink"
+    args={{
+      appearance: "link",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SecondaryLink"
+    args={{
+      color: "secondary",
+      appearance: "link",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+Small filled buttons
+
+<Canvas>
+  <Story
+    name="PrimarySmall"
+    args={{
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SecondarySmall"
+    args={{
+      color: "secondary",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SuccessSmall"
+    args={{
+      color: "success",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="WarningSmall"
+    args={{
+      color: "warning",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="NeutralSmall"
+    args={{
+      color: "neutral",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+Small outlined buttons
+
+<Canvas>
+  <Story
+    name="PrimaryOutlinedSmall"
+    args={{
+      appearance: "outlined",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SecondaryOutlinedSmall"
+    args={{
+      color: "secondary",
+      appearance: "outlined",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SuccessOutlinedSmall"
+    args={{
+      color: "success",
+      appearance: "outlined",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="WarningOutlinedSmall"
+    args={{
+      color: "warning",
+      appearance: "outlined",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="SupportOutlinedSmall"
+    args={{
+      color: "support",
+      appearance: "outlined",
+      size: "sm",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story name="InverseOutlinedSmall">
+    <div
+      style={{
+        width: "75px",
+        height: "42px",
+        backgroundColor: "var(--ezui-color-blue-800)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Button color="inverse" appearance="outlined" size="sm" />
+    </div>
+  </Story>
+</Canvas>
+
+With href
+
+<Canvas>
+  <Story
+    name="PrimaryWithHref"
+    args={{
+      href: "https://www.easypost.com/",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="PrimaryOutlinedWithHref"
+    args={{
+      appearance: "outlined",
+      href: "https://www.easypost.com/",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+With end icons
+
+<Canvas>
+  <Story name="PrimaryWithEndIcon">
+    <Button endIcon={<Icon symbol={CheckCircleIcon} />} />
+  </Story>
+  <Story name="NeutralWithEndIcon">
+    <Button color="neutral" endIcon={<Icon symbol={AddIcon} />} />
+  </Story>
+</Canvas>
+
+With start icons
+
+<Canvas>
+  <Story name="SuccessWithStartIcon">
+    <Button color="success" startIcon={<Icon symbol={ArrowBackIcon} />} />
+  </Story>
+  <Story name="WarningWithStartIcon">
+    <Button color="warning" startIcon={<Icon symbol={InfoIcon} />} />
+  </Story>
+</Canvas>
+
+Block button
+
+<Canvas>
+  <Story
+    name="PrimaryBlock"
+    args={{
+      isBlock: true,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+Disabled buttons
+
+<Canvas>
+  <Story
+    name="PrimaryDisabled"
+    args={{
+      isDisabled: true,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="PrimaryOutlinedDisabled"
+    args={{
+      isDisabled: true,
+      appearance: "outlined",
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+Click events
+
+<Canvas>
+  <Story
+    name="ClickEvent"
+    args={{
+      onPress: () => alert("clicked!"),
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />

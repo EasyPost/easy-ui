@@ -1,0 +1,285 @@
+@import "../styles/common";
+
+@mixin link-button($color, $hover-color, $active-color, $box-shadow) {
+  color: $color;
+  background-color: transparent;
+  border: var(--ezui-shape-border-width-1) solid transparent;
+  text-decoration: underline;
+
+  &:focus {
+    border: var(--ezui-shape-border-width-1) solid $color;
+    box-shadow: $box-shadow;
+    outline: none;
+  }
+
+  &:disabled {
+    color: var(--ezui-color-gray-300);
+    pointer-events: none;
+  }
+
+  &:active:not(:disabled) {
+    color: $active-color;
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: $hover-color;
+  }
+}
+
+@mixin filled-button(
+  $color,
+  $active-color,
+  $background,
+  $hover-focus-background,
+  $active-background,
+  $box-shadow
+) {
+  background-color: $background;
+  color: $color;
+
+  &:focus {
+    background-color: $hover-focus-background;
+    color: $color;
+    box-shadow: $box-shadow;
+    outline: none;
+  }
+
+  &:disabled {
+    color: var(--ezui-color-white);
+    background-color: var(--ezui-color-gray-200);
+    pointer-events: none;
+  }
+
+  &:link {
+    text-decoration: none;
+  }
+
+  &:not(:disabled):active {
+    color: $active-color;
+    background-color: $active-background;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    background-color: $hover-focus-background;
+    color: $color;
+  }
+}
+
+@mixin outlined-button($border, $hover-border, $active-border, $box-shadow) {
+  border: var(--ezui-shape-border-width-1) solid $border;
+  color: $border;
+  background-color: transparent;
+
+  &:focus {
+    border: var(--ezui-shape-border-width-1) solid $border;
+    box-shadow: $box-shadow;
+    outline: none;
+  }
+
+  &:disabled {
+    color: var(--ezui-color-gray-300);
+    border: var(--ezui-shape-border-width-1) solid var(--ezui-color-gray-300);
+    pointer-events: none;
+  }
+
+  &:link {
+    text-decoration: none;
+  }
+
+  &:active:not(:disabled) {
+    color: $active-border;
+    border: var(--ezui-shape-border-width-1) solid $active-border;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: $hover-border;
+    border: var(--ezui-shape-border-width-1) solid $hover-border;
+  }
+}
+
+.Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ezui-shape-border-radius-base);
+  border: none;
+
+  &.colorPrimaryFilled {
+    @include filled-button(
+      var(--ezui-color-white),
+      var(--ezui-color-white),
+      var(--ezui-color-blue-500),
+      var(--ezui-color-blue-600),
+      var(--ezui-color-blue-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorSecondaryFilled {
+    @include filled-button(
+      var(--ezui-color-white),
+      var(--ezui-color-white),
+      var(--ezui-color-purple-500),
+      var(--ezui-color-purple-800),
+      var(--ezui-color-purple-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorSuccessFilled {
+    @include filled-button(
+      var(--ezui-color-blue-800),
+      var(--ezui-color-white),
+      var(--ezui-color-green-500),
+      var(--ezui-color-green-600),
+      var(--ezui-color-green-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorWarningFilled {
+    @include filled-button(
+      var(--ezui-color-blue-800),
+      var(--ezui-color-blue-800),
+      var(--ezui-color-red-500),
+      var(--ezui-color-red-600),
+      var(--ezui-color-red-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorNeutralFilled {
+    @include filled-button(
+      var(--ezui-color-white),
+      var(--ezui-color-white),
+      var(--ezui-color-blue-800),
+      var(--ezui-color-black),
+      var(--ezui-color-blue-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorPrimaryOutlined {
+    @include outlined-button(
+      var(--ezui-color-blue-500),
+      var(--ezui-color-blue-600),
+      var(--ezui-color-blue-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorSupportOutlined {
+    @include outlined-button(
+      var(--ezui-color-blue-800),
+      var(--ezui-color-black),
+      var(--ezui-color-gray-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorSuccessOutlined {
+    @include outlined-button(
+      var(--ezui-color-green-500),
+      var(--ezui-color-green-600),
+      var(--ezui-color-green-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorSecondaryOutlined {
+    @include outlined-button(
+      var(--ezui-color-purple-500),
+      var(--ezui-color-purple-600),
+      var(--ezui-color-purple-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorWarningOutlined {
+    @include outlined-button(
+      var(--ezui-color-red-500),
+      var(--ezui-color-red-600),
+      var(--ezui-color-red-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorInverseOutlined {
+    @include outlined-button(
+      var(--ezui-color-white),
+      var(--ezui-color-gray-100),
+      var(--ezui-color-gray-200),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorPrimaryLink {
+    @include link-button(
+      var(--ezui-color-blue-500),
+      var(--ezui-color-blue-600),
+      var(--ezui-color-blue-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.colorSecondaryLink {
+    @include link-button(
+      var(--ezui-color-purple-500),
+      var(--ezui-color-purple-600),
+      var(--ezui-color-purple-700),
+      var(--ezui-shadow-button)
+    );
+  }
+
+  &.sizeMdFilled,
+  &.sizeMdOutlined,
+  &.sizeMdLink {
+    @include font-style("button");
+  }
+
+  &.sizeSmFilled,
+  &.sizeSmOutlined,
+  &.sizeSmLink {
+    @include font-style("small-button");
+  }
+
+  &.sizeMdFilled {
+    padding: var(--ezui-space-1-5) var(--ezui-space-2);
+  }
+
+  &.sizeMdOutlined,
+  &.sizeMdLink {
+    padding: calc(
+        #{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)}
+      )
+      calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
+  }
+
+  &.sizeSmFilled {
+    padding: var(--ezui-space-1);
+  }
+
+  &.sizeSmOutlined,
+  &.sizeSmLink {
+    padding: calc(#{var(--ezui-space-1)} - #{var(--ezui-shape-border-width-1)});
+  }
+}
+
+.ButtonBlock {
+  display: flex;
+  width: 100%;
+}
+
+.StartIcon {
+  margin-left: var(--ezui-space-1);
+}
+
+.EndIcon {
+  margin-right: var(--ezui-space-1);
+}
