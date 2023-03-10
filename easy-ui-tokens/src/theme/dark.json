@@ -1,0 +1,7 @@
+{
+  "theme.dark": {
+    "name": { "value": "dark" },
+    "text.color": { "value": "{color.gray.200}" },
+    "background.color": { "value": "{color.gray.800}" }
+  }
+}

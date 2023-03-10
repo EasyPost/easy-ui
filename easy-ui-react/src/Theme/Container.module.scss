@@ -1,0 +1,8 @@
+@import "../styles/common";
+
+.Container {
+  background: var(--ezui-background-color);
+  color: var(--ezui-text-color);
+  border-radius: 8px;
+  padding: 24px;
+}
