@@ -125,10 +125,10 @@ const theme = createTheme({
 });
 ```
 
-The names of the variables are the same as what is defined in the theme only in CSS syntax.
+The names of the variables are the same as what is defined in the theme only in CSS syntax. Each variable holds the backing primitive of the most immediate color scheme context.
 
 ```css
-.Container {
+.Button {
   color: var(--ezui-text-color);
   background: var(--ezui-background-color);
 }
