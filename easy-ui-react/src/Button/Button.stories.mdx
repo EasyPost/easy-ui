@@ -19,6 +19,18 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 
 export const Template = (args) => <Button {...args} />;
 
+export const buttonContainerStyles = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  flexWrap: "wrap",
+};
+
+export const inverseBackground = {
+  backgroundColor: "var(--ezui-color-blue-800)",
+  padding: "12px",
+};
+
 # Button
 
 <Canvas>
@@ -27,340 +39,118 @@ export const Template = (args) => <Button {...args} />;
   </Story>
 </Canvas>
 
-Filled buttons
+## Filled buttons
 
 <Canvas>
-  <Story
-    name="Secondary"
-    args={{
-      color: "secondary",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="Success"
-    args={{
-      color: "success",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="Warning"
-    args={{
-      color: "warning",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="Neutral"
-    args={{
-      color: "neutral",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
-Outlined buttons
-
-<Canvas>
-  <Story
-    name="PrimaryOutlined"
-    args={{
-      appearance: "outlined",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SecondaryOutlined"
-    args={{
-      color: "secondary",
-      appearance: "outlined",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SuccessOutlined"
-    args={{
-      color: "success",
-      appearance: "outlined",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="WarningOutlined"
-    args={{
-      color: "warning",
-      appearance: "outlined",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SupportOutlined"
-    args={{
-      color: "support",
-      appearance: "outlined",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="InverseOutlined"
-    args={{
-      color: "inverse",
-      appearance: "outlined",
-    }}
-  >
-    <div
-      style={{
-        width: "100px",
-        height: "58px",
-        backgroundColor: "var(--ezui-color-blue-800)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Button color="inverse" appearance="outlined" />
+  <Story name="FilledButtons">
+    <div style={buttonContainerStyles}>
+      <Button />
+      <Button color="secondary" />
+      <Button color="success" />
+      <Button color="warning" />
+      <Button color="neutral" />
+      <Button size="sm" />
+      <Button color="secondary" size="sm" />
+      <Button color="success" size="sm" />
+      <Button color="warning" size="sm" />
+      <Button color="neutral" size="sm" />
     </div>
   </Story>
 </Canvas>
 
-Link buttons
+## Outlined buttons
 
 <Canvas>
-  <Story
-    name="PrimaryLink"
-    args={{
-      appearance: "link",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SecondaryLink"
-    args={{
-      color: "secondary",
-      appearance: "link",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
-Small filled buttons
-
-<Canvas>
-  <Story
-    name="PrimarySmall"
-    args={{
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SecondarySmall"
-    args={{
-      color: "secondary",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SuccessSmall"
-    args={{
-      color: "success",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="WarningSmall"
-    args={{
-      color: "warning",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="NeutralSmall"
-    args={{
-      color: "neutral",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
-Small outlined buttons
-
-<Canvas>
-  <Story
-    name="PrimaryOutlinedSmall"
-    args={{
-      appearance: "outlined",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SecondaryOutlinedSmall"
-    args={{
-      color: "secondary",
-      appearance: "outlined",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SuccessOutlinedSmall"
-    args={{
-      color: "success",
-      appearance: "outlined",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="WarningOutlinedSmall"
-    args={{
-      color: "warning",
-      appearance: "outlined",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="SupportOutlinedSmall"
-    args={{
-      color: "support",
-      appearance: "outlined",
-      size: "sm",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story name="InverseOutlinedSmall">
-    <div
-      style={{
-        width: "75px",
-        height: "42px",
-        backgroundColor: "var(--ezui-color-blue-800)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Button color="inverse" appearance="outlined" size="sm" />
+  <Story name="OutlinedButtons">
+    <div style={buttonContainerStyles}>
+      <Button variant="outlined" />
+      <Button color="secondary" variant="outlined" />
+      <Button color="success" variant="outlined" />
+      <Button color="warning" variant="outlined" />
+      <Button color="support" variant="outlined" />
+      <Button variant="outlined" size="sm" />
+      <Button color="secondary" variant="outlined" size="sm" />
+      <Button color="success" variant="outlined" size="sm" />
+      <Button color="warning" variant="outlined" size="sm" />
+      <Button color="support" variant="outlined" size="sm" />
     </div>
   </Story>
 </Canvas>
 
-With href
+## Link buttons
 
 <Canvas>
-  <Story
-    name="PrimaryWithHref"
-    args={{
-      href: "https://www.easypost.com/",
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="PrimaryOutlinedWithHref"
-    args={{
-      appearance: "outlined",
-      href: "https://www.easypost.com/",
-    }}
-  >
-    {Template.bind({})}
+  <Story name="LinkButtons">
+    <div style={buttonContainerStyles}>
+      <Button variant="link" />
+      <Button color="secondary" variant="link" />
+    </div>
   </Story>
 </Canvas>
 
-With end icons
+## Inverse buttons
 
 <Canvas>
-  <Story name="PrimaryWithEndIcon">
-    <Button endIcon={<Icon symbol={CheckCircleIcon} />} />
-  </Story>
-  <Story name="NeutralWithEndIcon">
-    <Button color="neutral" endIcon={<Icon symbol={AddIcon} />} />
+  <Story name="InverseButtons">
+    <div style={{ ...inverseBackground, ...buttonContainerStyles }}>
+      <Button color="inverse" variant="outlined" />
+      <Button color="inverse" variant="outlined" size="sm" />
+    </div>
   </Story>
 </Canvas>
 
-With start icons
+## With href
 
 <Canvas>
-  <Story name="SuccessWithStartIcon">
-    <Button color="success" startIcon={<Icon symbol={ArrowBackIcon} />} />
-  </Story>
-  <Story name="WarningWithStartIcon">
-    <Button color="warning" startIcon={<Icon symbol={InfoIcon} />} />
+  <Story name="WithHref">
+    <div style={buttonContainerStyles}>
+      <Button href="https://www.easypost.com/" />
+      <Button variant="outlined" href="https://www.easypost.com/" />
+    </div>
   </Story>
 </Canvas>
 
-Block button
+## With icons
 
 <Canvas>
-  <Story
-    name="PrimaryBlock"
-    args={{
-      isBlock: true,
-    }}
-  >
-    {Template.bind({})}
+  <Story name="WithIcons">
+    <div style={buttonContainerStyles}>
+      <Button iconAtEnd={<Icon symbol={CheckCircleIcon} />} />
+      <Button color="neutral" iconAtEnd={<Icon symbol={AddIcon} />} />
+      <Button color="success" iconAtStart={<Icon symbol={ArrowBackIcon} />} />
+      <Button color="warning" iconAtStart={<Icon symbol={InfoIcon} />} />
+    </div>
   </Story>
 </Canvas>
 
-Disabled buttons
+## Block button
 
 <Canvas>
-  <Story
-    name="PrimaryDisabled"
-    args={{
-      isDisabled: true,
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
-    name="PrimaryOutlinedDisabled"
-    args={{
-      isDisabled: true,
-      appearance: "outlined",
-    }}
-  >
-    {Template.bind({})}
+  <Story name="BlockButton">
+    <div style={buttonContainerStyles}>
+      <Button isBlock />
+    </div>
   </Story>
 </Canvas>
 
-Click events
+## Disabled buttons
 
 <Canvas>
-  <Story
-    name="ClickEvent"
-    args={{
-      onPress: () => alert("clicked!"),
-    }}
-  >
-    {Template.bind({})}
+  <Story name="DisabledButtons">
+    <div style={buttonContainerStyles}>
+      <Button isDisabled />
+      <Button variant="outlined" isDisabled />
+    </div>
+  </Story>
+</Canvas>
+
+## Click event
+
+<Canvas>
+  <Story name="ClickEvent">
+    <div style={buttonContainerStyles}>
+      <Button onPress={() => alert("clicked!")} />
+    </div>
   </Story>
 </Canvas>
 

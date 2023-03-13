@@ -13,14 +13,14 @@ export type ButtonColor =
   | "neutral"
   | "support"
   | "inverse";
-export type ButtonAppearance = "filled" | "outlined" | "link";
+export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
 
 export type ButtonProps = {
   /** Button color */
   color?: ButtonColor;
-  /** Button appearance */
-  appearance?: ButtonAppearance;
+  /** Button variant */
+  variant?: ButtonVariant;
   /** Button size */
   size?: ButtonSize;
   /** Disables button */
@@ -28,9 +28,9 @@ export type ButtonProps = {
   /** Button will grow to width of container */
   isBlock?: boolean;
   /** Positions icon before children */
-  startIcon?: ReactElement<IconProps>;
+  iconAtStart?: ReactElement<IconProps>;
   /** Positions icon after children */
-  endIcon?: ReactElement<IconProps>;
+  iconAtEnd?: ReactElement<IconProps>;
   /** Content inside button  */
   children?: ReactNode;
   /** Link's destination */
@@ -40,12 +40,12 @@ export type ButtonProps = {
 export function Button(props: ButtonProps) {
   const {
     color = "primary",
-    appearance = "filled",
+    variant = "filled",
     size = "md",
     isDisabled = false,
     isBlock = false,
-    startIcon = null,
-    endIcon = null,
+    iconAtStart = null,
+    iconAtEnd = null,
     children = "Button",
     href = "",
   } = props;
@@ -57,7 +57,14 @@ export function Button(props: ButtonProps) {
     ref,
   );
   const canUseIcon =
-    (startIcon || endIcon) && appearance !== "link" && size !== "sm";
+    (iconAtEnd || iconAtStart) && variant !== "link" && size !== "sm";
+
+  if (!isValidColorVariantCombination(color, variant)) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `The color '${color}' is not supported with the '${variant}' variant`,
+    );
+  }
 
   return (
     <As
@@ -65,22 +72,42 @@ export function Button(props: ButtonProps) {
       ref={ref}
       className={classNames(
         styles.Button,
-        styles[variationName("color", [color, appearance])],
-        styles[variationName("size", [size, appearance])],
+        styles[variationName("color", color)],
+        styles[variationName("variant", variant)],
+        styles[variationName("size", size)],
         isBlock && styles.ButtonBlock,
       )}
       {...elementProps}
     >
-      {startIcon && canUseIcon && React.cloneElement(startIcon)}
+      {iconAtStart && canUseIcon && React.cloneElement(iconAtStart)}
       <span
         className={classNames(
-          startIcon && canUseIcon && styles.StartIcon,
-          endIcon && canUseIcon && styles.EndIcon,
+          iconAtStart && canUseIcon && styles.StartIcon,
+          iconAtEnd && canUseIcon && styles.EndIcon,
         )}
       >
         {children}
       </span>
-      {endIcon && canUseIcon && React.cloneElement(endIcon)}
+      {iconAtEnd && canUseIcon && React.cloneElement(iconAtEnd)}
     </As>
   );
+}
+
+function isValidColorVariantCombination(
+  color: ButtonColor,
+  variant: ButtonVariant,
+): boolean {
+  const validColorVariantCombinations = {
+    filled: ["primary", "secondary", "success", "warning", "neutral"],
+    outlined: [
+      "primary",
+      "secondary",
+      "success",
+      "warning",
+      "support",
+      "inverse",
+    ],
+    link: ["primary", "secondary"],
+  };
+  return validColorVariantCombinations[variant].includes(color);
 }

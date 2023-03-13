@@ -8,18 +8,8 @@ export function classNames(...classes: (string | Falsy)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function variationName(name: string, value: string | string[]) {
-  if (typeof value === "string") {
-    return `${name}${value.charAt(0).toUpperCase()}${value.slice(1)}`;
-  }
-  let variationNameBuilder = `${name}`;
-  for (let idx = 0; idx < value.length; idx++) {
-    const nextVariation = `${value[idx].charAt(0).toUpperCase()}${value[
-      idx
-    ].slice(1)}`;
-    variationNameBuilder = variationNameBuilder.concat(nextVariation);
-  }
-  return variationNameBuilder;
+export function variationName(name: string, value: string) {
+  return `${name}${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
 
 export function sanitizeCustomProperties(styles: React.CSSProperties) {
