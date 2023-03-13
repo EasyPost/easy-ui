@@ -106,7 +106,7 @@ function ThemeAwareContainer({ children }) {
 }
 ```
 
-A new color scheme context provides the color scheme-specific CSS variables as inline styles to the specified DOM element. This allows styles to be supplied as part of the server rendering process, eliminating flashes of inaccurate color scheme. The `<ColorSchemeProvider />` is headless, defering all styles to the element rendered within it.
+A new color scheme context provides the color scheme-specific CSS variables as inline styles to the specified DOM element. This allows styles to be supplied as part of the server rendering process, eliminating flashes of inaccurate color scheme. The `<ColorSchemeProvider />` is headless, defering all styles to the element rendered within it. Components under a color scheme tree will automatically take on the color of that particular scheme.
 
 ### Using theme variables
 
