@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { ChildThemeProvider, useTheme } from "./Theme";
+import { ColorScheme, useColorScheme } from "./Theme";
 
 import styles from "./Container.module.scss";
 
@@ -10,14 +10,14 @@ export type ContainerProps = {
 // An example theme-aware container
 // It references it's parent theme to know if it needs to invert itself
 export function Container({ children }: ContainerProps) {
-  const [theme] = useTheme();
+  const [colorScheme] = useColorScheme();
   return (
-    <ChildThemeProvider theme={theme === "base" ? "dark" : "base"}>
-      {(vars) => (
-        <div className={styles.Container} style={vars}>
+    <ColorScheme mode={colorScheme === "light" ? "dark" : "light"}>
+      {(style) => (
+        <div className={styles.Container} style={style}>
           {children}
         </div>
       )}
-    </ChildThemeProvider>
+    </ColorScheme>
   );
 }

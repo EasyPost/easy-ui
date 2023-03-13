@@ -1,31 +1,52 @@
+import { useCallback } from "react";
 import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
 import { Container } from "./Container";
+import { useColorScheme } from "./Theme";
 import { Text } from "../Text";
 
 <Meta title="Components/Theme" component={Container} />
 
-# Theme
-
-<Canvas>
-  <Story name="Default">
-    <Container>
+export const Template = (args) => {
+  const [, setColorScheme] = useColorScheme();
+  const handleClick = useCallback(() => {
+    setColorScheme((prevTheme) => {
+      return prevTheme === "dark" ? "light" : "dark";
+    });
+  }, []);
+  return (
+    <div>
       <div>
-        <Text>Outer Box</Text>
+        <button type="button" onClick={handleClick}>
+          Toggle theme
+        </button>
       </div>
       <div style={{ marginTop: 12 }}>
         <Container>
           <div>
-            <Text>Middle Box</Text>
+            <Text>Outer Box</Text>
           </div>
           <div style={{ marginTop: 12 }}>
             <Container>
               <div>
-                <Text>Inner Box</Text>
+                <Text>Middle Box</Text>
+              </div>
+              <div style={{ marginTop: 12 }}>
+                <Container>
+                  <div>
+                    <Text>Inner Box</Text>
+                  </div>
+                </Container>
               </div>
             </Container>
           </div>
         </Container>
       </div>
-    </Container>
-  </Story>
+    </div>
+  );
+};
+
+# Theme
+
+<Canvas>
+  <Story name="Default">{Template.bind({})}</Story>
 </Canvas>

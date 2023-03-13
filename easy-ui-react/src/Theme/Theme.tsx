@@ -1,129 +1,183 @@
-import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import React, {
-  ComponentType,
   createContext,
   ReactNode,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useState,
 } from "react";
-import type { TokenNamespaceWithSuffix } from "../types";
+import kebabCase from "lodash/kebabCase";
 
-export type Theme = TokenNamespaceWithSuffix<"theme", "name">;
+export type ColorSchemeMode = "light" | "dark";
+
+export type ThemeInstance = {
+  textColor: string;
+  backgroundColor: string;
+};
+
+export type Theme = {
+  [key in ColorSchemeMode]: ThemeInstance;
+};
+
 export type ThemeContextSchema = readonly [Theme, (theme: Theme) => void];
+
+export type ThemeProviderProps = {
+  children: ReactNode;
+  theme: Theme;
+};
+
 export type ThemeVariables = {
   [k in string]: string;
 };
 
-export type ColorSchemeProviderProps = { children: ReactNode };
-export type ThemeColorSchemeProvider = ComponentType<ColorSchemeProviderProps>;
+export type ColorSchemeContextSchema = readonly [
+  ColorSchemeMode | undefined,
+  (colorScheme: ColorSchemeMode) => void,
+];
 
-export type RootThemeProviderProps = {
+export type RootColorSchemeProps = {
   children: ReactNode;
-  colorSchemeProvider?: ThemeColorSchemeProvider;
+  mode?: ColorSchemeMode;
 };
 
-export type ChildThemeProviderProps = {
+export type ColorSchemeProps = {
   children: (themeVariables: ThemeVariables) => ReactNode;
-  theme?: Theme;
+  mode: ColorSchemeMode;
 };
-
-const DEFAULT_THEME = "base";
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const DEFAULT_THEME_FN = () => {};
 
 const ThemeContext = createContext<ThemeContextSchema>([
-  DEFAULT_THEME,
-  DEFAULT_THEME_FN,
+  { light: {}, dark: {} } as Theme,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  () => {},
 ]);
+
+// Helper for providing type hints
+export function createTheme(theme: Theme) {
+  return theme;
+}
 
 export function useTheme() {
   return useContext(ThemeContext);
 }
 
-export function RootThemeProvider({
-  colorSchemeProvider: ColorSchemeProvider = BrowserColorSchemeProvider,
+export function ThemeProvider({
+  theme: themeFromUser,
   children,
-}: RootThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => DEFAULT_THEME);
+}: ThemeProviderProps) {
+  const [theme, setTheme] = useState<Theme>(() => themeFromUser);
 
   const contextValue = useMemo(() => {
     return [theme, setTheme] as const;
   }, [theme, setTheme]);
 
-  // In a root context, the theme is set in CSS from the server. Any changes
-  // will be set solely on the client
   useEffect(() => {
-    const themeVariables = getThemeVariables(theme);
-    Object.entries(themeVariables).forEach(([property, value]) => {
-      window.document.documentElement.style.setProperty(property, value);
-    });
-  }, [theme]);
+    setTheme(themeFromUser);
+  }, [themeFromUser]);
 
   return (
     <ThemeContext.Provider value={contextValue}>
-      <ColorSchemeProvider>{children}</ColorSchemeProvider>
+      {children}
     </ThemeContext.Provider>
   );
 }
 
-export function ChildThemeProvider({
-  theme: inTheme = DEFAULT_THEME,
+const ColorSchemeContext = createContext<ColorSchemeContextSchema>([
+  undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  () => {},
+]);
+
+export function useColorScheme() {
+  return useContext(ColorSchemeContext);
+}
+
+export function ColorScheme({
+  mode: modeFromUser,
   children,
-}: ChildThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => inTheme);
+}: ColorSchemeProps) {
+  const [theme] = useTheme();
+  const [mode, setMode] = useState<ColorSchemeMode>(() => modeFromUser);
 
   const contextValue = useMemo(() => {
-    return [theme, setTheme] as const;
-  }, [theme, setTheme]);
+    return [mode, setMode] as const;
+  }, [mode, setMode]);
 
   useEffect(() => {
-    setTheme(inTheme);
-  }, [inTheme]);
+    setMode(modeFromUser);
+  }, [modeFromUser]);
 
-  // In a child context, theme variables need to be written to the React
+  // In a non-root context, variables need to be written to the React
   // component directly in order for it to come through on the server:
   //
-  // <ChildThemeProvider>
-  //   {(vars) => (
-  //     <div style={vars} />
+  // <ColorScheme mode="dark">
+  //   {(style) => (
+  //     <div style={style} />
   //   )}
-  // </ChildThemeProvider>
+  // </ColorScheme>
   return (
-    <ThemeContext.Provider value={contextValue}>
-      {children(getThemeVariables(theme))}
-    </ThemeContext.Provider>
+    <ColorSchemeContext.Provider value={contextValue}>
+      {children(getThemeInstanceVariables(theme[mode]))}
+    </ColorSchemeContext.Provider>
   );
 }
 
-// Determines the color scheme set by the browser using media query detection
-export function BrowserColorSchemeProvider({
+export function RootColorScheme({
+  mode: modeFromUser,
   children,
-}: ColorSchemeProviderProps) {
-  const [, setTheme] = useTheme();
-  useLayoutEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    setTheme(mq.matches ? "dark" : "base");
-    function onChange(e: MediaQueryListEvent) {
-      setTheme(e.matches ? "dark" : "base");
-    }
-    mq.addEventListener("change", onChange);
-    return () => {
-      mq.removeEventListener("change", onChange);
-    };
-  }, [setTheme]);
-  return <>{children}</>;
+}: RootColorSchemeProps) {
+  const [theme] = useTheme();
+  const [mode, setMode] = useState<ColorSchemeMode | undefined>(
+    () => modeFromUser,
+  );
+
+  const contextValue = useMemo(() => {
+    return [mode, setMode] as const;
+  }, [mode, setMode]);
+
+  useEffect(() => {
+    setMode(modeFromUser);
+  }, [modeFromUser]);
+
+  // In a root context, write the variables to a style tag under the :root
+  // scope. No need to attach styles directly
+  //
+  // <ColorScheme>
+  //   <div />
+  // </ColorScheme>
+  return (
+    <ColorSchemeContext.Provider value={contextValue}>
+      <>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: mode
+              ? renderRootThemeVariables(theme[mode])
+              : `${renderRootThemeVariables(theme.light)}
+                @media (prefers-color-scheme: dark) {
+                  ${renderRootThemeVariables(theme.dark)}
+                }`,
+          }}
+        />
+        {children}
+      </>
+    </ColorSchemeContext.Provider>
+  );
 }
 
-function getThemeVariables(theme: Theme) {
+export function getThemeInstanceVariables(themeInstance: ThemeInstance) {
   return Object.fromEntries(
-    Object.entries(tokens)
-      .filter(([alias]) => alias.startsWith(`theme-${theme}-`))
-      .map(([key]) => {
-        const property = key.replace(`theme-${theme}-`, "");
-        return [`--ezui-${property}`, `var(--ezui-theme-${theme}-${property})`];
-      }),
+    Object.entries(themeInstance).map(([key, value]) => {
+      const property = kebabCase(key);
+      return [`--ezui-${property}`, value];
+    }),
   );
+}
+
+export function renderRootThemeVariables(themeInstance: ThemeInstance) {
+  const variables = getThemeInstanceVariables(themeInstance);
+  const css = Object.entries(variables)
+    .map((entry) => entry.join(": ") + ";")
+    .join("\n");
+  return `:root {
+      ${css}
+    }`;
 }
