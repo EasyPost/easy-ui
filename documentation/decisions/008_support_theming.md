@@ -12,7 +12,7 @@ Easy UI needs to faciliate intentional and systematic customization of specific 
 
 ## Decision Drivers
 
-- Support theme managent in tokens project
+- Support theme management in tokens project
 - Support on-demand toggling a theme
 - Support complementary usage in CSS Modules
 - Support server and client rendering
@@ -55,6 +55,7 @@ const theme = createTheme({
   },
 });
 
+// Without a specified color scheme, it defaults to the system theme
 function App({ children }) {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
@@ -69,7 +70,7 @@ function App({ children }) {
 }
 ```
 
-As part of setup, the ThemeProvider will inline `:root` CSS variables based on the specified theme configuration and color scheme. Those CSS variables can be referenced in components.
+As part of setup, the ThemeProvider will inline `:root` CSS variables based on the specified theme configuration and color scheme. These CSS variables are sent with the server preventing inaccurate flashes of themes. These CSS variables are then able to be referenced in component CSS.
 
 ### Reading theme configuration
 
@@ -86,6 +87,8 @@ function Component({ children }) {
   return <div />;
 }
 ```
+
+From within the inner component tree, theme and color scheme are referenced independently.
 
 ### Creating a new color scheme context
 
@@ -122,6 +125,8 @@ const theme = createTheme({
 });
 ```
 
+The names of the variables are the same as what is defined in the theme only in CSS syntax.
+
 ```css
 .Container {
   color: var(--ezui-text-color);
@@ -131,4 +136,4 @@ const theme = createTheme({
 
 ### A note on inline styles
 
-Inline styles are generally considered bad practice, for good reasons. Inline styles can be brittle, can lead to performance issues and require `unsafe-inline` CSP rules. However, they are [the recommended approach](https://github.com/reactwg/react-18/discussions/110#:~:text=Our%20preferred%20solution%20is%20to%20use%20%3Clink%20rel%3D%22stylesheet%22%3E%20for%20statically%20extracted%20styles%20and%20plain%20inline%20styles%20for%20dynamic%20values.%20E.g.%20%3Cdiv%20style%3D%7B%7B...%7D%7D%3E) for dynamic styles in React, so as of now, they are used for styling dynamic properties in Easy UI.
+Inline styles are generally considered bad practice. They can be brittle, can lead to performance issues and are open to certain kinds of attacks. However, they are [the recommended approach](https://github.com/reactwg/react-18/discussions/110#:~:text=Our%20preferred%20solution%20is%20to%20use%20%3Clink%20rel%3D%22stylesheet%22%3E%20for%20statically%20extracted%20styles%20and%20plain%20inline%20styles%20for%20dynamic%20values.%20E.g.%20%3Cdiv%20style%3D%7B%7B...%7D%7D%3E) for dynamic styles in React, so as of now, they are used for styling dynamic properties in Easy UI.
