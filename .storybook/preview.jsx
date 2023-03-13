@@ -35,18 +35,18 @@ export const decorators = [
     const background = context.globals.backgrounds?.value;
     const theme = createTheme({
       light: {
-        textColor: "hsl(320, 30%, 20%)",
-        backgroundColor: "hsl(320, 30%, 90%)",
+        textColor: "var(--ezui-theme-base-text-color)",
+        backgroundColor: "var(--ezui-theme-base-background-color)",
       },
       dark: {
-        textColor: "hsl(320, 30%, 90%)",
-        backgroundColor: "hsl(320, 30%, 20%)",
+        textColor: "var(--ezui-theme-dark-text-color)",
+        backgroundColor: "var(--ezui-theme-dark-background-color)",
       },
     });
     return (
       <EasyUIProvider
         theme={theme}
-        colorScheme={background === "#333333" ? "dark" : "light"}
+        colorScheme={background === "#1c222d" ? "dark" : "light"}
       >
         <Story />
       </EasyUIProvider>

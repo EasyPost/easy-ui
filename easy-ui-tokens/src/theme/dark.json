@@ -1,7 +1,7 @@
 {
   "theme.dark": {
     "name": { "value": "dark" },
-    "text.color": { "value": "{color.gray.200}" },
-    "background.color": { "value": "{color.gray.800}" }
+    "text.color": { "value": "{color.blue.100}" },
+    "background.color": { "value": "{color.blue.800}" }
   }
 }

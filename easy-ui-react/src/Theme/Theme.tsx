@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import kebabCase from "lodash/kebabCase";
 
-export type ColorSchemeMode = "light" | "dark";
+export type ColorScheme = "light" | "dark";
 
 export type ThemeInstance = {
   textColor: string;
@@ -16,141 +16,85 @@ export type ThemeInstance = {
 };
 
 export type Theme = {
-  [key in ColorSchemeMode]: ThemeInstance;
+  [key in ColorScheme]: ThemeInstance;
 };
-
-export type ThemeContextSchema = readonly [Theme, (theme: Theme) => void];
 
 export type ThemeProviderProps = {
   children: ReactNode;
   theme: Theme;
+  colorScheme?: ColorScheme;
 };
 
-export type ThemeVariables = {
-  [k in string]: string;
-};
+export type ThemeVariables = Record<string, string>;
 
 export type ColorSchemeContextSchema = readonly [
-  ColorSchemeMode | undefined,
-  (colorScheme: ColorSchemeMode) => void,
+  ColorScheme | undefined,
+  (colorScheme: ColorScheme) => void,
 ];
-
-export type RootColorSchemeProps = {
-  children: ReactNode;
-  mode?: ColorSchemeMode;
-};
 
 export type ColorSchemeProps = {
   children: (themeVariables: ThemeVariables) => ReactNode;
-  mode: ColorSchemeMode;
+  mode: ColorScheme;
 };
 
-const ThemeContext = createContext<ThemeContextSchema>([
-  { light: {}, dark: {} } as Theme,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  () => {},
-]);
-
-// Helper for providing type hints
-export function createTheme(theme: Theme) {
-  return theme;
-}
+const ThemeContext = createContext<Theme | null>(null);
+const ColorSchemeContext = createContext<ColorSchemeContextSchema | null>(null);
 
 export function useTheme() {
-  return useContext(ThemeContext);
+  const themeContext = useContext(ThemeContext);
+  if (!themeContext) {
+    throw new Error("useTheme() must be used within a ThemeProvier");
+  }
+  return themeContext;
+}
+
+export function useColorScheme() {
+  const colorSchemeContext = useContext(ColorSchemeContext);
+  if (!colorSchemeContext) {
+    throw new Error("useColorScheme() must be used within a ThemeProvider");
+  }
+  return colorSchemeContext;
 }
 
 export function ThemeProvider({
   theme: themeFromUser,
+  colorScheme: colorSchemeFromUser,
   children,
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => themeFromUser);
+  const parentTheme = useContext(ThemeContext);
 
-  const contextValue = useMemo(() => {
-    return [theme, setTheme] as const;
-  }, [theme, setTheme]);
+  if (parentTheme) {
+    throw new Error("There can only be one theme defined in a project");
+  }
+
+  const [theme, setTheme] = useState<Theme>(() => themeFromUser);
+  const [colorScheme, setColorScheme] = useState<ColorScheme | undefined>(
+    () => colorSchemeFromUser,
+  );
+
+  const themeContextValue = useMemo(() => {
+    return theme;
+  }, [theme]);
+
+  const colorSchemeContextValue = useMemo(() => {
+    return [colorScheme, setColorScheme] as const;
+  }, [colorScheme, setColorScheme]);
+
+  useEffect(() => {
+    setColorScheme(colorSchemeFromUser);
+  }, [colorSchemeFromUser]);
 
   useEffect(() => {
     setTheme(themeFromUser);
   }, [themeFromUser]);
 
   return (
-    <ThemeContext.Provider value={contextValue}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
-
-const ColorSchemeContext = createContext<ColorSchemeContextSchema>([
-  undefined,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  () => {},
-]);
-
-export function useColorScheme() {
-  return useContext(ColorSchemeContext);
-}
-
-export function ColorScheme({
-  mode: modeFromUser,
-  children,
-}: ColorSchemeProps) {
-  const [theme] = useTheme();
-  const [mode, setMode] = useState<ColorSchemeMode>(() => modeFromUser);
-
-  const contextValue = useMemo(() => {
-    return [mode, setMode] as const;
-  }, [mode, setMode]);
-
-  useEffect(() => {
-    setMode(modeFromUser);
-  }, [modeFromUser]);
-
-  // In a non-root context, variables need to be written to the React
-  // component directly in order for it to come through on the server:
-  //
-  // <ColorScheme mode="dark">
-  //   {(style) => (
-  //     <div style={style} />
-  //   )}
-  // </ColorScheme>
-  return (
-    <ColorSchemeContext.Provider value={contextValue}>
-      {children(getThemeInstanceVariables(theme[mode]))}
-    </ColorSchemeContext.Provider>
-  );
-}
-
-export function RootColorScheme({
-  mode: modeFromUser,
-  children,
-}: RootColorSchemeProps) {
-  const [theme] = useTheme();
-  const [mode, setMode] = useState<ColorSchemeMode | undefined>(
-    () => modeFromUser,
-  );
-
-  const contextValue = useMemo(() => {
-    return [mode, setMode] as const;
-  }, [mode, setMode]);
-
-  useEffect(() => {
-    setMode(modeFromUser);
-  }, [modeFromUser]);
-
-  // In a root context, write the variables to a style tag under the :root
-  // scope. No need to attach styles directly
-  //
-  // <ColorScheme>
-  //   <div />
-  // </ColorScheme>
-  return (
-    <ColorSchemeContext.Provider value={contextValue}>
-      <>
+    <ThemeContext.Provider value={themeContextValue}>
+      <ColorSchemeContext.Provider value={colorSchemeContextValue}>
         <style
           dangerouslySetInnerHTML={{
-            __html: mode
-              ? renderRootThemeVariables(theme[mode])
+            __html: colorScheme
+              ? renderRootThemeVariables(theme[colorScheme])
               : `${renderRootThemeVariables(theme.light)}
                 @media (prefers-color-scheme: dark) {
                   ${renderRootThemeVariables(theme.dark)}
@@ -158,9 +102,35 @@ export function RootColorScheme({
           }}
         />
         {children}
-      </>
+      </ColorSchemeContext.Provider>
+    </ThemeContext.Provider>
+  );
+}
+
+export function ColorSchemeProvider({
+  mode: modeFromUser,
+  children,
+}: ColorSchemeProps) {
+  const theme = useTheme();
+  const [mode, setMode] = useState<ColorScheme>(() => modeFromUser);
+
+  const contextValue = useMemo(() => {
+    return [mode, setMode] as const;
+  }, [mode, setMode]);
+
+  useEffect(() => {
+    setMode(modeFromUser);
+  }, [modeFromUser]);
+
+  return (
+    <ColorSchemeContext.Provider value={contextValue}>
+      {children(getThemeInstanceVariables(theme[mode]))}
     </ColorSchemeContext.Provider>
   );
+}
+
+export function createTheme(theme: Theme) {
+  return theme;
 }
 
 export function getThemeInstanceVariables(themeInstance: ThemeInstance) {

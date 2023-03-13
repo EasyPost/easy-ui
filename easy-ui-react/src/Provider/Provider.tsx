@@ -1,18 +1,12 @@
 import React, { ReactElement } from "react";
-import {
-  ThemeProvider,
-  Theme,
-  createTheme,
-  RootColorScheme,
-  ColorSchemeMode,
-} from "../Theme";
+import { ColorScheme, createTheme, Theme, ThemeProvider } from "../Theme";
 
 import "../styles/global.scss";
 
 export interface ProviderProps {
   children: ReactElement;
   theme?: Theme;
-  colorScheme?: ColorSchemeMode;
+  colorScheme?: ColorScheme;
 }
 
 const DEFAULT_THEME = createTheme({
@@ -32,8 +26,8 @@ export function Provider({
   colorScheme,
 }: ProviderProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <RootColorScheme mode={colorScheme}>{children}</RootColorScheme>
+    <ThemeProvider theme={theme} colorScheme={colorScheme}>
+      {children}
     </ThemeProvider>
   );
 }

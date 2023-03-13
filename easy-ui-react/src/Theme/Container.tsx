@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { ColorScheme, useColorScheme } from "./Theme";
+import { ColorSchemeProvider, useColorScheme } from "./Theme";
 
 import styles from "./Container.module.scss";
 
@@ -12,12 +12,12 @@ export type ContainerProps = {
 export function Container({ children }: ContainerProps) {
   const [colorScheme] = useColorScheme();
   return (
-    <ColorScheme mode={colorScheme === "light" ? "dark" : "light"}>
+    <ColorSchemeProvider mode={colorScheme === "light" ? "dark" : "light"}>
       {(style) => (
         <div className={styles.Container} style={style}>
           {children}
         </div>
       )}
-    </ColorScheme>
+    </ColorSchemeProvider>
   );
 }
