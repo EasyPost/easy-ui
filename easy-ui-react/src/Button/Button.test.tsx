@@ -24,13 +24,13 @@ describe("<Button />", () => {
   });
 
   it("should render a button with a left aligned icon", () => {
-    render(<Button startIcon={<Icon symbol={CheckCircleIcon} />} />);
+    render(<Button iconAtStart={<Icon symbol={CheckCircleIcon} />} />);
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });
 
   it("should render a button with a right aligned icon", () => {
-    render(<Button endIcon={<Icon symbol={CheckCircleIcon} />} />);
+    render(<Button iconAtEnd={<Icon symbol={CheckCircleIcon} />} />);
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });

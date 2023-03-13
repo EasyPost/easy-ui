@@ -62,6 +62,10 @@
   border-style: solid;
   border-width: var(--ezui-shape-border-width-1);
 
+  &:link {
+    text-decoration: none;
+  }
+
   &:disabled {
     color: var(--ezui-color-gray-300);
     border-color: var(--ezui-color-gray-300);
@@ -75,6 +79,10 @@
 
 .variantFilled {
   border: 0;
+
+  &:link {
+    text-decoration: none;
+  }
 
   &:disabled {
     background-color: var(--ezui-color-gray-200);
@@ -92,13 +100,6 @@
   text-decoration: underline;
   &:focus {
     border-style: solid;
-  }
-}
-
-.variantFilled,
-.variantOutlined {
-  &:link {
-    text-decoration: none;
   }
 }
 
