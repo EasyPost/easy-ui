@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode, useRef } from "react";
 import { IconProps } from "Icon";
-import { useButton } from "@react-aria/button";
+import { useButton } from "react-aria";
 import { classNames, variationName } from "../utilities/css";
 
 import styles from "./Button.module.scss";

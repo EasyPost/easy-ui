@@ -9,16 +9,16 @@ export type ButtonColor =
   | "neutral"
   | "support"
   | "inverse";
-export type ButtonAppearance = "filled" | "outlined" | "link";
+export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
 
 export type ButtonProps = {
   /** Button color */
   // Defaults to primary
   color?: ButtonColor;
-  /** Button appearance */
+  /** Button variant */
   // Defaults to filled
-  appearance?: ButtonAppearance;
+  variant?: ButtonVariant;
   /** Button size */
   // Defaults to md
   size?: ButtonSize;
@@ -30,10 +30,10 @@ export type ButtonProps = {
   isBlock?: boolean;
   /** Positions icon before children */
   // Defaults to null, only valid with md size
-  startIcon?: ReactElement<IconProps>;
+  iconAtStart?: ReactElement<IconProps>;
   /** Positions icon after children */
   // Defaults to null, only valid with md size
-  endIcon?: ReactElement<IconProps>;
+  iconAtEnd?: ReactElement<IconProps>;
   /** Content inside button  */
   // Defaults to "Button"
   children?: ReactNode;
@@ -57,14 +57,14 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 <Button color="neutral" />
 
 // Outlined
-<Button color="primary" appearance="outlined" />
-<Button color="secondary" appearance="outlined" />
-<Button color="success" appearance="outlined" />
-<Button color="support" appearance="outlined" />
-<Button color="inverse" appearance="outlined" />
+<Button color="primary" variant="outlined" />
+<Button color="secondary" variant="outlined" />
+<Button color="success" variant="outlined" />
+<Button color="support" variant="outlined" />
+<Button color="inverse" variant="outlined" />
 
 // Link
-<Button color="primary" appearance="link" />
+<Button color="primary" variant="link" />
 
 // Href
 <Button color="primary"  href="https://www.easypost.com/" />
@@ -76,7 +76,7 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 <Button>Login</Button>
 
 // Icon
-<Button color="neutral" startIcon={<Icon symbol={AddIcon}/>} />
+<Button color="neutral" iconAtStart={<Icon symbol={AddIcon}/>} />
 
 // Click event
 <Button onPress={myEventHandler} />
