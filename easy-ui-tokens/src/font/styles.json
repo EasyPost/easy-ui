@@ -103,7 +103,7 @@
       "button": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.medium.value}" },
-        "size": { "value": "{font.size.125.value}" },
+        "size": { "value": "{font.size.100.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
         },
