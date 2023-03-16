@@ -1,18 +1,11 @@
 import React, { ReactElement, ReactNode, useRef } from "react";
-import { IconProps } from "Icon";
+import { IconProps } from "../Icon";
 import { useButton } from "react-aria";
 import { classNames, variationName } from "../utilities/css";
+import { ButtonColor } from "../types";
 
 import styles from "./Button.module.scss";
 
-export type ButtonColor =
-  | "primary"
-  | "secondary"
-  | "success"
-  | "warning"
-  | "neutral"
-  | "support"
-  | "inverse";
 export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
 
@@ -75,15 +68,15 @@ export function Button(props: ButtonProps) {
         styles[variationName("color", color)],
         styles[variationName("variant", variant)],
         styles[variationName("size", size)],
-        isBlock && styles.ButtonBlock,
+        isBlock && styles.block,
       )}
       {...elementProps}
     >
       {iconAtStart && canUseIcon && React.cloneElement(iconAtStart)}
       <span
         className={classNames(
-          iconAtStart && canUseIcon && styles.StartIcon,
-          iconAtEnd && canUseIcon && styles.EndIcon,
+          iconAtStart && canUseIcon && styles.iconAtStart,
+          iconAtEnd && canUseIcon && styles.iconAtEnd,
         )}
       >
         {children}

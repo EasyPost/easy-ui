@@ -1,4 +1,5 @@
 @import "../styles/common";
+@import "../styles/common-button";
 
 .Button {
   display: inline-flex;
@@ -18,122 +19,50 @@
 }
 
 .colorPrimary {
-  color: var(--ezui-color-blue-500);
-  border-color: var(--ezui-color-blue-500);
-  background-color: var(--ezui-color-blue-500);
+  @include button-primary-color-aliases();
 }
 
 .colorSecondary {
-  color: var(--ezui-color-purple-500);
-  border-color: var(--ezui-color-purple-500);
-  background-color: var(--ezui-color-purple-500);
+  @include button-secondary-color-aliases();
 }
 
 .colorSuccess {
-  color: var(--ezui-color-green-500);
-  border-color: var(--ezui-color-green-500);
-  background-color: var(--ezui-color-green-500);
+  @include button-success-color-aliases();
 }
 
 .colorWarning {
-  color: var(--ezui-color-red-500);
-  border-color: var(--ezui-color-red-500);
-  background-color: var(--ezui-color-red-500);
+  @include button-warning-color-aliases();
 }
 
 .colorNeutral {
-  color: var(--ezui-color-white);
-  border-color: var(--ezui-color-blue-800);
-  background-color: var(--ezui-color-blue-800);
+  @include button-neutral-color-aliases();
 }
 
 .colorSupport {
-  color: var(--ezui-color-blue-800);
-  border-color: var(--ezui-color-blue-800);
+  @include button-support-color-aliases();
 }
 
 .colorInverse {
-  color: var(--ezui-color-white);
-  border-color: var(--ezui-color-white);
-}
-
-.variantOutlined {
-  background-color: transparent;
-  border-style: solid;
-  border-width: var(--ezui-shape-border-width-1);
-
-  &:link {
-    text-decoration: none;
-  }
-
-  &:disabled {
-    color: var(--ezui-color-gray-300);
-    border-color: var(--ezui-color-gray-300);
-  }
-  &:active:not(:disabled) {
-    &:focus {
-      box-shadow: none;
-    }
-  }
+  @include button-inverse-color-aliases();
 }
 
 .variantFilled {
-  border: 0;
+  @include button-filled-variant-styles();
+}
 
-  &:link {
-    text-decoration: none;
-  }
-
-  &:disabled {
-    background-color: var(--ezui-color-gray-200);
-  }
-  &:not(:disabled):active {
-    &:focus {
-      box-shadow: var(--ezui-shadow-button);
-    }
-  }
+.variantOutlined {
+  @include button-outlined-variant-styles();
 }
 
 .variantLink {
+  color: var(--ezui-c-button-resting-color);
   background-color: transparent;
   border: var(--ezui-shape-border-width-1) solid transparent;
   text-decoration: underline;
-  &:focus {
-    border-style: solid;
-  }
-}
-
-.colorPrimary.variantFilled {
-  color: var(--ezui-color-white);
 
   &:focus {
-    background-color: var(--ezui-color-blue-600);
-  }
-
-  &:not(:disabled):active {
-    background-color: var(--ezui-color-blue-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    background-color: var(--ezui-color-blue-600);
-  }
-}
-
-.colorPrimary.variantOutlined {
-  &:active:not(:disabled) {
-    color: var(--ezui-color-blue-700);
-    border-color: var(--ezui-color-blue-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-color-blue-600);
-    border-color: var(--ezui-color-blue-600);
-  }
-}
-
-.colorPrimary.variantLink {
-  &:focus {
-    border-color: var(--ezui-color-blue-500);
+    border: var(--ezui-shape-border-width-1) solid
+      var(--ezui-c-button-hover-focus-color);
   }
 
   &:disabled {
@@ -141,150 +70,19 @@
   }
 
   &:active:not(:disabled) {
-    color: var(--ezui-color-blue-700);
+    color: var(--ezui-c-button-active-color);
   }
 
   &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-color-blue-600);
+    color: var(--ezui-c-button-hover-focus-color);
   }
 }
 
-.colorSecondary.variantFilled {
-  color: var(--ezui-color-white);
-  &:focus {
-    background-color: var(--ezui-color-purple-800);
-  }
-
-  &:not(:disabled):active {
-    background-color: var(--ezui-color-purple-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    background-color: var(--ezui-color-purple-800);
-  }
-}
-
-.colorSecondary.variantOutlined {
-  &:active:not(:disabled) {
-    color: var(--ezui-color-purple-700);
-    border-color: var(--ezui-color-purple-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-color-purple-600);
-    border-color: var(--ezui-color-purple-600);
-  }
-}
-
-.colorSecondary.variantLink {
-  &:focus {
-    border-color: var(--ezui-color-purple-500);
-  }
-
-  &:disabled {
-    color: var(--ezui-color-gray-300);
-  }
-
-  &:active:not(:disabled) {
-    color: var(--ezui-color-purple-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-color-purple-600);
-  }
-}
-
-.colorSuccess.variantFilled {
-  color: var(--ezui-color-blue-800);
-
-  &:focus {
-    background-color: var(--ezui-color-green-600);
-  }
-
-  &:not(:disabled):active {
-    color: var(--ezui-color-white);
-    background-color: var(--ezui-color-green-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    background-color: var(--ezui-color-green-600);
-  }
-}
-
-.colorSuccess.variantOutlined {
-  &:active:not(:disabled) {
-    color: var(--ezui-color-green-700);
-    border-color: var(--ezui-color-green-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-color-green-600);
-    border-color: var(--ezui-color-green-600);
-  }
-}
-
-.colorWarning.variantFilled {
-  color: var(--ezui-color-blue-800);
-  &:focus {
-    background-color: var(--ezui-color-red-600);
-  }
-
-  &:not(:disabled):active {
-    background-color: var(--ezui-color-red-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    background-color: var(--ezui-color-red-600);
-  }
-}
-
-.colorWarning.variantOutlined {
-  &:active:not(:disabled) {
-    color: var(--ezui-color-red-700);
-    border-color: var(--ezui-color-red-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-color-red-600);
-    border-color: var(--ezui-color-red-600);
-  }
-}
-
-.colorNeutral.variantFilled {
-  &:focus {
-    background-color: var(--ezui-color-black);
-  }
-
-  &:not(:disabled):active {
-    background-color: var(--ezui-color-blue-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    background-color: var(--ezui-color-black);
-  }
-}
-
-.colorSupport.variantOutlined {
-  &:active:not(:disabled) {
-    color: var(--ezui-color-gray-700);
-    border-color: var(--ezui-color-gray-700);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-color-black);
-    border-color: var(--ezui-color-black);
-  }
-}
-
-.sizeMd.variantFilled,
-.sizeMd.variantOutlined,
-.sizeMd.variantLink {
+.sizeMd {
   @include font-style("button");
 }
 
-.sizeSm.variantFilled,
-.sizeSm.variantOutlined,
-.sizeSm.variantLink {
+.sizeSm {
   @include font-style("small-button");
 }
 
@@ -307,15 +105,15 @@
   padding: calc(#{var(--ezui-space-1)} - #{var(--ezui-shape-border-width-1)});
 }
 
-.ButtonBlock {
+.block {
   display: flex;
   width: 100%;
 }
 
-.StartIcon {
+.iconAtStart {
   margin-left: var(--ezui-space-1);
 }
 
-.EndIcon {
+.iconAtEnd {
   margin-right: var(--ezui-space-1);
 }

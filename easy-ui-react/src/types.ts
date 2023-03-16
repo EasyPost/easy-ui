@@ -47,3 +47,12 @@ type IconSymbolProps = React.SVGProps<SVGSVGElement> & {
 };
 
 export type IconSymbol = React.FunctionComponent<IconSymbolProps>;
+
+export type ButtonColor =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "neutral"
+  | "support"
+  | "inverse";
