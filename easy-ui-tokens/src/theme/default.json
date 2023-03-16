@@ -1,0 +1,16 @@
+{
+  "theme.default": {
+    "name": { "value": "default" },
+    "font.family": { "value": "{font.family.sans.value}" },
+    "colors": {
+      "light": {
+        "text.color": { "value": "{color.blue.800}" },
+        "background.color": { "value": "{color.blue.100}" }
+      },
+      "dark": {
+        "text.color": { "value": "{color.blue.100}" },
+        "background.color": { "value": "{color.blue.800}" }
+      }
+    }
+  }
+}

@@ -22,7 +22,7 @@ Easy UI needs to faciliate intentional and systematic customization of specific 
 
 ## Decision Outcome
 
-We will use a context-driven, disparate theme and color scheme system to accomplish theming throughout Easy UI.
+We will use a context-driven, nestable `<ThemeProvider />` with built-in color scheme support to accomplish theming throughout Easy UI.
 
 ## More Information
 
@@ -30,107 +30,197 @@ A theme is a system that encompasses changes to any visual aspect of Easy UI, su
 
 A color scheme is a subset of a theme that only affects colors.
 
-These terms carry significance in Easy UI. A theme is setup once and considered static; a color scheme is defined initially and can be set multiple times in nested contexts.
+Easy UI will have built-in color scheme management. This means that `colorScheme` is a distinct property of theming and requires a specific theme configuration to take into account `light` and `dark` modes. A developer using Easy UI can provide `light`, `dark`, `system`, or `inverted` as the color scheme.
 
-### Supplemental decisions
-
-- There can only be one theme defined in a project
-- A theme must consist of a `light` and `dark` variant
-- Color scheme defaults to what is set by the user's system
-- Color schemes can be nested to allow for differing modes within modes
-
-### Providing for themes in Easy UI
+_Force a `dark` or `light` color scheme:_
 
 ```jsx
-import { ThemeProvider, createTheme } from "./Theme";
+// external-app/src/App.tsx
 
-const theme = createTheme({
-  light: {
-    textColor: "black",
-    backgroundColor: "white",
-  },
-  dark: {
-    textColor: "white",
-    backgroundColor: "black",
-  },
-});
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 
-// Without a specified color scheme, it defaults to the system theme
-function App({ children }) {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+function App() {
+  return (
+    <EasyUIProvider colorScheme="dark">
+      <div>{children}</div>
+    </EasyUIProvider>
+  );
 }
 
-// To provide a static color scheme
-function App({ children }) {
+function App() {
   return (
-    <ThemeProvider theme={theme} colorScheme="light">
-      {children}
-    </ThemeProvider>
+    <EasyUIProvider colorScheme="light">
+      <div>{children}</div>
+    </EasyUIProvider>
   );
 }
 ```
 
-As part of setup, the ThemeProvider will inline `:root` CSS variables based on the specified theme configuration and color scheme. These CSS variables are sent with the server preventing inaccurate flashes of themes. These CSS variables are then able to be referenced in component CSS.
+_Use the system's color scheme:_
 
-### Reading theme configuration
+```jsx
+// external-app/src/App.tsx
+
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+
+function App() {
+  return (
+    <EasyUIProvider colorScheme="system">
+      <div>{children}</div>
+    </EasyUIProvider>
+  );
+}
+
+// `system` is the default mode
+function App() {
+  return (
+    <EasyUIProvider>
+      <div>{children}</div>
+    </EasyUIProvider>
+  );
+}
+```
+
+_Themes can be nested and overriden:_
+
+```jsx
+// external-app/src/App.tsx
+
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+import { ThemeProvider } from "@easypost/easy-ui/Theme";
+
+function App() {
+  return (
+    <EasyUIProvider colorScheme="light">
+      <div>
+        <div>{navigation}</div>
+        <ThemeProvider colorScheme="dark">
+          <div>{children}</div>
+        </ThemeProvider>
+      </div>
+    </EasyUIProvider>
+  );
+}
+```
+
+_Themes can be inverted:_
+
+```jsx
+// external-app/src/App.tsx
+
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+import { ThemeProvider } from "@easypost/easy-ui/Theme";
+
+function App() {
+  return (
+    <EasyUIProvider colorScheme="system">
+      <div>
+        <div>{navigation}</div>
+        <ThemeProvider colorScheme="inverted">
+          {/* Colors will be opposite of whatever is the system theme */}
+          <div>{children}</div>
+        </ThemeProvider>
+      </div>
+    </EasyUIProvider>
+  );
+}
+```
+
+_Themes can be customized:_
+
+```jsx
+// external-app/src/App.tsx
+
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+import { createTheme } from "@easypost/easy-ui/Theme";
+
+// createTheme() provides type hints for expected configuration
+
+const redTheme = createTheme({
+  fontFamily: "Helvetica, sans",
+  colors: {
+    light: {
+      textColor: "#ff0000",
+      backgroundColor: "#ffffff",
+    },
+    dark: {
+      textColor: "#ffffff",
+      backgroundColor: "#ff0000",
+    },
+  },
+});
+
+const greenTheme = createTheme({
+  fontFamily: "Helvetica, sans",
+  colors: {
+    light: {
+      textColor: "#00ff00",
+      backgroundColor: "#ffffff",
+    },
+    dark: {
+      textColor: "#ffffff",
+      backgroundColor: "#00ff00",
+    },
+  },
+});
+
+function App() {
+  return (
+    <EasyUIProvider theme={redTheme}>
+      <div>
+        <div>{navigation}</div>
+        <ThemeProvider theme={greenTheme}>
+          <div>{children}</div>
+        </ThemeProvider>
+      </div>
+    </EasyUIProvider>
+  );
+}
+```
+
+_Reading theme configuration:_
 
 ```jsx
 import { useTheme, useColorScheme } from "./Theme";
 
 function Component({ children }) {
-  const theme = useTheme();
+  const [theme, setTheme] = useTheme();
   const [colorScheme, setColorScheme] = useColorScheme();
   // read theme
-  //   { light: { textColor }, dark: { textColor } }
+  //   { fontFamily: "", colors: { light: { textColor }, dark: { textColor } } }
   // read color scheme
-  //   light | dark | undefined
+  //   light | dark | system | inverted
   return <div />;
 }
 ```
 
-From within the inner component tree, theme and color scheme are referenced independently.
-
-### Creating a new color scheme context
-
-```jsx
-import { ColorSchemeProvider } from "./Theme";
-
-function ThemeAwareContainer({ children }) {
-  return (
-    <ColorSchemeProvider mode="dark">
-      {(style) => (
-        <div style={style} />;
-      )}
-    </ColorSchemeProvider>
-  );
-}
-```
-
-A new color scheme context provides the color scheme-specific CSS variables as inline styles to the specified DOM element. This allows styles to be supplied as part of the server rendering process, eliminating flashes of inaccurate color scheme. The `<ColorSchemeProvider />` is headless, defering all styles to the element rendered within it. Components under a color scheme tree will automatically take on the color of that particular scheme.
-
-### Using theme variables
+### Using theme variables in Easy UI
 
 Theme configuration is mapped to CSS variables.
 
 ```js
 const theme = createTheme({
-  light: {
-    textColor: "black",
-    backgroundColor: "white",
-  },
-  dark: {
-    textColor: "white",
-    backgroundColor: "black",
+  fontFamily: "Helvetica, sans",
+  colors: {
+    light: {
+      textColor: "black",
+      backgroundColor: "white",
+    },
+    dark: {
+      textColor: "white",
+      backgroundColor: "black",
+    },
   },
 });
 ```
 
-The names of the variables are the same as what is defined in the theme only in CSS syntax. Each variable holds the backing primitive of the most immediate color scheme context.
+The names of the variables are the same as in the theme configuration—only in CSS syntax. Each variable holds the backing primitive of the most immediate theme and color scheme context.
 
 ```css
 .Button {
-  color: var(--ezui-text-color);
-  background: var(--ezui-background-color);
+  font-family: var(--ezui-t-font-family);
+  color: var(--ezui-t-text-color);
+  background: var(--ezui-t-background-color);
 }
 ```
 
