@@ -1,6 +1,6 @@
 import React, { ReactNode, useRef } from "react";
 import { Icon } from "../Icon";
-import { useButton } from "@react-aria/button";
+import { useButton } from "react-aria";
 import ExpandMoreIcon from "@easypost/easy-ui-icons/ExpandMore";
 import { classNames, variationName } from "../utilities/css";
 
