@@ -1,6 +1,7 @@
 {
   "name": "@easypost/stylelint-easy-ui",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "private": true,
   "devDependencies": {
     "stylelint-config-prettier": "^9.0.4",
     "stylelint-config-recommended-scss": "^9.0.1",

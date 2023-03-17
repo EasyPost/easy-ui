@@ -13,7 +13,12 @@
     "test:watch": "vitest"
   },
   "exports": {
-    "./*": "./dist/*"
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js",
+      "default": "./dist/*"
+    }
   },
   "sideEffects": [
     "**/*.css"
