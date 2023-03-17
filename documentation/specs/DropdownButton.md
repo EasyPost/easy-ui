@@ -29,7 +29,7 @@ export type DropdownButtonProps = {
 ## Example
 
 ```jsx
-import DropdownButton from "@easypost/easy-ui/Button";
+import DropdownButton from "@easypost/easy-ui/DropdownButton";
 // Filled
 <DropdownButton color="primary" />
 <DropdownButton color="secondary" />
