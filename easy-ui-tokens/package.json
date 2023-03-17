@@ -12,9 +12,11 @@
     "./json/*": "./dist/json/*"
   },
   "scripts": {
-    "build": "style-dictionary build"
+    "build": "run-p build:*",
+    "build:tokens": "style-dictionary build",
+    "build:pkg": "node ../scripts/copyPkgJsonForDist.mjs"
   },
-  "dependencies": {
+  "devDependencies": {
     "style-dictionary": "^3.7.2"
   }
 }

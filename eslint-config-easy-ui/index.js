@@ -18,7 +18,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["**/*.js", "**/*.jsx"],
+      files: ["**/*.js", "**/*.mjs", "**/*.jsx"],
       extends: ["eslint:recommended"],
       parserOptions: {
         ecmaVersion: "2021",
