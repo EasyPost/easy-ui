@@ -1,0 +1,67 @@
+@import "../styles/common";
+@import "../styles/common-button";
+
+.DropdownButton {
+  @include font-style("button");
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ezui-space-2);
+  border-radius: var(--ezui-shape-border-radius-base);
+  cursor: pointer;
+
+  &:focus {
+    box-shadow: var(--ezui-shadow-button);
+    outline: none;
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.colorPrimary {
+  @include button-primary-color-aliases();
+}
+
+.colorSecondary {
+  @include button-secondary-color-aliases();
+}
+
+.colorSuccess {
+  @include button-success-color-aliases();
+}
+
+.colorWarning {
+  @include button-warning-color-aliases();
+}
+
+.colorNeutral {
+  @include button-neutral-color-aliases();
+}
+
+.colorSupport {
+  @include button-support-color-aliases();
+}
+
+.colorInverse {
+  @include button-inverse-color-aliases();
+}
+
+.variantFilled {
+  @include button-filled-variant-styles();
+  padding: var(--ezui-space-1-5) var(--ezui-space-2);
+}
+
+.variantOutlined {
+  @include button-outlined-variant-styles();
+  padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
+    calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
+}
+
+.pipeSeparator {
+  width: var(--ezui-space-0);
+  height: var(--ezui-space-2);
+  border-left-width: var(--ezui-shape-border-width-1);
+  border-left-style: solid;
+}

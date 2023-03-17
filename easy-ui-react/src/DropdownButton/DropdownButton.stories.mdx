@@ -1,0 +1,94 @@
+import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
+import { createLabelledOptionsControl } from "../utilities/storybook";
+import { DropdownButton } from "./DropdownButton";
+
+<Meta
+  title="Components/DropdownButton"
+  argTypes={{
+    children: {
+      control: "text",
+    },
+  }}
+  component={DropdownButton}
+/>
+
+export const Template = (args) => <DropdownButton {...args} />;
+
+export const buttonContainerStyles = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  flexWrap: "wrap",
+};
+
+export const inverseBackground = {
+  backgroundColor: "var(--ezui-color-blue-800)",
+  padding: "12px",
+};
+
+# DropdownButton
+
+<Canvas>
+  <Story name="Default" args={{}}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Filled buttons
+
+<Canvas>
+  <Story name="FilledButtons">
+    <div style={buttonContainerStyles}>
+      <DropdownButton />
+      <DropdownButton color="secondary" />
+      <DropdownButton color="success" />
+      <DropdownButton color="warning" />
+      <DropdownButton color="neutral" />
+    </div>
+  </Story>
+</Canvas>
+
+## Outlined buttons
+
+<Canvas>
+  <Story name="OutlinedButtons">
+    <div style={buttonContainerStyles}>
+      <DropdownButton variant="outlined" />
+      <DropdownButton color="secondary" variant="outlined" />
+      <DropdownButton color="success" variant="outlined" />
+      <DropdownButton color="warning" variant="outlined" />
+      <DropdownButton color="support" variant="outlined" />
+    </div>
+  </Story>
+</Canvas>
+
+## Inverse button
+
+<Canvas>
+  <Story name="InverseButtons">
+    <div style={{ ...inverseBackground, ...buttonContainerStyles }}>
+      <DropdownButton color="inverse" variant="outlined" />
+    </div>
+  </Story>
+</Canvas>
+
+## Disabled buttons
+
+<Canvas>
+  <Story name="DisabledButtons">
+    <div style={buttonContainerStyles}>
+      <DropdownButton isDisabled />
+      <DropdownButton variant="outlined" isDisabled />
+    </div>
+  </Story>
+</Canvas>
+
+## Click event
+
+<Canvas>
+  <Story name="ClickEvent">
+    <div style={buttonContainerStyles}>
+      <DropdownButton onPress={() => alert("clicked!")} />
+    </div>
+  </Story>
+</Canvas>
