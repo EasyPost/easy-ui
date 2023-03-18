@@ -4,9 +4,10 @@ import { useButton } from "react-aria";
 import { Icon } from "../Icon";
 import { ButtonColor } from "../types";
 import { classNames, variationName } from "../utilities/css";
-import { LogWarningIfInvalidColorVariantCombination } from "../utilities/button";
+import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 
 import styles from "./DropdownButton.module.scss";
+import commonButtonStyles from "../Button/Button.module.scss";
 
 export type DropdownButtonVariant = "filled" | "outlined";
 
@@ -32,7 +33,7 @@ export function DropdownButton(props: DropdownButtonProps) {
   const ref = useRef(null);
   const { buttonProps } = useButton(props, ref);
 
-  LogWarningIfInvalidColorVariantCombination(color, variant);
+  logWarningIfInvalidColorVariantCombination(color, variant);
 
   return (
     <button
@@ -40,14 +41,14 @@ export function DropdownButton(props: DropdownButtonProps) {
       ref={ref}
       className={classNames(
         styles.DropdownButton,
-        styles[variationName("color", color)],
-        styles[variationName("variant", variant)],
+        commonButtonStyles[variationName("color", color)],
+        commonButtonStyles[variationName("variant", variant)],
       )}
       {...buttonProps}
     >
       <span>{children}</span>
       <div className={classNames(styles.pipeSeparator)}></div>
-      <Icon symbol={ExpandMoreIcon} size="sm" />
+      <Icon symbol={ExpandMoreIcon} />
     </button>
   );
 }

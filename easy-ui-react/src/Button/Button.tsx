@@ -3,7 +3,7 @@ import { useButton } from "react-aria";
 import { IconProps } from "../Icon";
 import { classNames, variationName } from "../utilities/css";
 import { ButtonColor } from "../types";
-import { LogWarningIfInvalidColorVariantCombination } from "../utilities/button";
+import { logWarningIfInvalidColorVariantCombination } from "./utilities";
 
 import styles from "./Button.module.scss";
 
@@ -53,7 +53,7 @@ export function Button(props: ButtonProps) {
   const canUseIcon =
     (iconAtEnd || iconAtStart) && variant !== "link" && size !== "sm";
 
-  LogWarningIfInvalidColorVariantCombination(color, variant);
+  logWarningIfInvalidColorVariantCombination(color, variant);
 
   return (
     <As

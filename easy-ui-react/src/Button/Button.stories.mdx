@@ -19,17 +19,27 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 
 export const Template = (args) => <Button {...args} />;
 
-export const buttonContainerStyles = {
+export const buttonStoryStyles = {
   display: "flex",
   alignItems: "center",
   gap: "12px",
   flexWrap: "wrap",
 };
 
-export const inverseBackground = {
+export const buttonStoryOnDarkBackgroundStyles = {
   backgroundColor: "var(--ezui-color-blue-800)",
   padding: "12px",
 };
+
+export const ButtonStoryDecorator = (story) => (
+  <div style={buttonStoryStyles}>{story()}</div>
+);
+
+export const ButtonStoryOnDarkBackgroundStyles = (story) => (
+  <div style={{ ...buttonStoryOnDarkBackgroundStyles, ...buttonStoryStyles }}>
+    {story()}
+  </div>
+);
 
 # Button
 
@@ -42,115 +52,97 @@ export const inverseBackground = {
 ## Filled buttons
 
 <Canvas>
-  <Story name="FilledButtons">
-    <div style={buttonContainerStyles}>
-      <Button />
-      <Button color="secondary" />
-      <Button color="success" />
-      <Button color="warning" />
-      <Button color="neutral" />
-      <Button size="sm" />
-      <Button color="secondary" size="sm" />
-      <Button color="success" size="sm" />
-      <Button color="warning" size="sm" />
-      <Button color="neutral" size="sm" />
-    </div>
+  <Story name="FilledButtons" decorators={[ButtonStoryDecorator]}>
+    <Button />
+    <Button color="secondary" />
+    <Button color="success" />
+    <Button color="warning" />
+    <Button color="neutral" />
+    <Button size="sm" />
+    <Button color="secondary" size="sm" />
+    <Button color="success" size="sm" />
+    <Button color="warning" size="sm" />
+    <Button color="neutral" size="sm" />
   </Story>
 </Canvas>
 
 ## Outlined buttons
 
 <Canvas>
-  <Story name="OutlinedButtons">
-    <div style={buttonContainerStyles}>
-      <Button variant="outlined" />
-      <Button color="secondary" variant="outlined" />
-      <Button color="success" variant="outlined" />
-      <Button color="warning" variant="outlined" />
-      <Button color="support" variant="outlined" />
-      <Button variant="outlined" size="sm" />
-      <Button color="secondary" variant="outlined" size="sm" />
-      <Button color="success" variant="outlined" size="sm" />
-      <Button color="warning" variant="outlined" size="sm" />
-      <Button color="support" variant="outlined" size="sm" />
-    </div>
+  <Story name="OutlinedButtons" decorators={[ButtonStoryDecorator]}>
+    <Button variant="outlined" />
+    <Button color="secondary" variant="outlined" />
+    <Button color="success" variant="outlined" />
+    <Button color="warning" variant="outlined" />
+    <Button color="support" variant="outlined" />
+    <Button variant="outlined" size="sm" />
+    <Button color="secondary" variant="outlined" size="sm" />
+    <Button color="success" variant="outlined" size="sm" />
+    <Button color="warning" variant="outlined" size="sm" />
+    <Button color="support" variant="outlined" size="sm" />
   </Story>
 </Canvas>
 
 ## Link buttons
 
 <Canvas>
-  <Story name="LinkButtons">
-    <div style={buttonContainerStyles}>
-      <Button variant="link" />
-      <Button color="secondary" variant="link" />
-    </div>
+  <Story name="LinkButtons" decorators={[ButtonStoryDecorator]}>
+    <Button variant="link" />
+    <Button color="secondary" variant="link" />
   </Story>
 </Canvas>
 
 ## Inverse buttons
 
 <Canvas>
-  <Story name="InverseButtons">
-    <div style={{ ...inverseBackground, ...buttonContainerStyles }}>
-      <Button color="inverse" variant="outlined" />
-      <Button color="inverse" variant="outlined" size="sm" />
-    </div>
+  <Story name="InverseButtons" decorators={[ButtonStoryOnDarkBackgroundStyles]}>
+    <Button color="inverse" variant="outlined" />
+    <Button color="inverse" variant="outlined" size="sm" />
   </Story>
 </Canvas>
 
 ## With href
 
 <Canvas>
-  <Story name="WithHref">
-    <div style={buttonContainerStyles}>
-      <Button href="https://www.easypost.com/" />
-      <Button variant="outlined" href="https://www.easypost.com/" />
-    </div>
+  <Story name="WithHref" decorators={[ButtonStoryDecorator]}>
+    <Button href="https://www.easypost.com/" />
+    <Button variant="outlined" href="https://www.easypost.com/" />
   </Story>
 </Canvas>
 
 ## With icons
 
 <Canvas>
-  <Story name="WithIcons">
-    <div style={buttonContainerStyles}>
-      <Button iconAtEnd={<Icon symbol={CheckCircleIcon} />} />
-      <Button color="neutral" iconAtEnd={<Icon symbol={AddIcon} />} />
-      <Button color="success" iconAtStart={<Icon symbol={ArrowBackIcon} />} />
-      <Button color="warning" iconAtStart={<Icon symbol={InfoIcon} />} />
-    </div>
+  <Story name="WithIcons" decorators={[ButtonStoryDecorator]}>
+    <Button iconAtEnd={<Icon symbol={CheckCircleIcon} />} />
+    <Button color="neutral" iconAtEnd={<Icon symbol={AddIcon} />} />
+    <Button color="success" iconAtStart={<Icon symbol={ArrowBackIcon} />} />
+    <Button color="warning" iconAtStart={<Icon symbol={InfoIcon} />} />
   </Story>
 </Canvas>
 
 ## Block button
 
 <Canvas>
-  <Story name="BlockButton">
-    <div style={buttonContainerStyles}>
-      <Button isBlock />
-    </div>
+  <Story name="BlockButton" decorators={[ButtonStoryDecorator]}>
+    <Button isBlock />
   </Story>
 </Canvas>
 
 ## Disabled buttons
 
 <Canvas>
-  <Story name="DisabledButtons">
-    <div style={buttonContainerStyles}>
-      <Button isDisabled />
-      <Button variant="outlined" isDisabled />
-    </div>
+  <Story name="DisabledButtons" decorators={[ButtonStoryDecorator]}>
+    <Button isDisabled />
+    <Button variant="outlined" isDisabled />
   </Story>
 </Canvas>
 
 ## Click event
 
 <Canvas>
-  <Story name="ClickEvent">
-    <div style={buttonContainerStyles}>
-      <Button onPress={() => alert("clicked!")} />
-    </div>
+  <Story name="ClickEvent" decorators={[ButtonStoryDecorator]}>
+    <Button onPress={() => alert("clicked!")} />
   </Story>
 </Canvas>
 
