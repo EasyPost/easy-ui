@@ -9,5 +9,7 @@
     "@easypost/eslint-config-easy-ui": "0.0.0",
     "@easypost/stylelint-easy-ui": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "tricky-dogs-live"
+  ]
 }
