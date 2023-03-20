@@ -12,9 +12,13 @@
   "files": [
     "dist/*"
   ],
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
   "scripts": {
-    "clean": "rm -rf .turbo dist node_modules",
-    "build": "vite build --config ./vite.config.ts"
+    "build": "vite build --config ./vite.config.ts",
+    "clean": "rm -rf .turbo dist node_modules"
   },
   "devDependencies": {
     "@material-symbols/svg-300": "^0.4.5",

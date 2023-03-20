@@ -9,7 +9,7 @@ import path from "path";
  */
 export function cleanPkgJsonForDist(pkgFileContent) {
   // eslint-disable-next-line no-unused-vars
-  const { scripts, devDependencies, exports, ...restPkg } =
+  const { scripts, devDependencies, exports, publishConfig, ...restPkg } =
     JSON.parse(pkgFileContent);
   return JSON.stringify(restPkg, null, 2);
 }

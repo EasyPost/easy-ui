@@ -11,10 +11,15 @@
     "./scss/*": "./dist/scss/*",
     "./json/*": "./dist/json/*"
   },
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
   "scripts": {
     "build": "run-p build:*",
     "build:tokens": "style-dictionary build",
-    "build:pkg": "node ../scripts/copyPkgJsonForDist.mjs"
+    "build:pkg": "node ../scripts/copyPkgJsonForDist.mjs",
+    "clean": "rm -rf .turbo dist node_modules"
   },
   "devDependencies": {
     "style-dictionary": "^3.7.2"
