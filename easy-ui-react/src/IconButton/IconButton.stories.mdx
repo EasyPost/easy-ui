@@ -1,0 +1,89 @@
+import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
+import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
+import AddIcon from "@easypost/easy-ui-icons/Add";
+import {
+  ButtonStoryDecorator,
+  ButtonStoryOnDarkBackgroundDecorator,
+} from "../Button/Button.stories.mdx";
+import { createLabelledOptionsControl } from "../utilities/storybook";
+import { IconButton } from "./IconButton";
+
+<Meta
+  title="Components/Button/IconButton"
+  argTypes={{
+    symbol: createLabelledOptionsControl({
+      ArrowBack: ArrowBackIcon,
+      Add: AddIcon,
+    }),
+  }}
+  component={IconButton}
+/>
+
+export const Template = (args) => <IconButton {...args} />;
+
+# IconButton
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      symbol: ArrowBackIcon,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Filled buttons
+
+<Canvas>
+  <Story name="FilledButtons" decorators={[ButtonStoryDecorator]}>
+    <IconButton symbol={ArrowBackIcon} />
+    <IconButton color="secondary" symbol={ArrowBackIcon} />
+    <IconButton color="success" symbol={ArrowBackIcon} />
+    <IconButton color="warning" symbol={ArrowBackIcon} />
+    <IconButton color="neutral" symbol={ArrowBackIcon} />
+  </Story>
+</Canvas>
+
+## Outlined buttons
+
+<Canvas>
+  <Story name="OutlinedButtons" decorators={[ButtonStoryDecorator]}>
+    <IconButton variant="outlined" symbol={ArrowBackIcon} />
+    <IconButton color="secondary" variant="outlined" symbol={ArrowBackIcon} />
+    <IconButton color="success" variant="outlined" symbol={ArrowBackIcon} />
+    <IconButton color="warning" variant="outlined" symbol={ArrowBackIcon} />
+    <IconButton color="neutral" variant="outlined" symbol={ArrowBackIcon} />
+  </Story>
+</Canvas>
+
+## Inverse buttons
+
+<Canvas>
+  <Story
+    name="InverseButton"
+    decorators={[ButtonStoryOnDarkBackgroundDecorator]}
+  >
+    <IconButton color="inverse" variant="outlined" symbol={ArrowBackIcon} />
+  </Story>
+</Canvas>
+
+## Disabled buttons
+
+<Canvas>
+  <Story name="DisabledButtons" decorators={[ButtonStoryDecorator]}>
+    <IconButton symbol={ArrowBackIcon} isDisabled />
+    <IconButton variant="outlined" symbol={ArrowBackIcon} isDisabled />
+  </Story>
+</Canvas>
+
+## Click event
+
+<Canvas>
+  <Story name="ClickEvent" decorators={[ButtonStoryDecorator]}>
+    <IconButton symbol={ArrowBackIcon} onPress={() => alert("clicked!")} />
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />

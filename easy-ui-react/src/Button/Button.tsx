@@ -1,10 +1,19 @@
 import React, { ReactElement, ReactNode, useRef } from "react";
-import { IconProps } from "../Icon";
 import { useButton } from "react-aria";
+import { IconProps } from "../Icon";
 import { classNames, variationName } from "../utilities/css";
-import { ButtonColor } from "../types";
+import { logWarningIfInvalidColorVariantCombination } from "./utilities";
 
 import styles from "./Button.module.scss";
+
+export type ButtonColor =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "neutral"
+  | "support"
+  | "inverse";
 
 export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
@@ -52,12 +61,7 @@ export function Button(props: ButtonProps) {
   const canUseIcon =
     (iconAtEnd || iconAtStart) && variant !== "link" && size !== "sm";
 
-  if (!isValidColorVariantCombination(color, variant)) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      `The color '${color}' is not supported with the '${variant}' variant`,
-    );
-  }
+  logWarningIfInvalidColorVariantCombination(color, variant);
 
   return (
     <As
@@ -84,23 +88,4 @@ export function Button(props: ButtonProps) {
       {iconAtEnd && canUseIcon && React.cloneElement(iconAtEnd)}
     </As>
   );
-}
-
-function isValidColorVariantCombination(
-  color: ButtonColor,
-  variant: ButtonVariant,
-): boolean {
-  const validColorVariantCombinations = {
-    filled: ["primary", "secondary", "success", "warning", "neutral"],
-    outlined: [
-      "primary",
-      "secondary",
-      "success",
-      "warning",
-      "support",
-      "inverse",
-    ],
-    link: ["primary", "secondary"],
-  };
-  return validColorVariantCombinations[variant].includes(color);
 }
