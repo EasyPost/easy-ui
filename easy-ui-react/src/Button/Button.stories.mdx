@@ -35,7 +35,7 @@ export const ButtonStoryDecorator = (story) => (
   <div style={buttonStoryStyles}>{story()}</div>
 );
 
-export const ButtonStoryOnDarkBackgroundStyles = (story) => (
+export const ButtonStoryOnDarkBackgroundDecorator = (story) => (
   <div style={{ ...buttonStoryOnDarkBackgroundStyles, ...buttonStoryStyles }}>
     {story()}
   </div>
@@ -95,7 +95,10 @@ export const ButtonStoryOnDarkBackgroundStyles = (story) => (
 ## Inverse buttons
 
 <Canvas>
-  <Story name="InverseButtons" decorators={[ButtonStoryOnDarkBackgroundStyles]}>
+  <Story
+    name="InverseButtons"
+    decorators={[ButtonStoryOnDarkBackgroundDecorator]}
+  >
     <Button color="inverse" variant="outlined" />
     <Button color="inverse" variant="outlined" size="sm" />
   </Story>
