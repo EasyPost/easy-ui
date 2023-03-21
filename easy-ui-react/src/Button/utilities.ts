@@ -1,4 +1,4 @@
-import { ButtonColor } from "../types";
+import { ButtonColor } from "./Button";
 import { ButtonVariant } from "./Button";
 import { DropdownButtonVariant } from "../DropdownButton";
 

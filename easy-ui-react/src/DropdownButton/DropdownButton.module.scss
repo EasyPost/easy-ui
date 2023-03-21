@@ -1,11 +1,12 @@
 @import "../styles/common";
+@import "../Button/Button.module";
 
 .DropdownButton {
   @include font-style("button");
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--ezui-space-2);
+  gap: var(--ezui-space-1-5);
   border-radius: var(--ezui-shape-border-radius-base);
   cursor: pointer;
 
@@ -17,6 +18,42 @@
   &:disabled {
     pointer-events: none;
   }
+}
+
+.colorPrimary {
+  @extend .colorPrimary;
+}
+
+.colorSecondary {
+  @extend .colorSecondary;
+}
+
+.colorSuccess {
+  @extend .colorSuccess;
+}
+
+.colorWarning {
+  @extend .colorWarning;
+}
+
+.colorNeutral {
+  @extend .colorNeutral;
+}
+
+.colorSupport {
+  @extend .colorSupport;
+}
+
+.colorInverse {
+  @extend .colorInverse;
+}
+
+.variantFilled {
+  @extend .variantFilled;
+}
+
+.variantOutlined {
+  @extend .variantOutlined;
 }
 
 .pipeSeparator {

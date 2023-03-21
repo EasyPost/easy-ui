@@ -2,12 +2,10 @@ import React, { ReactNode, useRef } from "react";
 import ExpandMoreIcon from "@easypost/easy-ui-icons/ExpandMore";
 import { useButton } from "react-aria";
 import { Icon } from "../Icon";
-import { ButtonColor } from "../types";
+import { ButtonColor } from "../Button";
 import { classNames, variationName } from "../utilities/css";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
-
 import styles from "./DropdownButton.module.scss";
-import commonButtonStyles from "../Button/Button.module.scss";
 
 export type DropdownButtonVariant = "filled" | "outlined";
 
@@ -41,13 +39,13 @@ export function DropdownButton(props: DropdownButtonProps) {
       ref={ref}
       className={classNames(
         styles.DropdownButton,
-        commonButtonStyles[variationName("color", color)],
-        commonButtonStyles[variationName("variant", variant)],
+        styles[variationName("color", color)],
+        styles[variationName("variant", variant)],
       )}
       {...buttonProps}
     >
       <span>{children}</span>
-      <div className={classNames(styles.pipeSeparator)}></div>
+      <span className={classNames(styles.pipeSeparator)}></span>
       <Icon symbol={ExpandMoreIcon} />
     </button>
   );

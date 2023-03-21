@@ -2,10 +2,18 @@ import React, { ReactElement, ReactNode, useRef } from "react";
 import { useButton } from "react-aria";
 import { IconProps } from "../Icon";
 import { classNames, variationName } from "../utilities/css";
-import { ButtonColor } from "../types";
 import { logWarningIfInvalidColorVariantCombination } from "./utilities";
 
 import styles from "./Button.module.scss";
+
+export type ButtonColor =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "neutral"
+  | "support"
+  | "inverse";
 
 export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
