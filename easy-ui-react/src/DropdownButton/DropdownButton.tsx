@@ -6,6 +6,7 @@ import { ButtonColor } from "../Button";
 import { classNames, variationName } from "../utilities/css";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 import styles from "./DropdownButton.module.scss";
+import commonButtonStyles from "../Button/Button.module.scss";
 
 export type DropdownButtonVariant = "filled" | "outlined";
 
@@ -39,8 +40,8 @@ export function DropdownButton(props: DropdownButtonProps) {
       ref={ref}
       className={classNames(
         styles.DropdownButton,
-        styles[variationName("color", color)],
-        styles[variationName("variant", variant)],
+        commonButtonStyles[variationName("color", color)],
+        commonButtonStyles[variationName("variant", variant)],
       )}
       {...buttonProps}
     >

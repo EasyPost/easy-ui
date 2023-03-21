@@ -1,5 +1,4 @@
 @import "../styles/common";
-@import "../Button/Button.module";
 
 .DropdownButton {
   @include font-style("button");
@@ -18,42 +17,6 @@
   &:disabled {
     pointer-events: none;
   }
-}
-
-.colorPrimary {
-  @extend .colorPrimary;
-}
-
-.colorSecondary {
-  @extend .colorSecondary;
-}
-
-.colorSuccess {
-  @extend .colorSuccess;
-}
-
-.colorWarning {
-  @extend .colorWarning;
-}
-
-.colorNeutral {
-  @extend .colorNeutral;
-}
-
-.colorSupport {
-  @extend .colorSupport;
-}
-
-.colorInverse {
-  @extend .colorInverse;
-}
-
-.variantFilled {
-  @extend .variantFilled;
-}
-
-.variantOutlined {
-  @extend .variantOutlined;
 }
 
 .pipeSeparator {

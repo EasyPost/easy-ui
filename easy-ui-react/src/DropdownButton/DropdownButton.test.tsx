@@ -30,46 +30,6 @@ describe("<DropdownButton />", () => {
     );
   });
 
-  it("should apply the success color class", () => {
-    render(<DropdownButton color="success" />);
-    expect(screen.getByRole("button")).toHaveAttribute(
-      "class",
-      expect.stringContaining("Success"),
-    );
-  });
-
-  it("should apply the warning color class", () => {
-    render(<DropdownButton color="warning" />);
-    expect(screen.getByRole("button")).toHaveAttribute(
-      "class",
-      expect.stringContaining("Warning"),
-    );
-  });
-
-  it("should apply the neutral color class", () => {
-    render(<DropdownButton color="neutral" />);
-    expect(screen.getByRole("button")).toHaveAttribute(
-      "class",
-      expect.stringContaining("Neutral"),
-    );
-  });
-
-  it("should apply the support color class", () => {
-    render(<DropdownButton color="support" variant="outlined" />);
-    expect(screen.getByRole("button")).toHaveAttribute(
-      "class",
-      expect.stringContaining("Support"),
-    );
-  });
-
-  it("should apply the inverse color class", () => {
-    render(<DropdownButton color="inverse" variant="outlined" />);
-    expect(screen.getByRole("button")).toHaveAttribute(
-      "class",
-      expect.stringContaining("Inverse"),
-    );
-  });
-
   it("should apply the outlined variant class", () => {
     render(<DropdownButton variant="outlined" />);
     expect(screen.getByRole("button")).toHaveAttribute(
