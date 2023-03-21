@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 /**
  * Removes fields unnecessary for distribution from a package.json
@@ -37,4 +38,12 @@ function run() {
   fs.writeFileSync(outFilePath, cleaned, { encoding: "utf8" });
 }
 
-run();
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  try {
+    run();
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    process.exit(1);
+  }
+}
