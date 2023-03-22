@@ -8,15 +8,20 @@ import React, {
   useState,
 } from "react";
 import kebabCase from "lodash/kebabCase";
-
-export type ColorScheme = "light" | "dark" | "system" | "inverted";
-export type ThemeableColorScheme = "light" | "dark";
+import tokens from "@easypost/easy-ui-tokens/js/tokens";
 
 export type Theme = {
   "color.text": string;
   "color.background": string;
 };
 
+const themeBuiltFromTokens = buildThemeFromTokens(tokens);
+export const defaultTheme = createTheme(() => {
+  return themeBuiltFromTokens;
+});
+
+export type ColorScheme = "light" | "dark" | "system" | "inverted";
+export type ThemeableColorScheme = "light" | "dark";
 export type ThemePreferences = { colorScheme: ThemeableColorScheme };
 export type ThemeFunction = (input: ThemePreferences) => Theme;
 
@@ -77,12 +82,7 @@ export function useColorScheme() {
   return colorSchemeContext;
 }
 
-export const defaultTheme = createTheme(() => ({
-  "color.text": "var(--ezui-theme-light-color-text)",
-  "color.background": "var(--ezui-theme-light-color-background)",
-}));
-
-export function ThemeContextProvider({
+function ThemeContextProvider({
   theme: themeFunctionFromUser,
   children,
 }: ThemeContextProviderProps) {
@@ -105,14 +105,14 @@ export function ThemeContextProvider({
   );
 }
 
-export const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
+const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
   light: "dark",
   dark: "light",
   system: "inverted",
   inverted: "system",
 };
 
-export function ColorSchemeContextProvider({
+function ColorSchemeContextProvider({
   colorScheme: colorSchemeFromUser,
   children,
 }: ColorSchemeContextProviderProps) {
@@ -228,7 +228,7 @@ export function createTheme(themeFunction: ThemeFunction) {
   return themeFunction;
 }
 
-export function getThemeInstanceVariables(theme: Theme) {
+function getThemeInstanceVariables(theme: Theme) {
   return Object.fromEntries(
     Object.entries(theme).map(([key, value]) => {
       const property = kebabCase(key);
@@ -237,10 +237,23 @@ export function getThemeInstanceVariables(theme: Theme) {
   );
 }
 
-export function renderThemeVariables(theme: Theme) {
+function renderThemeVariables(theme: Theme) {
   const variables = getThemeInstanceVariables(theme);
   const css = Object.entries(variables)
     .map((entry) => entry.join(": ") + ";")
     .join("\n");
   return css;
+}
+
+function buildThemeFromTokens(tokens: object) {
+  const theme = Object.fromEntries(
+    Object.keys(tokens)
+      .filter((key) => key.startsWith("theme-light"))
+      .map((key) => {
+        const prop = key.replace("theme-light-", "").replace("-", ".");
+        const value = `var(--ezui-${key})`;
+        return [prop, value];
+      }),
+  );
+  return theme as Theme;
 }
