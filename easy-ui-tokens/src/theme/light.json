@@ -1,5 +1,5 @@
 {
-  "theme.base": {
+  "theme.light": {
     "color.text": { "value": "{color.blue.800}" },
     "color.background": { "value": "{color.blue.100}" }
   }

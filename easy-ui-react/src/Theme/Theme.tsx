@@ -78,8 +78,8 @@ export function useColorScheme() {
 }
 
 export const defaultTheme = createTheme(() => ({
-  "color.text": "var(--ezui-theme-base-color-text)",
-  "color.background": "var(--ezui-theme-base-color-background)",
+  "color.text": "var(--ezui-theme-light-color-text)",
+  "color.background": "var(--ezui-theme-light-color-background)",
 }));
 
 export function ThemeContextProvider({
