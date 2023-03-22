@@ -12,27 +12,23 @@ import kebabCase from "lodash/kebabCase";
 export type ColorScheme = "light" | "dark" | "system" | "inverted";
 export type ThemeableColorScheme = "light" | "dark";
 
-export type ThemeColors = {
-  textColor: string;
-  backgroundColor: string;
+export type Theme = {
+  "color.text": string;
+  "color.background": string;
 };
 
-export type Theme = {
-  fontFamily: string;
-  colors: {
-    [key in ThemeableColorScheme]: ThemeColors;
-  };
-};
+export type ThemePreferences = { colorScheme: ThemeableColorScheme };
+export type ThemeFunction = (input: ThemePreferences) => Theme;
 
 export type ThemeProviderProps = {
   children: ReactElement;
-  theme?: Theme;
+  theme?: ThemeFunction;
   colorScheme?: ColorScheme;
 };
 
 export type ThemeContextProviderProps = {
   children: ReactNode;
-  theme: Theme;
+  theme: ThemeFunction;
 };
 
 export type ColorSchemeContextProviderProps = {
@@ -42,7 +38,10 @@ export type ColorSchemeContextProviderProps = {
 
 export type ThemeVariables = Record<string, string>;
 
-export type ThemeContextSchema = readonly [Theme, (theme: Theme) => void];
+export type ThemeContextSchema = readonly [
+  ThemeFunction,
+  (themeFunction: ThemeFunction) => void,
+];
 
 export type ColorSchemeContextSchema = readonly [
   ColorScheme,
@@ -54,6 +53,10 @@ export type ColorSchemeProps = {
   children: ReactElement;
   mode: ColorScheme;
 };
+
+function NoopComponent(props: { children: ReactNode }) {
+  return <>{props.children}</>;
+}
 
 const ThemeContext = createContext<ThemeContextSchema | null>(null);
 const ColorSchemeContext = createContext<ColorSchemeContextSchema | null>(null);
@@ -74,34 +77,26 @@ export function useColorScheme() {
   return colorSchemeContext;
 }
 
-export const DEFAULT_THEME = createTheme({
-  fontFamily: "var(--ezui-theme-default-font-family)",
-  colors: {
-    light: {
-      textColor: "var(--ezui-theme-default-colors-light-text-color)",
-      backgroundColor:
-        "var(--ezui-theme-default-colors-light-background-color)",
-    },
-    dark: {
-      textColor: "var(--ezui-theme-default-colors-dark-text-color)",
-      backgroundColor: "var(--ezui-theme-default-colors-dark-background-color)",
-    },
-  },
-});
+export const defaultTheme = createTheme(() => ({
+  "color.text": "var(--ezui-theme-base-color-text)",
+  "color.background": "var(--ezui-theme-base-color-background)",
+}));
 
 export function ThemeContextProvider({
-  theme: themeFromUser,
+  theme: themeFunctionFromUser,
   children,
 }: ThemeContextProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => themeFromUser);
+  const [themeFunction, setThemeFunction] = useState<ThemeFunction>(
+    () => themeFunctionFromUser,
+  );
 
   const themeContextValue = useMemo(() => {
-    return [theme, setTheme] as const;
-  }, [theme, setTheme]);
+    return [themeFunction, setThemeFunction] as const;
+  }, [themeFunction, setThemeFunction]);
 
   useEffect(() => {
-    setTheme(themeFromUser);
-  }, [themeFromUser]);
+    setThemeFunction(() => themeFunctionFromUser);
+  }, [themeFunctionFromUser]);
 
   return (
     <ThemeContext.Provider value={themeContextValue}>
@@ -110,28 +105,12 @@ export function ThemeContextProvider({
   );
 }
 
-function Noop(props: { children: ReactNode }) {
-  return <>{props.children}</>;
-}
-
-function getResolvedColorScheme(
-  colorScheme: ColorScheme,
-  parentColorSchemeContext: ColorSchemeContextSchema | null,
-) {
-  const invertedValues: Record<ColorScheme, ColorScheme> = {
-    light: "dark",
-    dark: "light",
-    system: "inverted",
-    inverted: "system",
-  };
-
-  if (colorScheme === "inverted" && parentColorSchemeContext) {
-    const [, , prevResolvedColorScheme] = parentColorSchemeContext;
-    return invertedValues[prevResolvedColorScheme];
-  }
-
-  return colorScheme;
-}
+export const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
+  light: "dark",
+  dark: "light",
+  system: "inverted",
+  inverted: "system",
+};
 
 export function ColorSchemeContextProvider({
   colorScheme: colorSchemeFromUser,
@@ -144,15 +123,15 @@ export function ColorSchemeContextProvider({
   );
 
   const colorSchemeContextValue = useMemo(() => {
-    const resolvedColorScheme = getResolvedColorScheme(
-      colorScheme,
-      parentColorSchemeContext,
-    );
+    const resolvedColorScheme =
+      colorScheme === "inverted" && parentColorSchemeContext
+        ? invertedColorSchemes[parentColorSchemeContext[2]]
+        : colorScheme;
     return [colorScheme, setColorScheme, resolvedColorScheme] as const;
   }, [colorScheme, setColorScheme, parentColorSchemeContext]);
 
   useEffect(() => {
-    setColorScheme(colorSchemeFromUser);
+    setColorScheme(() => colorSchemeFromUser);
   }, [colorSchemeFromUser]);
 
   return (
@@ -165,14 +144,14 @@ export function ColorSchemeContextProvider({
 const SharedContext = createContext(0);
 
 export function ThemeProvider({
-  theme: themeFromUser,
+  theme: themeFunctionFromUser,
   colorScheme: colorSchemeFromUser,
   children,
 }: ThemeProviderProps) {
   const parentTheme = useContext(ThemeContext);
   const isRoot = !parentTheme;
 
-  if (!isRoot && !themeFromUser && !colorSchemeFromUser) {
+  if (!isRoot && !themeFunctionFromUser && !colorSchemeFromUser) {
     throw new Error("Must supply theme or colorScheme to ThemeProvider");
   }
 
@@ -180,12 +159,12 @@ export function ThemeProvider({
   const [count] = useState(() => parentContext + 1);
 
   const ThemeContextComponent =
-    isRoot || themeFromUser ? ThemeContextProvider : Noop;
+    isRoot || themeFunctionFromUser ? ThemeContextProvider : NoopComponent;
 
   const ColorSchemeContextComponent =
-    isRoot || colorSchemeFromUser ? ColorSchemeContextProvider : Noop;
+    isRoot || colorSchemeFromUser ? ColorSchemeContextProvider : NoopComponent;
 
-  const theme = themeFromUser ? themeFromUser : DEFAULT_THEME;
+  const theme = themeFunctionFromUser ? themeFunctionFromUser : defaultTheme;
   const colorScheme = colorSchemeFromUser ? colorSchemeFromUser : "system";
 
   return (
@@ -204,7 +183,7 @@ export function ThemeProvider({
 
 function Style({ isRoot }: { isRoot: boolean }) {
   const parentContext = useContext(SharedContext);
-  const [theme] = useTheme();
+  const [themeFunction] = useTheme();
   const [, , colorScheme] = useColorScheme();
 
   const fingerprint = useMemo(() => {
@@ -216,26 +195,26 @@ function Style({ isRoot }: { isRoot: boolean }) {
   const css = useMemo(() => {
     return colorScheme === "system"
       ? `${selector} {
-        ${renderThemeVariables(theme, "light")}
+        ${renderThemeVariables(themeFunction({ colorScheme: "light" }))}
       }
       @media (prefers-color-scheme: dark) {
         ${selector} {
-          ${renderThemeVariables(theme, "dark")}
+          ${renderThemeVariables(themeFunction({ colorScheme: "dark" }))}
         }
       }`
       : colorScheme === "inverted"
       ? `${selector} {
-        ${renderThemeVariables(theme, "dark")}
+        ${renderThemeVariables(themeFunction({ colorScheme: "dark" }))}
       }
       @media (prefers-color-scheme: dark) {
         ${selector} {
-          ${renderThemeVariables(theme, "light")}
+          ${renderThemeVariables(themeFunction({ colorScheme: "light" }))}
         }
       }`
       : `${selector} {
-        ${renderThemeVariables(theme, colorScheme)}
+        ${renderThemeVariables(themeFunction({ colorScheme }))}
       }`;
-  }, [colorScheme, selector, theme]);
+  }, [colorScheme, selector, themeFunction]);
 
   return (
     <style
@@ -245,30 +224,21 @@ function Style({ isRoot }: { isRoot: boolean }) {
   );
 }
 
-export function createTheme(theme: Theme) {
-  return theme;
+export function createTheme(themeFunction: ThemeFunction) {
+  return themeFunction;
 }
 
-export function getThemeInstanceVariables(
-  theme: Theme,
-  colorScheme: ThemeableColorScheme,
-) {
-  const { colors, ...restTheme } = theme;
+export function getThemeInstanceVariables(theme: Theme) {
   return Object.fromEntries(
-    Object.entries({ ...restTheme, ...colors[colorScheme] }).map(
-      ([key, value]) => {
-        const property = kebabCase(key);
-        return [`--ezui-t-${property}`, value];
-      },
-    ),
+    Object.entries(theme).map(([key, value]) => {
+      const property = kebabCase(key);
+      return [`--ezui-t-${property}`, value];
+    }),
   );
 }
 
-export function renderThemeVariables(
-  theme: Theme,
-  colorScheme: ThemeableColorScheme,
-) {
-  const variables = getThemeInstanceVariables(theme, colorScheme);
+export function renderThemeVariables(theme: Theme) {
+  const variables = getThemeInstanceVariables(theme);
   const css = Object.entries(variables)
     .map((entry) => entry.join(": ") + ";")
     .join("\n");

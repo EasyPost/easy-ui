@@ -1,0 +1,6 @@
+{
+  "theme.base": {
+    "color.text": { "value": "{color.blue.800}" },
+    "color.background": { "value": "{color.blue.100}" }
+  }
+}
