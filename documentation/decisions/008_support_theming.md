@@ -136,33 +136,15 @@ import { createTheme } from "@easypost/easy-ui/Theme";
 
 // createTheme() provides type hints for expected configuration
 
-const redTheme = createTheme({
-  fontFamily: "Helvetica, sans",
-  colors: {
-    light: {
-      textColor: "#ff0000",
-      backgroundColor: "#ffffff",
-    },
-    dark: {
-      textColor: "#ffffff",
-      backgroundColor: "#ff0000",
-    },
-  },
-});
+const redTheme = createTheme(() => ({
+  "color.text": "#ff0000",
+  "color.background": "#ffffff",
+}));
 
-const greenTheme = createTheme({
-  fontFamily: "Helvetica, sans",
-  colors: {
-    light: {
-      textColor: "#00ff00",
-      backgroundColor: "#ffffff",
-    },
-    dark: {
-      textColor: "#ffffff",
-      backgroundColor: "#00ff00",
-    },
-  },
-});
+const greenTheme = createTheme(() => ({
+  "color.text": "#00ff00",
+  "color.background": "#ffffff",
+}));
 
 function App() {
   return (
@@ -178,49 +160,25 @@ function App() {
 }
 ```
 
-_Reading theme configuration:_
-
-```jsx
-import { useTheme, useColorScheme } from "./Theme";
-
-function Component({ children }) {
-  const [theme, setTheme] = useTheme();
-  const [colorScheme, setColorScheme] = useColorScheme();
-  // read theme
-  //   { fontFamily: "", colors: { light: { textColor }, dark: { textColor } } }
-  // read color scheme
-  //   light | dark | system | inverted
-  return <div />;
-}
-```
-
 ### Using theme variables in Easy UI
 
 Theme configuration is mapped to CSS variables.
 
 ```js
-const theme = createTheme({
-  fontFamily: "Helvetica, sans",
-  colors: {
-    light: {
-      textColor: "black",
-      backgroundColor: "white",
-    },
-    dark: {
-      textColor: "white",
-      backgroundColor: "black",
-    },
-  },
+const theme = createTheme(() => ({
+  "color.text": "black",
+  "color.background": "white",
 });
 ```
 
 The names of the variables are the same as in the theme configuration—only in CSS syntax. Each variable holds the backing primitive of the most immediate theme and color scheme context.
 
+Note the `--ezui-t` prefix to denote that it's theme-aware CSS variables instead of our lower level CSS vars.
+
 ```css
 .Button {
-  font-family: var(--ezui-t-font-family);
-  color: var(--ezui-t-text-color);
-  background: var(--ezui-t-background-color);
+  color: var(--ezui-t-color-text);
+  background: var(--ezui-t-color-background);
 }
 ```
 

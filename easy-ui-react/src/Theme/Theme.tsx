@@ -66,7 +66,7 @@ function NoopComponent(props: { children: ReactNode }) {
 const ThemeContext = createContext<ThemeContextSchema | null>(null);
 const ColorSchemeContext = createContext<ColorSchemeContextSchema | null>(null);
 
-export function useTheme() {
+function useTheme() {
   const themeContext = useContext(ThemeContext);
   if (!themeContext) {
     throw new Error("useTheme() must be used within a ThemeProvier");
@@ -74,7 +74,7 @@ export function useTheme() {
   return themeContext;
 }
 
-export function useColorScheme() {
+function useColorScheme() {
   const colorSchemeContext = useContext(ColorSchemeContext);
   if (!colorSchemeContext) {
     throw new Error("useColorScheme() must be used within a ThemeProvider");
@@ -169,14 +169,14 @@ export function ThemeProvider({
 
   return (
     <SharedContext.Provider value={count}>
-      <ThemeContextComponent theme={theme}>
-        <ColorSchemeContextComponent colorScheme={colorScheme}>
+      <ColorSchemeContextComponent colorScheme={colorScheme}>
+        <ThemeContextComponent theme={theme}>
           <>
             <Style isRoot={isRoot} />
             {children}
           </>
-        </ColorSchemeContextComponent>
-      </ThemeContextComponent>
+        </ThemeContextComponent>
+      </ColorSchemeContextComponent>
     </SharedContext.Provider>
   );
 }
