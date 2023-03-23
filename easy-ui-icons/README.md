@@ -2,7 +2,7 @@
 
 Easy UI Icons is a package containing the icons that experiences can use to build on the EasyPost platform, and contains SVG files in the `svg` directory.
 
-Easy UI Icons _generally_ uses a subset of [Material Symbols](https://fonts.google.com/icons?icon.set=Material+Symbols).
+Easy UI Icons generally uses a subset of [Material Symbols](https://fonts.google.com/icons?icon.set=Material+Symbols).
 
 ```
 Set: Material Symbols
