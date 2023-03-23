@@ -12,13 +12,14 @@ Easy UI needs to faciliate intentional and systematic customization of specific 
 
 ## Decision Drivers
 
-- Support theme management in tokens project
-- Support on-demand toggling a theme
+- Support conventional React method of providing Theming
 - Support complementary usage in CSS Modules
+- Support dynamic updating of theme
 - Support server and client rendering
 - Support prefers-color-theme browser directive without unstyled flash
 - Support nesting
 - Support typed theme configurations
+- Support ability to manage as tokens
 
 ## Decision Outcome
 
@@ -30,7 +31,9 @@ A theme is a system that encompasses changes to any visual aspect of Easy UI, su
 
 A color scheme is a subset of a theme that only affects colors.
 
-Easy UI will have built-in color scheme management. This means that `colorScheme` is a distinct property of theming and requires a specific theme configuration to take into account `light` and `dark` modes. A developer using Easy UI can provide `light`, `dark`, `system`, or `inverted` as the color scheme.
+Easy UI will map theme configurations to CSS variables. These CSS variables are contextual design tokens and will be injected into the document to be referenced in CSS modules. These variables will dynamically adjust to the values of the closest theme configuration.
+
+Easy UI will have built-in color scheme management to offset the complexity of handling color schemes externally. This means that color scheme is a discrete behavior of the overall theming solution and should be considered in the configuration.
 
 _Force a `dark` or `light` color scheme:_
 
@@ -103,7 +106,7 @@ function App() {
 }
 ```
 
-_Themes can be inverted:_
+_Color schemes can be inverted:_
 
 ```jsx
 // external-app/src/App.tsx
@@ -134,8 +137,6 @@ _Themes can be customized:_
 import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 import { createTheme } from "@easypost/easy-ui/Theme";
 
-// createTheme() provides type hints for expected configuration
-
 const redTheme = createTheme(() => ({
   "color.text": "#ff0000",
   "color.background": "#ffffff",
@@ -160,6 +161,28 @@ function App() {
 }
 ```
 
+_Themes can specify a `dark` and `light` theme:_
+
+```jsx
+// external-app/src/App.tsx
+
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+import { createTheme } from "@easypost/easy-ui/Theme";
+
+const theme = createTheme(({ colorScheme }) => ({
+  "color.text": colorScheme === "dark" ? "white" : "black",
+  "color.background": colorScheme === "dark" ? "black" : "white",
+}));
+
+function App() {
+  return (
+    <EasyUIProvider theme={theme}>
+      <div>{children}</div>
+    </EasyUIProvider>
+  );
+}
+```
+
 ### Using theme variables in Easy UI
 
 Theme configuration is mapped to CSS variables.
@@ -171,9 +194,9 @@ const theme = createTheme(() => ({
 });
 ```
 
-The names of the variables are the same as in the theme configuration—only in CSS syntax. Each variable holds the backing primitive of the most immediate theme and color scheme context.
+The names of the CSS variables are the same as in the theme configuration. Each variable holds the backing primitive of the most immediate theme and color scheme context.
 
-Note the `--ezui-t` prefix to denote that it's theme-aware CSS variables instead of our lower level CSS vars.
+Note the `--ezui-t` prefix to differentiate theme-aware CSS variables from static design tokens.
 
 ```css
 .Button {
