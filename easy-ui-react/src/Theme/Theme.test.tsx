@@ -1,18 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { createTheme, ThemeProvider } from "./Theme";
+import { createTheme, defaultThemeCreator, ThemeProvider } from "./Theme";
 
-const baseTheme = {
-  "color.text": "black",
-  "color.background": "white",
-};
-
+const baseTheme = defaultThemeCreator({ colorScheme: "light" });
 const redTheme = createTheme(() => ({ ...baseTheme, "color.text": "red" }));
 const greenTheme = createTheme(() => ({ ...baseTheme, "color.text": "green" }));
 const theme = createTheme(({ colorScheme }) =>
   colorScheme === "dark"
-    ? { ...baseTheme, "color.background": "black" }
-    : { ...baseTheme },
+    ? { ...baseTheme, "color.text": "white" }
+    : { ...baseTheme, "color.text": "black" },
 );
 
 describe("<ThemeProvider />", () => {
@@ -23,7 +19,7 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Child"))).toMatchObject({
-      "--ezui-t-color-background": "white",
+      "--ezui-t-color-text": "black",
     });
   });
 
@@ -34,7 +30,7 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Child"))).toMatchObject({
-      "--ezui-t-color-background": "black",
+      "--ezui-t-color-text": "white",
     });
   });
 
@@ -48,10 +44,10 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Outer"))).toMatchObject({
-      "--ezui-t-color-background": "white",
+      "--ezui-t-color-text": "black",
     });
     expect(getThemeForElement(screen.getByText("Inner"))).toMatchObject({
-      "--ezui-t-color-background": "black",
+      "--ezui-t-color-text": "white",
     });
   });
 
@@ -85,13 +81,13 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Outer"))).toMatchObject({
-      "--ezui-t-color-background": "white",
+      "--ezui-t-color-text": "black",
     });
     expect(getThemeForElement(screen.getByText("Middle"))).toMatchObject({
-      "--ezui-t-color-background": "black",
+      "--ezui-t-color-text": "white",
     });
     expect(getThemeForElement(screen.getByText("Inner"))).toMatchObject({
-      "--ezui-t-color-background": "white",
+      "--ezui-t-color-text": "black",
     });
   });
 
@@ -123,7 +119,7 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Child"))).toMatchObject({
-      "--ezui-t-color-background": "black",
+      "--ezui-t-color-text": "white",
     });
   });
 });

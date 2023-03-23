@@ -10,13 +10,31 @@ import kebabCase from "lodash/kebabCase";
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 
 export type Theme = {
+  "font.family": string;
   "color.text": string;
-  "color.background": string;
+  "color.text.heading": string;
+  "color.background.disabled": string;
+  "color.background.support": string;
+  "color.background.primary": string;
+  "color.background.primary.hovered": string;
+  "color.background.primary.pressed": string;
+  "color.background.secondary": string;
+  "color.background.secondary.hovered": string;
+  "color.background.secondary.pressed": string;
+  "color.background.neutral": string;
+  "color.background.neutral.hovered": string;
+  "color.background.neutral.pressed": string;
+  "color.background.success": string;
+  "color.background.success.hovered": string;
+  "color.background.success.pressed": string;
+  "color.background.danger": string;
+  "color.background.danger.hovered": string;
+  "color.background.danger.pressed": string;
 };
 export type ColorScheme = "light" | "dark" | "system" | "inverted";
 
-export const defaultTheme = createTheme(() => {
-  return buildThemeFromTokens(tokens, "theme-light");
+export const defaultThemeCreator = createTheme(() => {
+  return buildThemeFromTokens(tokens, "theme.light");
 });
 
 const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
@@ -105,7 +123,7 @@ export function ThemeProvider({
   const ColorSchemeContextComponent =
     isRoot || colorSchemeFromUser ? ColorSchemeContextProvider : NoopComponent;
 
-  const theme = themeFromUser ? themeFromUser : defaultTheme;
+  const theme = themeFromUser ? themeFromUser : defaultThemeCreator;
   const colorScheme = colorSchemeFromUser ? colorSchemeFromUser : "system";
 
   return (
@@ -254,11 +272,12 @@ function renderThemeVariables(theme: Theme) {
 }
 
 function buildThemeFromTokens(tokens: object, prefix: string) {
+  const cleanedPrefix = prefix.replace(/\./g, "-");
   const theme = Object.fromEntries(
     Object.keys(tokens)
-      .filter((key) => key.startsWith(prefix))
+      .filter((key) => key.startsWith(cleanedPrefix))
       .map((key) => {
-        const prop = key.replace(`${prefix}-`, "").replace("-", ".");
+        const prop = key.replace(`${cleanedPrefix}-`, "").replace("-", ".");
         const value = `var(--ezui-${key})`;
         return [prop, value];
       }),
