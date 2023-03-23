@@ -12,7 +12,7 @@
     "color.background.secondary.hovered": { "value": "{color.purple.600}" },
     "color.background.secondary.pressed": { "value": "{color.purple.700}" },
     "color.background.neutral": { "value": "{color.blue.800}" },
-    "color.background.neutral.hovered": { "value": "{color.blue.900}" },
+    "color.background.neutral.hovered": { "value": "{color.gray.900}" },
     "color.background.neutral.pressed": { "value": "{color.blue.700}" },
     "color.background.success": { "value": "{color.green.500}" },
     "color.background.success.hovered": { "value": "{color.green.600}" },
