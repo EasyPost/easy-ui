@@ -1,0 +1,26 @@
+@import "../styles/common";
+
+.IconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ezui-shape-border-radius-base);
+  cursor: pointer;
+
+  &:focus {
+    box-shadow: var(--ezui-shadow-button);
+    outline: none;
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.IconButton.variantOutlined {
+  padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)});
+}
+
+.IconButton.variantFilled {
+  padding: var(--ezui-space-1-5);
+}

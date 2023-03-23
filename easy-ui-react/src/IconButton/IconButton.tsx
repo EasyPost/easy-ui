@@ -5,6 +5,7 @@ import { ButtonColor } from "../Button";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
+import styles from "./IconButton.module.scss";
 import commonButtonStyles from "../Button/Button.module.scss";
 
 export type IconButtonVariant = "filled" | "outlined";
@@ -38,7 +39,8 @@ export function IconButton(props: IconButtonProps) {
       disabled={isDisabled}
       ref={ref}
       className={classNames(
-        commonButtonStyles.Button,
+        styles.IconButton,
+        styles[variationName("variant", variant)],
         commonButtonStyles[variationName("color", color)],
         commonButtonStyles[variationName("variant", variant)],
       )}
