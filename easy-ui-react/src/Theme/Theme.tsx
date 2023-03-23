@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  ReactElement,
   ReactNode,
   useContext,
   useEffect,
@@ -26,7 +25,7 @@ export type ThemePreferences = { colorScheme: ThemeableColorScheme };
 export type ThemeFunction = (input: ThemePreferences) => Theme;
 
 export type ThemeProviderProps = {
-  children: ReactElement;
+  children: ReactNode;
   theme?: ThemeFunction;
   colorScheme?: ColorScheme;
 };
@@ -55,7 +54,7 @@ export type ColorSchemeContextSchema = readonly [
 ];
 
 export type ColorSchemeProps = {
-  children: ReactElement;
+  children: ReactNode;
   mode: ColorScheme;
 };
 
@@ -216,12 +215,7 @@ function Style({ isRoot }: { isRoot: boolean }) {
       }`;
   }, [colorScheme, selector, themeFunction]);
 
-  return (
-    <style
-      id={isRoot ? undefined : fingerprint}
-      dangerouslySetInnerHTML={{ __html: css }}
-    />
-  );
+  return <style id={fingerprint} dangerouslySetInnerHTML={{ __html: css }} />;
 }
 
 export function createTheme(themeFunction: ThemeFunction) {
