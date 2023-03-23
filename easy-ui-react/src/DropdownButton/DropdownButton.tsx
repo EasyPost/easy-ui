@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef } from "react";
-import ExpandMoreIcon from "@easypost/easy-ui-icons/ExpandMore";
+import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
 import { useButton } from "react-aria";
 import { Icon } from "../Icon";
 import { ButtonColor } from "../Button";
@@ -47,7 +47,7 @@ export function DropdownButton(props: DropdownButtonProps) {
     >
       <span>{children}</span>
       <span className={classNames(styles.pipeSeparator)}></span>
-      <Icon symbol={ExpandMoreIcon} />
+      <Icon symbol={ExpandMoreIcon400} />
     </button>
   );
 }
