@@ -13,57 +13,124 @@ export type Theme = {
   "color.text": string;
   "color.background": string;
 };
+export type ColorScheme = "light" | "dark" | "system" | "inverted";
 
-const themeBuiltFromTokens = buildThemeFromTokens(tokens);
 export const defaultTheme = createTheme(() => {
-  return themeBuiltFromTokens;
+  return buildThemeFromTokens(tokens, "theme-light");
 });
 
-export type ColorScheme = "light" | "dark" | "system" | "inverted";
-export type ThemeableColorScheme = "light" | "dark";
+const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
+  light: "dark",
+  dark: "light",
+  system: "inverted",
+  inverted: "system",
+};
+
+export type ThemeableColorScheme = Extract<ColorScheme, "light" | "dark">;
 export type ThemePreferences = { colorScheme: ThemeableColorScheme };
-export type ThemeFunction = (input: ThemePreferences) => Theme;
+export type ThemeCreator = (preferences: ThemePreferences) => Theme;
 
 export type ThemeProviderProps = {
+  /** Component tree to apply specified theme. */
   children: ReactNode;
-  theme?: ThemeFunction;
+  /**
+   * Color scheme to apply to Easy UI.
+   * @default system
+   */
   colorScheme?: ColorScheme;
+  /**
+   * Theme to apply to Easy UI. Use `createTheme()` to build theme object.
+   * @default defaultTheme
+   */
+  theme?: ThemeCreator;
 };
 
-export type ThemeContextProviderProps = {
+type ThemeContextProviderProps = {
   children: ReactNode;
-  theme: ThemeFunction;
+  theme: ThemeCreator;
 };
 
-export type ColorSchemeContextProviderProps = {
+type ColorSchemeContextProviderProps = {
   children: ReactNode;
   colorScheme: ColorScheme;
 };
 
-export type ThemeVariables = Record<string, string>;
-
-export type ThemeContextSchema = readonly [
-  ThemeFunction,
-  (themeFunction: ThemeFunction) => void,
+type ThemeContextSchema = readonly [
+  ThemeCreator,
+  (themeProp: ThemeCreator) => void,
 ];
 
-export type ColorSchemeContextSchema = readonly [
+type ColorSchemeContextSchema = readonly [
   ColorScheme,
   (colorScheme: ColorScheme) => void,
   ColorScheme,
 ];
 
-export type ColorSchemeProps = {
-  children: ReactNode;
-  mode: ColorScheme;
-};
-
 function NoopComponent(props: { children: ReactNode }) {
   return <>{props.children}</>;
 }
 
+const TrackerContext = createContext<number>(0);
 const ThemeContext = createContext<ThemeContextSchema | null>(null);
 const ColorSchemeContext = createContext<ColorSchemeContextSchema | null>(null);
+
+/**
+ * Makes the specified `theme` and `colorScheme` applicable to the provided
+ * React tree. CSS variables within modules will adjust to
+ * the new configuration.
+ *
+ * @param props.children Component tree to apply specified theme
+ * @param props.colorScheme Color scheme to apply to Easy UI
+ * @param props.theme Theme to apply to Easy UI. Use `createTheme()` to build theme object
+ * @returns Themed component tree
+ */
+export function ThemeProvider({
+  children,
+  colorScheme: colorSchemeFromUser,
+  theme: themeFromUser,
+}: ThemeProviderProps) {
+  const parentTheme = useContext(ThemeContext);
+  const isRoot = !parentTheme;
+
+  if (!isRoot && !themeFromUser && !colorSchemeFromUser) {
+    throw new Error("Must supply theme or colorScheme to ThemeProvider");
+  }
+
+  const parentContext = useContext(TrackerContext);
+  const [count] = useState(() => parentContext + 1);
+
+  const ThemeContextComponent =
+    isRoot || themeFromUser ? ThemeContextProvider : NoopComponent;
+
+  const ColorSchemeContextComponent =
+    isRoot || colorSchemeFromUser ? ColorSchemeContextProvider : NoopComponent;
+
+  const theme = themeFromUser ? themeFromUser : defaultTheme;
+  const colorScheme = colorSchemeFromUser ? colorSchemeFromUser : "system";
+
+  return (
+    <TrackerContext.Provider value={count}>
+      <ThemeContextComponent theme={theme}>
+        <ColorSchemeContextComponent colorScheme={colorScheme}>
+          <>
+            <Style isRoot={isRoot} />
+            {children}
+          </>
+        </ColorSchemeContextComponent>
+      </ThemeContextComponent>
+    </TrackerContext.Provider>
+  );
+}
+
+/**
+ * Create a theme to use for Easy UI.
+ *
+ * @param themeCreator function that returns a theme object
+ * @returns theme creation function
+ */
+export function createTheme(themeCreator: ThemeCreator) {
+  return themeCreator;
+}
 
 function useTheme() {
   const themeContext = useContext(ThemeContext);
@@ -81,21 +148,57 @@ function useColorScheme() {
   return colorSchemeContext;
 }
 
+function Style({ isRoot }: { isRoot: boolean }) {
+  const parentContext = useContext(TrackerContext);
+  const [createTheme] = useTheme();
+  const [, , colorScheme] = useColorScheme();
+
+  const fingerprint = useMemo(() => {
+    return `ezui-theme-style-level-${parentContext}`;
+  }, [parentContext]);
+
+  const selector = isRoot ? ":root" : `#${fingerprint} ~ *`;
+
+  const css = useMemo(() => {
+    return colorScheme === "system"
+      ? `${selector} {
+        ${renderThemeVariables(createTheme({ colorScheme: "light" }))}
+      }
+      @media (prefers-color-scheme: dark) {
+        ${selector} {
+          ${renderThemeVariables(createTheme({ colorScheme: "dark" }))}
+        }
+      }`
+      : colorScheme === "inverted"
+      ? `${selector} {
+        ${renderThemeVariables(createTheme({ colorScheme: "dark" }))}
+      }
+      @media (prefers-color-scheme: dark) {
+        ${selector} {
+          ${renderThemeVariables(createTheme({ colorScheme: "light" }))}
+        }
+      }`
+      : `${selector} {
+        ${renderThemeVariables(createTheme({ colorScheme }))}
+      }`;
+  }, [colorScheme, selector, createTheme]);
+
+  return <style id={fingerprint} dangerouslySetInnerHTML={{ __html: css }} />;
+}
+
 function ThemeContextProvider({
-  theme: themeFunctionFromUser,
+  theme: themeFromUser,
   children,
 }: ThemeContextProviderProps) {
-  const [themeFunction, setThemeFunction] = useState<ThemeFunction>(
-    () => themeFunctionFromUser,
-  );
+  const [theme, setTheme] = useState<ThemeCreator>(() => themeFromUser);
 
   const themeContextValue = useMemo(() => {
-    return [themeFunction, setThemeFunction] as const;
-  }, [themeFunction, setThemeFunction]);
+    return [theme, setTheme] as const;
+  }, [theme, setTheme]);
 
   useEffect(() => {
-    setThemeFunction(() => themeFunctionFromUser);
-  }, [themeFunctionFromUser]);
+    setTheme(() => themeFromUser);
+  }, [themeFromUser]);
 
   return (
     <ThemeContext.Provider value={themeContextValue}>
@@ -103,13 +206,6 @@ function ThemeContextProvider({
     </ThemeContext.Provider>
   );
 }
-
-const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
-  light: "dark",
-  dark: "light",
-  system: "inverted",
-  inverted: "system",
-};
 
 function ColorSchemeContextProvider({
   colorScheme: colorSchemeFromUser,
@@ -140,88 +236,6 @@ function ColorSchemeContextProvider({
   );
 }
 
-const SharedContext = createContext(0);
-
-export function ThemeProvider({
-  theme: themeFunctionFromUser,
-  colorScheme: colorSchemeFromUser,
-  children,
-}: ThemeProviderProps) {
-  const parentTheme = useContext(ThemeContext);
-  const isRoot = !parentTheme;
-
-  if (!isRoot && !themeFunctionFromUser && !colorSchemeFromUser) {
-    throw new Error("Must supply theme or colorScheme to ThemeProvider");
-  }
-
-  const parentContext = useContext(SharedContext);
-  const [count] = useState(() => parentContext + 1);
-
-  const ThemeContextComponent =
-    isRoot || themeFunctionFromUser ? ThemeContextProvider : NoopComponent;
-
-  const ColorSchemeContextComponent =
-    isRoot || colorSchemeFromUser ? ColorSchemeContextProvider : NoopComponent;
-
-  const theme = themeFunctionFromUser ? themeFunctionFromUser : defaultTheme;
-  const colorScheme = colorSchemeFromUser ? colorSchemeFromUser : "system";
-
-  return (
-    <SharedContext.Provider value={count}>
-      <ColorSchemeContextComponent colorScheme={colorScheme}>
-        <ThemeContextComponent theme={theme}>
-          <>
-            <Style isRoot={isRoot} />
-            {children}
-          </>
-        </ThemeContextComponent>
-      </ColorSchemeContextComponent>
-    </SharedContext.Provider>
-  );
-}
-
-function Style({ isRoot }: { isRoot: boolean }) {
-  const parentContext = useContext(SharedContext);
-  const [themeFunction] = useTheme();
-  const [, , colorScheme] = useColorScheme();
-
-  const fingerprint = useMemo(() => {
-    return `ezui-theme-style-level-${parentContext}`;
-  }, [parentContext]);
-
-  const selector = isRoot ? ":root" : `#${fingerprint} ~ *`;
-
-  const css = useMemo(() => {
-    return colorScheme === "system"
-      ? `${selector} {
-        ${renderThemeVariables(themeFunction({ colorScheme: "light" }))}
-      }
-      @media (prefers-color-scheme: dark) {
-        ${selector} {
-          ${renderThemeVariables(themeFunction({ colorScheme: "dark" }))}
-        }
-      }`
-      : colorScheme === "inverted"
-      ? `${selector} {
-        ${renderThemeVariables(themeFunction({ colorScheme: "dark" }))}
-      }
-      @media (prefers-color-scheme: dark) {
-        ${selector} {
-          ${renderThemeVariables(themeFunction({ colorScheme: "light" }))}
-        }
-      }`
-      : `${selector} {
-        ${renderThemeVariables(themeFunction({ colorScheme }))}
-      }`;
-  }, [colorScheme, selector, themeFunction]);
-
-  return <style id={fingerprint} dangerouslySetInnerHTML={{ __html: css }} />;
-}
-
-export function createTheme(themeFunction: ThemeFunction) {
-  return themeFunction;
-}
-
 function getThemeInstanceVariables(theme: Theme) {
   return Object.fromEntries(
     Object.entries(theme).map(([key, value]) => {
@@ -239,12 +253,12 @@ function renderThemeVariables(theme: Theme) {
   return css;
 }
 
-function buildThemeFromTokens(tokens: object) {
+function buildThemeFromTokens(tokens: object, prefix: string) {
   const theme = Object.fromEntries(
     Object.keys(tokens)
-      .filter((key) => key.startsWith("theme-light"))
+      .filter((key) => key.startsWith(prefix))
       .map((key) => {
-        const prop = key.replace("theme-light-", "").replace("-", ".");
+        const prop = key.replace(`${prefix}-`, "").replace("-", ".");
         const value = `var(--ezui-${key})`;
         return [prop, value];
       }),

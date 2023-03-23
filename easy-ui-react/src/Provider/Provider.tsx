@@ -1,11 +1,12 @@
 import React, { ReactElement } from "react";
-import { ColorScheme, ThemeFunction, ThemeProvider } from "../Theme";
+import { ThemeProvider } from "../Theme";
+import type { ColorScheme, ThemeCreator } from "../Theme";
 
 import "../styles/global.scss";
 
 export interface ProviderProps {
   children: ReactElement;
-  theme?: ThemeFunction;
+  theme?: ThemeCreator;
   colorScheme?: ColorScheme;
 }
 
