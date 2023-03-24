@@ -2,7 +2,6 @@ import React, {
   createContext,
   ReactNode,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -73,16 +72,13 @@ type ColorSchemeContextProviderProps = {
   colorScheme: ColorScheme;
 };
 
-type ThemeContextSchema = readonly [
-  ThemeCreator,
-  (themeProp: ThemeCreator) => void,
-];
+type ThemeContextSchema = ThemeCreator;
 
-type ColorSchemeContextSchema = readonly [
-  ColorScheme,
-  (colorScheme: ColorScheme) => void,
-  ColorScheme,
-];
+type ColorSchemeContextSchema = {
+  userColorScheme: ColorScheme;
+  // Resolved color scheme is used to keep track of color scheme inversion
+  resolvedColorScheme: ColorScheme;
+};
 
 function NoopComponent(props: { children: ReactNode }) {
   return <>{props.children}</>;
@@ -168,8 +164,8 @@ function useColorScheme() {
 
 function Style({ isRoot }: { isRoot: boolean }) {
   const parentContext = useContext(TrackerContext);
-  const [createTheme] = useTheme();
-  const [, , colorScheme] = useColorScheme();
+  const themeCreator = useTheme();
+  const { resolvedColorScheme } = useColorScheme();
 
   const fingerprint = useMemo(() => {
     return `ezui-theme-style-level-${parentContext}`;
@@ -178,74 +174,53 @@ function Style({ isRoot }: { isRoot: boolean }) {
   const selector = isRoot ? ":root" : `#${fingerprint} ~ *`;
 
   const css = useMemo(() => {
-    return colorScheme === "system"
+    return resolvedColorScheme === "system"
       ? `${selector} {
-        ${renderThemeVariables(createTheme({ colorScheme: "light" }))}
+        ${renderThemeVariables(themeCreator({ colorScheme: "light" }))}
       }
       @media (prefers-color-scheme: dark) {
         ${selector} {
-          ${renderThemeVariables(createTheme({ colorScheme: "dark" }))}
+          ${renderThemeVariables(themeCreator({ colorScheme: "dark" }))}
         }
       }`
-      : colorScheme === "inverted"
+      : resolvedColorScheme === "inverted"
       ? `${selector} {
-        ${renderThemeVariables(createTheme({ colorScheme: "dark" }))}
+        ${renderThemeVariables(themeCreator({ colorScheme: "dark" }))}
       }
       @media (prefers-color-scheme: dark) {
         ${selector} {
-          ${renderThemeVariables(createTheme({ colorScheme: "light" }))}
+          ${renderThemeVariables(themeCreator({ colorScheme: "light" }))}
         }
       }`
       : `${selector} {
-        ${renderThemeVariables(createTheme({ colorScheme }))}
+        ${renderThemeVariables(
+          themeCreator({ colorScheme: resolvedColorScheme }),
+        )}
       }`;
-  }, [colorScheme, selector, createTheme]);
+  }, [resolvedColorScheme, selector, themeCreator]);
 
   return <style id={fingerprint} dangerouslySetInnerHTML={{ __html: css }} />;
 }
 
-function ThemeContextProvider({
-  theme: themeFromUser,
-  children,
-}: ThemeContextProviderProps) {
-  const [theme, setTheme] = useState<ThemeCreator>(() => themeFromUser);
-
-  const themeContextValue = useMemo(() => {
-    return [theme, setTheme] as const;
-  }, [theme, setTheme]);
-
-  useEffect(() => {
-    setTheme(() => themeFromUser);
-  }, [themeFromUser]);
-
+function ThemeContextProvider({ theme, children }: ThemeContextProviderProps) {
   return (
-    <ThemeContext.Provider value={themeContextValue}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
   );
 }
 
 function ColorSchemeContextProvider({
-  colorScheme: colorSchemeFromUser,
+  colorScheme,
   children,
 }: ColorSchemeContextProviderProps) {
   const parentColorSchemeContext = useContext(ColorSchemeContext);
 
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(
-    () => colorSchemeFromUser,
-  );
-
   const colorSchemeContextValue = useMemo(() => {
     const resolvedColorScheme =
       colorScheme === "inverted" && parentColorSchemeContext
-        ? invertedColorSchemes[parentColorSchemeContext[2]]
+        ? invertedColorSchemes[parentColorSchemeContext.resolvedColorScheme]
         : colorScheme;
-    return [colorScheme, setColorScheme, resolvedColorScheme] as const;
-  }, [colorScheme, setColorScheme, parentColorSchemeContext]);
-
-  useEffect(() => {
-    setColorScheme(() => colorSchemeFromUser);
-  }, [colorSchemeFromUser]);
+    return { userColorScheme: colorScheme, resolvedColorScheme };
+  }, [colorScheme, parentColorSchemeContext]);
 
   return (
     <ColorSchemeContext.Provider value={colorSchemeContextValue}>

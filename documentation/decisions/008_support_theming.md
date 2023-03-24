@@ -14,7 +14,7 @@ Easy UI needs to faciliate intentional and systematic customization of specific 
 
 - Support conventional React method of providing Theming
 - Support complementary usage in CSS Modules
-- Support dynamic updating of theme
+- Support user-facing dynamic updating of theme
 - Support server and client rendering
 - Support prefers-color-theme browser directive without unstyled flash
 - Support nesting
@@ -33,7 +33,7 @@ A color scheme is a subset of a theme that only affects colors.
 
 Easy UI will map theme configurations to CSS variables. These CSS variables are contextual design tokens and will be injected into the document to be referenced in CSS modules. These variables will dynamically adjust to the values of the closest theme configuration.
 
-Easy UI will have built-in color scheme management to offset the complexity of handling color schemes externally. This means that color scheme is a discrete behavior of the overall theming solution and should be considered in the configuration.
+Easy UI will have some built-in color scheme management to offset some of the complexity of handling color schemes externally. This means that color scheme is a discrete behavior of the overall theming solution and should be considered in the configuration. This management does not include keeping state of user-selected color schemes. See references below for managing user-selected color schemes, such as a dark mode toggle.
 
 _Force a `dark` or `light` color scheme:_
 
@@ -202,6 +202,40 @@ Note the `--ezui-t` prefix to differentiate theme-aware CSS variables from stati
 .Button {
   color: var(--ezui-t-color-text);
   background: var(--ezui-t-color-background);
+}
+```
+
+### Managing theme and color scheme state
+
+Easy UI's `<ThemeProvider />` doesn't manage user-facing state. It simply applies the given theme and color scheme to the React tree below it.
+
+As an example, a common requirement of needing user-facing state is a dark mode toggle. Below are the pieces one could use to handle this case with Easy UI's `<ThemeProvider />`:
+
+```jsx
+function App() {
+  // Retrieve the user's color scheme preference from the browser
+  // Note that we can't know the user's preference in a server rendering context
+  const colorSchemePreference = usePrefersColorScheme();
+
+  // Initialize the colorScheme with the user's preference. If this is rendered
+  // on the server, it will default to "system" to prevent an unstyled flash
+  const [colorScheme, setColorScheme] = useState(() => {
+    return colorSchemePreference ?? "system";
+  });
+
+  return (
+    <EasyUIProvider colorScheme={colorScheme}>
+      <ColorModeToggle
+        mode={colorScheme}
+        onToggle={() => {
+          setColorScheme((prevColorScheme) => {
+            return prevColorScheme === "light" ? "dark" : "light");
+          });
+        }}
+      />
+      <div />
+    </EasyUIProvider>
+  );
 }
 ```
 
