@@ -6,18 +6,15 @@ import {
   ButtonStoryOnDarkBackgroundDecorator,
 } from "../Button/Button.stories.mdx";
 import { createLabelledOptionsControl } from "../utilities/storybook";
+import { Icon } from "../Icon";
 import { IconButton } from "./IconButton";
 
-<Meta
-  title="Components/Button/IconButton"
-  argTypes={{
-    symbol: createLabelledOptionsControl({
-      ArrowBack: ArrowBackIcon,
-      Add: AddIcon,
-    }),
-  }}
-  component={IconButton}
-/>
+<Meta title="Components/Button/IconButton" component={IconButton} />
+
+export const sharedIconButtonProps = {
+  symbol: ArrowBackIcon,
+  accessibilityLabel: "arrow back",
+};
 
 export const Template = (args) => <IconButton {...args} />;
 
@@ -27,7 +24,7 @@ export const Template = (args) => <IconButton {...args} />;
   <Story
     name="Default"
     args={{
-      symbol: ArrowBackIcon,
+      icon: <Icon {...sharedIconButtonProps} />,
     }}
   >
     {Template.bind({})}
@@ -38,11 +35,11 @@ export const Template = (args) => <IconButton {...args} />;
 
 <Canvas>
   <Story name="FilledButtons" decorators={[ButtonStoryDecorator]}>
-    <IconButton symbol={ArrowBackIcon} />
-    <IconButton color="secondary" symbol={ArrowBackIcon} />
-    <IconButton color="success" symbol={ArrowBackIcon} />
-    <IconButton color="warning" symbol={ArrowBackIcon} />
-    <IconButton color="neutral" symbol={ArrowBackIcon} />
+    <IconButton icon={<Icon {...sharedIconButtonProps} />} />
+    <IconButton color="secondary" icon={<Icon {...sharedIconButtonProps} />} />
+    <IconButton color="success" icon={<Icon {...sharedIconButtonProps} />} />
+    <IconButton color="warning" icon={<Icon {...sharedIconButtonProps} />} />
+    <IconButton color="neutral" icon={<Icon {...sharedIconButtonProps} />} />
   </Story>
 </Canvas>
 
@@ -50,11 +47,27 @@ export const Template = (args) => <IconButton {...args} />;
 
 <Canvas>
   <Story name="OutlinedButtons" decorators={[ButtonStoryDecorator]}>
-    <IconButton variant="outlined" symbol={ArrowBackIcon} />
-    <IconButton color="secondary" variant="outlined" symbol={ArrowBackIcon} />
-    <IconButton color="success" variant="outlined" symbol={ArrowBackIcon} />
-    <IconButton color="warning" variant="outlined" symbol={ArrowBackIcon} />
-    <IconButton color="neutral" variant="outlined" symbol={ArrowBackIcon} />
+    <IconButton variant="outlined" icon={<Icon {...sharedIconButtonProps} />} />
+    <IconButton
+      color="secondary"
+      variant="outlined"
+      icon={<Icon {...sharedIconButtonProps} />}
+    />
+    <IconButton
+      color="success"
+      variant="outlined"
+      icon={<Icon {...sharedIconButtonProps} />}
+    />
+    <IconButton
+      color="warning"
+      variant="outlined"
+      icon={<Icon {...sharedIconButtonProps} />}
+    />
+    <IconButton
+      color="neutral"
+      variant="outlined"
+      icon={<Icon {...sharedIconButtonProps} />}
+    />
   </Story>
 </Canvas>
 
@@ -65,7 +78,11 @@ export const Template = (args) => <IconButton {...args} />;
     name="InverseButton"
     decorators={[ButtonStoryOnDarkBackgroundDecorator]}
   >
-    <IconButton color="inverse" variant="outlined" symbol={ArrowBackIcon} />
+    <IconButton
+      color="inverse"
+      variant="outlined"
+      icon={<Icon {...sharedIconButtonProps} />}
+    />
   </Story>
 </Canvas>
 
@@ -73,8 +90,12 @@ export const Template = (args) => <IconButton {...args} />;
 
 <Canvas>
   <Story name="DisabledButtons" decorators={[ButtonStoryDecorator]}>
-    <IconButton symbol={ArrowBackIcon} isDisabled />
-    <IconButton variant="outlined" symbol={ArrowBackIcon} isDisabled />
+    <IconButton icon={<Icon {...sharedIconButtonProps} />} isDisabled />
+    <IconButton
+      variant="outlined"
+      icon={<Icon {...sharedIconButtonProps} />}
+      isDisabled
+    />
   </Story>
 </Canvas>
 
@@ -82,7 +103,10 @@ export const Template = (args) => <IconButton {...args} />;
 
 <Canvas>
   <Story name="ClickEvent" decorators={[ButtonStoryDecorator]}>
-    <IconButton symbol={ArrowBackIcon} onPress={() => alert("clicked!")} />
+    <IconButton
+      icon={<Icon {...sharedIconButtonProps} />}
+      onPress={() => alert("clicked!")}
+    />
   </Story>
 </Canvas>
 

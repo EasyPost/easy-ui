@@ -40,6 +40,7 @@ export function DropdownButton(props: DropdownButtonProps) {
       ref={ref}
       className={classNames(
         styles.DropdownButton,
+        styles[variationName("variant", variant)],
         commonButtonStyles[variationName("color", color)],
         commonButtonStyles[variationName("variant", variant)],
       )}

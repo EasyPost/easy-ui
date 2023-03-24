@@ -12,16 +12,15 @@ export type ButtonColor =
 export type IconButtonVariant = "filled" | "outlined";
 export type IconButtonProps = {
   /** Button color */
-  // Defaults to primary
+  /** @default "primary" */
   color?: ButtonColor;
   /** Button variant */
-  // Defaults to filled
+  /** @default "filled" */
   variant?: IconButtonVariant;
-  /** Icon symbol SVG source from @easypost/easy-ui-icons */
-  // Required
-  symbol: IconSymbol;
+  /** Icon  */
+  icon: ReactElement<IconProps>;
   /** Disables button */
-  // Defaults to false
+  /** @default false */
   isDisabled?: boolean;
 };
 ```
@@ -30,19 +29,20 @@ export type IconButtonProps = {
 
 ```jsx
 import IconButton from "@easypost/easy-ui/IconButton";
+import Icon from "@easypost/easy-ui/Icon"
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 // Filled
-<IconButton color="primary" symbol={ArrowBackIcon} />
-<IconButton color="secondary" symbol={ArrowBackIcon} />
-<IconButton color="success" symbol={ArrowBackIcon} />
-<IconButton color="warning" symbol={ArrowBackIcon} />
-<IconButton color="neutral" symbol={ArrowBackIcon} />
+<IconButton color="primary"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
+<IconButton color="secondary"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
+<IconButton color="success"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
+<IconButton color="warning"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
+<IconButton color="neutral"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
 // Outlined
-<IconButton color="primary" variant="outlined" symbol={ArrowBackIcon} />
-<IconButton color="secondary" variant="outlined" symbol={ArrowBackIcon} />
-<IconButton color="success" variant="outlined" symbol={ArrowBackIcon} />
-<IconButton color="support" variant="outlined" symbol={ArrowBackIcon} />
-<IconButton color="inverse" variant="outlined" symbol={ArrowBackIcon} />
+<IconButton color="primary" variant="outlined"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
+<IconButton color="secondary" variant="outlined"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
+<IconButton color="success" variant="outlined"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
+<IconButton color="support" variant="outlined"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
+<IconButton color="inverse" variant="outlined"  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} />
 // Click event
-<IconButton symbol={ArrowBackIcon} onPress={myEventHandler} />
+<IconButton  icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />} onPress={myEventHandler} />
 ```

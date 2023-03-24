@@ -1,8 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, ReactElement } from "react";
 import { useButton } from "react-aria";
-import { Icon } from "../Icon";
+import { IconProps } from "../Icon";
 import { ButtonColor } from "../Button";
-import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 import styles from "./IconButton.module.scss";
@@ -15,8 +14,8 @@ export type IconButtonProps = {
   color?: ButtonColor;
   /** Button variant */
   variant?: IconButtonVariant;
-  /** Icon symbol SVG source from @easypost/easy-ui-icons */
-  symbol: IconSymbol;
+  /** Icon */
+  icon: ReactElement<IconProps>;
   /** Disables button */
   isDisabled?: boolean;
 };
@@ -25,7 +24,7 @@ export function IconButton(props: IconButtonProps) {
   const {
     color = "primary",
     variant = "filled",
-    symbol,
+    icon,
     isDisabled = false,
   } = props;
 
@@ -46,7 +45,7 @@ export function IconButton(props: IconButtonProps) {
       )}
       {...buttonProps}
     >
-      <Icon symbol={symbol} />
+      {React.cloneElement(icon)}
     </button>
   );
 }

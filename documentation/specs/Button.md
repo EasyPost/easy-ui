@@ -46,6 +46,7 @@ export type ButtonProps = {
 
 ```jsx
 import Button from "@easypost/easy-ui/Button";
+import Icon from "@easypost/easy-ui/Icon"
 import AddIcon from "@easypost/easy-ui-icons/Add";
 // Filled
 <Button color="primary" />

@@ -19,6 +19,15 @@
   }
 }
 
+.DropdownButton.variantOutlined {
+  padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
+    calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
+}
+
+.DropdownButton.variantFilled {
+  padding: var(--ezui-space-1-5) var(--ezui-space-2);
+}
+
 .pipeSeparator {
   width: var(--ezui-space-0);
   height: var(--ezui-space-2);
