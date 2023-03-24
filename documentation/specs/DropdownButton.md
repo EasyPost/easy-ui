@@ -12,16 +12,16 @@ export type ButtonColor =
 export type DropdownButtonVariant = "filled" | "outlined";
 export type DropdownButtonProps = {
   /** Button color */
-  // Defaults to primary
+  /** @default "primary" */
   color?: ButtonColor;
   /** DropdownButton variant */
-  // Defaults to filled
+  /** @default "filled" */
   variant?: DropdownButtonVariant;
   /** Disables button */
-  // Defaults to false
+  /** @default false */
   isDisabled?: boolean;
   /** Content inside button  */
-  // Defaults to "Button"
+  /** @default "Button" */
   children?: ReactNode;
 };
 ```

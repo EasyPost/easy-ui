@@ -18,7 +18,7 @@ describe("<DropdownButton />", () => {
     render(<DropdownButton />);
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
-      expect.stringContaining("Primary"),
+      expect.stringContaining("colorPrimary"),
     );
   });
 
@@ -26,7 +26,7 @@ describe("<DropdownButton />", () => {
     render(<DropdownButton color="secondary" />);
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
-      expect.stringContaining("Secondary"),
+      expect.stringContaining("colorSecondary"),
     );
   });
 
@@ -34,7 +34,7 @@ describe("<DropdownButton />", () => {
     render(<DropdownButton variant="outlined" />);
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
-      expect.stringContaining("Outlined"),
+      expect.stringContaining("variantOutlined"),
     );
   });
 
