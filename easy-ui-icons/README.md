@@ -51,6 +51,12 @@ Import the `Icon` component from Easy UI React and any icon from Easy UI Icons i
    <Icon symbol={CheckCircleIcon} />
    ```
 
+Icons imported as illustrated above will assume a weight of 300. To import an icon with a different weight, add the weight as a suffix to the path.
+
+```tsx
+import Icon400 from "@easypost/easy-ui/Icon400";
+```
+
 ### SVG files
 
 For projects that don’t use React and need the raw SVG, icons are available as `*.svg` files in the `svg` folder.
@@ -85,5 +91,17 @@ Add a new Material Symbol icon by specifying a named JSON file with a Material S
   "name": "check",
   "style": "outlined",
   "source": "@material-symbols/svg-300"
+}
+```
+
+To add a new Material Symbol icon with a weight other than 300, update the above to reflect it as so; using a weight of 400 as an example:
+
+`Check400.json`:
+
+```json
+{
+  "name": "check",
+  "style": "outlined",
+  "source": "@material-symbols/svg-400"
 }
 ```

@@ -1,0 +1,80 @@
+import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
+import {
+  ButtonStoryDecorator,
+  ButtonStoryOnDarkBackgroundDecorator,
+} from "../Button/Button.stories.mdx";
+import { DropdownButton } from "./DropdownButton";
+
+<Meta
+  title="Components/Button/DropdownButton"
+  argTypes={{
+    children: {
+      control: "text",
+    },
+  }}
+  component={DropdownButton}
+/>
+
+export const Template = (args) => <DropdownButton {...args} />;
+
+# DropdownButton
+
+<Canvas>
+  <Story name="Default" args={{}}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Filled buttons
+
+<Canvas>
+  <Story name="FilledButtons" decorators={[ButtonStoryDecorator]}>
+    <DropdownButton />
+    <DropdownButton color="secondary" />
+    <DropdownButton color="success" />
+    <DropdownButton color="warning" />
+    <DropdownButton color="neutral" />
+  </Story>
+</Canvas>
+
+## Outlined buttons
+
+<Canvas>
+  <Story name="OutlinedButtons" decorators={[ButtonStoryDecorator]}>
+    <DropdownButton variant="outlined" />
+    <DropdownButton color="secondary" variant="outlined" />
+    <DropdownButton color="success" variant="outlined" />
+    <DropdownButton color="warning" variant="outlined" />
+    <DropdownButton color="support" variant="outlined" />
+  </Story>
+</Canvas>
+
+## Inverse button
+
+<Canvas>
+  <Story
+    name="InverseButtons"
+    decorators={[ButtonStoryOnDarkBackgroundDecorator]}
+  >
+    <DropdownButton color="inverse" variant="outlined" />
+  </Story>
+</Canvas>
+
+## Disabled buttons
+
+<Canvas>
+  <Story name="DisabledButtons" decorators={[ButtonStoryDecorator]}>
+    <DropdownButton isDisabled />
+    <DropdownButton variant="outlined" isDisabled />
+  </Story>
+</Canvas>
+
+## Click event
+
+<Canvas>
+  <Story name="ClickEvent" decorators={[ButtonStoryDecorator]}>
+    <DropdownButton onPress={() => alert("clicked!")} />
+  </Story>
+</Canvas>
+
+<ArgsTable story="Default" />
