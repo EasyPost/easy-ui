@@ -5,7 +5,7 @@ import { IconButton } from "./IconButton";
 import { Icon } from "../Icon";
 
 describe("<IconButton />", () => {
-  it("should render a button with icon and accessibility label", () => {
+  it("should render a button with an icon and an accessibility label", () => {
     render(
       <IconButton
         icon={<Icon symbol={ArrowBackIcon} accessibilityLabel="arrow back" />}
