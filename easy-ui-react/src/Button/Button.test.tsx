@@ -39,7 +39,7 @@ describe("<Button />", () => {
     render(<Button />);
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
-      expect.stringContaining("Primary"),
+      expect.stringContaining("colorPrimary"),
     );
   });
 
@@ -47,7 +47,7 @@ describe("<Button />", () => {
     render(<Button color="secondary" />);
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
-      expect.stringContaining("Secondary"),
+      expect.stringContaining("colorSecondary"),
     );
   });
 
@@ -55,7 +55,7 @@ describe("<Button />", () => {
     render(<Button variant="outlined" />);
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
-      expect.stringContaining("Outlined"),
+      expect.stringContaining("variantOutlined"),
     );
   });
 
