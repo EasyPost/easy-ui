@@ -34,4 +34,33 @@ describe("<Button />", () => {
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });
+
+  it("should apply the primary color class", () => {
+    render(<Button />);
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("colorPrimary"),
+    );
+  });
+
+  it("should apply the secondary color class", () => {
+    render(<Button color="secondary" />);
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("colorSecondary"),
+    );
+  });
+
+  it("should apply the outlined variant class", () => {
+    render(<Button variant="outlined" />);
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("variantOutlined"),
+    );
+  });
+
+  it("should apply the disabled attribute", () => {
+    render(<Button isDisabled />);
+    expect(screen.getByRole("button")).toHaveAttribute("disabled");
+  });
 });

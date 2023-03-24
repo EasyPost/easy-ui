@@ -1,0 +1,27 @@
+@import "../styles/common";
+
+.DropdownButton {
+  @include font-style("button");
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ezui-space-1-5);
+  border-radius: var(--ezui-shape-border-radius-base);
+  cursor: pointer;
+
+  &:focus {
+    box-shadow: var(--ezui-shadow-button);
+    outline: none;
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.pipeSeparator {
+  width: var(--ezui-space-0);
+  height: var(--ezui-space-2);
+  border-left-width: var(--ezui-shape-border-width-1);
+  border-left-style: solid;
+}
