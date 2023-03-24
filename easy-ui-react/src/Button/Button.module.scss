@@ -105,8 +105,6 @@
   border: var(--ezui-shape-border-width-1) solid
     var(--ezui-c-button-resting-color);
   color: var(--ezui-c-button-resting-color);
-  padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
-    calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
 
   &:focus {
     border: var(--ezui-shape-border-width-1) solid
@@ -144,8 +142,6 @@
   background-color: transparent;
   border: var(--ezui-shape-border-width-1) solid transparent;
   text-decoration: underline;
-  padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
-    calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
 
   &:focus {
     border: var(--ezui-shape-border-width-1) solid
