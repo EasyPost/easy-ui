@@ -40,11 +40,11 @@ Easy UI is a public project so pull requests are welcome. Before working on a la
 
 ### Sending a pull request
 
-We'll review your pull request and either merge it, request changes to it, or close it with an explanation. We’ll do our best to provide updates and feedback throughout the process.
+We'll review your pull request and either merge it, request changes to it, or close it with an explanation. We'll do our best to provide updates and feedback throughout the process.
 
 **Before submitting a pull request**, please:
 
-1. Review [best practices](https://github.com/EasyPost/easy-ui/blob/main/.github/CONTRIBUTING.md#component-api-best-practices).
+1. Review [best practices](https://github.com/EasyPost/easy-ui/blob/main/.github/CONTRIBUTING.md#component-api-best-practices)
 1. Fork the repository and create your branch from `main`
 1. Run `npm install` in the repository root
 1. If you’ve fixed a bug or added code, make sure to add tests
@@ -86,7 +86,7 @@ Keep the following in mind when authoring your changelog entry (final prompt aft
 Generally, changes related to these topics can be omitted:
 
 - Dev dependencies upgrades
-- Chores (infrastructure, release process...)
+- Chores (infrastructure, release process, etc.)
 
 ## Component API best practices
 
