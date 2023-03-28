@@ -72,6 +72,8 @@ Add a changeset if you have made any changes that will require a package version
 3. Select a [bump type](https://github.com/EasyPost/easy-ui/blob/main/.github/CONTRIBUTING.md#semantic-versioning) for each selected package.
 4. Provide a message to be written into the changelog on the next release.
 
+To check the [status](https://github.com/changesets/changesets/blob/main/packages/cli/README.md#status) of changesets that currently exist run `npm run changes:status`. If there are changes to packages but no changesets are present, it exits with error status code `1`.
+
 #### Writing a changelog message
 
 Keep the following in mind when authoring your changelog entry (final prompt after running `npm run changes:add`):
