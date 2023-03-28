@@ -7,14 +7,7 @@ export function logWarningIfInvalidColorVariantCombination(
 ): void {
   const validColorVariantCombinations = {
     filled: ["primary", "secondary", "success", "warning", "neutral"],
-    outlined: [
-      "primary",
-      "secondary",
-      "success",
-      "warning",
-      "support",
-      "inverse",
-    ],
+    outlined: ["primary", "secondary", "support", "inverse"],
     link: ["primary", "secondary"],
   };
   if (!validColorVariantCombinations[variant]?.includes(color)) {
