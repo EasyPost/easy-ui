@@ -18,7 +18,7 @@ The following sections detail what kinds of changes result in each of major, min
 - Removal of a prop from a component
 - Change to the type accepted for a prop
 - Breaking changes to minimum version of dependencies
-- Breaking changes to public variables, functions and mixins
+- Breaking changes to public variables, functions, and mixins
 
 ### Minor
 
