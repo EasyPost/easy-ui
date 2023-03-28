@@ -10,28 +10,69 @@ export type TextVariant = TokenNamespaceWithSuffix<"font-style", "family">;
 export type TextWeight = "normal" | "medium" | "semibold" | "bold";
 
 export type TextProps = {
-  /* Adjusts horizontal alignment of text */
+  /** Adjusts horizontal alignment of text */
   alignment?: "start" | "center" | "end" | "justify";
   /* Adjusts the underlying element of the text */
   as?: TextAs;
-  /* Prevent text from overflowing inline container */
+  /** Prevent text from overflowing inline container */
   breakWord?: boolean;
   /** Text to display */
   children: ReactNode;
-  /* Adjust color of text */
+  /** Adjust color of text */
   color?: TextColor;
-  /* HTML id attribute */
+  /** HTML id attribute */
   id?: string;
   /** Truncate text overflow with ellipsis */
   truncate?: boolean;
-  /* Adjusts the style of text that's rendered */
+  /** Adjusts the style of text that's rendered */
   variant?: TextVariant;
-  /* Visually hide the text but keep it accessible */
+  /** Visually hide the text but keep it accessible */
   visuallyHidden?: boolean;
   /** Adjust weight of text */
   weight?: TextWeight;
 };
 
+/**
+ * A typography helper that will apply text styles to the text inside.
+ *
+ * @remarks
+ * Accepts an Easy UI text variant along with other font-related props to adjust
+ * the rendered text within Easy UI's constraint system.
+ *
+ * This component is helpful in product-facing scenarios where components tend
+ * to be used all the way down the stack, it may be less helpful in
+ * marketing-facing situations where long-form prose is required.
+ *
+ * @example
+ * Standard body text:
+ * ```tsx
+ * <Text variant="body1">Standard body text rendered as a span</Text>
+ * ```
+ *
+ * @example
+ * Working with alignment and color:
+ * ```tsx
+ * <Text variant="body1" alignment="center" color="blue-500">
+ *   Standard body text rendered as a span, centered, and colored blue 500
+ * </Text>
+ * ```
+ *
+ * @example
+ * Working with headings:
+ * ```tsx
+ * <Text variant="heading2" as="h2" id="unique-heading-id">
+ *   Heading level 2 text
+ * </Text>
+ * ```
+ *
+ * @example
+ * Visually hidden for accessibility purposes:
+ * ```tsx
+ * <Text visuallyHidden>
+ *   Description of icon or image visually hidden but still in tree
+ * </Text>
+ * ```
+ */
 export function Text({
   alignment,
   as: Component = "span",
