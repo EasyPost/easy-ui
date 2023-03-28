@@ -1,14 +1,18 @@
 ---
 status: Accepted
-date: 2023-02-28
+date: 2023-03-28
 deciders: stephenjwatkins, OskiTheCoder, ldewald
 ---
 
-# Use TSDoc to document components
+# Use TSDoc to document components for developers
 
 ## Context and Problem Statement
 
-Easy UI needs to communicate important information about its components to developers.
+Component library documentation comes in many forms. Typically, a thorough level of documentation for components are communicated on design system websites. While this is an important channel of communication for stakeholders in general, it's helpful to provide standardized documentation closer to implementors.
+
+Apart from increasing awareness of a component's intent to developers, it's important to ensure that critical metadata is standardized across the project. Details such as the lifecycle state of a component is information important to mark and surface in appropriate channels.
+
+Easy UI needs to facilitate communicating intent-of-use and critical lifecycle state to implementors of the library.
 
 ## Decision Drivers
 
@@ -16,41 +20,33 @@ Easy UI needs to communicate important information about its components to devel
 - Documentation should be easy to maintain
 - Documentation should support long-form text and metadata
 - Documentation should support rich formatting (markdown, example code, etc)
+- Documentation should support domain-specific extension
 - Documentation should be able to meet developers where they are
 
 ## Decision Outcome
 
-We will use TSDoc to document our components.
+We will use TSDoc to document our components for developers.
 
 ## More Information
 
-It's important for a component's purpose and status be clearly communicated to other developers.
+TSDoc is a JSDoc-like standard developed by Microsoft to support documentation in TypeScript codebases. It follows a more clearly defined ruleset than JSDoc without concerning itself with types. Since Easy UI is a TypeScript project, TSDoc is a natural choice. A related project, TypeDoc, is a superset of TSDoc used for generating documentation from TypeScript and TSDoc projects.
 
-This communication can come in many forms. Often, purpose and status of components are communicated on a design system website or component library Storybook. This is a great starting place for communication, but it's helpful to provide documentation as close to where developers use the components as possible.
+Using TSDoc, implementors of Easy UI get documentation of components for free through built-in parsers in IDEs. This channel of documentation will reduce distance between the source and implementation, providing a safer, more robust path for implementors.
 
-Using TSDoc, a documentation standard that's understandable by IDEs, Easy UI can provide documentation on their components that meets developers where they are instead of having to reference a source away from their IDE for important information, such as whether or not its deprecated.
+On top of providing documentation for developers out of the box through IDEs, various tooling exists for TSDoc to parse its grammer and generate documentation. This tooling could be used to parse Easy UI for surfacing on Storybook and other communication channels.
 
-In addition, we can use this same documentation to augment our more general documentation, either in Storybook or on a broader design system website. The goal being to write once and surface where relevant.
+### What to Communicate
 
-### Why TSDoc?
+Easy UI should communicate a component's intent-for-use and any critical information for developers.
 
-TSDoc is a JSDoc-like standard developed by Microsoft to support documentation in TypeScript codebases. It follows a more clearly defined ruleset than JSDoc and doesn't concern itself with managing types like JSDoc does. Since Easy UI is a TypeScript codebase, TSDoc makes the most sense. TSDoc is closely related to (used in) TypeDoc, which provides a superset on top of TSDoc, and is used for generating documentation from TypeScript codebases.
+- Summary of a component's intent-of-use
+- Any long-form remarks denoting any important details about the component
+- Examples of a component's usage
+- Any non-stable lifecycle state of the component—`@alpha` or `@deprecated`
 
-### What to Communicate?
+Given that Easy UI is a TypeScript project, type information should not be included in TSDoc.
 
-Easy UI should communicate a summary of the component, including its intent for use and any important information regarding the component itself.
-
-Any long-form remarks and private remarks denoting any important details should also be communicated. Optionally, any private remarks can be noted in the documentation. This may not be stripped out of the final documentation depending on the tooling support.
-
-Examples of the component's use should also be included. Multiple examples are supported
-
-The lifecycle state of the component should be documented if it's anything other than stable. A component's lifecycle follows this sequence: `alpha` -> `stable` -> `deprecated`.
-
-Any domain-specific tagging can be utilized with custom TSDoc tags.
-
-Type information shouldn't be included in the documentation since Easy UI's use of TypeScript provides that information for free.
-
-Props should also be documented with TSDoc syntax, including a brief summary of the prop, any default value, and any lifecycle state other than stable. Properties should be defined in alphabetical order.
+Properties of components should also be documented in TSDoc syntax. Properties should include a summary of the property, any default value for the property, and any non-stable lifecycle state of the property. Properties should be listed in alphabetical order.
 
 ### Documenting Easy UI Components
 
@@ -111,3 +107,36 @@ function Component(props: ComponentProps) {
   return <>{/* Implementation */</>
 }
 ````
+
+### Custom tags
+
+TSDoc supports domain-specific tags. While Easy UI isn't using any custom tags initially, we might want custom tags in the future.
+
+As an example, to add a tag that marks a component needing accessibility review, one could modify the `tsdoc.json` config at the root of the project to let TSDoc know of the custom tag.
+
+```
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+  "tagDefinitions": [
+    {
+      "tagName": "@needsAccessibilityReview",
+      "syntaxKind": "modifier"
+    }
+  ]
+}
+```
+
+This tag could then be used in component documentation.
+
+```tsx
+/**
+ * A summary of Component describing the component's purpose.
+ *
+ * @needsAccessibilityReview
+ */
+function Component(props: ComponentProps) {
+  return <>{/* Implementation */</>
+}
+```
+
+Refer to the [TSDoc config reference](https://tsdoc.org/pages/packages/tsdoc-config/) for more information.
