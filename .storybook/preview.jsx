@@ -23,10 +23,9 @@ export const parameters = {
       name,
       value,
     })),
-  },
-  grid: {
     cellSize: gridCellSize,
   },
+  previewTabs: { canvas: { hidden: true } },
 };
 
 export const decorators = [
