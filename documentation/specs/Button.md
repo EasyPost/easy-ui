@@ -13,31 +13,31 @@ export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
 export type ButtonProps = {
   /** Button color */
-  // Defaults to primary
+  /** @default "primary" */
   color?: ButtonColor;
   /** Button variant */
-  // Defaults to filled
+  /** @default "filled" */
   variant?: ButtonVariant;
   /** Button size */
-  // Defaults to md
+  /** @default "md" */
   size?: ButtonSize;
   /** Disables button */
-  // Defaults to false
+  /** @default false */
   isDisabled?: boolean;
   /** Button will grow to width of container */
-  // Defaults to false
+  /** @default false */
   isBlock?: boolean;
   /** Positions icon before children */
-  // Defaults to null, only valid with md size
-  iconAtStart?: ReactElement<IconProps>;
+  /** @default undefined  */
+  iconSymbolAtStart?: IconSymbol;
   /** Positions icon after children */
-  // Defaults to null, only valid with md size
-  iconAtEnd?: ReactElement<IconProps>;
+  /** @default undefined  */
+  iconSymbolAtEnd?: IconSymbol;
   /** Content inside button  */
-  // Defaults to "Button"
+  /** @default "Button"  */
   children?: ReactNode;
   /** Link's destination */
-  // Defaults to ""
+  /** @default ""  */
   href?: string;
 };
 ```
@@ -46,7 +46,6 @@ export type ButtonProps = {
 
 ```jsx
 import Button from "@easypost/easy-ui/Button";
-import Icon from "@easypost/easy-ui/Icon"
 import AddIcon from "@easypost/easy-ui-icons/Add";
 // Filled
 <Button color="primary" />
@@ -69,7 +68,7 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 // Custom text
 <Button>Login</Button>
 // Icon
-<Button color="neutral" iconAtStart={<Icon symbol={AddIcon}/>} />
+<Button color="neutral" iconSymbolAtStart={AddIcon} />
 // Click event
 <Button onPress={myEventHandler} />
 ```

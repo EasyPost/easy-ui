@@ -17,8 +17,10 @@ export type IconButtonProps = {
   /** Button variant */
   /** @default "filled" */
   variant?: IconButtonVariant;
-  /** Icon  */
-  icon: ReactElement<IconProps>;
+  /** Icon symbol */
+  iconSymbol: IconSymbol;
+  /** Description of icon */
+  accessibilityLabel: string;
   /** Disables button */
   /** @default false */
   isDisabled?: boolean;

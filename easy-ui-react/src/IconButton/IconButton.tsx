@@ -1,11 +1,12 @@
-import React, { useRef, ReactElement } from "react";
+import React, { useRef } from "react";
 import { useButton } from "react-aria";
-import { IconProps } from "../Icon";
+import { Icon } from "../Icon";
 import { ButtonColor } from "../Button";
+import { Text } from "../Text";
+import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 import styles from "./IconButton.module.scss";
-import commonButtonStyles from "../Button/Button.module.scss";
 
 export type IconButtonVariant = "filled" | "outlined";
 
@@ -14,8 +15,10 @@ export type IconButtonProps = {
   color?: ButtonColor;
   /** Button variant */
   variant?: IconButtonVariant;
-  /** Icon */
-  icon: ReactElement<IconProps>;
+  /** Icon symbol */
+  iconSymbol: IconSymbol;
+  /** Description of icon */
+  accessibilityLabel: string;
   /** Disables button */
   isDisabled?: boolean;
 };
@@ -24,7 +27,8 @@ export function IconButton(props: IconButtonProps) {
   const {
     color = "primary",
     variant = "filled",
-    icon,
+    iconSymbol,
+    accessibilityLabel,
     isDisabled = false,
   } = props;
 
@@ -40,12 +44,12 @@ export function IconButton(props: IconButtonProps) {
       className={classNames(
         styles.IconButton,
         styles[variationName("variant", variant)],
-        commonButtonStyles[variationName("color", color)],
-        commonButtonStyles[variationName("variant", variant)],
+        styles[variationName("color", color)],
       )}
       {...buttonProps}
     >
-      {React.cloneElement(icon)}
+      <Text visuallyHidden>{accessibilityLabel}</Text>
+      <Icon symbol={iconSymbol} />
     </button>
   );
 }

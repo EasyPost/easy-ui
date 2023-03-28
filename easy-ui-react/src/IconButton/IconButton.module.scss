@@ -1,26 +1,16 @@
+@use "../Button/Button.module.scss" as Button;
 @import "../styles/common";
 
 .IconButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--ezui-shape-border-radius-base);
-  cursor: pointer;
-
-  &:focus {
-    box-shadow: var(--ezui-shadow-button);
-    outline: none;
-  }
-
-  &:disabled {
-    pointer-events: none;
-  }
+  @include Button.baseButton();
 }
 
-.IconButton.variantOutlined {
+.variantOutlined {
+  @include Button.variantOutlined;
   padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)});
 }
 
-.IconButton.variantFilled {
+.variantFilled {
+  @include Button.variantFilled;
   padding: var(--ezui-space-1-5);
 }

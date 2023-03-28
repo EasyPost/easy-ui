@@ -1,30 +1,20 @@
+@use "../Button/Button.module.scss" as Button;
 @import "../styles/common";
 
 .DropdownButton {
+  @include Button.baseButton();
   @include font-style("button");
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   gap: var(--ezui-space-1-5);
-  border-radius: var(--ezui-shape-border-radius-base);
-  cursor: pointer;
-
-  &:focus {
-    box-shadow: var(--ezui-shadow-button);
-    outline: none;
-  }
-
-  &:disabled {
-    pointer-events: none;
-  }
 }
 
-.DropdownButton.variantOutlined {
+.variantOutlined {
+  @include Button.variantOutlined();
   padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
     calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
 }
 
-.DropdownButton.variantFilled {
+.variantFilled {
+  @include Button.variantFilled();
   padding: var(--ezui-space-1-5) var(--ezui-space-2);
 }
 

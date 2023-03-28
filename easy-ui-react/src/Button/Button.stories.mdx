@@ -10,6 +10,14 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 <Meta
   title="Components/Button/Button"
   argTypes={{
+    iconSymbolAtStart: createLabelledOptionsControl({
+      ArrowBack: ArrowBackIcon,
+      Add: AddIcon,
+    }),
+    iconSymbolAtEnd: createLabelledOptionsControl({
+      ArrowBack: ArrowBackIcon,
+      Add: AddIcon,
+    }),
     children: {
       control: "text",
     },
@@ -72,13 +80,9 @@ export const ButtonStoryOnDarkBackgroundDecorator = (story) => (
   <Story name="OutlinedButtons" decorators={[ButtonStoryDecorator]}>
     <Button variant="outlined" />
     <Button color="secondary" variant="outlined" />
-    <Button color="success" variant="outlined" />
-    <Button color="warning" variant="outlined" />
     <Button color="support" variant="outlined" />
     <Button variant="outlined" size="sm" />
     <Button color="secondary" variant="outlined" size="sm" />
-    <Button color="success" variant="outlined" size="sm" />
-    <Button color="warning" variant="outlined" size="sm" />
     <Button color="support" variant="outlined" size="sm" />
   </Story>
 </Canvas>
@@ -117,10 +121,10 @@ export const ButtonStoryOnDarkBackgroundDecorator = (story) => (
 
 <Canvas>
   <Story name="WithIcons" decorators={[ButtonStoryDecorator]}>
-    <Button iconAtEnd={<Icon symbol={CheckCircleIcon} />} />
-    <Button color="neutral" iconAtEnd={<Icon symbol={AddIcon} />} />
-    <Button color="success" iconAtStart={<Icon symbol={ArrowBackIcon} />} />
-    <Button color="warning" iconAtStart={<Icon symbol={InfoIcon} />} />
+    <Button iconSymbolAtEnd={CheckCircleIcon} />
+    <Button color="neutral" iconSymbolAtEnd={AddIcon} />
+    <Button color="success" iconSymbolAtStart={ArrowBackIcon} />
+    <Button color="warning" iconSymbolAtStart={InfoIcon} />
   </Story>
 </Canvas>
 

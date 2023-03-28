@@ -1,6 +1,6 @@
 @import "../styles/common";
 
-.Button {
+@mixin baseButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -15,6 +15,102 @@
   &:disabled {
     pointer-events: none;
   }
+}
+
+@mixin variantFilled {
+  border: 0;
+  background-color: var(--ezui-c-button-resting-color);
+  color: var(--ezui-c-button-filled-font-color);
+
+  &:focus {
+    background-color: var(--ezui-c-button-hover-focus-color);
+  }
+
+  &:disabled {
+    color: var(--ezui-color-white);
+    background-color: var(--ezui-color-gray-200);
+  }
+
+  &:link {
+    text-decoration: none;
+  }
+
+  &:not(:disabled):active {
+    color: var(--ezui-c-button-filled-active-font-color);
+    background-color: var(--ezui-c-button-active-color);
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    background-color: var(--ezui-c-button-hover-focus-color);
+  }
+}
+
+@mixin variantOutlined {
+  background-color: transparent;
+  border: var(--ezui-shape-border-width-1) solid
+    var(--ezui-c-button-resting-color);
+  color: var(--ezui-c-button-resting-color);
+
+  &:focus {
+    border: var(--ezui-shape-border-width-1) solid
+      var(--ezui-c-button-hover-focus-color);
+    color: var(--ezui-c-button-hover-focus-color);
+  }
+
+  &:disabled {
+    color: var(--ezui-color-gray-300);
+    border: var(--ezui-shape-border-width-1) solid var(--ezui-color-gray-300);
+  }
+
+  &:link {
+    text-decoration: none;
+  }
+
+  &:active:not(:disabled) {
+    color: var(--ezui-c-button-active-color);
+    border: var(--ezui-shape-border-width-1) solid
+      var(--ezui-c-button-active-color);
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    border: var(--ezui-shape-border-width-1) solid
+      var(--ezui-c-button-hover-focus-color);
+    color: var(--ezui-c-button-hover-focus-color);
+  }
+}
+
+@mixin variantLink {
+  color: var(--ezui-c-button-resting-color);
+  background-color: transparent;
+  border: var(--ezui-shape-border-width-1) solid transparent;
+  text-decoration: underline;
+
+  &:focus {
+    border: var(--ezui-shape-border-width-1) solid
+      var(--ezui-c-button-hover-focus-color);
+  }
+
+  &:disabled {
+    color: var(--ezui-color-gray-300);
+  }
+
+  &:active:not(:disabled) {
+    color: var(--ezui-c-button-active-color);
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: var(--ezui-c-button-hover-focus-color);
+  }
+}
+
+.Button {
+  @include baseButton();
 }
 
 .colorPrimary {
@@ -70,105 +166,22 @@
 }
 
 .variantFilled {
-  border: 0;
-  background-color: var(--ezui-c-button-resting-color);
-  color: var(--ezui-c-button-filled-font-color);
-
-  &:focus {
-    background-color: var(--ezui-c-button-hover-focus-color);
-  }
-
-  &:disabled {
-    color: var(--ezui-color-white);
-    background-color: var(--ezui-color-gray-200);
-  }
-
-  &:link {
-    text-decoration: none;
-  }
-
-  &:not(:disabled):active {
-    color: var(--ezui-c-button-filled-active-font-color);
-    background-color: var(--ezui-c-button-active-color);
-    &:focus {
-      box-shadow: none;
-    }
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    background-color: var(--ezui-c-button-hover-focus-color);
-  }
+  @include variantFilled();
+  padding: var(--ezui-space-1-5) var(--ezui-space-2);
 }
 
 .variantOutlined {
-  background-color: transparent;
-  border: var(--ezui-shape-border-width-1) solid
-    var(--ezui-c-button-resting-color);
-  color: var(--ezui-c-button-resting-color);
-
-  &:focus {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
-    color: var(--ezui-c-button-hover-focus-color);
-  }
-
-  &:disabled {
-    color: var(--ezui-color-gray-300);
-    border: var(--ezui-shape-border-width-1) solid var(--ezui-color-gray-300);
-  }
-
-  &:link {
-    text-decoration: none;
-  }
-
-  &:active:not(:disabled) {
-    color: var(--ezui-c-button-active-color);
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-active-color);
-    &:focus {
-      box-shadow: none;
-    }
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
-    color: var(--ezui-c-button-hover-focus-color);
-  }
+  @include variantOutlined();
 }
 
 .variantLink {
-  color: var(--ezui-c-button-resting-color);
-  background-color: transparent;
-  border: var(--ezui-shape-border-width-1) solid transparent;
-  text-decoration: underline;
-
-  &:focus {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
-  }
-
-  &:disabled {
-    color: var(--ezui-color-gray-300);
-  }
-
-  &:active:not(:disabled) {
-    color: var(--ezui-c-button-active-color);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-c-button-hover-focus-color);
-  }
+  @include variantLink();
 }
 
-.Button.variantOutlined,
-.Button.variantLink {
+.variantOutlined,
+.variantLink {
   padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
     calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
-}
-
-.Button.variantFilled {
-  padding: var(--ezui-space-1-5) var(--ezui-space-2);
 }
 
 .sizeMd {
@@ -193,10 +206,10 @@
   width: 100%;
 }
 
-.iconAtStart {
+.iconSymbolAtStart {
   margin-left: var(--ezui-space-1);
 }
 
-.iconAtEnd {
+.iconSymbolAtEnd {
   margin-right: var(--ezui-space-1);
 }

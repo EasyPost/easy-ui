@@ -1,6 +1,7 @@
-import React, { ReactElement, ReactNode, useRef } from "react";
+import React, { ReactNode, useRef } from "react";
 import { useButton } from "react-aria";
-import { IconProps } from "../Icon";
+import { Icon } from "../Icon";
+import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { logWarningIfInvalidColorVariantCombination } from "./utilities";
 
@@ -29,10 +30,10 @@ export type ButtonProps = {
   isDisabled?: boolean;
   /** Button will grow to width of container */
   isBlock?: boolean;
-  /** Positions icon before children */
-  iconAtStart?: ReactElement<IconProps>;
-  /** Positions icon after children */
-  iconAtEnd?: ReactElement<IconProps>;
+  /** Positions icon symbol before children */
+  iconSymbolAtStart?: IconSymbol;
+  /** Positions icon symbol after children */
+  iconSymbolAtEnd?: IconSymbol;
   /** Content inside button  */
   children?: ReactNode;
   /** Link's destination */
@@ -46,8 +47,8 @@ export function Button(props: ButtonProps) {
     size = "md",
     isDisabled = false,
     isBlock = false,
-    iconAtStart = null,
-    iconAtEnd = null,
+    iconSymbolAtStart,
+    iconSymbolAtEnd,
     children = "Button",
     href = "",
   } = props;
@@ -58,8 +59,20 @@ export function Button(props: ButtonProps) {
     { ...props, elementType: As },
     ref,
   );
+
+  const bothIconPropsDefined = iconSymbolAtEnd && iconSymbolAtStart;
+  if (bothIconPropsDefined) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "Cannot simultaneously define `iconSymbolAtEnd` and `iconSymbolAtStart`",
+    );
+  }
+
   const canUseIcon =
-    (iconAtEnd || iconAtStart) && variant !== "link" && size !== "sm";
+    (iconSymbolAtEnd || iconSymbolAtStart) &&
+    !bothIconPropsDefined &&
+    variant !== "link" &&
+    size !== "sm";
 
   logWarningIfInvalidColorVariantCombination(color, variant);
 
@@ -76,16 +89,16 @@ export function Button(props: ButtonProps) {
       )}
       {...elementProps}
     >
-      {iconAtStart && canUseIcon && React.cloneElement(iconAtStart)}
+      {iconSymbolAtStart && canUseIcon && <Icon symbol={iconSymbolAtStart} />}
       <span
         className={classNames(
-          iconAtStart && canUseIcon && styles.iconAtStart,
-          iconAtEnd && canUseIcon && styles.iconAtEnd,
+          iconSymbolAtStart && canUseIcon && styles.iconSymbolAtStart,
+          iconSymbolAtEnd && canUseIcon && styles.iconSymbolAtEnd,
         )}
       >
         {children}
       </span>
-      {iconAtEnd && canUseIcon && React.cloneElement(iconAtEnd)}
+      {iconSymbolAtEnd && canUseIcon && <Icon symbol={iconSymbolAtEnd} />}
     </As>
   );
 }
