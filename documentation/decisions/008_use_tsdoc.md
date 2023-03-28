@@ -46,7 +46,7 @@ Easy UI should communicate a component's intent-for-use and any critical informa
 
 Given that Easy UI is a TypeScript project, type information should not be included in TSDoc.
 
-Properties of components should also be documented in TSDoc syntax. Properties should include a summary of the property, any default value for the property, and any non-stable lifecycle state of the property. Properties should be listed in alphabetical order.
+Properties of components should also be documented in TSDoc syntax. Properties should include a summary of the property, any non-insignificant default value for the property, and any non-stable lifecycle state of the property. Properties should be listed in alphabetical order.
 
 ### Documenting Easy UI Components
 
