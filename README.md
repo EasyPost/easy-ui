@@ -33,8 +33,9 @@ easy-ui/
 | `npm run build:react`      | Builds Easy UI React                         |
 | `npm run build:tokens`     | Builds Easy UI design tokens                 |
 | `npm run changes:add`      | Adds a changeset                             |
-| `npm run changes:version`  | Versions the current changesets              |
 | `npm run changes:publish`  | Publishes the currently versioned changesets |
+| `npm run changes:status`   | Retrieves status of changesets               |
+| `npm run changes:version`  | Versions the current changesets              |
 | `npm run clean`            | Removes temp directories from workspaces     |
 | `npm run lint`             | Lints Easy UI                                |
 | `npm run format`           | Formats files with prettier                  |
