@@ -44,6 +44,12 @@ export const ButtonStoryOnDarkBackgroundDecorator = (story) => (
 
 # Button
 
+<Canvas>
+  <Story name="Default" args={{}}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
 ## Filled buttons
 
 <Canvas>
@@ -144,12 +150,4 @@ export const ButtonStoryOnDarkBackgroundDecorator = (story) => (
   </Story>
 </Canvas>
 
-## Controls
-
-<Canvas>
-  <Story name="Controls" args={{}}>
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
-<ArgsTable story="Controls" />
+<ArgsTable story="Default" />

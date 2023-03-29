@@ -19,9 +19,10 @@ export const Template = (args) => <Text {...args} />;
 
 # Text
 
-## Truncate
-
 <Canvas>
+  <Story name="Default" args={{ children: "Here is some text" }}>
+    {Template.bind({})}
+  </Story>
   <Story
     name="Truncate"
     args={{
@@ -47,12 +48,4 @@ export const Template = (args) => <Text {...args} />;
   </Story>
 </Canvas>
 
-## Controls
-
-<Canvas>
-  <Story name="Controls" args={{ children: "Here is some text" }}>
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
-<ArgsTable story="Controls" />
+<ArgsTable story="Default" />
