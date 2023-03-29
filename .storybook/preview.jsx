@@ -23,7 +23,9 @@ export const parameters = {
       name,
       value,
     })),
-    cellSize: gridCellSize,
+    grid: {
+      cellSize: gridCellSize,
+    },
   },
 };
 
