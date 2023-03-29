@@ -1,8 +1,36 @@
-@use "../Button/Button.module.scss" as Button;
+@use "../Button/mixins" as Button;
 @import "../styles/common";
 
 .IconButton {
-  @include Button.baseButton();
+  @include Button.base;
+}
+
+.colorPrimary {
+  @include Button.colorPrimary;
+}
+
+.colorSecondary {
+  @include Button.colorSecondary;
+}
+
+.colorSuccess {
+  @include Button.colorSuccess;
+}
+
+.colorWarning {
+  @include Button.colorWarning;
+}
+
+.colorNeutral {
+  @include Button.colorNeutral;
+}
+
+.colorSupport {
+  @include Button.colorSupport;
+}
+
+.colorInverse {
+  @include Button.colorInverse;
 }
 
 .variantOutlined {

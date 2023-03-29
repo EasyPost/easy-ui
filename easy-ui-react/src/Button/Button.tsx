@@ -31,9 +31,9 @@ export type ButtonProps = {
   /** Button will grow to width of container */
   isBlock?: boolean;
   /** Positions icon symbol before children */
-  iconSymbolAtStart?: IconSymbol;
+  iconAtStart?: IconSymbol;
   /** Positions icon symbol after children */
-  iconSymbolAtEnd?: IconSymbol;
+  iconAtEnd?: IconSymbol;
   /** Content inside button  */
   children?: ReactNode;
   /** Link's destination */
@@ -47,8 +47,8 @@ export function Button(props: ButtonProps) {
     size = "md",
     isDisabled = false,
     isBlock = false,
-    iconSymbolAtStart,
-    iconSymbolAtEnd,
+    iconAtStart,
+    iconAtEnd,
     children = "Button",
     href = "",
   } = props;
@@ -60,16 +60,14 @@ export function Button(props: ButtonProps) {
     ref,
   );
 
-  const bothIconPropsDefined = iconSymbolAtEnd && iconSymbolAtStart;
+  const bothIconPropsDefined = iconAtEnd && iconAtStart;
   if (bothIconPropsDefined) {
     // eslint-disable-next-line no-console
-    console.warn(
-      "Cannot simultaneously define `iconSymbolAtEnd` and `iconSymbolAtStart`",
-    );
+    console.warn("Cannot simultaneously define `iconAtEnd` and `iconAtStart`");
   }
 
   const canUseIcon =
-    (iconSymbolAtEnd || iconSymbolAtStart) &&
+    (iconAtEnd || iconAtStart) &&
     !bothIconPropsDefined &&
     variant !== "link" &&
     size !== "sm";
@@ -89,16 +87,16 @@ export function Button(props: ButtonProps) {
       )}
       {...elementProps}
     >
-      {iconSymbolAtStart && canUseIcon && <Icon symbol={iconSymbolAtStart} />}
+      {iconAtStart && canUseIcon && <Icon symbol={iconAtStart} />}
       <span
         className={classNames(
-          iconSymbolAtStart && canUseIcon && styles.iconSymbolAtStart,
-          iconSymbolAtEnd && canUseIcon && styles.iconSymbolAtEnd,
+          iconAtStart && canUseIcon && styles.iconAtStart,
+          iconAtEnd && canUseIcon && styles.iconAtEnd,
         )}
       >
         {children}
       </span>
-      {iconSymbolAtEnd && canUseIcon && <Icon symbol={iconSymbolAtEnd} />}
+      {iconAtEnd && canUseIcon && <Icon symbol={iconAtEnd} />}
     </As>
   );
 }

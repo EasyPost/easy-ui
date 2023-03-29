@@ -29,10 +29,10 @@ export type ButtonProps = {
   isBlock?: boolean;
   /** Positions icon before children */
   /** @default undefined  */
-  iconSymbolAtStart?: IconSymbol;
+  iconAtStart?: IconSymbol;
   /** Positions icon after children */
   /** @default undefined  */
-  iconSymbolAtEnd?: IconSymbol;
+  iconAtEnd?: IconSymbol;
   /** Content inside button  */
   /** @default "Button"  */
   children?: ReactNode;
@@ -68,7 +68,7 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 // Custom text
 <Button>Login</Button>
 // Icon
-<Button color="neutral" iconSymbolAtStart={AddIcon} />
+<Button color="neutral" iconAtStart={AddIcon} />
 // Click event
 <Button onPress={myEventHandler} />
 ```

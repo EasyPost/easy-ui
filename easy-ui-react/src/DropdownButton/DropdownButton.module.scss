@@ -1,20 +1,48 @@
-@use "../Button/Button.module.scss" as Button;
+@use "../Button/mixins" as Button;
 @import "../styles/common";
 
 .DropdownButton {
-  @include Button.baseButton();
+  @include Button.base;
   @include font-style("button");
   gap: var(--ezui-space-1-5);
 }
 
+.colorPrimary {
+  @include Button.colorPrimary;
+}
+
+.colorSecondary {
+  @include Button.colorSecondary;
+}
+
+.colorSuccess {
+  @include Button.colorSuccess;
+}
+
+.colorWarning {
+  @include Button.colorWarning;
+}
+
+.colorNeutral {
+  @include Button.colorNeutral;
+}
+
+.colorSupport {
+  @include Button.colorSupport;
+}
+
+.colorInverse {
+  @include Button.colorInverse;
+}
+
 .variantOutlined {
-  @include Button.variantOutlined();
+  @include Button.variantOutlined;
   padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
     calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
 }
 
 .variantFilled {
-  @include Button.variantFilled();
+  @include Button.variantFilled;
   padding: var(--ezui-space-1-5) var(--ezui-space-2);
 }
 

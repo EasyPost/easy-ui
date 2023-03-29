@@ -23,7 +23,7 @@ describe("<Button />", () => {
   });
 
   it("should render a button with an icon", () => {
-    render(<Button iconSymbolAtStart={CheckCircleIcon} />);
+    render(<Button iconAtStart={CheckCircleIcon} />);
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });

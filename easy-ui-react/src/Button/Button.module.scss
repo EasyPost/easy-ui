@@ -1,181 +1,49 @@
+@use "./mixins" as Button;
 @import "../styles/common";
 
-@mixin baseButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--ezui-shape-border-radius-base);
-  cursor: pointer;
-
-  &:focus {
-    box-shadow: var(--ezui-shadow-button);
-    outline: none;
-  }
-
-  &:disabled {
-    pointer-events: none;
-  }
-}
-
-@mixin variantFilled {
-  border: 0;
-  background-color: var(--ezui-c-button-resting-color);
-  color: var(--ezui-c-button-filled-font-color);
-
-  &:focus {
-    background-color: var(--ezui-c-button-hover-focus-color);
-  }
-
-  &:disabled {
-    color: var(--ezui-color-white);
-    background-color: var(--ezui-color-gray-200);
-  }
-
-  &:link {
-    text-decoration: none;
-  }
-
-  &:not(:disabled):active {
-    color: var(--ezui-c-button-filled-active-font-color);
-    background-color: var(--ezui-c-button-active-color);
-    &:focus {
-      box-shadow: none;
-    }
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    background-color: var(--ezui-c-button-hover-focus-color);
-  }
-}
-
-@mixin variantOutlined {
-  background-color: transparent;
-  border: var(--ezui-shape-border-width-1) solid
-    var(--ezui-c-button-resting-color);
-  color: var(--ezui-c-button-resting-color);
-
-  &:focus {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
-    color: var(--ezui-c-button-hover-focus-color);
-  }
-
-  &:disabled {
-    color: var(--ezui-color-gray-300);
-    border: var(--ezui-shape-border-width-1) solid var(--ezui-color-gray-300);
-  }
-
-  &:link {
-    text-decoration: none;
-  }
-
-  &:active:not(:disabled) {
-    color: var(--ezui-c-button-active-color);
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-active-color);
-    &:focus {
-      box-shadow: none;
-    }
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
-    color: var(--ezui-c-button-hover-focus-color);
-  }
-}
-
-@mixin variantLink {
-  color: var(--ezui-c-button-resting-color);
-  background-color: transparent;
-  border: var(--ezui-shape-border-width-1) solid transparent;
-  text-decoration: underline;
-
-  &:focus {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
-  }
-
-  &:disabled {
-    color: var(--ezui-color-gray-300);
-  }
-
-  &:active:not(:disabled) {
-    color: var(--ezui-c-button-active-color);
-  }
-
-  &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-c-button-hover-focus-color);
-  }
-}
-
 .Button {
-  @include baseButton();
+  @include Button.base;
 }
 
 .colorPrimary {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-blue-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-blue-600);
-  --ezui-c-button-active-color: var(--ezui-color-blue-700);
+  @include Button.colorPrimary;
 }
 
 .colorSecondary {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-purple-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-purple-800);
-  --ezui-c-button-active-color: var(--ezui-color-purple-700);
+  @include Button.colorSecondary;
 }
 
 .colorSuccess {
-  --ezui-c-button-filled-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-green-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-green-600);
-  --ezui-c-button-active-color: var(--ezui-color-green-700);
+  @include Button.colorSuccess;
 }
 
 .colorWarning {
-  --ezui-c-button-filled-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-resting-color: var(--ezui-color-red-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-red-600);
-  --ezui-c-button-active-color: var(--ezui-color-red-700);
+  @include Button.colorWarning;
 }
 
 .colorNeutral {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-blue-800);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-black);
-  --ezui-c-button-active-color: var(--ezui-color-blue-700);
+  @include Button.colorNeutral;
 }
 
 .colorSupport {
-  --ezui-c-button-resting-color: var(--ezui-color-blue-800);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-black);
-  --ezui-c-button-active-color: var(--ezui-color-gray-700);
+  @include Button.colorSupport;
 }
 
 .colorInverse {
-  --ezui-c-button-resting-color: var(--ezui-color-white);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-gray-100);
-  --ezui-c-button-active-color: var(--ezui-color-gray-200);
+  @include Button.colorInverse;
 }
 
 .variantFilled {
-  @include variantFilled();
+  @include Button.variantFilled;
   padding: var(--ezui-space-1-5) var(--ezui-space-2);
 }
 
 .variantOutlined {
-  @include variantOutlined();
+  @include Button.variantOutlined;
 }
 
 .variantLink {
-  @include variantLink();
+  @include Button.variantLink;
 }
 
 .variantOutlined,
@@ -206,10 +74,10 @@
   width: 100%;
 }
 
-.iconSymbolAtStart {
+.iconAtStart {
   margin-left: var(--ezui-space-1);
 }
 
-.iconSymbolAtEnd {
+.iconAtEnd {
   margin-right: var(--ezui-space-1);
 }

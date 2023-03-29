@@ -16,7 +16,7 @@ export type IconButtonProps = {
   /** Button variant */
   variant?: IconButtonVariant;
   /** Icon symbol */
-  iconSymbol: IconSymbol;
+  icon: IconSymbol;
   /** Description of icon */
   accessibilityLabel: string;
   /** Disables button */
@@ -27,7 +27,7 @@ export function IconButton(props: IconButtonProps) {
   const {
     color = "primary",
     variant = "filled",
-    iconSymbol,
+    icon,
     accessibilityLabel,
     isDisabled = false,
   } = props;
@@ -49,7 +49,7 @@ export function IconButton(props: IconButtonProps) {
       {...buttonProps}
     >
       <Text visuallyHidden>{accessibilityLabel}</Text>
-      <Icon symbol={iconSymbol} />
+      <Icon symbol={icon} />
     </button>
   );
 }

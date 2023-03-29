@@ -10,11 +10,11 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 <Meta
   title="Components/Button/Button"
   argTypes={{
-    iconSymbolAtStart: createLabelledOptionsControl({
+    iconAtStart: createLabelledOptionsControl({
       ArrowBack: ArrowBackIcon,
       Add: AddIcon,
     }),
-    iconSymbolAtEnd: createLabelledOptionsControl({
+    iconAtEnd: createLabelledOptionsControl({
       ArrowBack: ArrowBackIcon,
       Add: AddIcon,
     }),
@@ -121,10 +121,10 @@ export const ButtonStoryOnDarkBackgroundDecorator = (story) => (
 
 <Canvas>
   <Story name="WithIcons" decorators={[ButtonStoryDecorator]}>
-    <Button iconSymbolAtEnd={CheckCircleIcon} />
-    <Button color="neutral" iconSymbolAtEnd={AddIcon} />
-    <Button color="success" iconSymbolAtStart={ArrowBackIcon} />
-    <Button color="warning" iconSymbolAtStart={InfoIcon} />
+    <Button iconAtEnd={CheckCircleIcon} />
+    <Button color="neutral" iconAtEnd={AddIcon} />
+    <Button color="success" iconAtStart={ArrowBackIcon} />
+    <Button color="warning" iconAtStart={InfoIcon} />
   </Story>
 </Canvas>
 

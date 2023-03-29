@@ -5,13 +5,13 @@ import { IconButton } from "./IconButton";
 
 describe("<IconButton />", () => {
   it("should render a button with an icon", () => {
-    render(<IconButton iconSymbol={ArrowBackIcon} accessibilityLabel="Back" />);
+    render(<IconButton icon={ArrowBackIcon} accessibilityLabel="Back" />);
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });
 
   it("should apply the primary color class", () => {
-    render(<IconButton iconSymbol={ArrowBackIcon} accessibilityLabel="Back" />);
+    render(<IconButton icon={ArrowBackIcon} accessibilityLabel="Back" />);
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
       expect.stringContaining("colorPrimary"),
@@ -22,7 +22,7 @@ describe("<IconButton />", () => {
     render(
       <IconButton
         color="secondary"
-        iconSymbol={ArrowBackIcon}
+        icon={ArrowBackIcon}
         accessibilityLabel="Back"
       />,
     );
@@ -36,7 +36,7 @@ describe("<IconButton />", () => {
     render(
       <IconButton
         variant="outlined"
-        iconSymbol={ArrowBackIcon}
+        icon={ArrowBackIcon}
         accessibilityLabel="Back"
       />,
     );
@@ -48,11 +48,7 @@ describe("<IconButton />", () => {
 
   it("should apply the disabled attribute", () => {
     render(
-      <IconButton
-        iconSymbol={ArrowBackIcon}
-        accessibilityLabel="Back"
-        isDisabled
-      />,
+      <IconButton icon={ArrowBackIcon} accessibilityLabel="Back" isDisabled />,
     );
     expect(screen.getByRole("button")).toHaveAttribute("disabled");
   });
