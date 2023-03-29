@@ -1,0 +1,24 @@
+{
+  "theme.light": {
+    "font.family": { "value": "{font.family.sans.value}" },
+    "color.text": { "value": "{color.gray.600}" },
+    "color.text.heading": { "value": "{color.blue.800}" },
+    "color.background.disabled": { "value": "{color.gray.200}" },
+    "color.background.support": { "value": "{color.gray.000}" },
+    "color.background.primary": { "value": "{color.blue.500}" },
+    "color.background.primary.hovered": { "value": "{color.blue.600}" },
+    "color.background.primary.pressed": { "value": "{color.blue.700}" },
+    "color.background.secondary": { "value": "{color.purple.500}" },
+    "color.background.secondary.hovered": { "value": "{color.purple.600}" },
+    "color.background.secondary.pressed": { "value": "{color.purple.700}" },
+    "color.background.neutral": { "value": "{color.blue.800}" },
+    "color.background.neutral.hovered": { "value": "{color.gray.900}" },
+    "color.background.neutral.pressed": { "value": "{color.blue.700}" },
+    "color.background.success": { "value": "{color.green.500}" },
+    "color.background.success.hovered": { "value": "{color.green.600}" },
+    "color.background.success.pressed": { "value": "{color.green.700}" },
+    "color.background.danger": { "value": "{color.red.500}" },
+    "color.background.danger.hovered": { "value": "{color.red.600}" },
+    "color.background.danger.pressed": { "value": "{color.red.700}" }
+  }
+}
