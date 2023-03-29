@@ -23,16 +23,19 @@ export const parameters = {
       name,
       value,
     })),
-  },
-  grid: {
-    cellSize: gridCellSize,
+    grid: {
+      cellSize: gridCellSize,
+    },
   },
 };
 
 export const decorators = [
-  (Story) => (
-    <EasyUIProvider>
-      <Story />
-    </EasyUIProvider>
-  ),
+  (Story, context) => {
+    const background = context.globals.backgrounds?.value;
+    return (
+      <EasyUIProvider colorScheme={background === "#1c222d" ? "dark" : "light"}>
+        <Story />
+      </EasyUIProvider>
+    );
+  },
 ];
