@@ -3,6 +3,7 @@ on: push
 jobs:
   deployment:
     runs-on: ubuntu-latest
+    if: ${{ github.triggering_actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js v16
