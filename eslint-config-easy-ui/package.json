@@ -1,6 +1,6 @@
 {
   "name": "@easypost/eslint-config-easy-ui",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "private": true,
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.51.0",

@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui-tokens",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
   "exports": {
     "./js/*": {
       "types": "./dist/js/*.d.ts",
@@ -11,10 +11,17 @@
     "./scss/*": "./dist/scss/*",
     "./json/*": "./dist/json/*"
   },
-  "scripts": {
-    "build": "style-dictionary build"
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
   },
-  "dependencies": {
+  "scripts": {
+    "build": "run-p build:*",
+    "build:tokens": "style-dictionary build",
+    "build:pkg": "node ../scripts/copyPkgJsonForDist.mjs",
+    "clean": "rm -rf .turbo dist node_modules"
+  },
+  "devDependencies": {
     "style-dictionary": "^3.7.2"
   }
 }

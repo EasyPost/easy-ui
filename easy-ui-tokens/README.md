@@ -60,3 +60,4 @@ console.log(tokens["color-blue-100"]);
 | Command         | Runs                         |
 | :-------------- | :--------------------------- |
 | `npm run build` | Builds Easy UI design tokens |
+| `npm run clean` | Removes temp directories     |

@@ -1,6 +1,21 @@
 {
   "name": "@easypost/easy-ui",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js",
+      "default": "./dist/*"
+    }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
   "scripts": {
     "build": "run-p build:js build:types",
     "build:js": "vite build",
@@ -12,12 +27,6 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "exports": {
-    "./*": "./dist/*"
-  },
-  "sideEffects": [
-    "**/*.css"
-  ],
   "dependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.11",

@@ -1,0 +1,15 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@easypost/easy-ui-icons": "0.0.0",
+    "@easypost/easy-ui": "0.0.0",
+    "@easypost/easy-ui-tokens": "0.0.0",
+    "@easypost/easy-ui-tsconfig": "0.0.0",
+    "@easypost/eslint-config-easy-ui": "0.0.0",
+    "@easypost/stylelint-easy-ui": "0.0.0"
+  },
+  "changesets": [
+    "tricky-dogs-live"
+  ]
+}

@@ -4,13 +4,22 @@ import glob from "glob";
 import prettier from "prettier";
 import { transform as transformSvg } from "@svgr/core";
 import { defineConfig, transformWithEsbuild } from "vite";
+import { viteStaticCopy } from "vite-plugin-static-copy";
+import { cleanPkgJsonForDist } from "../scripts/copyPkgJsonForDist.mjs";
 
 const JS_PREFIX = "";
 const SVG_PREFIX = "svg/";
 
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
-  plugins: [buildSvg()],
+  plugins: [
+    buildSvg(),
+    viteStaticCopy({
+      targets: [
+        { src: "package.json", dest: ".", transform: cleanPkgJsonForDist },
+      ],
+    }),
+  ],
   build: {
     lib: {
       entry: glob.sync("src/*.{svg,json}"),
