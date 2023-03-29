@@ -23,9 +23,9 @@ export const parameters = {
       name,
       value,
     })),
-  },
-  grid: {
-    cellSize: gridCellSize,
+    grid: {
+      cellSize: gridCellSize,
+    },
   },
 };
 
