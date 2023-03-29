@@ -1,7 +1,7 @@
 const { formatHelpers, format } = require("style-dictionary");
 
 module.exports = {
-  source: ["./src/**/*.json"],
+  source: ["./src/**/*.json", "./src/**/*.jsonc"],
   transform: {
     "ezui/unit/em": createEmLikeTransform("em"),
     "ezui/unit/rem": createEmLikeTransform("rem"),
