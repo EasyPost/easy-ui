@@ -24,6 +24,7 @@ export default defineConfig({
   },
   build: {
     emptyOutDir: false,
+    target: "es2015",
     lib: {
       entry: buildEntryObject([
         ...glob.sync("src/**/index.ts"),
@@ -32,6 +33,18 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ["react", "react-dom"],
+      output: [
+        {
+          format: "cjs",
+          entryFileNames: "[name].js",
+          chunkFileNames: "__chunks__/[name]-[hash].js",
+        },
+        {
+          format: "esm",
+          entryFileNames: "[name].mjs",
+          chunkFileNames: "__chunks__/[name]-[hash].mjs",
+        },
+      ],
     },
   },
   test: {

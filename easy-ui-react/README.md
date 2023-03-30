@@ -55,7 +55,7 @@ npm install @easypost/easy-ui --save
 2.  Import the CSS directly into your project if your asset packager supports it:
 
 ```js
-import "@easypost/easy-ui/styles.css";
+import "@easypost/easy-ui/style.css";
 ```
 
 3.  Include the provider and any relevant components in your project:

@@ -4,4 +4,4 @@
 "@easypost/easy-ui": patch
 ---
 
-Include README and CHANGELOG in distribution
+Use older build target in publishing process, reorganize chunks, and include README and CHANGELOG for distribution
