@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react";
 import glob from "glob";
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-import { cleanPkgJsonForDist } from "../scripts/copyPkgJsonForDist.mjs";
+import { cleanPkgJsonForDist } from "../scripts/copyDistFiles.mjs";
 
 export default defineConfig({
   plugins: [
@@ -12,6 +12,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         { src: "package.json", dest: ".", transform: cleanPkgJsonForDist },
+        { src: "README.md", dest: "." },
       ],
     }),
   ],

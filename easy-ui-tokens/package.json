@@ -18,7 +18,7 @@
   "scripts": {
     "build": "run-p build:*",
     "build:tokens": "style-dictionary build",
-    "build:pkg": "node ../scripts/copyPkgJsonForDist.mjs",
+    "build:dist": "node ../scripts/copyDistFiles.mjs",
     "clean": "rm -rf .turbo dist node_modules"
   },
   "devDependencies": {

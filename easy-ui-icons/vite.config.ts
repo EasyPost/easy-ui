@@ -5,7 +5,7 @@ import prettier from "prettier";
 import { transform as transformSvg } from "@svgr/core";
 import { defineConfig, transformWithEsbuild } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-import { cleanPkgJsonForDist } from "../scripts/copyPkgJsonForDist.mjs";
+import { cleanPkgJsonForDist } from "../scripts/copyDistFiles.mjs";
 
 const JS_PREFIX = "";
 const SVG_PREFIX = "svg/";
@@ -17,6 +17,8 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         { src: "package.json", dest: ".", transform: cleanPkgJsonForDist },
+        { src: "README.md", dest: "." },
+        { src: "CHANGELOG.md", dest: "." },
       ],
     }),
   ],
