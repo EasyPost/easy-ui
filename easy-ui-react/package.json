@@ -28,6 +28,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@easypost/easy-ui-icons": "*",
+    "@easypost/easy-ui-tokens": "*",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.11",
     "lodash": "^4.17.21",
