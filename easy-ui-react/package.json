@@ -17,7 +17,7 @@
     "directory": "dist"
   },
   "scripts": {
-    "build": "run-p build:js build:types",
+    "build": "rm -rf dist && run-p build:js build:types",
     "build:js": "vite build",
     "build:types": "tsc --build",
     "clean": "rm -rf node_modules dist .turbo",
@@ -28,6 +28,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@easypost/easy-ui-icons": "*",
+    "@easypost/easy-ui-tokens": "*",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.11",
     "lodash": "^4.17.21",

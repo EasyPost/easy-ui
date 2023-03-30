@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react";
 import glob from "glob";
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-import { cleanPkgJsonForDist } from "../scripts/copyPkgJsonForDist.mjs";
+import { cleanPkgJsonForDist } from "../scripts/copyDistFiles.mjs";
 
 export default defineConfig({
   plugins: [
@@ -12,6 +12,8 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         { src: "package.json", dest: ".", transform: cleanPkgJsonForDist },
+        { src: "README.md", dest: "." },
+        { src: "CHANGELOG.md", dest: "." },
       ],
     }),
   ],
@@ -22,6 +24,7 @@ export default defineConfig({
   },
   build: {
     emptyOutDir: false,
+    target: "es2015",
     lib: {
       entry: buildEntryObject([
         ...glob.sync("src/**/index.ts"),
@@ -30,6 +33,18 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ["react", "react-dom"],
+      output: [
+        {
+          format: "cjs",
+          entryFileNames: "[name].js",
+          chunkFileNames: "__chunks__/[name]-[hash].js",
+        },
+        {
+          format: "esm",
+          entryFileNames: "[name].mjs",
+          chunkFileNames: "__chunks__/[name]-[hash].mjs",
+        },
+      ],
     },
   },
   test: {
