@@ -10,6 +10,7 @@
     "@easypost/stylelint-easy-ui": "0.0.0"
   },
   "changesets": [
+    "curly-poems-attend",
     "tricky-dogs-live"
   ]
 }
