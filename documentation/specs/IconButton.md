@@ -11,18 +11,24 @@ export type ButtonColor =
   | "inverse";
 export type IconButtonVariant = "filled" | "outlined";
 export type IconButtonProps = {
-  /** Button color */
-  /** @default "primary" */
+  /**
+   * Button color
+   * @default "primary"
+   */
   color?: ButtonColor;
-  /** Button variant */
-  /** @default "filled" */
+  /**
+   * Button variant
+   * @default "filled"
+   */
   variant?: IconButtonVariant;
   /** Icon symbol */
   icon: IconSymbol;
   /** Description of icon */
   accessibilityLabel: string;
-  /** Disables button */
-  /** @default false */
+  /**
+   * Disables button
+   * @default false
+   */
   isDisabled?: boolean;
 };
 ```

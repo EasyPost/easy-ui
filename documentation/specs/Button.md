@@ -12,32 +12,50 @@ export type ButtonColor =
 export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
 export type ButtonProps = {
-  /** Button color */
-  /** @default "primary" */
+  /**
+   * Button color
+   * @default "primary"
+   */
   color?: ButtonColor;
-  /** Button variant */
-  /** @default "filled" */
+  /**
+   * Button variant
+   * @default "filled"
+   */
   variant?: ButtonVariant;
-  /** Button size */
-  /** @default "md" */
+  /**
+   * Button size
+   * @default "md"
+   */
   size?: ButtonSize;
-  /** Disables button */
-  /** @default false */
+  /**
+   * Disables button
+   * @default false
+   */
   isDisabled?: boolean;
-  /** Button will grow to width of container */
-  /** @default false */
+  /**
+   * Button will grow to width of container
+   * @default false
+   */
   isBlock?: boolean;
-  /** Positions icon before children */
-  /** @default undefined  */
+  /**
+   * Positions icon before children
+   * @default undefined
+   */
   iconAtStart?: IconSymbol;
-  /** Positions icon after children */
-  /** @default undefined  */
+  /**
+   * Positions icon after children
+   * @default undefined
+   */
   iconAtEnd?: IconSymbol;
-  /** Content inside button  */
-  /** @default "Button"  */
+  /**
+   * Content inside button
+   * @default "Button"
+   */
   children?: ReactNode;
-  /** Link's destination */
-  /** @default ""  */
+  /**
+   * Link's destination
+   * @default ""
+   */
   href?: string;
 };
 ```

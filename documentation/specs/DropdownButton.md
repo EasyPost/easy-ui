@@ -11,17 +11,25 @@ export type ButtonColor =
   | "inverse";
 export type DropdownButtonVariant = "filled" | "outlined";
 export type DropdownButtonProps = {
-  /** Button color */
-  /** @default "primary" */
+  /**
+   * Button color
+   * @default "primary"
+   */
   color?: ButtonColor;
-  /** DropdownButton variant */
-  /** @default "filled" */
+  /**
+   * Button variant
+   * @default "filled"
+   */
   variant?: DropdownButtonVariant;
-  /** Disables button */
-  /** @default false */
+  /**
+   * Disables button
+   * @default false
+   */
   isDisabled?: boolean;
-  /** Content inside button  */
-  /** @default "Button" */
+  /**
+   * Content inside button
+   * @default "Button"
+   */
   children?: ReactNode;
 };
 ```
