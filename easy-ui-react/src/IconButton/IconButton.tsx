@@ -1,31 +1,35 @@
-import React, { ReactNode, useRef } from "react";
-import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
+import React, { useRef } from "react";
 import { useButton } from "react-aria";
 import { Icon } from "../Icon";
 import { ButtonColor } from "../Button";
+import { Text } from "../Text";
+import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
-import styles from "./DropdownButton.module.scss";
+import styles from "./IconButton.module.scss";
 
-export type DropdownButtonVariant = "filled" | "outlined";
+export type IconButtonVariant = "filled" | "outlined";
 
-export type DropdownButtonProps = {
+export type IconButtonProps = {
   /** Button color */
   color?: ButtonColor;
   /** Button variant */
-  variant?: DropdownButtonVariant;
+  variant?: IconButtonVariant;
+  /** Icon symbol */
+  icon: IconSymbol;
+  /** Description of icon */
+  accessibilityLabel: string;
   /** Disables button */
   isDisabled?: boolean;
-  /** Content inside button  */
-  children?: ReactNode;
 };
 
-export function DropdownButton(props: DropdownButtonProps) {
+export function IconButton(props: IconButtonProps) {
   const {
     color = "primary",
     variant = "filled",
+    icon,
+    accessibilityLabel,
     isDisabled = false,
-    children = "Button",
   } = props;
 
   const ref = useRef(null);
@@ -38,15 +42,14 @@ export function DropdownButton(props: DropdownButtonProps) {
       disabled={isDisabled}
       ref={ref}
       className={classNames(
-        styles.DropdownButton,
+        styles.IconButton,
         styles[variationName("variant", variant)],
         styles[variationName("color", color)],
       )}
       {...buttonProps}
     >
-      <span>{children}</span>
-      <span className={classNames(styles.pipeSeparator)}></span>
-      <Icon symbol={ExpandMoreIcon400} />
+      <Text visuallyHidden>{accessibilityLabel}</Text>
+      <Icon symbol={icon} />
     </button>
   );
 }

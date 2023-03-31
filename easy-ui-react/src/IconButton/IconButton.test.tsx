@@ -1,35 +1,17 @@
 import React from "react";
+import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import { render, screen } from "@testing-library/react";
-import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
-import { Button } from "./Button";
+import { IconButton } from "./IconButton";
 
-describe("<Button />", () => {
-  it("should render a button", () => {
-    render(<Button />);
-    expect(screen.getByRole("button")).toBeInTheDocument();
-  });
-
-  it("should render a button with text", () => {
-    render(<Button>Testing</Button>);
-    expect(screen.getByText(/testing/i)).toBeInTheDocument();
-  });
-
-  it("should render an anchor tag", () => {
-    render(<Button href="https://www.easypost.com/">Testing</Button>);
-    expect(screen.getByText(/testing/i).closest("a")).toHaveAttribute(
-      "href",
-      "https://www.easypost.com/",
-    );
-  });
-
+describe("<IconButton />", () => {
   it("should render a button with an icon", () => {
-    render(<Button iconAtStart={CheckCircleIcon} />);
+    render(<IconButton icon={ArrowBackIcon} accessibilityLabel="Back" />);
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });
 
   it("should apply the primary color class", () => {
-    render(<Button />);
+    render(<IconButton icon={ArrowBackIcon} accessibilityLabel="Back" />);
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
       expect.stringContaining("colorPrimary"),
@@ -37,7 +19,13 @@ describe("<Button />", () => {
   });
 
   it("should apply the secondary color class", () => {
-    render(<Button color="secondary" />);
+    render(
+      <IconButton
+        color="secondary"
+        icon={ArrowBackIcon}
+        accessibilityLabel="Back"
+      />,
+    );
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
       expect.stringContaining("colorSecondary"),
@@ -45,7 +33,13 @@ describe("<Button />", () => {
   });
 
   it("should apply the outlined variant class", () => {
-    render(<Button variant="outlined" />);
+    render(
+      <IconButton
+        variant="outlined"
+        icon={ArrowBackIcon}
+        accessibilityLabel="Back"
+      />,
+    );
     expect(screen.getByRole("button")).toHaveAttribute(
       "class",
       expect.stringContaining("variantOutlined"),
@@ -53,7 +47,9 @@ describe("<Button />", () => {
   });
 
   it("should apply the disabled attribute", () => {
-    render(<Button isDisabled />);
+    render(
+      <IconButton icon={ArrowBackIcon} accessibilityLabel="Back" isDisabled />,
+    );
     expect(screen.getByRole("button")).toHaveAttribute("disabled");
   });
 });

@@ -1,10 +1,8 @@
 @use "../Button/mixins" as Button;
 @import "../styles/common";
 
-.DropdownButton {
+.IconButton {
   @include Button.base;
-  @include font-style("button");
-  gap: var(--ezui-space-1-5);
 }
 
 .colorPrimary {
@@ -37,18 +35,10 @@
 
 .variantOutlined {
   @include Button.variantOutlined;
-  padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
-    calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
+  padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)});
 }
 
 .variantFilled {
   @include Button.variantFilled;
-  padding: var(--ezui-space-1-5) var(--ezui-space-2);
-}
-
-.pipeSeparator {
-  width: var(--ezui-space-0);
-  height: var(--ezui-space-2);
-  border-left-width: var(--ezui-shape-border-width-1);
-  border-left-style: solid;
+  padding: var(--ezui-space-1-5);
 }

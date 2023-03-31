@@ -1,21 +1,13 @@
 import { ButtonColor } from "./Button";
 import { ButtonVariant } from "./Button";
-import { DropdownButtonVariant } from "../DropdownButton";
 
 export function logWarningIfInvalidColorVariantCombination(
   color: ButtonColor,
-  variant: ButtonVariant | DropdownButtonVariant,
+  variant: ButtonVariant,
 ): void {
   const validColorVariantCombinations = {
     filled: ["primary", "secondary", "success", "warning", "neutral"],
-    outlined: [
-      "primary",
-      "secondary",
-      "success",
-      "warning",
-      "support",
-      "inverse",
-    ],
+    outlined: ["primary", "secondary", "support", "inverse"],
     link: ["primary", "secondary"],
   };
   if (!validColorVariantCombinations[variant]?.includes(color)) {
