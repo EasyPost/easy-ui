@@ -1,5 +1,13 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.2
+
+### Patch Changes
+
+- 36b8403: Disable minification on build output
+
+  Because Easy UI is intended to be included in bundlers outside of the library, the library itself shouldn't be minified due to double minification problems.
+
 ## 1.0.0-alpha.1
 
 ### Patch Changes
