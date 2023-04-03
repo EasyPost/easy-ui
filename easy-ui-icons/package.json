@@ -24,6 +24,6 @@
     "@material-symbols/svg-300": "^0.5.4",
     "@material-symbols/svg-400": "^0.5.3",
     "@svgr/cli": "^6.5.1",
-    "glob": "^9.3.2"
+    "glob": "^9.3.4"
   }
 }
