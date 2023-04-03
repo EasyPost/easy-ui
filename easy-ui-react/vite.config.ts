@@ -25,6 +25,7 @@ export default defineConfig({
   build: {
     emptyOutDir: false,
     target: "es2015",
+    minify: false,
     lib: {
       entry: buildEntryObject([
         ...glob.sync("src/**/index.ts"),
