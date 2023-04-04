@@ -1,9 +1,9 @@
 import {
   classNames,
   variationName,
-  getResponsiveToken,
+  getResponsiveDesignToken,
   getResponsiveValue,
-  getComponentToken,
+  getComponentDesignToken,
 } from "./css";
 
 describe("classNames", () => {
@@ -33,7 +33,9 @@ describe("variationName", () => {
 
 describe("getComponentToken", () => {
   it("takes a string and returns the custom token", () => {
-    expect(getComponentToken("stack", "space", "space", "4")).toMatchObject({
+    expect(
+      getComponentDesignToken("stack", "space", "space", "4"),
+    ).toMatchObject({
       "--ezui-c-stack-space": "var(--ezui-space-4)",
     });
   });
@@ -41,13 +43,18 @@ describe("getComponentToken", () => {
 
 describe("getResponsiveToken", () => {
   it("takes a string and returns the custom token", () => {
-    expect(getResponsiveToken("stack", "space", "space", "4")).toMatchObject({
+    expect(
+      getResponsiveDesignToken("stack", "space", "space", "4"),
+    ).toMatchObject({
       "--ezui-c-stack-space-xs": "var(--ezui-space-4)",
     });
   });
   it("takes an object with a breakpoint and value and returns the token for each breakpoint", () => {
     expect(
-      getResponsiveToken("stack", "space", "space", { xs: "2", md: "8" }),
+      getResponsiveDesignToken("stack", "space", "space", {
+        xs: "2",
+        md: "8",
+      }),
     ).toMatchObject({
       "--ezui-c-stack-space-xs": "var(--ezui-space-2)",
       "--ezui-c-stack-space-md": "var(--ezui-space-8)",

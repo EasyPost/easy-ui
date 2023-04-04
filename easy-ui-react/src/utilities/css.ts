@@ -1,7 +1,8 @@
 import React from "react";
-import type { Falsy, TokenNamespace } from "../types";
+import kebabCase from "lodash/kebabCase";
+import type { Falsy, DesignTokenNamespace } from "../types";
 
-export type BreakpointsAlias = TokenNamespace<"breakpoint">;
+export type BreakpointsAlias = DesignTokenNamespace<"breakpoint">;
 export type ResponsiveProp<T> = T | { [Breakpoint in BreakpointsAlias]?: T };
 
 export function classNames(...classes: (string | Falsy)[]) {
@@ -19,7 +20,7 @@ export function sanitizeCustomProperties(styles: React.CSSProperties) {
   return nonNullValues.length ? Object.fromEntries(nonNullValues) : undefined;
 }
 
-export function getComponentToken(
+export function getComponentDesignToken(
   componentName: string,
   componentProp: string,
   tokenSubgroup: string,
@@ -33,7 +34,23 @@ export function getComponentToken(
   };
 }
 
-export function getResponsiveToken(
+export function getComponentThemeToken(
+  componentName: string,
+  componentProp: string,
+  tokenSubgroup: string,
+  token?: string,
+) {
+  if (!token) {
+    return {};
+  }
+  return {
+    [`--ezui-c-${componentName}-${componentProp}`]: `var(--ezui-t-${kebabCase(
+      tokenSubgroup,
+    )}-${kebabCase(token)})`,
+  };
+}
+
+export function getResponsiveDesignToken(
   componentName: string,
   componentProp: string,
   tokenSubgroup: string,
@@ -44,13 +61,15 @@ export function getResponsiveToken(
   }
   if (typeof responsiveProp === "string") {
     return {
-      [`--ezui-c-${componentName}-${componentProp}-xs`]: `var(--ezui-${tokenSubgroup}-${responsiveProp})`,
+      [`--ezui-c-${componentName}-${componentProp}-xs`]: `var(--ezui-${kebabCase(
+        tokenSubgroup,
+      )}-${responsiveProp})`,
     };
   }
   return Object.fromEntries(
     Object.entries(responsiveProp).map(([breakpointAlias, aliasOrScale]) => [
       `--ezui-c-${componentName}-${componentProp}-${breakpointAlias}`,
-      `var(--ezui-${tokenSubgroup}-${aliasOrScale})`,
+      `var(--ezui-${kebabCase(tokenSubgroup)}-${aliasOrScale})`,
     ]),
   );
 }

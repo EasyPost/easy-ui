@@ -6,8 +6,9 @@ import React, {
   useState,
 } from "react";
 import kebabCase from "lodash/kebabCase";
+import { getTokenAliases } from "../utilities/tokens";
 
-const themeDefinition = {
+export const themeDefinition = {
   "color.background.danger": "",
   "color.background.danger.hovered": "",
   "color.background.danger.pressed": "",
@@ -268,4 +269,15 @@ function buildThemeFromTokenNamespace(prefix: string) {
     }),
   );
   return theme as Theme;
+}
+
+/**
+ * Return the list of theme tokens for the pattern provided.
+ *
+ * @example
+ * const textColors = getThemeTokenAliases("color.text.{alias}");
+ * -> ["disabled", "success", etc]
+ */
+export function getThemeTokenAliases(pattern: string) {
+  return getTokenAliases(themeDefinition, pattern);
 }

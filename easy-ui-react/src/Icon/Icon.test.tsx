@@ -1,8 +1,11 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
+import { render, screen } from "@testing-library/react";
+import React from "react";
+import {
+  getResponsiveDesignToken,
+  getComponentThemeToken,
+} from "../utilities/css";
 import { Icon } from "./Icon";
-import { getComponentToken, getResponsiveToken } from "../utilities/css";
 
 describe("<Icon />", () => {
   it("should render a decorative icon", () => {
@@ -22,10 +25,10 @@ describe("<Icon />", () => {
   });
 
   it("should apply specified color", () => {
-    render(<Icon symbol={CheckCircleIcon} color="blue-800" />);
+    render(<Icon symbol={CheckCircleIcon} color="disabled" />);
     const $svg = screen.getByRole("img", { hidden: true });
     expect($svg.closest("span")).toHaveStyle(
-      getComponentToken("icon", "color", "color", "blue-800"),
+      getComponentThemeToken("icon", "color", "color.text", "disabled"),
     );
   });
 
@@ -33,7 +36,7 @@ describe("<Icon />", () => {
     render(<Icon symbol={CheckCircleIcon} size="sm" />);
     const $svg = screen.getByRole("img", { hidden: true });
     expect($svg.closest("span")).toHaveStyle(
-      getResponsiveToken("icon", "size", "size-icon", "sm"),
+      getResponsiveDesignToken("icon", "size", "size-icon", "sm"),
     );
   });
 });
