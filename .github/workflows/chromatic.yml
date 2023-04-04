@@ -21,6 +21,7 @@ jobs:
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: "build:storybook"
       - name: Generate Storybook preview
         uses: actions/github-script@v6
         with:
