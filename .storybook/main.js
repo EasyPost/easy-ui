@@ -2,12 +2,15 @@
 module.exports = {
   stories: ["../easy-ui-react/src/**/*.stories.mdx"],
   addons: ["@storybook/addon-essentials", "@storybook/addon-a11y"],
-  framework: "@storybook/react",
-  core: {
-    builder: "@storybook/builder-vite",
+  framework: {
+    name: "@storybook/react-vite",
+    options: {},
   },
   features: {
     storyStoreV7: true,
   },
   staticDirs: ["./public"],
+  docs: {
+    autodocs: true,
+  },
 };
