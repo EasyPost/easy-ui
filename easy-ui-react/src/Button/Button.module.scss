@@ -35,7 +35,7 @@
 
 .variantFilled {
   @include Button.variantFilled;
-  padding: var(--ezui-space-1-5) var(--ezui-space-2);
+  padding: design-token("space.1.5") design-token("space.2");
 }
 
 .variantOutlined {
@@ -48,8 +48,10 @@
 
 .variantOutlined,
 .variantLink {
-  padding: calc(#{var(--ezui-space-1-5)} - #{var(--ezui-shape-border-width-1)})
-    calc(#{var(--ezui-space-2)} - #{var(--ezui-shape-border-width-1)});
+  padding: calc(
+      #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
+    )
+    calc(#{design-token("space.2")} - #{design-token("shape.border_width.1")});
 }
 
 .sizeMd {
@@ -61,12 +63,14 @@
 }
 
 .sizeSm.variantFilled {
-  padding: var(--ezui-space-1);
+  padding: design-token("space.1");
 }
 
 .sizeSm.variantOutlined,
 .sizeSm.variantLink {
-  padding: calc(#{var(--ezui-space-1)} - #{var(--ezui-shape-border-width-1)});
+  padding: calc(
+    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+  );
 }
 
 .block {
@@ -75,9 +79,9 @@
 }
 
 .iconAtStart {
-  margin-left: var(--ezui-space-1);
+  margin-left: design-token("space.1");
 }
 
 .iconAtEnd {
-  margin-right: var(--ezui-space-1);
+  margin-right: design-token("space.1");
 }
