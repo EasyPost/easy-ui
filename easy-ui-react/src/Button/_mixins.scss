@@ -19,11 +19,11 @@
 
 @mixin variantFilled {
   border: 0;
-  background-color: component-token("button", "resting-color");
-  color: component-token("button", "filled-font-color");
+  background-color: component-token("button", "resting.color");
+  color: component-token("button", "filled.font.color");
 
   &:focus {
-    background-color: component-token("button", "hover-focus-color");
+    background-color: component-token("button", "hover.focus.color");
   }
 
   &:disabled {
@@ -36,28 +36,28 @@
   }
 
   &:not(:disabled):active {
-    color: component-token("button", "filled-active-font-color");
-    background-color: component-token("button", "active-color");
+    color: component-token("button", "filled.active.font.color");
+    background-color: component-token("button", "active.color");
     &:focus {
       box-shadow: none;
     }
   }
 
   &:hover:not(:disabled):not(:active) {
-    background-color: component-token("button", "hover-focus-color");
+    background-color: component-token("button", "hover.focus.color");
   }
 }
 
 @mixin variantOutlined {
   background-color: transparent;
   border: design-token("shape.border_width.1") solid
-    component-token("button", "resting-color");
-  color: component-token("button", "resting-color");
+    component-token("button", "resting.color");
+  color: component-token("button", "resting.color");
 
   &:focus {
     border: design-token("shape.border_width.1") solid
-      component-token("button", "hover-focus-color");
-    color: component-token("button", "hover-focus-color");
+      component-token("button", "hover.focus.color");
+    color: component-token("button", "hover.focus.color");
   }
 
   &:disabled {
@@ -71,9 +71,9 @@
   }
 
   &:active:not(:disabled) {
-    color: component-token("button", "active-color");
+    color: component-token("button", "active.color");
     border: design-token("shape.border_width.1") solid
-      component-token("button", "active-color");
+      component-token("button", "active.color");
     &:focus {
       box-shadow: none;
     }
@@ -81,20 +81,20 @@
 
   &:hover:not(:disabled):not(:active) {
     border: design-token("shape.border_width.1") solid
-      component-token("button", "hover-focus-color");
-    color: component-token("button", "hover-focus-color");
+      component-token("button", "hover.focus.color");
+    color: component-token("button", "hover.focus.color");
   }
 }
 
 @mixin variantLink {
-  color: component-token("button", "resting-color");
+  color: component-token("button", "resting.color");
   background-color: transparent;
   border: design-token("shape.border_width.1") solid transparent;
   text-decoration: underline;
 
   &:focus {
     border: design-token("shape.border_width.1") solid
-      component-token("button", "hover-focus-color");
+      component-token("button", "hover.focus.color");
   }
 
   &:disabled {
@@ -102,11 +102,11 @@
   }
 
   &:active:not(:disabled) {
-    color: component-token("button", "active-color");
+    color: component-token("button", "active.color");
   }
 
   &:hover:not(:disabled):not(:active) {
-    color: component-token("button", "hover-focus-color");
+    color: component-token("button", "hover.focus.color");
   }
 }
 
