@@ -46,7 +46,7 @@ function buildSvg() {
       const svgFileContent = await fs.promises.readFile(svgFilename, "utf8");
       const componentCode = await transformSvg(
         svgFileContent,
-        { dimensions: false, titleProp: true },
+        { plugins: ["@svgr/plugin-jsx"], dimensions: false, titleProp: true },
         { componentName: svgName },
       );
       const res = await transformWithEsbuild(componentCode, id, {
