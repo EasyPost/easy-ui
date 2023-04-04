@@ -18,7 +18,8 @@
   },
   "scripts": {
     "build": "vite build --config ./vite.config.ts",
-    "clean": "rm -rf .turbo dist node_modules"
+    "clean": "rm -rf .turbo dist node_modules",
+    "dev": "vite build --config ./vite.config.ts --watch"
   },
   "devDependencies": {
     "@material-symbols/svg-300": "^0.5.4",

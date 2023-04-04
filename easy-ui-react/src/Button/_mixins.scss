@@ -1,3 +1,5 @@
+@import "../styles/common";
+
 @mixin base {
   display: inline-flex;
   align-items: center;
@@ -6,7 +8,7 @@
   cursor: pointer;
 
   &:focus {
-    box-shadow: var(--ezui-shadow-button);
+    box-shadow: theme-token("shadow.button");
     outline: none;
   }
 
@@ -25,8 +27,8 @@
   }
 
   &:disabled {
-    color: var(--ezui-color-white);
-    background-color: var(--ezui-color-gray-200);
+    color: theme-token("color.text.inverse");
+    background-color: theme-token("color.background.disabled");
   }
 
   &:link {
@@ -59,8 +61,9 @@
   }
 
   &:disabled {
-    color: var(--ezui-color-gray-300);
-    border: var(--ezui-shape-border-width-1) solid var(--ezui-color-gray-300);
+    color: theme-token("color.text.disabled");
+    border: var(--ezui-shape-border-width-1) solid
+      theme-token("color.border.disabled");
   }
 
   &:link {
@@ -95,7 +98,7 @@
   }
 
   &:disabled {
-    color: var(--ezui-color-gray-300);
+    color: theme-token("color.text.disabled");
   }
 
   &:active:not(:disabled) {
@@ -107,54 +110,61 @@
   }
 }
 
+// prettier-ignore
 @mixin colorPrimary {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-blue-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-blue-600);
-  --ezui-c-button-active-color: var(--ezui-color-blue-700);
+  --ezui-c-button-filled-font-color: #{theme-token("color.text.inverse")};
+  --ezui-c-button-filled-active-font-color: #{theme-token("color.text.inverse")};
+  --ezui-c-button-resting-color: #{theme-token("color.background.primary")};
+  --ezui-c-button-hover-focus-color: #{theme-token("color.background.primary.hovered")};
+  --ezui-c-button-active-color: #{theme-token("color.background.primary.pressed")};
 }
 
+// prettier-ignore
 @mixin colorSecondary {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-purple-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-purple-800);
-  --ezui-c-button-active-color: var(--ezui-color-purple-700);
+  --ezui-c-button-filled-font-color: #{theme-token("color.text.inverse")};
+  --ezui-c-button-filled-active-font-color: #{theme-token("color.text.inverse")};
+  --ezui-c-button-resting-color: #{theme-token("color.background.secondary")};
+  --ezui-c-button-hover-focus-color: #{theme-token("color.background.secondary.hovered")};
+  --ezui-c-button-active-color: #{theme-token("color.background.secondary.pressed")};
 }
 
+// prettier-ignore
 @mixin colorSuccess {
-  --ezui-c-button-filled-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-green-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-green-600);
-  --ezui-c-button-active-color: var(--ezui-color-green-700);
+  --ezui-c-button-filled-font-color: #{theme-token("color.text.success.inverse")};
+  --ezui-c-button-filled-active-font-color: #{theme-token("color.text.success.inverse.pressed")};
+  --ezui-c-button-resting-color: #{theme-token("color.background.success")};
+  --ezui-c-button-hover-focus-color: #{theme-token("color.background.success.hovered")};
+  --ezui-c-button-active-color: #{theme-token("color.background.success.pressed")};
 }
 
+// prettier-ignore
 @mixin colorWarning {
-  --ezui-c-button-filled-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-resting-color: var(--ezui-color-red-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-red-600);
-  --ezui-c-button-active-color: var(--ezui-color-red-700);
+  --ezui-c-button-filled-font-color: #{theme-token("color.text.danger.inverse")};
+  --ezui-c-button-filled-active-font-color: #{theme-token("color.text.danger.inverse.pressed")};
+  --ezui-c-button-resting-color: #{theme-token("color.background.danger")};
+  --ezui-c-button-hover-focus-color: #{theme-token("color.background.danger.hovered")};
+  --ezui-c-button-active-color: #{theme-token("color.background.danger.pressed")};
 }
 
+// prettier-ignore
 @mixin colorNeutral {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-blue-800);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-black);
-  --ezui-c-button-active-color: var(--ezui-color-blue-700);
+  --ezui-c-button-filled-font-color: #{theme-token("color.text.inverse")};
+  --ezui-c-button-filled-active-font-color: #{theme-token("color.text.inverse")};
+  --ezui-c-button-resting-color: #{theme-token("color.background.neutral")};
+  --ezui-c-button-hover-focus-color: #{theme-token("color.background.neutral.hovered")};
+  --ezui-c-button-active-color: #{theme-token("color.background.neutral.pressed")};
 }
 
+// prettier-ignore
 @mixin colorSupport {
-  --ezui-c-button-resting-color: var(--ezui-color-blue-800);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-black);
-  --ezui-c-button-active-color: var(--ezui-color-gray-700);
+  --ezui-c-button-resting-color: #{theme-token("color.border.support")};
+  --ezui-c-button-hover-focus-color: #{theme-token("color.border.support.hovered")};
+  --ezui-c-button-active-color: #{theme-token("color.border.support.pressed")};
 }
 
+// prettier-ignore
 @mixin colorInverse {
-  --ezui-c-button-resting-color: var(--ezui-color-white);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-gray-100);
-  --ezui-c-button-active-color: var(--ezui-color-gray-200);
+  --ezui-c-button-resting-color: #{theme-token("color.border.inverse")};
+  --ezui-c-button-hover-focus-color: #{theme-token("color.border.inverse.hovered")};
+  --ezui-c-button-active-color: #{theme-token("color.border.inverse.pressed")};
 }

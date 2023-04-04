@@ -6,34 +6,48 @@ import React, {
   useState,
 } from "react";
 import kebabCase from "lodash/kebabCase";
-import tokens from "@easypost/easy-ui-tokens/js/tokens";
 
-export type Theme = {
-  "font.family": string;
-  "color.text": string;
-  "color.text.heading": string;
-  "color.background.disabled": string;
-  "color.background.support": string;
-  "color.background.primary": string;
-  "color.background.primary.hovered": string;
-  "color.background.primary.pressed": string;
-  "color.background.secondary": string;
-  "color.background.secondary.hovered": string;
-  "color.background.secondary.pressed": string;
-  "color.background.neutral": string;
-  "color.background.neutral.hovered": string;
-  "color.background.neutral.pressed": string;
-  "color.background.success": string;
-  "color.background.success.hovered": string;
-  "color.background.success.pressed": string;
-  "color.background.danger": string;
-  "color.background.danger.hovered": string;
-  "color.background.danger.pressed": string;
+const themeDefinition = {
+  "color.background.danger": "",
+  "color.background.danger.hovered": "",
+  "color.background.danger.pressed": "",
+  "color.background.disabled": "",
+  "color.background.neutral": "",
+  "color.background.neutral.hovered": "",
+  "color.background.neutral.pressed": "",
+  "color.background.primary": "",
+  "color.background.primary.hovered": "",
+  "color.background.primary.pressed": "",
+  "color.background.secondary": "",
+  "color.background.secondary.hovered": "",
+  "color.background.secondary.pressed": "",
+  "color.background.success": "",
+  "color.background.success.hovered": "",
+  "color.background.success.pressed": "",
+  "color.border.support": "",
+  "color.border.support.hovered": "",
+  "color.border.support.pressed": "",
+  "color.border.inverse": "",
+  "color.border.inverse.hovered": "",
+  "color.border.inverse.pressed": "",
+  "color.border.disabled": "",
+  "color.text": "",
+  "color.text.disabled": "",
+  "color.text.heading": "",
+  "color.text.inverse": "",
+  "color.text.success.inverse": "",
+  "color.text.success.inverse.pressed": "",
+  "color.text.danger.inverse": "",
+  "color.text.danger.inverse.pressed": "",
+  "font.family": "",
+  "shadow.button": "",
 };
+
+export type Theme = typeof themeDefinition;
 export type ColorScheme = "light" | "dark" | "system" | "inverted";
 
-export const defaultThemeCreator = createTheme(() => {
-  return buildThemeFromTokens(tokens, "theme.light");
+export const defaultTheme = createTheme(() => {
+  return buildThemeFromTokenNamespace("theme.light");
 });
 
 const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
@@ -119,7 +133,7 @@ export function ThemeProvider({
   const ColorSchemeContextComponent =
     isRoot || colorSchemeFromUser ? ColorSchemeContextProvider : NoopComponent;
 
-  const theme = themeFromUser ? themeFromUser : defaultThemeCreator;
+  const theme = themeFromUser ? themeFromUser : defaultTheme;
   const colorScheme = colorSchemeFromUser ? colorSchemeFromUser : "system";
 
   return (
@@ -246,16 +260,12 @@ function renderThemeVariables(theme: Theme) {
   return css;
 }
 
-function buildThemeFromTokens(tokens: object, prefix: string) {
-  const cleanedPrefix = prefix.replace(/\./g, "-");
+function buildThemeFromTokenNamespace(prefix: string) {
   const theme = Object.fromEntries(
-    Object.keys(tokens)
-      .filter((key) => key.startsWith(cleanedPrefix))
-      .map((key) => {
-        const prop = key.replace(`${cleanedPrefix}-`, "").replace("-", ".");
-        const value = `var(--ezui-${key})`;
-        return [prop, value];
-      }),
+    Object.keys(themeDefinition).map((key) => {
+      const value = `var(--ezui-${kebabCase(prefix)}-${kebabCase(key)})`;
+      return [key, value];
+    }),
   );
   return theme as Theme;
 }

@@ -1,0 +1,10 @@
+@use "./string-functions" as string;
+
+/// Helper for referencing theme tokens consistently in CSS modules.
+///
+/// To use a theme token:
+/// color: theme-token("color.text");
+@function theme-token($tokenName) {
+  $replacedName: string.replace($tokenName, ".", "-");
+  @return var(--ezui-t-#{$replacedName});
+}
