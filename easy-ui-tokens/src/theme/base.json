@@ -1,5 +1,5 @@
 {
-  "theme.light": {
+  "theme.base": {
     "color.background.danger": { "value": "{color.red.500}" },
     "color.background.danger.hovered": { "value": "{color.red.600}" },
     "color.background.danger.pressed": { "value": "{color.red.700}" },

@@ -6,49 +6,17 @@ import React, {
   useState,
 } from "react";
 import kebabCase from "lodash/kebabCase";
+import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { getTokenAliases } from "../utilities/tokens";
+import type { ThemeTokenAliases } from "../types";
 
-export const themeDefinition = {
-  "color.background.danger": "",
-  "color.background.danger.hovered": "",
-  "color.background.danger.pressed": "",
-  "color.background.disabled": "",
-  "color.background.neutral": "",
-  "color.background.neutral.hovered": "",
-  "color.background.neutral.pressed": "",
-  "color.background.primary": "",
-  "color.background.primary.hovered": "",
-  "color.background.primary.pressed": "",
-  "color.background.secondary": "",
-  "color.background.secondary.hovered": "",
-  "color.background.secondary.pressed": "",
-  "color.background.success": "",
-  "color.background.success.hovered": "",
-  "color.background.success.pressed": "",
-  "color.border.support": "",
-  "color.border.support.hovered": "",
-  "color.border.support.pressed": "",
-  "color.border.inverse": "",
-  "color.border.inverse.hovered": "",
-  "color.border.inverse.pressed": "",
-  "color.border.disabled": "",
-  "color.text": "",
-  "color.text.disabled": "",
-  "color.text.heading": "",
-  "color.text.inverse": "",
-  "color.text.success.inverse": "",
-  "color.text.success.inverse.pressed": "",
-  "color.text.danger.inverse": "",
-  "color.text.danger.inverse.pressed": "",
-  "font.family": "",
-  "shadow.button": "",
+export type Theme = {
+  [key in ThemeTokenAliases]: string;
 };
-
-export type Theme = typeof themeDefinition;
 export type ColorScheme = "light" | "dark" | "system" | "inverted";
 
 export const defaultTheme = createTheme(() => {
-  return buildThemeFromTokenNamespace("theme.light");
+  return getThemeFromTokens("theme.base");
 });
 
 const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
@@ -261,12 +229,15 @@ function renderThemeVariables(theme: Theme) {
   return css;
 }
 
-function buildThemeFromTokenNamespace(prefix: string) {
+function getThemeFromTokens(prefix: string) {
   const theme = Object.fromEntries(
-    Object.keys(themeDefinition).map((key) => {
-      const value = `var(--ezui-${kebabCase(prefix)}-${kebabCase(key)})`;
-      return [key, value];
-    }),
+    Object.keys(tokens)
+      .filter((key) => key.startsWith(`${prefix}.`))
+      .map((key) => key.replace(new RegExp(`^${prefix}.`), ""))
+      .map((key) => {
+        const value = `var(--ezui-${kebabCase(prefix)}-${kebabCase(key)})`;
+        return [key, value];
+      }),
   );
   return theme as Theme;
 }
@@ -279,5 +250,5 @@ function buildThemeFromTokenNamespace(prefix: string) {
  * -> ["disabled", "success", etc]
  */
 export function getThemeTokenAliases(pattern: string) {
-  return getTokenAliases(themeDefinition, pattern);
+  return getTokenAliases(getThemeFromTokens("theme.base"), pattern);
 }

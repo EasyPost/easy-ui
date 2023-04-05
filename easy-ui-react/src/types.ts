@@ -1,10 +1,8 @@
 import React from "react";
 import type tokens from "@easypost/easy-ui-tokens/js/tokens";
-import type { Theme } from "./Theme";
 
 export type DesignTokens = typeof tokens;
 export type DesignTokenAliases = keyof DesignTokens;
-export type ThemeTokenAliases = keyof Theme;
 
 export type Falsy = boolean | undefined | null | 0;
 
@@ -39,6 +37,8 @@ export type DesignTokenNamespace<
       `${NeedlePrefix}.`,
       `.${string & NeedleSuffix}`
     >;
+
+export type ThemeTokenAliases = DesignTokenNamespace<"theme.base">;
 
 export type ThemeTokenNamespace<Needle extends string> = Namespace<
   ThemeTokenAliases,
