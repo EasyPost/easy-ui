@@ -1,8 +1,8 @@
 > This document represents a component specification template. Its purpose
 > is to provide a point-in-time guide as to how a component should be
 > authored, in light of common anatomies, behaviors, and accessibility.
-> The primary audience is a developer authoring a given component.
-> Use or ignore any relevant sections for the component being designed.
+> The primary audience is a developer authoring a given component. Feel free to
+> pick and choose what sections are relevant for the component being designed.
 
 # `{ComponentName}` Component Specification
 
