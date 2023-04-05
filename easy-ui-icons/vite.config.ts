@@ -23,6 +23,8 @@ export default defineConfig({
     }),
   ],
   build: {
+    target: "es2015",
+    minify: false,
     lib: {
       entry: glob.sync("src/*.{svg,json}"),
     },
