@@ -34,7 +34,7 @@ export function Icon({
 }: IconProps) {
   const style = {
     ...getComponentThemeToken("icon", "color", "color.text", color),
-    ...getResponsiveDesignToken("icon", "size", "size-icon", size),
+    ...getResponsiveDesignToken("icon", "size", "size.icon", size),
   } as React.CSSProperties;
   return (
     <span className={styles.Icon} style={style}>

@@ -36,7 +36,7 @@ describe("<Icon />", () => {
     render(<Icon symbol={CheckCircleIcon} size="sm" />);
     const $svg = screen.getByRole("img", { hidden: true });
     expect($svg.closest("span")).toHaveStyle(
-      getResponsiveDesignToken("icon", "size", "size-icon", "sm"),
+      getResponsiveDesignToken("icon", "size", "size.icon", "sm"),
     );
   });
 });
