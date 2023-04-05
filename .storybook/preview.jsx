@@ -3,8 +3,6 @@ import { Provider as EasyUIProvider } from "../easy-ui-react/src/Provider";
 import { backgrounds, gridCellSize, theme } from "./theme";
 import { viewports } from "./viewports";
 
-import "./poppins.css";
-
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
