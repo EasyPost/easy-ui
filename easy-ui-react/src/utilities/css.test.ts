@@ -4,6 +4,7 @@ import {
   getResponsiveDesignToken,
   getResponsiveValue,
   getComponentDesignToken,
+  getComponentThemeToken,
 } from "./css";
 
 describe("classNames", () => {
@@ -31,7 +32,7 @@ describe("variationName", () => {
   });
 });
 
-describe("getComponentToken", () => {
+describe("getComponentDesignToken", () => {
   it("takes a string and returns the custom token", () => {
     expect(
       getComponentDesignToken("stack", "space", "space", "4"),
@@ -41,7 +42,17 @@ describe("getComponentToken", () => {
   });
 });
 
-describe("getResponsiveToken", () => {
+describe("getComponentThemeToken", () => {
+  it("takes a string and returns the custom token", () => {
+    expect(
+      getComponentThemeToken("icon", "color", "color.text", "disabled"),
+    ).toMatchObject({
+      "--ezui-c-icon-color": "var(--ezui-t-color-text-disabled)",
+    });
+  });
+});
+
+describe("getResponsiveDesignToken", () => {
   it("takes a string and returns the custom token", () => {
     expect(
       getResponsiveDesignToken("stack", "space", "space", "4"),
