@@ -1,3 +1,5 @@
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import {
   ButtonStoryDecorator,
@@ -5,9 +7,11 @@ import {
 } from "../utilities/storybook";
 import { DropdownButton, DropdownButtonProps } from "./DropdownButton";
 
+type Story = StoryObj<typeof DropdownButton>;
+
 const Template = (args: DropdownButtonProps) => <DropdownButton {...args} />;
 
-export default {
+const meta: Meta<typeof DropdownButton> = {
   title: "Components/Button/DropdownButton",
   argTypes: {
     children: {
@@ -17,12 +21,14 @@ export default {
   component: DropdownButton,
 };
 
-export const Controls = {
+export default meta;
+
+export const Controls: Story = {
   render: Template.bind({}),
   args: {},
 };
 
-export const FilledButtons = {
+export const FilledButtons: Story = {
   render: () => (
     <>
       <DropdownButton />
@@ -35,7 +41,7 @@ export const FilledButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const OutlinedButtons = {
+export const OutlinedButtons: Story = {
   render: () => (
     <>
       <DropdownButton variant="outlined" />
@@ -46,12 +52,12 @@ export const OutlinedButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const InverseButtons = {
+export const InverseButtons: Story = {
   render: () => <DropdownButton color="inverse" variant="outlined" />,
   decorators: [ButtonStoryOnDarkBackgroundDecorator],
 };
 
-export const DisabledButtons = {
+export const DisabledButtons: Story = {
   render: () => (
     <>
       <DropdownButton isDisabled />
@@ -61,7 +67,7 @@ export const DisabledButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const ClickEvent = {
-  render: () => <DropdownButton onPress={() => alert("clicked!")} />,
+export const ClickEvent: Story = {
+  render: () => <DropdownButton onPress={action("clicked!")} />,
   decorators: [ButtonStoryDecorator],
 };

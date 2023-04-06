@@ -1,5 +1,7 @@
 import AddIcon from "@easypost/easy-ui-icons/Add";
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import {
   ButtonStoryDecorator,
@@ -8,6 +10,8 @@ import {
 } from "../utilities/storybook";
 import { IconButton, IconButtonProps } from "./IconButton";
 
+type Story = StoryObj<typeof IconButton>;
+
 const sharedIconButtonProps = {
   icon: ArrowBackIcon,
   accessibilityLabel: "Back",
@@ -15,7 +19,7 @@ const sharedIconButtonProps = {
 
 const Template = (args: IconButtonProps) => <IconButton {...args} />;
 
-export default {
+const meta: Meta<typeof IconButton> = {
   title: "Components/Button/IconButton",
   argTypes: {
     icon: createLabelledOptionsControl({
@@ -26,14 +30,16 @@ export default {
   component: IconButton,
 };
 
-export const Controls = {
+export default meta;
+
+export const Control: Story = {
   render: Template.bind({}),
   args: {
     ...sharedIconButtonProps,
   },
 };
 
-export const FilledButtons = {
+export const FilledButtons: Story = {
   render: () => (
     <>
       <IconButton {...sharedIconButtonProps} />
@@ -46,7 +52,7 @@ export const FilledButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const OutlinedButtons = {
+export const OutlinedButtons: Story = {
   render: () => (
     <>
       <IconButton variant="outlined" {...sharedIconButtonProps} />
@@ -65,14 +71,14 @@ export const OutlinedButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const InverseButton = {
+export const InverseButton: Story = {
   render: () => (
     <IconButton color="inverse" variant="outlined" {...sharedIconButtonProps} />
   ),
   decorators: [ButtonStoryOnDarkBackgroundDecorator],
 };
 
-export const DisabledButtons = {
+export const DisabledButtons: Story = {
   render: () => (
     <>
       <IconButton {...sharedIconButtonProps} isDisabled />
@@ -82,9 +88,9 @@ export const DisabledButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const ClickEvent = {
+export const ClickEvent: Story = {
   render: () => (
-    <IconButton {...sharedIconButtonProps} onPress={() => alert("clicked!")} />
+    <IconButton {...sharedIconButtonProps} onPress={action("clicked!")} />
   ),
   decorators: [ButtonStoryDecorator],
 };

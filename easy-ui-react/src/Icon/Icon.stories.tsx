@@ -1,17 +1,20 @@
-import React from "react";
-import {
-  createLabelledOptionsControl,
-  createColorTokensControl,
-} from "../utilities/storybook";
-import { Icon, IconProps } from "./Icon";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
+import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
 import WarningIcon from "@easypost/easy-ui-icons/Warning";
-import ErrorIcon from "@easypost/easy-ui-icons/Error";
+import { Meta, StoryObj } from "@storybook/react";
+import React from "react";
+import {
+  createColorTokensControl,
+  createLabelledOptionsControl,
+} from "../utilities/storybook";
+import { Icon, IconProps } from "./Icon";
+
+type Story = StoryObj<typeof Icon>;
 
 const Template = (args: IconProps) => <Icon {...args} />;
 
-export default {
+const meta: Meta<typeof Icon> = {
   title: "Components/Icon",
   argTypes: {
     // TODO: Figure out how to include all icons from our icons project
@@ -38,7 +41,9 @@ export default {
   component: Icon,
 };
 
-export const Controls = {
+export default meta;
+
+export const Controls: Story = {
   render: Template.bind({}),
   args: {
     symbol: CheckCircleIcon,

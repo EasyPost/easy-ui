@@ -1,13 +1,16 @@
+import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import {
-  createFontStyleTokensControl,
   createColorTokensControl,
+  createFontStyleTokensControl,
 } from "../utilities/storybook";
 import { Text, TextProps } from "./Text";
 
+type Story = StoryObj<typeof Text>;
+
 const Template = (args: TextProps) => <Text {...args} />;
 
-export default {
+const meta: Meta<typeof Text> = {
   title: "Components/Text",
   argTypes: {
     variant: createFontStyleTokensControl(),
@@ -16,14 +19,16 @@ export default {
   component: Text,
 };
 
-export const Controls = {
+export default meta;
+
+export const Controls: Story = {
   render: Template.bind({}),
   args: {
     children: "Here is some text",
   },
 };
 
-export const Truncate = {
+export const Truncate: Story = {
   render: Template.bind({}),
   args: {
     as: "p",

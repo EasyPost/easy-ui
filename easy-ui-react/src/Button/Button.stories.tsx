@@ -2,6 +2,8 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import {
   ButtonStoryDecorator,
@@ -10,9 +12,11 @@ import {
 } from "../utilities/storybook";
 import { Button, ButtonProps } from "./Button";
 
+type Story = StoryObj<typeof Button>;
+
 const Template = (args: ButtonProps) => <Button {...args} />;
 
-export default {
+const meta: Meta<typeof Button> = {
   title: "Components/Button/Button",
   argTypes: {
     iconAtStart: createLabelledOptionsControl({
@@ -30,12 +34,14 @@ export default {
   component: Button,
 };
 
-export const Controls = {
+export default meta;
+
+export const Controls: Story = {
   render: Template.bind({}),
   args: {},
 };
 
-export const FilledButtons = {
+export const FilledButtons: Story = {
   render: () => (
     <>
       <Button />
@@ -53,7 +59,7 @@ export const FilledButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const OutlinedButtons = {
+export const OutlinedButtons: Story = {
   render: () => (
     <>
       <Button variant="outlined" />
@@ -67,7 +73,7 @@ export const OutlinedButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const LinkButtons = {
+export const LinkButtons: Story = {
   render: () => (
     <>
       <Button variant="link" />
@@ -77,7 +83,7 @@ export const LinkButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const InverseButtons = {
+export const InverseButtons: Story = {
   render: () => (
     <>
       <Button color="inverse" variant="outlined" />
@@ -87,7 +93,7 @@ export const InverseButtons = {
   decorators: [ButtonStoryOnDarkBackgroundDecorator],
 };
 
-export const WithHref = {
+export const WithHref: Story = {
   render: () => (
     <>
       <Button href="https://www.easypost.com/" />
@@ -97,7 +103,7 @@ export const WithHref = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const WithIcons = {
+export const WithIcons: Story = {
   render: () => (
     <>
       <Button iconAtEnd={CheckCircleIcon} />
@@ -109,12 +115,12 @@ export const WithIcons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const BlockButton = {
+export const BlockButton: Story = {
   render: () => <Button isBlock />,
   decorators: [ButtonStoryDecorator],
 };
 
-export const DisabledButtons = {
+export const DisabledButtons: Story = {
   render: () => (
     <>
       <Button isDisabled />
@@ -124,7 +130,7 @@ export const DisabledButtons = {
   decorators: [ButtonStoryDecorator],
 };
 
-export const ClickEvent = {
-  render: () => <Button onPress={() => alert("clicked!")} />,
+export const ClickEvent: Story = {
+  render: () => <Button onPress={action("clicked!")} />,
   decorators: [ButtonStoryDecorator],
 };
