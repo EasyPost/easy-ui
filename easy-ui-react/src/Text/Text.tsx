@@ -1,12 +1,12 @@
 import React, { ReactNode } from "react";
-import { TokenNamespace, TokenNamespaceWithSuffix } from "../types";
-import { classNames, getComponentToken } from "../utilities/css";
+import { ThemeTokenNamespace, DesignTokenNamespace } from "../types";
+import { classNames, getComponentThemeToken } from "../utilities/css";
 
 import styles from "./Text.module.scss";
 
 export type TextAs = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
-export type TextColor = TokenNamespace<"color">;
-export type TextVariant = TokenNamespaceWithSuffix<"font-style", "family">;
+export type TextColor = ThemeTokenNamespace<"color.text">;
+export type TextVariant = DesignTokenNamespace<"font.style", "family">;
 export type TextWeight = "normal" | "medium" | "semibold" | "bold";
 
 export type TextProps = {
@@ -97,7 +97,7 @@ export function Text({
   );
 
   const style = {
-    ...getComponentToken("text", "color", "color", color),
+    ...getComponentThemeToken("text", "color", "color.text", color),
   } as React.CSSProperties;
 
   return (

@@ -1,0 +1,45 @@
+@use "./string-functions" as string;
+
+@function -clean-name($name) {
+  @return string.replace(string.replace($name, ".", "-"), "_", "-");
+}
+
+/// Helper for referencing design tokens consistently in CSS modules.
+///
+/// To use a design token:
+/// color: design-token("color.blue.800");
+@function design-token($tokenName) {
+  $cleanedName: -clean-name($tokenName);
+  @return var(--ezui-#{$cleanedName});
+}
+
+/// Helper for referencing theme tokens consistently in CSS modules.
+///
+/// To use a theme token:
+/// color: theme-token("color.text");
+@function theme-token($tokenName) {
+  $cleanedName: -clean-name($tokenName);
+  @return var(--ezui-t-#{$cleanedName});
+}
+
+/// Helpers for referencing tokens in components in a structured way. Supports
+/// a consistent naming between CSS and JS.
+///
+/// To define a component token:
+/// @include component-token("text", "color", inherit);
+///
+/// To use a component token:
+/// color: component-token("text", "color");
+///
+/// See utilities/css.ts for using component tokens in JS
+@mixin component-token($componentName, $componentProp, $value) {
+  $cleanedComponentName: -clean-name($componentName);
+  $cleanedComponentProp: -clean-name($componentProp);
+  --ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp}: #{$value};
+}
+
+@function component-token($componentName, $componentProp) {
+  $cleanedComponentName: -clean-name($componentName);
+  $cleanedComponentProp: -clean-name($componentProp);
+  @return var(--ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp});
+}

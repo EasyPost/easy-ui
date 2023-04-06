@@ -1,4 +1,5 @@
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
+import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
 
 export function createLabelledOptionsControl(
@@ -17,18 +18,23 @@ export function createLabelledOptionsControl(
 }
 
 export function createFontStyleTokensControl() {
-  return getTokensControl("font-style-{alias}-family");
+  return getDesignTokensControl("font.style.{alias}.family");
 }
 
 export function createColorTokensControl() {
-  return getTokensControl("color-{alias}");
+  return getThemeTokensControl("color.text.{alias}");
 }
 
-export function getTokensControl(pattern: string) {
+export function getDesignTokensControl(pattern: string) {
+  return getTokensControl(getTokenAliases(tokens, pattern));
+}
+
+export function getThemeTokensControl(pattern: string) {
+  return getTokensControl(getThemeTokenAliases(pattern));
+}
+
+function getTokensControl(tokenAliases: string[]) {
   return createLabelledOptionsControl(
-    getTokenAliases(tokens, pattern).reduce(
-      (o, alias) => ({ ...o, [alias]: alias }),
-      {},
-    ),
+    tokenAliases.reduce((o, alias) => ({ ...o, [alias]: alias }), {}),
   );
 }

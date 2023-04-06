@@ -39,6 +39,7 @@
     "changes:status": "changeset status",
     "changes:version": "changeset version",
     "clean": "FORCE_COLOR=1 turbo run clean && rm -rf ./node_modules",
+    "dev": "FORCE_COLOR=1 turbo run dev",
     "format": "prettier . --write",
     "lint": "FORCE_COLOR=1 turbo run lint",
     "start:storybook": "storybook dev -p 9003",

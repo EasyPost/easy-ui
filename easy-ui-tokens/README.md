@@ -57,7 +57,8 @@ console.log(tokens["color-blue-100"]);
 
 ### Commands
 
-| Command         | Runs                         |
-| :-------------- | :--------------------------- |
-| `npm run build` | Builds Easy UI design tokens |
-| `npm run clean` | Removes temp directories     |
+| Command         | Runs                                         |
+| :-------------- | :------------------------------------------- |
+| `npm run build` | Builds Easy UI design tokens                 |
+| `npm run clean` | Removes temp directories                     |
+| `npm run dev`   | Builds Easy UI design tokens on file changes |

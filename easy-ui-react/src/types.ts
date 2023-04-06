@@ -6,39 +6,43 @@ export type DesignTokenAliases = keyof DesignTokens;
 
 export type Falsy = boolean | undefined | null | 0;
 
-// Returns types narrowed to a specified key namespace
+// Returns types narrowed to a specified prefix and suffix namespace
 export type Namespace<
   Set,
-  Needle extends string,
-> = Set extends `${Needle}${infer _X}` ? _X : never;
-
-// Returns types narrowed for the specified namespace in our tokens file:
-//
-// type BreakpointsAlias = TokenNamespace<"breakpoint">
-//   xs | sm | md ...
-export type TokenNamespace<Needle extends string> = Namespace<
-  DesignTokenAliases,
-  `${Needle}-`
->;
-
-export type NamespaceWithSuffix<
-  Set,
   NeedlePrefix extends string,
-  NeedleSuffix extends string,
-> = Set extends `${NeedlePrefix}${infer _X}${NeedleSuffix}` ? _X : never;
+  NeedleSuffix extends string | void = void,
+> = NeedleSuffix extends void
+  ? Set extends `${NeedlePrefix}${infer _X}`
+    ? _X
+    : never
+  : Set extends `${NeedlePrefix}${infer _X}${string & NeedleSuffix}`
+  ? _X
+  : never;
 
-// Returns types narrowed for the specified namespace and suffix in
-// our tokens file:
-//
-// type FontStyles = TokenNamespaceWithSuffix<"font-style", "family">
-//   heading1 | heading2 | heading3 ...
-export type TokenNamespaceWithSuffix<
+/**
+ * Returns types narrowed for the specified namespace and suffix in
+ * our tokens file:
+ *
+ * @example
+ * type FontStyles = DesignTokenNamespace<"font-style", "family">
+ *   heading1 | heading2 | heading3 ...
+ */
+export type DesignTokenNamespace<
   NeedlePrefix extends string,
-  NeedleSuffix extends string,
-> = NamespaceWithSuffix<
-  DesignTokenAliases,
-  `${NeedlePrefix}-`,
-  `-${NeedleSuffix}`
+  NeedleSuffix extends void | string = void,
+> = NeedleSuffix extends void
+  ? Namespace<DesignTokenAliases, `${NeedlePrefix}.`>
+  : Namespace<
+      DesignTokenAliases,
+      `${NeedlePrefix}.`,
+      `.${string & NeedleSuffix}`
+    >;
+
+export type ThemeTokenAliases = DesignTokenNamespace<"theme.base">;
+
+export type ThemeTokenNamespace<Needle extends string> = Namespace<
+  ThemeTokenAliases,
+  `${Needle}.`
 >;
 
 type IconSymbolProps = React.SVGProps<SVGSVGElement> & {

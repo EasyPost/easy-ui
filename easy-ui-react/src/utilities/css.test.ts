@@ -1,9 +1,10 @@
 import {
   classNames,
   variationName,
-  getResponsiveToken,
+  getResponsiveDesignToken,
   getResponsiveValue,
-  getComponentToken,
+  getComponentDesignToken,
+  getComponentThemeToken,
 } from "./css";
 
 describe("classNames", () => {
@@ -31,23 +32,40 @@ describe("variationName", () => {
   });
 });
 
-describe("getComponentToken", () => {
+describe("getComponentDesignToken", () => {
   it("takes a string and returns the custom token", () => {
-    expect(getComponentToken("stack", "space", "space", "4")).toMatchObject({
+    expect(
+      getComponentDesignToken("stack", "space", "space", "4"),
+    ).toMatchObject({
       "--ezui-c-stack-space": "var(--ezui-space-4)",
     });
   });
 });
 
-describe("getResponsiveToken", () => {
+describe("getComponentThemeToken", () => {
   it("takes a string and returns the custom token", () => {
-    expect(getResponsiveToken("stack", "space", "space", "4")).toMatchObject({
+    expect(
+      getComponentThemeToken("icon", "color", "color.text", "disabled"),
+    ).toMatchObject({
+      "--ezui-c-icon-color": "var(--ezui-t-color-text-disabled)",
+    });
+  });
+});
+
+describe("getResponsiveDesignToken", () => {
+  it("takes a string and returns the custom token", () => {
+    expect(
+      getResponsiveDesignToken("stack", "space", "space", "4"),
+    ).toMatchObject({
       "--ezui-c-stack-space-xs": "var(--ezui-space-4)",
     });
   });
   it("takes an object with a breakpoint and value and returns the token for each breakpoint", () => {
     expect(
-      getResponsiveToken("stack", "space", "space", { xs: "2", md: "8" }),
+      getResponsiveDesignToken("stack", "space", "space", {
+        xs: "2",
+        md: "8",
+      }),
     ).toMatchObject({
       "--ezui-c-stack-space-xs": "var(--ezui-space-2)",
       "--ezui-c-stack-space-md": "var(--ezui-space-8)",
