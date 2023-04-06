@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { getComponentToken } from "../utilities/css";
+import { getComponentThemeToken } from "../utilities/css";
 import { Text } from "./Text";
 
 describe("<Text />", () => {
@@ -49,9 +49,9 @@ describe("<Text />", () => {
   });
 
   it("should apply color", () => {
-    render(<Text color="blue-800">Here is some text</Text>);
+    render(<Text color="disabled">Here is some text</Text>);
     expect(screen.getByText("Here is some text")).toHaveStyle(
-      getComponentToken("text", "color", "color", "blue-800"),
+      getComponentThemeToken("text", "color", "color.text", "disabled"),
     );
   });
 

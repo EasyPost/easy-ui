@@ -1,12 +1,14 @@
+@import "../styles/common";
+
 @mixin base {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--ezui-shape-border-radius-base);
+  border-radius: design-token("shape.border_radius.base");
   cursor: pointer;
 
   &:focus {
-    box-shadow: var(--ezui-shadow-button);
+    box-shadow: theme-token("shadow.button");
     outline: none;
   }
 
@@ -17,16 +19,16 @@
 
 @mixin variantFilled {
   border: 0;
-  background-color: var(--ezui-c-button-resting-color);
-  color: var(--ezui-c-button-filled-font-color);
+  background-color: component-token("button", "resting.color");
+  color: component-token("button", "filled.font.color");
 
   &:focus {
-    background-color: var(--ezui-c-button-hover-focus-color);
+    background-color: component-token("button", "hover.focus.color");
   }
 
   &:disabled {
-    color: var(--ezui-color-white);
-    background-color: var(--ezui-color-gray-200);
+    color: theme-token("color.text.inverse");
+    background-color: theme-token("color.background.disabled");
   }
 
   &:link {
@@ -34,33 +36,34 @@
   }
 
   &:not(:disabled):active {
-    color: var(--ezui-c-button-filled-active-font-color);
-    background-color: var(--ezui-c-button-active-color);
+    color: component-token("button", "filled.active.font.color");
+    background-color: component-token("button", "active.color");
     &:focus {
       box-shadow: none;
     }
   }
 
   &:hover:not(:disabled):not(:active) {
-    background-color: var(--ezui-c-button-hover-focus-color);
+    background-color: component-token("button", "hover.focus.color");
   }
 }
 
 @mixin variantOutlined {
   background-color: transparent;
-  border: var(--ezui-shape-border-width-1) solid
-    var(--ezui-c-button-resting-color);
-  color: var(--ezui-c-button-resting-color);
+  border: design-token("shape.border_width.1") solid
+    component-token("button", "resting.color");
+  color: component-token("button", "resting.color");
 
   &:focus {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
-    color: var(--ezui-c-button-hover-focus-color);
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "hover.focus.color");
+    color: component-token("button", "hover.focus.color");
   }
 
   &:disabled {
-    color: var(--ezui-color-gray-300);
-    border: var(--ezui-shape-border-width-1) solid var(--ezui-color-gray-300);
+    color: theme-token("color.text.disabled");
+    border: design-token("shape.border_width.1") solid
+      theme-token("color.border.disabled");
   }
 
   &:link {
@@ -68,93 +71,100 @@
   }
 
   &:active:not(:disabled) {
-    color: var(--ezui-c-button-active-color);
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-active-color);
+    color: component-token("button", "active.color");
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "active.color");
     &:focus {
       box-shadow: none;
     }
   }
 
   &:hover:not(:disabled):not(:active) {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
-    color: var(--ezui-c-button-hover-focus-color);
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "hover.focus.color");
+    color: component-token("button", "hover.focus.color");
   }
 }
 
 @mixin variantLink {
-  color: var(--ezui-c-button-resting-color);
+  color: component-token("button", "resting.color");
   background-color: transparent;
-  border: var(--ezui-shape-border-width-1) solid transparent;
+  border: design-token("shape.border_width.1") solid transparent;
   text-decoration: underline;
 
   &:focus {
-    border: var(--ezui-shape-border-width-1) solid
-      var(--ezui-c-button-hover-focus-color);
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "hover.focus.color");
   }
 
   &:disabled {
-    color: var(--ezui-color-gray-300);
+    color: theme-token("color.text.disabled");
   }
 
   &:active:not(:disabled) {
-    color: var(--ezui-c-button-active-color);
+    color: component-token("button", "active.color");
   }
 
   &:hover:not(:disabled):not(:active) {
-    color: var(--ezui-c-button-hover-focus-color);
+    color: component-token("button", "hover.focus.color");
   }
 }
 
+// prettier-ignore
 @mixin colorPrimary {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-blue-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-blue-600);
-  --ezui-c-button-active-color: var(--ezui-color-blue-700);
+  @include component-token("button", "filled.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "filled.active.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "resting.color", theme-token("color.background.primary"));
+  @include component-token("button", "hover.focus.color", theme-token("color.background.primary.hovered"));
+  @include component-token("button", "active.color", theme-token("color.background.primary.pressed"));
 }
 
+// prettier-ignore
 @mixin colorSecondary {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-purple-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-purple-800);
-  --ezui-c-button-active-color: var(--ezui-color-purple-700);
+  @include component-token("button", "filled.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "filled.active.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "resting.color", theme-token("color.background.secondary"));
+  @include component-token("button", "hover.focus.color", theme-token("color.background.secondary.hovered"));
+  @include component-token("button", "active.color", theme-token("color.background.secondary.pressed"));
 }
 
+// prettier-ignore
 @mixin colorSuccess {
-  --ezui-c-button-filled-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-green-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-green-600);
-  --ezui-c-button-active-color: var(--ezui-color-green-700);
+  @include component-token("button", "filled.font.color", theme-token("color.text.success.inverse"));
+  @include component-token("button", "filled.active.font.color", theme-token("color.text.success.inverse.pressed"));
+  @include component-token("button", "resting.color", theme-token("color.background.success"));
+  @include component-token("button", "hover.focus.color", theme-token("color.background.success.hovered"));
+  @include component-token("button", "active.color", theme-token("color.background.success.pressed"));
 }
 
+// prettier-ignore
 @mixin colorWarning {
-  --ezui-c-button-filled-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-blue-800);
-  --ezui-c-button-resting-color: var(--ezui-color-red-500);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-red-600);
-  --ezui-c-button-active-color: var(--ezui-color-red-700);
+  @include component-token("button", "filled.font.color",theme-token("color.text.danger.inverse"));
+  @include component-token("button", "filled.active.font.color",theme-token("color.text.danger.inverse.pressed"));
+  @include component-token("button", "resting.color",theme-token("color.background.danger"));
+  @include component-token("button", "hover.focus.color",theme-token("color.background.danger.hovered"));
+  @include component-token("button", "active.color",theme-token("color.background.danger.pressed"));
 }
 
+// prettier-ignore
 @mixin colorNeutral {
-  --ezui-c-button-filled-font-color: var(--ezui-color-white);
-  --ezui-c-button-filled-active-font-color: var(--ezui-color-white);
-  --ezui-c-button-resting-color: var(--ezui-color-blue-800);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-black);
-  --ezui-c-button-active-color: var(--ezui-color-blue-700);
+  @include component-token("button", "filled.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "filled.active.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "resting.color", theme-token("color.background.neutral"));
+  @include component-token("button", "hover.focus.color", theme-token("color.background.neutral.hovered"));
+  @include component-token("button", "active.color", theme-token("color.background.neutral.pressed"));
 }
 
+// prettier-ignore
 @mixin colorSupport {
-  --ezui-c-button-resting-color: var(--ezui-color-blue-800);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-black);
-  --ezui-c-button-active-color: var(--ezui-color-gray-700);
+  @include component-token("button", "resting.color", theme-token("color.border.support"));
+  @include component-token("button", "hover.focus.color", theme-token("color.border.support.hovered"));
+  @include component-token("button", "active.color", theme-token("color.border.support.pressed"));
 }
 
+// prettier-ignore
 @mixin colorInverse {
-  --ezui-c-button-resting-color: var(--ezui-color-white);
-  --ezui-c-button-hover-focus-color: var(--ezui-color-gray-100);
-  --ezui-c-button-active-color: var(--ezui-color-gray-200);
+  @include component-token("button", "resting.color", theme-token("color.border.inverse"));
+  @include component-token("button", "hover.focus.color", theme-token("color.border.inverse.hovered"));
+  @include component-token("button", "active.color", theme-token("color.border.inverse.pressed"));
 }

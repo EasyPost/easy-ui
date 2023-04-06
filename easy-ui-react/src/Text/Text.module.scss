@@ -13,19 +13,19 @@
 @include font-classes();
 
 .normal {
-  font-weight: var(--ezui-font-weight-normal);
+  font-weight: design-token("font.weight.normal");
 }
 
 .medium {
-  font-weight: var(--ezui-font-weight-medium);
+  font-weight: design-token("font.weight.medium");
 }
 
 .semibold {
-  font-weight: var(--ezui-font-weight-semibold);
+  font-weight: design-token("font.weight.semibold");
 }
 
 .bold {
-  font-weight: var(--ezui-font-weight-bold);
+  font-weight: design-token("font.weight.bold");
 }
 
 .truncate {

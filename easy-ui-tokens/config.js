@@ -18,6 +18,15 @@ module.exports = {
         return `(${token.original.value})`;
       },
     },
+    "ezui/name/cti": {
+      type: "name",
+      transformer: function (token, options) {
+        return [options.prefix]
+          .concat(token.path)
+          .filter((t) => Boolean(t))
+          .join(".");
+      },
+    },
   },
   format: {
     "ezui/javascript/es6-flat": function ({ dictionary, file }) {
@@ -59,7 +68,7 @@ module.exports = {
       "ezui/unit/rem",
       "ezui/unit/em",
     ],
-    "ezui-js": ["attribute/cti", "name/cti/kebab", "color/hex"],
+    "ezui-js": ["attribute/cti", "ezui/name/cti", "color/hex"],
   },
   platforms: {
     scss: {

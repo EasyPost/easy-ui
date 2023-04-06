@@ -4,18 +4,18 @@ import tokens from "../easy-ui-tokens/dist/js/tokens";
 export const gridCellSize = 8;
 
 export const backgrounds = {
-  dark: tokens["color-gray-800"],
-  light: tokens["color-gray-000"],
+  dark: tokens["color.gray.800"],
+  light: tokens["color.gray.000"],
 };
 
 const colors = {
   background: backgrounds.light,
-  primary: tokens["color-blue-500"],
-  secondary: tokens["color-blue-500"],
-  border: tokens["color-gray-200"],
-  surface: tokens["color-white"],
-  text: tokens["color-gray-700"],
-  textMuted: tokens["color-gray-400"],
+  primary: tokens["color.blue.500"],
+  secondary: tokens["color.blue.500"],
+  border: tokens["color.gray.200"],
+  surface: tokens["color.white"],
+  text: tokens["color.gray.700"],
+  textMuted: tokens["color.gray.400"],
 };
 
 export const theme = create({
@@ -30,7 +30,7 @@ export const theme = create({
   appBg: colors.background,
   appContentBg: colors.background,
   appBorderColor: colors.border,
-  appBorderRadius: parseInt(tokens["shape-border-radius-base"], 10),
+  appBorderRadius: parseInt(tokens["shape.border_radius.base"], 10),
 
   // Main colors
   colorPrimary: colors.primary,
@@ -51,5 +51,5 @@ export const theme = create({
   inputBg: colors.background,
   inputBorder: colors.border,
   inputTextColor: colors.text,
-  inputBorderRadius: parseInt(tokens["shape-border-radius-base"], 10),
+  inputBorderRadius: parseInt(tokens["shape.border_radius.base"], 10),
 });

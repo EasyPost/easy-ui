@@ -21,6 +21,7 @@
     "build:js": "vite build",
     "build:types": "tsc --build",
     "clean": "rm -rf node_modules dist .turbo",
+    "dev": "npm run --prefix .. start:storybook",
     "lint": "run-p lint:*",
     "lint:js": "eslint src --ext .ts,.tsx",
     "lint:styles": "stylelint 'src/**/*.{css,scss}'",
@@ -33,7 +34,7 @@
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
     "lodash": "^4.17.21",
-    "react-aria": "^3.23.1"
+    "react-aria": "^3.24.0"
   },
   "peerDependencies": {
     "react": "^16.14.0 || ^17.0.0 || ^18.0.0",

@@ -7,33 +7,16 @@ import React, {
 } from "react";
 import kebabCase from "lodash/kebabCase";
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
+import { getTokenAliases } from "../utilities/tokens";
+import type { ThemeTokenAliases } from "../types";
 
 export type Theme = {
-  "font.family": string;
-  "color.text": string;
-  "color.text.heading": string;
-  "color.background.disabled": string;
-  "color.background.support": string;
-  "color.background.primary": string;
-  "color.background.primary.hovered": string;
-  "color.background.primary.pressed": string;
-  "color.background.secondary": string;
-  "color.background.secondary.hovered": string;
-  "color.background.secondary.pressed": string;
-  "color.background.neutral": string;
-  "color.background.neutral.hovered": string;
-  "color.background.neutral.pressed": string;
-  "color.background.success": string;
-  "color.background.success.hovered": string;
-  "color.background.success.pressed": string;
-  "color.background.danger": string;
-  "color.background.danger.hovered": string;
-  "color.background.danger.pressed": string;
+  [key in ThemeTokenAliases]: string;
 };
 export type ColorScheme = "light" | "dark" | "system" | "inverted";
 
-export const defaultThemeCreator = createTheme(() => {
-  return buildThemeFromTokens(tokens, "theme.light");
+export const defaultTheme = createTheme(() => {
+  return getThemeFromTokens("theme.base");
 });
 
 const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
@@ -119,7 +102,7 @@ export function ThemeProvider({
   const ColorSchemeContextComponent =
     isRoot || colorSchemeFromUser ? ColorSchemeContextProvider : NoopComponent;
 
-  const theme = themeFromUser ? themeFromUser : defaultThemeCreator;
+  const theme = themeFromUser ? themeFromUser : defaultTheme;
   const colorScheme = colorSchemeFromUser ? colorSchemeFromUser : "system";
 
   return (
@@ -246,16 +229,26 @@ function renderThemeVariables(theme: Theme) {
   return css;
 }
 
-function buildThemeFromTokens(tokens: object, prefix: string) {
-  const cleanedPrefix = prefix.replace(/\./g, "-");
+function getThemeFromTokens(prefix: string) {
   const theme = Object.fromEntries(
     Object.keys(tokens)
-      .filter((key) => key.startsWith(cleanedPrefix))
+      .filter((key) => key.startsWith(`${prefix}.`))
+      .map((key) => key.replace(new RegExp(`^${prefix}.`), ""))
       .map((key) => {
-        const prop = key.replace(`${cleanedPrefix}-`, "").replace("-", ".");
-        const value = `var(--ezui-${key})`;
-        return [prop, value];
+        const value = `var(--ezui-${kebabCase(prefix)}-${kebabCase(key)})`;
+        return [key, value];
       }),
   );
   return theme as Theme;
+}
+
+/**
+ * Return the list of theme tokens for the pattern provided.
+ *
+ * @example
+ * const textColors = getThemeTokenAliases("color.text.{alias}");
+ * -> ["disabled", "success", etc]
+ */
+export function getThemeTokenAliases(pattern: string) {
+  return getTokenAliases(getThemeFromTokens("theme.base"), pattern);
 }

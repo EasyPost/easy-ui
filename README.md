@@ -37,6 +37,7 @@ easy-ui/
 | `npm run changes:status`   | Retrieves status of changesets               |
 | `npm run changes:version`  | Versions the current changesets              |
 | `npm run clean`            | Removes temp directories from workspaces     |
+| `npm run dev`              | Builds Easy UI on file changes               |
 | `npm run lint`             | Lints Easy UI                                |
 | `npm run format`           | Formats files with prettier                  |
 | `npm run start:storybook`  | Starts Storybook for dev                     |

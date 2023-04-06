@@ -19,9 +19,11 @@
     "build": "run-p build:*",
     "build:tokens": "style-dictionary build",
     "build:dist": "node ../scripts/copyDistFiles.mjs",
-    "clean": "rm -rf .turbo dist node_modules"
+    "clean": "rm -rf .turbo dist node_modules",
+    "dev": "nodemon --watch src --watch config.js --exec 'npm run build'"
   },
   "devDependencies": {
+    "nodemon": "^2.0.22",
     "style-dictionary": "^3.7.2"
   }
 }

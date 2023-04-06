@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { createTheme, defaultThemeCreator, ThemeProvider } from "./Theme";
+import { createTheme, defaultTheme, ThemeProvider } from "./Theme";
 
-const baseTheme = defaultThemeCreator({ colorScheme: "light" });
+const baseTheme = defaultTheme({ colorScheme: "light" });
 const redTheme = createTheme(() => ({ ...baseTheme, "color.text": "red" }));
 const greenTheme = createTheme(() => ({ ...baseTheme, "color.text": "green" }));
 const theme = createTheme(({ colorScheme }) =>

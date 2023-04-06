@@ -69,10 +69,11 @@ import svgFile from "@easypost/easy-ui-icons/svg/Info.svg";
 
 ### Commands
 
-| Command         | Runs                     |
-| :-------------- | :----------------------- |
-| `npm run clean` | Removes temp directories |
-| `npm run build` | Builds the icons project |
+| Command         | Runs                                     |
+| :-------------- | :--------------------------------------- |
+| `npm run build` | Builds the icons project                 |
+| `npm run clean` | Removes temp directories                 |
+| `npm run dev`   | Builds the icons project on file changes |
 
 ### Adding an icon
 
