@@ -1,18 +1,19 @@
 import React from "react";
-import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
 import {
   createLabelledOptionsControl,
   createColorTokensControl,
 } from "../utilities/storybook";
-import { Icon } from "./Icon";
+import { Icon, IconProps } from "./Icon";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
 import WarningIcon from "@easypost/easy-ui-icons/Warning";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 
-<Meta
-  title="Components/Icon"
-  argTypes={{
+const Template = (args: IconProps) => <Icon {...args} />;
+
+export default {
+  title: "Components/Icon",
+  argTypes: {
     // TODO: Figure out how to include all icons from our icons project
     symbol: createLabelledOptionsControl({
       CheckCircle: CheckCircleIcon,
@@ -23,29 +24,23 @@ import ErrorIcon from "@easypost/easy-ui-icons/Error";
     size: createLabelledOptionsControl({
       md: "md",
       lg: "lg",
-      "Responsive -- xs-sm md-md lg-lg": { xs: "sm", md: "md", lg: "lg" },
+      "Responsive -- xs-sm md-md lg-lg": {
+        xs: "sm",
+        md: "md",
+        lg: "lg",
+      },
     }),
     color: createColorTokensControl(),
     accessibilityLabel: {
       control: "text",
     },
-  }}
-  component={Icon}
-/>
+  },
+  component: Icon,
+};
 
-export const Template = (args) => <Icon {...args} />;
-
-# Icon
-
-<Canvas>
-  <Story
-    name="Default"
-    args={{
-      symbol: CheckCircleIcon,
-    }}
-  >
-    {Template.bind({})}
-  </Story>
-</Canvas>
-
-<ArgsTable story="Default" />
+export const Controls = {
+  render: Template.bind({}),
+  args: {
+    symbol: CheckCircleIcon,
+  },
+};

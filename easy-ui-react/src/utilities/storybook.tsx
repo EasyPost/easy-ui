@@ -1,5 +1,7 @@
+import React from "react";
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { getTokenAliases } from "./tokens";
+import { Decorator } from "@storybook/react";
 
 export function createLabelledOptionsControl(
   opts: Record<string, unknown>,
@@ -32,3 +34,27 @@ export function getTokensControl(pattern: string) {
     ),
   );
 }
+
+const buttonStoryStyles = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  flexWrap: "wrap",
+} as React.CSSProperties;
+
+const buttonStoryOnDarkBackgroundStyles = {
+  backgroundColor: "var(--ezui-color-blue-800)",
+  padding: "12px",
+};
+
+export const ButtonStoryDecorator: Decorator = (Story) => (
+  <div style={buttonStoryStyles}>
+    <Story />
+  </div>
+);
+
+export const ButtonStoryOnDarkBackgroundDecorator: Decorator = (Story) => (
+  <div style={{ ...buttonStoryOnDarkBackgroundStyles, ...buttonStoryStyles }}>
+    <Story />
+  </div>
+);

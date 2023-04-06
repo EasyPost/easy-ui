@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef } from "react";
-import { useButton } from "react-aria";
+import { AriaButtonProps, useButton } from "react-aria";
 import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
@@ -19,7 +19,7 @@ export type ButtonColor =
 export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
 
-export type ButtonProps = {
+export type ButtonProps = AriaButtonProps<"button"> & {
   /** Button color */
   color?: ButtonColor;
   /** Button variant */

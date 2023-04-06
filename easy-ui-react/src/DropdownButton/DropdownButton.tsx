@@ -1,6 +1,6 @@
 import React, { ReactNode, useRef } from "react";
 import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
-import { useButton } from "react-aria";
+import { AriaButtonProps, useButton } from "react-aria";
 import { Icon } from "../Icon";
 import { ButtonColor } from "../Button";
 import { classNames, variationName } from "../utilities/css";
@@ -9,7 +9,7 @@ import styles from "./DropdownButton.module.scss";
 
 export type DropdownButtonVariant = "filled" | "outlined";
 
-export type DropdownButtonProps = {
+export type DropdownButtonProps = AriaButtonProps<"button"> & {
   /** Button color */
   color?: ButtonColor;
   /** Button variant */
