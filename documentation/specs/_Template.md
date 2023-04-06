@@ -41,6 +41,10 @@ _Outline any key elements of the component's public API surface._
 | `value`       | `value`        | `number` | Value of `min` | The current value of the slider. |
 | `min`         | `min`          | `number` | `0`            | The minimum value of the slider. |
 
+#### Example Usage
+
+_Provide real-world examples of how the component API will be used._
+
 ### Anatomy
 
 _Outline the component's structure._
