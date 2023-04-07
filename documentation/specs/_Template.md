@@ -8,7 +8,7 @@
 
 ## Overview
 
-_The name of the component, along with a high-level description._
+_A high-level description of the component._
 
 ### Use Cases
 
@@ -22,7 +22,7 @@ _A list of the key features unique to this component._
 
 _Notable risks or challenges associated with the component._
 
-### Prior Art/Examples
+### Prior Art
 
 _Link to any existing, canonical, or exemplary implementations of the component._
 
@@ -34,12 +34,12 @@ _Link to any existing, canonical, or exemplary implementations of the component.
 
 _Outline any key elements of the component's public API surface._
 
-#### Properties and Attributes
+#### Properties
 
-| Property Name | Attribute Name | Type     | Default Value  | Description                      |
-| ------------- | -------------- | -------- | -------------- | -------------------------------- |
-| `value`       | `value`        | `number` | Value of `min` | The current value of the slider. |
-| `min`         | `min`          | `number` | `0`            | The minimum value of the slider. |
+| Property Name | Type     | Default Value  | Description                      |
+| ------------- | -------- | -------------- | -------------------------------- |
+| `value`       | `number` | Value of `min` | The current value of the slider. |
+| `min`         | `number` | `0`            | The minimum value of the slider. |
 
 #### Example Usage
 
