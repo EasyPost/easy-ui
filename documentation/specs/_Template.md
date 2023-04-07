@@ -34,14 +34,7 @@ _Link to any existing, canonical, or exemplary implementations of the component.
 
 _Outline any key elements of the component's public API surface._
 
-#### Properties
-
-| Property Name | Type     | Default Value  | Description                      |
-| ------------- | -------- | -------------- | -------------------------------- |
-| `value`       | `number` | Value of `min` | The current value of the slider. |
-| `min`         | `number` | `0`            | The minimum value of the slider. |
-
-#### Example Usage
+### Example Usage
 
 _Provide real-world examples of how the component API will be used._
 
@@ -49,7 +42,7 @@ _Provide real-world examples of how the component API will be used._
 
 _Outline the component's structure._
 
-#### DOM Structure
+### DOM Structure
 
 _Define the recommended DOM to represent the component's anatomy. Show how important attributes (aria attributes especially) are applied to the various parts. In cases where a component nests other components, expand the full DOM structure to understand the expectation and any shortcomings in the child components' customizability._
 

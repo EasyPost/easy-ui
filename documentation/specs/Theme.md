@@ -1,6 +1,10 @@
-# Theme
+# `Theme` Component Specification
 
-```typescript
+## Design
+
+### API
+
+```ts
 // Example theme configuration
 export type Theme = {
   "color.text": string;
@@ -27,9 +31,13 @@ type ThemeProvider = {
 };
 ```
 
-## Example
+# `Icon` Component Specification
 
-```jsx
+## Design
+
+### API
+
+```tsx
 import { ThemeProvider } from "@easypost/easy-ui/Theme";
 
 const theme = createTheme(({ colorScheme }) => ({

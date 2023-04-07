@@ -1,6 +1,10 @@
-# Icon
+# `Icon` Component Specification
 
-```typescript
+## Design
+
+### API
+
+```ts
 interface IconSymbol extends SVGProps<SVGSVGElement> {}
 
 type IconSize = TokenNamespace<"size-icon">;
@@ -17,9 +21,9 @@ interface Icon {
 }
 ```
 
-## Example
+### Example Usage
 
-```jsx
+```tsx
 import Icon from "@easypost/easy-ui/Icon";
 import ChevronIcon from "@easypost/easy-ui-icons/Chevron";
 

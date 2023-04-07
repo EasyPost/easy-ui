@@ -23,7 +23,7 @@ Accepts an Easy UI text variant along with other font-related props to adjust th
 
 ### API
 
-```tsx
+```ts
 type TextAs = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
 type TextWeight = "normal" | "medium" | "semibold" | "bold";
 type TextVariant = DesignTokenNamespace<"font.style", "family">;
