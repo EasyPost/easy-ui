@@ -14,8 +14,8 @@ Accepts an Easy UI text variant along with other font-related props to adjust th
 
 ### Prior Art
 
-- [Polaris <Text />](https://polaris.shopify.com/components/typography/text)
-- [Primer <Text />](https://primer.style/react/Text)
+- [Polaris `<Text />`](https://polaris.shopify.com/components/typography/text)
+- [Primer `<Text />`](https://primer.style/react/Text)
 
 ---
 
