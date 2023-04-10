@@ -10,18 +10,15 @@ A Tooltip shows contextual help or information about specific components when a 
 
 ### Features
 
-- Disabled independent of disabling its trigger
-- Placement
-- Offset
-- Configurable delay
-- Trigger mode (hover and focus or just focus)
-- Can be controlled (state managed externally) or uncontrolled
-- Support flipping orientation when running into insufficient room
+- Custom placement
+- Ability to disable independent of its trigger
+- Custom trigger mode (hover and focus, or just focus)
+- Ability to be controlled or uncontrolled
 
 ### Risks and Challenges
 
-- Ensuring tooltips don't get cut off within overflow hidden containers
-- Keeping the API elegantly simple while needing to "be aware" of `ref`s and needing to pass `prop`s to underlying trigger components
+- Ensuring tooltips don't get cut off within hidden containers
+- Keeping the API elegantly simple while needing to be aware of inner element `ref`s and needing to pass `prop`s to inner components
 
 ### Prior Art
 
@@ -77,7 +74,7 @@ type Tooltip = {
 
 The bulk of the `Tooltip` component behavior will be handled by React Aria. It offers primitives for handling the opening and closing of the tooltip, assigning accessibility labels, and positioning the underlying overlay.
 
-It's important that the tooltip is rendered through a Portal at the end of the document so that it's not inadvertantly cut off within a container that has overflow hidden. This is handled by React Aria through its `Overlay` component.
+It's important that the tooltip is rendered through a Portal at the end of the document so that it's not inadvertantly cut off within a container that has overflow hidden. This is handled by React Aria through its `OverlayContainer` component.
 
 ```ts
 export function Tooltip(props: TooltipProps) {
