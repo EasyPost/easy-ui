@@ -26,6 +26,6 @@
     "@material-symbols/svg-400": "^0.5.5",
     "@svgr/cli": "^7.0.0",
     "@svgr/plugin-jsx": "^7.0.0",
-    "glob": "^9.3.4"
+    "glob": "^10.0.0"
   }
 }
