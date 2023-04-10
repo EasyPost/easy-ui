@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import glob from "glob";
+import { glob } from "glob";
 import prettier from "prettier";
 import { transform as transformSvg } from "@svgr/core";
 import { defineConfig, transformWithEsbuild } from "vite";
