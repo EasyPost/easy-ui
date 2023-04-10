@@ -19,6 +19,7 @@ A Tooltip shows contextual help or information about specific components when a 
 
 - Ensuring tooltips don't get cut off within hidden containers
 - Keeping the API elegantly simple while needing to be aware of inner element `ref`s and needing to pass `prop`s to inner components
+- Will need to ensure that Easy UI components are forwarding refs in order to handle ref attachment
 
 ### Prior Art
 
@@ -170,7 +171,7 @@ import { Tooltip } from "@easypost/easy-ui/Tooltip";
 
 function Component() {
   return (
-    <Tooltip content="This will be a permanent action" trigger="focus">
+    <Tooltip trigger="focus" content="This will be a permanent action">
       <Button>Delete</Button>
     </Tooltip>
   );
@@ -186,9 +187,9 @@ function Component() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Tooltip
-      content="This will be a permanent action"
       isOpen={isOpen}
       onOpenChange={setIsOpen}
+      content="This will be a permanent action"
     >
       <Button>Delete</Button>
     </Tooltip>
@@ -203,7 +204,7 @@ import { Tooltip } from "@easypost/easy-ui/Tooltip";
 
 function Component() {
   return (
-    <Tooltip content="This will be a permanent action" defaultOpen={true}>
+    <Tooltip defaultOpen={true} content="This will be a permanent action">
       <Button>Delete</Button>
     </Tooltip>
   );
@@ -217,7 +218,7 @@ import { Tooltip } from "@easypost/easy-ui/Tooltip";
 
 function Component() {
   return (
-    <Tooltip content="This will be a permanent action" isDisabled={false}>
+    <Tooltip isDisabled={false} content="This will be a permanent action">
       <Button>Delete</Button>
     </Tooltip>
   );
@@ -230,17 +231,18 @@ function Component() {
 
 ### Accessibility
 
-A tooltip must only be placed on a natively focusable HTML element. Good candidates include a Paste Button or a Paste Anchor if the tip also links to a help article.
+A tooltip must only be placed on a natively focusable HTML element. Good candidates include a `<button />`, `<a />`, or Easy UI equivalent such as `<Button />` or `<IconButton />`.
 
 Do not place tooltips on non-focusable elements, like an icon.
 
-If your tooltip wraps a natively focusable HTML element that includes only an icon, make sure you set the prop decorative={false}, and give the icon a title. The title of the icon should be the accessible name for the button action, like "Delete phone number". The tooltip provides the additional context, like "You can delete phone numbers every 7 days". This ensures the icon and tooltip are accessible to screen readers. Refer to the focusable element example for implementation.
+If your tooltip wraps a natively focusable HTML element that includes only an icon, make sure you set the prop accessibility configuration on the icon, such as giving it an `accessibilityLabel`. The title of the icon should be the accessible name for the button action, like "Delete phone number". The tooltip provides the additional context, like "You can delete phone numbers every 7 days". This ensures the icon and tooltip are accessible to screen readers.
 
 When the user focuses an element with a tooltip, their focus stays on the element. Focus never goes inside the tooltip.
 
-TooltipTrigger automatically associates the tooltip with the trigger element so that it is described by the tooltip content.
+`<Tooltip />` automatically associates the tooltip with the trigger element so that it is described by the tooltip content.
 
 ## Dependencies
 
-- React Aria
-- React Stately
+- `react-aria`—`useTooltipTrigger`, `useTooltip`, `OverlayContainer`, `useOverlayPosition`, `mergeProps`
+- `react-stately`—`useTooltipTriggerState`
+- `@react-aria/utils`—`mergeRefs`
