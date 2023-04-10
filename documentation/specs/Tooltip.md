@@ -53,9 +53,7 @@ type Tooltip = {
   /** Whether the overlay is open by default (uncontrolled). */
   defaultOpen?: boolean;
 
-  /**
-   * Whether the tooltip should be disabled, independent from the trigger.
-   */
+  /** Whether the tooltip should be disabled, independent from the trigger. */
   isDisabled?: boolean;
 
   /** Whether the overlay is open by default (controlled). */
@@ -70,9 +68,7 @@ type Tooltip = {
    */
   placement?: Placement;
 
-  /**
-   * By default, opens for both focus and hover. Can be made to open only for focus.
-   */
+  /** By default, opens for both focus and hover. Can be made to open only for focus. */
   trigger?: "focus";
 };
 ```
