@@ -218,7 +218,7 @@ import { Tooltip } from "@easypost/easy-ui/Tooltip";
 
 function Component() {
   return (
-    <Tooltip isDisabled={false} content="This will be a permanent action">
+    <Tooltip isDisabled={true} content="This will be a permanent action">
       <Button>Delete</Button>
     </Tooltip>
   );
@@ -239,7 +239,7 @@ If your tooltip wraps a natively focusable HTML element that includes only an ic
 
 When the user focuses an element with a tooltip, their focus stays on the element. Focus never goes inside the tooltip.
 
-`<Tooltip />` automatically associates the tooltip with the trigger element so that it is described by the tooltip content.
+`<Tooltip />` automatically associates the tooltip with the trigger element using `aria-describedBy` so that it is described by the tooltip content.
 
 ## Dependencies
 
