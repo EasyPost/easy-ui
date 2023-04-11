@@ -4,8 +4,8 @@ import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import {
-  ButtonStoryDecorator,
-  ButtonStoryOnDarkBackgroundDecorator,
+  InlineStoryDecorator,
+  InlineStoryOnDarkBackgroundDecorator,
   createLabelledOptionsControl,
 } from "../utilities/storybook";
 import { IconButton, IconButtonProps } from "./IconButton";
@@ -49,7 +49,7 @@ export const FilledButtons: Story = {
       <IconButton color="neutral" {...sharedIconButtonProps} />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const OutlinedButtons: Story = {
@@ -68,14 +68,14 @@ export const OutlinedButtons: Story = {
       />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const InverseButton: Story = {
   render: () => (
     <IconButton color="inverse" variant="outlined" {...sharedIconButtonProps} />
   ),
-  decorators: [ButtonStoryOnDarkBackgroundDecorator],
+  decorators: [InlineStoryOnDarkBackgroundDecorator],
 };
 
 export const DisabledButtons: Story = {
@@ -85,12 +85,12 @@ export const DisabledButtons: Story = {
       <IconButton variant="outlined" {...sharedIconButtonProps} isDisabled />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const ClickEvent: Story = {
   render: () => (
     <IconButton {...sharedIconButtonProps} onPress={action("clicked!")} />
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };

@@ -41,26 +41,26 @@ function getTokensControl(tokenAliases: string[]) {
   );
 }
 
-const buttonStoryStyles = {
+const inlineStoryStyles = {
   display: "flex",
   alignItems: "center",
   gap: "12px",
   flexWrap: "wrap",
 } as React.CSSProperties;
 
-const buttonStoryOnDarkBackgroundStyles = {
+const inlineStoryOnDarkBackgroundStyles = {
   backgroundColor: "var(--ezui-color-blue-800)",
   padding: "12px",
 };
 
-export const ButtonStoryDecorator: Decorator = (Story) => (
-  <div style={buttonStoryStyles}>
+export const InlineStoryDecorator: Decorator = (Story) => (
+  <div style={inlineStoryStyles}>
     <Story />
   </div>
 );
 
-export const ButtonStoryOnDarkBackgroundDecorator: Decorator = (Story) => (
-  <div style={{ ...buttonStoryOnDarkBackgroundStyles, ...buttonStoryStyles }}>
+export const InlineStoryOnDarkBackgroundDecorator: Decorator = (Story) => (
+  <div style={{ ...inlineStoryOnDarkBackgroundStyles, ...inlineStoryStyles }}>
     <Story />
   </div>
 );

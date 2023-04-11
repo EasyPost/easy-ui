@@ -2,8 +2,8 @@ import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import {
-  ButtonStoryDecorator,
-  ButtonStoryOnDarkBackgroundDecorator,
+  InlineStoryDecorator,
+  InlineStoryOnDarkBackgroundDecorator,
 } from "../utilities/storybook";
 import { DropdownButton, DropdownButtonProps } from "./DropdownButton";
 
@@ -38,7 +38,7 @@ export const FilledButtons: Story = {
       <DropdownButton color="neutral" />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const OutlinedButtons: Story = {
@@ -49,12 +49,12 @@ export const OutlinedButtons: Story = {
       <DropdownButton color="support" variant="outlined" />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const InverseButtons: Story = {
   render: () => <DropdownButton color="inverse" variant="outlined" />,
-  decorators: [ButtonStoryOnDarkBackgroundDecorator],
+  decorators: [InlineStoryOnDarkBackgroundDecorator],
 };
 
 export const DisabledButtons: Story = {
@@ -64,10 +64,10 @@ export const DisabledButtons: Story = {
       <DropdownButton variant="outlined" isDisabled />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const ClickEvent: Story = {
   render: () => <DropdownButton onPress={action("clicked!")} />,
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };

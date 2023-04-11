@@ -6,8 +6,8 @@ import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import {
-  ButtonStoryDecorator,
-  ButtonStoryOnDarkBackgroundDecorator,
+  InlineStoryDecorator,
+  InlineStoryOnDarkBackgroundDecorator,
   createLabelledOptionsControl,
 } from "../utilities/storybook";
 import { Button, ButtonProps } from "./Button";
@@ -56,7 +56,7 @@ export const FilledButtons: Story = {
       <Button color="neutral" size="sm" />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const OutlinedButtons: Story = {
@@ -70,7 +70,7 @@ export const OutlinedButtons: Story = {
       <Button color="support" variant="outlined" size="sm" />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const LinkButtons: Story = {
@@ -80,7 +80,7 @@ export const LinkButtons: Story = {
       <Button color="secondary" variant="link" />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const InverseButtons: Story = {
@@ -90,7 +90,7 @@ export const InverseButtons: Story = {
       <Button color="inverse" variant="outlined" size="sm" />
     </>
   ),
-  decorators: [ButtonStoryOnDarkBackgroundDecorator],
+  decorators: [InlineStoryOnDarkBackgroundDecorator],
 };
 
 export const WithHref: Story = {
@@ -100,7 +100,7 @@ export const WithHref: Story = {
       <Button variant="outlined" href="https://www.easypost.com/" />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const WithIcons: Story = {
@@ -112,12 +112,12 @@ export const WithIcons: Story = {
       <Button color="warning" iconAtStart={InfoIcon} />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const BlockButton: Story = {
   render: () => <Button isBlock />,
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const DisabledButtons: Story = {
@@ -127,10 +127,10 @@ export const DisabledButtons: Story = {
       <Button variant="outlined" isDisabled />
     </>
   ),
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
 
 export const ClickEvent: Story = {
   render: () => <Button onPress={action("clicked!")} />,
-  decorators: [ButtonStoryDecorator],
+  decorators: [InlineStoryDecorator],
 };
