@@ -32,7 +32,7 @@ const meta: Meta<typeof IconButton> = {
 
 export default meta;
 
-export const Control: Story = {
+export const Controls: Story = {
   render: Template.bind({}),
   args: {
     ...sharedIconButtonProps,
