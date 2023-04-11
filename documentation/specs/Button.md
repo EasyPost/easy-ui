@@ -1,6 +1,10 @@
-# Button
+# `Button` Component Specification
 
-```typescript
+## Design
+
+### API
+
+```ts
 export type ButtonColor =
   | "primary"
   | "secondary"
@@ -60,9 +64,9 @@ export type ButtonProps = {
 };
 ```
 
-## Example
+### Example Usage
 
-```jsx
+```tsx
 import Button from "@easypost/easy-ui/Button";
 import AddIcon from "@easypost/easy-ui-icons/Add";
 // Filled

@@ -1,6 +1,10 @@
-# DropdownButton
+# `DropdownButton` Component Specification
 
-```typescript
+## Design
+
+### API
+
+```ts
 export type ButtonColor =
   | "primary"
   | "secondary"
@@ -34,9 +38,9 @@ export type DropdownButtonProps = {
 };
 ```
 
-## Example
+### Example Usage
 
-```jsx
+```tsx
 import DropdownButton from "@easypost/easy-ui/DropdownButton";
 // Filled
 <DropdownButton color="primary" />

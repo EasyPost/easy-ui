@@ -1,6 +1,10 @@
-# IconButton
+# `IconButton` Component Specification
 
-```typescript
+## Design
+
+### API
+
+```ts
 export type ButtonColor =
   | "primary"
   | "secondary"
@@ -33,9 +37,9 @@ export type IconButtonProps = {
 };
 ```
 
-## Example
+### Example Usage
 
-```jsx
+```tsx
 import IconButton from "@easypost/easy-ui/IconButton";
 import Icon from "@easypost/easy-ui/Icon"
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
