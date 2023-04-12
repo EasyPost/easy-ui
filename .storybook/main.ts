@@ -1,11 +1,7 @@
 import { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
-  addons: [
-    "@storybook/addon-essentials",
-    "@storybook/addon-a11y",
-    "@storybook/addon-actions",
-  ],
+  addons: ["@storybook/addon-essentials", "@storybook/addon-a11y"],
   docs: {
     autodocs: true,
   },
