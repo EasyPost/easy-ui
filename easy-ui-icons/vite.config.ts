@@ -87,15 +87,14 @@ async function getSvgFilenameFromJson(filename: string) {
 function svgTypeFileTemplate(svgName: string) {
   return prettier.format(
     `
-    interface SVGRProps {
-      title?: string;
-      titleId?: string;
-    }
     declare const ${svgName}: ({
       title,
       titleId,
       ...props
-    }: React.SVGProps<SVGSVGElement> & SVGRProps) => JSX.Element;
+    }: {
+      title?: string;
+      titleId?: string;
+    } & React.SVGProps<SVGSVGElement>) => JSX.Element;
     export default ${svgName};
     `,
     { parser: "typescript" },

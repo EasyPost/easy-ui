@@ -1,6 +1,8 @@
+import React from "react";
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
+import { Decorator } from "@storybook/react";
 
 export function createLabelledOptionsControl(
   opts: Record<string, unknown>,
@@ -38,3 +40,27 @@ function getTokensControl(tokenAliases: string[]) {
     tokenAliases.reduce((o, alias) => ({ ...o, [alias]: alias }), {}),
   );
 }
+
+const inlineStoryStyles = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  flexWrap: "wrap",
+} as React.CSSProperties;
+
+const inlineStoryOnDarkBackgroundStyles = {
+  backgroundColor: "var(--ezui-color-blue-800)",
+  padding: "12px",
+};
+
+export const InlineStoryDecorator: Decorator = (Story) => (
+  <div style={inlineStoryStyles}>
+    <Story />
+  </div>
+);
+
+export const InlineStoryOnDarkBackgroundDecorator: Decorator = (Story) => (
+  <div style={{ ...inlineStoryOnDarkBackgroundStyles, ...inlineStoryStyles }}>
+    <Story />
+  </div>
+);

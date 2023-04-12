@@ -30,7 +30,7 @@ export const theme = create({
   appBg: colors.background,
   appContentBg: colors.background,
   appBorderColor: colors.border,
-  appBorderRadius: tokens["shape.border_radius.base"],
+  appBorderRadius: parseInt(tokens["shape.border_radius.base"], 10),
 
   // Main colors
   colorPrimary: colors.primary,
@@ -51,5 +51,5 @@ export const theme = create({
   inputBg: colors.background,
   inputBorder: colors.border,
   inputTextColor: colors.text,
-  inputBorderRadius: tokens["shape.border_radius.base"],
+  inputBorderRadius: parseInt(tokens["shape.border_radius.base"], 10),
 });
