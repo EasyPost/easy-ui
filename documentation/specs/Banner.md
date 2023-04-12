@@ -21,7 +21,7 @@ export type BannerProps = {
    * Banner status color
    * @default "success"
    */
-  status?: BannerColor;
+  status?: BannerStatus;
   /**
    * Banner title text
    * @default null
