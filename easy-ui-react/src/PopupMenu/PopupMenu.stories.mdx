@@ -1,0 +1,37 @@
+import React from "react";
+import { Canvas, Meta, Story, ArgsTable } from "@storybook/addon-docs";
+import { PopupMenu, Button } from "./PopupMenu";
+import { Item } from "react-stately";
+
+<Meta title="Components/PopupMenu" component={PopupMenu} />
+
+# PopupMenu
+
+<Canvas>
+  <Story name="Default" args={{}}>
+    <div style={{ display: "flex" }}>
+      <div style={{ display: "inline-flex", margin: "auto" }}>
+        <PopupMenu defaultOpen={true} isDisabled={false}>
+          <PopupMenu.Trigger>
+            <Button>Test</Button>
+          </PopupMenu.Trigger>
+          <PopupMenu.Menu
+            onAction={alert}
+            disabledKeys={["paste"]}
+            placement="bottom center"
+          >
+            <PopupMenu.Section>
+              <PopupMenu.Item key="copy">Copy</PopupMenu.Item>
+              <PopupMenu.Item key="cut">Cut</PopupMenu.Item>
+              <PopupMenu.Item key="delta">Delta</PopupMenu.Item>
+            </PopupMenu.Section>
+            <PopupMenu.Section>
+              <PopupMenu.Item key="Alpha">Alpha</PopupMenu.Item>
+              <PopupMenu.Item key="paste">Paste</PopupMenu.Item>
+            </PopupMenu.Section>
+          </PopupMenu.Menu>
+        </PopupMenu>
+      </div>
+    </div>
+  </Story>
+</Canvas>

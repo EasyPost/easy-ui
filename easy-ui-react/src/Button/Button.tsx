@@ -100,3 +100,5 @@ export function Button(props: ButtonProps) {
     </As>
   );
 }
+
+Button.ezuiName = "Button";
