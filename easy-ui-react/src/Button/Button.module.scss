@@ -1,5 +1,5 @@
-@use "./mixins" as Button;
-@import "../styles/common";
+@use "mixins" as Button;
+@use "../styles/common" as c;
 
 .Button {
   @include Button.base;
@@ -35,7 +35,7 @@
 
 .variantFilled {
   @include Button.variantFilled;
-  padding: design-token("space.1.5") design-token("space.2");
+  padding: c.design-token("space.1.5") c.design-token("space.2");
 }
 
 .variantOutlined {
@@ -49,27 +49,29 @@
 .variantOutlined,
 .variantLink {
   padding: calc(
-      #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
+      #{c.design-token("space.1.5")} - #{c.design-token("shape.border_width.1")}
     )
-    calc(#{design-token("space.2")} - #{design-token("shape.border_width.1")});
+    calc(
+      #{c.design-token("space.2")} - #{c.design-token("shape.border_width.1")}
+    );
 }
 
 .sizeMd {
-  @include font-style("button");
+  @include c.font-style("button");
 }
 
 .sizeSm {
-  @include font-style("small-button");
+  @include c.font-style("small-button");
 }
 
 .sizeSm.variantFilled {
-  padding: design-token("space.1");
+  padding: c.design-token("space.1");
 }
 
 .sizeSm.variantOutlined,
 .sizeSm.variantLink {
   padding: calc(
-    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+    #{c.design-token("space.1")} - #{c.design-token("shape.border_width.1")}
   );
 }
 
@@ -79,9 +81,9 @@
 }
 
 .iconAtStart {
-  margin-left: design-token("space.1");
+  margin-left: c.design-token("space.1");
 }
 
 .iconAtEnd {
-  margin-right: design-token("space.1");
+  margin-right: c.design-token("space.1");
 }

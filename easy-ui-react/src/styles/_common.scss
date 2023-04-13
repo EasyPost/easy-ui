@@ -1,7 +1,7 @@
-@import "@easypost/easy-ui-tokens/scss/variables";
-@import "@easypost/easy-ui-tokens/scss/map";
+@use "@easypost/easy-ui-tokens/scss/variables";
+@use "@easypost/easy-ui-tokens/scss/map";
 
-@import "./accessibility";
-@import "./token-helpers";
-@import "./responsive-props";
-@import "./typography";
+@forward "./accessibility";
+@forward "./token-helpers";
+@forward "./responsive-props";
+@forward "./typography";

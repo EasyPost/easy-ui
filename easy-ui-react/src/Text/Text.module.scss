@@ -1,31 +1,31 @@
-@import "../styles/common";
+@use "../styles/common" as c;
 
 .Text {
-  @include component-token("text", "color", inherit);
+  @include c.component-token("text", "color", inherit);
   margin: 0;
   text-align: inherit;
-  color: component-token("text", "color");
+  color: c.component-token("text", "color");
 }
 
 // Do not modify actual font styles in here. This component is one of several
 // different ways typography can be applied in EasyPost. Adjust tokens or
 // higher-order CSS instead
-@include font-classes();
+@include c.font-classes();
 
 .normal {
-  font-weight: design-token("font.weight.normal");
+  font-weight: c.design-token("font.weight.normal");
 }
 
 .medium {
-  font-weight: design-token("font.weight.medium");
+  font-weight: c.design-token("font.weight.medium");
 }
 
 .semibold {
-  font-weight: design-token("font.weight.semibold");
+  font-weight: c.design-token("font.weight.semibold");
 }
 
 .bold {
-  font-weight: design-token("font.weight.bold");
+  font-weight: c.design-token("font.weight.bold");
 }
 
 .truncate {
@@ -39,7 +39,7 @@
 }
 
 .visuallyHidden {
-  @include visually-hidden;
+  @include c.visually-hidden;
 }
 
 .start {

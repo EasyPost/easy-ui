@@ -1,9 +1,9 @@
-@import "@easypost/easy-ui-tokens/css/variables.css";
-@import "./token-helpers";
-@import "./poppins-fallback";
+@use "@easypost/easy-ui-tokens/css/variables.css";
+@use "token-helpers";
+@use "poppins-fallback";
 
 html {
-  font-family: theme-token("font.family");
+  font-family: token-helpers.theme-token("font.family");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Deactivate auto-enlargement of small text in Safari */

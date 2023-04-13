@@ -1,8 +1,8 @@
-@import "../styles/common";
+@use "../styles/common" as c;
 
 .Icon {
-  @include component-token("icon", "color", currentColor);
-  @include responsive-props("icon", "size") using ($var) {
+  @include c.component-token("icon", "color", currentColor);
+  @include c.responsive-props("icon", "size") using ($var) {
     width: $var;
     height: $var;
   }
@@ -13,7 +13,7 @@
   margin: auto;
 
   svg {
-    fill: component-token("icon", "color");
+    fill: c.component-token("icon", "color");
   }
 }
 
