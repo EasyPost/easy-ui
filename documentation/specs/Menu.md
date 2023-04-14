@@ -1,8 +1,8 @@
-# `PopupMenu` Component Specification
+# `Menu` Component Specification
 
 ## Overview
 
-A `PopupMenu` presents a list of menu items that a user can choose to perform an action with through a trigger element. This component includes a menu comprising of menu items that are shown upon actioning the trigger. A menu item can be used to perform an action or a page navigation. Each menu item can only perform a single action.
+A `Menu` presents a list of items that a user can choose to perform an action with through a trigger element. A menu item can be used to perform an action or a page navigation. Each menu item can only perform a single action.
 
 ### Use Cases
 
@@ -48,7 +48,7 @@ type Placement = 'bottom' | 'bottom left' | 'bottom right' | 'bottom start' | 'b
     'left' | 'left top' | 'left bottom' | 'start' | 'start top' | 'start bottom' |
     'right' | 'right top' | 'right bottom' | 'end' | 'end top' | 'end bottom';
 
-type PopupMenu = {
+type Menu = {
   /** The trigger and menu to render. */
   children: ReactNode;
 
@@ -65,12 +65,12 @@ type PopupMenu = {
   onOpenChange?: (isOpen: boolean) => void;
 };
 
-type PopupMenuTrigger = {
+type MenuTrigger = {
   /** The element that will activate the menu. */
   children: ReactElement;
 };
 
-type PopupMenuMenu = {
+type MenuOverlay = {
   /** The menu sections and items to render. */
   children: ReactNode;
 
@@ -94,7 +94,7 @@ type PopupMenuMenu = {
 };
 
 // Same subset of type definition from @react-stately/Section
-type PopupMenuSection = {
+type MenuSection = {
   /** An accessibility label for the section. */
   "aria-label"?: string;
 
@@ -106,7 +106,7 @@ type PopupMenuSection = {
 };
 
 // Same subset of type definition from @react-stately/Item
-type PopupMenuItem = {
+type MenuItem = {
   /** Rendered contents of the item or child items. */
   children: ReactNode;
 };
@@ -119,26 +119,26 @@ _Static collection:_
 A separator will be rendered between sections.
 
 ```tsx
-import { PopupMenu } from "@easypost/easy-ui/PopupMenu";
+import { Menu } from "@easypost/easy-ui/Menu";
 
 function Component() {
   return (
-    <PopupMenu>
-      <PopupMenu.Trigger>
+    <Menu>
+      <Menu.Trigger>
         <Button>Actions</Button>
-      </PopupMenu.Trigger>
-      <PopupMenu.Menu onAction={(key) => {}}>
-        <PopupMenu.Section>
-          <PopupMenu.Item key="edit">Edit</PopupMenu.Item>
-          <PopupMenu.Item key="duplicate">Duplicate</PopupMenu.Item>
-        </PopupMenu.Section>
-        <PopupMenu.Section>
-          <PopupMenu.Item key="copy">Copy</PopupMenu.Item>
-          <PopupMenu.Item key="cut">Cut</PopupMenu.Item>
-          <PopupMenu.Item key="paste">Paste</PopupMenu.Item>
-        </PopupMenu.Section>
-      </PopupMenu.Menu>
-    </PopupMenu>
+      </Menu.Trigger>
+      <Menu.Menu onAction={(key) => {}}>
+        <Menu.Section>
+          <Menu.Item key="edit">Edit</Menu.Item>
+          <Menu.Item key="duplicate">Duplicate</Menu.Item>
+        </Menu.Section>
+        <Menu.Section>
+          <Menu.Item key="copy">Copy</Menu.Item>
+          <Menu.Item key="cut">Cut</Menu.Item>
+          <Menu.Item key="paste">Paste</Menu.Item>
+        </Menu.Section>
+      </Menu.Menu>
+    </Menu>
   );
 }
 ```
@@ -148,7 +148,7 @@ _Dynamic collection:_
 This uses the [React Aria paradigm](https://react-spectrum.adobe.com/react-stately/collections.html#sections-1) for working with dynamic collections. It optimizes for subsequent renders so is more important than using a standard static collection.
 
 ```tsx
-import { PopupMenu } from "@easypost/easy-ui/PopupMenu";
+import { Menu } from "@easypost/easy-ui/Menu";
 
 function Component() {
   let [sections, setSections] = useState([
@@ -162,18 +162,18 @@ function Component() {
     },
   ]);
   return (
-    <PopupMenu>
-      <PopupMenu.Trigger>
+    <Menu>
+      <Menu.Trigger>
         <Button>Actions</Button>
-      </PopupMenu.Trigger>
-      <PopupMenu.Menu onAction={(key) => {}} items={sections}>
+      </Menu.Trigger>
+      <Menu.Menu onAction={(key) => {}} items={sections}>
         {(section) => (
           <Section key={section.name} items={section.items}>
             {(item) => <Item key={item.name}>{item.name}</Item>}
           </Section>
         )}
-      </PopupMenu.Menu>
-    </PopupMenu>
+      </Menu.Menu>
+    </Menu>
   );
 }
 ```
@@ -181,19 +181,19 @@ function Component() {
 _Custom placement:_
 
 ```tsx
-import { PopupMenu } from "@easypost/easy-ui/PopupMenu";
+import { Menu } from "@easypost/easy-ui/Menu";
 
 function Component() {
   return (
-    <PopupMenu>
-      <PopupMenu.Trigger>
+    <Menu>
+      <Menu.Trigger>
         <Button>Actions</Button>
-      </PopupMenu.Trigger>
-      <PopupMenu.Menu onAction={(key) => {}} placement="bottom center">
-        <PopupMenu.Item key="edit">Edit</PopupMenu.Item>
-        <PopupMenu.Item key="duplicate">Duplicate</PopupMenu.Item>
-      </PopupMenu.Menu>
-    </PopupMenu>
+      </Menu.Trigger>
+      <Menu.Menu onAction={(key) => {}} placement="bottom center">
+        <Menu.Item key="edit">Edit</Menu.Item>
+        <Menu.Item key="duplicate">Duplicate</Menu.Item>
+      </Menu.Menu>
+    </Menu>
   );
 }
 ```
@@ -201,20 +201,20 @@ function Component() {
 _Controlled:_
 
 ```tsx
-import { PopupMenu } from "@easypost/easy-ui/PopupMenu";
+import { Menu } from "@easypost/easy-ui/Menu";
 
 function Component() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <PopupMenu isOpen={isOpen} onOpenChange={setIsOpen}>
-      <PopupMenu.Trigger>
+    <Menu isOpen={isOpen} onOpenChange={setIsOpen}>
+      <Menu.Trigger>
         <Button>Actions</Button>
-      </PopupMenu.Trigger>
-      <PopupMenu.Menu onAction={(key) => {}}>
-        <PopupMenu.Item key="edit">Edit</PopupMenu.Item>
-        <PopupMenu.Item key="duplicate">Duplicate</PopupMenu.Item>
-      </PopupMenu.Menu>
-    </PopupMenu>
+      </Menu.Trigger>
+      <Menu.Menu onAction={(key) => {}}>
+        <Menu.Item key="edit">Edit</Menu.Item>
+        <Menu.Item key="duplicate">Duplicate</Menu.Item>
+      </Menu.Menu>
+    </Menu>
   );
 }
 ```
@@ -222,19 +222,19 @@ function Component() {
 _Open by default:_
 
 ```tsx
-import { PopupMenu } from "@easypost/easy-ui/PopupMenu";
+import { Menu } from "@easypost/easy-ui/Menu";
 
 function Component() {
   return (
-    <PopupMenu defaultOpen={true}>
-      <PopupMenu.Trigger>
+    <Menu defaultOpen={true}>
+      <Menu.Trigger>
         <Button>Actions</Button>
-      </PopupMenu.Trigger>
-      <PopupMenu.Menu onAction={(key) => {}}>
-        <PopupMenu.Item key="edit">Edit</PopupMenu.Item>
-        <PopupMenu.Item key="duplicate">Duplicate</PopupMenu.Item>
-      </PopupMenu.Menu>
-    </PopupMenu>
+      </Menu.Trigger>
+      <Menu.Menu onAction={(key) => {}}>
+        <Menu.Item key="edit">Edit</Menu.Item>
+        <Menu.Item key="duplicate">Duplicate</Menu.Item>
+      </Menu.Menu>
+    </Menu>
   );
 }
 ```
@@ -242,19 +242,19 @@ function Component() {
 _Disabled independent of trigger:_
 
 ```tsx
-import { PopupMenu } from "@easypost/easy-ui/PopupMenu";
+import { Menu } from "@easypost/easy-ui/Menu";
 
 function Component() {
   return (
-    <PopupMenu isDisabled={true}>
-      <PopupMenu.Trigger>
+    <Menu isDisabled={true}>
+      <Menu.Trigger>
         <Button>Actions</Button>
-      </PopupMenu.Trigger>
-      <PopupMenu.Menu onAction={(key) => {}}>
-        <PopupMenu.Item key="edit">Edit</PopupMenu.Item>
-        <PopupMenu.Item key="duplicate">Duplicate</PopupMenu.Item>
-      </PopupMenu.Menu>
-    </PopupMenu>
+      </Menu.Trigger>
+      <Menu.Menu onAction={(key) => {}}>
+        <Menu.Item key="edit">Edit</Menu.Item>
+        <Menu.Item key="duplicate">Duplicate</Menu.Item>
+      </Menu.Menu>
+    </Menu>
   );
 }
 ```
@@ -262,29 +262,29 @@ function Component() {
 _Trigger function on close:_
 
 ```tsx
-import { PopupMenu } from "@easypost/easy-ui/PopupMenu";
+import { Menu } from "@easypost/easy-ui/Menu";
 
 function Component() {
   return (
-    <PopupMenu isDisabled={true}>
-      <PopupMenu.Trigger>
+    <Menu isDisabled={true}>
+      <Menu.Trigger>
         <Button>Actions</Button>
-      </PopupMenu.Trigger>
-      <PopupMenu.Menu onClose={() => {}}>
-        <PopupMenu.Item key="edit">Edit</PopupMenu.Item>
-        <PopupMenu.Item key="duplicate">Duplicate</PopupMenu.Item>
-      </PopupMenu.Menu>
-    </PopupMenu>
+      </Menu.Trigger>
+      <Menu.Menu onClose={() => {}}>
+        <Menu.Item key="edit">Edit</Menu.Item>
+        <Menu.Item key="duplicate">Duplicate</Menu.Item>
+      </Menu.Menu>
+    </Menu>
   );
 }
 ```
 
 ### Anatomy
 
-Component design uses Aria primitives across several underlying components that are rolled up into a single exposed `PopupMenu` component.
+Component design uses Aria primitives across several underlying components that are rolled up into a single exposed `Menu` component.
 
 ```tsx
-function PopupMenu(props) {
+function Menu(props) {
   const triggerRef = React.useRef(null);
   const menuTriggerState = useMenuTriggerState();
   const { menuTriggerProps, menuProps } = useMenuTrigger();
@@ -292,14 +292,14 @@ function PopupMenu(props) {
     return { triggerRef, menuTriggerProps, menuTriggerState, menuProps };
   }, [menuTriggerProps, menuProps, menuTriggerState]);
   return (
-    <PopupMenuContext.Provider value={context}>
+    <MenuContext.Provider value={context}>
       {props.children}
-    </PopupMenuContext.Provider>
+    </MenuContext.Provider>
   );
 }
 
 function Trigger({ children }: { children: ReactElement }) {
-  const { triggerRef, menuTriggerProps } = usePopupMenu();
+  const { triggerRef, menuTriggerProps } = useMenu();
   return React.cloneElement(children, {
     ...menuTriggerProps,
     buttonRef: triggerRef,
@@ -307,7 +307,7 @@ function Trigger({ children }: { children: ReactElement }) {
 }
 
 function MenuOuter(props) {
-  const { menuTriggerState } = usePopupMenu();
+  const { menuTriggerState } = useMenu();
   if (!menuTriggerState.isOpen) {
     return null;
   }
@@ -318,7 +318,7 @@ function MenuInner(props) {
   const popoverRef = React.useRef();
   const menuRef = React.useRef();
   const menuTreeState = useTreeState();
-  const { menuTriggerState, triggerRef, menuProps } = usePopupMenu();
+  const { menuTriggerState, triggerRef, menuProps } = useMenu();
   const { popoverProps, underlayProps } = usePopover();
   const { menuProps: innerMenuProps } = useMenu();
   return (
@@ -362,10 +362,10 @@ function MenuSection({ section, state }) {
   );
 }
 
-PopupMenu.Trigger = Trigger;
-PopupMenu.Menu = MenuOuter;
-PopupMenu.Item = Item;
-PopupMenu.Section = Section;
+Menu.Trigger = Trigger;
+Menu.Menu = MenuOuter;
+Menu.Item = Item;
+Menu.Section = Section;
 ```
 
 ---
