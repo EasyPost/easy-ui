@@ -60,7 +60,7 @@ import Toast from "@easypost/easy-ui/Toast";
 
 As mentioned above, it is unlikely the `Toast` component will be used in this way. Below is a relatively detailed example for how one might use the `Toast` component. Note that this is **not** production ready, nor is it the best solution, but it is a viable starting point.
 
-For this example, we will want to render toasts that dismiss automatically after 4000 ms and can be triggered after a user action. Typically we want toasts to render at a specific place in the application and be reusable across multiple components. To accomplish this, we will use `createPortal` from `react-dom`. We will also want to ensure when unmounting, we are appropriately cleaning up the DOM. The rendering of multiple toasts will be handled by the `ToastList` component; of course, wherever we use `ToastList` we want to ensure the immediate parent does **not** have to handle maintaining a list of toasts. There are several ways to accomplish this, we could reach for a state managment solution such as `redux`, we could use `context` or as is done below for simplicity, making use of `forwardRef` and `useImperativeHandler`. Putting these ideas together, we get:
+For this example, we will want to render toasts that dismiss automatically after 4000 ms and can be triggered after a user action. Typically we want toasts to render at a specific place in the application and be reusable across multiple components. To accomplish this, we will use `createPortal` from `react-dom`. We will also want to ensure when unmounting, we are appropriately cleaning up the DOM. The rendering of multiple toasts will be handled by the `ToastList` component; of course, wherever we use `ToastList` we want to ensure the immediate parent does **not** have to handle maintaining a list of toasts. There are several ways to accomplish this, we could reach for a state management solution such as `redux`, we could use `context` or as is done below for simplicity, making use of `forwardRef` and `useImperativeHandler`. Putting these ideas together, we get:
 
 ```tsx
 import Toast from "@easypost/easy-ui/Toast";
@@ -141,7 +141,7 @@ export const ToastList = forwardRef(({ duration = 4000 }, ref) => {
 });
 ```
 
-To use, we now just need to import `ToastList` somewhere in our application and we can queue a message.
+To use, we now just need to import `ToastList` somewhere in our application where we want to display a toast and we can queue a message:
 
 ```tsx
 import Button from "@easypost/easy-ui/Button";
@@ -153,7 +153,7 @@ function Component() {
 
   const handleSignUp = () => {
     // inform user of successful account creation
-    toastRef.current.queue({ message: "Account Created" });
+    toastRef.current.queue({ message: "Account Created", status: "success" });
   };
 
   return (
