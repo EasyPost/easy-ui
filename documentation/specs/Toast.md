@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Toast` component displays a brief non-disruptive message to the user as a result of an action taken. The displayed message is accompanied by an associated `status` icon and cannot be manually dismissed. **Not** to be used to display critical information such as a system failure, see the `Alert` component for such behavior.
+The `Toast` component displays a brief non-disruptive message to the user as a result of an action taken. The displayed message is accompanied by an associated `status` icon and cannot be manually dismissed. **Not** to be used to display critical information such as a system failure, see the `AlertBanner` component for such behavior.
 
 ### Use Cases
 
@@ -169,6 +169,6 @@ function Component() {
 
 ### Accessibility
 
-The `Toast` component has an ARIA `role="status"` and elements with the role status have an implicit `aria-live` value of `polite` and an implicit `aria-atomic` value of `true`. Toasts are **not** suitable for dynamically changing content, consider using the `Alert` component for such a use case.
+The `Toast` component has an ARIA `role="status"` and elements with the role status have an implicit `aria-live` value of `polite` and an implicit `aria-atomic` value of `true`. Toasts are **not** suitable for dynamically changing content, consider using the `AlertBanner` component for such a use case.
 
 The `Toast` component does not provide a way for the user to manually dismiss the message, hence toasts should timeout after some time. When making decisions on the timeout duration, consider that users have different reading speeds, vision levels, and literacy levels. Avoid messages longer than a sentence and avoid rendering interactive elements within toasts that require the user to act.
