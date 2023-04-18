@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:list";
 @use "sass:string";
+@use "@easypost/easy-ui-tokens/scss/map" as *;
 
 // Builds CSS variable templates that are pinned to breakpoints defined in
 // our design tokens. The variables are passed to the mixin to be

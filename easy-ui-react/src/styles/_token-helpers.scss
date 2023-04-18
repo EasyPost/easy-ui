@@ -1,4 +1,4 @@
-@use "./string-functions" as string;
+@use "string-functions" as string;
 
 @function -clean-name($name) {
   @return string.replace(string.replace($name, ".", "-"), "_", "-");

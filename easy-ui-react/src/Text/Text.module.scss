@@ -1,4 +1,4 @@
-@import "../styles/common";
+@use "../styles/common" as *;
 
 .Text {
   @include component-token("text", "color", inherit);

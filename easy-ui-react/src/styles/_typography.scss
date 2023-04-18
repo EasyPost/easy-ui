@@ -1,6 +1,8 @@
 @use "sass:list";
 @use "sass:map";
 @use "sass:string";
+@use "@easypost/easy-ui-tokens/scss/map" as *;
+@use "@easypost/easy-ui-tokens/scss/variables" as *;
 
 /// Apply font styles to element as-is. This doesn't map responsive styles
 @mixin font-style-static($style) {
