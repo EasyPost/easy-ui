@@ -1,10 +1,10 @@
+@use "../styles/common" as *;
 @use "../Button/mixins" as Button;
-@use "../styles/common" as c;
 
 .DropdownButton {
   @include Button.base;
-  @include c.font-style("button");
-  gap: c.design-token("space.1.5");
+  @include font-style("button");
+  gap: design-token("space.1.5");
 }
 
 .colorPrimary {
@@ -38,21 +38,19 @@
 .variantOutlined {
   @include Button.variantOutlined;
   padding: calc(
-      #{c.design-token("space.1.5")} - #{c.design-token("shape.border_width.1")}
+      #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
     )
-    calc(
-      #{c.design-token("space.2")} - #{c.design-token("shape.border_width.1")}
-    );
+    calc(#{design-token("space.2")} - #{design-token("shape.border_width.1")});
 }
 
 .variantFilled {
   @include Button.variantFilled;
-  padding: c.design-token("space.1.5") c.design-token("space.2");
+  padding: design-token("space.1.5") design-token("space.2");
 }
 
 .pipeSeparator {
-  width: c.design-token("space.0");
-  height: c.design-token("space.2");
-  border-left-width: c.design-token("shape.border_width.1");
+  width: design-token("space.0");
+  height: design-token("space.2");
+  border-left-width: design-token("shape.border_width.1");
   border-left-style: solid;
 }

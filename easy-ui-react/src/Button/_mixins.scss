@@ -1,14 +1,14 @@
-@use "../styles/common" as c;
+@use "../styles/common" as *;
 
 @mixin base {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: c.design-token("shape.border_radius.base");
+  border-radius: design-token("shape.border_radius.base");
   cursor: pointer;
 
   &:focus {
-    box-shadow: c.theme-token("shadow.button");
+    box-shadow: theme-token("shadow.button");
     outline: none;
   }
 
@@ -19,16 +19,16 @@
 
 @mixin variantFilled {
   border: 0;
-  background-color: c.component-token("button", "resting.color");
-  color: c.component-token("button", "filled.font.color");
+  background-color: component-token("button", "resting.color");
+  color: component-token("button", "filled.font.color");
 
   &:focus {
-    background-color: c.component-token("button", "hover.focus.color");
+    background-color: component-token("button", "hover.focus.color");
   }
 
   &:disabled {
-    color: c.theme-token("color.text.inverse");
-    background-color: c.theme-token("color.background.disabled");
+    color: theme-token("color.text.inverse");
+    background-color: theme-token("color.background.disabled");
   }
 
   &:link {
@@ -36,34 +36,34 @@
   }
 
   &:not(:disabled):active {
-    color: c.component-token("button", "filled.active.font.color");
-    background-color: c.component-token("button", "active.color");
+    color: component-token("button", "filled.active.font.color");
+    background-color: component-token("button", "active.color");
     &:focus {
       box-shadow: none;
     }
   }
 
   &:hover:not(:disabled):not(:active) {
-    background-color: c.component-token("button", "hover.focus.color");
+    background-color: component-token("button", "hover.focus.color");
   }
 }
 
 @mixin variantOutlined {
   background-color: transparent;
-  border: c.design-token("shape.border_width.1") solid
-    c.component-token("button", "resting.color");
-  color: c.component-token("button", "resting.color");
+  border: design-token("shape.border_width.1") solid
+    component-token("button", "resting.color");
+  color: component-token("button", "resting.color");
 
   &:focus {
-    border: c.design-token("shape.border_width.1") solid
-      c.component-token("button", "hover.focus.color");
-    color: c.component-token("button", "hover.focus.color");
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "hover.focus.color");
+    color: component-token("button", "hover.focus.color");
   }
 
   &:disabled {
-    color: c.theme-token("color.text.disabled");
-    border: c.design-token("shape.border_width.1") solid
-      c.theme-token("color.border.disabled");
+    color: theme-token("color.text.disabled");
+    border: design-token("shape.border_width.1") solid
+      theme-token("color.border.disabled");
   }
 
   &:link {
@@ -71,100 +71,100 @@
   }
 
   &:active:not(:disabled) {
-    color: c.component-token("button", "active.color");
-    border: c.design-token("shape.border_width.1") solid
-      c.component-token("button", "active.color");
+    color: component-token("button", "active.color");
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "active.color");
     &:focus {
       box-shadow: none;
     }
   }
 
   &:hover:not(:disabled):not(:active) {
-    border: c.design-token("shape.border_width.1") solid
-      c.component-token("button", "hover.focus.color");
-    color: c.component-token("button", "hover.focus.color");
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "hover.focus.color");
+    color: component-token("button", "hover.focus.color");
   }
 }
 
 @mixin variantLink {
-  color: c.component-token("button", "resting.color");
+  color: component-token("button", "resting.color");
   background-color: transparent;
-  border: c.design-token("shape.border_width.1") solid transparent;
+  border: design-token("shape.border_width.1") solid transparent;
   text-decoration: underline;
 
   &:focus {
-    border: c.design-token("shape.border_width.1") solid
-      c.component-token("button", "hover.focus.color");
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "hover.focus.color");
   }
 
   &:disabled {
-    color: c.theme-token("color.text.disabled");
+    color: theme-token("color.text.disabled");
   }
 
   &:active:not(:disabled) {
-    color: c.component-token("button", "active.color");
+    color: component-token("button", "active.color");
   }
 
   &:hover:not(:disabled):not(:active) {
-    color: c.component-token("button", "hover.focus.color");
+    color: component-token("button", "hover.focus.color");
   }
 }
 
 // prettier-ignore
 @mixin colorPrimary {
-  @include c.component-token("button", "filled.font.color", c.theme-token("color.text.inverse"));
-  @include c.component-token("button", "filled.active.font.color", c.theme-token("color.text.inverse"));
-  @include c.component-token("button", "resting.color", c.theme-token("color.background.primary"));
-  @include c.component-token("button", "hover.focus.color", c.theme-token("color.background.primary.hovered"));
-  @include c.component-token("button", "active.color", c.theme-token("color.background.primary.pressed"));
+  @include component-token("button", "filled.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "filled.active.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "resting.color", theme-token("color.background.primary"));
+  @include component-token("button", "hover.focus.color", theme-token("color.background.primary.hovered"));
+  @include component-token("button", "active.color", theme-token("color.background.primary.pressed"));
 }
 
 // prettier-ignore
 @mixin colorSecondary {
-  @include c.component-token("button", "filled.font.color", c.theme-token("color.text.inverse"));
-  @include c.component-token("button", "filled.active.font.color", c.theme-token("color.text.inverse"));
-  @include c.component-token("button", "resting.color", c.theme-token("color.background.secondary"));
-  @include c.component-token("button", "hover.focus.color", c.theme-token("color.background.secondary.hovered"));
-  @include c.component-token("button", "active.color", c.theme-token("color.background.secondary.pressed"));
+  @include component-token("button", "filled.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "filled.active.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "resting.color", theme-token("color.background.secondary"));
+  @include component-token("button", "hover.focus.color", theme-token("color.background.secondary.hovered"));
+  @include component-token("button", "active.color", theme-token("color.background.secondary.pressed"));
 }
 
 // prettier-ignore
 @mixin colorSuccess {
-  @include c.component-token("button", "filled.font.color", c.theme-token("color.text.success.inverse"));
-  @include c.component-token("button", "filled.active.font.color", c.theme-token("color.text.success.inverse.pressed"));
-  @include c.component-token("button", "resting.color", c.theme-token("color.background.success"));
-  @include c.component-token("button", "hover.focus.color", c.theme-token("color.background.success.hovered"));
-  @include c.component-token("button", "active.color", c.theme-token("color.background.success.pressed"));
+  @include component-token("button", "filled.font.color", theme-token("color.text.success.inverse"));
+  @include component-token("button", "filled.active.font.color", theme-token("color.text.success.inverse.pressed"));
+  @include component-token("button", "resting.color", theme-token("color.background.success"));
+  @include component-token("button", "hover.focus.color", theme-token("color.background.success.hovered"));
+  @include component-token("button", "active.color", theme-token("color.background.success.pressed"));
 }
 
 // prettier-ignore
 @mixin colorWarning {
-  @include c.component-token("button", "filled.font.color",c.theme-token("color.text.danger.inverse"));
-  @include c.component-token("button", "filled.active.font.color",c.theme-token("color.text.danger.inverse.pressed"));
-  @include c.component-token("button", "resting.color",c.theme-token("color.background.danger"));
-  @include c.component-token("button", "hover.focus.color",c.theme-token("color.background.danger.hovered"));
-  @include c.component-token("button", "active.color",c.theme-token("color.background.danger.pressed"));
+  @include component-token("button", "filled.font.color",theme-token("color.text.danger.inverse"));
+  @include component-token("button", "filled.active.font.color",theme-token("color.text.danger.inverse.pressed"));
+  @include component-token("button", "resting.color",theme-token("color.background.danger"));
+  @include component-token("button", "hover.focus.color",theme-token("color.background.danger.hovered"));
+  @include component-token("button", "active.color",theme-token("color.background.danger.pressed"));
 }
 
 // prettier-ignore
 @mixin colorNeutral {
-  @include c.component-token("button", "filled.font.color", c.theme-token("color.text.inverse"));
-  @include c.component-token("button", "filled.active.font.color", c.theme-token("color.text.inverse"));
-  @include c.component-token("button", "resting.color", c.theme-token("color.background.neutral"));
-  @include c.component-token("button", "hover.focus.color", c.theme-token("color.background.neutral.hovered"));
-  @include c.component-token("button", "active.color", c.theme-token("color.background.neutral.pressed"));
+  @include component-token("button", "filled.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "filled.active.font.color", theme-token("color.text.inverse"));
+  @include component-token("button", "resting.color", theme-token("color.background.neutral"));
+  @include component-token("button", "hover.focus.color", theme-token("color.background.neutral.hovered"));
+  @include component-token("button", "active.color", theme-token("color.background.neutral.pressed"));
 }
 
 // prettier-ignore
 @mixin colorSupport {
-  @include c.component-token("button", "resting.color", c.theme-token("color.border.support"));
-  @include c.component-token("button", "hover.focus.color", c.theme-token("color.border.support.hovered"));
-  @include c.component-token("button", "active.color", c.theme-token("color.border.support.pressed"));
+  @include component-token("button", "resting.color", theme-token("color.border.support"));
+  @include component-token("button", "hover.focus.color", theme-token("color.border.support.hovered"));
+  @include component-token("button", "active.color", theme-token("color.border.support.pressed"));
 }
 
 // prettier-ignore
 @mixin colorInverse {
-  @include c.component-token("button", "resting.color", c.theme-token("color.border.inverse"));
-  @include c.component-token("button", "hover.focus.color", c.theme-token("color.border.inverse.hovered"));
-  @include c.component-token("button", "active.color", c.theme-token("color.border.inverse.pressed"));
+  @include component-token("button", "resting.color", theme-token("color.border.inverse"));
+  @include component-token("button", "hover.focus.color", theme-token("color.border.inverse.hovered"));
+  @include component-token("button", "active.color", theme-token("color.border.inverse.pressed"));
 }
