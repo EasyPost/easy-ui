@@ -70,7 +70,7 @@ type MenuTrigger = {
   children: ReactElement;
 };
 
-type MenuOverlay = {
+type MenuList = {
   /** The menu sections and items to render. */
   children: ReactNode;
 
