@@ -127,7 +127,7 @@ function Component() {
       <Menu.Trigger>
         <Button>Actions</Button>
       </Menu.Trigger>
-      <Menu.Menu onAction={(key) => {}}>
+      <Menu.List onAction={(key) => {}}>
         <Menu.Section>
           <Menu.Item key="edit">Edit</Menu.Item>
           <Menu.Item key="duplicate">Duplicate</Menu.Item>
@@ -137,7 +137,7 @@ function Component() {
           <Menu.Item key="cut">Cut</Menu.Item>
           <Menu.Item key="paste">Paste</Menu.Item>
         </Menu.Section>
-      </Menu.Menu>
+      </Menu.List>
     </Menu>
   );
 }
@@ -166,13 +166,13 @@ function Component() {
       <Menu.Trigger>
         <Button>Actions</Button>
       </Menu.Trigger>
-      <Menu.Menu onAction={(key) => {}} items={sections}>
+      <Menu.List onAction={(key) => {}} items={sections}>
         {(section) => (
           <Section key={section.name} items={section.items}>
             {(item) => <Item key={item.name}>{item.name}</Item>}
           </Section>
         )}
-      </Menu.Menu>
+      </Menu.List>
     </Menu>
   );
 }
@@ -189,10 +189,10 @@ function Component() {
       <Menu.Trigger>
         <Button>Actions</Button>
       </Menu.Trigger>
-      <Menu.Menu onAction={(key) => {}} placement="bottom center">
+      <Menu.List onAction={(key) => {}} placement="bottom center">
         <Menu.Item key="edit">Edit</Menu.Item>
         <Menu.Item key="duplicate">Duplicate</Menu.Item>
-      </Menu.Menu>
+      </Menu.List>
     </Menu>
   );
 }
@@ -210,10 +210,10 @@ function Component() {
       <Menu.Trigger>
         <Button>Actions</Button>
       </Menu.Trigger>
-      <Menu.Menu onAction={(key) => {}}>
+      <Menu.List onAction={(key) => {}}>
         <Menu.Item key="edit">Edit</Menu.Item>
         <Menu.Item key="duplicate">Duplicate</Menu.Item>
-      </Menu.Menu>
+      </Menu.List>
     </Menu>
   );
 }
@@ -230,10 +230,10 @@ function Component() {
       <Menu.Trigger>
         <Button>Actions</Button>
       </Menu.Trigger>
-      <Menu.Menu onAction={(key) => {}}>
+      <Menu.List onAction={(key) => {}}>
         <Menu.Item key="edit">Edit</Menu.Item>
         <Menu.Item key="duplicate">Duplicate</Menu.Item>
-      </Menu.Menu>
+      </Menu.List>
     </Menu>
   );
 }
@@ -250,10 +250,10 @@ function Component() {
       <Menu.Trigger>
         <Button>Actions</Button>
       </Menu.Trigger>
-      <Menu.Menu onAction={(key) => {}}>
+      <Menu.List onAction={(key) => {}}>
         <Menu.Item key="edit">Edit</Menu.Item>
         <Menu.Item key="duplicate">Duplicate</Menu.Item>
-      </Menu.Menu>
+      </Menu.List>
     </Menu>
   );
 }
@@ -270,10 +270,10 @@ function Component() {
       <Menu.Trigger>
         <Button>Actions</Button>
       </Menu.Trigger>
-      <Menu.Menu onClose={() => {}}>
+      <Menu.List onClose={() => {}}>
         <Menu.Item key="edit">Edit</Menu.Item>
         <Menu.Item key="duplicate">Duplicate</Menu.Item>
-      </Menu.Menu>
+      </Menu.List>
     </Menu>
   );
 }
@@ -306,15 +306,15 @@ function Trigger({ children }: { children: ReactElement }) {
   });
 }
 
-function MenuOuter(props) {
+function MenuListToggler(props) {
   const { menuTriggerState } = useMenu();
   if (!menuTriggerState.isOpen) {
     return null;
   }
-  return <MenuInner {...props} />;
+  return <MenuList {...props} />;
 }
 
-function MenuInner(props) {
+function MenuList(props) {
   const popoverRef = React.useRef();
   const menuRef = React.useRef();
   const menuTreeState = useTreeState();
@@ -363,7 +363,7 @@ function MenuSection({ section, state }) {
 }
 
 Menu.Trigger = Trigger;
-Menu.Menu = MenuOuter;
+Menu.List = MenuListToggler;
 Menu.Item = Item;
 Menu.Section = Section;
 ```
