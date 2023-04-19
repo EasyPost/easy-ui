@@ -51,7 +51,7 @@
     "@changesets/cli": "^2.26.0",
     "@storybook/addon-a11y": "^7.0.5",
     "@storybook/addon-essentials": "^7.0.4",
-    "@storybook/blocks": "^7.0.2",
+    "@storybook/blocks": "^7.0.6",
     "@storybook/manager-api": "^7.0.5",
     "@storybook/react": "^7.0.5",
     "@storybook/react-vite": "^7.0.5",
