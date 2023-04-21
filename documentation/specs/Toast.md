@@ -15,8 +15,13 @@ The `Toast` component displays a brief non-disruptive message to the user as a r
 
 ### Risks and Challenges
 
-- Unlike other components, `Toast` components are unique in that they may be quite opinionated with regards to how they display and the kind of control they give consumers.
+- Unlike other components, `Toast` components are unique in that they may be quite opinionated with regards to how they display and the kind of control they expose to consumers.
 - Building for the shipper's experience at EasyPost according to internal specs while maintaining a pleasant DX for outside consumers.
+
+### Prior Art
+
+- [Paste `<Toast />`](https://paste.twilio.design/components/toast)
+- [Spectrum `<Toast />`](https://react-spectrum.adobe.com/react-spectrum/Toast.html)
 
 ---
 
@@ -25,141 +30,282 @@ The `Toast` component displays a brief non-disruptive message to the user as a r
 ### API
 
 ```typescript
-export type ToastStatus =
-  | "primary"
+import type { AriaToastProps } from "@react-aria/toast";
+import type { QueuedToast } from "@react-stately/toast";
+
+export type ToastVariant =
+  | "promotional"
   | "success"
-  | "secondary"
+  | "neutral"
   | "error"
   | "warning";
+
 export type ToastProps = {
   /**
-   * Toast status color
+   * Toast variant
    * @default "success"
    */
-  status?: ToastStatus;
+  variant?: ToastVariant;
   /**
-   * Toast content
+   * Toast will render with left aligned status icon
+   * @default false
    */
-  children?: ReactNode;
+  noIcon?: boolean;
+  /**
+   * Toast message
+   */
+  message: string;
 };
+
+export type ToastStateProps = AriaToastProps<ToastProps> & {
+  toast: QueuedToast<ToastProps>;
+  state: ToastState<ToastProps>;
+};
+```
+
+### Anatomy
+
+The majority of the `Toast` component's functionality will be handled by React Aria's `useToast` hook, which will assist in managing behavior and accessibility; note that the default accessibility role of `alert` is overriden to `status` since toasts are intended to display non-disruptive messages. Individual toasts will be rendered in a landmark region and handled by a `ToastRegion` component, which behind the scenes is leveraging React Aria's `useToastRegion` hook. Global queue management will be handled by `EasyUIToastQueue`, which extends React Stately's `ToastQueue` and is exposed as `ToastQueue` to consumers. The `ToastContainer` component handles rendering of the `ToastRegion` component and bundles queue management using React Stately's `useToastQueue` hook.
+
+```tsx
+function Toast(props: ToastStateProps) {
+  const { state, variant, noIcon, message } = props;
+  let ref = React.useRef(null);
+  let { toastProps, titleProps } = useToast(props, state, ref);
+  const toastPropsWithAriaStatusRole = { ...toastProps, role: "status" };
+
+  return (
+    <div {...toastPropsWithAriaStatusRole} ref={ref}>
+      <div {...titleProps}>
+        <Text>{message}</Text>
+      </div>
+      {!noIcon && <Icon />}
+    </div>
+  );
+}
+
+type ToastRegionProps = AriaToastRegionProps & {
+  state: ToastState<ToastProps>;
+};
+
+function ToastRegion(props: ToastRegionProps) {
+  const { state } = props;
+  let ref = React.useRef(null);
+  let { regionProps } = useToastRegion(props, state, ref);
+
+  return (
+    <div {...regionProps} ref={ref} className="toast-region">
+      {state.visibleToasts.map((toast) => (
+        <Toast key={toast.key} toast={toast} state={state} />
+      ))}
+    </div>
+  );
+}
+
+// import {ToastStateProps as ReactStatelyToastOptionsProps} from "@react-stately/toast"
+type EasyUIToastOptionsProps = ReactStatelyToastOptionsProps & {
+  timeoutDuration?: number;
+  activeToastKey?: string;
+};
+
+// import {ToastQueue as ReactStatelyToastQueue} from "@react-stately/toast"
+class EasyUIToastQueue<ToastProps> extends ReactStatelyToastQueue<ToastProps> {
+  private timeoutDuration: number;
+  private activeToastKey: string;
+  constructor(options?: EasyUIToastOptionsProps) {
+    super(options);
+    this.timeoutDuration = options?.timeoutDuration ?? 4000;
+    this.activeToastKey = "";
+  }
+
+  addToast(content: ToastProps) {
+    if (this.activeToastKey) {
+      super.close(this.activeToastKey);
+    }
+    this.activeToastKey = super.add(content, { timeout: this.timeoutDuration });
+  }
+
+  showPromotional(content: ToastProps) {
+    this.addToast({
+      ...content,
+      variant: "promotional",
+    });
+  }
+
+  showError(content: ToastProps) {
+    this.addToast({
+      ...content,
+      variant: "error",
+    });
+  }
+
+  showWarning(content: ToastProps) {
+    this.addToast({
+      ...content,
+      variant: "warning",
+    });
+  }
+
+  showSuccess(content: ToastProps) {
+    this.addToast({
+      ...content,
+      variant: "success",
+    });
+  }
+
+  showNeutral(content: ToastProps) {
+    this.addToast({
+      ...content,
+      variant: "neutral",
+    });
+  }
+}
+
+export const ToastQueue = new EasyUIToastQueue<ToastProps>();
+
+export function ToastContainer() {
+  // Subscribe to it.
+  let state = useToastQueue(ToastQueue);
+
+  // Render toast region.
+  return state.visibleToasts.length > 0 ? <ToastRegion state={state} /> : null;
+}
 ```
 
 ### Example Usage
 
-The `Toast` component on its own is not concerned with application architecture and is purely presentational. Although this is essentially true for all of Easy UI's components and in general is a feature of all component libraries, the `Toast` component requires more consideration given its use in practice. That is to say, toasts are displayed as a result of some action, and the rendering strategy to display a `Toast` or perhaps a list of toasts, may be intertwined with the application's architecture or state management system.
-
-Below is a basic example for how to import and use the `Toast` component:
-
-_Default_
+To use, import the `ToastContainer` into the place in your app where you will want to render toasts.
 
 ```tsx
-import Toast from "@easypost/easy-ui/Toast";
+import { ToastContainer } from "@easypost/easy-ui/Toast";
 
-<Toast>Account Created</Toast>;
+function App() {
+  return (
+    <>
+      <Nav />
+      <ToastContainer />
+      <Content />
+      <Footer />
+    </>
+  );
+}
 ```
 
-As mentioned above, it is unlikely the `Toast` component will be used in this way. Below is a relatively detailed example for how one might use the `Toast` component. Note that this is **not** production ready, nor is it the best solution, but it is a viable starting point.
-
-For this example, we will want to render toasts that dismiss automatically after 4000 ms and can be triggered after a user action. Typically we want toasts to render at a specific place in the application and be reusable across multiple components. To accomplish this, we will use `createPortal` from `react-dom`. We will also want to ensure when unmounting, we are appropriately cleaning up the DOM. The rendering of multiple toasts will be handled by the `ToastList` component; of course, wherever we use `ToastList` we want to ensure the immediate parent does **not** have to handle maintaining a list of toasts. There are several ways to accomplish this, we could reach for a state management solution such as `redux`, we could use `context` or as is done below for simplicity, making use of `forwardRef` and `useImperativeHandler`. Putting these ideas together, we get:
+Then, a toast can be queued from anywhere via the `ToastQueue` component.
 
 ```tsx
-import Toast from "@easypost/easy-ui/Toast";
-import { uniqueIdGenerator } from "your-favorite-library-for-unique-ids";
-import ReactDOM from "react-dom";
-import { useState, forwardRef, useImperativeHandle } from "react";
-
-// Hook
-export const useToastContainer = () => {
-  const [isReady, setIsReady] = useState(false);
-  const [containerId] = useState(`a-toast-container-${uniqueIdGenerator()}`);
-
-  useEffect(() => {
-    const div = document.createElement("div");
-    div.id = containerId;
-    div.setAttribute("style", "position: fixed; top: 0%; right: 50%");
-    document.getElementsByTagName("body")[0].prepend(div);
-
-    setIsReady(true);
-
-    //Clean up
-    return () => {
-      document.getElementsByTagName("body")[0].removeChild(div);
-    };
-  }, [containerId]);
-
-  return { isReady, containerId };
-};
-
-// Hook
-export const useToastDismiss = ({ toasts, setToasts, duration }) => {
-  const [dismissing, setDismissing] = useState("");
-
-  useEffect(() => {
-    if (dismissing) {
-      setToasts((t) => t.filter((_t) => _t.id !== dismissing));
-    }
-  }, [dismissing, setToasts]);
-
-  useEffect(() => {
-    if (toasts.length) {
-      const id = toasts[toasts.length - 1].id;
-      setTimeout(() => setDismissing(id), duration);
-    }
-  }, [toasts, duration]);
-};
-
-// ToastList, typing omitted
-export const ToastList = forwardRef(({ duration = 4000 }, ref) => {
-  const [toasts, setToasts] = useState([]);
-  const { isReady, containerId } = useToastContainer();
-
-  useToastDismiss({
-    toasts,
-    setToasts,
-    duration,
-  });
-
-  useImperativeHandle(ref, () => ({
-    queue(toast) {
-      setToasts([...toasts, { ...toast, id: uniqueIdGenerator() }]);
-    },
-  }));
-
-  return isReady
-    ? ReactDOM.createPortal(
-        <div style={{ display: "flex", gap: "12px", flexDirection: "column" }}>
-          {toasts.map((t) => (
-            <Toast key={t.id} status={t.status}>
-              {t.message}
-            </Toast>
-          ))}
-        </div>,
-
-        document.getElementById(containerId),
-      )
-    : null;
-});
-```
-
-To use, we now just need to import `ToastList` somewhere in our application where we want to display a toast and we can queue a message:
-
-```tsx
+import { ToastQueue } from "@easypost/easy-ui/Toast";
 import Button from "@easypost/easy-ui/Button";
-import ToastList from "a-place-in-your-app";
-import { useRef } from "react";
 
 function Component() {
-  const toastRef = useRef();
-
-  const handleSignUp = () => {
-    // inform user of successful account creation
-    toastRef.current.queue({ message: "Account Created", status: "success" });
+  const handleAction = () => {
+    // success
+    ToastQueue.showSuccess({ message: "Account Created" });
   };
 
   return (
     <>
-      <Button onPress={handleSignUp}>Sign up</Button>
-      <ToastList ref={toastRef} />
+      <Button onPress={handleAction}>Sign up</Button>
+    </>
+  );
+}
+```
+
+_Show error_
+
+```tsx
+import { ToastQueue } from "@easypost/easy-ui/Toast";
+import Button from "@easypost/easy-ui/Button";
+
+function Component() {
+  const handleAction = () => {
+    // error
+    ToastQueue.showError({ message: "Error" });
+  };
+
+  return (
+    <>
+      <Button onPress={handleAction}>Button</Button>
+    </>
+  );
+}
+```
+
+_Show warning_
+
+```tsx
+import { ToastQueue } from "@easypost/easy-ui/Toast";
+import Button from "@easypost/easy-ui/Button";
+
+function Component() {
+  const handleAction = () => {
+    // warning
+    ToastQueue.showWarning({ message: "Warning" });
+  };
+
+  return (
+    <>
+      <Button onPress={handleAction}>Button</Button>
+    </>
+  );
+}
+```
+
+_Show promotional_
+
+```tsx
+import { ToastQueue } from "@easypost/easy-ui/Toast";
+import Button from "@easypost/easy-ui/Button";
+
+function Component() {
+  const handleAction = () => {
+    // promotional
+    ToastQueue.showPromotional({ message: "Promotional" });
+  };
+
+  return (
+    <>
+      <Button onPress={handleAction}>Button</Button>
+    </>
+  );
+}
+```
+
+_Show neutral_
+
+```tsx
+import { ToastQueue } from "@easypost/easy-ui/Toast";
+import Button from "@easypost/easy-ui/Button";
+
+function Component() {
+  const handleAction = () => {
+    // neutral
+    ToastQueue.showNeutral({ message: "Neutral" });
+  };
+
+  return (
+    <>
+      <Button onPress={handleAction}>Button</Button>
+    </>
+  );
+}
+```
+
+_Show success without icon_
+
+```tsx
+import { ToastQueue } from "@easypost/easy-ui/Toast";
+import Button from "@easypost/easy-ui/Button";
+
+function Component() {
+  const handleAction = () => {
+    // success
+    ToastQueue.showSuccess({ message: "Success", noIcon: true });
+  };
+
+  return (
+    <>
+      <Button onPress={handleAction}>Button</Button>
     </>
   );
 }
@@ -169,6 +315,6 @@ function Component() {
 
 ### Accessibility
 
-The `Toast` component has an ARIA `role="status"` and elements with the role status have an implicit `aria-live` value of `polite` and an implicit `aria-atomic` value of `true`. Toasts are **not** suitable for dynamically changing content, consider using the `AlertBanner` component for such a use case.
+The `Toast` component has an ARIA `role="status"` and elements with the role status have an implicit `aria-live` value of `polite` and an implicit `aria-atomic` value of `true`. The `Toast` component does not provide a way for the user to manually dismiss the message, hence toasts timeout after `4000ms`. Individual toasts are render in an ARIA landmark region labeled "Notifications".
 
-The `Toast` component does not provide a way for the user to manually dismiss the message, hence toasts should timeout after some time. When making decisions on the timeout duration, consider that users have different reading speeds, vision levels, and literacy levels. Avoid messages longer than a sentence and avoid rendering interactive elements within toasts that require the user to act.
+Toasts are **not** suitable for dynamically changing content, consider using the `AlertBanner` component for such a use case. Avoid messages longer than a sentence and avoid rendering interactive elements within toasts that require the user to act.
