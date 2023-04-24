@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Toast` component displays a brief non-disruptive message to the user as a result of an action taken. The displayed message is accompanied by an associated `status` icon and cannot be manually dismissed. **Not** to be used to display critical information such as a system failure, see the `AlertBanner` component for such behavior.
+The `Toast` component displays a brief non-disruptive message to the user as a result of an action taken. The displayed message is accompanied by an associated status icon and cannot be manually dismissed. **Not** to be used to display critical information such as a system failure, see the `AlertBanner` component for such behavior.
 
 ### Use Cases
 
