@@ -49,6 +49,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.62.0",
-    "vite-plugin-static-copy": "^0.13.1"
+    "vite-plugin-static-copy": "^0.14.0"
   }
 }
