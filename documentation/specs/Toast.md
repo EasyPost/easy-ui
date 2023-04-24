@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Toast` component displays a brief non-disruptive message to the user as a result of an action taken. The displayed message is accompanied by an associated status icon and cannot be manually dismissed. **Not** to be used to display critical information such as a system failure, see the `AlertBanner` component for such behavior.
+The `Toast` component displays a brief non-disruptive message to the user as a result of an action taken. The displayed message is accompanied by an associated status icon and cannot be manually dismissed. **Not** to be used to display critical information such as a system failure, see the `Alert` component for such behavior.
 
 ### Use Cases
 
@@ -11,7 +11,8 @@ The `Toast` component displays a brief non-disruptive message to the user as a r
 
 ### Features
 
-- ARIA `role="status"`
+- Individual toasts have ARIA `role="status"`.
+- The `message` prop is of type `string`.
 
 ### Risks and Challenges
 
@@ -315,6 +316,6 @@ function Component() {
 
 ### Accessibility
 
-The `Toast` component has an ARIA `role="status"` and elements with the role status have an implicit `aria-live` value of `polite` and an implicit `aria-atomic` value of `true`. The `Toast` component does not provide a way for the user to manually dismiss the message, hence toasts timeout after `4000ms`. Individual toasts are render in an ARIA landmark region labeled "Notifications".
+The `Toast` component has an ARIA `role="status"` and elements with the role `status` have an implicit `aria-live` value of `polite` and an implicit `aria-atomic` value of `true`. A `status` is a type of live region providing advisory information that is not important enough to justify an alert, which would immediately interrupt the announcement of a user's current activity. Individual toasts in Easy UI are rendered in an ARIA landmark region labeled "Notifications".
 
-Toasts are **not** suitable for dynamically changing content, consider using the `AlertBanner` component for such a use case. Avoid messages longer than a sentence and avoid rendering interactive elements within toasts that require the user to act.
+Toasts are **not** suitable for dynamically changing content, consider using the `Alert` component for such a use case. Avoid messages longer than a sentence and avoid rendering interactive elements within toasts that require the user to act.
