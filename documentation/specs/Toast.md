@@ -34,19 +34,19 @@ The `Toast` component displays a brief non-disruptive message to the user as a r
 import type { AriaToastProps } from "@react-aria/toast";
 import type { QueuedToast } from "@react-stately/toast";
 
-export type ToastVariant =
-  | "promotional"
+export type ToastStatus =
+  | "primary"
   | "success"
-  | "neutral"
+  | "secondary"
   | "error"
   | "warning";
 
 export type ToastProps = {
   /**
-   * Toast variant
+   * Toast status
    * @default "success"
    */
-  variant?: ToastVariant;
+  status?: ToastStatus;
   /**
    * Toast will render with left aligned status icon
    * @default false
@@ -70,7 +70,7 @@ The majority of the `Toast` component's functionality will be handled by React A
 
 ```tsx
 function Toast(props: ToastStateProps) {
-  const { state, variant, noIcon, message } = props;
+  const { state, status, noIcon, message } = props;
   let ref = React.useRef(null);
   let { toastProps, titleProps } = useToast(props, state, ref);
   const toastPropsWithAriaStatusRole = { ...toastProps, role: "status" };
@@ -129,35 +129,35 @@ class EasyUIToastQueue<ToastProps> extends ReactStatelyToastQueue<ToastProps> {
   showPromotional(content: ToastProps) {
     this.addToast({
       ...content,
-      variant: "promotional",
+      status: "promotional",
     });
   }
 
   showError(content: ToastProps) {
     this.addToast({
       ...content,
-      variant: "error",
+      status: "error",
     });
   }
 
   showWarning(content: ToastProps) {
     this.addToast({
       ...content,
-      variant: "warning",
+      status: "warning",
     });
   }
 
   showSuccess(content: ToastProps) {
     this.addToast({
       ...content,
-      variant: "success",
+      status: "success",
     });
   }
 
   showNeutral(content: ToastProps) {
     this.addToast({
       ...content,
-      variant: "neutral",
+      status: "neutral",
     });
   }
 }
