@@ -77,10 +77,10 @@ function Toast(props: ToastStateProps) {
 
   return (
     <div {...toastPropsWithAriaStatusRole} ref={ref}>
+      {!noIcon && <Icon />}
       <div {...titleProps}>
         <Text>{message}</Text>
       </div>
-      {!noIcon && <Icon />}
     </div>
   );
 }
@@ -95,7 +95,7 @@ function ToastRegion(props: ToastRegionProps) {
   let { regionProps } = useToastRegion(props, state, ref);
 
   return (
-    <div {...regionProps} ref={ref} className="toast-region">
+    <div {...regionProps} ref={ref}>
       {state.visibleToasts.map((toast) => (
         <Toast key={toast.key} toast={toast} state={state} />
       ))}
