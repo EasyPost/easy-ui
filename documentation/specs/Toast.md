@@ -126,10 +126,10 @@ class EasyUIToastQueue<ToastProps> extends ReactStatelyToastQueue<ToastProps> {
     this.activeToastKey = super.add(content, { timeout: this.timeoutDuration });
   }
 
-  showPromotional(content: ToastProps) {
+  showPrimary(content: ToastProps) {
     this.addToast({
       ...content,
-      status: "promotional",
+      status: "primary",
     });
   }
 
@@ -154,10 +154,10 @@ class EasyUIToastQueue<ToastProps> extends ReactStatelyToastQueue<ToastProps> {
     });
   }
 
-  showNeutral(content: ToastProps) {
+  showSecondary(content: ToastProps) {
     this.addToast({
       ...content,
-      status: "neutral",
+      status: "secondary",
     });
   }
 }
@@ -252,7 +252,7 @@ function Component() {
 }
 ```
 
-_Show promotional_
+_Show primary_
 
 ```tsx
 import { ToastQueue } from "@easypost/easy-ui/Toast";
@@ -260,8 +260,8 @@ import Button from "@easypost/easy-ui/Button";
 
 function Component() {
   const handleAction = () => {
-    // promotional
-    ToastQueue.showPromotional({ message: "Promotional" });
+    // primary
+    ToastQueue.showPrimary({ message: "Primary" });
   };
 
   return (
@@ -272,7 +272,7 @@ function Component() {
 }
 ```
 
-_Show neutral_
+_Show secondary_
 
 ```tsx
 import { ToastQueue } from "@easypost/easy-ui/Toast";
@@ -280,8 +280,8 @@ import Button from "@easypost/easy-ui/Button";
 
 function Component() {
   const handleAction = () => {
-    // neutral
-    ToastQueue.showNeutral({ message: "Neutral" });
+    // secondary
+    ToastQueue.showSecondary({ message: "Secondary" });
   };
 
   return (
