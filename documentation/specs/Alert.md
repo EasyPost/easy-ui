@@ -32,19 +32,19 @@ The `Alert` component displays an important message near the top of the page tha
 import type { AriaToastProps as AriaAlertProps } from "@react-aria/toast";
 import type { QueuedToast as QueuedAlert } from "@react-stately/toast";
 
-export type AlertVariant =
-  | "promotional"
+export type AlertStatus =
+  | "primary"
   | "success"
-  | "neutral"
+  | "secondary"
   | "error"
   | "warning";
 
 export type AlertProps = {
   /**
-   * Alert variant
+   * Alert status
    * @default "success"
    */
-  variant?: AlertVariant;
+  status?: AlertStatus;
   /**
    * Alert will render with left aligned status icon
    * @default false
@@ -72,7 +72,7 @@ The majority of the `Alert` component's functionality will be handled by React A
 
 ```tsx
 function Alert(props: AlertStateProps) {
-  const { state, variant, noIcon, message, toast } = props;
+  const { state, status, noIcon, message, toast } = props;
   let ref = React.useRef(null);
   let { toastProps, titleProps, closeButtonProps } = useToast(
     props,
@@ -142,38 +142,38 @@ class EasyUIAlertQueue<AlertProps> extends ReactStatelyAlertQueue<AlertProps> {
     this.activeAlertKey = super.add(content);
   }
 
-  showPromotional(content: AlertProps) {
+  showPrimary(content: AlertProps) {
     this.addAlert({
       ...content,
-      variant: "promotional",
+      status: "primary",
     });
   }
 
   showError(content: AlertProps) {
     this.addAlert({
       ...content,
-      variant: "error",
+      status: "error",
     });
   }
 
   showWarning(content: AlertProps) {
     this.addAlert({
       ...content,
-      variant: "warning",
+      status: "warning",
     });
   }
 
   showSuccess(content: AlertProps) {
     this.addAlert({
       ...content,
-      variant: "success",
+      status: "success",
     });
   }
 
-  showNeutral(content: AlertProps) {
+  showSecondary(content: AlertProps) {
     this.addAlert({
       ...content,
-      variant: "neutral",
+      status: "secondary",
     });
   }
 }
@@ -275,7 +275,7 @@ function Component() {
 }
 ```
 
-_Show promotional_
+_Show primary_
 
 ```tsx
 import { AlertQueue } from "@easypost/easy-ui/Alert";
@@ -283,8 +283,8 @@ import Button from "@easypost/easy-ui/Button";
 
 function Component() {
   const handleAction = () => {
-    // promotional
-    AlertQueue.showPromotional({ message: "Promotional" });
+    // primary
+    AlertQueue.showPrimary({ message: "Primary" });
   };
 
   return (
@@ -295,7 +295,7 @@ function Component() {
 }
 ```
 
-_Show neutral_
+_Show secondary_
 
 ```tsx
 import { AlertQueue } from "@easypost/easy-ui/Alert";
@@ -303,8 +303,8 @@ import Button from "@easypost/easy-ui/Button";
 
 function Component() {
   const handleAction = () => {
-    // neutral
-    AlertQueue.showNeutral({ message: "Neutral" });
+    // secondary
+    AlertQueue.showSecondary({ message: "Secondary" });
   };
 
   return (
