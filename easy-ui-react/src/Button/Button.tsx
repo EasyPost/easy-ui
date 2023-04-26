@@ -1,5 +1,6 @@
-import React, { ReactNode, useRef } from "react";
-import { AriaButtonProps, useButton } from "react-aria";
+import { mergeRefs } from "@react-aria/utils";
+import React, { ReactNode, forwardRef, useRef } from "react";
+import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
@@ -40,7 +41,7 @@ export type ButtonProps = AriaButtonProps<"button"> & {
   href?: string;
 };
 
-export function Button(props: ButtonProps) {
+export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
   const {
     color = "primary",
     variant = "filled",
@@ -51,6 +52,7 @@ export function Button(props: ButtonProps) {
     iconAtEnd,
     children = "Button",
     href = "",
+    ...restProps
   } = props;
 
   const ref = useRef(null);
@@ -77,7 +79,7 @@ export function Button(props: ButtonProps) {
   return (
     <As
       disabled={isDisabled}
-      ref={ref}
+      ref={mergeRefs(ref, inRef)}
       className={classNames(
         styles.Button,
         styles[variationName("color", color)],
@@ -85,7 +87,7 @@ export function Button(props: ButtonProps) {
         styles[variationName("size", size)],
         isBlock && styles.block,
       )}
-      {...elementProps}
+      {...mergeProps(elementProps, restProps)}
     >
       {iconAtStart && canUseIcon && <Icon symbol={iconAtStart} />}
       <span
@@ -99,4 +101,6 @@ export function Button(props: ButtonProps) {
       {iconAtEnd && canUseIcon && <Icon symbol={iconAtEnd} />}
     </As>
   );
-}
+});
+
+Button.displayName = "Button";

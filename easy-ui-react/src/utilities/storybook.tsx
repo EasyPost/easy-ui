@@ -64,3 +64,62 @@ export const InlineStoryOnDarkBackgroundDecorator: Decorator = (Story) => (
     <Story />
   </div>
 );
+
+// TODO: Is there a way to use better styling for this?
+export const FullScreenStoryPreviewStyle = () => {
+  return (
+    <style
+      dangerouslySetInnerHTML={{
+        __html: `html,body,#storybook-root {
+          height: 100%;
+        }`,
+      }}
+    />
+  );
+};
+
+/**
+ * Centers trigger elements within the storybook frame with a user-specified
+ * amount of space around the triggers to allow for an overlay to show within
+ * the story window.
+ *
+ * @param Story
+ * @param options.parameters.overlayLayout.framePaddingX Horizontal breathing room for overlays around story frame
+ * @param options.parameters.overlayLayout.framePaddingY Vertical breathing room for overlays around story frame
+ * @param options.parameters.overlayLayout.triggerSpacingX Horizontal breathing room between triggers
+ * @param options.parameters.overlayLayout.triggerSpacingY Vertical breathing room between triggers
+ * @returns React element representing decorator
+ */
+export const OverlayLayoutDecorator: Decorator = (Story, options) => {
+  const { parameters } = options;
+  const { overlayLayout = {} } = parameters;
+  const {
+    framePaddingX = 0,
+    framePaddingY = 0,
+    triggerSpacingX = 0,
+    triggerSpacingY = 0,
+  } = overlayLayout;
+  return (
+    <>
+      <FullScreenStoryPreviewStyle />
+      <div style={{ display: "flex", width: "100%", height: "100%" }}>
+        <div
+          style={{
+            display: "inline-flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            margin: "auto",
+            rowGap: triggerSpacingY,
+            columnGap: triggerSpacingX,
+            paddingLeft: framePaddingX,
+            paddingRight: framePaddingX,
+            paddingTop: framePaddingY,
+            paddingBottom: framePaddingY,
+          }}
+        >
+          <Story />
+        </div>
+      </div>
+    </>
+  );
+};

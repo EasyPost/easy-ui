@@ -43,7 +43,7 @@ type Placement = 'bottom' | 'bottom left' | 'bottom right' | 'bottom start' | 'b
 
 type Tooltip = {
   /** The element that will activate to tooltip. */
-  children: ReactNode;
+  children: ReactElement;
 
   /** The content to display within the tooltip. */
   content: ReactNode;
@@ -53,6 +53,9 @@ type Tooltip = {
 
   /** Whether the tooltip should be disabled, independent from the trigger. */
   isDisabled?: boolean;
+
+  /** By default, opens after a delay. Can be made to open immediately. */
+  isImmediate?: boolean;
 
   /** Whether the overlay is open by default (controlled). */
   isOpen?: boolean;
@@ -124,7 +127,7 @@ export function Tooltip(props: TooltipProps) {
             {...overlayProps}
             {...mergeProps(triggerTooltipProps, tooltipProps)}
           >
-            <span>{text}</span>
+            <span>{content}</span>
             <span className="arrow" {...arrowProps} />
           </span>
         </OverlayContainer>

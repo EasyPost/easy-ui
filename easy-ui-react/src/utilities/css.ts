@@ -30,7 +30,9 @@ export function getComponentDesignToken(
     return {};
   }
   return {
-    [`--ezui-c-${componentName}-${componentProp}`]: `var(--ezui-${tokenSubgroup}-${token})`,
+    [`--ezui-c-${componentName}-${kebabCase(
+      componentProp,
+    )}`]: `var(--ezui-${tokenSubgroup}-${token})`,
   };
 }
 
@@ -44,9 +46,9 @@ export function getComponentThemeToken(
     return {};
   }
   return {
-    [`--ezui-c-${componentName}-${componentProp}`]: `var(--ezui-t-${kebabCase(
-      tokenSubgroup,
-    )}-${kebabCase(token)})`,
+    [`--ezui-c-${componentName}-${kebabCase(
+      componentProp,
+    )}`]: `var(--ezui-t-${kebabCase(tokenSubgroup)}-${kebabCase(token)})`,
   };
 }
 
@@ -61,14 +63,16 @@ export function getResponsiveDesignToken(
   }
   if (typeof responsiveProp === "string") {
     return {
-      [`--ezui-c-${componentName}-${componentProp}-xs`]: `var(--ezui-${kebabCase(
-        tokenSubgroup,
-      )}-${responsiveProp})`,
+      [`--ezui-c-${componentName}-${kebabCase(
+        componentProp,
+      )}-xs`]: `var(--ezui-${kebabCase(tokenSubgroup)}-${responsiveProp})`,
     };
   }
   return Object.fromEntries(
     Object.entries(responsiveProp).map(([breakpointAlias, aliasOrScale]) => [
-      `--ezui-c-${componentName}-${componentProp}-${breakpointAlias}`,
+      `--ezui-c-${componentName}-${kebabCase(
+        componentProp,
+      )}-${breakpointAlias}`,
       `var(--ezui-${kebabCase(tokenSubgroup)}-${aliasOrScale})`,
     ]),
   );
@@ -84,14 +88,17 @@ export function getResponsiveValue(
   }
   if (typeof responsiveValue === "string") {
     return sanitizeCustomProperties({
-      [`--ezui-c-${componentName}-${componentProp}-xs`]: responsiveValue,
+      [`--ezui-c-${componentName}-${kebabCase(componentProp)}-xs`]:
+        responsiveValue,
     });
   }
   return sanitizeCustomProperties(
     Object.fromEntries(
       Object.entries(responsiveValue).map(
         ([breakpointAlias, responsiveValue]) => [
-          `--ezui-c-${componentName}-${componentProp}-${breakpointAlias}`,
+          `--ezui-c-${componentName}-${kebabCase(
+            componentProp,
+          )}-${breakpointAlias}`,
           responsiveValue,
         ],
       ),

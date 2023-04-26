@@ -1,0 +1,51 @@
+import React from "react";
+import { Canvas, Meta, Controls } from "@storybook/blocks";
+import * as TooltipStories from "./Tooltip.stories";
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+## Default
+
+<Canvas of={TooltipStories.Default} />
+
+## Placement
+
+Tooltips can be placed around various edges of a trigger element. See the controls below for valid values.
+
+<Canvas of={TooltipStories.Placement} />
+
+## Immediate
+
+Tooltips can be defined to show immediately with the `isImmediate` prop.
+
+<Canvas of={TooltipStories.Immediate} />
+
+## Disabled
+
+Tooltips can be disabled independent of the disabling of their trigger element with `isDisabled`.
+
+<Canvas of={TooltipStories.Disabled} />
+
+## Trigger on Focus Only
+
+By default, tooltips show on mouse hover and keyboard focus. They can be set to only trigger on keyboard focus.
+
+<Canvas of={TooltipStories.FocusOnly} />
+
+## Text that Spans Multiple Lines
+
+<Canvas of={TooltipStories.LongContent} />
+
+## Button as Trigger
+
+Tooltips can be attached to focusable Easy UI elements.
+
+<Canvas of={TooltipStories.ButtonTrigger} />
+
+## Controls
+
+<Canvas of={TooltipStories.Default} />
+
+<Controls of={TooltipStories.Default} />
