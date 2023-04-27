@@ -5,7 +5,7 @@ import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import {
-  filterButtonDOMProps,
+  omitReactAriaSpecificProps,
   logWarningIfInvalidColorVariantCombination,
 } from "./utilities";
 
@@ -81,7 +81,7 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
 
   return (
     <As
-      {...mergeProps(filterButtonDOMProps(restProps), elementProps)}
+      {...mergeProps(omitReactAriaSpecificProps(restProps), elementProps)}
       disabled={isDisabled}
       ref={mergeRefs(ref, inRef)}
       className={classNames(

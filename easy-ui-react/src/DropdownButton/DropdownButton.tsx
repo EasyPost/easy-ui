@@ -4,7 +4,7 @@ import React, { ReactNode, forwardRef, useRef } from "react";
 import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { ButtonColor } from "../Button";
 import {
-  filterButtonDOMProps,
+  omitReactAriaSpecificProps,
   logWarningIfInvalidColorVariantCombination,
 } from "../Button/utilities";
 import { Icon } from "../Icon";
@@ -41,7 +41,7 @@ export const DropdownButton = forwardRef<null, DropdownButtonProps>(
 
     return (
       <button
-        {...mergeProps(filterButtonDOMProps(restProps), buttonProps)}
+        {...mergeProps(omitReactAriaSpecificProps(restProps), buttonProps)}
         disabled={isDisabled}
         ref={mergeRefs(ref, inRef)}
         className={classNames(

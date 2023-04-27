@@ -22,7 +22,7 @@ export function logWarningIfInvalidColorVariantCombination(
 /**
  * Removes aria-specific props from being applied to button DOM element.
  */
-export function filterButtonDOMProps(props: object) {
+export function omitReactAriaSpecificProps(props: object) {
   return omit(props, [
     "onPress",
     "onPressChange",

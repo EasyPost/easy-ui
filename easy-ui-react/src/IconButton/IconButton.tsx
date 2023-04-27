@@ -3,7 +3,7 @@ import React, { forwardRef, useRef } from "react";
 import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { ButtonColor } from "../Button";
 import {
-  filterButtonDOMProps,
+  omitReactAriaSpecificProps,
   logWarningIfInvalidColorVariantCombination,
 } from "../Button/utilities";
 import { Icon } from "../Icon";
@@ -44,7 +44,7 @@ export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
 
   return (
     <button
-      {...mergeProps(filterButtonDOMProps(restProps), buttonProps)}
+      {...mergeProps(omitReactAriaSpecificProps(restProps), buttonProps)}
       disabled={isDisabled}
       ref={mergeRefs(ref, inRef)}
       className={classNames(

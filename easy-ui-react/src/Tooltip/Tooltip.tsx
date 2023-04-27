@@ -36,7 +36,7 @@ export type TooltipProps = {
   /** Whether the tooltip should be disabled, independent from the trigger. */
   isDisabled?: boolean;
 
-  /** By default, opens after a delay. Can be made to open immediately. */
+  /** By default, opens after a delay. Can be made to open immediately. Useful for help icons. */
   isImmediate?: boolean;
 
   /** Whether the overlay is open by default (controlled). */
