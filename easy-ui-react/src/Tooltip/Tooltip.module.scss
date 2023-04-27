@@ -23,6 +23,7 @@
   filter: drop-shadow(#{component-token("tooltip", "shadow")});
   max-width: component-token("tooltip", "max-width");
   padding: design-token("space.1");
+  will-change: filter;
 }
 
 .text {
