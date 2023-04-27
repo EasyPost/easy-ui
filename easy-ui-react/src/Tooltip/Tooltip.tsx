@@ -1,4 +1,10 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, {
+  DOMAttributes,
+  MutableRefObject,
+  ReactElement,
+  ReactNode,
+  useEffect,
+} from "react";
 import {
   OverlayContainer,
   Placement,
@@ -7,7 +13,7 @@ import {
   useTooltip,
   useTooltipTrigger,
 } from "react-aria";
-import { useTooltipTriggerState } from "react-stately";
+import { TooltipTriggerState, useTooltipTriggerState } from "react-stately";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
 
@@ -98,15 +104,9 @@ export type TooltipProps = {
  * ```
  */
 export function Tooltip(props: TooltipProps) {
-  const {
-    children,
-    content,
-    isImmediate,
-    placement: targetPlacement = "top",
-  } = props;
+  const { children, isImmediate } = props;
 
   const triggerRef = React.useRef(null);
-  const tooltipRef = React.useRef(null);
 
   const triggerInputProps = {
     ...props,
@@ -118,43 +118,76 @@ export function Tooltip(props: TooltipProps) {
   const { triggerProps, tooltipProps: tooltipPropsFromTrigger } =
     useTooltipTrigger(triggerInputProps, tooltipTriggerState, triggerRef);
 
-  const { overlayProps, arrowProps, placement } = useOverlayPosition({
-    arrowBoundaryOffset: ARROW_BOUNDARY_OFFSET,
-    containerPadding: CONTAINER_PADDING,
-    isOpen: tooltipTriggerState.isOpen,
-    offset: OFFSET,
-    overlayRef: tooltipRef,
-    placement: targetPlacement,
-    targetRef: triggerRef,
-  });
+  return (
+    <>
+      {React.cloneElement(children, { ...triggerProps, ref: triggerRef })}
+      {tooltipTriggerState.isOpen && (
+        <OverlayContainer>
+          <TooltipInner
+            {...props}
+            triggerRef={triggerRef}
+            tooltipPropsFromTrigger={tooltipPropsFromTrigger}
+            tooltipTriggerState={tooltipTriggerState}
+          />
+        </OverlayContainer>
+      )}
+    </>
+  );
+}
+
+type TooltipInnerProps = TooltipProps & {
+  triggerRef: MutableRefObject<null>;
+  tooltipPropsFromTrigger: DOMAttributes<HTMLElement>;
+  tooltipTriggerState: TooltipTriggerState;
+};
+
+function TooltipInner(props: TooltipInnerProps) {
+  const {
+    content,
+    placement: targetPlacement = "top",
+    triggerRef,
+    tooltipTriggerState,
+    tooltipPropsFromTrigger,
+  } = props;
+
+  const tooltipRef = React.useRef(null);
+
+  const { overlayProps, arrowProps, placement, updatePosition } =
+    useOverlayPosition({
+      arrowBoundaryOffset: ARROW_BOUNDARY_OFFSET,
+      containerPadding: CONTAINER_PADDING,
+      isOpen: tooltipTriggerState.isOpen,
+      offset: OFFSET,
+      overlayRef: tooltipRef,
+      placement: targetPlacement,
+      targetRef: triggerRef,
+    });
 
   const { tooltipProps: tooltipPropsFromTooltip } = useTooltip(
     mergeProps(overlayProps, props),
     tooltipTriggerState,
   );
 
+  // When the content of the tooltip changes, update the overlay position
+  useEffect(() => {
+    updatePosition();
+  }, [content, updatePosition]);
+
   return (
-    <>
-      {React.cloneElement(children, { ...triggerProps, ref: triggerRef })}
-      {tooltipTriggerState.isOpen && (
-        <OverlayContainer>
-          <span
-            ref={tooltipRef}
-            {...mergeProps(
-              overlayProps,
-              tooltipPropsFromTooltip,
-              tooltipPropsFromTrigger,
-            )}
-            className={classNames(styles.Tooltip, styles[placement])}
-            data-placement={placement}
-          >
-            <span className={styles.text}>
-              <Text variant="subtitle2">{content}</Text>
-            </span>
-            <span className={styles.arrow} {...arrowProps} />
-          </span>
-        </OverlayContainer>
+    <span
+      ref={tooltipRef}
+      {...mergeProps(
+        overlayProps,
+        tooltipPropsFromTooltip,
+        tooltipPropsFromTrigger,
       )}
-    </>
+      className={classNames(styles.Tooltip, styles[placement])}
+      data-placement={placement}
+    >
+      <span className={styles.text}>
+        <Text variant="subtitle2">{content}</Text>
+      </span>
+      <span className={styles.arrow} {...arrowProps} />
+    </span>
   );
 }
