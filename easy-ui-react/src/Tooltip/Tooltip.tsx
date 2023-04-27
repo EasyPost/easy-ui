@@ -110,7 +110,8 @@ export function Tooltip(props: TooltipProps) {
 
   const triggerInputProps = {
     ...props,
-    delay: isImmediate ? 0 : undefined,
+    delay: isImmediate ? 0 : 1000,
+    closeDelay: 250,
   };
 
   const tooltipTriggerState = useTooltipTriggerState(triggerInputProps);
