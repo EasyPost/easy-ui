@@ -4,7 +4,10 @@ import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
-import { logWarningIfInvalidColorVariantCombination } from "./utilities";
+import {
+  filterButtonDOMProps,
+  logWarningIfInvalidColorVariantCombination,
+} from "./utilities";
 
 import styles from "./Button.module.scss";
 
@@ -20,7 +23,7 @@ export type ButtonColor =
 export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
 
-export type ButtonProps = AriaButtonProps<"button"> & {
+export type ButtonProps = AriaButtonProps & {
   /** Button color */
   color?: ButtonColor;
   /** Button variant */
@@ -78,6 +81,7 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
 
   return (
     <As
+      {...mergeProps(filterButtonDOMProps(restProps), elementProps)}
       disabled={isDisabled}
       ref={mergeRefs(ref, inRef)}
       className={classNames(
@@ -87,7 +91,6 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
         styles[variationName("size", size)],
         isBlock && styles.block,
       )}
-      {...mergeProps(elementProps, restProps)}
     >
       {iconAtStart && canUseIcon && <Icon symbol={iconAtStart} />}
       <span

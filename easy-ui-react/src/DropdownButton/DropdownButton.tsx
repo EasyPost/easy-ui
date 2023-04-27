@@ -3,14 +3,17 @@ import { mergeRefs } from "@react-aria/utils";
 import React, { ReactNode, forwardRef, useRef } from "react";
 import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { ButtonColor } from "../Button";
-import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
+import {
+  filterButtonDOMProps,
+  logWarningIfInvalidColorVariantCombination,
+} from "../Button/utilities";
 import { Icon } from "../Icon";
 import { classNames, variationName } from "../utilities/css";
 import styles from "./DropdownButton.module.scss";
 
 export type DropdownButtonVariant = "filled" | "outlined";
 
-export type DropdownButtonProps = AriaButtonProps<"button"> & {
+export type DropdownButtonProps = AriaButtonProps & {
   /** Button color */
   color?: ButtonColor;
   /** Button variant */
@@ -38,6 +41,7 @@ export const DropdownButton = forwardRef<null, DropdownButtonProps>(
 
     return (
       <button
+        {...mergeProps(filterButtonDOMProps(restProps), buttonProps)}
         disabled={isDisabled}
         ref={mergeRefs(ref, inRef)}
         className={classNames(
@@ -45,7 +49,6 @@ export const DropdownButton = forwardRef<null, DropdownButtonProps>(
           styles[variationName("variant", variant)],
           styles[variationName("color", color)],
         )}
-        {...mergeProps(buttonProps, restProps)}
       >
         <span>{children}</span>
         <span className={classNames(styles.pipeSeparator)}></span>
