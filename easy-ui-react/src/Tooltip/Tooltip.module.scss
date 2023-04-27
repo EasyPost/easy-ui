@@ -23,12 +23,12 @@
   filter: drop-shadow(#{component-token("tooltip", "shadow")});
   max-width: component-token("tooltip", "max-width");
   padding: design-token("space.1");
-  pointer-events: none;
 }
 
 .text {
   display: inline-flex;
   padding: design-token("space.0.5") 0;
+  overflow-wrap: anywhere;
 }
 
 .arrow {
