@@ -32,8 +32,8 @@
     "@easypost/easy-ui-icons": "1.0.0-alpha.2",
     "@easypost/easy-ui-tokens": "1.0.0-alpha.1",
     "@react-aria/utils": "^3.16.0",
-    "@types/react": "^18.0.38",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.1",
     "lodash": "^4.17.21",
     "react-aria": "^3.24.0",
     "react-stately": "^3.22.0"
