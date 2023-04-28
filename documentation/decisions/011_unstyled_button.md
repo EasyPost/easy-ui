@@ -35,39 +35,47 @@ Similar to the `Button`, `DropdownButton`, and `IconButton` components, the `Uns
 
 ```ts
 export type UnstyledButtonProps = AriaButtonProps<"button"> & {
-  /** Content to render */
-  children?: ReactNode;
   /* Classname to apply styles to button */
   className?: string;
-  /**
-   * Disables button
-   * @default false
-   */
-  isDisabled?: boolean;
+  /** Link's destination */
+  href?: string;
 };
 ```
 
 ### Anatomy
 
 ```tsx
-import { useButton } from "react-aria";
+import { forwardRef } from "react";
+import { mergeRefs } from "@react-aria/utils";
+import { useButton, mergeProps } from "react-aria";
 import { classNames } from "../utilities/css";
+import { omitReactAriaSpecificProps } from "./utilities";
 
-export function UnstyledButton(props: UnstyledButtonProps) {
-  const { className, isDisabled = false, children = "Button" } = props;
+export const UnstyledButton = forwardRef<null, UnstyledButtonProps>((props, inRef)) => {
+  const {
+    className,
+    href = "",
+    isDisabled = false,
+    children = "Button",
+    ...restProps
+  } = props;
 
   const ref = useRef(null);
-  const { buttonProps } = useButton(props, ref);
+  const As = href ? "a" : "button";
+  const { buttonProps: elementProps } = useButton(
+    { ...props, elementType: As },
+    ref,
+  );
 
   return (
-    <button
+    <As
       disabled={isDisabled}
-      ref={ref}
+      ref={mergeRefs(ref, inRef)}
       className={classNames(className)}
-      {...buttonProps}
+      {...mergeProps(omitReactAriaSpecificProps(restProps), elementProps)}
     >
       {children}
-    </button>
+    </As>
   );
 }
 ```
