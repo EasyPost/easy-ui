@@ -49,7 +49,7 @@ import { forwardRef } from "react";
 import { mergeRefs } from "@react-aria/utils";
 import { useButton, mergeProps } from "react-aria";
 import { classNames } from "../utilities/css";
-import { omitReactAriaSpecificProps } from "./utilities";
+import { omitReactAriaSpecificProps } from "../Button/utilities";
 
 export const UnstyledButton = forwardRef<null, UnstyledButtonProps>((props, inRef)) => {
   const {
