@@ -22,13 +22,9 @@ export type BannerProps = {
    * @default "success"
    */
   status?: BannerStatus;
-  /**
-   * Banner emphasis text
-   */
+  /** Banner emphasis text */
   emphasis?: ReactNode;
-  /**
-   * Banner content
-   */
+  /** Banner content */
   children?: ReactNode;
 };
 ```

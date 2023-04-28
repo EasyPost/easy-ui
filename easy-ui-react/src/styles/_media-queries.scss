@@ -1,0 +1,25 @@
+@use "@easypost/easy-ui-tokens/scss/variables" as *;
+
+@mixin breakpoint-sm-up {
+  @media (min-width: #{$ezui-breakpoint-sm}) {
+    @content;
+  }
+}
+
+@mixin breakpoint-md-up {
+  @media (min-width: #{$ezui-breakpoint-md}) {
+    @content;
+  }
+}
+
+@mixin ezui-tablet {
+  @include breakpoint-sm-up {
+    @content;
+  }
+}
+
+@mixin ezui-desktop {
+  @include breakpoint-md-up {
+    @content;
+  }
+}
