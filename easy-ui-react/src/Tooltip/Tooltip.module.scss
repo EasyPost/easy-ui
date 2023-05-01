@@ -1,0 +1,75 @@
+@use "../styles/common" as *;
+
+.Tooltip {
+  @include component-token("tooltip", "arrow-size", "1rem");
+  @include component-token(
+    "tooltip",
+    "background",
+    theme-token("color.surface.overlay")
+  );
+  @include component-token(
+    "tooltip",
+    "border_radius",
+    design-token("shape.border_radius.base")
+  );
+  @include component-token("tooltip", "color", theme-token("color.text"));
+  @include component-token("tooltip", "shadow", theme-token("shadow.overlay"));
+
+  background: component-token("tooltip", "background");
+  border-radius: component-token("tooltip", "border_radius");
+  color: component-token("tooltip", "color");
+  display: inline-flex;
+  filter: drop-shadow(#{component-token("tooltip", "shadow")});
+  max-width: calc(
+    100% - (#{component-token("tooltip", "container_padding")} * 2)
+  );
+  padding: design-token("space.1");
+  will-change: filter;
+}
+
+.text {
+  display: inline-flex;
+  padding: design-token("space.0.5") 0;
+  overflow-wrap: anywhere;
+}
+
+.arrow {
+  display: inline-flex;
+  pointer-events: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: (
+    calc(#{component-token("tooltip", "arrow-size")} / 2) solid transparent
+  );
+}
+
+.top .arrow,
+.bottom .arrow {
+  transform: translateX(-50%);
+}
+
+.left .arrow,
+.right .arrow {
+  transform: translateY(-50%);
+}
+
+.bottom .arrow {
+  bottom: 100%;
+  border-bottom-color: component-token("tooltip", "background");
+}
+
+.top .arrow {
+  top: 100%;
+  border-top-color: component-token("tooltip", "background");
+}
+
+.left .arrow {
+  left: 100%;
+  border-left-color: component-token("tooltip", "background");
+}
+
+.right .arrow {
+  right: 100%;
+  border-right-color: component-token("tooltip", "background");
+}

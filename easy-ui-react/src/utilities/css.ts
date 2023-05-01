@@ -20,18 +20,27 @@ export function sanitizeCustomProperties(styles: React.CSSProperties) {
   return nonNullValues.length ? Object.fromEntries(nonNullValues) : undefined;
 }
 
+export function getComponentToken(
+  componentName: string,
+  componentProp: string,
+  value?: string,
+) {
+  return value
+    ? { [`--ezui-c-${componentName}-${kebabCase(componentProp)}`]: value }
+    : {};
+}
+
 export function getComponentDesignToken(
   componentName: string,
   componentProp: string,
   tokenSubgroup: string,
   token?: string,
 ) {
-  if (!token) {
-    return {};
-  }
-  return {
-    [`--ezui-c-${componentName}-${componentProp}`]: `var(--ezui-${tokenSubgroup}-${token})`,
-  };
+  return getComponentToken(
+    componentName,
+    componentProp,
+    token ? `var(--ezui-${tokenSubgroup}-${token})` : undefined,
+  );
 }
 
 export function getComponentThemeToken(
@@ -40,14 +49,13 @@ export function getComponentThemeToken(
   tokenSubgroup: string,
   token?: string,
 ) {
-  if (!token) {
-    return {};
-  }
-  return {
-    [`--ezui-c-${componentName}-${componentProp}`]: `var(--ezui-t-${kebabCase(
-      tokenSubgroup,
-    )}-${kebabCase(token)})`,
-  };
+  return getComponentToken(
+    componentName,
+    componentProp,
+    token
+      ? `var(--ezui-t-${kebabCase(tokenSubgroup)}-${kebabCase(token)})`
+      : undefined,
+  );
 }
 
 export function getResponsiveDesignToken(
@@ -60,17 +68,27 @@ export function getResponsiveDesignToken(
     return {};
   }
   if (typeof responsiveProp === "string") {
-    return {
-      [`--ezui-c-${componentName}-${componentProp}-xs`]: `var(--ezui-${kebabCase(
-        tokenSubgroup,
-      )}-${responsiveProp})`,
-    };
+    return getComponentToken(
+      componentName,
+      `${componentProp}-xs`,
+      `var(--ezui-${kebabCase(tokenSubgroup)}-${responsiveProp})`,
+    );
   }
   return Object.fromEntries(
-    Object.entries(responsiveProp).map(([breakpointAlias, aliasOrScale]) => [
-      `--ezui-c-${componentName}-${componentProp}-${breakpointAlias}`,
-      `var(--ezui-${kebabCase(tokenSubgroup)}-${aliasOrScale})`,
-    ]),
+    Object.entries(responsiveProp)
+      .map(([breakpointAlias, aliasOrScale]) => {
+        const [tokenEntry] = Object.entries(
+          getComponentToken(
+            componentName,
+            `${componentProp}-${breakpointAlias}`,
+            aliasOrScale
+              ? `var(--ezui-${kebabCase(tokenSubgroup)}-${aliasOrScale})`
+              : undefined,
+          ),
+        );
+        return tokenEntry;
+      })
+      .filter((e) => Boolean(e)),
   );
 }
 
@@ -83,18 +101,28 @@ export function getResponsiveValue(
     return {};
   }
   if (typeof responsiveValue === "string") {
-    return sanitizeCustomProperties({
-      [`--ezui-c-${componentName}-${componentProp}-xs`]: responsiveValue,
-    });
+    return getComponentToken(
+      componentName,
+      `${componentProp}-xs`,
+      responsiveValue,
+    );
   }
-  return sanitizeCustomProperties(
-    Object.fromEntries(
-      Object.entries(responsiveValue).map(
-        ([breakpointAlias, responsiveValue]) => [
-          `--ezui-c-${componentName}-${componentProp}-${breakpointAlias}`,
-          responsiveValue,
-        ],
-      ),
-    ),
+  return Object.fromEntries(
+    Object.entries(responsiveValue)
+      .map(([breakpointAlias, responsiveValue]) => {
+        const [tokenEntry] = Object.entries(
+          getComponentToken(
+            componentName,
+            `${componentProp}-${breakpointAlias}`,
+            responsiveValue,
+          ),
+        );
+        return tokenEntry;
+      })
+      .filter((e) => Boolean(e)),
   );
+}
+
+export function pxToRem(px: string | number) {
+  return parseInt(String(px), 10) / 16;
 }

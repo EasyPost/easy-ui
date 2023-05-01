@@ -1,16 +1,20 @@
-import React, { useRef } from "react";
-import { AriaButtonProps, useButton } from "react-aria";
-import { Icon } from "../Icon";
+import { mergeRefs } from "@react-aria/utils";
+import React, { forwardRef, useRef } from "react";
+import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { ButtonColor } from "../Button";
+import {
+  omitReactAriaSpecificProps,
+  logWarningIfInvalidColorVariantCombination,
+} from "../Button/utilities";
+import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
-import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 import styles from "./IconButton.module.scss";
 
 export type IconButtonVariant = "filled" | "outlined";
 
-export type IconButtonProps = AriaButtonProps<"button"> & {
+export type IconButtonProps = AriaButtonProps & {
   /** Button color */
   color?: ButtonColor;
   /** Button variant */
@@ -23,13 +27,14 @@ export type IconButtonProps = AriaButtonProps<"button"> & {
   isDisabled?: boolean;
 };
 
-export function IconButton(props: IconButtonProps) {
+export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
   const {
     color = "primary",
     variant = "filled",
     icon,
     accessibilityLabel,
     isDisabled = false,
+    ...restProps
   } = props;
 
   const ref = useRef(null);
@@ -39,17 +44,19 @@ export function IconButton(props: IconButtonProps) {
 
   return (
     <button
+      {...mergeProps(omitReactAriaSpecificProps(restProps), buttonProps)}
       disabled={isDisabled}
-      ref={ref}
+      ref={mergeRefs(ref, inRef)}
       className={classNames(
         styles.IconButton,
         styles[variationName("variant", variant)],
         styles[variationName("color", color)],
       )}
-      {...buttonProps}
     >
       <Text visuallyHidden>{accessibilityLabel}</Text>
       <Icon symbol={icon} />
     </button>
   );
-}
+});
+
+IconButton.displayName = "IconButton";
