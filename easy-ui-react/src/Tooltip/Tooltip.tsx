@@ -22,6 +22,9 @@ import styles from "./Tooltip.module.scss";
 const CONTAINER_PADDING = 12;
 const ARROW_BOUNDARY_OFFSET = 12;
 const OFFSET = 12;
+const DEFAULT_PLACEMENT = "top";
+const OPEN_DELAY = 1000;
+const CLOSE_DELAY = 250;
 
 export type TooltipProps = {
   /** The element that will activate to tooltip. */
@@ -110,8 +113,8 @@ export function Tooltip(props: TooltipProps) {
 
   const triggerInputProps = {
     ...props,
-    delay: isImmediate ? 0 : 1000,
-    closeDelay: 250,
+    delay: isImmediate ? 0 : OPEN_DELAY,
+    closeDelay: CLOSE_DELAY,
   };
 
   const tooltipTriggerState = useTooltipTriggerState(triggerInputProps);
@@ -145,7 +148,7 @@ type TooltipInnerProps = TooltipProps & {
 function TooltipInner(props: TooltipInnerProps) {
   const {
     content,
-    placement: targetPlacement = "top",
+    placement: targetPlacement = DEFAULT_PLACEMENT,
     triggerRef,
     tooltipTriggerState,
     tooltipPropsFromTrigger,
