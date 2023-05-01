@@ -101,14 +101,6 @@ export const FocusOnly: Story = {
   },
 };
 
-export const LongContent: Story = {
-  render: Template.bind({}),
-  args: {
-    content:
-      "This is a tooltip with long content to show how it eventually breaks into multiple lines",
-  },
-};
-
 export const ButtonTrigger: Story = {
   render: Template.bind({}),
   args: {

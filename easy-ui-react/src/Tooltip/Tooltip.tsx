@@ -15,7 +15,7 @@ import {
 } from "react-aria";
 import { TooltipTriggerState, useTooltipTriggerState } from "react-stately";
 import { Text } from "../Text";
-import { classNames } from "../utilities/css";
+import { classNames, getComponentToken, pxToRem } from "../utilities/css";
 
 import styles from "./Tooltip.module.scss";
 
@@ -172,6 +172,21 @@ function TooltipInner(props: TooltipInnerProps) {
     tooltipTriggerState,
   );
 
+  const tooltipProps = mergeProps(
+    overlayProps,
+    tooltipPropsFromTooltip,
+    tooltipPropsFromTrigger,
+  );
+
+  const style = {
+    ...tooltipProps.style,
+    ...getComponentToken(
+      "tooltip",
+      "container_padding",
+      `${pxToRem(CONTAINER_PADDING)}rem`,
+    ),
+  } as React.CSSProperties;
+
   // When the content of the tooltip changes, update the overlay position
   useEffect(() => {
     updatePosition();
@@ -180,13 +195,10 @@ function TooltipInner(props: TooltipInnerProps) {
   return (
     <span
       ref={tooltipRef}
-      {...mergeProps(
-        overlayProps,
-        tooltipPropsFromTooltip,
-        tooltipPropsFromTrigger,
-      )}
+      {...tooltipProps}
       className={classNames(styles.Tooltip, styles[placement])}
       data-placement={placement}
+      style={style}
     >
       <span className={styles.text}>
         <Text variant="subtitle2">{content}</Text>

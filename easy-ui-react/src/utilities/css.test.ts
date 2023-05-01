@@ -5,6 +5,7 @@ import {
   getResponsiveValue,
   getComponentDesignToken,
   getComponentThemeToken,
+  getComponentToken,
 } from "./css";
 
 describe("classNames", () => {
@@ -32,12 +33,32 @@ describe("variationName", () => {
   });
 });
 
+describe("getComponentToken", () => {
+  it("takes a string and returns the custom token", () => {
+    expect(
+      getComponentToken("tooltip", "container_padding", "12px"),
+    ).toMatchObject({
+      "--ezui-c-tooltip-container-padding": "12px",
+    });
+  });
+  it("sanitizes falsy values", () => {
+    expect(
+      getComponentToken("tooltip", "container_padding", undefined),
+    ).toEqual({});
+  });
+});
+
 describe("getComponentDesignToken", () => {
   it("takes a string and returns the custom token", () => {
     expect(
       getComponentDesignToken("stack", "space", "space", "4"),
     ).toMatchObject({
       "--ezui-c-stack-space": "var(--ezui-space-4)",
+    });
+    it("sanitizes falsy values", () => {
+      expect(
+        getComponentDesignToken("stack", "space", "space", undefined),
+      ).toEqual({});
     });
   });
 });
@@ -49,6 +70,11 @@ describe("getComponentThemeToken", () => {
     ).toMatchObject({
       "--ezui-c-icon-color": "var(--ezui-t-color-text-disabled)",
     });
+  });
+  it("sanitizes falsy values", () => {
+    expect(
+      getComponentThemeToken("icon", "color", "color.text", undefined),
+    ).toEqual({});
   });
 });
 
@@ -71,6 +97,21 @@ describe("getResponsiveDesignToken", () => {
       "--ezui-c-stack-space-md": "var(--ezui-space-8)",
     });
   });
+  it("takes a null value and sanitizes its output", () => {
+    expect(
+      getResponsiveDesignToken("stack", "space", "space", undefined),
+    ).toEqual({});
+  });
+  it("takes an object with a breakpoint and null value and sanitizes its output", () => {
+    expect(
+      getResponsiveDesignToken("stack", "space", "space", {
+        xs: "2",
+        md: undefined,
+      }),
+    ).toMatchObject({
+      "--ezui-c-stack-space-xs": "var(--ezui-space-2)",
+    });
+  });
 });
 
 describe("getResponsiveValue", () => {
@@ -86,6 +127,9 @@ describe("getResponsiveValue", () => {
       "--ezui-c-stack-space-xs": "2",
       "--ezui-c-stack-space-md": "8",
     });
+  });
+  it("takes a null value and sanitizes its output", () => {
+    expect(getResponsiveValue("stack", "space", undefined)).toEqual({});
   });
   it("takes an object with a breakpoint and null value and sanitizes its output", () => {
     expect(

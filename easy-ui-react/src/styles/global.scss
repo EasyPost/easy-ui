@@ -2,6 +2,12 @@
 @use "token-helpers";
 @use "poppins-fallback";
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
   font-family: token-helpers.theme-token("font.family");
   -webkit-font-smoothing: antialiased;
