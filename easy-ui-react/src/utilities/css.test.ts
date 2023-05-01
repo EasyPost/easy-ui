@@ -6,6 +6,7 @@ import {
   getComponentDesignToken,
   getComponentThemeToken,
   getComponentToken,
+  pxToRem,
 } from "./css";
 
 describe("classNames", () => {
@@ -137,5 +138,21 @@ describe("getResponsiveValue", () => {
     ).toMatchObject({
       "--ezui-c-stack-space-xs": "2",
     });
+  });
+});
+
+describe("pxToRem", () => {
+  it("converts a string", () => {
+    expect(pxToRem("16")).toEqual(1);
+    expect(pxToRem("16px")).toEqual(1);
+    expect(pxToRem("24")).toEqual(1.5);
+    expect(pxToRem("24px")).toEqual(1.5);
+    expect(pxToRem("32")).toEqual(2);
+    expect(pxToRem("32px")).toEqual(2);
+  });
+  it("converts a number", () => {
+    expect(pxToRem(16)).toEqual(1);
+    expect(pxToRem(24)).toEqual(1.5);
+    expect(pxToRem(32)).toEqual(2);
   });
 });
