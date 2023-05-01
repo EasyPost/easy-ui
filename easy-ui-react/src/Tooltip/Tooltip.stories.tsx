@@ -107,3 +107,7 @@ export const ButtonTrigger: Story = {
     children: <Button>Hover or focus me</Button>,
   },
 };
+
+export const Controls: Story = {
+  render: Template.bind({}),
+};
