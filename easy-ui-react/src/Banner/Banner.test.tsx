@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-// import { getComponentThemeToken } from "../utilities/css";
 import { Banner } from "./Banner";
 
 describe("<Banner />", () => {
@@ -9,12 +8,18 @@ describe("<Banner />", () => {
     expect(screen.getByText("Banner text")).toBeInTheDocument();
   });
 
-  it("should render a banner that has text with emphasis", () => {
-    render(<Banner emphasis="Text with emphasis">Banner text</Banner>);
-    expect(screen.getByText("Text with emphasis")).toBeInTheDocument();
+  it("should render a banner that has text with emphasis and importance", () => {
+    render(<Banner emphasisText="Text with emphasis">Banner text</Banner>);
+    expect(screen.getByText(/Text with emphasis/i)).toBeInTheDocument();
+    expect(screen.getByText(/Text with emphasis/i).tagName).toBe("STRONG");
   });
 
-  it("should apply primary variant class", () => {
+  it("should render a banner that automatically applies a delimeter", () => {
+    render(<Banner emphasisText="Text with emphasis">Banner text</Banner>);
+    expect(screen.getByText("Text with emphasis:")).toBeInTheDocument();
+  });
+
+  it("should apply the primary variant class", () => {
     render(<Banner variant="primary">Banner text</Banner>);
     expect(screen.getByText("Banner text").closest("div")).toHaveAttribute(
       "class",
@@ -22,12 +27,11 @@ describe("<Banner />", () => {
     );
   });
 
-  it("should render a banner with appropriate text variants", () => {
-    render(<Banner emphasis="Text with emphasis">Banner text</Banner>);
-    expect(screen.getByText("Text with emphasis")).toHaveAttribute(
-      "class",
-      expect.stringContaining("subtitle1"),
-    );
+  it("should render a banner with appropriate text variant", () => {
+    render(<Banner emphasisText="Text with emphasis">Banner text</Banner>);
+    expect(
+      screen.getByText(/Text with emphasis/i).closest("span"),
+    ).toHaveAttribute("class", expect.stringContaining("subtitle1"));
     expect(screen.getByText("Banner text")).toHaveAttribute(
       "class",
       expect.stringContaining("body1"),

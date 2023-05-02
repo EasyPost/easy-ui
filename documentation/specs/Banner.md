@@ -15,13 +15,13 @@ The primary use case of the `Banner` component is to inform the user of new feat
 ### API
 
 ```typescript
-export type BannerStatus = "primary" | "success" | "neutral";
+export type BannerVariant = "primary" | "success" | "neutral";
 export type BannerProps = {
   /**
-   * Banner status color
+   * Banner variant color
    * @default "success"
    */
-  status?: BannerStatus;
+  variant?: BannerVariant;
   /** Banner emphasis text */
   emphasis?: ReactNode;
   /** Banner content */
@@ -37,27 +37,27 @@ _Default with emphasis and body_
 import Banner from "@easypost/easy-ui/Banner";
 import Text from "@easypost/easy-ui/Text";
 
-<Banner emphasis={<>Limited Time Only:</>}>
+<Banner emphasis={<>Limited Time Only</>}>
   Get your first $250 of labels free!
 </Banner>;
 ```
 
-_Status with no emphasis_
+_Primary variant with no emphasis_
 
 ```tsx
 import Banner from "@easypost/easy-ui/Banner";
 import Text from "@easypost/easy-ui/Text";
 
-<Banner status="primary">No fees on 120,000 packages per year.</Banner>;
+<Banner variant="primary">No fees on 120,000 packages per year.</Banner>;
 ```
 
-_Status with emphasis_
+_Neutral variant with emphasis_
 
 ```tsx
 import Banner from "@easypost/easy-ui/Banner";
 import Text from "@easypost/easy-ui/Text";
 
-<Banner status="neutral" emphasis={<>Limited Time Only:</>}>
+<Banner variant="neutral" emphasis={<>Limited Time Only</>}>
   Get your first $250 of labels free!
 </Banner>;
 ```

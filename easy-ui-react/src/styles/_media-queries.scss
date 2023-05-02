@@ -11,15 +11,3 @@
     @content;
   }
 }
-
-@mixin ezui-tablet {
-  @include breakpoint-sm-up {
-    @content;
-  }
-}
-
-@mixin ezui-desktop {
-  @include breakpoint-md-up {
-    @content;
-  }
-}

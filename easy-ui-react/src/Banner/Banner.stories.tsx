@@ -9,7 +9,7 @@ const Template = (args: BannerProps) => <Banner {...args} />;
 const meta: Meta<typeof Banner> = {
   title: "Components/Banner",
   argTypes: {
-    emphasis: {
+    emphasisText: {
       control: "text",
     },
     children: {
@@ -24,7 +24,7 @@ export default meta;
 export const Controls: Story = {
   render: Template.bind({}),
   args: {
-    emphasis: "Banner text: ",
+    emphasisText: "Banner text",
     children: "Banner text",
   },
 };
@@ -32,16 +32,16 @@ export const Controls: Story = {
 export const Success: Story = {
   render: Template.bind({}),
   args: {
-    emphasis: "Success variant: ",
-    children: "Banner",
+    emphasisText: "Success variant",
+    children: "Banner text",
   },
 };
 
 export const Primary: Story = {
   render: Template.bind({}),
   args: {
-    emphasis: "Primary variant: ",
-    children: "Banner",
+    emphasisText: "Primary variant",
+    children: "Banner text",
     variant: "primary",
   },
 };
@@ -49,8 +49,22 @@ export const Primary: Story = {
 export const Neutral: Story = {
   render: Template.bind({}),
   args: {
-    emphasis: "Neutral variant: ",
-    children: "Banner",
+    emphasisText: "Neutral variant",
+    children: "Banner text",
     variant: "neutral",
+  },
+};
+
+export const WithoutEmphasisText: Story = {
+  render: Template.bind({}),
+  args: {
+    children: "Banner text",
+  },
+};
+
+export const OnlyEmphasisText: Story = {
+  render: Template.bind({}),
+  args: {
+    emphasisText: "Banner text",
   },
 };
