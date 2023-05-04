@@ -1,5 +1,5 @@
 import React from "react";
-import { Canvas, Meta, ArgTypes } from "@storybook/blocks";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
 import { Menu } from "./Menu";
 import * as MenuStories from "./Menu.stories";
 
@@ -53,9 +53,11 @@ A `<Menu />` can include links by using the `href` property, and it can include 
 
 ## Custom Placement
 
-A `<Menu />` can be placed on different edges of its trigger element. See the controls for valid values.
+A `<Menu />` can be placed on different edges of its trigger element. See the controls for valid values. Ensure any deviation from the default value is coordinated with design to prevent unexpected user experience.
 
 <Canvas of={MenuStories.CustomPlacement} />
+
+<Controls of={MenuStories.CustomPlacement} include={["placement"]} />
 
 ## Properties
 
