@@ -54,6 +54,6 @@ describe("<Button />", () => {
 
   it("should apply the disabled attribute", () => {
     render(<Button isDisabled />);
-    expect(screen.getByRole("button")).toHaveAttribute("disabled");
+    expect(screen.getByRole("button")).toBeDisabled();
   });
 });

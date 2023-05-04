@@ -50,6 +50,6 @@ describe("<IconButton />", () => {
     render(
       <IconButton icon={ArrowBackIcon} accessibilityLabel="Back" isDisabled />,
     );
-    expect(screen.getByRole("button")).toHaveAttribute("disabled");
+    expect(screen.getByRole("button")).toBeDisabled();
   });
 });
