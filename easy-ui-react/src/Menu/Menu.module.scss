@@ -16,6 +16,17 @@
     "color.background",
     theme-token("color.surface.overlay")
   );
+  @include component-token("menu", "color.text", theme-token("color.text"));
+  @include component-token(
+    "menu",
+    "color.text.disabled",
+    theme-token("color.text.disabled")
+  );
+  @include component-token(
+    "menu",
+    "color.background.hovered",
+    theme-token("color.surface.overlay.hovered")
+  );
   @include component-token("menu", "shadow", theme-token("shadow.overlay"));
   @include component-token("menu", "padding.x", design-token("space.2"));
   @include component-token("menu", "color.border", theme-token("color.border"));
@@ -103,7 +114,7 @@
 }
 
 .itemContent {
-  color: design-token("color.blue.800");
+  color: component-token("menu", "color.text");
 }
 
 .list,
@@ -116,11 +127,11 @@
 }
 
 .item[data-is-focused="true"] .itemContent {
-  background: design-token("color.gray.050");
+  background: component-token("menu", "color.background.hovered");
 }
 
 .item[data-is-disabled="true"] .itemContent {
-  color: design-token("color.gray.400");
+  color: component-token("menu", "color.text.disabled");
   cursor: default;
   font-style: italic;
 }
