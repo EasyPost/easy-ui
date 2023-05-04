@@ -362,7 +362,7 @@ The examples below assume your app is consuming `EasyUIProvider`. This is import
 A notification can be queued via the `useNotification` hook.
 
 ```tsx
-import { useNotification } from "@easypost/easy-ui/Toast";
+import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
@@ -388,7 +388,7 @@ function Component() {
 _Show promotional notifications_
 
 ```tsx
-import { useNotification } from "@easypost/easy-ui/Toast";
+import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
@@ -414,7 +414,7 @@ function Component() {
 _Show warning notifications_
 
 ```tsx
-import { useNotification } from "@easypost/easy-ui/Toast";
+import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
@@ -440,7 +440,7 @@ function Component() {
 _Show neutral notifications_
 
 ```tsx
-import { useNotification } from "@easypost/easy-ui/Toast";
+import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
@@ -466,7 +466,7 @@ function Component() {
 _Show error notifications_
 
 ```tsx
-import { useNotification } from "@easypost/easy-ui/Toast";
+import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
@@ -492,7 +492,7 @@ function Component() {
 _Show notifications without a status icon_
 
 ```tsx
-import { useNotification } from "@easypost/easy-ui/Toast";
+import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
@@ -518,7 +518,7 @@ function Component() {
 _With onDismiss callback, only applicable for alerts_
 
 ```tsx
-import { useNotification } from "@easypost/easy-ui/Toast";
+import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
@@ -544,7 +544,7 @@ In some cases, users may want more control over where the notification displays 
 _With positional offset_
 
 ```tsx
-import { useNotification } from "@easypost/easy-ui/Toast";
+import { useNotification } from "@easypost/easy-ui/Notification";
 import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 
 function RootOfYourApp() {
