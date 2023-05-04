@@ -38,7 +38,7 @@ describe("<DropdownButton />", () => {
     );
   });
 
-  it("should apply the disabled attribute", () => {
+  it("should render a disabled button", () => {
     render(<DropdownButton isDisabled />);
     expect(screen.getByRole("button")).toBeDisabled();
   });

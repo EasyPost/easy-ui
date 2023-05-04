@@ -52,7 +52,7 @@ describe("<Button />", () => {
     );
   });
 
-  it("should apply the disabled attribute", () => {
+  it("should render a disabled button", () => {
     render(<Button isDisabled />);
     expect(screen.getByRole("button")).toBeDisabled();
   });
