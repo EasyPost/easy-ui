@@ -1,0 +1,80 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes } from "@storybook/blocks";
+import { Menu } from "./Menu";
+import * as MenuStories from "./Menu.stories";
+
+<Meta of={MenuStories} />
+
+# Menu
+
+## Simple Menu
+
+<Canvas of={MenuStories.SimpleMenu} />
+
+## With Separator
+
+A `<Menu />` can be divided into multiple sections, rendering a separator between each.
+
+<Canvas of={MenuStories.WithSeparator} />
+
+## More than Five Items
+
+When a `<Menu />` has more than five items the menu scrolls to only show the top-most five items.
+
+<Canvas of={MenuStories.MoreThanFiveItems} />
+
+## Width Options
+
+By default, a `<Menu />` is the width of its trigger element and stretches to the length of its content.
+
+<Canvas of={MenuStories.WithLongItems} />
+
+By setting `width="fit-content"` the menu will fit to the width of its content regardless of the width of its trigger.
+
+<Canvas of={MenuStories.MatchContentWidth} />
+
+By setting `width="fit-trigger"` the menu will fit to the width of its trigger regardless of the width of its content.
+
+<Canvas of={MenuStories.MatchTriggerWidth} />
+
+The `width` of the `<Menu.Overlay />` can also be set to any arbitrary value.
+
+<Canvas of={MenuStories.DefinedWidth} />
+
+The `width` of the `<Menu.Overlay />` can also be set to any arbitrary value based on breakpoints.
+
+<Canvas of={MenuStories.DefinedResponsiveWidth} />
+
+## Item Types
+
+A `<Menu />` can include links by using the `href` property, and it can include disabled menu items by using the `disabledKeys` property on the `Menu.Overlay`.
+
+<Canvas of={MenuStories.MixedItemTypes} />
+
+## Custom Placement
+
+A `<Menu />` can be placed on different edges of its trigger element. See the controls for valid values.
+
+<Canvas of={MenuStories.CustomPlacement} />
+
+## Properties
+
+### Menu
+
+<ArgTypes of={Menu} />
+
+### Menu.Trigger
+
+<ArgTypes of={Menu.Trigger} />
+
+### Menu.Overlay
+
+<ArgTypes of={Menu.Overlay} />
+
+### Menu.Section
+
+<ArgTypes of={Menu.Section} />
+
+### Menu.Item
+
+<ArgTypes of={Menu.Item} />

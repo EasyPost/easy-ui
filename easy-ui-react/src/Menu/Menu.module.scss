@@ -1,0 +1,134 @@
+@use "../styles/common" as *;
+
+.underlay {
+  position: fixed;
+  inset: 0;
+}
+
+.root {
+  @include component-token(
+    "menu",
+    "border_radius",
+    design-token("shape.border_radius.base")
+  );
+  @include component-token(
+    "menu",
+    "color.background",
+    theme-token("color.surface.overlay")
+  );
+  @include component-token("menu", "shadow", theme-token("shadow.overlay"));
+  @include component-token("menu", "padding.x", design-token("space.2"));
+  @include component-token("menu", "color.border", theme-token("color.border"));
+  // TODO: consider putting these scrollbar sizes into design tokens when
+  //       a pattern emerges
+  @include component-token(
+    "menu",
+    "scrollbar_width",
+    design-token("space.0.25")
+  );
+  @include component-token("menu", "scrollbar_offset", design-token("space.1"));
+  @include component-token(
+    "menu",
+    "color.scrollbar_track",
+    theme-token("color.scrollbar.track")
+  );
+  @include component-token(
+    "menu",
+    "color.scrollbar_thumb",
+    theme-token("color.scrollbar.thumb")
+  );
+
+  @include responsive-prop("menu", "width", width);
+
+  background: component-token("menu", "color.background");
+  border: 1px solid component-token("menu", "color.border");
+  border-radius: component-token("menu", "border_radius");
+  box-shadow: component-token("menu", "shadow");
+  display: flex;
+  flex-direction: column;
+  min-width: component-token("menu", "min-width");
+  padding: component-token("menu", "padding.y") 0;
+}
+
+.list {
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: calc(
+      #{component-token("menu", "scrollbar_width")} + #{component-token(
+          "menu",
+          "scrollbar_offset"
+        )}
+    );
+  }
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    border-right: #{component-token("menu", "scrollbar_offset")} solid #{component-token(
+        "menu",
+        "color.background"
+      )};
+  }
+  &::-webkit-scrollbar-track {
+    background: component-token("menu", "color.scrollbar_track");
+  }
+  &::-webkit-scrollbar-thumb {
+    background: component-token("menu", "color.scrollbar_thumb");
+  }
+  &::-webkit-resizer,
+  &::-webkit-scrollbar-button,
+  &::-webkit-scrollbar-corner {
+    display: none;
+  }
+}
+
+.list,
+.sectionList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.itemContent,
+.separator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: component-token("menu", "item_height");
+  padding: 0 component-token("menu", "padding.x");
+}
+
+.item {
+  text-decoration: none;
+}
+
+.itemContent {
+  color: design-token("color.blue.800");
+}
+
+.list,
+.item {
+  outline: none;
+}
+
+.item:not([data-is-disabled="true"]) {
+  cursor: pointer;
+}
+
+.item[data-is-focused="true"] .itemContent {
+  background: design-token("color.gray.050");
+}
+
+.item[data-is-disabled="true"] .itemContent {
+  color: design-token("color.gray.400");
+  cursor: default;
+  font-style: italic;
+}
+
+.separator::after {
+  content: "";
+  height: 0;
+  border: 0 solid component-token("menu", "color.border");
+  border-top-width: 0.5px;
+  border-bottom-width: 0.5px;
+}
