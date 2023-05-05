@@ -3,7 +3,8 @@ import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { DropdownButton } from "../DropdownButton";
 import { OverlayLayoutDecorator, placements } from "../utilities/storybook";
-import { Menu, MenuOverlayProps, MenuProps } from "./Menu";
+import { Menu, MenuProps } from "./Menu";
+import { MenuOverlayProps } from "./MenuOverlay";
 
 type Story = StoryObj<typeof Menu>;
 
@@ -62,19 +63,33 @@ export const WithSeparator: Story = {
   },
 };
 
-export const MoreThanFiveItems: Story = {
-  render: Template.bind({}),
-  args: {
-    children: (
-      <Menu.Overlay onAction={action("Selected")}>
+export const ScrollsOnMaxItems: StoryObj<MenuOverlayProps<unknown>> = {
+  render: ({ maxItemsUntilScroll, ...menuProps }) => (
+    <Menu {...menuProps}>
+      <Menu.Trigger>
+        <DropdownButton>Click me</DropdownButton>
+      </Menu.Trigger>
+      <Menu.Overlay
+        onAction={action("Selected")}
+        maxItemsUntilScroll={maxItemsUntilScroll}
+      >
         <Menu.Item key="edit">Edit</Menu.Item>
         <Menu.Item key="duplicate">Duplicate</Menu.Item>
+        <Menu.Item key="archive">Archive</Menu.Item>
+        <Menu.Item key="delete">Delete</Menu.Item>
         <Menu.Item key="copy">Copy</Menu.Item>
         <Menu.Item key="cut">Cut</Menu.Item>
         <Menu.Item key="paste">Paste</Menu.Item>
-        <Menu.Item key="delete">Delete</Menu.Item>
       </Menu.Overlay>
-    ),
+    </Menu>
+  ),
+  args: {
+    maxItemsUntilScroll: 5,
+  },
+  argTypes: {
+    maxItemsUntilScroll: {
+      control: { type: "number" },
+    },
   },
 };
 

@@ -17,11 +17,16 @@ A `<Menu />` can be divided into multiple sections, rendering a separator betwee
 
 <Canvas of={MenuStories.WithSeparator} />
 
-## More than Five Items
+## Scrolls on Max Items
 
-When a `<Menu />` has more than five items the menu scrolls to only show the top-most five items.
+When a `<Menu />` has more than five items the menu scrolls to only show those items. The number can be configured with the `maxItemsUntilScroll` property. Set the value to `Infinity` to disable scrolling.
 
-<Canvas of={MenuStories.MoreThanFiveItems} />
+<Canvas of={MenuStories.ScrollsOnMaxItems} />
+
+<Controls
+  of={MenuStories.ScrollsOnMaxItems}
+  include={["maxItemsUntilScroll"]}
+/>
 
 ## Width Options
 
