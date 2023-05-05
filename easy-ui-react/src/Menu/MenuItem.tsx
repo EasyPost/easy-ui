@@ -45,8 +45,9 @@ export type MenuItemProps = {
 
 /**
  * @privateRemarks
- * This is a wrapper around @react-stately's Item collection component to
- * control the props that are allowed for the component.
+ * This is what is exposed as `<Menu.Item />`. This is a wrapper around
+ * @react-stately's Item collection component to control the props that are
+ * allowed for the component.
  */
 export function MenuItem<T>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

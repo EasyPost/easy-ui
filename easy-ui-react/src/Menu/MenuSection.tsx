@@ -15,8 +15,9 @@ export type MenuSectionProps = {
 
 /**
  * @privateRemarks
- * This is a wrapper around @react-stately's Section collection component to
- * control the props that are allowed for the component.
+ * This is what is exposed as `<Menu.Section />`. This is a wrapper around
+ * @react-stately's Section collection component to control the props that are
+ * allowed for the component.
  */
 export function MenuSection(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

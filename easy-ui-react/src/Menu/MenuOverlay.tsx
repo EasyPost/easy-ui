@@ -149,7 +149,13 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
         className={styles.root}
       >
         <DismissButton onDismiss={menuTriggerState.close} />
-        <ul {...menuProps} ref={menuRef} className={styles.list}>
+        <ul
+          {...menuProps}
+          ref={menuRef}
+          className={styles.list}
+          data-width={width}
+          data-max-items-until-scroll={maxItemsUntilScroll}
+        >
           {[...menuTreeState.collection].map((item) => {
             return item.type === "section" ? (
               <MenuSectionContent
