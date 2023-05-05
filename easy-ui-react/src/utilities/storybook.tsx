@@ -125,7 +125,7 @@ export const OverlayLayoutDecorator: Decorator = (Story, options) => {
   );
 };
 
-export const placements = [
+export const overlayPlacements = [
   "top",
   "bottom",
   "left",

@@ -2,7 +2,10 @@ import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { DropdownButton } from "../DropdownButton";
-import { OverlayLayoutDecorator, placements } from "../utilities/storybook";
+import {
+  OverlayLayoutDecorator,
+  overlayPlacements,
+} from "../utilities/storybook";
 import { Menu, MenuProps } from "./Menu";
 import { MenuOverlayProps } from "./MenuOverlay";
 
@@ -224,7 +227,7 @@ export const CustomPlacement: StoryObj<MenuOverlayProps<unknown>> = {
   },
   argTypes: {
     placement: {
-      options: placements,
+      options: overlayPlacements,
       control: { type: "select" },
     },
   },

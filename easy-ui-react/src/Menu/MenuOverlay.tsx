@@ -21,8 +21,10 @@ import styles from "./Menu.module.scss";
 import { MenuSectionContent } from "./MenuSection";
 import { MenuItemContent } from "./MenuItem";
 
-const ITEM_HEIGHT = 32;
 const DEFAULT_MAX_ITEMS_UNTIL_SCROLL = 5;
+const DEFAULT_PLACEMENT = "bottom";
+const DEFAULT_WIDTH = "auto";
+const ITEM_HEIGHT = 32;
 const Y_PADDING_INSIDE_OVERLAY = 8;
 const OVERLAY_OFFSET = 8;
 const OVERLAY_PADDING_FROM_CONTAINER = 12;
@@ -77,8 +79,8 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
     maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
     onAction,
     onClose,
-    placement = "bottom",
-    width = "auto",
+    placement = DEFAULT_PLACEMENT,
+    width = DEFAULT_WIDTH,
   } = props;
 
   const popoverRef = React.useRef(null);
