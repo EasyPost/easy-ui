@@ -57,16 +57,16 @@ export type MenuProps = {
   /** The trigger and menu to render. */
   children: ReactNode;
 
-  /** Whether the overlay is open by default (uncontrolled). */
+  /** Whether the menu is open by default (uncontrolled). */
   defaultOpen?: boolean;
 
-  /** Whether the tooltip should be disabled, independent from the trigger. */
+  /** Whether the menu should be disabled, independent from the trigger. */
   isDisabled?: boolean;
 
-  /** Whether the overlay is open by default (controlled). */
+  /** Whether the menu is open by default (controlled). */
   isOpen?: boolean;
 
-  /** Handler that is called when the overlay's open state changes. */
+  /** Handler that is called when the menu's open state changes. */
   onOpenChange?: (isOpen: boolean) => void;
 };
 
