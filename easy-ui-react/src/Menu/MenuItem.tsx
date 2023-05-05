@@ -85,7 +85,6 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
     <MenuItemContainer
       {...props}
       itemRef={ref}
-      title={item.textValue}
       className={styles.item}
       data-is-disabled={isDisabled}
       data-is-focused={isFocused}
