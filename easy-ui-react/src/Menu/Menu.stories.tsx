@@ -188,6 +188,20 @@ export const MixedItemTypes: Story = {
   },
 };
 
+export const DisableCloseOnSelect: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <Menu.Overlay onAction={action("Selected")}>
+        <Menu.Item key="close">I close on select</Menu.Item>
+        <Menu.Item key="open" closeOnSelect={false}>
+          I stay open on select
+        </Menu.Item>
+      </Menu.Overlay>
+    ),
+  },
+};
+
 export const CustomPlacement: StoryObj<MenuOverlayProps<unknown>> = {
   render: ({ placement, ...menuProps }) => (
     <Menu {...menuProps}>

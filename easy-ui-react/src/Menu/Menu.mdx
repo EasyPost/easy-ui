@@ -56,6 +56,12 @@ A `<Menu />` can include links by using the `href` property, and it can include 
 
 <Canvas of={MenuStories.MixedItemTypes} />
 
+## Stay Open on Select
+
+By default, `<Menu />`s close when an item is selected. This can be disabled by setting the `closeOnSelect` property to `false` for any relevant `<Menu.Item />`.
+
+<Canvas of={MenuStories.DisableCloseOnSelect} />
+
 ## Custom Placement
 
 A `<Menu />` can be placed on different edges of its trigger element. See the controls for valid values. Ensure any deviation from the default value is coordinated with design to prevent unexpected user experience.
