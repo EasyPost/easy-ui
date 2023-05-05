@@ -70,15 +70,21 @@ type MenuTrigger = {
   children: ReactElement;
 };
 
-type MenuList = {
-  /** The menu sections and items to render. */
-  children: ReactNode;
+export type MenuOverlayWidth =
+  | "auto"
+  | "fit-content"
+  | "fit-trigger"
+  | ResponsiveProp<string | number>;
+
+type MenuOverlay = {
+  /** The contents of the menu. */
+  children: CollectionChildren<T>;
 
   /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
   disabledKeys?: Iterable<Key>;
 
-  /** Item objects in dynamic collections. */
-  items?: Iterable<T>;
+  /** Number of menu items to show before menu scrolls. */
+  maxItemsUntilScroll?: number;
 
   /** Handler that is called when an item is selected. */
   onAction?: (key: Key) => void;
@@ -88,27 +94,53 @@ type MenuList = {
 
   /**
    * The placement of the element with respect to its anchor element.
-   * @default 'top'
+   * @default bottom
    */
   placement?: Placement;
+
+  /**
+   * The width of the menu overlay.
+   * @default auto
+   */
+  width?: MenuOverlayWidth;
 };
 
-// Same subset of type definition from @react-stately/Section
-type MenuSection = {
-  /** An accessibility label for the section. */
-  "aria-label"?: string;
-
-  /** Static child items or a function to render children. */
-  children: ItemElement<T> | ItemElement<T>[] | ItemRenderer<T>;
-
-  /** Item objects in the section. */
-  items?: Iterable<T>;
-};
-
-// Same subset of type definition from @react-stately/Item
-type MenuItem = {
+type MenuSectionProps = {
   /** Rendered contents of the item or child items. */
   children: ReactNode;
+
+  /** An accessibility label for the section. */
+  "aria-label"?: string;
+};
+
+type MenuItemProps = {
+  /** An accessibility label for the item. */
+  "aria-label"?: string;
+
+  /** Rendered contents of the item or child items. */
+  children: ReactNode;
+
+  /**
+   * Whether the menu should close when the menu item is selected.
+   * @default true
+   */
+  closeOnSelect?: boolean;
+
+  /** A URL to link to if the menu item should be a link. */
+  href?: string;
+
+  /**
+   * If `href` is provided, a custom component to render for the link. Useful for
+   * framework link components like next/link.
+   * @default "a"
+   */
+  hrefComponent?: ElementType;
+
+  /** If `href` is provided, the relationship between the linked resource and the current page. See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel). */
+  rel?: string;
+
+  /** If `href` is provided, the target window for the link. */
+  target?: string;
 };
 ```
 
@@ -143,41 +175,6 @@ function Component() {
 }
 ```
 
-_Dynamic collection:_
-
-This uses the [React Aria paradigm](https://react-spectrum.adobe.com/react-stately/collections.html#sections-1) for working with dynamic collections. It optimizes for subsequent renders so is more important than using a standard static collection.
-
-```tsx
-import { Menu } from "@easypost/easy-ui/Menu";
-
-function Component() {
-  let [sections, setSections] = useState([
-    {
-      name: "People",
-      items: [{ name: "David" }, { name: "Same" }, { name: "Jane" }],
-    },
-    {
-      name: "Animals",
-      items: [{ name: "Aardvark" }, { name: "Kangaroo" }, { name: "Snake" }],
-    },
-  ]);
-  return (
-    <Menu>
-      <Menu.Trigger>
-        <Button>Actions</Button>
-      </Menu.Trigger>
-      <Menu.List onAction={(key) => {}} items={sections}>
-        {(section) => (
-          <Section key={section.name} items={section.items}>
-            {(item) => <Item key={item.name}>{item.name}</Item>}
-          </Section>
-        )}
-      </Menu.List>
-    </Menu>
-  );
-}
-```
-
 _Custom placement:_
 
 ```tsx
@@ -189,7 +186,7 @@ function Component() {
       <Menu.Trigger>
         <Button>Actions</Button>
       </Menu.Trigger>
-      <Menu.List onAction={(key) => {}} placement="bottom center">
+      <Menu.List onAction={(key) => {}} placement="bottom left">
         <Menu.Item key="edit">Edit</Menu.Item>
         <Menu.Item key="duplicate">Duplicate</Menu.Item>
       </Menu.List>
@@ -279,6 +276,33 @@ function Component() {
 }
 ```
 
+_Mixed item types:_
+
+Menu items support being links and disabling closing on select and being disabled.
+
+```tsx
+import { Menu } from "@easypost/easy-ui/Menu";
+
+function Component() {
+  return (
+    <Menu isDisabled={true}>
+      <Menu.Trigger>
+        <Button>Actions</Button>
+      </Menu.Trigger>
+      <Menu.List onAction={(key) => {}} disabledKeys={["disabled"]}>
+        <Menu.Item key="disabled">I'm disabled</Menu.Item>
+        <Menu.Item key="link" href="https://easypost.com" target="_blank">
+          I'm a link
+        </Menu.Item>
+        <Menu.Item key="close" closeOnSelect={false}>
+          I won't be closed on select
+        </Menu.Item>
+      </Menu.List>
+    </Menu>
+  );
+}
+```
+
 ### Anatomy
 
 Component design uses Aria primitives across several underlying components that are rolled up into a single exposed `Menu` component.
@@ -306,15 +330,15 @@ function Trigger({ children }: { children: ReactElement }) {
   });
 }
 
-function MenuListToggler(props) {
+function MenuOverlayToggler(props) {
   const { menuTriggerState } = useMenu();
   if (!menuTriggerState.isOpen) {
     return null;
   }
-  return <MenuList {...props} />;
+  return <MenuOverlay {...props} />;
 }
 
-function MenuList(props) {
+function MenuOverlay(props) {
   const popoverRef = React.useRef();
   const menuRef = React.useRef();
   const menuTreeState = useTreeState();
@@ -363,7 +387,7 @@ function MenuSection({ section, state }) {
 }
 
 Menu.Trigger = Trigger;
-Menu.List = MenuListToggler;
+Menu.Overlay = MenuOverlayToggler;
 Menu.Item = Item;
 Menu.Section = Section;
 ```

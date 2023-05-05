@@ -30,16 +30,16 @@ export type MenuItemProps = {
   href?: string;
 
   /**
-   * If href is provided, a custom component to render for the link. Useful for
+   * If `href` is provided, a custom component to render for the link. Useful for
    * framework link components like next/link.
    * @default "a"
    */
   hrefComponent?: ElementType;
 
-  /** The relationship between the linked resource and the current page. See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel). */
+  /** If `href` is provided, the relationship between the linked resource and the current page. See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel). */
   rel?: string;
 
-  /** The target window for the link. */
+  /** If `href` is provided, the target window for the link. */
   target?: string;
 };
 
