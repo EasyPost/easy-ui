@@ -16,7 +16,7 @@ export const InternalMenuContext =
 export function useInternalMenuContext() {
   const menuContext = useContext(InternalMenuContext);
   if (!menuContext) {
-    throw new Error("Must be inside a Menu");
+    throw new Error("InternalMenuContext must be used inside a <Menu />");
   }
   return menuContext;
 }

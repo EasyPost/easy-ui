@@ -43,6 +43,19 @@ export type MenuItemProps = {
   target?: string;
 };
 
+/**
+ * @privateRemarks
+ * This is a wrapper around @react-stately's Item collection component to
+ * control the props that are allowed for the component.
+ */
+export function MenuItem<T>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _props: MenuItemProps & NoInfer<T>,
+) {
+  return null;
+}
+Object.assign(MenuItem, Item);
+
 type MenuItemContentProps<T> = {
   item: Node<T>;
   state: TreeState<T>;
@@ -107,12 +120,3 @@ function LinkMenuItemContainer({
     </li>
   );
 }
-
-// Lightweight component wrapper around @react-stately's Item component
-// to control the props that are allowed into the component
-//
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function MenuItem<T>(_props: MenuItemProps & NoInfer<T>) {
-  return null;
-}
-Object.assign(MenuItem, Item);

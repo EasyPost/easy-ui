@@ -36,6 +36,22 @@ export type MenuProps = {
  * candidates include a `<DropdownButton />`, `<Button />`, or `<IconButton />`.
  *
  * @example
+ * _Simple menu:_
+ * ```tsx
+ * <Menu>
+ *   <Menu.Trigger>
+ *     <DropdownButton>Click me</DropdownButton>
+ *   </Menu.Trigger>
+ *   <Menu.Overlay onAction={(key) => {}}>
+ *     <Menu.Item key="copy">Copy</Menu.Item>
+ *     <Menu.Item key="cut">Cut</Menu.Item>
+ *     <Menu.Item key="paste">Paste</Menu.Item>
+ *   </Menu.Overlay>
+ * </Menu>
+ * ```
+ *
+ * @example
+ * _With separated sections:_
  * ```tsx
  * <Menu>
  *   <Menu.Trigger>
@@ -86,7 +102,37 @@ export function Menu(props: MenuProps) {
   );
 }
 
+/**
+ * Represents the trigger in a `<Menu />`.
+ *
+ * @remarks
+ * Should contain a single natively focusable Easy UI element such as a
+ * `<DropdownButton />` or `<Button />`.
+ */
 Menu.Trigger = MenuTrigger;
+
+/**
+ * Represents the overlay in a `<Menu />`.
+ *
+ * @remarks
+ * Should contain `<Menu.Item />`s and `<Menu.Section />`s as
+ * immediate children.
+ */
 Menu.Overlay = MenuOverlay;
+
+/**
+ * Represents a section in a `<Menu />`.
+ *
+ * @remarks
+ * Should be used within a `<Menu.Overlay />` component as `<Menu.Section />`.
+ */
 Menu.Section = MenuSection;
+
+/**
+ * Represents an item in a `<Menu />`.
+ *
+ * @remarks
+ * Should be used within a `<Menu.Overlay />` or `<Menu.Section />` component
+ * as `<Menu.Item />`.
+ */
 Menu.Item = MenuItem;

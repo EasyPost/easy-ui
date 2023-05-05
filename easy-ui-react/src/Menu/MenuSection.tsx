@@ -13,6 +13,19 @@ export type MenuSectionProps = {
   "aria-label"?: string;
 };
 
+/**
+ * @privateRemarks
+ * This is a wrapper around @react-stately's Section collection component to
+ * control the props that are allowed for the component.
+ */
+export function MenuSection(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _props: MenuSectionProps,
+) {
+  return null;
+}
+Object.assign(MenuSection, Section);
+
 type MenuSectionContentProps<T> = {
   section: Node<T>;
   state: TreeState<T>;
@@ -45,12 +58,3 @@ export function MenuSectionContent<T>({
     </>
   );
 }
-
-// Lightweight component wrapper around @react-stately's Section component
-// to control the props that are allowed into the component
-//
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function MenuSection(_props: MenuSectionProps) {
-  return null;
-}
-Object.assign(MenuSection, Section);
