@@ -1,15 +1,13 @@
 import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
 import { mergeRefs } from "@react-aria/utils";
 import React, { ReactNode, forwardRef, useRef } from "react";
-import { AriaButtonProps, mergeProps, useButton } from "react-aria";
+import { AriaButtonProps } from "react-aria";
 import { ButtonColor } from "../Button";
-import {
-  omitReactAriaSpecificProps,
-  logWarningIfInvalidColorVariantCombination,
-} from "../Button/utilities";
+import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 import { Icon } from "../Icon";
 import { classNames, variationName } from "../utilities/css";
 import styles from "./DropdownButton.module.scss";
+import { UnstyledButton } from "../UnstyledButton";
 
 export type DropdownButtonVariant = "filled" | "outlined";
 
@@ -35,25 +33,24 @@ export const DropdownButton = forwardRef<null, DropdownButtonProps>(
     } = props;
 
     const ref = useRef(null);
-    const { buttonProps } = useButton(props, ref);
 
     logWarningIfInvalidColorVariantCombination(color, variant);
 
     return (
-      <button
-        {...mergeProps(omitReactAriaSpecificProps(restProps), buttonProps)}
-        disabled={isDisabled}
+      <UnstyledButton
+        isDisabled={isDisabled}
         ref={mergeRefs(ref, inRef)}
         className={classNames(
           styles.DropdownButton,
           styles[variationName("variant", variant)],
           styles[variationName("color", color)],
         )}
+        {...restProps}
       >
         <span>{children}</span>
         <span className={classNames(styles.pipeSeparator)}></span>
         <Icon symbol={ExpandMoreIcon400} />
-      </button>
+      </UnstyledButton>
     );
   },
 );
