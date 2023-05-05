@@ -1,6 +1,11 @@
 import noop from "lodash/noop";
 import omit from "lodash/omit";
-import React, { ElementType, ReactNode } from "react";
+import React, {
+  ComponentPropsWithoutRef,
+  ElementType,
+  MutableRefObject,
+  ReactNode,
+} from "react";
 import { mergeProps, useMenuItem } from "react-aria";
 import { Item, Node, TreeState } from "react-stately";
 import { Text } from "../Text";
@@ -51,41 +56,24 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
     state,
     ref,
   );
-  if (href) {
-    const { hrefComponent: Component = "a", ...restProps } = item.props;
-    const linkProps = omit(restProps, [
-      "aria-label",
-      "as",
-      "children",
-      "closeOnSelect",
-    ]);
-    return (
-      <li role="none">
-        <Component
-          {...mergeProps(menuItemProps, linkProps)}
-          onPointerUp={noop}
-          onKeyDown={noop}
-          className={styles.item}
-          ref={ref}
-          data-is-disabled={isDisabled}
-          data-is-focused={isFocused}
-          data-is-selected={isSelected}
-        >
-          <div className={styles.itemContent}>
-            <Text variant="body1" truncate>
-              {item.rendered}
-            </Text>
-          </div>
-        </Component>
-      </li>
-    );
-  }
+
+  const MenuItemContainer = href
+    ? LinkMenuItemContainer
+    : StandardMenuItemContainer;
+
+  const props = href
+    ? mergeProps(
+        menuItemProps,
+        omit(item.props, ["aria-label", "as", "children", "closeOnSelect"]),
+      )
+    : menuItemProps;
+
   return (
-    <li
-      {...menuItemProps}
+    <MenuItemContainer
+      {...props}
+      itemRef={ref}
       title={item.textValue}
       className={styles.item}
-      ref={ref}
       data-is-disabled={isDisabled}
       data-is-focused={isFocused}
       data-is-selected={isSelected}
@@ -95,6 +83,27 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
           {item.rendered}
         </Text>
       </div>
+    </MenuItemContainer>
+  );
+}
+
+type ContainerProps = ComponentPropsWithoutRef<ElementType> & {
+  itemRef: MutableRefObject<null>;
+  hrefComponent?: ElementType;
+};
+
+function StandardMenuItemContainer({ itemRef, ...props }: ContainerProps) {
+  return <li ref={itemRef} {...props} />;
+}
+
+function LinkMenuItemContainer({
+  itemRef,
+  hrefComponent: Component = "a",
+  ...props
+}: ContainerProps) {
+  return (
+    <li role="none">
+      <Component ref={itemRef} {...props} onPointerUp={noop} onKeyDown={noop} />
     </li>
   );
 }

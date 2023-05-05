@@ -3,11 +3,11 @@ import { AriaButtonProps, AriaMenuOptions } from "react-aria";
 import { MenuTriggerState } from "react-stately";
 
 type InternalMenuContextType = {
-  triggerWidth: number | null;
-  triggerRef: MutableRefObject<HTMLElement | null>;
+  menuPropsFromTrigger: AriaMenuOptions<unknown>;
   menuTriggerProps: AriaButtonProps;
   menuTriggerState: MenuTriggerState;
-  menuPropsFromTrigger: AriaMenuOptions<unknown>;
+  triggerRef: MutableRefObject<HTMLElement | null>;
+  triggerWidth: number | null;
 };
 
 export const InternalMenuContext =

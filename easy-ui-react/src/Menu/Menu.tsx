@@ -1,5 +1,4 @@
-import { useResizeObserver } from "@react-aria/utils";
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { useMenuTrigger } from "react-aria";
 import { useMenuTriggerState } from "react-stately";
 import { InternalMenuContext } from "./MenuContext";
@@ -7,6 +6,7 @@ import { MenuItem } from "./MenuItem";
 import { MenuOverlay } from "./MenuOverlay";
 import { MenuSection } from "./MenuSection";
 import { MenuTrigger } from "./MenuTrigger";
+import { useTriggerWidth } from "./useTriggerWidth";
 
 export type MenuProps = {
   /** The trigger and menu to render. */
@@ -60,7 +60,6 @@ export function Menu(props: MenuProps) {
 
   const triggerRef = React.useRef<HTMLElement | null>(null);
 
-  const [triggerWidth, setTriggerWidth] = useState<number | null>(null);
   const menuTriggerState = useMenuTriggerState(props);
   const { menuTriggerProps, menuProps: menuPropsFromTrigger } = useMenuTrigger(
     { ...props, type: "menu" },
@@ -68,24 +67,15 @@ export function Menu(props: MenuProps) {
     triggerRef,
   );
 
-  // Used to size the menu based on the width of the trigger
-  useResizeObserver({
-    ref: triggerRef,
-    onResize: () => {
-      if (triggerRef.current) {
-        const { width } = triggerRef.current.getBoundingClientRect();
-        setTriggerWidth(width);
-      }
-    },
-  });
+  const triggerWidth = useTriggerWidth(triggerRef);
 
   const context = useMemo(() => {
     return {
-      triggerRef,
-      triggerWidth,
+      menuPropsFromTrigger,
       menuTriggerProps,
       menuTriggerState,
-      menuPropsFromTrigger,
+      triggerRef,
+      triggerWidth,
     };
   }, [triggerWidth, menuTriggerProps, menuPropsFromTrigger, menuTriggerState]);
 

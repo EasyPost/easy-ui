@@ -160,8 +160,8 @@ export const DefinedResponsiveWidth: Story = {
 type LinkProps = React.ComponentProps<"a"> & {
   replace?: boolean;
 };
-const Link = React.forwardRef<null, LinkProps>((props, ref) => (
-  <a ref={ref} {...props} />
+const Link = React.forwardRef<null, LinkProps>(({ replace, ...props }, ref) => (
+  <a ref={ref} data-replace={replace} {...props} />
 ));
 Link.displayName = "Link";
 export const MixedItemTypes: Story = {
