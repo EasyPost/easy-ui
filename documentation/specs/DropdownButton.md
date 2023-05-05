@@ -41,7 +41,7 @@ export type DropdownButtonProps = {
 ### Example Usage
 
 ```tsx
-import DropdownButton from "@easypost/easy-ui/DropdownButton";
+import { DropdownButton } from "@easypost/easy-ui/DropdownButton";
 // Filled
 <DropdownButton color="primary" />
 <DropdownButton color="secondary" />

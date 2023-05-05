@@ -67,7 +67,7 @@ export type ButtonProps = {
 ### Example Usage
 
 ```tsx
-import Button from "@easypost/easy-ui/Button";
+import { Button } from "@easypost/easy-ui/Button";
 import AddIcon from "@easypost/easy-ui-icons/Add";
 // Filled
 <Button color="primary" />
