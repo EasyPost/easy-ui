@@ -1,5 +1,4 @@
-import { mergeRefs } from "@react-aria/utils";
-import React, { forwardRef, useRef } from "react";
+import React, { forwardRef } from "react";
 import { AriaButtonProps } from "react-aria";
 import { ButtonColor } from "../Button";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
@@ -35,14 +34,12 @@ export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
     ...restProps
   } = props;
 
-  const ref = useRef(null);
-
   logWarningIfInvalidColorVariantCombination(color, variant);
 
   return (
     <UnstyledButton
       isDisabled={isDisabled}
-      ref={mergeRefs(ref, inRef)}
+      ref={inRef}
       className={classNames(
         styles.IconButton,
         styles[variationName("variant", variant)],

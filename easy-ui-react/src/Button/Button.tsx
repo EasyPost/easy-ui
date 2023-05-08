@@ -1,5 +1,4 @@
-import { mergeRefs } from "@react-aria/utils";
-import React, { ReactNode, forwardRef, useRef } from "react";
+import React, { ReactNode, forwardRef } from "react";
 import { UnstyledButton } from "../UnstyledButton";
 import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
@@ -56,8 +55,6 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
     ...restProps
   } = props;
 
-  const ref = useRef(null);
-
   const bothIconPropsDefined = iconAtEnd && iconAtStart;
   if (bothIconPropsDefined) {
     // eslint-disable-next-line no-console
@@ -75,7 +72,7 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
   return (
     <UnstyledButton
       isDisabled={isDisabled}
-      ref={mergeRefs(ref, inRef)}
+      ref={inRef}
       className={classNames(
         styles.Button,
         styles[variationName("color", color)],

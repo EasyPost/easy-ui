@@ -1,6 +1,5 @@
 import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
-import { mergeRefs } from "@react-aria/utils";
-import React, { ReactNode, forwardRef, useRef } from "react";
+import React, { ReactNode, forwardRef } from "react";
 import { AriaButtonProps } from "react-aria";
 import { ButtonColor } from "../Button";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
@@ -32,14 +31,12 @@ export const DropdownButton = forwardRef<null, DropdownButtonProps>(
       ...restProps
     } = props;
 
-    const ref = useRef(null);
-
     logWarningIfInvalidColorVariantCombination(color, variant);
 
     return (
       <UnstyledButton
         isDisabled={isDisabled}
-        ref={mergeRefs(ref, inRef)}
+        ref={inRef}
         className={classNames(
           styles.DropdownButton,
           styles[variationName("variant", variant)],
