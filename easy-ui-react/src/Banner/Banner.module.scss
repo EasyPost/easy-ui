@@ -44,7 +44,7 @@
     "border_radius",
     design-token("shape.border_radius.base")
   );
-  @include component-token("banner", "max-width", "1348px");
+  @include component-token("banner", "max-width", 1348px);
   display: flex;
   flex-direction: column;
   align-items: center;
