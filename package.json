@@ -47,26 +47,26 @@
     "test:watch:react": "npm run test:watch --workspace @easypost/easy-ui"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.4",
+    "@babel/core": "^7.21.8",
     "@changesets/cli": "^2.26.0",
-    "@storybook/addon-a11y": "^7.0.7",
-    "@storybook/addon-essentials": "^7.0.7",
-    "@storybook/blocks": "^7.0.7",
-    "@storybook/manager-api": "^7.0.7",
-    "@storybook/react": "^7.0.7",
-    "@storybook/react-vite": "^7.0.7",
+    "@storybook/addon-a11y": "^7.0.9",
+    "@storybook/addon-essentials": "^7.0.9",
+    "@storybook/blocks": "^7.0.9",
+    "@storybook/manager-api": "^7.0.9",
+    "@storybook/react": "^7.0.9",
+    "@storybook/react-vite": "^7.0.9",
     "@storybook/testing-library": "^0.1.0",
     "babel-loader": "^9.1.2",
-    "eslint": "^8.39.0",
+    "eslint": "^8.40.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.0.7",
-    "stylelint": "^15.6.0",
+    "storybook": "^7.0.9",
+    "stylelint": "^15.6.1",
     "turbo": "^1.9.3",
     "typescript": "^5.0.4",
-    "vite": "^4.3.3",
-    "vitest": "^0.30.1"
+    "vite": "^4.3.5",
+    "vitest": "^0.31.0"
   }
 }

@@ -1,15 +1,19 @@
-import React, { ReactNode, useRef } from "react";
 import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
-import { AriaButtonProps, useButton } from "react-aria";
-import { Icon } from "../Icon";
+import { mergeRefs } from "@react-aria/utils";
+import React, { ReactNode, forwardRef, useRef } from "react";
+import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { ButtonColor } from "../Button";
+import {
+  omitReactAriaSpecificProps,
+  logWarningIfInvalidColorVariantCombination,
+} from "../Button/utilities";
+import { Icon } from "../Icon";
 import { classNames, variationName } from "../utilities/css";
-import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 import styles from "./DropdownButton.module.scss";
 
 export type DropdownButtonVariant = "filled" | "outlined";
 
-export type DropdownButtonProps = AriaButtonProps<"button"> & {
+export type DropdownButtonProps = AriaButtonProps & {
   /** Button color */
   color?: ButtonColor;
   /** Button variant */
@@ -20,33 +24,38 @@ export type DropdownButtonProps = AriaButtonProps<"button"> & {
   children?: ReactNode;
 };
 
-export function DropdownButton(props: DropdownButtonProps) {
-  const {
-    color = "primary",
-    variant = "filled",
-    isDisabled = false,
-    children = "Button",
-  } = props;
+export const DropdownButton = forwardRef<null, DropdownButtonProps>(
+  (props, inRef) => {
+    const {
+      color = "primary",
+      variant = "filled",
+      isDisabled = false,
+      children = "Button",
+      ...restProps
+    } = props;
 
-  const ref = useRef(null);
-  const { buttonProps } = useButton(props, ref);
+    const ref = useRef(null);
+    const { buttonProps } = useButton(props, ref);
 
-  logWarningIfInvalidColorVariantCombination(color, variant);
+    logWarningIfInvalidColorVariantCombination(color, variant);
 
-  return (
-    <button
-      disabled={isDisabled}
-      ref={ref}
-      className={classNames(
-        styles.DropdownButton,
-        styles[variationName("variant", variant)],
-        styles[variationName("color", color)],
-      )}
-      {...buttonProps}
-    >
-      <span>{children}</span>
-      <span className={classNames(styles.pipeSeparator)}></span>
-      <Icon symbol={ExpandMoreIcon400} />
-    </button>
-  );
-}
+    return (
+      <button
+        {...mergeProps(omitReactAriaSpecificProps(restProps), buttonProps)}
+        disabled={isDisabled}
+        ref={mergeRefs(ref, inRef)}
+        className={classNames(
+          styles.DropdownButton,
+          styles[variationName("variant", variant)],
+          styles[variationName("color", color)],
+        )}
+      >
+        <span>{children}</span>
+        <span className={classNames(styles.pipeSeparator)}></span>
+        <Icon symbol={ExpandMoreIcon400} />
+      </button>
+    );
+  },
+);
+
+DropdownButton.displayName = "DropdownButton";
