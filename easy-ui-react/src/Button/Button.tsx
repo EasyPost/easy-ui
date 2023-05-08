@@ -1,13 +1,10 @@
-import { mergeRefs } from "@react-aria/utils";
-import React, { ReactNode, forwardRef, useRef } from "react";
-import { AriaButtonProps, mergeProps, useButton } from "react-aria";
+import React, { ReactNode, forwardRef } from "react";
+import { UnstyledButton } from "../UnstyledButton";
 import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
-import {
-  omitReactAriaSpecificProps,
-  logWarningIfInvalidColorVariantCombination,
-} from "./utilities";
+import { AriaButtonProps } from "react-aria";
+import { logWarningIfInvalidColorVariantCombination } from "./utilities";
 
 import styles from "./Button.module.scss";
 
@@ -58,13 +55,6 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
     ...restProps
   } = props;
 
-  const ref = useRef(null);
-  const As = href ? "a" : "button";
-  const { buttonProps: elementProps } = useButton(
-    { ...props, elementType: As },
-    ref,
-  );
-
   const bothIconPropsDefined = iconAtEnd && iconAtStart;
   if (bothIconPropsDefined) {
     // eslint-disable-next-line no-console
@@ -80,10 +70,9 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
   logWarningIfInvalidColorVariantCombination(color, variant);
 
   return (
-    <As
-      {...mergeProps(omitReactAriaSpecificProps(restProps), elementProps)}
-      disabled={isDisabled}
-      ref={mergeRefs(ref, inRef)}
+    <UnstyledButton
+      isDisabled={isDisabled}
+      ref={inRef}
       className={classNames(
         styles.Button,
         styles[variationName("color", color)],
@@ -91,6 +80,8 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
         styles[variationName("size", size)],
         isBlock && styles.block,
       )}
+      href={href}
+      {...restProps}
     >
       {iconAtStart && canUseIcon && <Icon symbol={iconAtStart} />}
       <span
@@ -102,7 +93,7 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
         {children}
       </span>
       {iconAtEnd && canUseIcon && <Icon symbol={iconAtEnd} />}
-    </As>
+    </UnstyledButton>
   );
 });
 
