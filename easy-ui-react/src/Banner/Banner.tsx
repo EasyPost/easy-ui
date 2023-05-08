@@ -3,13 +3,13 @@ import { Text } from "../Text";
 import { classNames, variationName } from "../utilities/css";
 import styles from "./Banner.module.scss";
 
-export type Bannercolor = "primary" | "success" | "neutral";
+export type BannerColor = "primary" | "success" | "neutral";
 export type BannerProps = {
   /**
    * Banner color color
    * @default success
    */
-  color?: Bannercolor;
+  color?: BannerColor;
   /** Banner emphasis text */
   emphasisText?: ReactNode;
   /** Banner content */
