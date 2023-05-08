@@ -32,7 +32,7 @@ export const Controls: Story = {
 export const Success: Story = {
   render: Template.bind({}),
   args: {
-    emphasisText: "Success variant",
+    emphasisText: "Success color",
     children: "Banner text",
   },
 };
@@ -40,18 +40,18 @@ export const Success: Story = {
 export const Primary: Story = {
   render: Template.bind({}),
   args: {
-    emphasisText: "Primary variant",
+    emphasisText: "Primary color",
     children: "Banner text",
-    variant: "primary",
+    color: "primary",
   },
 };
 
 export const Neutral: Story = {
   render: Template.bind({}),
   args: {
-    emphasisText: "Neutral variant",
+    emphasisText: "Neutral color",
     children: "Banner text",
-    variant: "neutral",
+    color: "neutral",
   },
 };
 

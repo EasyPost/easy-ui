@@ -19,15 +19,15 @@ describe("<Banner />", () => {
     expect(screen.getByText("Text with emphasis:")).toBeInTheDocument();
   });
 
-  it("should apply the primary variant class", () => {
-    render(<Banner variant="primary">Banner text</Banner>);
+  it("should apply the primary color class", () => {
+    render(<Banner color="primary">Banner text</Banner>);
     expect(screen.getByText("Banner text").closest("div")).toHaveAttribute(
       "class",
-      expect.stringContaining("variantPrimary"),
+      expect.stringContaining("colorPrimary"),
     );
   });
 
-  it("should render a banner with appropriate text variant", () => {
+  it("should render a banner with appropriate text color", () => {
     render(<Banner emphasisText="Text with emphasis">Banner text</Banner>);
     expect(
       screen.getByText(/Text with emphasis/i).closest("strong"),

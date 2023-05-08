@@ -1,6 +1,6 @@
 @use "../styles/common" as *;
 
-.variantSuccess {
+.colorSuccess {
   @include component-token(
     "banner",
     "color",
@@ -13,8 +13,8 @@
   );
 }
 
-.variantPrimary,
-.variantNeutral {
+.colorPrimary,
+.colorNeutral {
   @include component-token(
     "banner",
     "color",
@@ -22,7 +22,7 @@
   );
 }
 
-.variantPrimary {
+.colorPrimary {
   @include component-token(
     "banner",
     "color.background",
@@ -30,7 +30,7 @@
   );
 }
 
-.variantNeutral {
+.colorNeutral {
   @include component-token(
     "banner",
     "color.background",
