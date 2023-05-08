@@ -8,7 +8,7 @@
   );
   @include component-token(
     "banner",
-    "background.color",
+    "color.background",
     theme-token("color.background.success")
   );
 }
@@ -25,7 +25,7 @@
 .variantPrimary {
   @include component-token(
     "banner",
-    "background.color",
+    "color.background",
     theme-token("color.background.primary")
   );
 }
@@ -33,7 +33,7 @@
 .variantNeutral {
   @include component-token(
     "banner",
-    "background.color",
+    "color.background",
     theme-token("color.background.neutral")
   );
 }
@@ -44,6 +44,7 @@
     "border_radius",
     design-token("shape.border_radius.base")
   );
+  @include component-token("banner", "max-width", "1348px");
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,9 +53,10 @@
   flex-wrap: wrap;
   white-space: pre-wrap;
   width: 100%;
+  max-width: component-token("banner", "max-width");
   padding: design-token("space.1") design-token("space.2");
   color: component-token("banner", "color");
-  background-color: component-token("banner", "background.color");
+  background-color: component-token("banner", "color.background");
 
   @include breakpoint-sm-up {
     flex-direction: row;
@@ -65,13 +67,4 @@
   @include breakpoint-md-up {
     padding: design-token("space.1") design-token("space.4");
   }
-}
-
-.bannerContentContainer {
-  display: flex;
-  max-width: 1348px;
-}
-
-.emphasisTextContent {
-  font-weight: inherit;
 }

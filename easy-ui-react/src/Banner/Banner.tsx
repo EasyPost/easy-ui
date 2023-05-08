@@ -37,7 +37,7 @@ export type BannerProps = {
  * @example
  * Default success variant with emphasis and body:
  * ```tsx
- *  <Banner emphasis={<>Limited Time Only:</>}>
+ *  <Banner emphasisText={<>Limited Time Only:</>}>
  *    Get your first $250 of labels free!
  *  </Banner>
  * ```
@@ -51,26 +51,22 @@ export type BannerProps = {
 export function Banner(props: BannerProps) {
   const { variant = "success", emphasisText, children } = props;
   return (
-    <div className={classNames(styles.bannerContentContainer)}>
-      <div
-        className={classNames(
-          styles.Banner,
-          styles[variationName("variant", variant)],
-        )}
-      >
-        {emphasisText && (
-          <Text variant="subtitle1" alignment="center">
-            <strong className={classNames(styles.emphasisTextContent)}>
-              {!children ? <>{emphasisText}</> : <>{emphasisText}: </>}
-            </strong>
-          </Text>
-        )}
-        {children && (
-          <Text variant="body1" alignment="center">
-            {children}
-          </Text>
-        )}
-      </div>
+    <div
+      className={classNames(
+        styles.Banner,
+        styles[variationName("variant", variant)],
+      )}
+    >
+      {emphasisText && (
+        <Text as="strong" variant="subtitle1" alignment="center">
+          {!children ? <>{emphasisText}</> : <>{emphasisText}: </>}
+        </Text>
+      )}
+      {children && (
+        <Text variant="body1" alignment="center">
+          {children}
+        </Text>
+      )}
     </div>
   );
 }
