@@ -6,7 +6,7 @@ import styles from "./Banner.module.scss";
 export type BannerColor = "primary" | "success" | "neutral";
 export type BannerProps = {
   /**
-   * Banner color color
+   * Banner color
    * @default success
    */
   color?: BannerColor;

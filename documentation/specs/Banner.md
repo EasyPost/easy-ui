@@ -18,7 +18,7 @@ The primary use case of the `Banner` component is to inform the user of new feat
 export type BannerColor = "primary" | "success" | "neutral";
 export type BannerProps = {
   /**
-   * Banner color color
+   * Banner color
    * @default "success"
    */
   color?: BannerColor;
