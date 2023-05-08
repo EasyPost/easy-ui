@@ -30,7 +30,7 @@ describe("<Banner />", () => {
   it("should render a banner with appropriate text variant", () => {
     render(<Banner emphasisText="Text with emphasis">Banner text</Banner>);
     expect(
-      screen.getByText(/Text with emphasis/i).closest("span"),
+      screen.getByText(/Text with emphasis/i).closest("strong"),
     ).toHaveAttribute("class", expect.stringContaining("subtitle1"));
     expect(screen.getByText("Banner text")).toHaveAttribute(
       "class",
