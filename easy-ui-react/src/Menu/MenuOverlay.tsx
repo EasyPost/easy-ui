@@ -16,10 +16,11 @@ import {
   pxToRem,
 } from "../utilities/css";
 import { useInternalMenuContext } from "./MenuContext";
+import { MenuItemContent } from "./MenuItem";
+import { MenuSectionContent } from "./MenuSection";
+import { useScrollbar } from "./useScrollbar";
 
 import styles from "./Menu.module.scss";
-import { MenuSectionContent } from "./MenuSection";
-import { MenuItemContent } from "./MenuItem";
 
 const DEFAULT_MAX_ITEMS_UNTIL_SCROLL = 5;
 const DEFAULT_PLACEMENT = "bottom";
@@ -97,15 +98,13 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
   const { popoverProps, underlayProps } = usePopover(
     {
       containerPadding: OVERLAY_PADDING_FROM_CONTAINER,
-      isKeyboardDismissDisabled: false,
-      isNonModal: false,
       maxHeight:
         ITEM_HEIGHT * maxItemsUntilScroll + Y_PADDING_INSIDE_OVERLAY * 2 + 2,
       offset: OVERLAY_OFFSET,
       placement,
       popoverRef,
-      triggerRef,
       scrollRef: menuRef,
+      triggerRef,
     },
     menuTriggerState,
   );
@@ -115,6 +114,8 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
     menuTreeState,
     menuRef,
   );
+
+  useScrollbar(menuRef);
 
   const style = {
     ...popoverProps.style,
@@ -149,29 +150,32 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
         className={styles.root}
       >
         <DismissButton onDismiss={menuTriggerState.close} />
-        <ul
+        <div
           {...menuProps}
           ref={menuRef}
-          className={styles.list}
+          className={styles.menu}
           data-width={width}
           data-max-items-until-scroll={maxItemsUntilScroll}
+          data-overlayscrollbars-initialize
         >
-          {[...menuTreeState.collection].map((item) => {
-            return item.type === "section" ? (
-              <MenuSectionContent
-                key={item.key}
-                section={item}
-                state={menuTreeState}
-              />
-            ) : (
-              <MenuItemContent
-                key={item.key}
-                item={item}
-                state={menuTreeState}
-              />
-            );
-          })}
-        </ul>
+          <ul className={styles.menuList}>
+            {[...menuTreeState.collection].map((item) => {
+              return item.type === "section" ? (
+                <MenuSectionContent
+                  key={item.key}
+                  section={item}
+                  state={menuTreeState}
+                />
+              ) : (
+                <MenuItemContent
+                  key={item.key}
+                  item={item}
+                  state={menuTreeState}
+                />
+              );
+            })}
+          </ul>
+        </div>
         <DismissButton onDismiss={menuTriggerState.close} />
       </div>
     </OverlayContainer>

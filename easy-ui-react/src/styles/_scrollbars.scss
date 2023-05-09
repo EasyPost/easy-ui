@@ -1,0 +1,15 @@
+@use "overlayscrollbars/overlayscrollbars.css";
+@use "token-helpers";
+
+.ezui-os-theme-overlay {
+  --ezui-scrollbar-width: 2px;
+  --os-size: calc(
+    (#{token-helpers.design-token("space.1")} * 2) + var(--ezui-scrollbar-width)
+  );
+  --os-padding-perpendicular: #{token-helpers.design-token("space.1")};
+  --os-padding-axis: #{token-helpers.design-token("space.1")};
+  --os-track-bg: #{token-helpers.design-token("color.gray.050")};
+  --os-handle-bg: #{token-helpers.design-token("color.gray.500")};
+  --os-track-border-radius: 999px;
+  --os-handle-border-radius: 999px;
+}

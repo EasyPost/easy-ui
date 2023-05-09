@@ -30,24 +30,6 @@
   @include component-token("menu", "shadow", theme-token("shadow.overlay"));
   @include component-token("menu", "padding.x", design-token("space.2"));
   @include component-token("menu", "color.border", theme-token("color.border"));
-  // TODO: consider putting these scrollbar sizes into design tokens when
-  //       a pattern emerges
-  @include component-token(
-    "menu",
-    "scrollbar_width",
-    design-token("space.0.25")
-  );
-  @include component-token("menu", "scrollbar_offset", design-token("space.1"));
-  @include component-token(
-    "menu",
-    "color.scrollbar_track",
-    theme-token("color.scrollbar.track")
-  );
-  @include component-token(
-    "menu",
-    "color.scrollbar_thumb",
-    theme-token("color.scrollbar.thumb")
-  );
 
   @include responsive-prop("menu", "width", width);
 
@@ -58,42 +40,14 @@
   display: flex;
   flex-direction: column;
   min-width: component-token("menu", "min-width");
+}
+
+.menu {
+  overflow: auto;
   padding: component-token("menu", "padding.y") 0;
 }
 
-.list {
-  overflow: auto;
-
-  &::-webkit-scrollbar {
-    width: calc(
-      #{component-token("menu", "scrollbar_width")} + #{component-token(
-          "menu",
-          "scrollbar_offset"
-        )}
-    );
-  }
-  &::-webkit-scrollbar-track,
-  &::-webkit-scrollbar-thumb {
-    background-clip: padding-box;
-    border-right: #{component-token("menu", "scrollbar_offset")} solid #{component-token(
-        "menu",
-        "color.background"
-      )};
-  }
-  &::-webkit-scrollbar-track {
-    background: component-token("menu", "color.scrollbar_track");
-  }
-  &::-webkit-scrollbar-thumb {
-    background: component-token("menu", "color.scrollbar_thumb");
-  }
-  &::-webkit-resizer,
-  &::-webkit-scrollbar-button,
-  &::-webkit-scrollbar-corner {
-    display: none;
-  }
-}
-
-.list,
+.menuList,
 .sectionList {
   margin: 0;
   padding: 0;
@@ -117,7 +71,7 @@
   color: component-token("menu", "color.text");
 }
 
-.list,
+.menu,
 .item {
   outline: none;
 }
