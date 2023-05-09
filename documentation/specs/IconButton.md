@@ -40,7 +40,7 @@ export type IconButtonProps = {
 ### Example Usage
 
 ```tsx
-import IconButton from "@easypost/easy-ui/IconButton";
+import { IconButton } from "@easypost/easy-ui/IconButton";
 import Icon from "@easypost/easy-ui/Icon"
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 // Filled

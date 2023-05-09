@@ -1,16 +1,13 @@
-import { mergeRefs } from "@react-aria/utils";
-import React, { forwardRef, useRef } from "react";
-import { AriaButtonProps, mergeProps, useButton } from "react-aria";
+import React, { forwardRef } from "react";
+import { AriaButtonProps } from "react-aria";
 import { ButtonColor } from "../Button";
-import {
-  omitReactAriaSpecificProps,
-  logWarningIfInvalidColorVariantCombination,
-} from "../Button/utilities";
+import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import styles from "./IconButton.module.scss";
+import { UnstyledButton } from "../UnstyledButton";
 
 export type IconButtonVariant = "filled" | "outlined";
 
@@ -37,25 +34,22 @@ export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
     ...restProps
   } = props;
 
-  const ref = useRef(null);
-  const { buttonProps } = useButton(props, ref);
-
   logWarningIfInvalidColorVariantCombination(color, variant);
 
   return (
-    <button
-      {...mergeProps(omitReactAriaSpecificProps(restProps), buttonProps)}
-      disabled={isDisabled}
-      ref={mergeRefs(ref, inRef)}
+    <UnstyledButton
+      isDisabled={isDisabled}
+      ref={inRef}
       className={classNames(
         styles.IconButton,
         styles[variationName("variant", variant)],
         styles[variationName("color", color)],
       )}
+      {...restProps}
     >
       <Text visuallyHidden>{accessibilityLabel}</Text>
       <Icon symbol={icon} />
-    </button>
+    </UnstyledButton>
   );
 });
 
