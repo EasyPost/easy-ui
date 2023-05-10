@@ -12,7 +12,7 @@ The `TextField` component allows users to input text on a single line and provid
 ### Features
 
 - The net effect of setting `variant` to `protected` is to get a PasswordInput component with an appropriate visibility icon.
-- Setting the `size` property also sets size for leftAlignedIcon and rightAlignedIcon: The size values map to Easy UI's token sizes for icons.
+- Setting the `size` property also sets size for iconAtStart and iconAtEnd: The size values map to Easy UI's token sizes for icons.
 - When `errorText` is supplied with `validationState="invalid"`, `helperText` is overriden.
 - Underlying input type can be set to `text`, `email`, `password`, `tel`, or `search`.
 - `isLabelVisuallyHidden` property can be used to visually hide the label.
@@ -83,8 +83,8 @@ export type TextFieldProps = AriaTextFieldProps & {
   variant?: TextFieldVariant;
   /**
    * TextField size affects the overall size of the input, but it also influences the size of
-   * leftAlignedIcon and rightAlignedIcon. For instance, with `sm` size, the associated leftAlignedIcon
-   * or rightAlignedIcon size maps to the Easy UI icon size of 'sm'.
+   * iconAtStart and iconAtEnd. For instance, with `sm` size, the associated iconAtStart
+   * or iconAtEnd size maps to the Easy UI icon size of 'sm'.
    * @default 'md'
    */
   size?: TextFieldSize;
@@ -98,9 +98,9 @@ export type TextFieldProps = AriaTextFieldProps & {
   /** Helper text that appears below input */
   helperText?: ReactNode;
   /** Left aligned icon */
-  leftAlignedIcon?: IconSymbol;
+  iconAtStart?: IconSymbol;
   /** Right aligned icon */
-  rightAlignedIcon?: IconSymbol;
+  iconAtEnd?: IconSymbol;
 };
 ```
 
@@ -118,8 +118,8 @@ export function TextField(props: TextFieldProps) {
     isDisabled = false,
     isRequired = false,
     validationState = "invalid",
-    leftAlignedIcon,
-    rightAlignedIcon,
+    iconAtStart,
+    iconAtEnd,
     label,
     errorText,
     helperText,
@@ -145,7 +145,7 @@ export function TextField(props: TextFieldProps) {
     <div>
       <div>
         <div>
-          {leftAlignedIcon && <Icon symbol={leftAlignedIcon} size={size} />}
+          {iconAtStart && <Icon symbol={iconAtStart} size={size} />}
           <input
             {...inputProps}
             ref={ref}
@@ -155,7 +155,7 @@ export function TextField(props: TextFieldProps) {
             disabled={isDisabled}
             placeholder={placeholder}
           />
-          {rightAlignedIcon && <Icon symbol={rightAlignedIcon} size={size} />}
+          {iconAtEnd && <Icon symbol={iconAtEnd} size={size} />}
         </div>
         <label {...labelProps}>
           <Text>{label}</Text>
@@ -237,7 +237,7 @@ export function Component() {
         type="search"
         label="Search for carriers" // visually hidden but still accessible via isLabelVisuallyHidden prop
         isLabelVisuallyHidden
-        leftAlignedIcon={AnIcon}
+        iconAtStart={AnIcon}
         value={searchedValue}
         onChange={(inputValue) => setSearchedValue(inputValue)} // value is returned automatically via react-aria
         placeholder="FedEx, UPS, USPS"
