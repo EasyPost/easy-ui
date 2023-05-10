@@ -1,10 +1,10 @@
-## Changes
+## 📝 Changes
 
 Please provide a brief summary of the changes made and why they were made.
 
 Include any notes, screenshots, or videos that may be helpful for developers reviewing this pull request.
 
-## Checklist
+## ✅ Checklist
 
 - [ ] Visuals are complete and match Figma
 - [ ] Code is complete and in accordance with our style guide
