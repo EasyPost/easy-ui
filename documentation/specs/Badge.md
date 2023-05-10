@@ -20,6 +20,7 @@ A Badge is a visual text label for small bits of supporting information.
 
 - Minimizing confusion around accessibility when considering Badge contents along with an optional accessibility label
 - Keeping the API clear with all of the different possible states that the Badge can be in
+- Extending our theme tokens with the variants
 
 ### Prior Art
 
@@ -178,3 +179,8 @@ A badge should have `role="presentation"` set on its container.
 A badge may have an `accessibilityLabel` if the contents of the badge is insufficient to describe its purpose.
 
 A badge that is only an icon must have an `accessibilityLabel` to describe the intent of the badge.
+
+### Dependencies
+
+- Requires a new `border_radius` value in our tokens.
+- Will need to extend our theme tokens with the variants.
