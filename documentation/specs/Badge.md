@@ -44,9 +44,9 @@ type BadgeVariant =
   | "black"
   | "inverse"
   | "gray"
-  | "positive"
+  | "success"
   | "warning"
-  | "negative";
+  | "danger";
 
 type Badge = {
   /**
