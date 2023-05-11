@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `TextField` component allows users to input text on a single line and provides the essentials to be used as a form control element. An Easy UI password input variation can be had by setting `variant="protected"`.
+The `TextField` component allows users to input text on a single line and provides the essentials to be used as a form control element.
 
 ### Use Cases
 
@@ -11,7 +11,7 @@ The `TextField` component allows users to input text on a single line and provid
 
 ### Features
 
-- The net effect of setting `variant` to `protected` is to get a PasswordInput component with an appropriate visibility icon.
+- Setting `type` to `password` adds a clickable and focusable right aligned visibility icon as well.
 - Setting the `size` property also sets size for iconAtStart and iconAtEnd: The size values map to Easy UI's token sizes for icons.
 - When `errorText` is supplied with `validationState="invalid"`, `helperText` is overriden.
 - Underlying input type can be set to `text`, `email`, `password`, `tel`, or `search`.
@@ -66,21 +66,15 @@ type AriaTextFieldProps = {
 };
 
 export type InputType = "text" | "email" | "password" | "tel" | "search";
-export type TextFieldVariant = "protected" | "standard";
 export type TextFieldSize = "sm" | "md" | "lg";
 
 export type TextFieldProps = AriaTextFieldProps & {
   /**
-   * Underlying HTML input type
+   * Sets the underlying HTML input type. Setting type to password adds a clickable and
+   * focusable right aligned visibility icon.
    * @default 'text'
    */
   type?: InputType;
-  /**
-   * When set to `protected`, the underlying input is set to `password` and a right aligned
-   * clickable and focusable visibility icon is added. The net effect is to give a PasswordInput.
-   * @default 'standard'
-   */
-  variant?: TextFieldVariant;
   /**
    * TextField size affects the overall size of the input, but it also influences the size of
    * iconAtStart and iconAtEnd. For instance, with `sm` size, the associated iconAtStart
@@ -112,7 +106,6 @@ The bulk of the `TextField` component behavior will be handled by React Aria's `
 export function TextField(props: TextFieldProps) {
   let {
     type = "text",
-    variant = "standard",
     size = "md",
     isLabelVisuallyHidden = false,
     isDisabled = false,
@@ -138,8 +131,6 @@ export function TextField(props: TextFieldProps) {
     helperText && !errorText && validationState === "valid";
   const showErrorText =
     !showHelperText && errorText && validationState === "invalid";
-
-  const isPasswordInput = variant === "protected";
 
   return (
     <div>
@@ -201,7 +192,7 @@ export function Component() {
 }
 ```
 
-_Protected variation with helper text:_
+_Password variation with helper text:_
 
 ```tsx
 import { TextField } from "@easypost/easy-ui/TextField";
@@ -211,7 +202,6 @@ export function Component() {
   return (
     <>
       <TextField
-        variant="protected"
         label="Password"
         helperText={<a href={RESET_URL}>Forgot password? </a>}
         value={password}
