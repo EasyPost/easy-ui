@@ -33,7 +33,6 @@ const OVERLAY_PADDING_FROM_CONTAINER = 12;
 export type MenuOverlayWidth =
   | "auto"
   | "fit-content"
-  | "fit-trigger"
   | ResponsiveProp<string | number>;
 
 export type MenuOverlayProps<T> = {
@@ -133,11 +132,7 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
     ...getResponsiveValue(
       "menu",
       "width",
-      width !== "auto" && width !== "fit-content" && width !== "fit-trigger"
-        ? width
-        : width === "fit-trigger"
-        ? `${pxToRem(triggerWidth as number)}rem`
-        : "auto",
+      width !== "auto" && width !== "fit-content" ? width : "auto",
     ),
   } as React.CSSProperties;
 

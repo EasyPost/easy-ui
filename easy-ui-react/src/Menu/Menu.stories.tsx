@@ -121,18 +121,6 @@ export const MatchContentWidth: Story = {
   },
 };
 
-export const MatchTriggerWidth: Story = {
-  render: Template.bind({}),
-  args: {
-    children: (
-      <Menu.Overlay onAction={action("Selected")} width="fit-trigger">
-        <Menu.Item key="download-carriers">Download carriers report</Menu.Item>
-        <Menu.Item key="download-shipping">Download shipping report</Menu.Item>
-      </Menu.Overlay>
-    ),
-  },
-};
-
 export const DefinedWidth: Story = {
   render: Template.bind({}),
   args: {
