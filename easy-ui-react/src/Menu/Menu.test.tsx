@@ -3,16 +3,20 @@ import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React, { ComponentProps, forwardRef } from "react";
 import { vi } from "vitest";
 import { DropdownButton } from "../DropdownButton";
-import { render } from "../utilities/test";
+import { mockGetComputedStyle, render } from "../utilities/test";
 import { Menu } from "./Menu";
 
 describe("<Menu />", () => {
+  let restoreGetComputedStyle: () => void;
+
   beforeEach(() => {
+    restoreGetComputedStyle = mockGetComputedStyle();
     vi.useFakeTimers();
   });
 
   afterEach(() => {
     vi.useRealTimers();
+    restoreGetComputedStyle();
   });
 
   it("should show on trigger click", async () => {

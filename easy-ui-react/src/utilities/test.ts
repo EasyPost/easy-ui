@@ -33,3 +33,11 @@ export function installJestCompatibleFakeTimers() {
     };
   });
 }
+
+export function mockGetComputedStyle() {
+  const originalGetComputedStyle = window.getComputedStyle;
+  window.getComputedStyle = (elt) => originalGetComputedStyle(elt);
+  return () => {
+    window.getComputedStyle = originalGetComputedStyle;
+  };
+}
