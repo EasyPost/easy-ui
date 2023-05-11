@@ -6,6 +6,13 @@ export type DesignTokenAliases = keyof DesignTokens;
 
 export type Falsy = boolean | undefined | null | 0;
 
+/**
+ * Tells TypeScript to not try to infer a generic type argument. This is useful
+ * for allowing component prop definitions to be optionally extended with an
+ * additional set of props.
+ */
+export type NoInfer<T> = [T][T extends unknown ? 0 : never];
+
 // Returns types narrowed to a specified prefix and suffix namespace
 export type Namespace<
   Set,

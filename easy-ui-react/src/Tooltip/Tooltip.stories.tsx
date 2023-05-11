@@ -1,9 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { startCase } from "lodash";
 import React from "react";
-import { Placement as AriaPlacement } from "react-aria";
 import { Button } from "../Button";
-import { OverlayLayoutDecorator } from "../utilities/storybook";
+import {
+  OverlayLayoutDecorator,
+  overlayPlacements,
+} from "../utilities/storybook";
 import { Tooltip, TooltipProps } from "./Tooltip";
 
 type Story = StoryObj<typeof Tooltip>;
@@ -47,25 +49,10 @@ export const Default: Story = {
   },
 };
 
-const placements = [
-  "top",
-  "bottom",
-  "left",
-  "right",
-  "top left",
-  "top right",
-  "bottom left",
-  "bottom right",
-  "left top",
-  "left bottom",
-  "right top",
-  "right bottom",
-] as AriaPlacement[];
-
 export const Placement: Story = {
   render: (args) => (
     <>
-      {placements.map((placement) => (
+      {overlayPlacements.map((placement) => (
         <Tooltip {...args} key={placement} placement={placement}>
           <a href="#">{startCase(placement)}</a>
         </Tooltip>

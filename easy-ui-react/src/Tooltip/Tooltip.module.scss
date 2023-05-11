@@ -13,7 +13,11 @@
     design-token("shape.border_radius.base")
   );
   @include component-token("tooltip", "color", theme-token("color.text"));
-  @include component-token("tooltip", "shadow", theme-token("shadow.overlay"));
+  @include component-token(
+    "tooltip",
+    "shadow",
+    theme-token("shadow.overlay.subdued")
+  );
 
   background: component-token("tooltip", "background");
   border-radius: component-token("tooltip", "border_radius");

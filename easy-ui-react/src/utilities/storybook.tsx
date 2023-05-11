@@ -1,8 +1,9 @@
-import React from "react";
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
+import { Decorator } from "@storybook/react";
+import React from "react";
+import type { Placement as AriaPlacement } from "react-aria";
 import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
-import { Decorator } from "@storybook/react";
 
 export function createLabelledOptionsControl(
   opts: Record<string, unknown>,
@@ -123,3 +124,18 @@ export const OverlayLayoutDecorator: Decorator = (Story, options) => {
     </>
   );
 };
+
+export const overlayPlacements = [
+  "top",
+  "bottom",
+  "left",
+  "right",
+  "top left",
+  "top right",
+  "bottom left",
+  "bottom right",
+  "left top",
+  "left bottom",
+  "right top",
+  "right bottom",
+] as AriaPlacement[];

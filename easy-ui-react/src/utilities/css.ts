@@ -26,7 +26,10 @@ export function getComponentToken(
   value?: string,
 ) {
   return value
-    ? { [`--ezui-c-${componentName}-${kebabCase(componentProp)}`]: value }
+    ? {
+        [`--ezui-c-${kebabCase(componentName)}-${kebabCase(componentProp)}`]:
+          value,
+      }
     : {};
 }
 
@@ -39,7 +42,9 @@ export function getComponentDesignToken(
   return getComponentToken(
     componentName,
     componentProp,
-    token ? `var(--ezui-${tokenSubgroup}-${token})` : undefined,
+    token
+      ? `var(--ezui-${kebabCase(tokenSubgroup)}-${kebabCase(token)})`
+      : undefined,
   );
 }
 
@@ -95,16 +100,19 @@ export function getResponsiveDesignToken(
 export function getResponsiveValue(
   componentName: string,
   componentProp: string,
-  responsiveValue?: ResponsiveProp<string>,
+  responsiveValue?: ResponsiveProp<string | number>,
 ) {
   if (!responsiveValue) {
     return {};
   }
-  if (typeof responsiveValue === "string") {
+  if (
+    typeof responsiveValue === "string" ||
+    typeof responsiveValue === "number"
+  ) {
     return getComponentToken(
       componentName,
       `${componentProp}-xs`,
-      responsiveValue,
+      addPxUnitToNumber(responsiveValue),
     );
   }
   return Object.fromEntries(
@@ -114,7 +122,7 @@ export function getResponsiveValue(
           getComponentToken(
             componentName,
             `${componentProp}-${breakpointAlias}`,
-            responsiveValue,
+            addPxUnitToNumber(responsiveValue),
           ),
         );
         return tokenEntry;
@@ -125,4 +133,8 @@ export function getResponsiveValue(
 
 export function pxToRem(px: string | number) {
   return parseInt(String(px), 10) / 16;
+}
+
+export function addPxUnitToNumber(px: string | number) {
+  return typeof px === "number" ? `${px}px` : px;
 }
