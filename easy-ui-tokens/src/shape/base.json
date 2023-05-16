@@ -4,6 +4,10 @@
       "base": {
         "value": "5px",
         "attributes": { "unit": "rem" }
+      },
+      "lg": {
+        "value": "8px",
+        "attributes": { "unit": "rem" }
       }
     },
     "border_width": {

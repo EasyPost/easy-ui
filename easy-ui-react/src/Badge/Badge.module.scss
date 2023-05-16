@@ -1,0 +1,95 @@
+@use "../styles/common" as *;
+
+.root {
+  @include font-style("small-button");
+  border-radius: design-token("shape.border_radius.lg");
+  display: inline-flex;
+  // Ensures the background colors do not bleed out of the border radius edges
+  overflow: hidden;
+}
+
+.content,
+.support {
+  display: inline-flex;
+  padding: design-token("space.0.5");
+}
+
+.content {
+  background: component-token("badge", "content.color.background");
+  color: component-token("badge", "content.color.text");
+}
+
+.support {
+  background: component-token("badge", "support.color.background");
+  color: component-token("badge", "support.color.text");
+}
+
+// Light wrapper element around the text to normalize the hor and ver padding
+.text {
+  display: inline-flex;
+  padding: design-token("space.0.25") design-token("space.0.5");
+}
+
+// prettier-ignore
+.variantPrimary {
+  @include component-token("badge", "content.color.background", design-token("color.blue.600"));
+  @include component-token("badge", "content.color.text", design-token("color.gray.000"));
+  @include component-token("badge", "support.color.background", design-token("color.blue.100"));
+  @include component-token("badge", "support.color.text", design-token("color.blue.800"));
+}
+
+// prettier-ignore
+.variantSecondary {
+  @include component-token("badge", "content.color.background", design-token("color.purple.600"));
+  @include component-token("badge", "content.color.text", design-token("color.gray.000"));
+  @include component-token("badge", "support.color.background", design-token("color.purple.100"));
+  @include component-token("badge", "support.color.text", design-token("color.blue.800"));
+}
+
+// prettier-ignore
+.variantBlack {
+  @include component-token("badge", "content.color.background", design-token("color.gray.800"));
+  @include component-token("badge", "content.color.text", design-token("color.gray.000"));
+  @include component-token("badge", "support.color.background", design-token("color.gray.050"));
+  @include component-token("badge", "support.color.text", design-token("color.blue.800"));
+}
+
+// prettier-ignore
+.variantInverse {
+  @include component-token("badge", "content.color.background", design-token("color.gray.100"));
+  @include component-token("badge", "content.color.text", design-token("color.gray.900"));
+  @include component-token("badge", "support.color.background", design-token("color.gray.050"));
+  @include component-token("badge", "support.color.text", design-token("color.blue.800"));
+}
+
+// prettier-ignore
+.variantGray {
+  @include component-token("badge", "content.color.background", design-token("color.gray.600"));
+  @include component-token("badge", "content.color.text", design-token("color.gray.000"));
+  @include component-token("badge", "support.color.background", design-token("color.gray.050"));
+  @include component-token("badge", "support.color.text", design-token("color.blue.800"));
+}
+
+// prettier-ignore
+.variantSuccess {
+  @include component-token("badge", "content.color.background", design-token("color.green.600"));
+  @include component-token("badge", "content.color.text", design-token("color.gray.000"));
+  @include component-token("badge", "support.color.background", design-token("color.green.100"));
+  @include component-token("badge", "support.color.text", design-token("color.blue.800"));
+}
+
+// prettier-ignore
+.variantWarning {
+  @include component-token("badge", "content.color.background", design-token("color.yellow.500"));
+  @include component-token("badge", "content.color.text", design-token("color.gray.900"));
+  @include component-token("badge", "support.color.background", design-token("color.yellow.300"));
+  @include component-token("badge", "support.color.text", design-token("color.blue.800"));
+}
+
+// prettier-ignore
+.variantDanger {
+  @include component-token("badge", "content.color.background", design-token("color.red.600"));
+  @include component-token("badge", "content.color.text", design-token("color.gray.000"));
+  @include component-token("badge", "support.color.background", design-token("color.red.100"));
+  @include component-token("badge", "support.color.text", design-token("color.blue.800"));
+}
