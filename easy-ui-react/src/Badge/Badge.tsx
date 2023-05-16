@@ -43,6 +43,39 @@ export type BadgeProps = {
   variant?: BadgeVariant;
 };
 
+/**
+ * A visual text label for small bits of supporting information.
+ *
+ * @remarks
+ * Badges can be used to support categorizing information, getting a user's
+ * attention, and describing metadata.
+ *
+ * @example
+ * _Simple text:_
+ * ```tsx
+ * <Badge>Badge text</Badge>
+ * ```
+ *
+ * @example
+ * _Simple icon:_
+ * ```tsx
+ * <Badge accessibilityLabel="Intent of badge" icon={IconSymbol} />
+ * ```
+ *
+ * @example
+ * _Detailed text:_
+ * ```tsx
+ * <Badge supportText="Last updated: Jan 3. 2023">
+ *   Deprecated
+ * </Badge>
+ * ```
+ *
+ * @example
+ * _Detailed icon:_
+ * ```tsx
+ * <Badge icon={IconSymbol}>Badge text</Badge>
+ * ```
+ */
 export function Badge(props: BadgeProps) {
   const {
     accessibilityLabel,
