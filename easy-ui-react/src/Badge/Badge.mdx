@@ -1,5 +1,6 @@
 import React from "react";
-import { Canvas, Meta, Controls } from "@storybook/blocks";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { Badge } from "./Badge";
 import * as BadgeStories from "./Badge.stories";
 
 <Meta of={BadgeStories} />
@@ -8,20 +9,40 @@ import * as BadgeStories from "./Badge.stories";
 
 ## Simple Text
 
+A `<Badge />` can be a simple label.
+
 <Canvas of={BadgeStories.SimpleText} />
 
 ## Simple Icon
+
+A `<Badge />` can be a single icon using the `icon` property. The `icon` property accepts any icon symbol from `@easypost/easy-ui-icons`.
 
 <Canvas of={BadgeStories.SimpleIcon} />
 
 ## Detailed Icon
 
+A `<Badge />` can contain an icon and supporting label.
+
 <Canvas of={BadgeStories.DetailedIcon} />
 
 ## Detailed Text
+
+A `<Badge />` can contain a primary label along with supporting text.
 
 <Canvas of={BadgeStories.DetailedText} />
 
 ## Variants
 
+Use the `variant` prop to change the style of the `<Badge />`.
+
 <Canvas of={BadgeStories.Variants} />
+
+## With Tooltip
+
+A `<Badge />` can be wrapped in a `<Tooltip />`. Ensure the badge is within a focusable element to trigger the tooltip.
+
+<Canvas of={BadgeStories.WithTooltip} />
+
+## Properties
+
+<ArgTypes of={Badge} />

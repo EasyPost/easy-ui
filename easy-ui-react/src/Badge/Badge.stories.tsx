@@ -9,6 +9,7 @@ import {
   createLabelledOptionsControl,
 } from "../utilities/storybook";
 import { Badge, BadgeProps } from "./Badge";
+import { Tooltip } from "../Tooltip";
 
 type Story = StoryObj<typeof Badge>;
 
@@ -51,6 +52,7 @@ export const SimpleIcon: Story = {
   render: Template.bind({}),
   args: {
     icon: AnchorIcon,
+    accessibilityLabel: "Text to describe badge",
   },
   parameters: {
     controls: {
@@ -107,5 +109,18 @@ export const Variants: Story = {
     controls: {
       exclude: ["variant"],
     },
+  },
+};
+
+export const WithTooltip: Story = {
+  render: (args) => (
+    <Tooltip content="Here is a tooltip">
+      <span tabIndex={0} style={{ display: "inline-flex" }}>
+        <Badge {...args} />
+      </span>
+    </Tooltip>
+  ),
+  args: {
+    children: "Hover or focus me",
   },
 };

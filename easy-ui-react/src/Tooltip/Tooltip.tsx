@@ -124,7 +124,10 @@ export function Tooltip(props: TooltipProps) {
 
   return (
     <>
-      {React.cloneElement(children, { ...triggerProps, ref: triggerRef })}
+      {React.cloneElement(children, {
+        ...mergeProps(triggerProps, children.props),
+        ref: triggerRef,
+      })}
       {tooltipTriggerState.isOpen && (
         <OverlayContainer>
           <TooltipInner
