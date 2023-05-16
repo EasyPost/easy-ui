@@ -87,7 +87,7 @@ export const DetailedText: Story = {
   },
 };
 
-export const Variants: Story = {
+export const ColorVariants: Story = {
   render: (args) => (
     <>
       <Badge {...args} variant="primary" />
