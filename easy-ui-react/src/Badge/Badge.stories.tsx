@@ -115,7 +115,7 @@ export const Variants: Story = {
 export const WithTooltip: Story = {
   render: (args) => (
     <Tooltip content="Here is a tooltip">
-      <span tabIndex={0} style={{ display: "inline-flex" }}>
+      <span tabIndex={0} style={{ display: "inline-flex", borderRadius: 8 }}>
         <Badge {...args} />
       </span>
     </Tooltip>
