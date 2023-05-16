@@ -112,10 +112,7 @@ export function Badge(props: BadgeProps) {
       role="presentation"
       {...(accessibilityLabel ? { "aria-label": accessibilityLabel } : {})}
     >
-      <span
-        className={styles.content}
-        data-content-type={icon ? "icon" : "text"}
-      >
+      <span className={styles.content}>
         {icon ? (
           <Icon symbol={icon} size="sm" />
         ) : (
