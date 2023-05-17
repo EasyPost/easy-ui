@@ -1,0 +1,39 @@
+import React from "react";
+import { Canvas, Meta, Controls } from "@storybook/blocks";
+import * as NotificationStories from "./Notification.stories";
+
+<Meta of={NotificationStories} />
+
+# Notification
+
+The stories below simulate how a notification of type `alert` or `toast` is triggered. In practice, one would use Easy UI's
+`useNotification` hook, which returns an object on which the following methods can be invoked: `showSuccessToast`, `showPromotionalToast`,
+`showNeutralToast`, `showWarningToast`, `showErrorToast`, `showSuccessAlert`, `showPromotionalAlert`, `showNeutralAlert`, `showWarningAlert`,
+and `showErrorAlert`. See [notification documentation specs](https://github.com/EasyPost/easy-ui/blob/main/documentation/specs/Notification.md#example-usage) for more
+information on example usage.
+
+## Success Notifications
+
+<Canvas of={NotificationStories.SuccessNotification} />
+
+## Promotional Notifications
+
+<Canvas of={NotificationStories.PromotionalNotification} />
+
+## Neutral Notifications
+
+<Canvas of={NotificationStories.NeutralNotification} />
+
+## Warning Notifications
+
+<Canvas of={NotificationStories.WarningNotification} />
+
+## Error Notifications
+
+<Canvas of={NotificationStories.ErrorNotification} />
+
+## Controls
+
+<Canvas of={NotificationStories.Controls} />
+
+<Controls of={NotificationStories.Controls} />

@@ -1,0 +1,122 @@
+@use "../styles/common" as *;
+
+.statusPromotional {
+  @include component-token(
+    "notification",
+    "color",
+    theme-token("color.text.inverse")
+  );
+  @include component-token(
+    "notification",
+    "color.background",
+    theme-token("color.background.primary")
+  );
+}
+
+.statusSuccess {
+  @include component-token(
+    "notification",
+    "color",
+    theme-token("color.text.success.subtle.inverse")
+  );
+  @include component-token(
+    "notification",
+    "color.background",
+    theme-token("color.background.success.subtle")
+  );
+}
+
+.statusNeutral {
+  @include component-token(
+    "notification",
+    "color",
+    theme-token("color.text.secondary.subtle.inverse")
+  );
+  @include component-token(
+    "notification",
+    "color.background",
+    theme-token("color.background.secondary.subtle")
+  );
+}
+
+.statusWarning {
+  @include component-token(
+    "notification",
+    "color",
+    theme-token("color.text.neutral")
+  );
+  @include component-token(
+    "notification",
+    "color.background",
+    theme-token("color.background.warning.subdued")
+  );
+}
+
+.statusError {
+  @include component-token(
+    "notification",
+    "color",
+    theme-token("color.text.danger.subtle.inverse")
+  );
+  @include component-token(
+    "notification",
+    "color.background",
+    theme-token("color.background.danger.subtle")
+  );
+}
+
+.typeToast {
+  display: inline-flex;
+}
+
+.typeAlert {
+  display: flex;
+  width: 100%;
+}
+
+.Notification {
+  @include component-token(
+    "notification",
+    "border_radius",
+    design-token("shape.border_radius.base")
+  );
+  @include component-token("notification", "max-width", 1200px);
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  padding: design-token("space.1");
+  border-radius: 0 0 component-token("notification", "border_radius")
+    component-token("notification", "border_radius");
+  max-width: component-token("notification", "max-width");
+  color: component-token("notification", "color");
+  background-color: component-token("notification", "color.background");
+}
+
+.iconText {
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1");
+}
+
+.closeButton {
+  border: 0;
+  padding: design-token("space.0");
+  margin-left: design-token("space.2");
+  margin-right: design-token("space.1");
+  background-color: component-token("notification", "color.background");
+  color: component-token("notification", "color.text");
+  cursor: pointer;
+}
+
+.notificationRegion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notificationContainer {
+  position: fixed;
+  z-index: 999999;
+  width: 100%;
+  top: 0;
+}
