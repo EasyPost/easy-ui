@@ -28,7 +28,7 @@ const meta: Meta<typeof Badge> = {
       Info: InfoIcon,
       Warning: WarningIcon,
     }),
-    supportText: {
+    secondaryLabel: {
       control: "text",
     },
   },
@@ -77,12 +77,12 @@ export const DetailedIcon: Story = {
 export const DetailedText: Story = {
   render: Template.bind({}),
   args: {
-    children: "Badge",
-    supportText: "Badge",
+    children: "Primary",
+    secondaryLabel: "Secondary",
   },
   parameters: {
     controls: {
-      include: ["accessibilityLabel", "children", "supportText", "variant"],
+      include: ["accessibilityLabel", "children", "secondaryLabel", "variant"],
     },
   },
 };
@@ -102,7 +102,7 @@ export const ColorVariants: Story = {
   ),
   args: {
     children: "Badge",
-    supportText: "Badge",
+    secondaryLabel: "Badge",
   },
   decorators: [InlineStoryDecorator],
   parameters: {

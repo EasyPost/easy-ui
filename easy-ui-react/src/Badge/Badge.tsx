@@ -19,8 +19,8 @@ export type BadgeVariant =
 
 export type BadgeProps = {
   /**
-   * Accessible label for badge if it differs from its content.
-   * Required for icon-only badges.
+   * Accessible label for the badge if it differs from its content. Required
+   * for icon badges.
    */
   accessibilityLabel?: string;
 
@@ -31,10 +31,9 @@ export type BadgeProps = {
   icon?: IconSymbol;
 
   /**
-   * Any additional text to support the primary label.
-   * Only for text-only badges.
+   * Any additional text to support the primary label on text badges.
    */
-  supportText?: ReactNode;
+  secondaryLabel?: ReactNode;
 
   /**
    * Badge variant.
@@ -65,7 +64,7 @@ export type BadgeProps = {
  * @example
  * _Detailed text:_
  * ```tsx
- * <Badge supportText="Last updated: Jan 3. 2023">
+ * <Badge secondaryLabel="Last updated: Jan 3. 2023">
  *   Deprecated
  * </Badge>
  * ```
@@ -80,7 +79,7 @@ export function Badge(props: BadgeProps) {
   const {
     accessibilityLabel,
     children,
-    supportText,
+    secondaryLabel,
     icon,
     variant = DEFAULT_VARIANT,
   } = props;
@@ -98,8 +97,8 @@ export function Badge(props: BadgeProps) {
     console.warn("Badge requires one of children or icon");
   }
 
-  if (supportText && icon) {
-    console.warn("supportText is not supported on a Badge with icon");
+  if (secondaryLabel && icon) {
+    console.warn("secondaryLabel is not supported on a Badge with icon");
   }
 
   if (icon && !children && !accessibilityLabel) {
@@ -119,10 +118,10 @@ export function Badge(props: BadgeProps) {
           <span className={styles.text}>{children}</span>
         )}
       </span>
-      {children && (icon || supportText) && (
+      {children && (icon || secondaryLabel) && (
         <span className={styles.support}>
           <span className={styles.text}>
-            {icon ? <>{children}</> : <>{supportText}</>}
+            {icon ? <>{children}</> : <>{secondaryLabel}</>}
           </span>
         </span>
       )}
