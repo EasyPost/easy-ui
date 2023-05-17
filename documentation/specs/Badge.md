@@ -147,11 +147,7 @@ export function Badge(props: BadgeProps) {
   }
 
   return (
-    <span
-      className={className}
-      role="presentation"
-      {...(accessibilityLabel ? { "aria-label": accessibilityLabel } : {})}
-    >
+    <span className={className}>
       <span
         className={styles.content}
         data-content-type={icon ? "icon" : "text"}
@@ -173,8 +169,6 @@ export function Badge(props: BadgeProps) {
 ## Behavior
 
 ### Accessibility
-
-A badge should have `role="presentation"` set on its container.
 
 A badge may have an `accessibilityLabel` if the contents of the badge is insufficient to describe its purpose.
 
