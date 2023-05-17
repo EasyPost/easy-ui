@@ -41,7 +41,7 @@ describe("<Badge />", () => {
 
   it("should support passing variants", () => {
     render(<Badge variant="secondary">Badge text</Badge>);
-    expect(screen.getByRole("presentation")).toHaveAttribute(
+    expect(screen.getByTestId("root")).toHaveAttribute(
       "class",
       expect.stringContaining("variantSecondary"),
     );

@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
-import { IconSymbol } from "../types";
 import { Icon } from "../Icon";
+import { Text } from "../Text";
+import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 
 import styles from "./Badge.module.scss";
@@ -106,11 +107,8 @@ export function Badge(props: BadgeProps) {
   }
 
   return (
-    <span
-      className={className}
-      role="presentation"
-      {...(accessibilityLabel ? { "aria-label": accessibilityLabel } : {})}
-    >
+    <span className={className} data-testid="root">
+      {accessibilityLabel && <Text visuallyHidden>{accessibilityLabel}</Text>}
       <span className={styles.content}>
         {icon ? (
           <Icon symbol={icon} size="sm" />
