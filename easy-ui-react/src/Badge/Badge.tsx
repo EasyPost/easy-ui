@@ -109,7 +109,7 @@ export function Badge(props: BadgeProps) {
   return (
     <span className={className} data-testid="root">
       {accessibilityLabel && <Text visuallyHidden>{accessibilityLabel}</Text>}
-      <span className={styles.content}>
+      <span className={styles.primary}>
         {icon ? (
           <Icon symbol={icon} size="sm" />
         ) : (
@@ -117,7 +117,7 @@ export function Badge(props: BadgeProps) {
         )}
       </span>
       {children && (icon || secondaryLabel) && (
-        <span className={styles.support}>
+        <span className={styles.secondary}>
           <span className={styles.text}>
             {icon ? <>{children}</> : <>{secondaryLabel}</>}
           </span>
