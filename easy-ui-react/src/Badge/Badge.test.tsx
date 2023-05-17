@@ -24,7 +24,7 @@ describe("<Badge />", () => {
 
   it("should render simple icon", () => {
     render(<Badge accessibilityLabel="Intent of badge" icon={Anchor} />);
-    expect(screen.getByLabelText(/intent of badge/i)).toBeInTheDocument();
+    expect(screen.getByText(/intent of badge/i)).toBeInTheDocument();
   });
 
   it("should render detailed icon", () => {
