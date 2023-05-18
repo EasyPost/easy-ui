@@ -1,8 +1,9 @@
-import React, { ReactNode, useRef } from "react";
-import { useButton } from "react-aria";
+import React, { ReactNode, forwardRef } from "react";
+import { UnstyledButton } from "../UnstyledButton";
 import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
+import { AriaButtonProps } from "react-aria";
 import { logWarningIfInvalidColorVariantCombination } from "./utilities";
 
 import styles from "./Button.module.scss";
@@ -19,7 +20,7 @@ export type ButtonColor =
 export type ButtonVariant = "filled" | "outlined" | "link";
 export type ButtonSize = "sm" | "md";
 
-export type ButtonProps = {
+export type ButtonProps = AriaButtonProps & {
   /** Button color */
   color?: ButtonColor;
   /** Button variant */
@@ -40,7 +41,7 @@ export type ButtonProps = {
   href?: string;
 };
 
-export function Button(props: ButtonProps) {
+export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
   const {
     color = "primary",
     variant = "filled",
@@ -51,14 +52,8 @@ export function Button(props: ButtonProps) {
     iconAtEnd,
     children = "Button",
     href = "",
+    ...restProps
   } = props;
-
-  const ref = useRef(null);
-  const As = href ? "a" : "button";
-  const { buttonProps: elementProps } = useButton(
-    { ...props, elementType: As },
-    ref,
-  );
 
   const bothIconPropsDefined = iconAtEnd && iconAtStart;
   if (bothIconPropsDefined) {
@@ -75,9 +70,9 @@ export function Button(props: ButtonProps) {
   logWarningIfInvalidColorVariantCombination(color, variant);
 
   return (
-    <As
-      disabled={isDisabled}
-      ref={ref}
+    <UnstyledButton
+      isDisabled={isDisabled}
+      ref={inRef}
       className={classNames(
         styles.Button,
         styles[variationName("color", color)],
@@ -85,7 +80,8 @@ export function Button(props: ButtonProps) {
         styles[variationName("size", size)],
         isBlock && styles.block,
       )}
-      {...elementProps}
+      href={href}
+      {...restProps}
     >
       {iconAtStart && canUseIcon && <Icon symbol={iconAtStart} />}
       <span
@@ -97,6 +93,8 @@ export function Button(props: ButtonProps) {
         {children}
       </span>
       {iconAtEnd && canUseIcon && <Icon symbol={iconAtEnd} />}
-    </As>
+    </UnstyledButton>
   );
-}
+});
+
+Button.displayName = "Button";

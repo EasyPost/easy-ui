@@ -2,9 +2,9 @@ import tokens from "../easy-ui-tokens/dist/js/tokens";
 
 export const viewports = Object.fromEntries(
   Object.entries(tokens)
-    .filter(([t]) => t.startsWith("breakpoint-"))
+    .filter(([t]) => t.startsWith("breakpoint."))
     .map(([key, value]) => {
-      const name = key.replace("breakpoint-", "");
+      const name = key.replace("breakpoint.", "");
       return [
         name,
         {

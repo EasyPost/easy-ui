@@ -1,5 +1,5 @@
-@use "./mixins" as Button;
-@import "../styles/common";
+@use "../styles/common" as *;
+@use "mixins" as Button;
 
 .Button {
   @include Button.base;

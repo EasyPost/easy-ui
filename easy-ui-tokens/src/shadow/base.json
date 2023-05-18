@@ -5,6 +5,12 @@
     },
     "input": {
       "value": "0px 0px 0px 3px rgba(1, 70, 130, 0.25)"
+    },
+    "overlay": {
+      "value": "0px 4px 8px rgba(141, 158, 193, 0.25)"
+    },
+    "overlay_subdued": {
+      "value": "1px 1px 4px rgba(141, 158, 193, 0.5)"
     }
   }
 }

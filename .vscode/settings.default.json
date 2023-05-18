@@ -1,0 +1,5 @@
+{
+  "mdx.experimentalLanguageServer": true,
+  "stylelint.validate": ["css", "postcss", "scss"],
+  "typescript.preferences.importModuleSpecifier": "relative"
+}

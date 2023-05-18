@@ -1,0 +1,83 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { Menu } from "./Menu";
+import * as MenuStories from "./Menu.stories";
+
+<Meta of={MenuStories} />
+
+# Menu
+
+## Simple Menu
+
+<Canvas of={MenuStories.SimpleMenu} />
+
+## With Separator
+
+A `<Menu />` can be divided into multiple sections, rendering a separator between each.
+
+<Canvas of={MenuStories.WithSeparator} />
+
+## Scrolls on Max Items
+
+When a `<Menu />` has more than five items the menu scrolls to only show those items. The number can be configured with the `maxItemsUntilScroll` property. Set the value to `Infinity` to disable scrolling.
+
+<Canvas of={MenuStories.ScrollsOnMaxItems} />
+
+<Controls
+  of={MenuStories.ScrollsOnMaxItems}
+  include={["maxItemsUntilScroll"]}
+/>
+
+## Width Options
+
+By default, a `<Menu />` is the width of its trigger element and stretches to the length of its content.
+
+<Canvas of={MenuStories.WithLongItems} />
+
+By setting `width="fit-content"` the menu will fit to the width of its content regardless of the width of its trigger.
+
+<Canvas of={MenuStories.MatchContentWidth} />
+
+The `width` of the `<Menu.Overlay />` can also be set to any arbitrary value.
+
+<Canvas of={MenuStories.DefinedWidth} />
+
+The `width` of the `<Menu.Overlay />` can also be set to any arbitrary value based on breakpoints.
+
+<Canvas of={MenuStories.DefinedResponsiveWidth} />
+
+## Item Types
+
+A `<Menu />` can include links by using the `href` property, and it can include disabled menu items by using the `disabledKeys` property on the `Menu.Overlay`.
+
+<Canvas of={MenuStories.MixedItemTypes} />
+
+## Custom Placement
+
+A `<Menu />` can be placed on different edges of its trigger element. See the controls for valid values. Ensure any deviation from the default value is coordinated with design to prevent unexpected user experience.
+
+<Canvas of={MenuStories.CustomPlacement} />
+
+<Controls of={MenuStories.CustomPlacement} include={["placement"]} />
+
+## Properties
+
+### Menu
+
+<ArgTypes of={Menu} />
+
+### Menu.Trigger
+
+<ArgTypes of={Menu.Trigger} />
+
+### Menu.Overlay
+
+<ArgTypes of={Menu.Overlay} />
+
+### Menu.Section
+
+<ArgTypes of={Menu.Section} />
+
+### Menu.Item
+
+<ArgTypes of={Menu.Item} />

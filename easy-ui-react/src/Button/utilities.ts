@@ -1,3 +1,4 @@
+import omit from "lodash/omit";
 import { ButtonColor } from "./Button";
 import { ButtonVariant } from "./Button";
 
@@ -16,4 +17,17 @@ export function logWarningIfInvalidColorVariantCombination(
       `The color '${color}' is not supported with the '${variant}' variant`,
     );
   }
+}
+
+/**
+ * Removes aria-specific props from being applied to button DOM element.
+ */
+export function omitReactAriaSpecificProps(props: object) {
+  return omit(props, [
+    "onPress",
+    "onPressChange",
+    "onPressStart",
+    "onPressEnd",
+    "onPressUp",
+  ]);
 }
