@@ -4,7 +4,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: design-token("shape.border_radius.base");
+  border-radius: design-token("shape.border_radius.md");
   cursor: pointer;
 
   &:focus {

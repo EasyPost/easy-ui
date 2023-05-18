@@ -1,20 +1,11 @@
 {
   "shape": {
     "border_radius": {
-      "base": {
-        "value": "5px",
-        "attributes": { "unit": "rem" }
-      },
-      "lg": {
-        "value": "8px",
-        "attributes": { "unit": "rem" }
-      }
+      "md": { "value": "5px", "attributes": { "unit": "rem" } },
+      "lg": { "value": "8px", "attributes": { "unit": "rem" } }
     },
     "border_width": {
-      "1": {
-        "value": "1px",
-        "attributes": { "unit": "rem" }
-      }
+      "1": { "value": "1px", "attributes": { "unit": "rem" } }
     }
   }
 }
