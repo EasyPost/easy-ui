@@ -99,11 +99,17 @@ export function Notification(props: NotificationStateProps) {
     onDismiss,
   } = notification.content;
 
-  const { toastProps, titleProps, closeButtonProps } = useToast(
-    props,
-    state,
-    ref,
-  );
+  const {
+    toastProps: notificationProps,
+    titleProps,
+    closeButtonProps,
+  } = useToast(props, state, ref);
+
+  // default role alert
+  const notificationPropsWithAdjustedAriaRole =
+    type === "toast"
+      ? { ...notificationProps, role: "status" }
+      : notificationProps;
 
   const handleDismiss = () => {
     if (onDismiss) {
@@ -118,7 +124,7 @@ export function Notification(props: NotificationStateProps) {
 
   return (
     <div
-      {...toastProps}
+      {...notificationPropsWithAdjustedAriaRole}
       ref={ref}
       className={classNames(
         styles.Notification,

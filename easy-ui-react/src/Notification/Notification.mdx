@@ -1,39 +1,71 @@
 import React from "react";
-import { Canvas, Meta, Controls } from "@storybook/blocks";
+import { Canvas, Meta, Controls, ArgTypes } from "@storybook/blocks";
+import { NotificationProvider } from "./Notification";
 import * as NotificationStories from "./Notification.stories";
 
 <Meta of={NotificationStories} />
 
 # Notification
 
-The stories below simulate how a notification of type `alert` or `toast` is triggered. In practice, one would use Easy UI's
-`useNotification` hook, which returns an object on which the following methods can be invoked: `showSuccessToast`, `showPromotionalToast`,
-`showNeutralToast`, `showWarningToast`, `showErrorToast`, `showSuccessAlert`, `showPromotionalAlert`, `showNeutralAlert`, `showWarningAlert`,
-and `showErrorAlert`. See [notification documentation specs](https://github.com/EasyPost/easy-ui/blob/main/documentation/specs/Notification.md#example-usage) for more
-information on example usage.
+## Notification
 
-## Success Notifications
+Notifications of type `alert` and `toast` can be displayed via Easy UI's `useNotification` hook. The hook returns a notification
+object on which methods can be invoked to display the appropriate notification. Use the `Show code` tab below for the associated code sample.
 
-<Canvas of={NotificationStories.SuccessNotification} />
+<Canvas of={NotificationStories.Notifications} />
 
-## Promotional Notifications
+## Custom placement
 
-<Canvas of={NotificationStories.PromotionalNotification} />
+Notifications can have custom placement on a per app basis. Use the `notificationPlacementOffset` prop which is available on the `EasyUIProvider` component.
 
-## Neutral Notifications
+<Canvas of={NotificationStories.CustomPlacement} />
 
-<Canvas of={NotificationStories.NeutralNotification} />
+## Properties
 
-## Warning Notifications
+### Notification props
 
-<Canvas of={NotificationStories.WarningNotification} />
+```tsx
+export type NotificationType = "alert" | "toast";
 
-## Error Notifications
+export type NotificationStatus =
+  | "promotional"
+  | "success"
+  | "neutral"
+  | "error"
+  | "warning";
 
-<Canvas of={NotificationStories.ErrorNotification} />
+export type NotificationProps = {
+  /** Notification type */
+  type: NotificationStatus;
+  /** Notification message */
+  message: ReactNode;
+  /** Callback function when dismissing alerts */
+  onDismiss?: () => void;
+  /**
+   * Notification status
+   * @default "success"
+   */
+  status?: NotificationStatus;
+  /**
+   * Notification will render with left aligned status icon
+   * @default false
+   */
+  noIcon?: boolean;
+};
+```
 
-## Controls
+### Provider props
 
-<Canvas of={NotificationStories.Controls} />
+```tsx
+export type NotificationPositionOffset = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+};
 
-<Controls of={NotificationStories.Controls} />
+export interface ProviderProps {
+  notificationPlacementOffset?: NotificationPositionOffset;
+  /** Rest props */
+}
+```
