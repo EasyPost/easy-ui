@@ -34,23 +34,28 @@ export type NotificationStatus =
   | "error"
   | "warning";
 
-export type NotificationProps = {
+export type BaseNotificationProps = {
   /** Notification type */
-  type: NotificationStatus;
+  type?: NotificationType;
   /** Notification message */
   message: ReactNode;
-  /** Callback function when dismissing alerts */
-  onDismiss?: () => void;
   /**
    * Notification status
-   * @default "success"
+   * @default 'success'
    */
   status?: NotificationStatus;
   /**
    * Notification will render with left aligned status icon
-   * @default false
+   * @default true
    */
-  noIcon?: boolean;
+  hasIcon?: boolean;
+};
+
+export type ToastProps = Omit<BaseNotificationProps, "type" | "status">;
+
+export type AlertProps = Omit<BaseNotificationProps, "type" | "status"> & {
+  /** Callback function when dismissing alerts */
+  onDismiss?: () => void;
 };
 ```
 
@@ -58,9 +63,13 @@ export type NotificationProps = {
 
 ```tsx
 export type NotificationPlacementOffset = {
+  /** Top offset */
   top?: string;
+  /** Right offset */
   right?: string;
+  /** Bottom offset */
   bottom?: string;
+  /** Left offset */
   left?: string;
 };
 

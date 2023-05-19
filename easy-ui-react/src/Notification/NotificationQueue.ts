@@ -1,5 +1,4 @@
 import { ToastStateProps, ToastQueue } from "@react-stately/toast";
-import { AlertProps, ToastProps } from "./Notification";
 
 export const TOAST_TIMEOUT_DURATION = 4000;
 
@@ -29,14 +28,14 @@ export class EasyUINotificationQueue<
     }
   }
 
-  alert(content: AlertProps) {
+  alert(content: NotificationProps) {
     this.closeActiveNotification();
-    this.activeNotificationKey = super.add(content as NotificationProps);
+    this.activeNotificationKey = super.add(content);
   }
 
-  toast(content: ToastProps) {
+  toast(content: NotificationProps) {
     this.closeActiveNotification();
-    this.activeNotificationKey = super.add(content as NotificationProps, {
+    this.activeNotificationKey = super.add(content, {
       timeout: TOAST_TIMEOUT_DURATION,
     });
   }

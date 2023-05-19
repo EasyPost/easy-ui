@@ -41,9 +41,9 @@ export type BaseNotificationProps = {
   hasIcon?: boolean;
 };
 
-export type ToastProps = BaseNotificationProps;
+export type ToastProps = Omit<BaseNotificationProps, "type" | "status">;
 
-export type AlertProps = BaseNotificationProps & {
+export type AlertProps = Omit<BaseNotificationProps, "type" | "status"> & {
   /** Callback function when dismissing alerts */
   onDismiss?: () => void;
 };
@@ -190,10 +190,36 @@ export const NotificationContext =
  * user action to dismiss. The displayed messaged is accompanied by an associated status icon. If the message is
  * not prominent enough to immediately require the user's attention, consider using toasts.
  * 
- * The following methods are available on the returned notification object: `showSuccessToast`, `showSuccessAlert`,
- * `showPromotionalToast`, `showPromotionalAlert`, `showNeutralToast`, `showNeutralAlert`, `showWarningToast`, 
- * `showWarningAlert`, `showErrorToast`, `showErrorAlert`.
- *
+ * The following methods are available on the returned notification object:
+ * 
+ * ```tsx
+ * showPromotionalToast(content: ToastProps): void;
+ * showNeutralToast(content: ToastProps): void;
+ * showSuccessToast(content: ToastProps): void;
+ * showWarningToast(content: ToastProps): void;
+ * showErrorToast(content: ToastProps): void;
+ * showPromotionalAlert(content: AlertProps): void;
+ * showNeutralAlert(content: AlertProps): void;
+ * showSuccessAlert(content: AlertProps): void;
+ * showWarningAlert(content: AlertProps): void;
+ * showErrorAlert(content: AlertProps): void;
+ * 
+ * type ToastProps = {
+ *   // Notification message
+ *   message: ReactNode;
+ *   // Notification will render with left aligned status icon
+ *   hasIcon?: boolean;
+ * }
+ * 
+ * type AlertProps = {
+ *   // Notification message
+ *   message: ReactNode;
+ *   // Notification will render with left aligned status icon
+ *   hasIcon?: boolean;
+ *   // Callback function when dismissing alerts
+ *   onDismiss?: () => void;
+ * }
+ * ```
  * @example
  * _Success:_
 ```tsx

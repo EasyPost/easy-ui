@@ -22,6 +22,7 @@ export const Notifications: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { notification } = useNotification();
+
     return (
       <>
         <Button
