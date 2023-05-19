@@ -30,7 +30,7 @@ describe("<Notification />", () => {
         <SimulatedNotificationTrigger type="alert" />
       </NotificationProvider>,
     );
-    await clickNotificationTrigger(user, screen.getByRole("button"));
+    await clickNotification(user, screen.getByRole("button"));
     expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
@@ -40,25 +40,59 @@ describe("<Notification />", () => {
         <SimulatedNotificationTrigger />
       </NotificationProvider>,
     );
-    await clickNotificationTrigger(user, screen.getByRole("button"));
+    await clickNotification(user, screen.getByRole("button"));
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
-  it("should check that toasts disappear after 4000ms", async () => {
+  it("checks that toast notifications disappear after 4000ms", async () => {
     const { user } = render(
       <NotificationProvider>
         <SimulatedNotificationTrigger />
       </NotificationProvider>,
     );
-    await clickNotificationTrigger(user, screen.getByRole("button"));
+    await clickNotification(user, screen.getByRole("button"));
     act(() => {
       vi.advanceTimersByTime(TOAST_TIMEOUT_DURATION);
     });
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
+
+  it("checks that alert notifications can be dismissed", async () => {
+    const { user } = render(
+      <NotificationProvider>
+        <SimulatedNotificationTrigger type="alert" />
+      </NotificationProvider>,
+    );
+    await clickNotification(user, screen.getByRole("button"));
+    await clickNotification(user, screen.getAllByRole("button")[1]);
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  it("should render a notification with appropriate status styles applied", async () => {
+    const { user } = render(
+      <NotificationProvider>
+        <SimulatedNotificationTrigger type="alert" status="promotional" />
+      </NotificationProvider>,
+    );
+    await clickNotification(user, screen.getByRole("button"));
+    expect(screen.getByRole("alert")).toHaveAttribute(
+      "class",
+      expect.stringContaining("statusPromotional"),
+    );
+  });
+
+  it("should render a toast notification without an icon", async () => {
+    const { user } = render(
+      <NotificationProvider>
+        <SimulatedNotificationTrigger hasIcon={false} />
+      </NotificationProvider>,
+    );
+    await clickNotification(user, screen.getByRole("button"));
+    expect(screen.queryByRole("img", { hidden: true })).not.toBeInTheDocument();
+  });
 });
 
-async function clickNotificationTrigger(user: UserEvent, el: HTMLElement) {
+async function clickNotification(user: UserEvent, el: HTMLElement) {
   await act(async () => {
     await user.click(el);
     vi.runAllTimers();
