@@ -28,7 +28,7 @@ export type BaseNotificationProps = {
   /** Notification type */
   type?: NotificationType;
   /** Notification message */
-  message?: ReactNode;
+  message: ReactNode;
   /**
    * Notification status
    * @default 'success'
@@ -168,6 +168,99 @@ function getStatusIcon(status: NotificationStatus) {
 export const NotificationContext =
   createContext<NotificationState<NotificationProps> | null>(null);
 
+/**
+ * Notifications of type alert or toast can be displayed using this hook. The hook returns a notification
+ * object on which methods can be invoked to display the appropriate notification.
+ *
+ * @remarks
+ * Toasts dispay a brief non-disruptive message to the user as a result of an action taken. The displayed message
+ * is accompanied by an associated status icon and cannot be manually dismissed, instead toast messages automatically
+ * timeout after `4000ms`. Toasts should not be used to display critical information such as a system failure,
+ * use `alerts` for such behavior. They should also contain purely text and no elements such as links.
+ *
+ * Alerts display an important message near the top of the page that does not automatically timeout and requires
+ * user action to dismiss. The displayed messaged is accompanied by an associated status icon. If the message is
+ * not prominent enough to immediately require the user's attention, consider using toasts.
+ * 
+ * The following methods are available on the returned notification object: `showSuccessToast`, `showSuccessAlert`,
+ * `showPromotionalToast`, `showPromotionalAlert`, `showNeutralToast`, `showNeutralAlert`, `showWarningToast`, 
+ * `showWarningAlert`, `showErrorToast`, `showErrorAlert`.
+ *
+ * @example
+ * _Success:_
+```tsx
+* import { useNotification } from "@easypost/easy-ui/Notification";
+* import { Button } from "@easypost/easy-ui/Button";
+*
+* function Component() {
+*  const { notification } = useNotification();
+*
+*  const onToast = () => {
+*    notification.showSuccessToast({ message: "message" });
+*  };
+*
+*  const onAlert = () => {
+*    notification.showSuccessAlert({ message: "message" });
+* };
+*
+*  return (
+*    <>
+*      <Button onPress={onToast}>Show toast</Button>
+*      <Button onPress={onAlert}>Show alert</Button>
+*    </>
+*  );
+*}
+*```
+* @example
+* _Without status icons:_
+```tsx
+* import { useNotification } from "@easypost/easy-ui/Notification";
+* import { Button } from "@easypost/easy-ui/Button";
+*
+* function Component() {
+*  const { notification } = useNotification();
+*
+*  const onToast = () => {
+*    notification.showPromotionalToast({ message: "message", hasIcon: false });
+*  };
+*
+*  const onAlert = () => {
+*    notification.showWarningAlert({ message: "message", hasIcon: false });
+* };
+*
+*  return (
+*    <>
+*      <Button onPress={onToast}>Show toast</Button>
+*      <Button onPress={onAlert}>Show alert</Button>
+*    </>
+*  );
+*}
+*```
+* @example
+* _With onDismiss callback, only applicable for alerts:_
+```tsx
+* import { useNotification } from "@easypost/easy-ui/Notification";
+* import { Button } from "@easypost/easy-ui/Button";
+*
+* function Component() {
+*  const { notification } = useNotification();
+*
+*
+*  const onAlert = () => {
+*    notification.showNeutralAlert({
+*      message: "message",
+*      onDismiss: () => alert("i am called immediately before the alert closes"),
+*    });
+*  };
+*
+*  return (
+*    <>
+*      <Button onPress={onAlert}>Show alert</Button>
+*    </>
+*  );
+*}
+*```
+ */
 export function useNotification() {
   const notification = useContext(NotificationContext);
   if (!notification) {
@@ -179,14 +272,20 @@ export function useNotification() {
 }
 
 export type NotificationPositionOffset = {
+  /** Top offset */
   top?: string;
+  /** Right offset */
   right?: string;
+  /** Bottom offset */
   bottom?: string;
+  /** Left offset */
   left?: string;
 };
 
 export type NotificationProviderProps = {
+  /** Child components */
   children: ReactNode;
+  /** Notification placement offset */
   notificationPlacementOffset?: NotificationPositionOffset;
 };
 

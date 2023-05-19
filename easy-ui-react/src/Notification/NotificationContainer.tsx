@@ -5,9 +5,16 @@ import { useNotification, NotificationPositionOffset } from "./Notification";
 import style from "./Notification.module.scss";
 
 export type NotificationContainerProps = {
+  /** Notification placement offset */
   notificationPlacementOffset?: NotificationPositionOffset;
 };
 
+/**
+ * @privateRemarks
+ * This component serves as a wrapper around the NotificationRegion component.
+ * It handles the logic to render notifications into a portal and positional
+ * styles.
+ */
 export function NotificationContainer(props: NotificationContainerProps) {
   const { notificationPlacementOffset = null } = props;
   const { notification } = useNotification();

@@ -117,14 +117,14 @@ export const CustomPlacement: Story = {
           bottom: "0px",
         }}
       >
-        <SimulatedNotificationTrigger />
+        <SimulatedNotificationTrigger message="Hello World" />
       </EasyUIProvider>
     );
   },
 };
 
 function SimulatedNotificationTrigger(props: NotificationProps) {
-  const { message = "Hello World" } = props;
+  const { message } = props;
   const { notification } = useNotification();
 
   return (

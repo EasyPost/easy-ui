@@ -27,7 +27,7 @@ describe("<Notification />", () => {
   it("should render an alert notification", async () => {
     const { user } = render(
       <NotificationProvider>
-        <SimulatedNotificationTrigger type="alert" />
+        <SimulatedNotificationTrigger type="alert" message="Hello World" />
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
@@ -37,7 +37,7 @@ describe("<Notification />", () => {
   it("should render a toast notification", async () => {
     const { user } = render(
       <NotificationProvider>
-        <SimulatedNotificationTrigger />
+        <SimulatedNotificationTrigger message="Hello World" />
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
@@ -47,7 +47,7 @@ describe("<Notification />", () => {
   it("checks that toast notifications disappear after 4000ms", async () => {
     const { user } = render(
       <NotificationProvider>
-        <SimulatedNotificationTrigger />
+        <SimulatedNotificationTrigger message="Hello World" />
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
@@ -60,7 +60,7 @@ describe("<Notification />", () => {
   it("checks that alert notifications can be dismissed", async () => {
     const { user } = render(
       <NotificationProvider>
-        <SimulatedNotificationTrigger type="alert" />
+        <SimulatedNotificationTrigger type="alert" message="Hello World" />
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
@@ -71,7 +71,11 @@ describe("<Notification />", () => {
   it("should render a notification with appropriate status styles applied", async () => {
     const { user } = render(
       <NotificationProvider>
-        <SimulatedNotificationTrigger type="alert" status="promotional" />
+        <SimulatedNotificationTrigger
+          type="alert"
+          message="Hello World"
+          status="promotional"
+        />
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
@@ -84,7 +88,7 @@ describe("<Notification />", () => {
   it("should render a toast notification without an icon", async () => {
     const { user } = render(
       <NotificationProvider>
-        <SimulatedNotificationTrigger hasIcon={false} />
+        <SimulatedNotificationTrigger message="Hello World" hasIcon={false} />
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
@@ -102,7 +106,7 @@ async function clickNotification(user: UserEvent, el: HTMLElement) {
 function SimulatedNotificationTrigger(props: NotificationProps) {
   const {
     type = "toast",
-    message = "Hello World",
+    message,
     status = "success",
     hasIcon = true,
     onDismiss,

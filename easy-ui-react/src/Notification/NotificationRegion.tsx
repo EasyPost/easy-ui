@@ -8,9 +8,18 @@ import { useToastRegion, AriaToastRegionProps } from "@react-aria/toast";
 import styles from "./Notification.module.scss";
 
 export type NotificationRegionProps = AriaToastRegionProps & {
+  /**
+   * Holds the state for notifications and the functions that directly
+   * interact with the queue object.
+   */
   notification: NotificationState<NotificationProps>;
 };
 
+/**
+ * @privateRemarks
+ * This componenet is responsible for rendering individual notifications into
+ * a region.
+ */
 export function NotificationRegion(props: NotificationRegionProps) {
   const { notification } = props;
   const ref = React.useRef(null);
