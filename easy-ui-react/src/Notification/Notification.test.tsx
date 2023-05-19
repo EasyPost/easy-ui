@@ -44,6 +44,16 @@ describe("<Notification />", () => {
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
+  it("should render a notification with a visible message", async () => {
+    const { user } = render(
+      <NotificationProvider>
+        <SimulatedNotificationTrigger message="Hello World" />
+      </NotificationProvider>,
+    );
+    await clickNotification(user, screen.getByRole("button"));
+    expect(screen.getByText("Hello World")).toBeInTheDocument();
+  });
+
   it("checks that toast notifications disappear after 4000ms", async () => {
     const { user } = render(
       <NotificationProvider>
@@ -85,7 +95,30 @@ describe("<Notification />", () => {
     );
   });
 
-  it("should render a toast notification without an icon", async () => {
+  it("should render a notification with appropriate type styles applied", async () => {
+    const { user } = render(
+      <NotificationProvider>
+        <SimulatedNotificationTrigger type="alert" message="Hello World" />
+      </NotificationProvider>,
+    );
+    await clickNotification(user, screen.getByRole("button"));
+    expect(screen.getByRole("alert")).toHaveAttribute(
+      "class",
+      expect.stringContaining("typeAlert"),
+    );
+  });
+
+  it("should render a notification with an icon", async () => {
+    const { user } = render(
+      <NotificationProvider>
+        <SimulatedNotificationTrigger message="Hello World" />
+      </NotificationProvider>,
+    );
+    await clickNotification(user, screen.getByRole("button"));
+    expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
+  });
+
+  it("should render a notification without an icon", async () => {
     const { user } = render(
       <NotificationProvider>
         <SimulatedNotificationTrigger message="Hello World" hasIcon={false} />
