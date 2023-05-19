@@ -125,7 +125,7 @@ export type NotificationState<NotificationProps> =
  * prop which can be passed through EasyUIProvider. See more in the examples section.
  */
 
-export type NotificationPositionOffset = {
+export type NotificationPlacementOffset = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -293,7 +293,7 @@ export function useNotificationState(): NotificationState<NotificationProps> {
   };
 }
 
-export type NotificationPositionOffset = {
+export type NotificationPlacementOffset = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -302,7 +302,7 @@ export type NotificationPositionOffset = {
 
 export type NotificationProviderProps = {
   children: ReactNode;
-  notificationPlacementOffset?: NotificationPositionOffset;
+  notificationPlacementOffset?: NotificationPlacementOffset;
 };
 
 export function NotificationProvider(props: NotificationProviderProps) {
@@ -325,7 +325,7 @@ export const useNotification = () => {
 };
 
 export type NotificationContainerProps = {
-  notificationPlacementOffset?: NotificationPositionOffset;
+  notificationPlacementOffset?: NotificationPlacementOffset;
 };
 
 export function NotificationContainer(props: NotificationContainerProps) {

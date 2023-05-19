@@ -1,12 +1,12 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { NotificationRegion } from "./NotificationRegion";
-import { useNotification, NotificationPositionOffset } from "./Notification";
+import { useNotification, NotificationPlacementOffset } from "./Notification";
 import style from "./Notification.module.scss";
 
 export type NotificationContainerProps = {
   /** Notification placement offset */
-  notificationPlacementOffset?: NotificationPositionOffset;
+  notificationPlacementOffset?: NotificationPlacementOffset;
 };
 
 /**

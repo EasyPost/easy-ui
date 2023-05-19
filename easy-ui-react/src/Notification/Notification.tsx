@@ -88,6 +88,14 @@ export type NotificationStateProps = AriaToastProps<NotificationProps> & {
   state: NotificationState<NotificationProps>;
 };
 
+/**
+ * @privateRemarks
+ * The Notification component handles rendering of individual toasts or alerts.
+ * The `toast` (notification) prop captures essential information such as the notification type,
+ * the message to display, the status, whether or not it should render with an icon, and a callback
+ * function that is called when an alert is dismissed. The `state` prop captures stateful information,
+ * such as functions that can interact with the queue in a programmatic way.
+ */
 export function Notification(props: NotificationStateProps) {
   const ref = useRef(null);
   const { state, toast: notification } = props;
@@ -271,7 +279,7 @@ export function useNotification() {
   return { notification: notification };
 }
 
-export type NotificationPositionOffset = {
+export type NotificationPlacementOffset = {
   /** Top offset */
   top?: string;
   /** Right offset */
@@ -286,9 +294,15 @@ export type NotificationProviderProps = {
   /** Child components */
   children: ReactNode;
   /** Notification placement offset */
-  notificationPlacementOffset?: NotificationPositionOffset;
+  notificationPlacementOffset?: NotificationPlacementOffset;
 };
 
+/**
+ * @privateRemarks
+ * The NotificationProvider component bundles everything necessary for an app to
+ * display notifications via the `useNotification` hook. This component shouldn't
+ * be used on its own and is included in the general EasyUI Provider
+ */
 export function NotificationProvider(props: NotificationProviderProps) {
   const { children, notificationPlacementOffset } = props;
   const notification = useNotificationState();

@@ -57,7 +57,7 @@ export type NotificationProps = {
 ### Provider props
 
 ```tsx
-export type NotificationPositionOffset = {
+export type NotificationPlacementOffset = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -65,7 +65,7 @@ export type NotificationPositionOffset = {
 };
 
 export interface ProviderProps {
-  notificationPlacementOffset?: NotificationPositionOffset;
+  notificationPlacementOffset?: NotificationPlacementOffset;
   /** Rest props */
 }
 ```
