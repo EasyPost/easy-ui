@@ -39,18 +39,20 @@
   width: 100%;
 }
 
-// prettier-ignore
 .Notification {
+  /* prettier-ignore */
   @include component-token("notification", "border_radius", design-token("shape.border_radius.base"));
   @include component-token("notification", "max-width", 1200px);
   align-items: center;
   justify-content: space-between;
   margin: auto;
   padding: design-token("space.1");
+  /* prettier-ignore */
   border-radius: 0 0 component-token("notification", "border_radius") component-token("notification", "border_radius");
   max-width: component-token("notification", "max-width");
   color: component-token("notification", "color");
   background-color: component-token("notification", "color.background");
+  pointer-events: auto;
 }
 
 .iconText {
@@ -59,25 +61,29 @@
   gap: design-token("space.1");
 }
 
-// prettier-ignore
 .closeButton {
   border: 0;
   padding: design-token("space.0");
+  /* prettier-ignore */
   margin: design-token("space.0.5") design-token("space.1") design-token("space.0.5") design-token("space.2");
   background-color: component-token("notification", "color.background");
   color: component-token("notification", "color.text");
   cursor: pointer;
 }
 
-.notificationRegion {
+.region {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.notificationContainer {
-  position: fixed;
-  z-index: 999999;
+.container {
+  /* prettier-ignore */
+  @include component-token("notification", "z-index", design-token("z_index.999999"));
+  position: absolute;
+  z-index: component-token("notification", "z-index");
   width: 100%;
   top: 0;
+  left: 0;
+  pointer-events: none;
 }

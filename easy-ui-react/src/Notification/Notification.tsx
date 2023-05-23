@@ -48,44 +48,50 @@ export type AlertProps = Omit<BaseNotificationProps, "type" | "status"> & {
   onDismiss?: () => void;
 };
 
+export type QueuedNotification = QueuedToast<NotificationProps>;
+
 export type NotificationProps = BaseNotificationProps & ToastProps & AlertProps;
 
-/** The methods below are accessible on the object returned by the `useNotification` hook */
-export type NotificationState<NotificationProps> =
-  ToastState<NotificationProps> & {
-    /** Shows promotional color status toast */
-    showPromotionalToast(content: ToastProps): void;
-    /** Shows neutral color status toast */
-    showNeutralToast(content: ToastProps): void;
-    /** Shows success color status toast */
-    showSuccessToast(content: ToastProps): void;
-    /** Shows warning color status toast */
-    showWarningToast(content: ToastProps): void;
-    /** Shows error color status toast */
-    showErrorToast(content: ToastProps): void;
-    /** Shows promotional color status alert */
-    showPromotionalAlert(content: AlertProps): void;
-    /** Shows neutral color status alert */
-    showNeutralAlert(content: AlertProps): void;
-    /** Shows success color status alert */
-    showSuccessAlert(content: AlertProps): void;
-    /** Shows warning color status alert */
-    showWarningAlert(content: AlertProps): void;
-    /** Shows error color status alert */
-    showErrorAlert(content: AlertProps): void;
-  };
+export type NotificationInternalState = ToastState<NotificationProps>;
 
-export type NotificationStateProps = AriaToastProps<NotificationProps> & {
+/** The methods below are accessible on the object returned by the `useNotification` hook. */
+export type NotificationExternalState = {
+  /** Shows promotional color status toast */
+  showPromotionalToast(content: ToastProps): void;
+  /** Shows neutral color status toast */
+  showNeutralToast(content: ToastProps): void;
+  /** Shows success color status toast */
+  showSuccessToast(content: ToastProps): void;
+  /** Shows warning color status toast */
+  showWarningToast(content: ToastProps): void;
+  /** Shows error color status toast */
+  showErrorToast(content: ToastProps): void;
+  /** Shows promotional color status alert */
+  showPromotionalAlert(content: AlertProps): void;
+  /** Shows neutral color status alert */
+  showNeutralAlert(content: AlertProps): void;
+  /** Shows success color status alert */
+  showSuccessAlert(content: AlertProps): void;
+  /** Shows warning color status alert */
+  showWarningAlert(content: AlertProps): void;
+  /** Shows error color status alert */
+  showErrorAlert(content: AlertProps): void;
+};
+
+export type NotificationCombinedState = NotificationInternalState &
+  NotificationExternalState;
+
+export type NotificationItemStateProps = AriaToastProps<NotificationProps> & {
   /**
    * The `toast` name here is an artifact of react-stately, not an Easy UI `toast`
    * it is more appropriate to think of this as a `notification`.
    */
-  toast: QueuedToast<NotificationProps>;
+  toast: QueuedNotification;
   /**
-   * Holds the state for notifications and the functions that directly
-   * interact with the queue object.
+   * Holds the internal state for notifications and the functions that directly
+   * interact with the queue object. Consumers do not see this state.
    */
-  state: NotificationState<NotificationProps>;
+  state: NotificationInternalState;
 };
 
 /**
@@ -96,7 +102,7 @@ export type NotificationStateProps = AriaToastProps<NotificationProps> & {
  * function that is called when an alert is dismissed. The `state` prop captures stateful information,
  * such as functions that can interact with the queue in a programmatic way.
  */
-export function Notification(props: NotificationStateProps) {
+export function Notification(props: NotificationItemStateProps) {
   const ref = useRef(null);
   const { state, toast: notification } = props;
   const {
@@ -174,7 +180,7 @@ function getStatusIcon(status: NotificationStatus) {
 }
 
 export const NotificationContext =
-  createContext<NotificationState<NotificationProps> | null>(null);
+  createContext<NotificationExternalState | null>(null);
 
 /**
  * Notifications of type alert or toast can be displayed using this hook. The hook returns a notification
@@ -302,7 +308,8 @@ export function useNotification() {
       "useNotification() must be used within a NotificationProvider, which is bundled with EasyUIProvider",
     );
   }
-  return { notification: notification };
+
+  return notification;
 }
 
 export type NotificationPlacementOffset = {
@@ -331,12 +338,35 @@ export type NotificationProviderProps = {
  */
 export function NotificationProvider(props: NotificationProviderProps) {
   const { children, notificationPlacementOffset } = props;
-  const notification = useNotificationState();
+  const combinedState = useNotificationState();
+
+  const state = {
+    close: combinedState.close,
+    add: combinedState.add,
+    remove: combinedState.remove,
+    pauseAll: combinedState.pauseAll,
+    resumeAll: combinedState.resumeAll,
+    visibleToasts: combinedState.visibleToasts,
+  };
+
+  const notification = {
+    showErrorAlert: combinedState.showErrorAlert,
+    showErrorToast: combinedState.showErrorToast,
+    showPromotionalToast: combinedState.showPromotionalToast,
+    showPromotionalAlert: combinedState.showPromotionalAlert,
+    showNeutralToast: combinedState.showNeutralToast,
+    showNeutralAlert: combinedState.showNeutralAlert,
+    showSuccessToast: combinedState.showSuccessToast,
+    showSuccessAlert: combinedState.showErrorAlert,
+    showWarningToast: combinedState.showWarningToast,
+    showWarningAlert: combinedState.showWarningAlert,
+  };
 
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
         notificationPlacementOffset={notificationPlacementOffset}
+        state={state}
       />
       {children}
     </NotificationContext.Provider>

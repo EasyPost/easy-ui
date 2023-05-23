@@ -2,13 +2,18 @@ import { useMemo } from "react";
 import { useToastQueue } from "@react-stately/toast";
 import {
   NotificationProps,
-  NotificationState,
   AlertProps,
   ToastProps,
+  NotificationCombinedState,
 } from "./Notification";
 import { EasyUINotificationQueue } from "./NotificationQueue";
 
-export function useNotificationState(): NotificationState<NotificationProps> {
+/**
+ * @privateRemarks
+ * This is an internal hook to initialize the queue, the queue state and compose
+ * the functions that will be exposed to consumers.
+ */
+export function useNotificationState(): NotificationCombinedState {
   const queue = useMemo(
     () => new EasyUINotificationQueue<NotificationProps>(),
     [],

@@ -144,7 +144,7 @@ function SimulatedNotificationTrigger(props: NotificationProps) {
     hasIcon = true,
     onDismiss,
   } = props;
-  const { notification } = useNotification();
+  const notification = useNotification();
   const handlePress = () => {
     if (type === "toast") {
       if (status === "promotional") {

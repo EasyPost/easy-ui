@@ -21,7 +21,7 @@ export default meta;
 export const Notifications: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { notification } = useNotification();
+    const notification = useNotification();
 
     return (
       <>
@@ -126,7 +126,7 @@ export const CustomPlacement: Story = {
 
 function SimulatedNotificationTrigger(props: NotificationProps) {
   const { message } = props;
-  const { notification } = useNotification();
+  const notification = useNotification();
 
   return (
     <Button onPress={() => notification.showSuccessToast({ message })}>

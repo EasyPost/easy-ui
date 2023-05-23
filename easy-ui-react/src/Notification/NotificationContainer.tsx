@@ -1,12 +1,20 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { NotificationRegion } from "./NotificationRegion";
-import { useNotification, NotificationPlacementOffset } from "./Notification";
+import {
+  NotificationPlacementOffset,
+  NotificationInternalState,
+} from "./Notification";
 import style from "./Notification.module.scss";
 
 export type NotificationContainerProps = {
   /** Notification placement offset */
   notificationPlacementOffset?: NotificationPlacementOffset;
+  /**
+   * Holds the internal state for notifications and the functions that directly
+   * interact with the queue object. Consumers do not see this state.
+   */
+  state: NotificationInternalState;
 };
 
 /**
@@ -16,8 +24,7 @@ export type NotificationContainerProps = {
  * styles.
  */
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { notificationPlacementOffset = null } = props;
-  const { notification } = useNotification();
+  const { notificationPlacementOffset = null, state } = props;
   const positionStyleProps = notificationPlacementOffset
     ? {
         top: notificationPlacementOffset?.top,
@@ -29,13 +36,10 @@ export function NotificationContainer(props: NotificationContainerProps) {
   return (
     <>
       {/** visibleToasts` is an artifact of react-stately */}
-      {notification.visibleToasts.length > 0
+      {state.visibleToasts.length > 0
         ? createPortal(
-            <div
-              className={style.notificationContainer}
-              style={positionStyleProps}
-            >
-              <NotificationRegion notification={notification} />
+            <div className={style.container} style={positionStyleProps}>
+              <NotificationRegion state={state} />
             </div>,
             document.body,
           )
