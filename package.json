@@ -50,7 +50,7 @@
     "@babel/core": "^7.21.8",
     "@changesets/cli": "^2.26.0",
     "@storybook/addon-a11y": "^7.0.12",
-    "@storybook/addon-essentials": "^7.0.12",
+    "@storybook/addon-essentials": "^7.0.14",
     "@storybook/blocks": "^7.0.12",
     "@storybook/manager-api": "^7.0.12",
     "@storybook/react": "^7.0.12",
