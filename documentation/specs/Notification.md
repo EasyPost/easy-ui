@@ -107,6 +107,8 @@ export type NotificationExternalState = {
   showWarningAlert(content: AlertProps): void;
   /** Shows error color status alert */
   showErrorAlert(content: AlertProps): void;
+  /** Closes active notification */
+  closeActiveNotification(): void;
 };
 
 export type NotificationCombinedState = NotificationInternalState &
@@ -127,13 +129,14 @@ export type NotificationItemStateProps = AriaToastProps<NotificationProps> & {
 /**
  * Easy UI styles applied to `NotificationContainer`
  *
- *   position: absolute;
+ *   position: fixed;
  *   z-index: 999999;
  *   width: 100%;
  *   top: 0;
+ *   left: 0;
  *
  * In some cases, consumers may want more fine grained control over how the container is
- * positioned on the screen. This can be accomplished through the `notficationPlacementOffset`
+ * positioned on the screen. This can be accomplished through the `notficationPlacementProps`
  * prop which can be passed through EasyUIProvider. See more in the examples section.
  */
 
@@ -146,6 +149,17 @@ export type NotificationPositionPlacement = {
   bottom?: string;
   /** Left offset */
   left?: string;
+};
+
+export type NotificationPositionType = "fixed" | "absolute";
+
+export type NotificationPlacementProps = {
+  /** HTML ID of element where notifications will render to */
+  htmlId?: string;
+  /** Position type */
+  positionType?: NotificationPositionType;
+  /** Position placement */
+  positionPlacement?: NotificationPositionPlacement;
 };
 ```
 
@@ -275,10 +289,6 @@ export class EasyUINotificationQueue<
   }
 }
 
-type NotificationProviderProps = {
-  children: ReactNode;
-};
-
 export const NotificationContext =
   createContext<NotificationExternalState | null>(null);
 
@@ -313,6 +323,7 @@ export function useNotificationState(): NotificationCombinedState {
       queue.toast({ ...content, status: "warning", type: "toast" }),
     showErrorToast: (content: ToastProps) =>
       queue.toast({ ...content, status: "error", type: "toast" }),
+    closeActiveNotification: () => queue.closeActiveNotification(),
   };
 }
 
@@ -323,13 +334,21 @@ export type NotificationPositionPlacement = {
   left?: string;
 };
 
+export type NotificationPositionType = "fixed" | "absolute";
+
+export type NotificationPlacementProps = {
+  htmlId?: string;
+  positionType?: NotificationPositionType;
+  positionPlacement?: NotificationPositionPlacement;
+};
+
 export type NotificationProviderProps = {
   children: ReactNode;
-  notificationPositionPlacement?: NotificationPositionPlacement;
+  notificationPlacementProps?: NotificationPlacementProps;
 };
 
 export function NotificationProvider(props: NotificationProviderProps) {
-  const { children, notificationPositionPlacement } = props;
+  const { children, notificationPlacementProps } = props;
   const combinedState = useNotificationState();
 
   const state = {
@@ -349,15 +368,18 @@ export function NotificationProvider(props: NotificationProviderProps) {
     showNeutralToast: combinedState.showNeutralToast,
     showNeutralAlert: combinedState.showNeutralAlert,
     showSuccessToast: combinedState.showSuccessToast,
-    showSuccessAlert: combinedState.showErrorAlert,
+    showSuccessAlert: combinedState.showSuccessAlert,
     showWarningToast: combinedState.showWarningToast,
     showWarningAlert: combinedState.showWarningAlert,
+    closeActiveNotification: combinedState.closeActiveNotification,
   };
 
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
-        notificationPositionPlacement={notificationPositionPlacement}
+        htmlId={notificationPlacementProps?.htmlId}
+        positionPlacement={notificationPlacementProps?.positionPlacement}
+        positionType={notificationPlacementProps?.positionType}
         state={state}
       />
       {children}
@@ -377,29 +399,45 @@ export function useNotification() {
 }
 
 export type NotificationContainerProps = {
-  notificationPositionPlacement?: NotificationPositionPlacement;
+  htmlId?: string;
+  positionType?: NotificationPositionType;
+  positionPlacement?: NotificationPositionPlacement;
   state: NotificationInternalState;
 };
 
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { notificationPositionPlacement = null, state } = props;
-  const positionStyleProps = notificationPositionPlacement
+  const { htmlId, positionType = "fixed", positionPlacement, state } = props;
+  const positionStyleProps = positionPlacement
     ? {
-        top: notificationPositionPlacement?.top,
-        right: notificationPositionPlacement?.right,
-        bottom: notificationPositionPlacement?.bottom,
-        left: notificationPositionPlacement?.left,
+        top: positionPlacement?.top,
+        right: positionPlacement?.right,
+        bottom: positionPlacement?.bottom,
+        left: positionPlacement?.left,
       }
-    : undefined;
+    : {
+        top: 0,
+        left: 0,
+      };
+  const positionTypeProps = {
+    position: positionType,
+  };
+
+  const containerStyles = {
+    ...positionStyleProps,
+    ...positionTypeProps,
+  } as React.CSSProperties;
+
+  const customContainer = htmlId ? document.getElementById(htmlId) : null;
+
   return (
     <>
       {/** visibleToasts` is an artifact of react-stately */}
       {state.visibleToasts.length > 0
         ? createPortal(
-            <div className={style.container} style={positionStyleProps}>
+            <div className={style.container} style={containerStyles}>
               <NotificationRegion state={state} />
             </div>,
-            document.body,
+            customContainer ?? document.body,
           )
         : null}
     </>
@@ -591,18 +629,70 @@ function Component() {
 }
 ```
 
-In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPositionPlacement` prop that can be supplied to EasyUIProvider.
-
-_With positional offset_
+_With programmatic dismissal_
 
 ```tsx
 import { useNotification } from "@easypost/easy-ui/Notification";
+import { Button } from "@easypost/easy-ui/Button";
+
+function Component() {
+  const notification = useNotification();
+
+  const onAlert = () => {
+    notification.showSuccessAlert({
+      message: "message",
+    });
+  };
+
+  const onClose = () => {
+    notification.closeActiveNotification();
+  };
+
+  return (
+    <>
+      <Button onPress={onAlert}>Show alert</Button>
+      <Button onPress={onClose}>Dismiss alert</Button>
+    </>
+  );
+}
+```
+
+In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPlacementProps` prop that can be supplied to EasyUIProvider.
+
+_With positionPlacement and positionType_
+
+```tsx
 import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 
 function RootOfYourApp() {
   return (
-    <EasyUIProvider notificationPositionPlacement={{ top: "180px" }}>
+    <EasyUIProvider
+      colorScheme="system"
+      notificationPlacementProps={{
+        positionPlacement: { top: "50px", left: "0px" },
+        positionType: "absolute",
+      }}
+    >
       {/* app */}
+    </EasyUIProvider>
+  );
+}
+```
+
+_Render into a container other that document.body_
+
+```tsx
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+
+function RootOfYourApp() {
+  return (
+    <EasyUIProvider
+      colorScheme="system"
+      notificationPlacementProps={{
+        htmlId: "some-id",
+      }}
+    >
+      <div id="some-id">Some container</div>
     </EasyUIProvider>
   );
 }

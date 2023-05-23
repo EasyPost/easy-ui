@@ -211,6 +211,7 @@ export const NotificationContext =
  * showSuccessAlert(content: AlertProps): void;
  * showWarningAlert(content: AlertProps): void;
  * showErrorAlert(content: AlertProps): void;
+ * closeActiveNotification(): void;
  * 
  * type ToastProps = {
  *   // Notification message
