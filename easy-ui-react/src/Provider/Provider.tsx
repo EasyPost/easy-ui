@@ -34,11 +34,35 @@ export interface ProviderProps {
 * function App() {
 *
 *  return (
-*    <EasyUIProvider notificationPositionPlacement={{top: "100px"}}>
-*      <Nav />
-*      <Content />
-*      <Footer />
-*    </EasyUIProvider>
+*      <EasyUIProvider
+*        colorScheme="system"
+*        notificationPlacementProps={{
+*          positionPlacement: { top: "80px", left: "0px" },
+*        }}
+*      >
+*        {children}
+*      </EasyUIProvider>
+*  );
+*}
+*```
+* @example
+* _Custom notification placement with container_
+```tsx
+* import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+*
+* function App() {
+*  // notifications will render into a container with id="nav-container"
+*  return (
+*      <EasyUIProvider
+*        colorScheme="system"
+*        notificationPlacementProps={{
+*          positionPlacement: { top: "0px", left: "0px" },
+*          positionType: "absolute",
+*          htmlId: "nav-container",
+*        }}
+*      >
+*        {children}
+*      </EasyUIProvider>
 *  );
 *}
 *```
