@@ -50,7 +50,10 @@ export function NotificationContainer(props: NotificationContainerProps) {
     ...positionTypeProps,
   } as React.CSSProperties;
 
-  const customContainer = htmlId ? document.getElementById(htmlId) : null;
+  let container = null;
+  if (state.visibleToasts.length > 0 && htmlId) {
+    container = document.getElementById(htmlId);
+  }
 
   return (
     <>
@@ -60,7 +63,7 @@ export function NotificationContainer(props: NotificationContainerProps) {
             <div className={style.container} style={containerStyles}>
               <NotificationRegion state={state} />
             </div>,
-            customContainer ?? document.body,
+            container ?? document.body,
           )
         : null}
     </>
