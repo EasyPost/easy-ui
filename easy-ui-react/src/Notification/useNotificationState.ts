@@ -10,7 +10,7 @@ import { EasyUINotificationQueue } from "./NotificationQueue";
 
 /**
  * @privateRemarks
- * This is an internal hook to initialize the queue, the queue state and compose
+ * This is an internal hook to initialize the queue, the queue state, and compose
  * the functions that will be exposed to consumers.
  */
 export function useNotificationState(): NotificationCombinedState {

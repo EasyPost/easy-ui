@@ -233,7 +233,7 @@ export const NotificationContext =
 * import { Button } from "@easypost/easy-ui/Button";
 *
 * function Component() {
-*  const { notification } = useNotification();
+*  const notification = useNotification();
 *
 *  const onToast = () => {
 *    notification.showSuccessToast({ message: "message" });
@@ -258,7 +258,7 @@ export const NotificationContext =
 * import { Button } from "@easypost/easy-ui/Button";
 *
 * function Component() {
-*  const { notification } = useNotification();
+*  const notification = useNotification();
 *
 *  const onToast = () => {
 *    notification.showPromotionalToast({ message: "message", hasIcon: false });
@@ -283,7 +283,7 @@ export const NotificationContext =
 * import { Button } from "@easypost/easy-ui/Button";
 *
 * function Component() {
-*  const { notification } = useNotification();
+*  const notification = useNotification();
 *
 *
 *  const onAlert = () => {
