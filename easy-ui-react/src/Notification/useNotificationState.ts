@@ -41,5 +41,6 @@ export function useNotificationState(): NotificationCombinedState {
       queue.toast({ ...content, status: "warning", type: "toast" }),
     showErrorToast: (content: ToastProps) =>
       queue.toast({ ...content, status: "error", type: "toast" }),
+    closeActiveNotification: () => queue.closeActiveNotification(),
   };
 }

@@ -106,19 +106,74 @@ export const Notifications: Story = {
   decorators: [InlineStoryDecorator],
 };
 
+export const ProgrammaticDismissal: Story = {
+  render: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const notification = useNotification();
+
+    return (
+      <>
+        <Button
+          onPress={() => notification.showSuccessAlert({ message: "Success" })}
+          color="neutral"
+        >
+          Trigger Alert
+        </Button>
+        <Button
+          onPress={() => notification.closeActiveNotification()}
+          color="neutral"
+        >
+          Click to dismiss
+        </Button>
+      </>
+    );
+  },
+
+  decorators: [InlineStoryDecorator],
+};
+
 export const CustomPlacement: Story = {
   render: () => {
     return (
       <EasyUIProvider
         colorScheme="system"
-        notificationPlacementOffset={{
-          top: "50px",
-          left: "0px",
-          right: "0px",
-          bottom: "0px",
+        notificationPlacementProps={{
+          positionPlacement: { top: "80px", left: "0px" },
         }}
       >
         <SimulatedNotificationTrigger message="Hello World" />
+      </EasyUIProvider>
+    );
+  },
+};
+
+export const CustomPlacementWithinContainer: Story = {
+  render: () => {
+    return (
+      <EasyUIProvider
+        colorScheme="system"
+        notificationPlacementProps={{
+          positionPlacement: { top: "50px", left: "0px" },
+          positionType: "absolute",
+          htmlId: "test-container",
+        }}
+      >
+        <>
+          <div
+            id="test-container"
+            style={{
+              position: "relative",
+              border: "1px solid black",
+              padding: "16px 8px",
+              minHeight: "104px",
+              marginBottom: "8px",
+              textAlign: "center",
+            }}
+          >
+            Container
+          </div>
+          <SimulatedNotificationTrigger message="Hello World" />
+        </>
       </EasyUIProvider>
     );
   },
@@ -129,8 +184,11 @@ function SimulatedNotificationTrigger(props: NotificationProps) {
   const notification = useNotification();
 
   return (
-    <Button onPress={() => notification.showSuccessToast({ message })}>
-      Success Toast
+    <Button
+      color="secondary"
+      onPress={() => notification.showNeutralToast({ message })}
+    >
+      Neutral Toast
     </Button>
   );
 }

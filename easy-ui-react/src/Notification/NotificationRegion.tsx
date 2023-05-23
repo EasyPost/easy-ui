@@ -19,7 +19,6 @@ export type NotificationRegionProps = AriaToastRegionProps & {
 export function NotificationRegion(props: NotificationRegionProps) {
   const { state } = props;
   const ref = React.useRef(null);
-
   const { regionProps } = useToastRegion(props, state, ref);
   /**
    * `visibleToasts` and `toast` are artifacts of react-stately and in

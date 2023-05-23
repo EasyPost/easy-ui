@@ -137,7 +137,7 @@ export type NotificationItemStateProps = AriaToastProps<NotificationProps> & {
  * prop which can be passed through EasyUIProvider. See more in the examples section.
  */
 
-export type NotificationPlacementOffset = {
+export type NotificationPositionPlacement = {
   /** Top offset */
   top?: string;
   /** Right offset */
@@ -316,7 +316,7 @@ export function useNotificationState(): NotificationCombinedState {
   };
 }
 
-export type NotificationPlacementOffset = {
+export type NotificationPositionPlacement = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -325,11 +325,11 @@ export type NotificationPlacementOffset = {
 
 export type NotificationProviderProps = {
   children: ReactNode;
-  notificationPlacementOffset?: NotificationPlacementOffset;
+  notificationPositionPlacement?: NotificationPositionPlacement;
 };
 
 export function NotificationProvider(props: NotificationProviderProps) {
-  const { children, notificationPlacementOffset } = props;
+  const { children, notificationPositionPlacement } = props;
   const combinedState = useNotificationState();
 
   const state = {
@@ -357,7 +357,7 @@ export function NotificationProvider(props: NotificationProviderProps) {
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
-        notificationPlacementOffset={notificationPlacementOffset}
+        notificationPositionPlacement={notificationPositionPlacement}
         state={state}
       />
       {children}
@@ -377,18 +377,18 @@ export function useNotification() {
 }
 
 export type NotificationContainerProps = {
-  notificationPlacementOffset?: NotificationPlacementOffset;
+  notificationPositionPlacement?: NotificationPositionPlacement;
   state: NotificationInternalState;
 };
 
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { notificationPlacementOffset = null, state } = props;
-  const positionStyleProps = notificationPlacementOffset
+  const { notificationPositionPlacement = null, state } = props;
+  const positionStyleProps = notificationPositionPlacement
     ? {
-        top: notificationPlacementOffset?.top,
-        right: notificationPlacementOffset?.right,
-        bottom: notificationPlacementOffset?.bottom,
-        left: notificationPlacementOffset?.left,
+        top: notificationPositionPlacement?.top,
+        right: notificationPositionPlacement?.right,
+        bottom: notificationPositionPlacement?.bottom,
+        left: notificationPositionPlacement?.left,
       }
     : undefined;
   return (
@@ -591,7 +591,7 @@ function Component() {
 }
 ```
 
-In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPlacementOffset` prop that can be supplied to EasyUIProvider.
+In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPositionPlacement` prop that can be supplied to EasyUIProvider.
 
 _With positional offset_
 
@@ -601,7 +601,7 @@ import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 
 function RootOfYourApp() {
   return (
-    <EasyUIProvider notificationPlacementOffset={{ top: "180px" }}>
+    <EasyUIProvider notificationPositionPlacement={{ top: "180px" }}>
       {/* app */}
     </EasyUIProvider>
   );

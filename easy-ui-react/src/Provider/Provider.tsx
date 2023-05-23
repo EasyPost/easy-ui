@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { ThemeProvider } from "../Theme";
 import {
   NotificationProvider,
-  NotificationPlacementOffset,
+  NotificationPlacementProps,
 } from "../Notification";
 import type { ColorScheme, ThemeCreator } from "../Theme";
 
@@ -15,8 +15,8 @@ export interface ProviderProps {
   theme?: ThemeCreator;
   /** Color scheme to apply to Easy UI.  */
   colorScheme?: ColorScheme;
-  /** Notification placement offset */
-  notificationPlacementOffset?: NotificationPlacementOffset;
+  /** Notification placement props */
+  notificationPlacementProps?: NotificationPlacementProps;
 }
 
 /**
@@ -34,7 +34,7 @@ export interface ProviderProps {
 * function App() {
 *
 *  return (
-*    <EasyUIProvider notificationPlacementOffset={{top: "100px"}}>
+*    <EasyUIProvider notificationPositionPlacement={{top: "100px"}}>
 *      <Nav />
 *      <Content />
 *      <Footer />
@@ -47,12 +47,12 @@ export function Provider({
   children,
   theme,
   colorScheme,
-  notificationPlacementOffset,
+  notificationPlacementProps,
 }: ProviderProps) {
   return (
     <ThemeProvider theme={theme} colorScheme={colorScheme}>
       <NotificationProvider
-        notificationPlacementOffset={notificationPlacementOffset}
+        notificationPlacementProps={notificationPlacementProps}
       >
         {children}
       </NotificationProvider>

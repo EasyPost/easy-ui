@@ -7,6 +7,8 @@ import * as NotificationStories from "./Notification.stories";
 
 # Notification
 
+**Note**: Each story below is rendered with its own `Provider`
+
 ## Notification
 
 Notifications of type `alert` and `toast` can be displayed via Easy UI's `useNotification` hook. The hook returns a notification
@@ -14,11 +16,21 @@ object on which methods can be invoked to display the appropriate notification. 
 
 <Canvas of={NotificationStories.Notifications} />
 
+## Programmatic dismissal
+
+<Canvas of={NotificationStories.ProgrammaticDismissal} />
+
 ## Custom placement
 
-Notifications can have custom placement on a per app basis. Use the `notificationPlacementOffset` prop which is available on the `EasyUIProvider` component.
+Notifications can have custom placement on a per app basis. Use the `notificationPlacementProps` prop which is available on the `EasyUIProvider` component.
 
 <Canvas of={NotificationStories.CustomPlacement} />
+
+## Custom placement within container
+
+Notifications by default render into `document.body` via a portal. To render notifications into a custom container, use the `htmlId` prop.
+
+<Canvas of={NotificationStories.CustomPlacementWithinContainer} />
 
 ## Properties
 
@@ -59,10 +71,40 @@ export type AlertProps = Omit<BaseNotificationProps, "type" | "status"> & {
 };
 ```
 
+### useNotification
+
+```tsx
+/** The methods below are accessible on the object returned by the `useNotification` hook. */
+export type NotificationExternalState = {
+  /** Shows promotional color status toast */
+  showPromotionalToast(content: ToastProps): void;
+  /** Shows neutral color status toast */
+  showNeutralToast(content: ToastProps): void;
+  /** Shows success color status toast */
+  showSuccessToast(content: ToastProps): void;
+  /** Shows warning color status toast */
+  showWarningToast(content: ToastProps): void;
+  /** Shows error color status toast */
+  showErrorToast(content: ToastProps): void;
+  /** Shows promotional color status alert */
+  showPromotionalAlert(content: AlertProps): void;
+  /** Shows neutral color status alert */
+  showNeutralAlert(content: AlertProps): void;
+  /** Shows success color status alert */
+  showSuccessAlert(content: AlertProps): void;
+  /** Shows warning color status alert */
+  showWarningAlert(content: AlertProps): void;
+  /** Shows error color status alert */
+  showErrorAlert(content: AlertProps): void;
+  /** Closes active notification */
+  closeActiveNotification(): void;
+};
+```
+
 ### Provider props
 
 ```tsx
-export type NotificationPlacementOffset = {
+export type NotificationPositionPlacement = {
   /** Top offset */
   top?: string;
   /** Right offset */
@@ -73,8 +115,20 @@ export type NotificationPlacementOffset = {
   left?: string;
 };
 
+export type NotificationPositionType = "fixed" | "absolute";
+
+export type NotificationPlacementProps = {
+  /** HTML ID of element where notifications will render to */
+  htmlId?: string;
+  /** Position type */
+  positionType?: NotificationPositionType;
+  /** Position placement */
+  positionPlacement?: NotificationPositionPlacement;
+};
+
 export interface ProviderProps {
-  notificationPlacementOffset?: NotificationPlacementOffset;
-  /** Rest props */
+  /** Notification placement props */
+  notificationPlacementProps?: NotificationPlacementProps;
+  /** Rest of EasyUI Provider props */
 }
 ```

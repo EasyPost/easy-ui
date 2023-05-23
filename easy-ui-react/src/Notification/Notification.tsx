@@ -76,6 +76,8 @@ export type NotificationExternalState = {
   showWarningAlert(content: AlertProps): void;
   /** Shows error color status alert */
   showErrorAlert(content: AlertProps): void;
+  /** Closes active notification */
+  closeActiveNotification(): void;
 };
 
 export type NotificationCombinedState = NotificationInternalState &
@@ -312,7 +314,7 @@ export function useNotification() {
   return notification;
 }
 
-export type NotificationPlacementOffset = {
+export type NotificationPositionPlacement = {
   /** Top offset */
   top?: string;
   /** Right offset */
@@ -323,11 +325,22 @@ export type NotificationPlacementOffset = {
   left?: string;
 };
 
+export type NotificationPositionType = "fixed" | "absolute";
+
+export type NotificationPlacementProps = {
+  /** HTML ID of element where notifications will render to */
+  htmlId?: string;
+  /** Position type */
+  positionType?: NotificationPositionType;
+  /** Position placement */
+  positionPlacement?: NotificationPositionPlacement;
+};
+
 export type NotificationProviderProps = {
   /** Child components */
   children: ReactNode;
-  /** Notification placement offset */
-  notificationPlacementOffset?: NotificationPlacementOffset;
+  /** Notification placement props */
+  notificationPlacementProps?: NotificationPlacementProps;
 };
 
 /**
@@ -337,7 +350,7 @@ export type NotificationProviderProps = {
  * be used on its own and is included in the general EasyUI Provider
  */
 export function NotificationProvider(props: NotificationProviderProps) {
-  const { children, notificationPlacementOffset } = props;
+  const { children, notificationPlacementProps } = props;
   const combinedState = useNotificationState();
 
   const state = {
@@ -357,15 +370,18 @@ export function NotificationProvider(props: NotificationProviderProps) {
     showNeutralToast: combinedState.showNeutralToast,
     showNeutralAlert: combinedState.showNeutralAlert,
     showSuccessToast: combinedState.showSuccessToast,
-    showSuccessAlert: combinedState.showErrorAlert,
+    showSuccessAlert: combinedState.showSuccessAlert,
     showWarningToast: combinedState.showWarningToast,
     showWarningAlert: combinedState.showWarningAlert,
+    closeActiveNotification: combinedState.closeActiveNotification,
   };
 
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
-        notificationPlacementOffset={notificationPlacementOffset}
+        htmlId={notificationPlacementProps?.htmlId}
+        positionPlacement={notificationPlacementProps?.positionPlacement}
+        positionType={notificationPlacementProps?.positionType}
         state={state}
       />
       {children}
