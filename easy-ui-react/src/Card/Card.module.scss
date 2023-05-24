@@ -1,0 +1,45 @@
+@use "../styles/common" as *;
+
+.container {
+  border-radius: design-token("shape.border_radius.md");
+  overflow: hidden;
+}
+
+.area {
+  background: component-token("card-area", "background");
+  padding: design-token("space.2");
+}
+
+.variantOutlined,
+.variantDanger,
+.variantWarning,
+.variantSuccess {
+  border: design-token("shape.border_width.1") solid
+    component-token("card", "color.border");
+}
+
+.variantDanger,
+.variantWarning,
+.variantSuccess {
+  border-left-width: 4px;
+}
+
+// prettier-ignore
+.variantOutlined {
+  @include component-token("card", "color.border", theme-token("color.border.bolder"));
+}
+
+// prettier-ignore
+.variantDanger {
+  @include component-token("card", "color.border", theme-token("color.border.danger"));
+}
+
+// prettier-ignore
+.variantWarning {
+  @include component-token("card", "color.border", theme-token("color.border.warning"));
+}
+
+// prettier-ignore
+.variantSuccess {
+  @include component-token("card", "color.border", theme-token("color.border.success"));
+}

@@ -76,7 +76,7 @@ export function getResponsiveDesignToken(
     return getComponentToken(
       componentName,
       `${componentProp}-xs`,
-      `var(--ezui-${kebabCase(tokenSubgroup)}-${responsiveProp})`,
+      `var(--ezui-${kebabCase(tokenSubgroup)}-${kebabCase(responsiveProp)})`,
     );
   }
   return Object.fromEntries(
@@ -87,7 +87,9 @@ export function getResponsiveDesignToken(
             componentName,
             `${componentProp}-${breakpointAlias}`,
             aliasOrScale
-              ? `var(--ezui-${kebabCase(tokenSubgroup)}-${aliasOrScale})`
+              ? `var(--ezui-${kebabCase(tokenSubgroup)}-${kebabCase(
+                  aliasOrScale,
+                )})`
               : undefined,
           ),
         );

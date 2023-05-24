@@ -1,0 +1,31 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import * as CardStories from "./Card.stories";
+
+<Meta of={CardStories} />
+
+# Card
+
+Cards are styled containers that group related content.
+
+## Basic cards
+
+Basic cards are simple containers with preset styles.
+
+Cards are `solid` by default, meaning they have no border. Use the `variant` prop to adjust the overall style of the `Card`. `danger`, `warning`, and `success` variants render a flagged appearance.
+
+Cards are transparent by default. Use the `background` prop to set its background to one of either `primary` or `subdued`.
+
+<Canvas of={CardStories.Basic} />
+
+<Controls of={CardStories.Basic} include={["background", "variant"]} />
+
+## Complex cards
+
+Cards are composable. Use `<Card.Container />` and `<Card.Area />` to create cards with complex content.
+
+Below is an example of a card split into two areas using `<HorizontalGrid />`.
+
+<Canvas of={CardStories.Complex} />
+
+<Controls of={CardStories.Complex} include={["variant"]} />

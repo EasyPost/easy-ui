@@ -25,6 +25,7 @@ const preview: Preview = {
       })),
       grid: {
         cellSize: gridCellSize,
+        opacity: 0.25,
       },
     },
   },
