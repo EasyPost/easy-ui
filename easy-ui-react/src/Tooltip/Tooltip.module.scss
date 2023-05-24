@@ -10,7 +10,7 @@
   @include component-token(
     "tooltip",
     "border_radius",
-    design-token("shape.border_radius.base")
+    design-token("shape.border_radius.md")
   );
   @include component-token("tooltip", "color", theme-token("color.text"));
   @include component-token(

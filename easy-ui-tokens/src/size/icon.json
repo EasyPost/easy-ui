@@ -1,7 +1,8 @@
 {
   "size": {
     "icon": {
-      "sm": { "value": "16px", "attributes": { "unit": "rem" } },
+      "xs": { "value": "16px", "attributes": { "unit": "rem" } },
+      "sm": { "value": "20px", "attributes": { "unit": "rem" } },
       "md": { "value": "24px", "attributes": { "unit": "rem" } },
       "lg": { "value": "32px", "attributes": { "unit": "rem" } }
     }

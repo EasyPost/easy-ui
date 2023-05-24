@@ -65,7 +65,7 @@ type Badge = {
    * Any additional text to support the primary label.
    * Only applicable on text-only badges.
    */
-  supportText?: ReactNode;
+  secondaryLabel?: ReactNode;
 
   /**
    * Badge variant
@@ -114,7 +114,7 @@ import { Badge } from "@easypost/easy-ui/Badge";
 
 function Component() {
   return (
-    <Badge variant="negative" supportText="Last updated: Jan 3. 2023">
+    <Badge variant="negative" secondaryLabel="Last updated: Jan 3. 2023">
       Deprecated
     </Badge>
   );
@@ -128,7 +128,7 @@ export function Badge(props: BadgeProps) {
   const {
     accessibilityLabel,
     children,
-    supportText,
+    secondaryLabel,
     icon,
     variant = "primary",
   } = props;
@@ -138,8 +138,8 @@ export function Badge(props: BadgeProps) {
     styles[variationName("variant", variant)],
   );
 
-  if (icon && supportText) {
-    console.warn("icon and supportText is an invalid Badge state");
+  if (icon && secondaryLabel) {
+    console.warn("icon and secondaryLabel is an invalid Badge state");
   }
 
   if (icon && !children && !accessibilityLabel) {
@@ -147,20 +147,16 @@ export function Badge(props: BadgeProps) {
   }
 
   return (
-    <span
-      className={className}
-      role="presentation"
-      {...(accessibilityLabel ? { "aria-label": accessibilityLabel } : {})}
-    >
+    <span className={className}>
       <span
         className={styles.content}
         data-content-type={icon ? "icon" : "text"}
       >
         {icon ? <Icon symbol={icon} size="sm" /> : <>{children}</>}
       </span>
-      {children && (icon || supportText) && (
+      {children && (icon || secondaryLabel) && (
         <span className={styles.support}>
-          {supportText ? <>{supportText}</> : <>{children}</>}
+          {secondaryLabel ? <>{secondaryLabel}</> : <>{children}</>}
         </span>
       )}
     </span>
@@ -173,8 +169,6 @@ export function Badge(props: BadgeProps) {
 ## Behavior
 
 ### Accessibility
-
-A badge should have `role="presentation"` set on its container.
 
 A badge may have an `accessibilityLabel` if the contents of the badge is insufficient to describe its purpose.
 

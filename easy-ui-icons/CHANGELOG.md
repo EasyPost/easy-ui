@@ -1,5 +1,17 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.3
+
+### Minor Changes
+
+- dfee220: Add `<Badge />` component
+
+### Patch Changes
+
+- 6baff22: Use theme-aware variables
+
+  With theming setup, update CSS modules and relevant places in JS components with tokens that are theme-aware.
+
 ## 1.0.0-alpha.2
 
 ### Patch Changes
