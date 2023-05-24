@@ -79,7 +79,7 @@
 
 .container {
   /* prettier-ignore */
-  @include component-token("notification", "z-index", design-token("z_index.notification.999999"));
+  @include component-token("notification", "z-index", design-token("z_index.notification"));
   z-index: component-token("notification", "z-index");
   width: 100%;
   pointer-events: none;

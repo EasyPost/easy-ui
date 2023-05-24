@@ -140,7 +140,7 @@ export type NotificationItemStateProps = AriaToastProps<NotificationProps> & {
  * prop which can be passed through EasyUIProvider. See more in the examples section.
  */
 
-export type NotificationPositionPlacement = {
+export type Notificationoffset = {
   /** Top offset */
   top?: string;
   /** Right offset */
@@ -151,7 +151,7 @@ export type NotificationPositionPlacement = {
   left?: string;
 };
 
-export type NotificationPositionType = "fixed" | "absolute";
+export type Notificationposition = "fixed" | "absolute";
 
 export type NotificationPlacementProps = {
   /**
@@ -160,9 +160,9 @@ export type NotificationPlacementProps = {
    */
   htmlId?: string;
   /** Position type */
-  positionType?: NotificationPositionType;
+  position?: Notificationposition;
   /** Position placement */
-  positionPlacement?: NotificationPositionPlacement;
+  offset?: Notificationoffset;
 };
 ```
 
@@ -330,19 +330,19 @@ export function useNotificationState(): NotificationCombinedState {
   };
 }
 
-export type NotificationPositionPlacement = {
+export type Notificationoffset = {
   top?: string;
   right?: string;
   bottom?: string;
   left?: string;
 };
 
-export type NotificationPositionType = "fixed" | "absolute";
+export type Notificationposition = "fixed" | "absolute";
 
 export type NotificationPlacementProps = {
   htmlId?: string;
-  positionType?: NotificationPositionType;
-  positionPlacement?: NotificationPositionPlacement;
+  position?: Notificationposition;
+  offset?: Notificationoffset;
 };
 
 export type NotificationProviderProps = {
@@ -381,8 +381,8 @@ export function NotificationProvider(props: NotificationProviderProps) {
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
         htmlId={notificationPlacementProps?.htmlId}
-        positionPlacement={notificationPlacementProps?.positionPlacement}
-        positionType={notificationPlacementProps?.positionType}
+        offset={notificationPlacementProps?.offset}
+        position={notificationPlacementProps?.position}
         state={state}
       />
       {children}
@@ -403,31 +403,31 @@ export function useNotification() {
 
 export type NotificationContainerProps = {
   htmlId?: string;
-  positionType?: NotificationPositionType;
-  positionPlacement?: NotificationPositionPlacement;
+  position?: Notificationposition;
+  offset?: Notificationoffset;
   state: NotificationInternalState;
 };
 
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { htmlId, positionType = "fixed", positionPlacement, state } = props;
-  const positionStyleProps = positionPlacement
+  const { htmlId, position = "fixed", offset, state } = props;
+  const positionStyleProps = offset
     ? {
-        top: positionPlacement?.top,
-        right: positionPlacement?.right,
-        bottom: positionPlacement?.bottom,
-        left: positionPlacement?.left,
+        top: offset?.top,
+        right: offset?.right,
+        bottom: offset?.bottom,
+        left: offset?.left,
       }
     : {
         top: 0,
         left: 0,
       };
-  const positionTypeProps = {
-    position: positionType,
+  const positionProps = {
+    position: position,
   };
 
   const containerStyles = {
     ...positionStyleProps,
-    ...positionTypeProps,
+    ...positionProps,
   } as React.CSSProperties;
 
   const customContainer = htmlId ? document.getElementById(htmlId) : null;
@@ -662,7 +662,7 @@ function Component() {
 
 In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPlacementProps` prop that can be supplied to EasyUIProvider.
 
-_With positionPlacement and positionType_
+_With offset and position_
 
 ```tsx
 import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
@@ -672,8 +672,8 @@ function RootOfYourApp() {
     <EasyUIProvider
       colorScheme="system"
       notificationPlacementProps={{
-        positionPlacement: { top: "50px", left: "0px" },
-        positionType: "absolute",
+        offset: { top: "50px", left: "0px" },
+        position: "absolute",
       }}
     >
       {/* app */}

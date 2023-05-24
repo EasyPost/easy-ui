@@ -28,7 +28,8 @@ Notifications can have custom placement on a per app basis. Use the `notificatio
 
 ## Custom placement within container
 
-Notifications by default render into `document.body` via a portal. To render notifications into a custom container, use the `htmlId` prop.
+Notifications by default render into `document.body` via a portal. To render notifications into a custom container, pass a callback function
+to `containerFn` that returns a valid `HTMLElement`.
 
 <Canvas of={NotificationStories.CustomPlacementWithinContainer} />
 
@@ -104,7 +105,7 @@ export type NotificationExternalState = {
 ### Provider props
 
 ```tsx
-export type NotificationPositionPlacement = {
+export type NotificationOffset = {
   /** Top offset */
   top?: string;
   /** Right offset */
@@ -115,18 +116,15 @@ export type NotificationPositionPlacement = {
   left?: string;
 };
 
-export type NotificationPositionType = "fixed" | "absolute";
+export type Notificationposition = "fixed" | "absolute";
 
 export type NotificationPlacementProps = {
-  /**
-   * HTML ID of element where notifications will render to. Default
-   * position values will be applied if htmlId is provided but does not exist.
-   */
-  htmlId?: string;
+  /** Callback function that retrieves HTMLElement where notifications will render to */
+  containerFn?: () => HTMLElement | null;
   /** Position type */
-  positionType?: NotificationPositionType;
+  position?: NotificationPosition;
   /** Position placement */
-  positionPlacement?: NotificationPositionPlacement;
+  offset?: NotificationOffset;
 };
 
 export interface ProviderProps {

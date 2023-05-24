@@ -37,7 +37,7 @@ export interface ProviderProps {
 *      <EasyUIProvider
 *        colorScheme="system"
 *        notificationPlacementProps={{
-*          positionPlacement: { top: "80px", left: "0px" },
+*          offset: { top: "80px", left: "0px" },
 *        }}
 *      >
 *        {children}
@@ -56,9 +56,9 @@ export interface ProviderProps {
 *      <EasyUIProvider
 *        colorScheme="system"
 *        notificationPlacementProps={{
-*          positionPlacement: { top: "0px", left: "0px" },
-*          positionType: "absolute",
-*          htmlId: "nav-container",
+*          offset: { top: "0px", left: "0px" },
+*          position: "absolute",
+*          containerFn: () => document.getElementById("nav-container")
 *        }}
 *      >
 *        {children}

@@ -138,7 +138,7 @@ export const CustomPlacement: Story = {
       <EasyUIProvider
         colorScheme="system"
         notificationPlacementProps={{
-          positionPlacement: { top: "80px", left: "0px" },
+          offset: { top: "80px", left: "0px" },
         }}
       >
         <SimulatedNotificationTrigger message="Hello World" />
@@ -153,9 +153,9 @@ export const CustomPlacementWithinContainer: Story = {
       <EasyUIProvider
         colorScheme="system"
         notificationPlacementProps={{
-          positionPlacement: { top: "50px", left: "0px" },
-          positionType: "absolute",
-          htmlId: "test-container",
+          offset: { top: "50px", left: "0px" },
+          position: "absolute",
+          containerFn: () => document.getElementById("test-container"),
         }}
       >
         <>

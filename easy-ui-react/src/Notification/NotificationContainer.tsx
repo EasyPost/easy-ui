@@ -3,21 +3,18 @@ import { createPortal } from "react-dom";
 import { NotificationRegion } from "./NotificationRegion";
 import {
   NotificationInternalState,
-  NotificationPositionType,
-  NotificationPositionPlacement,
+  NotificationPosition,
+  NotificationOffset,
 } from "./Notification";
 import style from "./Notification.module.scss";
 
 export type NotificationContainerProps = {
-  /**
-   * HTML ID of element where notifications will render to. Default
-   * position values will be applied if htmlId is provided but does not exist.
-   */
-  htmlId?: string;
+  /** Callback function that retrieves HTMLElement where notifications will render to */
+  containerFn?: () => HTMLElement | null;
   /** Position type */
-  positionType?: NotificationPositionType;
+  position?: NotificationPosition;
   /** Position placement */
-  positionPlacement?: NotificationPositionPlacement;
+  offset?: NotificationOffset;
   /**
    * Holds the internal state for notifications and the functions that directly
    * interact with the queue object. Consumers do not see this state.
@@ -32,40 +29,41 @@ export type NotificationContainerProps = {
  * styles.
  */
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { htmlId, positionType = "fixed", positionPlacement, state } = props;
+  const { containerFn = null, position = "fixed", offset, state } = props;
 
+  const showNotifications = state.visibleToasts.length > 0;
+  let requestFailed = false;
   let container = null;
-  let failedRequest = false;
-  const showNotification = state.visibleToasts.length > 0;
-  if (showNotification && htmlId) {
-    container = document.getElementById(htmlId);
-    failedRequest = container === null;
+  if (showNotifications && containerFn) {
+    container = containerFn();
+    requestFailed = container === null;
   }
+
   const positionStyleProps =
-    positionPlacement && !failedRequest
+    offset && !requestFailed
       ? {
-          top: positionPlacement?.top,
-          right: positionPlacement?.right,
-          bottom: positionPlacement?.bottom,
-          left: positionPlacement?.left,
+          top: offset?.top,
+          right: offset?.right,
+          bottom: offset?.bottom,
+          left: offset?.left,
         }
       : {
           top: 0,
           left: 0,
         };
-  const positionTypeProps = {
-    position: !failedRequest ? positionType : "fixed",
+  const positionProps = {
+    position: !requestFailed ? position : "fixed",
   };
 
   const containerStyles = {
     ...positionStyleProps,
-    ...positionTypeProps,
+    ...positionProps,
   } as React.CSSProperties;
 
   return (
     <>
       {/** visibleToasts` is an artifact of react-stately */}
-      {showNotification
+      {showNotifications
         ? createPortal(
             <div className={style.container} style={containerStyles}>
               <NotificationRegion state={state} />

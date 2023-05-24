@@ -315,7 +315,7 @@ export function useNotification() {
   return notification;
 }
 
-export type NotificationPositionPlacement = {
+export type NotificationOffset = {
   /** Top offset */
   top?: string;
   /** Right offset */
@@ -326,18 +326,15 @@ export type NotificationPositionPlacement = {
   left?: string;
 };
 
-export type NotificationPositionType = "fixed" | "absolute";
+export type NotificationPosition = "fixed" | "absolute";
 
 export type NotificationPlacementProps = {
-  /**
-   * HTML ID of element where notifications will render to. Default
-   * position values will be applied if htmlId is provided but does not exist.
-   */
-  htmlId?: string;
+  /** Callback function that retrieves HTMLElement where notifications will render to */
+  containerFn?: () => HTMLElement | null;
   /** Position type */
-  positionType?: NotificationPositionType;
+  position?: NotificationPosition;
   /** Position placement */
-  positionPlacement?: NotificationPositionPlacement;
+  offset?: NotificationOffset;
 };
 
 export type NotificationProviderProps = {
@@ -383,9 +380,9 @@ export function NotificationProvider(props: NotificationProviderProps) {
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
-        htmlId={notificationPlacementProps?.htmlId}
-        positionPlacement={notificationPlacementProps?.positionPlacement}
-        positionType={notificationPlacementProps?.positionType}
+        containerFn={notificationPlacementProps?.containerFn}
+        offset={notificationPlacementProps?.offset}
+        position={notificationPlacementProps?.position}
         state={state}
       />
       {children}
