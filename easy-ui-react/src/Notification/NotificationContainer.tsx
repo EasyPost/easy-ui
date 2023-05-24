@@ -30,19 +30,28 @@ export type NotificationContainerProps = {
  */
 export function NotificationContainer(props: NotificationContainerProps) {
   const { htmlId, positionType = "fixed", positionPlacement, state } = props;
-  const positionStyleProps = positionPlacement
-    ? {
-        top: positionPlacement?.top,
-        right: positionPlacement?.right,
-        bottom: positionPlacement?.bottom,
-        left: positionPlacement?.left,
-      }
-    : {
-        top: 0,
-        left: 0,
-      };
+
+  let container = null;
+  let failedRequest = false;
+  const showNotification = state.visibleToasts.length > 0;
+  if (showNotification && htmlId) {
+    container = document.getElementById(htmlId);
+    failedRequest = container === null;
+  }
+  const positionStyleProps =
+    positionPlacement && !failedRequest
+      ? {
+          top: positionPlacement?.top,
+          right: positionPlacement?.right,
+          bottom: positionPlacement?.bottom,
+          left: positionPlacement?.left,
+        }
+      : {
+          top: 0,
+          left: 0,
+        };
   const positionTypeProps = {
-    position: positionType,
+    position: !failedRequest ? positionType : "fixed",
   };
 
   const containerStyles = {
@@ -50,15 +59,10 @@ export function NotificationContainer(props: NotificationContainerProps) {
     ...positionTypeProps,
   } as React.CSSProperties;
 
-  let container = null;
-  if (state.visibleToasts.length > 0 && htmlId) {
-    container = document.getElementById(htmlId);
-  }
-
   return (
     <>
       {/** visibleToasts` is an artifact of react-stately */}
-      {state.visibleToasts.length > 0
+      {showNotification
         ? createPortal(
             <div className={style.container} style={containerStyles}>
               <NotificationRegion state={state} />
