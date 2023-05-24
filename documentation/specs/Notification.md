@@ -140,7 +140,7 @@ export type NotificationItemStateProps = AriaToastProps<NotificationProps> & {
  * prop which can be passed through EasyUIProvider. See more in the examples section.
  */
 
-export type Notificationoffset = {
+export type NotificationOffset = {
   /** Top offset */
   top?: string;
   /** Right offset */
@@ -151,18 +151,15 @@ export type Notificationoffset = {
   left?: string;
 };
 
-export type Notificationposition = "fixed" | "absolute";
+export type NotificationPosition = "fixed" | "absolute";
 
 export type NotificationPlacementProps = {
-  /**
-   * HTML ID of element where notifications will render to. Default
-   * position values will be applied if htmlId is provided but does not exist.
-   */
-  htmlId?: string;
+  /** Callback function that retrieves HTMLElement where notifications will render to */
+  containerFn?: () => HTMLElement | null;
   /** Position type */
-  position?: Notificationposition;
+  position?: NotificationPosition;
   /** Position placement */
-  offset?: Notificationoffset;
+  offset?: NotificationOffset;
 };
 ```
 
@@ -330,21 +327,20 @@ export function useNotificationState(): NotificationCombinedState {
   };
 }
 
-export type Notificationoffset = {
+export type NotificationOffset = {
   top?: string;
   right?: string;
   bottom?: string;
   left?: string;
 };
 
-export type Notificationposition = "fixed" | "absolute";
+export type NotificationPosition = "fixed" | "absolute";
 
 export type NotificationPlacementProps = {
-  htmlId?: string;
-  position?: Notificationposition;
-  offset?: Notificationoffset;
+  containerFn?: () => HTMLElement | null;
+  position?: NotificationPosition;
+  offset?: NotificationOffset;
 };
-
 export type NotificationProviderProps = {
   children: ReactNode;
   notificationPlacementProps?: NotificationPlacementProps;
@@ -380,7 +376,7 @@ export function NotificationProvider(props: NotificationProviderProps) {
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
-        htmlId={notificationPlacementProps?.htmlId}
+        containerFn={notificationPlacementProps?.containerFn}
         offset={notificationPlacementProps?.offset}
         position={notificationPlacementProps?.position}
         state={state}
@@ -402,27 +398,37 @@ export function useNotification() {
 }
 
 export type NotificationContainerProps = {
-  htmlId?: string;
-  position?: Notificationposition;
-  offset?: Notificationoffset;
+  containerFn?: () => HTMLElement | null;
+  position?: NotificationPosition;
+  offset?: NotificationOffset;
   state: NotificationInternalState;
 };
 
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { htmlId, position = "fixed", offset, state } = props;
-  const positionStyleProps = offset
-    ? {
-        top: offset?.top,
-        right: offset?.right,
-        bottom: offset?.bottom,
-        left: offset?.left,
-      }
-    : {
-        top: 0,
-        left: 0,
-      };
+  const { containerFn = null, position = "fixed", offset, state } = props;
+
+  const showNotifications = state.visibleToasts.length > 0;
+  let requestFailed = false;
+  let container = null;
+  if (showNotifications && containerFn) {
+    container = containerFn();
+    requestFailed = container === null;
+  }
+
+  const positionStyleProps =
+    offset && !requestFailed
+      ? {
+          top: offset?.top,
+          right: offset?.right,
+          bottom: offset?.bottom,
+          left: offset?.left,
+        }
+      : {
+          top: 0,
+          left: 0,
+        };
   const positionProps = {
-    position: position,
+    position: !requestFailed ? position : "fixed",
   };
 
   const containerStyles = {
@@ -430,17 +436,15 @@ export function NotificationContainer(props: NotificationContainerProps) {
     ...positionProps,
   } as React.CSSProperties;
 
-  const customContainer = htmlId ? document.getElementById(htmlId) : null;
-
   return (
     <>
       {/** visibleToasts` is an artifact of react-stately */}
-      {state.visibleToasts.length > 0
+      {showNotifications
         ? createPortal(
             <div className={style.container} style={containerStyles}>
               <NotificationRegion state={state} />
             </div>,
-            customContainer ?? document.body,
+            container ?? document.body,
           )
         : null}
     </>
@@ -692,7 +696,7 @@ function RootOfYourApp() {
     <EasyUIProvider
       colorScheme="system"
       notificationPlacementProps={{
-        htmlId: "some-id",
+        containerFn: () => document.getElementById("some-id"),
       }}
     >
       <div id="some-id">Some container</div>
