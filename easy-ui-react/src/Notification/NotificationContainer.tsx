@@ -9,7 +9,10 @@ import {
 import style from "./Notification.module.scss";
 
 export type NotificationContainerProps = {
-  /** HTML ID of element where notifications will render to */
+  /**
+   * HTML ID of element where notifications will render to. Default
+   * position values will be applied if htmlId is provided but does not exist.
+   */
   htmlId?: string;
   /** Position type */
   positionType?: NotificationPositionType;
