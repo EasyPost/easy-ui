@@ -20,16 +20,12 @@
 }
 
 .variantOutlined,
-.variantDanger,
-.variantWarning,
-.variantSuccess {
+.variantFlagged {
   border: design-token("shape.border_width.1") solid
     component-token("card", "color.border");
 }
 
-.variantDanger,
-.variantWarning,
-.variantSuccess {
+.variantFlagged {
   border-left-width: 4px;
 }
 
@@ -49,16 +45,16 @@
 }
 
 // prettier-ignore
-.variantDanger {
+.statusDanger {
   @include component-token("card", "color.border", theme-token("color.border.danger"));
 }
 
 // prettier-ignore
-.variantWarning {
+.statusWarning {
   @include component-token("card", "color.border", theme-token("color.border.warning"));
 }
 
 // prettier-ignore
-.variantSuccess {
+.statusSuccess {
   @include component-token("card", "color.border", theme-token("color.border.success"));
 }

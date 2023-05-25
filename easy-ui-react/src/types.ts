@@ -58,16 +58,3 @@ type IconSymbolProps = React.SVGProps<SVGSVGElement> & {
 };
 
 export type IconSymbol = React.FunctionComponent<IconSymbolProps>;
-
-export type AsProp<C extends React.ElementType> = {
-  as?: C;
-};
-
-type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
-
-// https://github.com/ohansemmanuel/polymorphic-react-component/blob/master/05.tsx
-export type PolymorphicComponentProp<
-  C extends React.ElementType,
-  Props = object,
-> = React.PropsWithChildren<Props & AsProp<C>> &
-  Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;

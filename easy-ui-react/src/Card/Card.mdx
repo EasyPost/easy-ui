@@ -8,30 +8,64 @@ import * as CardStories from "./Card.stories";
 
 Cards are styled containers that group related content.
 
-## Basic cards
+## Standard cards
 
-Basic cards are simple containers with preset styles.
+Standard cards are components with minimal configuration. Many times this is all that you need.
 
-Cards are `solid` by default, meaning they have no border. Use the `variant` prop to adjust the overall style of the `Card`. `danger`, `warning`, and `success` variants render a flagged appearance.
+Cards are transparent by default in order to let the background come through. Use the `background` prop to set its background to one of either `primary` or `subdued`.
 
-Cards are transparent by default. Use the `background` prop to set its background to one of either `primary` or `subdued`.
+Cards are `solid` by default, meaning they have no border. Use the `variant` prop to adjust the overall style of the `Card`.
 
-<Canvas of={CardStories.Basic} />
+### Solid
 
-<Controls of={CardStories.Basic} include={["background", "variant"]} />
+Cards are solid by default.
+
+<Canvas of={CardStories.Solid} />
+
+<Controls of={CardStories.Solid} />
+
+### Outlined
+
+Cards can be outlined using `variant="outlined"`.
+
+<Canvas of={CardStories.Outlined} />
+
+<Controls of={CardStories.Outlined} />
+
+### Flagged
+
+Cards can be flagged using `variant="flagged"`.
+
+Use the `color` prop to adjust the flag's color.
+
+<Canvas of={CardStories.Flagged} />
+
+<Controls of={CardStories.Flagged} />
 
 ## Complex cards
 
 Cards are composable. Use `<Card.Container />` and `<Card.Area />` to create cards with complex content.
 
-Below is an example of a card split into two areas using `<HorizontalGrid />`.
+### Split card
 
-<Canvas of={CardStories.Complex} />
+Below is an example of a card that uses the deconstructed subcomponents of `<Card />`.
 
-<Controls of={CardStories.Complex} include={["variant"]} />
+<Canvas of={CardStories.Split} />
+
+<Controls of={CardStories.Split} include={["variant"]} />
+
+### Checkbox card
 
 Below is an example of a card serving as a checkbox using it's deconstructed components.
 
 <Canvas of={CardStories.Checkbox} />
 
 <Controls of={CardStories.Checkbox} />
+
+### Custom element
+
+Below is a card that has its element overriden to be a link.
+
+<Canvas of={CardStories.Link} />
+
+<Controls of={CardStories.Link} />

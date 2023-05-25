@@ -8,59 +8,52 @@ import {
 
 import styles from "./Card.module.scss";
 
-export type CardBackground = "primary" | "subdued";
-export type CardVariant =
-  | "solid"
-  | "outlined"
-  | "danger"
-  | "warning"
-  | "success";
 export type CardAs = "div" | "label" | "button" | "a" | "fieldset";
+export type CardBackground = "primary" | "secondary";
+export type CardStatus = "danger" | "warning" | "success";
+export type CardVariant = "solid" | "outlined" | "flagged";
 
-export type CardContainerProps<T extends CardAs = "div"> = {
-  as?: T;
+type BaseCardContainerProps = {
+  as?: CardAs;
   isDisabled?: boolean;
   isSelected?: boolean;
   variant?: CardVariant;
   children: ReactNode;
-};
+} & ComponentProps<ElementType>;
+
+export type StandardCardContainerProps = {
+  variant: "solid" | "outlined";
+} & BaseCardContainerProps;
+
+export type FlaggedCardContainerProps = {
+  status: CardStatus;
+  variant: "flagged";
+} & BaseCardContainerProps;
+
+export type CardContainerProps =
+  | FlaggedCardContainerProps
+  | StandardCardContainerProps;
 
 export type CardAreaProps = {
   background?: CardBackground;
   children: ReactNode;
 };
 
-export type CardProps<T extends CardAs> = CardContainerProps<T> & CardAreaProps;
+export type CardProps = CardContainerProps & CardAreaProps;
 
-function CardContainer(
-  props: CardProps<"div"> & ComponentProps<"div">,
-): React.JSX.Element;
-function CardContainer(
-  props: CardProps<"button"> & ComponentProps<"button">,
-): React.JSX.Element;
-function CardContainer(
-  props: CardProps<"a"> & ComponentProps<"a">,
-): React.JSX.Element;
-function CardContainer(
-  props: CardProps<"label"> & ComponentProps<"label">,
-): React.JSX.Element;
-function CardContainer(
-  props: CardProps<"fieldset"> & ComponentProps<"fieldset">,
-): React.JSX.Element;
-function CardContainer(
-  props: CardProps<CardAs> & ComponentProps<ElementType>,
-): React.JSX.Element;
 function CardContainer({
   as: As = "div",
+  status,
   isDisabled = false,
   isSelected = false,
-  variant = "solid",
+  variant = "flagged",
   children,
   ...restProps
-}: CardProps<CardAs>) {
+}: CardProps) {
   const className = classNames(
     styles.container,
     styles[variationName("variant", variant)],
+    variant === "flagged" && status && styles[variationName("status", status)],
     isDisabled && styles.disabled,
     isSelected && styles.selected,
   );
@@ -91,25 +84,7 @@ function CardArea({ background, children }: CardAreaProps) {
   );
 }
 
-export function Card(
-  props: CardProps<"div"> & ComponentProps<"div">,
-): React.JSX.Element;
-export function Card(
-  props: CardProps<"a"> & ComponentProps<"a">,
-): React.JSX.Element;
-export function Card(
-  props: CardProps<"label"> & ComponentProps<"label">,
-): React.JSX.Element;
-export function Card(
-  props: CardProps<"button"> & ComponentProps<"button">,
-): React.JSX.Element;
-export function Card(
-  props: CardProps<"fieldset"> & ComponentProps<"fieldset">,
-): React.JSX.Element;
-export function Card(
-  props: CardProps<CardAs> & ComponentProps<ElementType>,
-): React.JSX.Element;
-export function Card(props: CardProps<CardAs>) {
+export function Card(props: CardProps) {
   const { background, children, ...containerProps } = props;
   return (
     <CardContainer {...containerProps}>

@@ -48,7 +48,7 @@
     "color.scrollbar.thumb": { "value": "{color.gray.500}" },
     "color.scrollbar.track": { "value": "{color.gray.050}" },
     "color.surface.card.primary": { "value": "{color.gray.000}" },
-    "color.surface.card.subdued": { "value": "{color.gray.050}" },
+    "color.surface.card.secondary": { "value": "{color.gray.050}" },
     "color.surface.overlay": { "value": "{color.gray.000}" },
     "color.surface.overlay.hovered": { "value": "{color.gray.050}" },
     "color.text": { "value": "{color.blue.800}" },
