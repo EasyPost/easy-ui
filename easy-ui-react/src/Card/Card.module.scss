@@ -1,6 +1,15 @@
 @use "../styles/common" as *;
 
 .container {
+  // resets for button's and a's
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-decoration: none;
   border-radius: design-token("shape.border_radius.md");
   overflow: hidden;
 }
@@ -27,6 +36,16 @@
 // prettier-ignore
 .variantOutlined {
   @include component-token("card", "color.border", theme-token("color.border.bolder"));
+}
+
+// prettier-ignore
+.selected {
+  @include component-token("card", "color.border", theme-token("color.border.selected"));
+}
+
+// prettier-ignore
+.disabled {
+  @include component-token("card", "color.border", theme-token("color.border.disabled"));
 }
 
 // prettier-ignore

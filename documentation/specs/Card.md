@@ -17,8 +17,7 @@ A Card is a styled container that groups related content.
 
 ### Risks and Challenges
 
-- Simple API with a variety of use cases
-- Ensuring the component can be composed to the variety of use cases
+- Ensuring the component can be composed to the variety of use cases while maintaining a simple API
 
 ### Prior Art
 
@@ -40,14 +39,20 @@ type CardBackground = "primary" | "subdued";
 type CardVariant = "solid" | "outlined" | "danger" | "warning" | "success";
 
 type CardContainerProps = {
+  /** Content of the card container. */
+  children: ReactNode;
+
+  /** Render the card as disabled. */
+  disabled?: boolean;
+
+  /** Render the card as selected. Useful for cards serving as checkbox containers. */
+  selected?: boolean;
+
   /**
    * Card variant.
    * @default solid
    */
   variant?: CardVariant;
-
-  /** Content of the card container. */
-  children: ReactNode;
 };
 
 type CardAreaProps = {
@@ -138,9 +143,43 @@ function Component() {
 }
 ```
 
+_Checkbox Card:_
+
+Example of piecing together card components for a checkbox variation.
+
+```tsx
+import { Card } from "@easypost/easy-ui/Card";
+
+function CheckboxCard() {
+  const [isSelected] = useState();
+  const [isDisabled] = useState();
+  return (
+    <Card
+      as="label"
+      isSelected={isSelected}
+      isDisabled={isDisabled}
+      variant="outlined"
+    >
+      <VerticalStack gap="2">
+        <HorizontalStack gap="1" blockAlign="center">
+          <input
+            type="checkbox"
+            style={{ width: 24, height: 24 }}
+            checked={isSelected}
+            disabled={isDisabled}
+          />
+          <Text variant="subtitle1">Here is a checkbox description</Text>
+        </HorizontalStack>
+        <div>Content</div>
+      </VerticalStack>
+    </Card>
+  );
+}
+```
+
 ### Anatomy
 
-The anatomy shows how the pieces can be constructed and deconstructed for complex use cases.
+The anatomy shows how the pieces are deconstructed.
 
 ```ts
 function CardContainer({ variant = "solid", children }: CardContainerProps) {

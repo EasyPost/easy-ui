@@ -1,0 +1,61 @@
+import React from "react";
+import { DesignTokenNamespace } from "../types";
+import {
+  ResponsiveProp,
+  getComponentToken,
+  getResponsiveDesignToken,
+} from "../utilities/css";
+
+import styles from "./HorizontalStack.module.scss";
+
+type SpaceScale = DesignTokenNamespace<"space">;
+
+export type Gap = ResponsiveProp<SpaceScale>;
+export type Align =
+  | "start"
+  | "center"
+  | "end"
+  | "space-around"
+  | "space-between"
+  | "space-evenly";
+export type BlockAlign = "start" | "center" | "end" | "baseline" | "stretch";
+
+export type HorizontalStackProps = {
+  /** Content of the horizontal stack. */
+  children?: React.ReactNode;
+
+  /** Horizontal alignment of children */
+  align?: Align;
+
+  /** Vertical alignment of children */
+  blockAlign?: BlockAlign;
+
+  /** The spacing between elements. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   * @example
+   * gap='2'
+   * gap={{xs: '2', sm: '3', md: '4', lg: '5', xl: '6'}}
+   */
+  gap?: Gap;
+
+  /** Wrap stack elements to additional rows as needed on small screens
+   * @default true
+   */
+  wrap?: boolean;
+};
+
+export function HorizontalStack(props: HorizontalStackProps) {
+  const { align, blockAlign, gap, wrap = true, children } = props;
+
+  const style = {
+    ...getResponsiveDesignToken("horizontal-stack", "gap", "space", gap),
+    ...getComponentToken("horizontal-stack", "align", align),
+    ...getComponentToken("horizontal-stack", "block-align", blockAlign),
+    ...getComponentToken("horizontal-stack", "wrap", wrap ? "wrap" : "nowrap"),
+  } as React.CSSProperties;
+
+  return (
+    <div className={styles.HorizontalStack} style={style}>
+      {children}
+    </div>
+  );
+}

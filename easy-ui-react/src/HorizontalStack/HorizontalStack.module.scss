@@ -1,0 +1,10 @@
+@use "../styles/common" as *;
+
+.HorizontalStack {
+  @include responsive-prop("horizontal-stack", "gap", gap);
+
+  display: flex;
+  flex-wrap: component-token("horizontal-stack", "wrap");
+  align-items: component-token("horizontal-stack", "block-align");
+  justify-content: component-token("horizontal-stack", "align");
+}
