@@ -38,7 +38,7 @@
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.1.1",
     "overlayscrollbars-react": "^0.5.0",
-    "react-aria": "^3.24.0",
+    "react-aria": "^3.25.0",
     "react-stately": "^3.22.0"
   },
   "peerDependencies": {
