@@ -22,14 +22,14 @@ object on which methods can be invoked to display the appropriate notification. 
 
 ## Custom placement
 
-Notifications can have custom placement on a per app basis. Use the `notificationPlacementProps` prop which is available on the `EasyUIProvider` component.
+Notifications can have custom placement on a per app basis. Use the `notificationPlacement` prop which is available on the `EasyUIProvider` component.
 
 <Canvas of={NotificationStories.CustomPlacement} />
 
 ## Custom placement within container
 
 Notifications by default render into `document.body` via a portal. To render notifications into a custom container, pass a callback function
-to `containerFn` that returns a valid `HTMLElement`.
+to `getContainer` that returns a valid `HTMLElement`.
 
 <Canvas of={NotificationStories.CustomPlacementWithinContainer} />
 
@@ -118,9 +118,9 @@ export type NotificationOffset = {
 
 export type NotificationPosition = "fixed" | "absolute";
 
-export type NotificationPlacementProps = {
+export type NotificationPlacement = {
   /** Callback function that retrieves HTMLElement where notifications will render to */
-  containerFn?: () => HTMLElement | null;
+  getContainer?: () => HTMLElement | null;
   /** Position type */
   position?: NotificationPosition;
   /** Position placement */
@@ -129,7 +129,7 @@ export type NotificationPlacementProps = {
 
 export interface ProviderProps {
   /** Notification placement props */
-  notificationPlacementProps?: NotificationPlacementProps;
+  notificationPlacement?: NotificationPlacement;
   /** Rest of EasyUI Provider props */
 }
 ```

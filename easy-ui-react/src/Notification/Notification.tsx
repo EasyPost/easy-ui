@@ -328,9 +328,9 @@ export type NotificationOffset = {
 
 export type NotificationPosition = "fixed" | "absolute";
 
-export type NotificationPlacementProps = {
+export type NotificationPlacement = {
   /** Callback function that retrieves HTMLElement where notifications will render to */
-  containerFn?: () => HTMLElement | null;
+  getContainer?: () => HTMLElement | null;
   /** Position type */
   position?: NotificationPosition;
   /** Position placement */
@@ -341,7 +341,7 @@ export type NotificationProviderProps = {
   /** Child components */
   children: ReactNode;
   /** Notification placement props */
-  notificationPlacementProps?: NotificationPlacementProps;
+  notificationPlacement?: NotificationPlacement;
 };
 
 /**
@@ -351,7 +351,7 @@ export type NotificationProviderProps = {
  * be used on its own and is included in the general EasyUI Provider
  */
 export function NotificationProvider(props: NotificationProviderProps) {
-  const { children, notificationPlacementProps } = props;
+  const { children, notificationPlacement } = props;
   const combinedState = useNotificationState();
 
   const state = {
@@ -380,9 +380,9 @@ export function NotificationProvider(props: NotificationProviderProps) {
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
-        containerFn={notificationPlacementProps?.containerFn}
-        offset={notificationPlacementProps?.offset}
-        position={notificationPlacementProps?.position}
+        getContainer={notificationPlacement?.getContainer}
+        offset={notificationPlacement?.offset}
+        position={notificationPlacement?.position}
         state={state}
       />
       {children}

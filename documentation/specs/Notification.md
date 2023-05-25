@@ -153,9 +153,9 @@ export type NotificationOffset = {
 
 export type NotificationPosition = "fixed" | "absolute";
 
-export type NotificationPlacementProps = {
+export type NotificationPlacement = {
   /** Callback function that retrieves HTMLElement where notifications will render to */
-  containerFn?: () => HTMLElement | null;
+  getContainer?: () => HTMLElement | null;
   /** Position type */
   position?: NotificationPosition;
   /** Position placement */
@@ -336,18 +336,18 @@ export type NotificationOffset = {
 
 export type NotificationPosition = "fixed" | "absolute";
 
-export type NotificationPlacementProps = {
-  containerFn?: () => HTMLElement | null;
+export type NotificationPlacement = {
+  getContainer?: () => HTMLElement | null;
   position?: NotificationPosition;
   offset?: NotificationOffset;
 };
 export type NotificationProviderProps = {
   children: ReactNode;
-  notificationPlacementProps?: NotificationPlacementProps;
+  notificationPlacement?: NotificationPlacement;
 };
 
 export function NotificationProvider(props: NotificationProviderProps) {
-  const { children, notificationPlacementProps } = props;
+  const { children, notificationPlacement } = props;
   const combinedState = useNotificationState();
 
   const state = {
@@ -376,9 +376,9 @@ export function NotificationProvider(props: NotificationProviderProps) {
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
-        containerFn={notificationPlacementProps?.containerFn}
-        offset={notificationPlacementProps?.offset}
-        position={notificationPlacementProps?.position}
+        getContainer={notificationPlacement?.getContainer}
+        offset={notificationPlacement?.offset}
+        position={notificationPlacement?.position}
         state={state}
       />
       {children}
@@ -398,20 +398,20 @@ export function useNotification() {
 }
 
 export type NotificationContainerProps = {
-  containerFn?: () => HTMLElement | null;
+  getContainer?: () => HTMLElement | null;
   position?: NotificationPosition;
   offset?: NotificationOffset;
   state: NotificationInternalState;
 };
 
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { containerFn = null, position = "fixed", offset, state } = props;
+  const { getContainer = null, position = "fixed", offset, state } = props;
 
   const showNotifications = state.visibleToasts.length > 0;
   let requestFailed = false;
   let container = null;
-  if (showNotifications && containerFn) {
-    container = containerFn();
+  if (showNotifications && getContainer) {
+    container = getContainer();
     requestFailed = container === null;
   }
 
@@ -664,7 +664,7 @@ function Component() {
 }
 ```
 
-In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPlacementProps` prop that can be supplied to EasyUIProvider.
+In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPlacement` prop that can be supplied to EasyUIProvider.
 
 _With offset and position_
 
@@ -675,7 +675,7 @@ function RootOfYourApp() {
   return (
     <EasyUIProvider
       colorScheme="system"
-      notificationPlacementProps={{
+      NotificationPlacement={{
         offset: { top: "50px", left: "0px" },
         position: "absolute",
       }}
@@ -695,8 +695,8 @@ function RootOfYourApp() {
   return (
     <EasyUIProvider
       colorScheme="system"
-      notificationPlacementProps={{
-        containerFn: () => document.getElementById("some-id"),
+      NotificationPlacement={{
+        getContainer: () => document.getElementById("some-id"),
       }}
     >
       <div id="some-id">Some container</div>

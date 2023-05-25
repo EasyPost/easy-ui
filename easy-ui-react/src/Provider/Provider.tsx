@@ -1,9 +1,6 @@
 import React, { ReactElement } from "react";
 import { ThemeProvider } from "../Theme";
-import {
-  NotificationProvider,
-  NotificationPlacementProps,
-} from "../Notification";
+import { NotificationProvider, NotificationPlacement } from "../Notification";
 import type { ColorScheme, ThemeCreator } from "../Theme";
 
 import "../styles/global.scss";
@@ -16,7 +13,7 @@ export interface ProviderProps {
   /** Color scheme to apply to Easy UI.  */
   colorScheme?: ColorScheme;
   /** Notification placement props */
-  notificationPlacementProps?: NotificationPlacementProps;
+  notificationPlacement?: NotificationPlacement;
 }
 
 /**
@@ -36,7 +33,7 @@ export interface ProviderProps {
 *  return (
 *      <EasyUIProvider
 *        colorScheme="system"
-*        notificationPlacementProps={{
+*        notificationPlacement={{
 *          offset: { top: "80px", left: "0px" },
 *        }}
 *      >
@@ -55,10 +52,10 @@ export interface ProviderProps {
 *  return (
 *      <EasyUIProvider
 *        colorScheme="system"
-*        notificationPlacementProps={{
+*        notificationPlacement={{
 *          offset: { top: "0px", left: "0px" },
 *          position: "absolute",
-*          containerFn: () => document.getElementById("nav-container")
+*          getContainer: () => document.getElementById("nav-container")
 *        }}
 *      >
 *        {children}
@@ -71,13 +68,11 @@ export function Provider({
   children,
   theme,
   colorScheme,
-  notificationPlacementProps,
+  notificationPlacement,
 }: ProviderProps) {
   return (
     <ThemeProvider theme={theme} colorScheme={colorScheme}>
-      <NotificationProvider
-        notificationPlacementProps={notificationPlacementProps}
-      >
+      <NotificationProvider notificationPlacement={notificationPlacement}>
         {children}
       </NotificationProvider>
     </ThemeProvider>

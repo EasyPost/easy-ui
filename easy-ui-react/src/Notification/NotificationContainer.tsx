@@ -10,7 +10,7 @@ import style from "./Notification.module.scss";
 
 export type NotificationContainerProps = {
   /** Callback function that retrieves HTMLElement where notifications will render to */
-  containerFn?: () => HTMLElement | null;
+  getContainer?: () => HTMLElement | null;
   /** Position type */
   position?: NotificationPosition;
   /** Position placement */
@@ -29,13 +29,13 @@ export type NotificationContainerProps = {
  * styles.
  */
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { containerFn = null, position = "fixed", offset, state } = props;
+  const { getContainer = null, position = "fixed", offset, state } = props;
 
   const showNotifications = state.visibleToasts.length > 0;
   let requestFailed = false;
   let container = null;
-  if (showNotifications && containerFn) {
-    container = containerFn();
+  if (showNotifications && getContainer) {
+    container = getContainer();
     requestFailed = container === null;
   }
 
