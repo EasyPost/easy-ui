@@ -1,0 +1,86 @@
+@use "../styles/common" as *;
+
+// prettier-ignore
+.statusPromotional {
+  @include component-token("notification", "color", theme-token("color.text.inverse"));
+  @include component-token("notification", "color.background", theme-token("color.background.primary"));
+}
+
+// prettier-ignore
+.statusSuccess {
+  @include component-token("notification", "color", theme-token("color.text.success.bold"));
+  @include component-token("notification", "color.background", theme-token("color.background.success.subtle"));
+}
+
+// prettier-ignore
+.statusNeutral {
+  @include component-token("notification", "color", theme-token("color.text.secondary.bold"));
+  @include component-token("notification", "color.background",theme-token("color.background.secondary.subtle"));
+}
+
+// prettier-ignore
+.statusWarning {
+  @include component-token("notification", "color", theme-token("color.text.inverse.inverse.bold"));
+  @include component-token("notification", "color.background", theme-token("color.background.warning.subtle"));
+}
+
+// prettier-ignore
+.statusError {
+  @include component-token("notification", "color", theme-token("color.text.danger.bold"));
+  @include component-token("notification", "color.background", theme-token("color.background.danger.subtle"));
+}
+
+.typeToast {
+  display: inline-flex;
+}
+
+.typeAlert {
+  display: flex;
+  width: 100%;
+}
+
+.Notification {
+  /* prettier-ignore */
+  @include component-token("notification", "border_radius", design-token("shape.border_radius.base"));
+  @include component-token("notification", "max-width", 1200px);
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  padding: design-token("space.1");
+  /* prettier-ignore */
+  border-radius: 0 0 component-token("notification", "border_radius") component-token("notification", "border_radius");
+  max-width: component-token("notification", "max-width");
+  color: component-token("notification", "color");
+  background-color: component-token("notification", "color.background");
+  pointer-events: auto;
+}
+
+.iconText {
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1");
+}
+
+.closeButton {
+  border: 0;
+  padding: design-token("space.0");
+  /* prettier-ignore */
+  margin: design-token("space.0.5") design-token("space.1") design-token("space.0.5") design-token("space.2");
+  background-color: component-token("notification", "color.background");
+  color: component-token("notification", "color.text");
+  cursor: pointer;
+}
+
+.region {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  /* prettier-ignore */
+  @include component-token("notification", "z-index", design-token("z_index.notification"));
+  z-index: component-token("notification", "z-index");
+  width: 100%;
+  pointer-events: none;
+}
