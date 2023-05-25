@@ -35,17 +35,22 @@ Architecture proposed is to surface a basic `<Card />` component with `variety` 
 ### API
 
 ```ts
-type CardBackground = "primary" | "subdued";
-type CardVariant = "solid" | "outlined" | "danger" | "warning" | "success";
+export type CardAs = "div" | "label" | "button" | "a" | "fieldset";
+export type CardBackground = "primary" | "secondary";
+export type CardStatus = "danger" | "warning" | "success";
+export type CardVariant = "solid" | "outlined" | "flagged";
 
-type CardContainerProps = {
+type BaseCardContainerProps = {
+  /** Custom element for the card container. */
+  as?: CardAs;
+
   /** Content of the card container. */
   children: ReactNode;
 
   /** Render the card as disabled. */
   isDisabled?: boolean;
 
-  /** Render the card as selected. Useful for cards serving as checkbox containers. */
+  /** Render the card as selected. */
   isSelected?: boolean;
 
   /**
@@ -53,9 +58,23 @@ type CardContainerProps = {
    * @default solid
    */
   variant?: CardVariant;
-};
+} & Omit<ComponentProps<ElementType>, "color">;
 
-type CardAreaProps = {
+export type StandardCardContainerProps = {
+  variant: "solid" | "outlined";
+} & BaseCardContainerProps;
+
+export type FlaggedCardContainerProps = {
+  /** Status of the card. */
+  status: CardColor;
+  variant: "flagged";
+} & BaseCardContainerProps;
+
+export type CardContainerProps =
+  | FlaggedCardContainerProps
+  | StandardCardContainerProps;
+
+export type CardAreaProps = {
   /** Background of the card area. By default, card backgrounds are transparent. */
   background?: CardBackground;
 
@@ -63,7 +82,7 @@ type CardAreaProps = {
   children: ReactNode;
 };
 
-type CardProps = CardContainerProps & CardAreaProps;
+export type CardProps = CardContainerProps & CardAreaProps;
 ```
 
 ### Example Usage
@@ -99,28 +118,23 @@ _Flagged:_
 import { Card } from "@easypost/easy-ui/Card";
 
 function Component() {
-  // can be either "danger", "warning", "success"
-  return <Card variant="danger">Content</Card>;
+  return (
+    <Card variant="flagged" status="danger">
+      Content
+    </Card>
+  );
 }
 ```
 
-_Primary background:_
+_Background:_
+
+By default cards are transparent.
 
 ```tsx
 import { Card } from "@easypost/easy-ui/Card";
 
 function Component() {
   return <Card background="primary">Content</Card>;
-}
-```
-
-_Subdued background:_
-
-```tsx
-import { Card } from "@easypost/easy-ui/Card";
-
-function Component() {
-  return <Card background="subdued">Content</Card>;
 }
 ```
 
@@ -133,10 +147,10 @@ import { Card } from "@easypost/easy-ui/Card";
 
 function Component() {
   return (
-    <Card.Container {...args}>
+    <Card.Container variant="outlined">
       <HorizontalGrid columns={2}>
         <Card.Area background="primary">Content</Card.Area>
-        <Card.Area background="subdued">Content</Card.Area>
+        <Card.Area background="secondary">Content</Card.Area>
       </HorizontalGrid>
     </Card.Container>
   );
@@ -179,7 +193,7 @@ function CheckboxCard() {
 
 ### Anatomy
 
-The anatomy shows how the pieces are deconstructed.
+The high-level anatomy shows how the pieces are deconstructed.
 
 ```ts
 function CardContainer({ variant = "solid", children }: CardContainerProps) {
