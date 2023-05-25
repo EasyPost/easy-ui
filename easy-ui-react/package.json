@@ -31,15 +31,15 @@
   "dependencies": {
     "@easypost/easy-ui-icons": "1.0.0-alpha.3",
     "@easypost/easy-ui-tokens": "1.0.0-alpha.2",
-    "@react-aria/utils": "^3.16.0",
+    "@react-aria/utils": "^3.17.0",
     "@react-types/shared": "^3.18.0",
-    "@types/react": "^18.2.6",
+    "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.1.1",
     "overlayscrollbars-react": "^0.5.0",
     "react-aria": "^3.25.0",
-    "react-stately": "^3.22.0"
+    "react-stately": "^3.23.0"
   },
   "peerDependencies": {
     "react": "^16.14.0 || ^17.0.0 || ^18.0.0",
