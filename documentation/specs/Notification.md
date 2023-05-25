@@ -136,7 +136,7 @@ export type NotificationItemStateProps = AriaToastProps<NotificationProps> & {
  *   left: 0;
  *
  * In some cases, consumers may want more fine grained control over how the container is
- * positioned on the screen. This can be accomplished through the `notficationPlacementProps`
+ * positioned on the screen. This can be accomplished through the `notficationPlacement`
  * prop which can be passed through EasyUIProvider. See more in the examples section.
  */
 
@@ -596,11 +596,11 @@ function Component() {
   const notification = useNotification();
 
   const onToast = () => {
-    notification.showSuccessToast({ message: "message", noIcon: true });
+    notification.showSuccessToast({ message: "message", hasIcon: false });
   };
 
   const onAlert = () => {
-    notification.showSuccessAlert({ message: "message", noIcon: true });
+    notification.showSuccessAlert({ message: "message", hasIcon: false });
   };
 
   return (
