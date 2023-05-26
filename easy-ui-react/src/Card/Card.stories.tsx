@@ -1,11 +1,7 @@
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { Meta, StoryObj } from "@storybook/react";
-import noop from "lodash/noop";
 import React from "react";
 import { HorizontalGrid } from "../HorizontalGrid";
-import { HorizontalStack } from "../HorizontalStack";
-import { Text } from "../Text";
-import { VerticalStack } from "../VerticalStack";
 import { InlineStoryDecorator } from "../utilities/storybook";
 import { Card, CardProps } from "./Card";
 
@@ -22,8 +18,16 @@ const meta: Meta<typeof Card> = {
   component: Card,
   decorators: [InlineStoryDecorator],
   argTypes: {
+    background: {
+      options: ["primary", "secondary"],
+      control: { type: "radio" },
+    },
     status: {
       options: ["danger", "warning", "success"],
+      control: { type: "radio" },
+    },
+    variant: {
+      options: ["solid", "outlined", "flagged"],
       control: { type: "radio" },
     },
   },
@@ -83,56 +87,6 @@ export const Split: Story = {
   parameters: {
     controls: {
       include: ["variant"],
-    },
-  },
-};
-
-export const Checkbox: Story = {
-  render: (args: CardProps) => {
-    return (
-      <Card as="label" {...args} variant="outlined">
-        <VerticalStack gap="2">
-          <HorizontalStack gap="1" blockAlign="center">
-            <input
-              type="checkbox"
-              style={{ width: 24, height: 24 }}
-              checked={args.isSelected}
-              disabled={args.isDisabled}
-              onChange={noop}
-            />
-            <Text variant="subtitle1">Here is a checkbox description</Text>
-          </HorizontalStack>
-          <Placeholder />
-        </VerticalStack>
-      </Card>
-    );
-  },
-  args: {
-    isDisabled: false,
-    isSelected: false,
-  },
-  parameters: {
-    controls: {
-      include: ["isDisabled", "isSelected"],
-    },
-  },
-};
-
-export const Link: Story = {
-  render: (args: CardProps) => {
-    return (
-      <Card {...args} as="a" href="https://easypost.com" target="_blank">
-        <Placeholder />
-      </Card>
-    );
-  },
-  args: {
-    status: "danger",
-    variant: "outlined",
-  },
-  parameters: {
-    controls: {
-      include: ["background", "variant"],
     },
   },
 };

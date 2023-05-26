@@ -8,15 +8,11 @@ import * as CardStories from "./Card.stories";
 
 Cards are styled containers that group related content.
 
-## Standard cards
-
-Standard cards are components with minimal configuration. Many times this is all that you need.
-
 Cards are transparent by default in order to let the background come through. Use the `background` prop to set its background to one of either `primary` or `subdued`.
 
 Cards are `solid` by default, meaning they have no border. Use the `variant` prop to adjust the overall style of the `Card`.
 
-### Solid
+## Solid
 
 Cards are solid by default.
 
@@ -24,7 +20,7 @@ Cards are solid by default.
 
 <Controls of={CardStories.Solid} />
 
-### Outlined
+## Outlined
 
 Cards can be outlined using `variant="outlined"`.
 
@@ -32,7 +28,7 @@ Cards can be outlined using `variant="outlined"`.
 
 <Controls of={CardStories.Outlined} />
 
-### Flagged
+## Flagged
 
 Cards can be flagged using `variant="flagged"`.
 
@@ -42,30 +38,18 @@ Use the `color` prop to adjust the flag's color.
 
 <Controls of={CardStories.Flagged} />
 
-## Complex cards
+## Composition
 
 Cards are composable. Use `<Card.Container />` and `<Card.Area />` to create cards with complex content.
 
+`<Card.Container />` is the outermost element of the card containing its border.
+
+`<Card.Area />` is the inner element of the card containing content.
+
 ### Split card
 
-Below is an example of a card that uses the deconstructed subcomponents of `<Card />`.
+Below is an example of a card that uses the deconstructed subcomponents of `<Card />` to split content down the middle.
 
 <Canvas of={CardStories.Split} />
 
 <Controls of={CardStories.Split} include={["variant"]} />
-
-### Checkbox card
-
-Below is an example of a card serving as a checkbox using it's deconstructed components.
-
-<Canvas of={CardStories.Checkbox} />
-
-<Controls of={CardStories.Checkbox} />
-
-### Custom element
-
-Below is a card that has its element overriden to be a link.
-
-<Canvas of={CardStories.Link} />
-
-<Controls of={CardStories.Link} />

@@ -1,5 +1,5 @@
 import omit from "lodash/omit";
-import React, { ComponentProps, ElementType, ReactNode } from "react";
+import React, { AllHTMLAttributes, ElementType, ReactNode } from "react";
 import {
   classNames,
   getComponentThemeToken,
@@ -8,19 +8,17 @@ import {
 
 import styles from "./Card.module.scss";
 
-export type CardAs = "a" | "button" | "div" | "fieldset" | "label";
 export type CardBackground = "primary" | "secondary";
 export type CardVariant = "solid" | "outlined" | "flagged";
 export type FlaggedCardStatus = "danger" | "warning" | "success";
 
 type BaseCardContainerProps = {
-  as?: CardAs;
-  variant?: CardVariant;
+  as?: ElementType;
   children: ReactNode;
-} & ComponentProps<ElementType>;
+} & AllHTMLAttributes<ElementType>;
 
 export type SolidCardContainerProps = {
-  variant: "solid";
+  variant?: "solid";
 } & BaseCardContainerProps;
 
 export type OutlinedCardContainerProps = {
@@ -35,9 +33,9 @@ export type FlaggedCardContainerProps = {
 } & BaseCardContainerProps;
 
 export type CardContainerProps =
-  | FlaggedCardContainerProps
   | SolidCardContainerProps
-  | OutlinedCardContainerProps;
+  | OutlinedCardContainerProps
+  | FlaggedCardContainerProps;
 
 export type CardAreaProps = {
   background?: CardBackground;
@@ -46,29 +44,36 @@ export type CardAreaProps = {
 
 export type CardProps = CardContainerProps & CardAreaProps;
 
-function CardContainer({
-  as: As = "div",
-  status,
-  isDisabled = false,
-  isSelected = false,
-  variant = "flagged",
-  children,
-  ...restProps
-}: CardProps) {
+function CardContainer(props: CardProps) {
+  const As = props.as || "div";
   const className = classNames(
     styles.container,
-    styles[variationName("variant", variant)],
-    variant === "flagged" && status && styles[variationName("status", status)],
-    isDisabled && styles.disabled,
-    isSelected && styles.selected,
+    styles[variationName("variant", props.variant || "solid")],
+    props.variant === "flagged" &&
+      props.status &&
+      styles[variationName("status", props.status)],
+    props.variant === "outlined" && props.isDisabled && styles.disabled,
+    props.variant === "outlined" && props.isSelected && styles.selected,
   );
   return (
     <As
       className={className}
-      disabled={"button" || "fieldset" ? isDisabled : undefined}
-      {...omit(restProps, ["className"])}
+      data-testid="container"
+      disabled={
+        "button" || "fieldset"
+          ? props.variant === "outlined" && props.isDisabled
+          : undefined
+      }
+      {...omit(props, [
+        "className",
+        "children",
+        "isDisabled",
+        "isSelected",
+        "status",
+        "variant",
+      ])}
     >
-      {children}
+      {props.children}
     </As>
   );
 }
@@ -83,7 +88,7 @@ function CardArea({ background, children }: CardAreaProps) {
     ),
   } as React.CSSProperties;
   return (
-    <div className={styles.area} style={style}>
+    <div className={styles.area} style={style} data-testid="area">
       {children}
     </div>
   );
