@@ -4,7 +4,8 @@
       "xs": { "value": "16px", "attributes": { "unit": "rem" } },
       "sm": { "value": "20px", "attributes": { "unit": "rem" } },
       "md": { "value": "24px", "attributes": { "unit": "rem" } },
-      "lg": { "value": "32px", "attributes": { "unit": "rem" } }
+      "lg": { "value": "32px", "attributes": { "unit": "rem" } },
+      "xl": { "value": "56px", "attributes": { "unit": "rem" } }
     }
   }
 }

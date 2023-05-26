@@ -1,12 +1,15 @@
+import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
+import AccountBalanceIcon from "@easypost/easy-ui-icons/AccountBalance";
 import noop from "lodash/noop";
-import React from "react";
+import React, { useState } from "react";
 import { HorizontalGrid } from "../HorizontalGrid";
 import { HorizontalStack } from "../HorizontalStack";
+import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
 import { InlineStoryDecorator, PlaceholderBox } from "../utilities/storybook";
 import { Card, CardProps } from "./Card";
-import { Text } from "../Text";
+import { Icon } from "../Icon";
 
 type Story = StoryObj<typeof Card>;
 
@@ -29,14 +32,14 @@ const meta: Meta<typeof Card> = {
 
 export default meta;
 
-export const Solid: Story = {
+export const Outlined: Story = {
   render: Template.bind({}),
 };
 
-export const Outlined: Story = {
+export const Solid: Story = {
   render: Template.bind({}),
   args: {
-    variant: "outlined",
+    variant: "solid",
   },
 };
 
@@ -69,30 +72,85 @@ export const Composition: Story = {
 };
 
 export const ExampleCheckbox: Story = {
-  render: (args) => (
-    <Card as="label" variant="outlined" {...args}>
-      <VerticalStack gap="2">
-        <HorizontalStack gap="1" blockAlign="center">
-          <input
-            style={{ width: 24, height: 24 }}
-            type="checkbox"
-            checked={args.isSelected}
-            disabled={args.isDisabled}
-            onChange={noop}
-          />
-          <Text variant="subtitle1">I am a checkbox</Text>
-        </HorizontalStack>
-        <PlaceholderBox />
-      </VerticalStack>
-    </Card>
-  ),
+  render: (args) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [isSelected, setIsSelected] = useState(false);
+    return (
+      <Card as="label" variant="outlined" isSelected={isSelected} {...args}>
+        <VerticalStack gap="2">
+          <HorizontalStack gap="1" blockAlign="center">
+            <input
+              style={{ width: 24, height: 24 }}
+              type="checkbox"
+              checked={isSelected}
+              disabled={args.isDisabled}
+              onChange={(e) => {
+                setIsSelected(e.target.checked);
+              }}
+            />
+            <Text variant="subtitle1">I am a checkbox</Text>
+          </HorizontalStack>
+          <PlaceholderBox />
+        </VerticalStack>
+      </Card>
+    );
+  },
   args: {
-    isSelected: false,
     isDisabled: false,
   },
   parameters: {
     controls: {
-      include: ["isSelected", "isDisabled"],
+      include: ["isDisabled"],
     },
   },
+};
+
+export const ExampleLink: Story = {
+  render: () => (
+    <Card as="a" href="https://easypost.com" target="_blank">
+      <PlaceholderBox />
+    </Card>
+  ),
+};
+
+export const ExampleButton: Story = {
+  render: () => (
+    <Card as="button" onClick={action("Clicked card!")}>
+      <PlaceholderBox />
+    </Card>
+  ),
+};
+
+export const ExampleTile: Story = {
+  render: () => (
+    <Card>
+      <div style={{ padding: "8px 0" }}>
+        <VerticalStack gap="1.5" inlineAlign="center">
+          <Icon symbol={AccountBalanceIcon} size="xl" />
+          <Text variant="subtitle2">Add a Bank Account</Text>
+          <Text variant="caption">Free 2-3 Business Days For Transfers</Text>
+        </VerticalStack>
+      </div>
+    </Card>
+  ),
+};
+
+export const ExampleSlat: Story = {
+  render: () => (
+    <Card.Container>
+      <HorizontalStack blockAlign="center">
+        <Card.Area background="secondary">
+          <Icon symbol={AccountBalanceIcon} size="lg" />
+        </Card.Area>
+        <Card.Area>
+          <VerticalStack>
+            <Text variant="subtitle2">Financial Account</Text>
+            <Text variant="caption">
+              Primary | Free 2-3 Business Days For Transfers
+            </Text>
+          </VerticalStack>
+        </Card.Area>
+      </HorizontalStack>
+    </Card.Container>
+  ),
 };

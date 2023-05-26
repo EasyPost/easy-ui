@@ -8,6 +8,10 @@
   overflow: hidden;
 }
 
+button.container:not([disabled]) {
+  cursor: pointer;
+}
+
 .area {
   background: component-token("card-area", "background");
   padding: design-token("space.2");

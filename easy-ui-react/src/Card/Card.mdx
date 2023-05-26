@@ -11,25 +11,25 @@ Cards are styled containers that group related content.
 
 Cards are transparent by default in order to let the background come through. Use the `background` prop to set its background to one of either `primary` or `subdued`.
 
-Cards are `solid` by default, meaning they have no border. Use the `variant` prop to adjust the overall style of the `Card`.
+Cards are `outlined` by default. Use the `variant` prop to adjust the overall style of the `Card`.
 
 Turn on the grid in the individual story to see the effects of card backgrounds more clearly.
 
-## Solid
-
-Cards without a border.
-
-<Canvas of={CardStories.Solid} />
-
-<Controls of={CardStories.Solid} />
-
 ## Outlined
 
-Cards can be outlined using `variant="outlined"`.
+By default cards are rendered with a border. This is synonymous with `variant="outlined"`.
 
 <Canvas of={CardStories.Outlined} />
 
 <Controls of={CardStories.Outlined} />
+
+## Solid
+
+Cards can be without a border using `variant="solid"`.
+
+<Canvas of={CardStories.Solid} />
+
+<Controls of={CardStories.Solid} />
 
 ## Flagged
 
@@ -59,13 +59,21 @@ As an example, to create a card with two columns, use deconstructed subcomponent
 
 <Canvas of={CardStories.ExampleCheckbox} />
 
-### Linked card
+### Link card
+
+<Canvas of={CardStories.ExampleLink} />
 
 ### Button card
 
-### Tile
+<Canvas of={CardStories.ExampleButton} />
 
 ### Tile
+
+<Canvas of={CardStories.ExampleTile} />
+
+### Slat
+
+<Canvas of={CardStories.ExampleSlat} />
 
 ## Properties
 

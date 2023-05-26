@@ -8,6 +8,9 @@ import {
 
 import styles from "./Card.module.scss";
 
+const DEFAULT_ELEMENT_TYPE = "div";
+const DEFAULT_VARIANT = "outlined";
+
 export type CardBackground = "primary" | "secondary";
 export type CardVariant = "solid" | "outlined" | "flagged";
 export type CardStatus = "danger" | "warning" | "success";
@@ -49,12 +52,12 @@ export type CardProps = CardContainerProps & CardAreaProps;
 
 function CardContainer(props: CardContainerProps) {
   const {
-    as: As = "div",
+    as: As = DEFAULT_ELEMENT_TYPE,
     children,
     isDisabled,
     isSelected,
     status,
-    variant = "solid",
+    variant = DEFAULT_VARIANT,
     ...restProps
   } = props;
   const className = classNames(
