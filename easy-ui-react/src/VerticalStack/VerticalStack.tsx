@@ -58,7 +58,7 @@ export type VerticalStackProps = {
  * Use to display children vertically. Based on CSS Flexbox.
  *
  * @remarks
- * Properties (like `gap) use Easy UI's constraint system.
+ * Properties like `gap` use Easy UI's constraint system.
  *
  * @example
  * ```tsx

@@ -53,7 +53,7 @@ export type HorizontalStackProps = {
  * Use to display children horizontally. Based on CSS Flexbox.
  *
  * @remarks
- * Properties (like `gap) use Easy UI's constraint system.
+ * Properties like `gap` use Easy UI's constraint system.
  *
  * @example
  * ```tsx

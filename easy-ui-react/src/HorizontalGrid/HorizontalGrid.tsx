@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ElementType, ReactNode } from "react";
 import {
   ResponsiveProp,
   getComponentToken,
@@ -23,6 +23,12 @@ export type Gap = ResponsiveProp<SpaceScale>;
 export type HorizontalGridAlignItems = "start" | "end" | "center";
 
 export type HorizontalGridProps = {
+  /**
+   * HTML element type.
+   * @default div
+   */
+  as?: ElementType;
+
   /** Content of the horizontal grid. */
   children: ReactNode;
 
@@ -47,23 +53,41 @@ export type HorizontalGridProps = {
   alignItems?: HorizontalGridAlignItems;
 };
 
-export function HorizontalGrid(props: HorizontalGridProps) {
-  const { children, columns, gap, alignItems } = props;
-  const style = {
-    ...getResponsiveValue(
-      "horizontal-grid",
-      "grid-template-columns",
-      formatHorizontalGrid(columns),
-    ),
-    ...getResponsiveDesignToken("horizontal-grid", "gap", "space", gap),
-    ...getComponentToken("horizontal-grid", "align-items", alignItems),
-  } as React.CSSProperties;
-  return (
-    <div className={styles.HorizontalGrid} style={style}>
-      {children}
-    </div>
-  );
-}
+/**
+ * Use to display children horizontally. Based on CSS Grid.
+ *
+ * @remarks
+ * Properties like `gap` use Easy UI's constraint system.
+ *
+ * @example
+ * ```tsx
+ * <HorizontalGrid columns={2} gap="2">
+ *   <div />
+ *   <div />
+ * </HorizontalGrid>
+ * ```
+ */
+export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
+  (props, ref) => {
+    const { as: As = "div", children, columns, gap, alignItems } = props;
+    const style = {
+      ...getResponsiveValue(
+        "horizontal-grid",
+        "grid-template-columns",
+        formatHorizontalGrid(columns),
+      ),
+      ...getResponsiveDesignToken("horizontal-grid", "gap", "space", gap),
+      ...getComponentToken("horizontal-grid", "align-items", alignItems),
+    } as React.CSSProperties;
+    return (
+      <As className={styles.HorizontalGrid} style={style} ref={ref}>
+        {children}
+      </As>
+    );
+  },
+);
+
+HorizontalGrid.displayName = "HorizontalGrid";
 
 function formatHorizontalGrid(
   columns?: Columns,
