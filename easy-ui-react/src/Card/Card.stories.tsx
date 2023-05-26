@@ -54,10 +54,10 @@ export const Split: Story = {
     <Card.Container variant="outlined">
       <HorizontalGrid columns={2}>
         <Card.Area background="primary">
-          <PlaceholderBox width="auto" />
+          <PlaceholderBox width={170} />
         </Card.Area>
         <Card.Area background="secondary">
-          <PlaceholderBox width="auto" />
+          <PlaceholderBox width={170} />
         </Card.Area>
       </HorizontalGrid>
     </Card.Container>
