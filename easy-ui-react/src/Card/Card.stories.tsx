@@ -1,7 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import AccountBalanceIcon from "@easypost/easy-ui-icons/AccountBalance";
-import noop from "lodash/noop";
 import React, { useState } from "react";
 import { HorizontalGrid } from "../HorizontalGrid";
 import { HorizontalStack } from "../HorizontalStack";
@@ -121,17 +120,45 @@ export const ExampleButton: Story = {
   ),
 };
 
-export const ExampleTile: Story = {
+export const ExampleTileA: Story = {
   render: () => (
-    <Card>
-      <div style={{ padding: "8px 0" }}>
-        <VerticalStack gap="1.5" inlineAlign="center">
-          <Icon symbol={AccountBalanceIcon} size="xl" />
-          <Text variant="subtitle2">Add a Bank Account</Text>
-          <Text variant="caption">Free 2-3 Business Days For Transfers</Text>
-        </VerticalStack>
-      </div>
-    </Card>
+    <div style={{ maxWidth: 310, width: "100%" }}>
+      <Card>
+        <div style={{ padding: "8px 0" }}>
+          <VerticalStack gap="1.5" inlineAlign="center">
+            <Icon symbol={AccountBalanceIcon} size="xl" />
+            <Text variant="subtitle2">Add a Bank Account</Text>
+            <Text variant="caption" color="subdued">
+              Free 2-3 Business Days For Transfers
+            </Text>
+          </VerticalStack>
+        </div>
+      </Card>
+    </div>
+  ),
+};
+
+export const ExampleTileB: Story = {
+  render: () => (
+    <div style={{ maxWidth: 460, width: "100%" }}>
+      <Card>
+        <div style={{ padding: "40px 0" }}>
+          <VerticalStack gap="2" inlineAlign="center">
+            <VerticalStack gap="1">
+              <Text variant="subtitle1">No Subscriptions</Text>
+              <Text variant="caption" color="subdued" alignment="center">
+                Sending over 120k packages a year?
+                <br />
+                Learn how EasyPost can optimize your shipping.
+              </Text>
+            </VerticalStack>
+            <Text variant="small_button" color="primary">
+              Contact Sales
+            </Text>
+          </VerticalStack>
+        </div>
+      </Card>
+    </div>
   ),
 };
 
