@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ElementType } from "react";
 import { DesignTokenNamespace } from "../types";
 import {
   ResponsiveProp,
@@ -21,14 +21,20 @@ export type Align =
 export type BlockAlign = "start" | "center" | "end" | "baseline" | "stretch";
 
 export type HorizontalStackProps = {
-  /** Content of the horizontal stack. */
-  children?: React.ReactNode;
+  /**
+   * HTML element type.
+   * @default div
+   */
+  as?: ElementType;
 
   /** Horizontal alignment of children */
   align?: Align;
 
   /** Vertical alignment of children */
   blockAlign?: BlockAlign;
+
+  /** Content of the horizontal stack. */
+  children?: React.ReactNode;
 
   /** The spacing between elements. Accepts a spacing token or an object of spacing tokens for different screen sizes.
    * @example
@@ -43,19 +49,52 @@ export type HorizontalStackProps = {
   wrap?: boolean;
 };
 
-export function HorizontalStack(props: HorizontalStackProps) {
-  const { align, blockAlign, gap, wrap = true, children } = props;
+/**
+ * Use to display children horizontally. Based on CSS Flexbox.
+ *
+ * @remarks
+ * Properties (like `gap) use Easy UI's constraint system.
+ *
+ * @example
+ * ```tsx
+ * <HorizontalStack gap="2">
+ *   <div />
+ *   <div />
+ * </HorizontalStack>
+ * ```
+ */
+export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
+  (props, ref) => {
+    const {
+      as: As = "div",
+      align,
+      blockAlign,
+      gap,
+      wrap = true,
+      children,
+      ...restProps
+    } = props;
+    const style = {
+      ...getResponsiveDesignToken("horizontal-stack", "gap", "space", gap),
+      ...getComponentToken("horizontal-stack", "align", align),
+      ...getComponentToken("horizontal-stack", "block-align", blockAlign),
+      ...getComponentToken(
+        "horizontal-stack",
+        "wrap",
+        wrap ? "wrap" : "nowrap",
+      ),
+    } as React.CSSProperties;
+    return (
+      <As
+        className={styles.HorizontalStack}
+        style={style}
+        ref={ref}
+        {...restProps}
+      >
+        {children}
+      </As>
+    );
+  },
+);
 
-  const style = {
-    ...getResponsiveDesignToken("horizontal-stack", "gap", "space", gap),
-    ...getComponentToken("horizontal-stack", "align", align),
-    ...getComponentToken("horizontal-stack", "block-align", blockAlign),
-    ...getComponentToken("horizontal-stack", "wrap", wrap ? "wrap" : "nowrap"),
-  } as React.CSSProperties;
-
-  return (
-    <div className={styles.HorizontalStack} style={style}>
-      {children}
-    </div>
-  );
-}
+HorizontalStack.displayName = "HorizontalStack";

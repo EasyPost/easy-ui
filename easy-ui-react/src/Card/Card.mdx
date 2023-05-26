@@ -1,5 +1,6 @@
 import React from "react";
 import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { Card } from "./Card";
 import * as CardStories from "./Card.stories";
 
 <Meta of={CardStories} />
@@ -12,9 +13,11 @@ Cards are transparent by default in order to let the background come through. Us
 
 Cards are `solid` by default, meaning they have no border. Use the `variant` prop to adjust the overall style of the `Card`.
 
+Turn on the grid in the individual story to see the effects of card backgrounds more clearly.
+
 ## Solid
 
-Cards are solid by default.
+Cards without a border.
 
 <Canvas of={CardStories.Solid} />
 
@@ -44,12 +47,22 @@ Cards are composable. Use `<Card.Container />` and `<Card.Area />` to create car
 
 `<Card.Container />` is the outermost element of the card containing its border.
 
-`<Card.Area />` is the inner element of the card containing content.
+`<Card.Area />` is the inner element of the card containing its padding and background.
 
-### Split card
-
-Below is an example of a card that uses the deconstructed subcomponents of `<Card />` to split content down the middle.
+As an example, to create a card with two columns, use deconstructed subcomponents of `<Card />`.
 
 <Canvas of={CardStories.Split} />
 
-<Controls of={CardStories.Split} include={["variant"]} />
+## Properties
+
+### Card
+
+<ArgTypes of={Card} />
+
+### Card.Container
+
+<ArgTypes of={Card.Container} />
+
+### Card.Area
+
+<ArgTypes of={Card.Area} />

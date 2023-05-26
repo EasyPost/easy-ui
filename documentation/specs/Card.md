@@ -35,46 +35,36 @@ Architecture proposed is to surface a basic `<Card />` component with `variety` 
 ### API
 
 ```ts
-export type CardAs = "div" | "label" | "button" | "a" | "fieldset";
-export type CardBackground = "primary" | "secondary";
-export type CardStatus = "danger" | "warning" | "success";
-export type CardVariant = "solid" | "outlined" | "flagged";
+type CardBackground = "primary" | "secondary";
+type CardVariant = "solid" | "outlined" | "flagged";
+type CardStatus = "danger" | "warning" | "success";
 
-type BaseCardContainerProps = {
+type CardContainerProps = {
   /** Custom element for the card container. */
-  as?: CardAs;
+  as?: ElementType;
 
-  /** Content of the card container. */
+  /** Content of the card. */
   children: ReactNode;
 
-  /** Render the card as disabled. */
+  /** Render the card as disabled. Only relevant for outlined cards. */
   isDisabled?: boolean;
 
-  /** Render the card as selected. */
+  /** Render the card as selected. Only relevant for outlined cards. */
   isSelected?: boolean;
+
+  /**
+   * Card status. Only relevant for flagged cars.
+   */
+  status?: CardStatus;
 
   /**
    * Card variant.
    * @default solid
    */
   variant?: CardVariant;
-} & Omit<ComponentProps<ElementType>, "color">;
+} & AllHTMLAttributes<ElementType>;
 
-export type StandardCardContainerProps = {
-  variant: "solid" | "outlined";
-} & BaseCardContainerProps;
-
-export type FlaggedCardContainerProps = {
-  /** Status of the card. */
-  status: CardColor;
-  variant: "flagged";
-} & BaseCardContainerProps;
-
-export type CardContainerProps =
-  | FlaggedCardContainerProps
-  | StandardCardContainerProps;
-
-export type CardAreaProps = {
+type CardAreaProps = {
   /** Background of the card area. By default, card backgrounds are transparent. */
   background?: CardBackground;
 
@@ -82,7 +72,7 @@ export type CardAreaProps = {
   children: ReactNode;
 };
 
-export type CardProps = CardContainerProps & CardAreaProps;
+type CardProps = CardContainerProps & CardAreaProps;
 ```
 
 ### Example Usage

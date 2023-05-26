@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import omit from "lodash/omit";
 import {
   ResponsiveProp,
   classNames,
@@ -6,8 +7,8 @@ import {
   getResponsiveDesignToken,
   sanitizeCustomProperties,
 } from "../utilities/css";
-
 import { DesignTokenNamespace } from "../types";
+
 import styles from "./VerticalStack.module.scss";
 
 type Align =
@@ -53,10 +54,24 @@ export type VerticalStackProps = {
   reverseOrder?: boolean;
 };
 
+/**
+ * Use to display children vertically. Based on CSS Flexbox.
+ *
+ * @remarks
+ * Properties (like `gap) use Easy UI's constraint system.
+ *
+ * @example
+ * ```tsx
+ * <VerticalStack gap="2">
+ *   <div />
+ *   <div />
+ * </VerticalStack>
+ * ```
+ */
 export const VerticalStack = forwardRef<null, VerticalStackProps>(
   (props, ref) => {
     const {
-      as = "div",
+      as: As = "div",
       children,
       align,
       inlineAlign,
@@ -67,8 +82,8 @@ export const VerticalStack = forwardRef<null, VerticalStackProps>(
 
     const className = classNames(
       styles.VerticalStack,
-      (as === "ul" || as === "ol") && styles.listReset,
-      as === "fieldset" && styles.fieldsetReset,
+      (As === "ul" || As === "ol") && styles.listReset,
+      As === "fieldset" && styles.fieldsetReset,
     );
 
     const style = {
@@ -82,15 +97,15 @@ export const VerticalStack = forwardRef<null, VerticalStackProps>(
       ),
     } as React.CSSProperties;
 
-    return React.createElement(
-      as,
-      {
-        className,
-        style: sanitizeCustomProperties(style),
-        ref,
-        ...restProps,
-      },
-      children,
+    return (
+      <As
+        className={className}
+        style={sanitizeCustomProperties(style)}
+        ref={ref}
+        {...omit(restProps, ["className", "style"])}
+      >
+        {children}
+      </As>
     );
   },
 );
