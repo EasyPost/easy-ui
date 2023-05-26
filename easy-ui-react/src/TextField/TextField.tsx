@@ -36,13 +36,25 @@ export type TextFieldProps = AriaTextFieldProps & {
   errorText?: ReactNode;
   /** Helper text that appears below input */
   helperText?: ReactNode;
-  /** Whether the input is disabled */
+  /**
+   * Whether the input is disabled
+   * @default false
+   */
   isDisabled?: boolean;
-  /** Whether user input is required on the input before form submission */
+  /**
+   * Whether user input is required on the input before form submission
+   * @default false
+   */
   isRequired?: boolean;
-  /** Whether the input should display its "valid" or "invalid" visual styling */
+  /**
+   * Whether the input should display its "valid" or "invalid" visual styling
+   * @default 'valid'
+   */
   validationState?: ValidationState;
-  /** Whether the element should receive focus on render */
+  /**
+   * Whether the element should receive focus on render
+   * @default false
+   */
   autoFocus?: boolean;
   /** Temporary text that occupies the text input when it is empty */
   placeholder?: string;
@@ -52,7 +64,10 @@ export type TextFieldProps = AriaTextFieldProps & {
   defaultValue?: string;
   /** The content to display as the label */
   label: ReactNode;
-  /** Label text displays with emphasis */
+  /**
+   * Label text displays with emphasis
+   * @default false
+   */
   emphasizedLabel?: boolean;
   /** Left aligned icon */
   iconAtStart?: IconSymbol;
@@ -69,12 +84,12 @@ export function TextField(props: TextFieldProps) {
     isRequired = false,
     validationState = "valid",
     emphasizedLabel = false,
+    placeholder = "",
     iconAtStart,
     iconAtEnd,
     label,
     errorText,
     helperText,
-    placeholder = "",
     value,
   } = props;
   const [isVisible, setIsVisible] = useState(false);
@@ -96,17 +111,32 @@ export function TextField(props: TextFieldProps) {
   const isPassword = type === "password";
   const hasError = validationState === "invalid";
   const showErrorText = hasError && errorText;
-  const showHelperText = !hasError && helperText;
-  const hasStartIcon = !bothIconPropsDefined && !isPassword && iconAtStart;
-  const hasEndIcon = !bothIconPropsDefined && !isPassword && iconAtEnd;
+  const showHelperText = !showErrorText && helperText;
+  const canUseIcon = !bothIconPropsDefined && !isPassword;
+  const hasStartIcon = canUseIcon && iconAtStart;
+  const hasEndIcon = canUseIcon && iconAtEnd;
   const typeAdjustedForPasswordVisibility = isPassword && isVisible;
-  const iconSize = mapIconSize(size);
 
   return (
     <div className={classNames(styles.root)}>
       <div className={styles.inputLabelContainer}>
+        <label
+          {...labelProps}
+          className={classNames(
+            styles.label,
+            isLabelVisuallyHidden && styles.labelHidden,
+          )}
+        >
+          {getLabelText(
+            emphasizedLabel,
+            hasError,
+            isLabelVisuallyHidden,
+            label,
+            size,
+          )}
+        </label>
         <div className={styles.inputIconContainer}>
-          {hasStartIcon && getIcon(iconAtStart, true, size)}
+          {hasStartIcon && getIcon(iconAtStart, true, size, isDisabled)}
           <input
             {...inputProps}
             className={classNames(
@@ -136,35 +166,13 @@ export function TextField(props: TextFieldProps) {
               <Text visuallyHidden>password visibility</Text>
               <Icon
                 symbol={isVisible ? VisibilityIcon : VisibilityOffIcon}
-                size={iconSize}
+                size={mapIconSize(size)}
               />
             </UnstyledButton>
           ) : (
-            hasEndIcon && getIcon(iconAtEnd, false, size)
+            hasEndIcon && getIcon(iconAtEnd, false, size, isDisabled)
           )}
         </div>
-        <label
-          {...labelProps}
-          className={classNames(
-            styles.label,
-            isLabelVisuallyHidden && styles.labelHidden,
-            hasError && styles.labelError,
-          )}
-        >
-          <Text
-            variant={
-              emphasizedLabel && size === "md"
-                ? "subtitle1"
-                : size === "sm"
-                ? "body2"
-                : "body1"
-            }
-            as={emphasizedLabel && size === "md" ? "strong" : "span"}
-            visuallyHidden={isLabelVisuallyHidden}
-          >
-            {label}
-          </Text>
-        </label>
       </div>
       {showHelperText && (
         <div {...helperTextProps} className={styles.caption}>
@@ -184,6 +192,7 @@ export function TextField(props: TextFieldProps) {
   );
 }
 
+/** Small textfield needs xs icon */
 function mapIconSize(size: TextFieldSize) {
   return size === "sm" ? "xs" : size;
 }
@@ -192,16 +201,45 @@ function getIcon(
   symbol: IconSymbol,
   isStartIcon: boolean,
   size: TextFieldSize,
+  isDisabled: boolean,
 ) {
   return (
     <div
       className={classNames(
         styles.icon,
         isStartIcon ? styles.iconStart : styles.iconEnd,
+        isDisabled && styles.iconDisabled,
         styles[variationName("iconSize", size)],
       )}
     >
       <Icon symbol={symbol} size={mapIconSize(size)} />
     </div>
+  );
+}
+
+function getLabelText(
+  emphasizedLabel: boolean,
+  hasError: boolean,
+  visuallyHidden: boolean,
+  label: ReactNode,
+  size: TextFieldSize,
+) {
+  const hasEmphasis = emphasizedLabel && size !== "sm";
+  const textVariant = hasEmphasis
+    ? "subtitle1"
+    : size === "sm"
+    ? "body2"
+    : "body1";
+  const as = hasEmphasis ? "strong" : "span";
+  const color = hasError ? "danger" : undefined;
+  return (
+    <Text
+      variant={textVariant}
+      as={as}
+      color={color}
+      visuallyHidden={visuallyHidden}
+    >
+      {label}
+    </Text>
   );
 }

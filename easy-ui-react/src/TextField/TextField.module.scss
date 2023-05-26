@@ -61,12 +61,17 @@
     "color.background.disabled",
     theme-token("color.background.disabled.subtle")
   );
+  @include component-token(
+    "textfield",
+    "z-index",
+    design-token("z_index.input_icon")
+  );
   max-width: 400px;
 }
 
 .inputLabelContainer {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .inputIconContainer {
@@ -120,19 +125,6 @@
   }
 }
 
-.inputSizeSm {
-  @include font-style("body2");
-  padding: calc(
-    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
-  );
-}
-
-.inputSizeLg {
-  padding: calc(
-    #{design-token("space.2")} - #{design-token("shape.border_width.1")}
-  );
-}
-
 .passwordInput {
   border-radius: component-token("textfield", "border_radius") 0 0
     component-token("textfield", "border_radius");
@@ -144,6 +136,19 @@
       #{design-token("space.0.5")} - #{design-token("shape.border_width.1")}
     );
   }
+}
+
+.inputSizeSm {
+  @include font-style("body2");
+  padding: calc(
+    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+  );
+}
+
+.inputSizeLg {
+  padding: calc(
+    #{design-token("space.2")} - #{design-token("shape.border_width.1")}
+  );
 }
 
 .passwordBtn {
@@ -173,7 +178,7 @@
   &:focus {
     box-shadow: component-token("textfield", "box_shadow");
     outline: none;
-    z-index: 1;
+    z-index: component-token("textfield", "z-index");
   }
 }
 
@@ -201,7 +206,11 @@
   display: inline-block;
   position: absolute;
   top: design-token("space.1.5");
-  z-index: 1;
+  z-index: component-token("textfield", "z-index");
+}
+
+.iconDisabled {
+  background-color: component-token("textfield", "color.background.disabled");
 }
 
 .iconStart {
@@ -212,20 +221,20 @@
   right: design-token("space.1.5");
 }
 
-.iconSizeSm {
-  top: design-token("space.1");
-}
-
 .iconStartInput {
   padding-left: design-token("space.6");
 }
 
-.iconStartInput.inputSizeSm {
-  padding-left: design-token("space.5.5");
-}
-
 .iconEndInput {
   padding-right: design-token("space.6");
+}
+
+.iconSizeSm {
+  top: design-token("space.1");
+}
+
+.iconStartInput.inputSizeSm {
+  padding-left: design-token("space.5.5");
 }
 
 .iconEndInput.inputSizeSm {
@@ -234,11 +243,6 @@
 
 .label {
   margin-bottom: design-token("space.1");
-  color: component-token("textfield", "color.text.resting");
-}
-
-.labelError {
-  color: component-token("textfield", "color.text.danger");
 }
 
 .labelHidden {
