@@ -8,31 +8,36 @@ import {
 
 import styles from "./Card.module.scss";
 
-export type CardAs = "div" | "label" | "button" | "a" | "fieldset";
+export type CardAs = "a" | "button" | "div" | "fieldset" | "label";
 export type CardBackground = "primary" | "secondary";
-export type CardStatus = "danger" | "warning" | "success";
 export type CardVariant = "solid" | "outlined" | "flagged";
+export type FlaggedCardStatus = "danger" | "warning" | "success";
 
 type BaseCardContainerProps = {
   as?: CardAs;
-  isDisabled?: boolean;
-  isSelected?: boolean;
   variant?: CardVariant;
   children: ReactNode;
 } & ComponentProps<ElementType>;
 
-export type StandardCardContainerProps = {
-  variant: "solid" | "outlined";
+export type SolidCardContainerProps = {
+  variant: "solid";
+} & BaseCardContainerProps;
+
+export type OutlinedCardContainerProps = {
+  isDisabled?: boolean;
+  isSelected?: boolean;
+  variant: "outlined";
 } & BaseCardContainerProps;
 
 export type FlaggedCardContainerProps = {
-  status: CardStatus;
+  status: FlaggedCardStatus;
   variant: "flagged";
 } & BaseCardContainerProps;
 
 export type CardContainerProps =
   | FlaggedCardContainerProps
-  | StandardCardContainerProps;
+  | SolidCardContainerProps
+  | OutlinedCardContainerProps;
 
 export type CardAreaProps = {
   background?: CardBackground;
