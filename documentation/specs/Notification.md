@@ -55,63 +55,77 @@ export type NotificationStatus =
   | "error"
   | "warning";
 
-export type NotificationProps = {
+export type BaseNotificationProps = {
   /** Notification type */
-  type: NotificationStatus;
+  type?: NotificationType;
   /** Notification message */
   message: ReactNode;
-  /** Callback function when dismissing alerts */
-  onDismiss?: () => void;
   /**
    * Notification status
-   * @default "success"
+   * @default 'success'
    */
   status?: NotificationStatus;
   /**
    * Notification will render with left aligned status icon
-   * @default false
+   * @default true
    */
-  noIcon?: boolean;
+  hasIcon?: boolean;
 };
 
-export type NotificationStateProps = AriaToastProps<NotificationProps> & {
+export type ToastProps = Omit<BaseNotificationProps, "type" | "status">;
+
+export type AlertProps = Omit<BaseNotificationProps, "type" | "status"> & {
+  /** Callback function when dismissing alerts */
+  onDismiss?: () => void;
+};
+
+export type QueuedNotification = QueuedToast<NotificationProps>;
+
+export type NotificationProps = BaseNotificationProps & ToastProps & AlertProps;
+
+export type NotificationInternalState = ToastState<NotificationProps>;
+
+/** The methods below are accessible on the object returned by the `useNotification` hook. */
+export type NotificationExternalState = {
+  /** Shows promotional color status toast */
+  showPromotionalToast(content: ToastProps): void;
+  /** Shows neutral color status toast */
+  showNeutralToast(content: ToastProps): void;
+  /** Shows success color status toast */
+  showSuccessToast(content: ToastProps): void;
+  /** Shows warning color status toast */
+  showWarningToast(content: ToastProps): void;
+  /** Shows error color status toast */
+  showErrorToast(content: ToastProps): void;
+  /** Shows promotional color status alert */
+  showPromotionalAlert(content: AlertProps): void;
+  /** Shows neutral color status alert */
+  showNeutralAlert(content: AlertProps): void;
+  /** Shows success color status alert */
+  showSuccessAlert(content: AlertProps): void;
+  /** Shows warning color status alert */
+  showWarningAlert(content: AlertProps): void;
+  /** Shows error color status alert */
+  showErrorAlert(content: AlertProps): void;
+  /** Closes active notification */
+  closeActiveNotification(): void;
+};
+
+export type NotificationCombinedState = NotificationInternalState &
+  NotificationExternalState;
+
+export type NotificationItemStateProps = AriaToastProps<NotificationProps> & {
   /**
    * The `toast` name here is an artifact of react-stately, not an Easy UI `toast`
    * it is more appropriate to think of this as a `notification`.
    */
-  toast: QueuedToast<NotificationProps>;
+  toast: QueuedNotification;
   /**
-   * Holds the state for notifications and the functions that directly
-   * interact with the queue object.
+   * Holds the internal state for notifications and the functions that directly
+   * interact with the queue object. Consumers do not see this state.
    */
-  state: NotificationState<NotificationProps>;
+  state: NotificationInternalState;
 };
-
-/** The methods below are accessible on the object returned by the `useNotification` hook */
-export type NotificationState<NotificationProps> =
-  ToastState<NotificationProps> & {
-    /** Shows promotional color status toast */
-    showPromotionalToast(content: NotificationProps): void;
-    /** Shows neutral color status toast */
-    showNeutralToast(content: NotificationProps): void;
-    /** Shows success color status toast */
-    showSuccessToast(content: NotificationProps): void;
-    /** Shows warning color status toast */
-    showWarningToast(content: NotificationProps): void;
-    /** Shows error color status toast */
-    showErrorToast(content: NotificationProps): void;
-    /** Shows promotional color status alert */
-    showPromotionalAlert(content: NotificationProps): void;
-    /** Shows neutral color status alert */
-    showNeutralAlert(content: NotificationProps): void;
-    /** Shows success color status alert */
-    showSuccessAlert(content: NotificationProps): void;
-    /** Shows warning color status alert */
-    showWarningAlert(content: NotificationProps): void;
-    /** Shows error color status alert */
-    showErrorAlert(content: NotificationProps): void;
-  };
-
 /**
  * Easy UI styles applied to `NotificationContainer`
  *
@@ -119,17 +133,33 @@ export type NotificationState<NotificationProps> =
  *   z-index: 999999;
  *   width: 100%;
  *   top: 0;
+ *   left: 0;
  *
  * In some cases, consumers may want more fine grained control over how the container is
- * positioned on the screen. This can be accomplished through the `notficationPlacementOffset`
+ * positioned on the screen. This can be accomplished through the `notficationPlacement`
  * prop which can be passed through EasyUIProvider. See more in the examples section.
  */
 
-export type NotificationPositionOffset = {
+export type NotificationOffset = {
+  /** Top offset */
   top?: string;
+  /** Right offset */
   right?: string;
+  /** Bottom offset */
   bottom?: string;
+  /** Left offset */
   left?: string;
+};
+
+export type NotificationPosition = "fixed" | "absolute";
+
+export type NotificationPlacement = {
+  /** Callback function that retrieves HTMLElement where notifications will render to */
+  getContainer?: () => HTMLElement | null;
+  /** Position type */
+  position?: NotificationPosition;
+  /** Position placement */
+  offset?: NotificationOffset;
 };
 ```
 
@@ -140,17 +170,18 @@ The `Notification` component's functionality will be handled by React Aria's `us
 In general, the consumers will only ever need to use the `useNotification` hook assuming the app consumes `EasyUIProvider`.
 
 ```tsx
-function Notification(props: NotificationStateProps) {
-  let ref = React.useRef(null);
+export function Notification(props: NotificationItemStateProps) {
+  const ref = useRef(null);
   const { state, toast: notification } = props;
   const {
-    type,
+    type = "toast",
     message,
-    noIcon = false,
-    onDismiss = null,
+    status = "success",
+    hasIcon = true,
+    onDismiss,
   } = notification.content;
 
-  let {
+  const {
     toastProps: notificationProps,
     titleProps,
     closeButtonProps,
@@ -174,14 +205,27 @@ function Notification(props: NotificationStateProps) {
   };
 
   return (
-    <div {...notificationPropsWithAdjustedAriaRole} ref={ref}>
-      {!noIcon && <Icon />}
-      <div {...titleProps}>
-        <Text>{message}</Text>
+    <div
+      {...notificationPropsWithAdjustedAriaRole}
+      ref={ref}
+      className={classNames(
+        styles.Notification,
+        styles[variationName("status", status)],
+        styles[variationName("type", type)],
+      )}
+    >
+      <div className={styles.iconText}>
+        {hasIcon && <Icon size="lg" symbol={getStatusIcon(status)} />}
+        <div {...titleProps}>
+          <Text weight="semibold">{message}</Text>
+        </div>
       </div>
       {type === "alert" && (
-        <UnstyledButton {...closeButtonPropsWithDismiss}>
-          <Icon />
+        <UnstyledButton
+          {...closeButtonPropsWithDismiss}
+          className={classNames(styles.closeButton)}
+        >
+          <Icon size="md" symbol={CloseIcon} />
         </UnstyledButton>
       )}
     </div>
@@ -189,47 +233,35 @@ function Notification(props: NotificationStateProps) {
 }
 
 export type NotificationRegionProps = AriaToastRegionProps & {
-  notification: NotificationState<NotificationProps>;
+  state: NotificationInternalState;
 };
 
-function NotificationRegion(props: NotificationRegionProps) {
-  const { notification } = props;
-  let ref = React.useRef(null);
-  let { regionProps } = useToastRegion(props, notification, ref);
+export function NotificationRegion(props: NotificationRegionProps) {
+  const { state } = props;
+  const ref = React.useRef(null);
+
+  const { regionProps } = useToastRegion(props, state, ref);
   /**
-   * again, `visibleToasts` and `toast` are artifacts of react-stately and in
+   * `visibleToasts` and `toast` are artifacts of react-stately and in
    * Easy UI `visibleToasts` is being treated as `visibleNotifications` and
    * similarly, `toast` here is being treated as a `notification`.
-   *
    */
   return (
-    <div {...regionProps} ref={ref}>
-      {notification.visibleToasts.map((toast) => (
-        <Notification key={toast.key} toast={toast} state={notification} />
+    <div {...regionProps} ref={ref} className={styles.region}>
+      {state.visibleToasts.map((toast) => (
+        <Notification key={toast.key} toast={toast} state={state} />
       ))}
     </div>
   );
 }
 
-export type NotificationState<NotificationProps> =
-  ToastState<NotificationProps> & {
-    showPromotionalToast(content: NotificationProps): void;
-    showNeutralToast(content: NotificationProps): void;
-    showSuccessToast(content: NotificationProps): void;
-    showWarningToast(content: NotificationProps): void;
-    showErrorToast(content: NotificationProps): void;
-    showPromotionalAlert(content: NotificationProps): void;
-    showNeutralAlert(content: NotificationProps): void;
-    showSuccessAlert(content: NotificationProps): void;
-    showWarningAlert(content: NotificationProps): void;
-    showErrorAlert(content: NotificationProps): void;
-  };
-
 export type EasyUINotificationOptionsProps = ToastStateProps & {
   activeNotificationKey?: string;
 };
 
-class EasyUINotificationQueue<
+export const TOAST_TIMEOUT_DURATION = 4000;
+
+export class EasyUINotificationQueue<
   NotificationProps,
 > extends ToastQueue<NotificationProps> {
   private activeNotificationKey: string;
@@ -251,103 +283,168 @@ class EasyUINotificationQueue<
 
   toast(content: NotificationProps) {
     this.closeActiveNotification();
-    this.activeNotificationKey = super.add(content, { timeout: 4000 });
+    this.activeNotificationKey = super.add(content, {
+      timeout: TOAST_TIMEOUT_DURATION,
+    });
   }
 }
 
-type NotificationProviderProps = {
-  children: ReactNode;
-};
+export const NotificationContext =
+  createContext<NotificationExternalState | null>(null);
 
-const NotificationContext =
-  React.createContext<NotificationState<NotificationProps> | null>(null);
+export type NotificationCombinedState = NotificationInternalState &
+  NotificationExternalState;
 
-export function useNotificationState(): NotificationState<NotificationProps> {
-  let queue = useMemo(
+export function useNotificationState(): NotificationCombinedState {
+  const queue = useMemo(
     () => new EasyUINotificationQueue<NotificationProps>(),
     [],
   );
-  let state = useToastQueue<NotificationProps>(queue);
+  const state = useToastQueue<NotificationProps>(queue);
   return {
     ...state,
-    showPromotionalAlert: (content) =>
+    showPromotionalAlert: (content: AlertProps) =>
       queue.alert({ ...content, status: "promotional", type: "alert" }),
-    showNeutralAlert: (content) =>
+    showNeutralAlert: (content: AlertProps) =>
       queue.alert({ ...content, status: "neutral", type: "alert" }),
-    showSuccessAlert: (content) =>
+    showSuccessAlert: (content: AlertProps) =>
       queue.alert({ ...content, status: "success", type: "alert" }),
-    showWarningAlert: (content) =>
+    showWarningAlert: (content: AlertProps) =>
       queue.alert({ ...content, status: "warning", type: "alert" }),
-    showErrorAlert: (content) =>
+    showErrorAlert: (content: AlertProps) =>
       queue.alert({ ...content, status: "error", type: "alert" }),
-    showPromotionalToast: (content) =>
+    showPromotionalToast: (content: ToastProps) =>
       queue.toast({ ...content, status: "promotional", type: "toast" }),
-    showNeutralToast: (content) =>
+    showNeutralToast: (content: ToastProps) =>
       queue.toast({ ...content, status: "neutral", type: "toast" }),
-    showSuccessToast: (content) =>
+    showSuccessToast: (content: ToastProps) =>
       queue.toast({ ...content, status: "success", type: "toast" }),
-    showWarningToast: (content) =>
+    showWarningToast: (content: ToastProps) =>
       queue.toast({ ...content, status: "warning", type: "toast" }),
-    showErrorToast: (content) =>
+    showErrorToast: (content: ToastProps) =>
       queue.toast({ ...content, status: "error", type: "toast" }),
+    closeActiveNotification: () => queue.closeActiveNotification(),
   };
 }
 
-export type NotificationPositionOffset = {
+export type NotificationOffset = {
   top?: string;
   right?: string;
   bottom?: string;
   left?: string;
 };
 
+export type NotificationPosition = "fixed" | "absolute";
+
+export type NotificationPlacement = {
+  getContainer?: () => HTMLElement | null;
+  position?: NotificationPosition;
+  offset?: NotificationOffset;
+};
 export type NotificationProviderProps = {
   children: ReactNode;
-  notificationPlacementOffset?: NotificationPositionOffset;
+  notificationPlacement?: NotificationPlacement;
 };
 
 export function NotificationProvider(props: NotificationProviderProps) {
-  const { children, notificationPlacementOffset } = props;
-  let notification = useNotificationState();
+  const { children, notificationPlacement } = props;
+  const combinedState = useNotificationState();
+
+  const state = {
+    close: combinedState.close,
+    add: combinedState.add,
+    remove: combinedState.remove,
+    pauseAll: combinedState.pauseAll,
+    resumeAll: combinedState.resumeAll,
+    visibleToasts: combinedState.visibleToasts,
+  };
+
+  const notification = {
+    showErrorAlert: combinedState.showErrorAlert,
+    showErrorToast: combinedState.showErrorToast,
+    showPromotionalToast: combinedState.showPromotionalToast,
+    showPromotionalAlert: combinedState.showPromotionalAlert,
+    showNeutralToast: combinedState.showNeutralToast,
+    showNeutralAlert: combinedState.showNeutralAlert,
+    showSuccessToast: combinedState.showSuccessToast,
+    showSuccessAlert: combinedState.showSuccessAlert,
+    showWarningToast: combinedState.showWarningToast,
+    showWarningAlert: combinedState.showWarningAlert,
+    closeActiveNotification: combinedState.closeActiveNotification,
+  };
 
   return (
     <NotificationContext.Provider value={notification}>
       <NotificationContainer
-        notificationPlacementOffset={notificationPlacementOffset}
+        getContainer={notificationPlacement?.getContainer}
+        offset={notificationPlacement?.offset}
+        position={notificationPlacement?.position}
+        state={state}
       />
       {children}
     </NotificationContext.Provider>
   );
 }
 
-export const useNotification = () => {
-  const notification = useContext(NotificationContext)!;
-  return { notification };
-};
+export function useNotification() {
+  const notification = useContext(NotificationContext);
+  if (!notification) {
+    throw new Error(
+      "useNotification() must be used within a NotificationProvider, which is bundled with EasyUIProvider",
+    );
+  }
+
+  return notification;
+}
 
 export type NotificationContainerProps = {
-  notificationPlacementOffset?: NotificationPositionOffset;
+  getContainer?: () => HTMLElement | null;
+  position?: NotificationPosition;
+  offset?: NotificationOffset;
+  state: NotificationInternalState;
 };
 
 export function NotificationContainer(props: NotificationContainerProps) {
-  const { notificationPlacementOffset = null } = props;
-  const { notification } = useNotification();
-  const positionStyleProps = notificationPlacementOffset
-    ? {
-        top: notificationPlacementOffset?.top,
-        right: notificationPlacementOffset?.right,
-        bottom: notificationPlacementOffset?.bottom,
-        left: notificationPlacementOffset?.left,
-      }
-    : undefined;
-  // again, `visibleToasts` is an artifact of react-stately
+  const { getContainer = null, position = "fixed", offset, state } = props;
+
+  const showNotifications = state.visibleToasts.length > 0;
+  let requestFailed = false;
+  let container = null;
+  if (showNotifications && getContainer) {
+    container = getContainer();
+    requestFailed = container === null;
+  }
+
+  const positionStyleProps =
+    offset && !requestFailed
+      ? {
+          top: offset?.top,
+          right: offset?.right,
+          bottom: offset?.bottom,
+          left: offset?.left,
+        }
+      : {
+          top: 0,
+          left: 0,
+        };
+  const positionProps = {
+    position: !requestFailed ? position : "fixed",
+  };
+
+  const containerStyles = {
+    ...positionStyleProps,
+    ...positionProps,
+  } as React.CSSProperties;
+
   return (
     <>
-      {notification.visibleToasts.length > 0
-        ? ReactDOM.createPortal(
-            <div style={positionStyleProps}>
-              <NotificationRegion notification={notification} />{" "}
+      {/** visibleToasts` is an artifact of react-stately */}
+      {showNotifications
+        ? createPortal(
+            <div className={style.container} style={containerStyles}>
+              <NotificationRegion state={state} />
             </div>,
-            document.body,
+            container ?? document.body,
           )
         : null}
     </>
@@ -366,7 +463,7 @@ import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
-  const { notification } = useNotification();
+  const notification = useNotification();
 
   const onToast = () => {
     notification.showSuccessToast({ message: "message" });
@@ -392,7 +489,7 @@ import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
-  const { notification } = useNotification();
+  const notification = useNotification();
 
   const onToast = () => {
     notification.showPromotionalToast({ message: "message" });
@@ -418,7 +515,7 @@ import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
-  const { notification } = useNotification();
+  const notification = useNotification();
 
   const onToast = () => {
     notification.showWarningToast({ message: "message" });
@@ -444,7 +541,7 @@ import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
-  const { notification } = useNotification();
+  const notification = useNotification();
 
   const onToast = () => {
     notification.showNeutralToast({ message: "message" });
@@ -470,7 +567,7 @@ import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
-  const { notification } = useNotification();
+  const notification = useNotification();
 
   const onToast = () => {
     notification.showErrorToast({ message: "message" });
@@ -496,14 +593,14 @@ import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
-  const { notification } = useNotification();
+  const notification = useNotification();
 
   const onToast = () => {
-    notification.showSuccessToast({ message: "message", noIcon: true });
+    notification.showSuccessToast({ message: "message", hasIcon: false });
   };
 
   const onAlert = () => {
-    notification.showSuccessAlert({ message: "message", noIcon: true });
+    notification.showSuccessAlert({ message: "message", hasIcon: false });
   };
 
   return (
@@ -522,7 +619,7 @@ import { useNotification } from "@easypost/easy-ui/Notification";
 import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
-  const { notification } = useNotification();
+  const notification = useNotification();
 
   const onAlert = () => {
     notification.showSuccessAlert({
@@ -539,18 +636,70 @@ function Component() {
 }
 ```
 
-In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPlacementOffset` prop that can be supplied to EasyUIProvider.
-
-_With positional offset_
+_With programmatic dismissal_
 
 ```tsx
 import { useNotification } from "@easypost/easy-ui/Notification";
+import { Button } from "@easypost/easy-ui/Button";
+
+function Component() {
+  const notification = useNotification();
+
+  const onAlert = () => {
+    notification.showSuccessAlert({
+      message: "message",
+    });
+  };
+
+  const onClose = () => {
+    notification.closeActiveNotification();
+  };
+
+  return (
+    <>
+      <Button onPress={onAlert}>Show alert</Button>
+      <Button onPress={onClose}>Dismiss alert</Button>
+    </>
+  );
+}
+```
+
+In some cases, users may want more control over where the notification displays in the app. This can be accomplished via the `notificationPlacement` prop that can be supplied to EasyUIProvider.
+
+_With offset and position_
+
+```tsx
 import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 
 function RootOfYourApp() {
   return (
-    <EasyUIProvider notificationPlacementOffset={{ top: "180px" }}>
+    <EasyUIProvider
+      colorScheme="system"
+      NotificationPlacement={{
+        offset: { top: "50px", left: "0px" },
+        position: "absolute",
+      }}
+    >
       {/* app */}
+    </EasyUIProvider>
+  );
+}
+```
+
+_Render into a container other that document.body_
+
+```tsx
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+
+function RootOfYourApp() {
+  return (
+    <EasyUIProvider
+      colorScheme="system"
+      NotificationPlacement={{
+        getContainer: () => document.getElementById("some-id"),
+      }}
+    >
+      <div id="some-id">Some container</div>
     </EasyUIProvider>
   );
 }
