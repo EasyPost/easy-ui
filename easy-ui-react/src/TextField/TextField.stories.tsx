@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
+import SearchIcon from "@easypost/easy-ui-icons/Search";
 import React from "react";
 
 import { TextField, TextFieldProps } from "./TextField";
@@ -18,7 +19,11 @@ export default meta;
 export const Controls: Story = {
   render: Template.bind({}),
   args: {
-    type: "password",
+    type: "text",
     label: "label",
+    validationState: "valid",
+    helperText: "Optional helper text",
+    errorText: "Optional error text",
+    iconAtEnd: SearchIcon,
   },
 };

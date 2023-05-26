@@ -33,6 +33,11 @@
   );
   @include component-token(
     "textfield",
+    "color.text.danger",
+    theme-token("color.text.danger")
+  );
+  @include component-token(
+    "textfield",
     "color.border.resting",
     theme-token("color.border.resting")
   );
@@ -40,6 +45,11 @@
     "textfield",
     "color.border.engaged",
     theme-token("color.border.engaged")
+  );
+  @include component-token(
+    "textfield",
+    "color.border.danger",
+    theme-token("color.border.danger")
   );
   @include component-token(
     "textfield",
@@ -51,6 +61,7 @@
     "color.background.disabled",
     theme-token("color.background.disabled.subtle")
   );
+  max-width: 400px;
 }
 
 .inputLabelContainer {
@@ -61,7 +72,7 @@
 .inputIconContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  position: relative;
 }
 
 .input {
@@ -99,6 +110,16 @@
   }
 }
 
+.errorInput {
+  color: component-token("textfield", "color.text.danger");
+  border-color: component-token("textfield", "color.border.danger");
+
+  &:focus,
+  &:active {
+    border-color: component-token("textfield", "color.border.danger");
+  }
+}
+
 .inputSizeSm {
   @include font-style("body2");
   padding: calc(
@@ -125,7 +146,7 @@
   }
 }
 
-.visibilityIconBtn {
+.passwordBtn {
   background-color: component-token("textfield", "color.background");
   color: component-token("textfield", "color.text.gray.resting");
   border-radius: 0 component-token("textfield", "border_radius")
@@ -138,6 +159,7 @@
     #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
   );
   padding-left: design-token("space.1.5");
+  z-index: 1;
 
   &:focus,
   &:active {
@@ -155,6 +177,14 @@
   }
 }
 
+.passwordBtnError {
+  border-color: component-token("textfield", "color.border.danger");
+  &:focus,
+  &:active {
+    border-color: component-token("textfield", "color.border.danger");
+  }
+}
+
 .btnSizeSm {
   padding-top: calc(
     #{design-token("space.1")} - #{design-token("shape.border_width.1")}
@@ -164,11 +194,57 @@
   );
 }
 
+.icon {
+  background-color: component-token("textfield", "color.background");
+  color: component-token("textfield", "color.text.gray.resting");
+  border: 0;
+  display: inline-block;
+  position: absolute;
+  top: design-token("space.1.5");
+  z-index: 1;
+}
+
+.iconStart {
+  left: design-token("space.1.5");
+}
+
+.iconEnd {
+  right: design-token("space.1.5");
+}
+
+.iconSizeSm {
+  top: design-token("space.1");
+}
+
+.iconStartInput {
+  padding-left: design-token("space.6");
+}
+
+.iconStartInput.inputSizeSm {
+  padding-left: design-token("space.5.5");
+}
+
+.iconEndInput {
+  padding-right: design-token("space.6");
+}
+
+.iconEndInput.inputSizeSm {
+  padding-right: design-token("space.5.5");
+}
+
 .label {
   margin-bottom: design-token("space.1");
   color: component-token("textfield", "color.text.resting");
 }
 
+.labelError {
+  color: component-token("textfield", "color.text.danger");
+}
+
 .labelHidden {
   margin-bottom: 0;
+}
+
+.caption {
+  margin-top: design-token("space.0.5");
 }
