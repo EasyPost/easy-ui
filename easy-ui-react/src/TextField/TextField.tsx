@@ -74,54 +74,6 @@ export type TextFieldProps = AriaTextFieldProps & {
   iconAtEnd?: IconSymbol;
 };
 
-/**
- * An overlay that shows contextual help or information about specific
- * components when a user hovers or focuses on them.
- *
- * @remarks
- * A tooltip must only be placed on a natively focusable HTML element. Good
- * candidates include a `<button />`, `<a />`, or Easy UI equivalent such as
- * `<Button />` or `<IconButton />`.
- *
- * Use `isImmediate` for tooltips attached to help icons. For conventional UI
- * elements where a tooltip appearing immediately would be intrusive, delay
- * appearance with a warmup period by not using `isImmediate`.
- *
- * @example
- * ```tsx
- * <Tooltip content="This will be a permanent action">
- *   <Button>Delete</Button>
- * </Tooltip>
- * ```
- *
- * @example
- * Custom placement:
- * ```tsx
- * <Tooltip placement="bottom start" content="This will be a permanent action">
- *   <Button>Delete</Button>
- * </Tooltip>
- * ```
- *
- * @example
- * Controlled:
- * ```tsx
- * <Tooltip
- *   isOpen={isOpen}
- *   onOpenChange={setIsOpen}
- *   content="This will be a permanent action"
- * >
- *   <Button>Delete</Button>
- * </Tooltip>
- * ```
- *
- * @example
- * Show immediately:
- * ```tsx
- * <Tooltip isImmediate content="This will be a permanent action">
- *   <Button>Delete</Button>
- * </Tooltip>
- * ```
- */
 export function TextField(props: TextFieldProps) {
   const {
     type = "text",
