@@ -87,6 +87,9 @@ export type TextFieldProps = AriaTextFieldProps & {
  *
  * When `errorText` is supplied with `validationState="invalid"`, `helperText` is overriden.
  *
+ * Labels should be included on all text fields as they describe the purpose of the form control.
+ * In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
+ *
  * @example
  * _Email with autoFocus:_
  * ```tsx

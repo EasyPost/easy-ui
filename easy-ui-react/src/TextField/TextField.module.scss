@@ -61,6 +61,7 @@
     "color.background.disabled",
     theme-token("color.background.disabled.subtle")
   );
+  @include component-token("textfield", "max-height-sm", 32px);
   @include component-token(
     "textfield",
     "z-index",
@@ -144,6 +145,7 @@
       #{design-token("space.1")} - #{design-token("shape.border_width.1")}
     )
     calc(#{design-token("space.1.5")} - #{design-token("shape.border_width.1")});
+  max-height: component-token("textfield", "max-height-sm");
 }
 
 .inputSizeLg {

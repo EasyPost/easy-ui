@@ -37,36 +37,9 @@ The `TextField` component allows users to input text on a single line and provid
 ```ts
 import type { AriaTextFieldProps } from "react-aria";
 
-/**
- * Note that this does not represent an exhaustive list of the props
- * provided by AriaTextFieldProps, but they are notable properties that
- * consumers may use on the TextField component
- */
-export type ValidationState = "valid" | "invalid";
-
-type AriaTextFieldProps = {
-  /** Whether the input is disabled. */
-  isDisabled?: boolean;
-  /** Whether user input is required on the input before form submission. */
-  isRequired?: boolean;
-  /** Whether the input should display its "valid" or "invalid" visual styling. */
-  validationState?: ValidationState;
-  /** Whether the element should receive focus on render. */
-  autoFocus?: boolean;
-  /** Temporary text that occupies the text input when it is empty. */
-  placeholder?: string;
-  /** The current value (controlled). */
-  value?: string;
-  /** The default value (uncontrolled). */
-  defaultValue?: string;
-  /** The content to display as the label. */
-  label: ReactNode;
-  /** Handler that is called when the value changes. */
-  onChange?: (value: C) => void;
-};
-
 export type InputType = "text" | "email" | "password" | "tel" | "search";
 export type TextFieldSize = "sm" | "md" | "lg";
+export type ValidationState = "valid" | "invalid";
 
 export type TextFieldProps = AriaTextFieldProps & {
   /**
@@ -78,7 +51,7 @@ export type TextFieldProps = AriaTextFieldProps & {
   /**
    * TextField size affects the overall size of the input, but it also influences the size of
    * iconAtStart and iconAtEnd.
-   * @default 'md'
+   * @default md
    */
   size?: TextFieldSize;
   /**
@@ -86,10 +59,43 @@ export type TextFieldProps = AriaTextFieldProps & {
    * @default false
    */
   isLabelVisuallyHidden?: boolean;
+  /**
+   * Whether the input is disabled
+   * @default false
+   */
+  isDisabled?: boolean;
+  /**
+   * Whether user input is required on the input before form submission
+   * @default false
+   */
+  isRequired?: boolean;
+  /**
+   * Whether the input should display its "valid" or "invalid" visual styling
+   * @default valid
+   */
+  validationState?: ValidationState;
+  /**
+   * Label text displays with emphasis
+   * @default false
+   */
+  emphasizedLabel?: boolean;
+  /**
+   * Whether the element should receive focus on render
+   * @default false
+   */
+  autoFocus?: boolean;
+  /** The content to display as the label */
+  label: ReactNode;
   /** Error text that appears below input */
   errorText?: ReactNode;
   /** Helper text that appears below input */
   helperText?: ReactNode;
+  /** Temporary text that occupies the text input when it is empty */
+  placeholder?: string;
+  /** The current value (controlled) */
+  value?: string;
+  /** The default value (uncontrolled) */
+  defaultValue?: string;
   /** Left aligned icon */
   iconAtStart?: IconSymbol;
   /** Right aligned icon */
@@ -103,62 +109,121 @@ The bulk of the `TextField` component behavior will be handled by React Aria's `
 
 ```tsx
 export function TextField(props: TextFieldProps) {
-  let {
+  const {
     type = "text",
     size = "md",
     isLabelVisuallyHidden = false,
     isDisabled = false,
     isRequired = false,
-    validationState = "invalid",
-    iconAtStart,
-    iconAtEnd,
+    validationState = "valid",
+    emphasizedLabel = false,
+    autoFocus = false,
     label,
     errorText,
     helperText,
     placeholder,
     value,
+    defaultValue,
+    iconAtStart,
+    iconAtEnd,
   } = props;
-  let ref = React.useRef(null);
-  let {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = React.useRef(null);
+
+  const {
     labelProps,
     inputProps,
     descriptionProps: helperTextProps,
     errorMessageProps: errorTextProps,
   } = useTextField(props, ref);
 
-  const showHelperText =
-    helperText && !errorText && validationState === "valid";
-  const showErrorText =
-    !showHelperText && errorText && validationState === "invalid";
+  const bothIconPropsDefined = iconAtEnd && iconAtStart;
+  if (bothIconPropsDefined) {
+    // eslint-disable-next-line no-console
+    console.warn("Cannot simultaneously define `iconAtEnd` and `iconAtStart`");
+  }
+
+  const isPassword = type === "password";
+  const hasError = validationState === "invalid";
+  const showErrorText = hasError && errorText;
+  const showHelperText = !showErrorText && helperText;
+  const canUseIcon = !bothIconPropsDefined && !isPassword;
+  const hasStartIcon = canUseIcon && iconAtStart;
+  const hasEndIcon = canUseIcon && iconAtEnd;
+  const typeAdjustedForPasswordVisibility = isPassword && isVisible;
 
   return (
-    <div>
-      <div>
-        <div>
-          {iconAtStart && <Icon symbol={iconAtStart} size={size} />}
+    <div className={classNames(styles.root)}>
+      <div className={styles.inputLabelContainer}>
+        <label
+          {...labelProps}
+          className={classNames(
+            styles.label,
+            isLabelVisuallyHidden && styles.labelHidden,
+          )}
+        >
+          {getLabelText(
+            emphasizedLabel,
+            hasError,
+            isLabelVisuallyHidden,
+            label,
+            size,
+          )}
+        </label>
+        <div className={styles.inputIconContainer}>
+          {hasStartIcon && getIcon(iconAtStart, true, size, isDisabled)}
           <input
             {...inputProps}
+            className={classNames(
+              styles.input,
+              isPassword && styles.passwordInput,
+              hasError && styles.errorInput,
+              hasStartIcon && styles.iconStartInput,
+              hasEndIcon && styles.iconEndInput,
+              styles[variationName("inputSize", size)],
+            )}
             ref={ref}
-            type={type}
+            type={typeAdjustedForPasswordVisibility ? "text" : type}
             value={value}
             required={isRequired}
             disabled={isDisabled}
             placeholder={placeholder}
+            autoFocus={autoFocus}
+            defaultValue={defaultValue}
           />
-          {iconAtEnd && <Icon symbol={iconAtEnd} size={size} />}
+          {isPassword ? (
+            <UnstyledButton
+              className={classNames(
+                styles.passwordBtn,
+                hasError && styles.passwordBtnError,
+                styles[variationName("btnSize", size)],
+              )}
+              onPress={() => setIsVisible((prevVisibility) => !prevVisibility)}
+              isDisabled={isDisabled}
+            >
+              <Text visuallyHidden>password visibility</Text>
+              <Icon
+                symbol={isVisible ? VisibilityIcon : VisibilityOffIcon}
+                size={mapIconSize(size)}
+              />
+            </UnstyledButton>
+          ) : (
+            hasEndIcon && getIcon(iconAtEnd, false, size, isDisabled)
+          )}
         </div>
-        <label {...labelProps}>
-          <Text>{label}</Text>
-        </label>
       </div>
       {showHelperText && (
-        <div {...helperTextProps}>
-          <Text>{helperText}</Text>
+        <div {...helperTextProps} className={styles.caption}>
+          <Text variant="caption" color="gray.resting">
+            {helperText}
+          </Text>
         </div>
       )}
       {showErrorText && (
-        <div {...errorTextProps}>
-          <Text>{errorText}</Text>
+        <div {...errorTextProps} className={styles.caption}>
+          <Text variant="caption" color="danger">
+            {errorText}
+          </Text>
         </div>
       )}
     </div>
