@@ -22,9 +22,8 @@ export type TextFieldProps = AriaTextFieldProps & {
   type?: InputType;
   /**
    * TextField size affects the overall size of the input, but it also influences the size of
-   * iconAtStart and iconAtEnd. For instance, with `sm` size, the associated iconAtStart
-   * or iconAtEnd size maps to the Easy UI icon size of 'sm'.
-   * @default 'md'
+   * iconAtStart and iconAtEnd.
+   * @default md
    */
   size?: TextFieldSize;
   /**
@@ -32,10 +31,6 @@ export type TextFieldProps = AriaTextFieldProps & {
    * @default false
    */
   isLabelVisuallyHidden?: boolean;
-  /** Error text that appears below input */
-  errorText?: ReactNode;
-  /** Helper text that appears below input */
-  helperText?: ReactNode;
   /**
    * Whether the input is disabled
    * @default false
@@ -48,33 +43,85 @@ export type TextFieldProps = AriaTextFieldProps & {
   isRequired?: boolean;
   /**
    * Whether the input should display its "valid" or "invalid" visual styling
-   * @default 'valid'
+   * @default valid
    */
   validationState?: ValidationState;
+  /**
+   * Label text displays with emphasis
+   * @default false
+   */
+  emphasizedLabel?: boolean;
   /**
    * Whether the element should receive focus on render
    * @default false
    */
   autoFocus?: boolean;
+  /** The content to display as the label */
+  label: ReactNode;
+  /** Error text that appears below input */
+  errorText?: ReactNode;
+  /** Helper text that appears below input */
+  helperText?: ReactNode;
   /** Temporary text that occupies the text input when it is empty */
   placeholder?: string;
   /** The current value (controlled) */
   value?: string;
   /** The default value (uncontrolled) */
   defaultValue?: string;
-  /** The content to display as the label */
-  label: ReactNode;
-  /**
-   * Label text displays with emphasis
-   * @default false
-   */
-  emphasizedLabel?: boolean;
   /** Left aligned icon */
   iconAtStart?: IconSymbol;
   /** Right aligned icon */
   iconAtEnd?: IconSymbol;
 };
 
+/**
+ * An overlay that shows contextual help or information about specific
+ * components when a user hovers or focuses on them.
+ *
+ * @remarks
+ * A tooltip must only be placed on a natively focusable HTML element. Good
+ * candidates include a `<button />`, `<a />`, or Easy UI equivalent such as
+ * `<Button />` or `<IconButton />`.
+ *
+ * Use `isImmediate` for tooltips attached to help icons. For conventional UI
+ * elements where a tooltip appearing immediately would be intrusive, delay
+ * appearance with a warmup period by not using `isImmediate`.
+ *
+ * @example
+ * ```tsx
+ * <Tooltip content="This will be a permanent action">
+ *   <Button>Delete</Button>
+ * </Tooltip>
+ * ```
+ *
+ * @example
+ * Custom placement:
+ * ```tsx
+ * <Tooltip placement="bottom start" content="This will be a permanent action">
+ *   <Button>Delete</Button>
+ * </Tooltip>
+ * ```
+ *
+ * @example
+ * Controlled:
+ * ```tsx
+ * <Tooltip
+ *   isOpen={isOpen}
+ *   onOpenChange={setIsOpen}
+ *   content="This will be a permanent action"
+ * >
+ *   <Button>Delete</Button>
+ * </Tooltip>
+ * ```
+ *
+ * @example
+ * Show immediately:
+ * ```tsx
+ * <Tooltip isImmediate content="This will be a permanent action">
+ *   <Button>Delete</Button>
+ * </Tooltip>
+ * ```
+ */
 export function TextField(props: TextFieldProps) {
   const {
     type = "text",
@@ -84,13 +131,15 @@ export function TextField(props: TextFieldProps) {
     isRequired = false,
     validationState = "valid",
     emphasizedLabel = false,
-    placeholder = "",
-    iconAtStart,
-    iconAtEnd,
+    autoFocus = false,
     label,
     errorText,
     helperText,
+    placeholder,
     value,
+    defaultValue,
+    iconAtStart,
+    iconAtEnd,
   } = props;
   const [isVisible, setIsVisible] = useState(false);
   const ref = React.useRef(null);
@@ -153,6 +202,8 @@ export function TextField(props: TextFieldProps) {
             required={isRequired}
             disabled={isDisabled}
             placeholder={placeholder}
+            autoFocus={autoFocus}
+            defaultValue={defaultValue}
           />
           {isPassword ? (
             <UnstyledButton
@@ -162,6 +213,7 @@ export function TextField(props: TextFieldProps) {
                 styles[variationName("btnSize", size)],
               )}
               onPress={() => setIsVisible((prevVisibility) => !prevVisibility)}
+              isDisabled={isDisabled}
             >
               <Text visuallyHidden>password visibility</Text>
               <Icon
@@ -194,7 +246,12 @@ export function TextField(props: TextFieldProps) {
 
 /** Small textfield needs xs icon */
 function mapIconSize(size: TextFieldSize) {
-  return size === "sm" ? "xs" : size;
+  if (size === "sm") {
+    return "xs";
+  } else if (size === "lg") {
+    return "md";
+  }
+  return size;
 }
 
 function getIcon(

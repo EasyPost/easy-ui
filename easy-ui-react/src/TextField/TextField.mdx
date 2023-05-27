@@ -1,11 +1,59 @@
 import React from "react";
-import { Canvas, Meta, Controls } from "@storybook/blocks";
+import { Canvas, Meta, Controls, ArgTypes, ArgsTable } from "@storybook/blocks";
 import { TextField } from "./TextField";
 import * as TextFieldStories from "./TextField.stories";
 
 <Meta of={TextFieldStories} />
 
 # TextField
+
+## Standard
+
+Simple `<TextField />` with `label`, `placeholder`, and `helperText`.
+
+<Canvas of={TextFieldStories.Standard} />
+
+## Password
+
+Setting `type="password"` yields a password input with a visibility icon button.
+
+<Canvas of={TextFieldStories.Password} />
+
+## Icon
+
+Use `iconAtStart` or `iconAtEnd` to add an icon.
+
+<Canvas of={TextFieldStories.Icon} />
+
+## Small TextField
+
+Set `size="sm"` for a small `<TextField />`.
+
+<Canvas of={TextFieldStories.SmallTextFields} />
+
+## Large TextField
+
+Set `size="lg"` for a large `<TextField />`.
+
+<Canvas of={TextFieldStories.LargeTextFields} />
+
+## Label with emphasis
+
+Use `emphasizedLabel=true` to display a label with emphasis.
+
+<Canvas of={TextFieldStories.LabelWithEmphasis} />
+
+## Error
+
+When `validationState` is set to `invalid`, the `<TextField />` displays with error styles.
+
+<Canvas of={TextFieldStories.Error} />
+
+## Visually hidden label
+
+To hide a `label` but maintain accessibility, use `isLabelVisuallyHidden`.
+
+<Canvas of={TextFieldStories.VisuallyHiddenLabel} />
 
 ## Controls
 

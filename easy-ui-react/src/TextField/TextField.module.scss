@@ -66,7 +66,6 @@
     "z-index",
     design-token("z_index.input_icon")
   );
-  max-width: 400px;
 }
 
 .inputLabelContainer {
@@ -135,14 +134,16 @@
     padding-right: calc(
       #{design-token("space.0.5")} - #{design-token("shape.border_width.1")}
     );
+    border-radius: component-token("textfield", "border_radius");
   }
 }
 
 .inputSizeSm {
   @include font-style("body2");
   padding: calc(
-    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
-  );
+      #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+    )
+    calc(#{design-token("space.1.5")} - #{design-token("shape.border_width.1")});
 }
 
 .inputSizeLg {
@@ -164,7 +165,6 @@
     #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
   );
   padding-left: design-token("space.1.5");
-  z-index: 1;
 
   &:focus,
   &:active {
@@ -173,12 +173,17 @@
     padding-left: calc(
       #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
     );
+    border-radius: component-token("textfield", "border_radius");
   }
 
   &:focus {
     box-shadow: component-token("textfield", "box_shadow");
     outline: none;
     z-index: component-token("textfield", "z-index");
+  }
+
+  &:disabled {
+    background-color: component-token("textfield", "color.background.disabled");
   }
 }
 
@@ -196,6 +201,15 @@
   );
   padding-bottom: calc(
     #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+  );
+}
+
+.btnSizeLg {
+  padding-top: calc(
+    #{design-token("space.2")} - #{design-token("shape.border_width.1")}
+  );
+  padding-bottom: calc(
+    #{design-token("space.2")} - #{design-token("shape.border_width.1")}
   );
 }
 
@@ -233,12 +247,16 @@
   top: design-token("space.1");
 }
 
+.iconSizeLg {
+  top: design-token("space.2");
+}
+
 .iconStartInput.inputSizeSm {
-  padding-left: design-token("space.5.5");
+  padding-left: design-token("space.4.5");
 }
 
 .iconEndInput.inputSizeSm {
-  padding-right: design-token("space.5.5");
+  padding-right: design-token("space.4.5");
 }
 
 .label {

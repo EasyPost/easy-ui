@@ -139,3 +139,16 @@ export const overlayPlacements = [
   "right top",
   "right bottom",
 ] as AriaPlacement[];
+
+export const InputDecorator: Decorator = (Story) => (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      width: "425px",
+      gap: "12px",
+    }}
+  >
+    <Story />
+  </div>
+);
