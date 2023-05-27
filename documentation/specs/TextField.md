@@ -77,8 +77,7 @@ export type TextFieldProps = AriaTextFieldProps & {
   type?: InputType;
   /**
    * TextField size affects the overall size of the input, but it also influences the size of
-   * iconAtStart and iconAtEnd. For instance, with `sm` size, the associated iconAtStart
-   * or iconAtEnd size maps to the Easy UI icon size of 'sm'.
+   * iconAtStart and iconAtEnd.
    * @default 'md'
    */
   size?: TextFieldSize;
@@ -202,6 +201,7 @@ export function Component() {
   return (
     <>
       <TextField
+        type="password"
         label="Password"
         helperText={<a href={RESET_URL}>Forgot password? </a>}
         value={password}
@@ -217,7 +217,7 @@ _Visually hidden label with left aligned icon and placeholder text:_
 
 ```tsx
 import { TextField } from "@easypost/easy-ui/TextField";
-import AnIcon from "@easypost/easy-ui-icons/AnIcon";
+import SearchIcon from "@easypost/easy-ui-icons/Search";
 
 export function Component() {
   const [searchedValue, setSearchedValue] = useState("");
