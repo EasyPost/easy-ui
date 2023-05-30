@@ -9,15 +9,9 @@ import * as CardStories from "./Card.stories";
 
 Cards are styled containers that group related content.
 
-Cards are transparent by default in order to let the background come through. Use the `background` prop to set its background to one of either `primary` or `subdued`.
-
-Cards are `outlined` by default. Use the `variant` prop to adjust the overall style of the `Card`.
-
-Turn on the grid in the individual story to see the effects of card backgrounds more clearly.
-
 ## Outlined
 
-By default cards are rendered with a border. This is synonymous with `variant="outlined"`.
+By default cards are rendered with a border. This is the same as `variant="outlined"`.
 
 <Canvas of={CardStories.Outlined} />
 
@@ -25,7 +19,7 @@ By default cards are rendered with a border. This is synonymous with `variant="o
 
 ## Solid
 
-Cards can be without a border using `variant="solid"`.
+Cards can be borderless using `variant="solid"`.
 
 <Canvas of={CardStories.Solid} />
 
@@ -33,9 +27,7 @@ Cards can be without a border using `variant="solid"`.
 
 ## Flagged
 
-Cards can be flagged using `variant="flagged"`.
-
-Use the `status` prop to adjust how the flag is rendered.
+Cards can be flagged using `variant="flagged"`. Use the `status` prop to adjust the flag style.
 
 <Canvas of={CardStories.Flagged} />
 
@@ -45,11 +37,11 @@ Use the `status` prop to adjust how the flag is rendered.
 
 Cards are composable. Use `<Card.Container />` and `<Card.Area />` to create cards with complex content.
 
-`<Card.Container />` is the outermost element of the card containing its border.
+`<Card.Container />` is the outer element of a card containing its border.
 
-`<Card.Area />` is the inner element of the card containing its padding and background.
+`<Card.Area />` is the inner element of a card containing its padding and background.
 
-As an example, to create a card with two columns, use deconstructed subcomponents of `<Card />`.
+To create a card with two columns, for instance, use `<Card.Container />` and `<Card.Area />`.
 
 <Canvas of={CardStories.Composition} />
 
