@@ -247,3 +247,16 @@ export const ExampleSlat: Story = {
     </Card.Container>
   ),
 };
+
+export const ExampleCallout: Story = {
+  render: () => (
+    <div style={{ maxWidth: 458, width: "100%" }}>
+      <Card variant="flagged" status="warning" padding="1">
+        <Text variant="subtitle1">
+          Based on selected auto-fund settings, you requested a minimum wallet
+          balance of $400. <Text color="primary">Learn More</Text>
+        </Text>
+      </Card>
+    </div>
+  ),
+};

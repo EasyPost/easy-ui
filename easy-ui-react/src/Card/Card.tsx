@@ -1,8 +1,11 @@
 import omit from "lodash/omit";
 import React, { AllHTMLAttributes, ElementType, ReactNode } from "react";
+import { DesignTokenNamespace } from "../types";
 import {
+  ResponsiveProp,
   classNames,
   getComponentThemeToken,
+  getResponsiveDesignToken,
   variationName,
 } from "../utilities/css";
 
@@ -11,9 +14,12 @@ import styles from "./Card.module.scss";
 const DEFAULT_ELEMENT_TYPE = "div";
 const DEFAULT_VARIANT = "outlined";
 
+type SpaceScale = DesignTokenNamespace<"space">;
+
 export type CardBackground = "primary" | "secondary";
 export type CardVariant = "solid" | "outlined" | "flagged";
 export type CardStatus = "danger" | "warning" | "success";
+export type CardPadding = ResponsiveProp<SpaceScale>;
 
 export type CardContainerProps = {
   /** Custom element for the card container. */
@@ -46,6 +52,16 @@ export type CardAreaProps = {
 
   /** Content of the card area. */
   children: ReactNode;
+
+  /**
+   * The spacing around the content area. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   *
+   * @default '2'
+   * @example
+   * padding='2'
+   * padding={{ xs: '2', sm: '3', md: '4', lg: '5', xl: '6' }}
+   */
+  padding?: CardPadding;
 };
 
 export type CardProps = CardContainerProps & CardAreaProps;
@@ -60,6 +76,7 @@ function CardContainer(props: CardContainerProps) {
     variant = DEFAULT_VARIANT,
     ...restProps
   } = props;
+
   const className = classNames(
     styles.container,
     styles[variationName("variant", variant)],
@@ -88,7 +105,7 @@ function CardContainer(props: CardContainerProps) {
   );
 }
 
-function CardArea({ background, children }: CardAreaProps) {
+function CardArea({ background, children, padding = "2" }: CardAreaProps) {
   const style = {
     ...getComponentThemeToken(
       "card-area",
@@ -96,6 +113,7 @@ function CardArea({ background, children }: CardAreaProps) {
       "color.surface.card",
       background,
     ),
+    ...getResponsiveDesignToken("card-area", "padding", "space", padding),
   } as React.CSSProperties;
   return (
     <div className={styles.area} style={style} data-testid="area">
@@ -146,10 +164,12 @@ function CardArea({ background, children }: CardAreaProps) {
  * ```
  */
 export function Card(props: CardProps) {
-  const { background, children, ...containerProps } = props;
+  const { background, children, padding, ...containerProps } = props;
   return (
     <CardContainer {...containerProps}>
-      <CardArea background={background}>{children}</CardArea>
+      <CardArea background={background} padding={padding}>
+        {children}
+      </CardArea>
     </CardContainer>
   );
 }

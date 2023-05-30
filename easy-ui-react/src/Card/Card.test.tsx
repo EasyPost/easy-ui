@@ -2,7 +2,10 @@ import { screen } from "@testing-library/react";
 import React from "react";
 import { render } from "../utilities/test";
 import { Card } from "./Card";
-import { getComponentThemeToken } from "../utilities/css";
+import {
+  getComponentThemeToken,
+  getResponsiveDesignToken,
+} from "../utilities/css";
 
 describe("<Card />", () => {
   it("should render card", () => {
@@ -78,6 +81,13 @@ describe("<Card />", () => {
         "color.surface.card",
         "primary",
       ),
+    );
+  });
+
+  it("should render custom padding", () => {
+    render(<Card padding="1">Content</Card>);
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding", "space", "1"),
     );
   });
 
