@@ -125,7 +125,7 @@ export const ExampleRadio: Story = {
                 />
                 <Text variant="subtitle1">Bank Account</Text>
               </HorizontalStack>
-              <Text variant="caption" color="primary">
+              <Text variant="caption" color="action">
                 Manage
               </Text>
             </HorizontalStack>
@@ -199,7 +199,7 @@ export const ExampleTileB: Story = {
                 Learn how EasyPost can optimize your shipping.
               </Text>
             </VerticalStack>
-            <Text variant="small_button" color="primary">
+            <Text variant="small_button" color="action">
               Contact Sales
             </Text>
           </VerticalStack>
@@ -218,7 +218,7 @@ export const ExampleTileC: Story = {
             <Text variant="caption" color="subdued" alignment="center">
               No secondary account
             </Text>
-            <Text variant="small_button" color="primary">
+            <Text variant="small_button" color="action">
               Add an Account
             </Text>
           </VerticalStack>
@@ -254,7 +254,7 @@ export const ExampleCallout: Story = {
       <Card variant="flagged" status="warning" padding="1">
         <Text variant="subtitle1">
           Based on selected auto-fund settings, you requested a minimum wallet
-          balance of $400. <Text color="primary">Learn More</Text>
+          balance of $400. <Text color="action">Learn More</Text>
         </Text>
       </Card>
     </div>
