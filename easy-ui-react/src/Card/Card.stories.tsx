@@ -77,9 +77,9 @@ export const ExampleCheckbox: Story = {
     return (
       <Card as="label" variant="outlined" isSelected={isSelected} {...args}>
         <VerticalStack gap="2">
-          <HorizontalStack gap="1" blockAlign="center">
+          <HorizontalStack gap="1.5" blockAlign="center">
             <input
-              style={{ width: 24, height: 24 }}
+              style={{ margin: 0, width: 24, height: 24 }}
               type="checkbox"
               checked={isSelected}
               disabled={args.isDisabled}
@@ -92,6 +92,53 @@ export const ExampleCheckbox: Story = {
           <PlaceholderBox />
         </VerticalStack>
       </Card>
+    );
+  },
+  args: {
+    isDisabled: false,
+  },
+  parameters: {
+    controls: {
+      include: ["isDisabled"],
+    },
+  },
+};
+
+export const ExampleRadio: Story = {
+  render: (args) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [isSelected, setIsSelected] = useState(false);
+    return (
+      <div style={{ maxWidth: 400, width: "100%" }}>
+        <Card variant="outlined" isSelected={isSelected} {...args}>
+          <VerticalStack gap="1.5">
+            <HorizontalStack align="space-between" blockAlign="center">
+              <HorizontalStack as="label" gap="1" blockAlign="center">
+                <input
+                  style={{ margin: 0, width: 16, height: 16 }}
+                  type="radio"
+                  checked={isSelected}
+                  disabled={args.isDisabled}
+                  onChange={(e) => {
+                    setIsSelected(e.target.checked);
+                  }}
+                />
+                <Text variant="subtitle1">Bank Account</Text>
+              </HorizontalStack>
+              <Text variant="caption" color="primary">
+                Manage
+              </Text>
+            </HorizontalStack>
+            <VerticalStack>
+              <Text variant="caption" color="subdued">
+                Bank Arc Transfer Primary
+                <br />
+                Free 2-3 Business Days For Transfers
+              </Text>
+            </VerticalStack>
+          </VerticalStack>
+        </Card>
+      </div>
     );
   },
   args: {
@@ -154,6 +201,25 @@ export const ExampleTileB: Story = {
             </VerticalStack>
             <Text variant="small_button" color="primary">
               Contact Sales
+            </Text>
+          </VerticalStack>
+        </div>
+      </Card>
+    </div>
+  ),
+};
+
+export const ExampleTileC: Story = {
+  render: () => (
+    <div style={{ maxWidth: 400, width: "100%" }}>
+      <Card>
+        <div style={{ padding: "12px 0" }}>
+          <VerticalStack gap="0.5" inlineAlign="center">
+            <Text variant="caption" color="subdued" alignment="center">
+              No secondary account
+            </Text>
+            <Text variant="small_button" color="primary">
+              Add an Account
             </Text>
           </VerticalStack>
         </div>
