@@ -27,32 +27,50 @@ button.container:not([disabled]) {
   border-left-width: 4px;
 }
 
-// prettier-ignore
 .variantOutlined {
-  @include component-token("card", "color.border", theme-token("color.border.bolder"));
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.bolder")
+  );
 }
 
-// prettier-ignore
 .selected {
-  @include component-token("card", "color.border", theme-token("color.border.selected"));
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.selected")
+  );
 }
 
-// prettier-ignore
 .disabled {
-  @include component-token("card", "color.border", theme-token("color.border.disabled"));
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.disabled")
+  );
 }
 
-// prettier-ignore
 .statusDanger {
-  @include component-token("card", "color.border", theme-token("color.border.danger"));
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.danger")
+  );
 }
 
-// prettier-ignore
 .statusWarning {
-  @include component-token("card", "color.border", theme-token("color.border.warning"));
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.warning")
+  );
 }
 
-// prettier-ignore
 .statusSuccess {
-  @include component-token("card", "color.border", theme-token("color.border.success"));
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.success")
+  );
 }
