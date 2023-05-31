@@ -53,13 +53,13 @@ type CardContainerProps = {
   isSelected?: boolean;
 
   /**
-   * Card status. Only relevant for flagged cars.
+   * Card status. Only relevant for flagged cards.
    */
   status?: CardStatus;
 
   /**
    * Card variant.
-   * @default solid
+   * @default outlined
    */
   variant?: CardVariant;
 } & AllHTMLAttributes<ElementType>;
@@ -77,7 +77,7 @@ type CardProps = CardContainerProps & CardAreaProps;
 
 ### Example Usage
 
-_Solid:_
+_Outlined:_
 
 ```tsx
 import { Card } from "@easypost/easy-ui/Card";
@@ -88,17 +88,17 @@ function Component() {
 
 // same as:
 function Component() {
-  return <Card variant="solid">Content</Card>;
+  return <Card variant="outlined">Content</Card>;
 }
 ```
 
-_Outlined:_
+_Solid:_
 
 ```tsx
 import { Card } from "@easypost/easy-ui/Card";
 
 function Component() {
-  return <Card variant="outlined">Content</Card>;
+  return <Card variant="solid">Content</Card>;
 }
 ```
 

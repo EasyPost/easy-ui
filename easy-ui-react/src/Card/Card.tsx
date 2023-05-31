@@ -35,13 +35,13 @@ export type CardContainerProps = {
   isSelected?: boolean;
 
   /**
-   * Card status. Noticeable only on flagged cars.
+   * Card status. Noticeable only on flagged cards.
    */
   status?: CardStatus;
 
   /**
    * Card variant.
-   * @default solid
+   * @default outlined
    */
   variant?: CardVariant;
 } & AllHTMLAttributes<ElementType>;

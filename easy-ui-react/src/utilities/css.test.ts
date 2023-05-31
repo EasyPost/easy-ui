@@ -87,6 +87,18 @@ describe("getResponsiveDesignToken", () => {
       "--ezui-c-stack-space-xs": "var(--ezui-space-4)",
     });
   });
+  it("kebabs values", () => {
+    expect(
+      getResponsiveDesignToken(
+        "customStack",
+        "customSpace",
+        "customSpace",
+        "4",
+      ),
+    ).toMatchObject({
+      "--ezui-c-custom-stack-custom-space-xs": "var(--ezui-custom-space-4)",
+    });
+  });
   it("takes an object with a breakpoint and value and returns the token for each breakpoint", () => {
     expect(
       getResponsiveDesignToken("stack", "space", "space", {
