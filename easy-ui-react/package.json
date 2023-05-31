@@ -29,7 +29,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@react-aria/toast": "^3.0.0-beta.0",
+    "@react-aria/toast": "^3.0.0-beta.1",
     "@easypost/easy-ui-icons": "1.0.0-alpha.3",
     "@easypost/easy-ui-tokens": "1.0.0-alpha.2",
     "@react-stately/toast": "^3.0.0-beta.0",
