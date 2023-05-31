@@ -49,12 +49,12 @@
   "devDependencies": {
     "@babel/core": "^7.22.1",
     "@changesets/cli": "^2.26.0",
-    "@storybook/addon-a11y": "^7.0.17",
-    "@storybook/addon-essentials": "^7.0.17",
-    "@storybook/blocks": "^7.0.17",
-    "@storybook/manager-api": "^7.0.17",
-    "@storybook/react": "^7.0.17",
-    "@storybook/react-vite": "^7.0.17",
+    "@storybook/addon-a11y": "^7.0.18",
+    "@storybook/addon-essentials": "^7.0.18",
+    "@storybook/blocks": "^7.0.18",
+    "@storybook/manager-api": "^7.0.18",
+    "@storybook/react": "^7.0.18",
+    "@storybook/react-vite": "^7.0.18",
     "@storybook/testing-library": "^0.1.0",
     "babel-loader": "^9.1.2",
     "eslint": "^8.41.0",
@@ -63,11 +63,11 @@
     "prettier": "^2.8.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.0.17",
+    "storybook": "^7.0.18",
     "stylelint": "^15.6.2",
     "turbo": "^1.9.9",
     "typescript": "^5.0.4",
     "vite": "^4.3.9",
-    "vitest": "^0.31.1"
+    "vitest": "^0.31.3"
   }
 }
