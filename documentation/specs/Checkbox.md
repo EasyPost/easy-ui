@@ -39,11 +39,13 @@ type CheckboxProps = {
   children?: ReactNode;
 
   /**
-   * Whether the element should be selected (uncontrolled).
+   * Whether the checkbox should be selected (uncontrolled).
    */
   defaultSelected?: boolean;
 
-  /** Error text that appears in a tooltip. */
+  /**
+   * Error text that appears in a tooltip.
+   */
   errorText?: ReactNode;
 
   /**
@@ -62,15 +64,14 @@ type CheckboxProps = {
   isReadOnly?: boolean;
 
   /**
-   * Whether the element should be selected (controlled).
+   * Whether the checkbox should be selected (controlled).
    */
   isSelected?: boolean;
 
   /**
-   * Level representation of the checkbox in a nested list of checkboxes.
-   * @default 1
+   * Whether the checkbox is nested.
    */
-  level?: "1" | "2";
+  isNested?: boolean;
 
   /**
    * The name of the checkbox, used when submitting an HTML form.
