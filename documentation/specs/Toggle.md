@@ -7,7 +7,7 @@ A Toggle is an interactive binary control.
 ### Use Cases
 
 - Use a Toggle when an "on/off" or "yes/no" input is needed.
-- "Users expect the same immediate results from a digital toggle as they do from their real-world counterparts (e.g., light switches). Immediate results are a facet of toggle switches that grants users the freedom and control to update their preferences as needed." -Nielsen Normann Group
+> Users expect the same immediate results from a digital toggle as they do from their real-world counterparts (e.g., light switches). Immediate results are a facet of toggle switches that grants users the freedom and control to update their preferences as needed. – Nielsen Normann Group
 
 ### Features
 
