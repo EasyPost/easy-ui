@@ -135,6 +135,8 @@
       #{design-token("space.0.5")} - #{design-token("shape.border_width.1")}
     );
     border-radius: component-token("textfield", "border_radius");
+    border-right: design-token("shape.border_width.1") solid
+      component-token("textfield", "color.border.engaged");
   }
 }
 
@@ -169,7 +171,8 @@
 
   &:focus,
   &:active {
-    border-color: component-token("textfield", "color.border.engaged");
+    border: design-token("shape.border_width.1") solid
+      component-token("textfield", "color.border.engaged");
     padding-left: calc(
       #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
     );
