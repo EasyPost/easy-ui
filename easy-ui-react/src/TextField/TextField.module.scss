@@ -124,22 +124,6 @@
   }
 }
 
-.passwordInput {
-  border-radius: component-token("textfield", "border_radius") 0 0
-    component-token("textfield", "border_radius");
-  border-right: none;
-  padding-right: design-token("space.0.5");
-  &:focus,
-  &:active {
-    padding-right: calc(
-      #{design-token("space.0.5")} - #{design-token("shape.border_width.1")}
-    );
-    border-radius: component-token("textfield", "border_radius");
-    border-right: design-token("shape.border_width.1") solid
-      component-token("textfield", "color.border.engaged");
-  }
-}
-
 .inputSizeSm {
   @include font-style("body2");
   padding: calc(
@@ -153,6 +137,24 @@
   padding: calc(
     #{design-token("space.2")} - #{design-token("shape.border_width.1")}
   );
+}
+
+.passwordInput,
+.passwordInput.inputSizeSm,
+.passwordInput.inputSizeLg {
+  padding-right: 0;
+}
+
+.passwordInput {
+  border-radius: component-token("textfield", "border_radius") 0 0
+    component-token("textfield", "border_radius");
+  border-right: none;
+  &:focus,
+  &:active {
+    border-radius: component-token("textfield", "border_radius");
+    border-right: design-token("shape.border_width.1") solid
+      component-token("textfield", "color.border.engaged");
+  }
 }
 
 .passwordBtn {
