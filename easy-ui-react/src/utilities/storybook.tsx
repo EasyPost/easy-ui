@@ -145,7 +145,7 @@ export const InputDecorator: Decorator = (Story) => (
     style={{
       display: "flex",
       flexDirection: "column",
-      width: "425px",
+      maxWidth: "425px",
       gap: "12px",
     }}
   >

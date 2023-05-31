@@ -97,8 +97,7 @@
   &:focus,
   &:active {
     color: component-token("textfield", "color.text.engaged");
-    border: design-token("shape.border_width.1") solid
-      component-token("textfield", "color.border.engaged");
+    border-color: component-token("textfield", "color.border.engaged");
   }
 
   &:focus {
@@ -170,8 +169,7 @@
 
   &:focus,
   &:active {
-    border: design-token("shape.border_width.1") solid
-      component-token("textfield", "color.border.engaged");
+    border-color: component-token("textfield", "color.border.engaged");
     padding-left: calc(
       #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
     );
@@ -189,15 +187,13 @@
   }
 }
 
-.passwordBtnError {
+.passwordBtnError,
+.passwordBtnError:focus,
+.passwordBtnError:active {
   border-color: component-token("textfield", "color.border.danger");
-  &:focus,
-  &:active {
-    border-color: component-token("textfield", "color.border.danger");
-  }
 }
 
-.btnSizeSm {
+.passwordBtnSm {
   padding-top: calc(
     #{design-token("space.1")} - #{design-token("shape.border_width.1")}
   );
@@ -206,7 +202,7 @@
   );
 }
 
-.btnSizeLg {
+.passwordBtnLg {
   padding-top: calc(
     #{design-token("space.2")} - #{design-token("shape.border_width.1")}
   );
@@ -245,11 +241,11 @@
   padding-right: design-token("space.6");
 }
 
-.iconSizeSm {
+.inputIconPlacementSm {
   top: design-token("space.1");
 }
 
-.iconSizeLg {
+.inputIconPlacementLg {
   top: design-token("space.2");
 }
 
