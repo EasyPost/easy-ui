@@ -173,7 +173,7 @@ export const ExampleTileA: Story = {
       <Card>
         <div style={{ padding: "8px 0" }}>
           <VerticalStack gap="1.5" inlineAlign="center">
-            <Icon symbol={AccountBalanceIcon} size="xl" />
+            <Icon symbol={AccountBalanceIcon} size="3xl" />
             <Text variant="subtitle2">Add a Bank Account</Text>
             <Text variant="caption" color="subdued">
               Free 2-3 Business Days For Transfers
