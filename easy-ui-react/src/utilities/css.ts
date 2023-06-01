@@ -1,5 +1,4 @@
 import React from "react";
-import kebabCase from "lodash/kebabCase";
 import type { Falsy, DesignTokenNamespace } from "../types";
 
 export type BreakpointsAlias = DesignTokenNamespace<"breakpoint">;
@@ -27,8 +26,9 @@ export function getComponentToken(
 ) {
   return value
     ? {
-        [`--ezui-c-${kebabCase(componentName)}-${kebabCase(componentProp)}`]:
-          value,
+        [`--ezui-c-${tokenSafeKebabCase(componentName)}-${tokenSafeKebabCase(
+          componentProp,
+        )}`]: value,
       }
     : {};
 }
@@ -43,7 +43,9 @@ export function getComponentDesignToken(
     componentName,
     componentProp,
     token
-      ? `var(--ezui-${kebabCase(tokenSubgroup)}-${kebabCase(token)})`
+      ? `var(--ezui-${tokenSafeKebabCase(tokenSubgroup)}-${tokenSafeKebabCase(
+          token,
+        )})`
       : undefined,
   );
 }
@@ -58,7 +60,9 @@ export function getComponentThemeToken(
     componentName,
     componentProp,
     token
-      ? `var(--ezui-t-${kebabCase(tokenSubgroup)}-${kebabCase(token)})`
+      ? `var(--ezui-t-${tokenSafeKebabCase(tokenSubgroup)}-${tokenSafeKebabCase(
+          token,
+        )})`
       : undefined,
   );
 }
@@ -76,7 +80,9 @@ export function getResponsiveDesignToken(
     return getComponentToken(
       componentName,
       `${componentProp}-xs`,
-      `var(--ezui-${kebabCase(tokenSubgroup)}-${kebabCase(responsiveProp)})`,
+      `var(--ezui-${tokenSafeKebabCase(tokenSubgroup)}-${tokenSafeKebabCase(
+        responsiveProp,
+      )})`,
     );
   }
   return Object.fromEntries(
@@ -87,9 +93,9 @@ export function getResponsiveDesignToken(
             componentName,
             `${componentProp}-${breakpointAlias}`,
             aliasOrScale
-              ? `var(--ezui-${kebabCase(tokenSubgroup)}-${kebabCase(
-                  aliasOrScale,
-                )})`
+              ? `var(--ezui-${tokenSafeKebabCase(
+                  tokenSubgroup,
+                )}-${tokenSafeKebabCase(aliasOrScale)})`
               : undefined,
           ),
         );
@@ -139,4 +145,18 @@ export function pxToRem(px: string | number) {
 
 export function addPxUnitToNumber(px: string | number) {
   return typeof px === "number" ? `${px}px` : px;
+}
+
+/**
+ * Converts a string to kebab case in a manner safe for dealing with tokens.
+ *
+ * @remarks
+ * Most kebab case conversions separate numbers whereas our Style Dictionary
+ * only replaces underscores and dots with kebabs.
+ */
+export function tokenSafeKebabCase(str: string) {
+  return str
+    .replace(/([a-z])([A-Z])/g, "$1-$2")
+    .replace(/[\s_\.]+/g, "-")
+    .toLowerCase();
 }

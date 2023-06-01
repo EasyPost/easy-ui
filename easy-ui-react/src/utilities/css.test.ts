@@ -98,6 +98,11 @@ describe("getResponsiveDesignToken", () => {
     ).toMatchObject({
       "--ezui-c-custom-stack-custom-space-xs": "var(--ezui-custom-space-4)",
     });
+    expect(
+      getResponsiveDesignToken("stack", "space", "size.icon", "3xl"),
+    ).toMatchObject({
+      "--ezui-c-stack-space-xs": "var(--ezui-size-icon-3xl)",
+    });
   });
   it("takes an object with a breakpoint and value and returns the token for each breakpoint", () => {
     expect(

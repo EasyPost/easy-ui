@@ -5,10 +5,10 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import kebabCase from "lodash/kebabCase";
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { getTokenAliases } from "../utilities/tokens";
 import type { ThemeTokenAliases } from "../types";
+import { tokenSafeKebabCase } from "../utilities/css";
 
 export type Theme = {
   [key in ThemeTokenAliases]: string;
@@ -215,7 +215,7 @@ function ColorSchemeContextProvider({
 function getThemeInstanceVariables(theme: Theme) {
   return Object.fromEntries(
     Object.entries(theme).map(([key, value]) => {
-      const property = kebabCase(key);
+      const property = tokenSafeKebabCase(key);
       return [`--ezui-t-${property}`, value];
     }),
   );
@@ -235,7 +235,9 @@ function getThemeFromTokens(prefix: string) {
       .filter((key) => key.startsWith(`${prefix}.`))
       .map((key) => key.replace(new RegExp(`^${prefix}.`), ""))
       .map((key) => {
-        const value = `var(--ezui-${kebabCase(prefix)}-${kebabCase(key)})`;
+        const value = `var(--ezui-${tokenSafeKebabCase(
+          prefix,
+        )}-${tokenSafeKebabCase(key)})`;
         return [key, value];
       }),
   );
