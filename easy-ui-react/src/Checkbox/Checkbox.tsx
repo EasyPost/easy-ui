@@ -2,7 +2,12 @@ import CheckIcon from "@easypost/easy-ui-icons/Check600";
 import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
 import ErrorIcon from "@easypost/easy-ui-icons/ErrorFill";
 import React, { ReactNode } from "react";
-import { useCheckbox, useFocusRing, VisuallyHidden } from "react-aria";
+import {
+  useCheckbox,
+  useFocusRing,
+  useHover,
+  VisuallyHidden,
+} from "react-aria";
 import { useToggleState, ValidationState } from "react-stately";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
@@ -101,6 +106,7 @@ export function Checkbox(props: CheckboxProps) {
   const state = useToggleState(props);
   const { inputProps } = useCheckbox(props, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
+  const { isHovered, hoverProps } = useHover(props);
 
   const isSelected = state.isSelected && !isIndeterminate;
 
@@ -110,8 +116,9 @@ export function Checkbox(props: CheckboxProps) {
     isSelected && styles.selected,
     isDisabled && styles.disabled,
     isReadOnly && styles.readOnly,
-    isFocusVisible && styles.focusVisible,
     isNested && styles.nested,
+    isFocusVisible && styles.focusVisible,
+    isHovered && styles.hovered,
     styles[variationName("size", size)],
     validationState === "invalid" && styles.invalid,
   );
@@ -124,9 +131,13 @@ export function Checkbox(props: CheckboxProps) {
     ? "danger"
     : "primary";
 
+  if (size === "lg" && isNested) {
+    console.warn("isNested is incompatible with lg Checkbox");
+  }
+
   return (
     <span className={className}>
-      <label className={styles.label}>
+      <label className={styles.label} {...hoverProps}>
         <VisuallyHidden>
           <input {...inputProps} {...focusProps} ref={ref} />
         </VisuallyHidden>
