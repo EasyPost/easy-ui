@@ -100,6 +100,8 @@ export type TextFieldProps = AriaTextFieldProps & {
   iconAtStart?: IconSymbol;
   /** Right aligned icon */
   iconAtEnd?: IconSymbol;
+  /** Handler that is called when the value changes. */
+  onChange?: (value: C) => void;
 };
 ```
 
