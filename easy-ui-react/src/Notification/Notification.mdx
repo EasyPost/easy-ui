@@ -1,0 +1,135 @@
+import React from "react";
+import { Canvas, Meta, Controls, ArgTypes } from "@storybook/blocks";
+import { NotificationProvider } from "./Notification";
+import * as NotificationStories from "./Notification.stories";
+
+<Meta of={NotificationStories} />
+
+# Notification
+
+**Note**: Each story below is rendered with its own `Provider`
+
+## Notification
+
+Notifications of type `alert` and `toast` can be displayed via Easy UI's `useNotification` hook. The hook returns a notification
+object on which methods can be invoked to display the appropriate notification. Use the `Show code` tab below for the associated code sample.
+
+<Canvas of={NotificationStories.Notifications} />
+
+## Programmatic dismissal
+
+<Canvas of={NotificationStories.ProgrammaticDismissal} />
+
+## Custom placement
+
+Notifications can have custom placement on a per app basis. Use the `notificationPlacement` prop which is available on the `EasyUIProvider` component.
+
+<Canvas of={NotificationStories.CustomPlacement} />
+
+## Custom placement within container
+
+Notifications by default render into `document.body` via a portal. To render notifications into a custom container, pass a callback function
+to `getContainer` that returns a valid `HTMLElement`.
+
+<Canvas of={NotificationStories.CustomPlacementWithinContainer} />
+
+## Properties
+
+### Notification props
+
+```tsx
+export type NotificationType = "alert" | "toast";
+
+export type NotificationStatus =
+  | "promotional"
+  | "success"
+  | "neutral"
+  | "error"
+  | "warning";
+
+export type BaseNotificationProps = {
+  /** Notification type */
+  type?: NotificationType;
+  /** Notification message */
+  message: ReactNode;
+  /**
+   * Notification status
+   * @default 'success'
+   */
+  status?: NotificationStatus;
+  /**
+   * Notification will render with left aligned status icon
+   * @default true
+   */
+  hasIcon?: boolean;
+};
+
+export type ToastProps = Omit<BaseNotificationProps, "type" | "status">;
+
+export type AlertProps = Omit<BaseNotificationProps, "type" | "status"> & {
+  /** Callback function when dismissing alerts */
+  onDismiss?: () => void;
+};
+```
+
+### useNotification
+
+```tsx
+/** The methods below are accessible on the object returned by the `useNotification` hook. */
+export type NotificationExternalState = {
+  /** Shows promotional color status toast */
+  showPromotionalToast(content: ToastProps): void;
+  /** Shows neutral color status toast */
+  showNeutralToast(content: ToastProps): void;
+  /** Shows success color status toast */
+  showSuccessToast(content: ToastProps): void;
+  /** Shows warning color status toast */
+  showWarningToast(content: ToastProps): void;
+  /** Shows error color status toast */
+  showErrorToast(content: ToastProps): void;
+  /** Shows promotional color status alert */
+  showPromotionalAlert(content: AlertProps): void;
+  /** Shows neutral color status alert */
+  showNeutralAlert(content: AlertProps): void;
+  /** Shows success color status alert */
+  showSuccessAlert(content: AlertProps): void;
+  /** Shows warning color status alert */
+  showWarningAlert(content: AlertProps): void;
+  /** Shows error color status alert */
+  showErrorAlert(content: AlertProps): void;
+  /** Closes active notification */
+  closeActiveNotification(): void;
+};
+```
+
+### Provider props
+
+```tsx
+export type NotificationOffset = {
+  /** Top offset */
+  top?: string;
+  /** Right offset */
+  right?: string;
+  /** Bottom offset */
+  bottom?: string;
+  /** Left offset */
+  left?: string;
+};
+
+export type NotificationPosition = "fixed" | "absolute";
+
+export type NotificationPlacement = {
+  /** Callback function that retrieves HTMLElement where notifications will render to */
+  getContainer?: () => HTMLElement | null;
+  /** Position type */
+  position?: NotificationPosition;
+  /** Position placement */
+  offset?: NotificationOffset;
+};
+
+export interface ProviderProps {
+  /** Notification placement props */
+  notificationPlacement?: NotificationPlacement;
+  /** Rest of EasyUI Provider props */
+}
+```

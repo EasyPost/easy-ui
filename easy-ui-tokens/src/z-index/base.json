@@ -2,6 +2,9 @@
   "z-index": {
     "input_icon": {
       "value": "1"
+    },
+    "notification": {
+      "value": "999999"
     }
   }
 }
