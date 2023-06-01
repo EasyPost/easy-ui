@@ -1,5 +1,125 @@
 @use "../styles/common" as *;
 
 .Checkbox {
-  font: inherit;
+  @include component-token("checkbox", "size", 16px);
+  @include component-token("checkbox", "box-top-gutter", 4px);
+  @include component-token("checkbox", "text-gutter", 0);
+  @include component-token("checkbox", "border_radius", 3px);
+  @include component-token("checkbox", "gap", design-token("space.1"));
+  @include component-token("checkbox", "color", design-token("color.white"));
+  @include component-token("checkbox", "color.background", transparent);
+  @include component-token(
+    "checkbox",
+    "color.border",
+    design-token("color.gray.500")
+  );
+  @include component-token(
+    "checkbox",
+    "color.error-icon",
+    design-token("color.red.600")
+  );
+
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: component-token("checkbox", "gap");
+
+  &:hover:not(.disabled):not(.readOnly):not(.invalid) {
+    @include component-token(
+      "checkbox",
+      "color.border",
+      design-token("color.blue.400")
+    );
+  }
+}
+
+.box,
+.errorIcon {
+  flex: 0 0 auto;
+}
+
+.box,
+.mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: component-token("checkbox", "size");
+  height: component-token("checkbox", "size");
+}
+
+.box {
+  background: component-token("checkbox", "color.background");
+  border: design-token("shape.border_width.1") solid
+    component-token("checkbox", "color.border");
+  border-radius: component-token("checkbox", "border_radius");
+  color: component-token("checkbox", "color");
+  margin-top: component-token("checkbox", "box-top-gutter");
+
+  .focusVisible & {
+    @include native-focus-ring;
+  }
+}
+
+.text {
+  display: inline-flex;
+  margin: component-token("checkbox", "text-gutter") 0;
+}
+
+.errorIcon {
+  display: inline-flex;
+  color: component-token("checkbox", "color.error-icon");
+}
+
+.indeterminateSvg {
+  position: absolute;
+}
+
+.nested {
+  @include component-token("checkbox", "text-gutter", 4px);
+}
+
+.sizeLg {
+  @include component-token("checkbox", "size", 24px);
+  @include component-token("checkbox", "box-top-gutter", 0);
+  @include component-token("checkbox", "gap", design-token("space.1.5"));
+}
+
+.invalid {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    design-token("color.red.500")
+  );
+}
+
+.disabled {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    design-token("color.gray.200")
+  );
+}
+
+.indeterminate,
+.selected {
+  @include component-token(
+    "checkbox",
+    "color.background",
+    design-token("color.blue.500")
+  );
+  @include component-token(
+    "checkbox",
+    "color.border",
+    design-token("color.blue.500")
+  );
+}
+
+.indeterminate:hover:not(.disabled):not(.readOnly):not(.invalid),
+.selected:hover:not(.disabled):not(.readOnly):not(.invalid) {
+  @include component-token(
+    "checkbox",
+    "color.background",
+    design-token("color.blue.400")
+  );
 }

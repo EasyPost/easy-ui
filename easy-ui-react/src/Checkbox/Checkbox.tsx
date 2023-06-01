@@ -3,9 +3,12 @@ import { useCheckbox, useFocusRing, VisuallyHidden } from "react-aria";
 import { useToggleState, ValidationState } from "react-stately";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
+import CheckIcon from "@easypost/easy-ui-icons/Check600";
+import ErrorIcon from "@easypost/easy-ui-icons/ErrorFill";
+import { classNames, variationName } from "../utilities/css";
 
 import styles from "./Checkbox.module.scss";
-import { classNames } from "../utilities/css";
+import { Tooltip } from "../Tooltip";
 
 export const DEFAULT_SIZE = "md";
 
@@ -81,53 +84,88 @@ export type CheckboxProps = {
 };
 
 export function Checkbox(props: CheckboxProps) {
-  const state = useToggleState(props);
+  const {
+    children,
+    errorText,
+    isDisabled,
+    isIndeterminate,
+    isReadOnly,
+    isNested,
+    size = DEFAULT_SIZE,
+    validationState,
+  } = props;
+
   const ref = React.useRef(null);
+
+  const state = useToggleState(props);
   const { inputProps } = useCheckbox(props, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
-  const isSelected = state.isSelected && !props.isIndeterminate;
 
-  const className = classNames(styles.Checkbox);
+  const isSelected = state.isSelected && !isIndeterminate;
+
+  const className = classNames(
+    styles.Checkbox,
+    isIndeterminate && styles.indeterminate,
+    isSelected && styles.selected,
+    isDisabled && styles.disabled,
+    isReadOnly && styles.readOnly,
+    isFocusVisible && styles.focusVisible,
+    isNested && styles.nested,
+    styles[variationName("size", size)],
+    validationState === "invalid" && styles.invalid,
+  );
+
+  const textVariant =
+    size === "lg" ? "subtitle1" : isNested ? "body2" : "body1";
+  const textColor = isDisabled
+    ? "disabled"
+    : validationState === "invalid"
+    ? "danger"
+    : "primary";
 
   return (
     <label className={className}>
       <VisuallyHidden>
         <input {...inputProps} {...focusProps} ref={ref} />
       </VisuallyHidden>
-      <svg width={24} height={24} aria-hidden="true" style={{ marginRight: 4 }}>
-        <rect
-          x={isSelected ? 4 : 5}
-          y={isSelected ? 4 : 5}
-          width={isSelected ? 16 : 14}
-          height={isSelected ? 16 : 14}
-          fill={isSelected ? "orange" : "none"}
-          stroke={isSelected ? "none" : "gray"}
-          strokeWidth={2}
-        />
-        {isSelected && (
-          <path
-            transform="translate(7 7)"
-            d={`M3.788 9A.999.999 0 0 1 3 8.615l-2.288-3a1 1 0 1 1
-            1.576-1.23l1.5 1.991 3.924-4.991a1 1 0 1 1 1.576 1.23l-4.712
-            6A.999.999 0 0 1 3.788 9z`}
-          />
+      <span className={styles.box}>
+        {(isIndeterminate || isSelected) && (
+          <span className={styles.mark}>
+            {isIndeterminate ? (
+              <IndeterminateIcon size={size === "lg" ? 24 : 16} />
+            ) : (
+              <Icon symbol={CheckIcon} size={size === "lg" ? "md" : "xs"} />
+            )}
+          </span>
         )}
-        {props.isIndeterminate && (
-          <rect x={7} y={11} width={10} height={2} fill="gray" />
-        )}
-        {isFocusVisible && (
-          <rect
-            x={1}
-            y={1}
-            width={22}
-            height={22}
-            fill="none"
-            stroke="orange"
-            strokeWidth={2}
-          />
-        )}
-      </svg>
-      {props.children}
+      </span>
+      <span className={styles.text}>
+        <Text variant={textVariant} color={textColor}>
+          {children}
+        </Text>
+      </span>
+      {validationState === "invalid" && errorText && (
+        <Tooltip content={errorText}>
+          <span tabIndex={0} className={styles.errorIcon}>
+            <Icon symbol={ErrorIcon} />
+          </span>
+        </Tooltip>
+      )}
     </label>
+  );
+}
+
+function IndeterminateIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={10 * (size / 16)}
+      height={2 * (size / 16)}
+      viewBox="0 0 10 2"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={styles.indeterminateSvg}
+    >
+      <path d="M0 1L10 1" stroke="currentColor" strokeLinejoin="round" />
+    </svg>
   );
 }
