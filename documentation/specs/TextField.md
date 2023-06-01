@@ -105,7 +105,7 @@ export type TextFieldProps = AriaTextFieldProps & {
 
 ### Anatomy
 
-The bulk of the `TextField` component behavior will be handled by React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text field.
+The bulk of the `TextField` component behavior will be handled by React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text field. The `TextField` component relies on the following Easy UI utility components: `Label`, `InputIcon`, `PasswordButton`, and `InputCaption`.
 
 ```tsx
 export function TextField(props: TextFieldProps) {
@@ -127,7 +127,7 @@ export function TextField(props: TextFieldProps) {
     iconAtStart,
     iconAtEnd,
   } = props;
-  const [isVisible, setIsVisible] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const ref = React.useRef(null);
 
   const {
@@ -150,28 +150,31 @@ export function TextField(props: TextFieldProps) {
   const canUseIcon = !bothIconPropsDefined && !isPassword;
   const hasStartIcon = canUseIcon && iconAtStart;
   const hasEndIcon = canUseIcon && iconAtEnd;
-  const typeAdjustedForPasswordVisibility = isPassword && isVisible;
+  const isTypeAdjustedForPasswordVisibility = isPassword && isPasswordVisible;
+  const captionProps = showHelperText ? helperTextProps : errorTextProps;
+  const captionText = showHelperText ? helperText : errorText;
 
   return (
     <div className={classNames(styles.root)}>
       <div className={styles.inputLabelContainer}>
-        <label
+        <Label
+          isLabelVisuallyHidden={isLabelVisuallyHidden}
+          inputSize={size}
+          hasError={hasError}
+          emphasizedLabel={emphasizedLabel}
           {...labelProps}
-          className={classNames(
-            styles.label,
-            isLabelVisuallyHidden && styles.labelHidden,
-          )}
         >
-          {getLabelText(
-            emphasizedLabel,
-            hasError,
-            isLabelVisuallyHidden,
-            label,
-            size,
-          )}
-        </label>
+          {label}
+        </Label>
         <div className={styles.inputIconContainer}>
-          {hasStartIcon && getIcon(iconAtStart, true, size, isDisabled)}
+          {hasStartIcon && (
+            <InputIcon
+              alignment="start"
+              inputSize={size}
+              isDisabled={isDisabled}
+              icon={iconAtStart}
+            />
+          )}
           <input
             {...inputProps}
             className={classNames(
@@ -183,7 +186,7 @@ export function TextField(props: TextFieldProps) {
               styles[variationName("inputSize", size)],
             )}
             ref={ref}
-            type={typeAdjustedForPasswordVisibility ? "text" : type}
+            type={isTypeAdjustedForPasswordVisibility ? "text" : type}
             value={value}
             required={isRequired}
             disabled={isDisabled}
@@ -192,40 +195,33 @@ export function TextField(props: TextFieldProps) {
             defaultValue={defaultValue}
           />
           {isPassword ? (
-            <UnstyledButton
-              className={classNames(
-                styles.passwordBtn,
-                hasError && styles.passwordBtnError,
-                styles[variationName("btnSize", size)],
-              )}
-              onPress={() => setIsVisible((prevVisibility) => !prevVisibility)}
+            <PasswordButton
+              hasError={hasError}
+              inputSize={size}
               isDisabled={isDisabled}
-            >
-              <Text visuallyHidden>password visibility</Text>
-              <Icon
-                symbol={isVisible ? VisibilityIcon : VisibilityOffIcon}
-                size={mapIconSize(size)}
-              />
-            </UnstyledButton>
+              isPasswordVisible={isPasswordVisible}
+              toggleVisibility={() =>
+                setIsPasswordVisible((prevVisibility) => !prevVisibility)
+              }
+            />
           ) : (
-            hasEndIcon && getIcon(iconAtEnd, false, size, isDisabled)
+            hasEndIcon && (
+              <InputIcon
+                alignment="end"
+                inputSize={size}
+                isDisabled={isDisabled}
+                icon={iconAtEnd}
+              />
+            )
           )}
         </div>
       </div>
-      {showHelperText && (
-        <div {...helperTextProps} className={styles.caption}>
-          <Text variant="caption" color="gray.resting">
-            {helperText}
-          </Text>
-        </div>
-      )}
-      {showErrorText && (
-        <div {...errorTextProps} className={styles.caption}>
-          <Text variant="caption" color="danger">
-            {errorText}
-          </Text>
-        </div>
-      )}
+      <InputCaption
+        variant={showHelperText ? "helper" : "error"}
+        {...captionProps}
+      >
+        {captionText}
+      </InputCaption>
     </div>
   );
 }
