@@ -240,4 +240,4 @@ Accessibility
 
 ## Dependencies
 
-- `react-aria`— `useTextArea`
+- `react-aria`— `useTextField`
