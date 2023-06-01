@@ -169,3 +169,16 @@ export const PlaceholderBox = ({
     {children}
   </div>
 );
+
+export const InputDecorator: Decorator = (Story) => (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      maxWidth: "425px",
+      gap: "12px",
+    }}
+  >
+    <Story />
+  </div>
+);
