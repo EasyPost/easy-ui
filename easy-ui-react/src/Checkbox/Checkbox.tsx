@@ -1,14 +1,15 @@
+import CheckIcon from "@easypost/easy-ui-icons/Check600";
+import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
+import ErrorIcon from "@easypost/easy-ui-icons/ErrorFill";
 import React, { ReactNode } from "react";
 import { useCheckbox, useFocusRing, VisuallyHidden } from "react-aria";
 import { useToggleState, ValidationState } from "react-stately";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
-import CheckIcon from "@easypost/easy-ui-icons/Check600";
-import ErrorIcon from "@easypost/easy-ui-icons/ErrorFill";
+import { Tooltip } from "../Tooltip";
 import { classNames, variationName } from "../utilities/css";
 
 import styles from "./Checkbox.module.scss";
-import { Tooltip } from "../Tooltip";
 
 export const DEFAULT_SIZE = "md";
 
@@ -124,26 +125,28 @@ export function Checkbox(props: CheckboxProps) {
     : "primary";
 
   return (
-    <label className={className}>
-      <VisuallyHidden>
-        <input {...inputProps} {...focusProps} ref={ref} />
-      </VisuallyHidden>
-      <span className={styles.box}>
-        {(isIndeterminate || isSelected) && (
-          <span className={styles.mark}>
-            {isIndeterminate ? (
-              <IndeterminateIcon size={size === "lg" ? 24 : 16} />
-            ) : (
-              <Icon symbol={CheckIcon} size={size === "lg" ? "md" : "xs"} />
-            )}
-          </span>
-        )}
-      </span>
-      <span className={styles.text}>
-        <Text variant={textVariant} color={textColor}>
-          {children}
-        </Text>
-      </span>
+    <span className={className}>
+      <label className={styles.label}>
+        <VisuallyHidden>
+          <input {...inputProps} {...focusProps} ref={ref} />
+        </VisuallyHidden>
+        <span className={styles.box}>
+          {(isIndeterminate || isSelected) && (
+            <span className={styles.mark}>
+              {isIndeterminate ? (
+                <Icon symbol={RemoveIcon} size={size === "lg" ? "md" : "xs"} />
+              ) : (
+                <Icon symbol={CheckIcon} size={size === "lg" ? "md" : "xs"} />
+              )}
+            </span>
+          )}
+        </span>
+        <span className={styles.text}>
+          <Text variant={textVariant} color={textColor}>
+            {children}
+          </Text>
+        </span>
+      </label>
       {validationState === "invalid" && errorText && (
         <Tooltip content={errorText}>
           <span tabIndex={0} className={styles.errorIcon}>
@@ -151,21 +154,6 @@ export function Checkbox(props: CheckboxProps) {
           </span>
         </Tooltip>
       )}
-    </label>
-  );
-}
-
-function IndeterminateIcon({ size = 16 }: { size?: number }) {
-  return (
-    <svg
-      width={10 * (size / 16)}
-      height={2 * (size / 16)}
-      viewBox="0 0 10 2"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={styles.indeterminateSvg}
-    >
-      <path d="M0 1L10 1" stroke="currentColor" strokeLinejoin="round" />
-    </svg>
+    </span>
   );
 }
