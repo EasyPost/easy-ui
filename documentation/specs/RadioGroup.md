@@ -102,8 +102,8 @@ import { RadioGroup } from "@easypost/easy-ui/RadioGroup";
 function Component() {
   return (
     <RadioGroup label="Favorite pet">
-      <Radio value="dogs">Dogs</Radio>
-      <Radio value="cats">Cats</Radio>
+      <RadioGroup.Item value="dogs">Dogs</RadioGroup.Item>
+      <RadioGroup.Item value="cats">Cats</RadioGroup.Item>
     </RadioGroup>
   );
 }
