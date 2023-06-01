@@ -41,7 +41,7 @@ export type TextAreaProps = AriaTextFieldProps & {
    * The size of the TextArea.
    * @default md
    */
-  size?: TextFieldSize;
+  size?: TextAreaSize;
   /**
    * Visually hides the label, but keeps it accessible.
    * @default false
