@@ -57,6 +57,7 @@
     "color.text.inverse": { "value": "{color.gray.000}" },
     "color.text.engaged": { "value": "{color.gray.900}" },
     "color.text.gray.resting": { "value": "{color.gray.500}" },
+    "color.text.gray.bold": { "value": "{color.gray.800}" },
     "color.text.black.inverse.bold": { "value": "{color.gray.000}" },
     "color.text.black.inverse.subtle": { "value": "{color.blue.800}" },
     "color.text.danger.inverse": { "value": "{color.blue.800}" },

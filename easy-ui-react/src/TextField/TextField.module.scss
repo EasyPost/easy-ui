@@ -23,6 +23,11 @@
   );
   @include component-token(
     "textfield",
+    "color.text.gray.bold",
+    theme-token("color.text.gray.bold")
+  );
+  @include component-token(
+    "textfield",
     "color.text.disabled",
     theme-token("color.text.disabled")
   );
@@ -102,6 +107,10 @@
 
   &:focus {
     box-shadow: component-token("textfield", "box_shadow");
+  }
+
+  &:hover {
+    border-color: component-token("textfield", "color.border.engaged");
   }
 
   &::placeholder {
@@ -187,9 +196,22 @@
     z-index: component-token("textfield", "z-index");
   }
 
+  &:hover {
+    color: component-token("textfield", "color.text.gray.bold");
+  }
+
   &:disabled {
     background-color: component-token("textfield", "color.background.disabled");
   }
+}
+
+.input:hover + .passwordBtn {
+  border-color: component-token("textfield", "color.border.engaged");
+}
+
+.input:active + .passwordBtn,
+.input:focus + .passwordBtn {
+  border-color: component-token("textfield", "color.border.resting");
 }
 
 .passwordBtnError,

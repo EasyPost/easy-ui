@@ -60,27 +60,27 @@ export type TextFieldProps = AriaTextFieldProps & {
    */
   isLabelVisuallyHidden?: boolean;
   /**
-   * Whether the input is disabled
+   * Whether the input is disabled.
    * @default false
    */
   isDisabled?: boolean;
   /**
-   * Whether user input is required on the input before form submission
+   * Whether user input is required on the input before form submission.
    * @default false
    */
   isRequired?: boolean;
   /**
-   * Whether the input should display its "valid" or "invalid" visual styling
+   * Whether the input should display its "valid" or "invalid" visual styling.
    * @default valid
    */
   validationState?: ValidationState;
   /**
-   * Label text displays with emphasis
+   * Label text displays with emphasis.
    * @default false
    */
   emphasizedLabel?: boolean;
   /**
-   * Whether the element should receive focus on render
+   * Whether the element should receive focus on render.
    * @default false
    */
   autoFocus?: boolean;
@@ -90,15 +90,15 @@ export type TextFieldProps = AriaTextFieldProps & {
   errorText?: ReactNode;
   /** Helper text that appears below input */
   helperText?: ReactNode;
-  /** Temporary text that occupies the text input when it is empty */
+  /** Temporary text that occupies the text input when it is empty. */
   placeholder?: string;
   /** The current value (controlled) */
   value?: string;
   /** The default value (uncontrolled) */
   defaultValue?: string;
-  /** Left aligned icon */
+  /** Left aligned icon. */
   iconAtStart?: IconSymbol;
-  /** Right aligned icon */
+  /** Right aligned icon. */
   iconAtEnd?: IconSymbol;
   /** Handler that is called when the value changes. */
   onChange?: (value: C) => void;
