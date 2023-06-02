@@ -89,6 +89,34 @@ export type CheckboxProps = {
   value?: string;
 };
 
+/**
+ * A form element that enables a binary choice.
+ *
+ * @remarks
+ * Use a checkbox when users are required to make a binary choice.
+ *
+ * @example
+ * ```tsx
+ * <Checkbox>Checkbox item</Checkbox>
+ * ```
+ *
+ * @example
+ * _Default value:_
+ * ```tsx
+ * <Checkbox defaultSelected={true}>Checkbox item</Checkbox>
+ * ```
+ *
+ * @example
+ * _Controlled:_
+ * ```tsx
+ * <Checkbox
+ *   isSelected={isSelected}
+ *   onChange={(isSelected) => setIsSelected(isSelected)}
+ * >
+ *   Checkbox item
+ * </Checkbox>
+ * ```
+ */
 export function Checkbox(props: CheckboxProps) {
   const {
     children,
