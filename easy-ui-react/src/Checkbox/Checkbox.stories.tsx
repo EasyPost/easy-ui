@@ -70,13 +70,10 @@ export const Error: Story = {
   },
 };
 
-/**
- * @privateRemarks
- * This is a naive implementation to showcase nesting. Use caution copying
- * this code in a production setting.
- */
 export const Nested: Story = {
   render: () => {
+    // This is a naive implementation to showcase nesting. Use caution copying
+    // any of this code in a production setting.
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [selected, setSelected] = useState<string[]>([]);
     const getArgs = (keys: string[]) => {
