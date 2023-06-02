@@ -164,7 +164,7 @@ export function Checkbox(props: CheckboxProps) {
   }
 
   return (
-    <span className={className}>
+    <span className={className} data-testid="root">
       <label className={styles.label} {...hoverProps}>
         <VisuallyHidden>
           <input {...inputProps} {...focusProps} ref={ref} />
@@ -189,7 +189,7 @@ export function Checkbox(props: CheckboxProps) {
       {validationState === "invalid" && errorText && (
         <Tooltip content={errorText}>
           <span tabIndex={0} className={styles.errorIcon}>
-            <Icon symbol={ErrorIcon} />
+            <Icon symbol={ErrorIcon} accessibilityLabel="Error" />
           </span>
         </Tooltip>
       )}
