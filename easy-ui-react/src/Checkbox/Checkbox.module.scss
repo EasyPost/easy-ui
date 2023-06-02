@@ -120,6 +120,20 @@
   );
 }
 
+.indeterminate.disabled,
+.selected.disabled {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.background.disabled.bolder")
+  );
+  @include component-token(
+    "checkbox",
+    "color.background",
+    theme-token("color.background.disabled.bolder")
+  );
+}
+
 .hovered:not(.disabled):not(.readOnly) {
   @include component-token(
     "checkbox",
@@ -134,5 +148,13 @@
     "checkbox",
     "color.background",
     theme-token("color.background.primary.subtler")
+  );
+}
+
+.invalid.hovered:not(.disabled):not(.readOnly) {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.border.danger.bolder")
   );
 }
