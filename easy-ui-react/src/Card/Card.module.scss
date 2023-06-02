@@ -1,0 +1,76 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.container {
+  @include unstyled.button;
+  @include unstyled.link;
+  border-radius: design-token("shape.border_radius.md");
+  overflow: hidden;
+}
+
+button.container:not([disabled]) {
+  cursor: pointer;
+}
+
+.area {
+  @include responsive-prop("card-area", "padding", padding);
+  background: component-token("card-area", "background");
+}
+
+.variantOutlined,
+.variantFlagged {
+  border: design-token("shape.border_width.1") solid
+    component-token("card", "color.border");
+}
+
+.variantFlagged {
+  border-left-width: 4px;
+}
+
+.variantOutlined {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.bolder")
+  );
+}
+
+.selected {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.selected")
+  );
+}
+
+.disabled {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.disabled")
+  );
+}
+
+.statusDanger {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.danger")
+  );
+}
+
+.statusWarning {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.warning")
+  );
+}
+
+.statusSuccess {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.border.success")
+  );
+}
