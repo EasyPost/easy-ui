@@ -1,0 +1,98 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { Card } from "./Card";
+import * as CardStories from "./Card.stories";
+
+<Meta of={CardStories} />
+
+# Card
+
+Cards are styled containers that group related content.
+
+## Outlined
+
+By default cards are rendered with a border. This is the same as `variant="outlined"`.
+
+<Canvas of={CardStories.Outlined} />
+
+<Controls of={CardStories.Outlined} />
+
+## Solid
+
+Cards can be borderless using `variant="solid"`.
+
+<Canvas of={CardStories.Solid} />
+
+<Controls of={CardStories.Solid} />
+
+## Flagged
+
+Cards can be flagged using `variant="flagged"`. Use the `status` prop to adjust the flag style.
+
+<Canvas of={CardStories.Flagged} />
+
+<Controls of={CardStories.Flagged} />
+
+## Composition
+
+Cards are composable. Use `<Card.Container />` and `<Card.Area />` to create cards with complex content.
+
+`<Card.Container />` is the outer element of a card containing its border.
+
+`<Card.Area />` is the inner element of a card containing its padding and background.
+
+To create a card with two columns, for instance, use `<Card.Container />` and `<Card.Area />`.
+
+<Canvas of={CardStories.Composition} />
+
+## Examples
+
+### Checkbox card
+
+<Canvas of={CardStories.ExampleCheckbox} />
+
+### Radio card
+
+<Canvas of={CardStories.ExampleRadio} />
+
+### Link card
+
+<Canvas of={CardStories.ExampleLink} />
+
+### Button card
+
+<Canvas of={CardStories.ExampleButton} />
+
+### Tile A
+
+<Canvas of={CardStories.ExampleTileA} />
+
+### Tile B
+
+<Canvas of={CardStories.ExampleTileB} />
+
+### Tile C
+
+<Canvas of={CardStories.ExampleTileC} />
+
+### Slat
+
+<Canvas of={CardStories.ExampleSlat} />
+
+### Callout
+
+<Canvas of={CardStories.ExampleCallout} />
+
+## Properties
+
+### Card
+
+<ArgTypes of={Card} />
+
+### Card.Container
+
+<ArgTypes of={Card.Container} />
+
+### Card.Area
+
+<ArgTypes of={Card.Area} />

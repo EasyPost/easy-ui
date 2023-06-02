@@ -1,0 +1,13 @@
+@mixin button {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+@mixin link {
+  text-decoration: none;
+}

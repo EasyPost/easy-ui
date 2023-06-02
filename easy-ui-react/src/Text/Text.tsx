@@ -96,7 +96,7 @@ export function Text({
 }: TextProps) {
   const className = classNames(
     styles.Text,
-    variant && styles[variant],
+    variant && styles[cleanVariant(variant)],
     weight && styles[weight],
     (alignment || truncate) && styles.block,
     alignment && styles[alignment],
@@ -114,4 +114,8 @@ export function Text({
       {children}
     </Component>
   );
+}
+
+function cleanVariant(variant: string) {
+  return variant.replace(/_/, "-");
 }

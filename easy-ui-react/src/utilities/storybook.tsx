@@ -1,6 +1,6 @@
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { Decorator } from "@storybook/react";
-import React from "react";
+import React, { ReactNode } from "react";
 import type { Placement as AriaPlacement } from "react-aria";
 import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
@@ -139,6 +139,36 @@ export const overlayPlacements = [
   "right top",
   "right bottom",
 ] as AriaPlacement[];
+
+type PlaceholderBoxProps = {
+  children?: ReactNode;
+  width?: number | string;
+  height?: number | string;
+};
+
+/**
+ * Renders a placeholder box as a filler for components that need content.
+ */
+export const PlaceholderBox = ({
+  width = 378,
+  height = 224,
+  children = <>Content</>,
+}: PlaceholderBoxProps) => (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width,
+      height,
+      background: tokens["color.gray.100"],
+      borderRadius: 4,
+      padding: 12,
+    }}
+  >
+    {children}
+  </div>
+);
 
 export const InputDecorator: Decorator = (Story) => (
   <div
