@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React from "react";
+import React, { useState } from "react";
 import { VerticalStack } from "../VerticalStack";
 import { Checkbox, CheckboxProps } from "./Checkbox";
 
@@ -70,24 +70,51 @@ export const Error: Story = {
   },
 };
 
+/**
+ * @privateRemarks
+ * This is a naive implementation to showcase nesting. Use caution copying
+ * this code in a production setting.
+ */
 export const Nested: Story = {
-  render: (args) => (
-    <VerticalStack gap="1">
-      <Checkbox {...args} />
-      <div style={{ marginLeft: 24 }}>
-        <VerticalStack gap="1">
-          <Checkbox {...args} isNested />
-          <div style={{ marginLeft: 24 }}>
-            <VerticalStack gap="1">
-              <Checkbox {...args} isNested />
-              <Checkbox {...args} isNested />
-            </VerticalStack>
-          </div>
-          <Checkbox {...args} isNested />
-        </VerticalStack>
-      </div>
-    </VerticalStack>
-  ),
+  render: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [selected, setSelected] = useState<string[]>([]);
+    const getArgs = (keys: string[]) => {
+      const onChange = (isSelected: boolean) => {
+        setSelected((prevSelected) => {
+          return isSelected
+            ? [...prevSelected, ...keys]
+            : prevSelected.filter((s: string) => !keys.includes(s));
+        });
+      };
+      const isSelected = keys.every((k) => selected.includes(k));
+      const isMaybeIndeterminate = keys.some((k) => selected.includes(k));
+      const isIndeterminate = isMaybeIndeterminate && !isSelected;
+      return {
+        children: "Checkbox item",
+        isSelected,
+        isIndeterminate,
+        onChange,
+      };
+    };
+    return (
+      <VerticalStack gap="1">
+        <Checkbox {...getArgs(["1-1-1", "1-1-2", "1-2"])} />
+        <div style={{ marginLeft: 24 }}>
+          <VerticalStack gap="1">
+            <Checkbox {...getArgs(["1-1-1", "1-1-2"])} isNested />
+            <div style={{ marginLeft: 24 }}>
+              <VerticalStack gap="1">
+                <Checkbox {...getArgs(["1-1-1"])} isNested />
+                <Checkbox {...getArgs(["1-1-2"])} isNested />
+              </VerticalStack>
+            </div>
+            <Checkbox {...getArgs(["1-2"])} isNested />
+          </VerticalStack>
+        </div>
+      </VerticalStack>
+    );
+  },
 };
 
 export const Multiline: Story = {
