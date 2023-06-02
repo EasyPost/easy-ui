@@ -15,6 +15,9 @@ const meta: Meta<typeof Checkbox> = {
     isDisabled: false,
     isReadOnly: false,
     isIndeterminate: false,
+    isNested: false,
+    size: "md",
+    validationState: "valid",
   },
   argTypes: {
     children: {
@@ -22,6 +25,11 @@ const meta: Meta<typeof Checkbox> = {
     },
     errorText: {
       control: "text",
+    },
+  },
+  parameters: {
+    controls: {
+      exclude: ["onChange"],
     },
   },
 };
