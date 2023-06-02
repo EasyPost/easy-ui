@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React, { ReactNode } from "react";
+import React from "react";
+import { VerticalStack } from "../VerticalStack";
 import { Checkbox, CheckboxProps } from "./Checkbox";
 
 type Story = StoryObj<typeof Checkbox>;
@@ -61,6 +62,26 @@ export const Error: Story = {
   },
 };
 
+export const Nested: Story = {
+  render: (args) => (
+    <VerticalStack gap="1">
+      <Checkbox {...args} />
+      <div style={{ marginLeft: 24 }}>
+        <VerticalStack gap="1">
+          <Checkbox {...args} isNested />
+          <div style={{ marginLeft: 24 }}>
+            <VerticalStack gap="1">
+              <Checkbox {...args} isNested />
+              <Checkbox {...args} isNested />
+            </VerticalStack>
+          </div>
+          <Checkbox {...args} isNested />
+        </VerticalStack>
+      </div>
+    </VerticalStack>
+  ),
+};
+
 export const Multiline: Story = {
   render: (args) => (
     <span
@@ -81,47 +102,3 @@ export const Multiline: Story = {
       "Multi line option for mobile use. Note how the box is at the top not centered",
   },
 };
-
-export const Nested: Story = {
-  render: (args) => (
-    <Stack>
-      <Checkbox {...args} />
-      <Stack indent>
-        <Checkbox {...args} isNested />
-        <Stack indent>
-          <Checkbox {...args} isNested />
-          <Checkbox {...args} isNested />
-        </Stack>
-        <Checkbox {...args} isNested />
-      </Stack>
-    </Stack>
-  ),
-};
-
-export const Large: Story = {
-  render: Template.bind({}),
-  args: {
-    size: "lg",
-  },
-};
-
-function Stack({
-  indent,
-  children,
-}: {
-  indent?: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <div
-      style={{
-        marginLeft: indent ? 24 : undefined,
-        display: "inline-flex",
-        flexDirection: "column",
-        gap: 8,
-      }}
-    >
-      {children}
-    </div>
-  );
-}

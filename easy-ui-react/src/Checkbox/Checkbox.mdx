@@ -7,6 +7,59 @@ import * as CheckboxStories from "./Checkbox.stories";
 
 # Checkbox
 
-## Default
-
 <Canvas of={CheckboxStories.Default} />
+
+## Selected
+
+A `<Checkbox />` can be selected using `isSelected` (controlled) or `defaultSelected` (uncontrolled).
+
+<Canvas of={CheckboxStories.Selected} />
+
+<Controls of={CheckboxStories.Selected} include={["isSelected"]} />
+
+## Disabled
+
+A `<Checkbox />` can be disabled using `isDisabled`.
+
+<Canvas of={CheckboxStories.Disabled} />
+
+<Controls of={CheckboxStories.Disabled} include={["isDisabled"]} />
+
+## Indeterminate
+
+A `<Checkbox />` can be marked indeterminate using `isIndeterminate`.
+
+<Canvas of={CheckboxStories.Indeterminate} />
+
+<Controls of={CheckboxStories.Indeterminate} include={["isIndeterminate"]} />
+
+## Errors
+
+A `<Checkbox />` can be marked invalid using `validationState="invalid"`.
+
+Use `errorText` to provide an inline error message in a tooltip.
+
+<Canvas of={CheckboxStories.Error} />
+
+<Controls
+  of={CheckboxStories.Error}
+  include={["validationState", "errorText"]}
+/>
+
+## Nesting
+
+A `<Checkbox />` can be nested within a parent list of checkboxes. When nesting, use `isNested` to render styles appropriate for the inner checkboxes.
+
+<Canvas of={CheckboxStories.Nested} />
+
+## Multiline
+
+A `<Checkbox />` label will break into multiple lines on smaller screens. The checkbox will stay aligned to the top of the label.
+
+<Canvas of={CheckboxStories.Multiline} />
+
+<Controls of={CheckboxStories.Multiline} include={["children"]} />
+
+## Properties
+
+<ArgTypes of={Checkbox} />
