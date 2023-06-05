@@ -1,5 +1,35 @@
 @use "../styles/common" as *;
 
 .Toggle {
-  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1.5");
+}
+
+.switch {
+  display: inline-flex;
+  border-radius: 999px;
+  .focusVisible & {
+    @include native-focus-ring;
+  }
+}
+
+.switchRect {
+  fill: design-token("color.gray.100");
+  .selected & {
+    fill: design-token("color.blue.500");
+  }
+  .disabled & {
+    fill: design-token("color.gray.050");
+  }
+}
+
+.switchCircle {
+  fill: design-token("color.blue.800");
+  .selected & {
+    fill: white;
+  }
+  .disabled & {
+    fill: design-token("color.gray.200");
+  }
 }

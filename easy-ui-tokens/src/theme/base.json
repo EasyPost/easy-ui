@@ -56,6 +56,7 @@
     "color.surface.overlay": { "value": "{color.gray.000}" },
     "color.surface.overlay.hovered": { "value": "{color.gray.050}" },
     "color.text": { "value": "{color.blue.800}" },
+    "color.text.primary": { "value": "{color.blue.800}" },
     "color.text.action": { "value": "{color.blue.500}" },
     "color.text.subdued": { "value": "{color.gray.600}" },
     "color.text.danger": { "value": "{color.red.600}" },

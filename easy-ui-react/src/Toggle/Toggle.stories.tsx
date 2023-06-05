@@ -9,6 +9,9 @@ const Template = (args: ToggleProps) => <Toggle {...args} />;
 const meta: Meta<typeof Toggle> = {
   title: "Components/Toggle",
   component: Toggle,
+  args: {
+    children: "Smart rate",
+  },
 };
 
 export default meta;

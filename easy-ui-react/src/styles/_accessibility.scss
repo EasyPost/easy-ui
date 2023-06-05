@@ -15,3 +15,14 @@
   border: 0 !important;
   white-space: nowrap !important;
 }
+
+@mixin native-focus-ring {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: Highlight;
+
+  @media (-webkit-min-device-pixel-ratio: 0) {
+    outline-color: -webkit-focus-ring-color;
+    outline-style: auto;
+  }
+}
