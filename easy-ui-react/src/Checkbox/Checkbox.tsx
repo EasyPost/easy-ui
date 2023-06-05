@@ -188,8 +188,8 @@ export function Checkbox(props: CheckboxProps) {
       </label>
       {validationState === "invalid" && errorText && (
         <Tooltip content={errorText}>
-          <span tabIndex={0} className={styles.errorIcon}>
-            <Icon symbol={ErrorIcon} accessibilityLabel="Error" />
+          <span tabIndex={0} className={styles.errorIcon} aria-label="Error">
+            <Icon symbol={ErrorIcon} />
           </span>
         </Tooltip>
       )}
