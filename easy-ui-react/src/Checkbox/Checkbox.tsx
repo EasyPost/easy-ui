@@ -171,7 +171,7 @@ export function Checkbox(props: CheckboxProps) {
         </VisuallyHidden>
         <span className={styles.box}>
           {(isIndeterminate || isSelected) && (
-            <span className={styles.mark}>
+            <span className={styles.check}>
               {isIndeterminate ? (
                 <Icon symbol={RemoveIcon} size={size === "lg" ? "md" : "xs"} />
               ) : (

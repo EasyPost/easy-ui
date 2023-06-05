@@ -12,7 +12,7 @@
   @include component-token("checkbox", "gap", design-token("space.1"));
   @include component-token(
     "checkbox",
-    "color.mark",
+    "color.check",
     theme-token("color.text.primary.inverse")
   );
   @include component-token("checkbox", "color.background", transparent);
@@ -42,7 +42,7 @@
 }
 
 .box,
-.mark {
+.check {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -62,8 +62,8 @@
   }
 }
 
-.mark {
-  color: component-token("checkbox", "color.mark");
+.check {
+  color: component-token("checkbox", "color.check");
 }
 
 .text {
