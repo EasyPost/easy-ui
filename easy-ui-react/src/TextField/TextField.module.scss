@@ -219,12 +219,6 @@
 .textArea {
   resize: vertical;
   min-height: component-token("textarea", "min-height");
-  overflow-y: scroll;
-}
-
-.textArea::-webkit-scrollbar-thumb {
-  color: red;
-  background-color: red;
 }
 
 .textArea.inputSizeLg {
