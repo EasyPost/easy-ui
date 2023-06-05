@@ -1,30 +1,27 @@
 import React, { ReactNode, useState } from "react";
-import { AriaTextFieldProps, useTextField } from "react-aria";
+import { AriaTextFieldProps } from "react-aria";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { Label } from "./Label";
 import { InputCaption } from "./InputCaption";
 import { PasswordButton } from "./PasswordButton";
 import { InputIcon } from "./InputIcon";
+import { useTextFieldElement } from "./useTextFieldElement";
 import styles from "./TextField.module.scss";
+import { logWarningsForInvalidPropConfiguration } from "./utilities";
 
-export type InputType = "text" | "email" | "password" | "tel" | "search";
-export type InputSize = "sm" | "md" | "lg";
+export type InputVariant = "input" | "textarea";
+export type TextFieldType =
+  | "text"
+  | "email"
+  | "password"
+  | "tel"
+  | "search"
+  | undefined;
+export type TextFieldSize = "sm" | "md" | "lg";
 export type ValidationState = "valid" | "invalid";
 
-export type TextFieldProps = AriaTextFieldProps & {
-  /**
-   * Sets the underlying HTML input type. Setting type to password adds a clickable and
-   * focusable right aligned visibility icon.
-   * @default 'text'
-   */
-  type?: InputType;
-  /**
-   * TextField size affects the overall size of the input, but it also influences the size of
-   * iconAtStart and iconAtEnd.
-   * @default md
-   */
-  size?: InputSize;
+export type BaseInputProps = AriaTextFieldProps & {
   /**
    * Visually hides the label, but keeps it accessible.
    * @default false
@@ -67,6 +64,28 @@ export type TextFieldProps = AriaTextFieldProps & {
   value?: string;
   /** The default value (uncontrolled). */
   defaultValue?: string;
+  /** Specifies the visible height of a text area, in lines. */
+  rows?: number;
+};
+
+export type TextFieldProps = BaseInputProps & {
+  /**
+   * Sets the underlying HTML input type. Setting type to password adds a clickable and
+   * focusable right aligned visibility icon.
+   * @default text
+   */
+  type?: TextFieldType;
+  /**
+   * TextField size affects the overall size of the input, but it also influences the size of
+   * iconAtStart and iconAtEnd.
+   * @default md
+   */
+  size?: TextFieldSize;
+  /**
+   * Sets the underlying HTML element.
+   * @default input
+   */
+  as?: InputVariant;
   /** Left aligned icon on input. */
   iconAtStart?: IconSymbol;
   /** Right aligned icon on input. */
@@ -180,6 +199,7 @@ export type TextFieldProps = AriaTextFieldProps & {
  */
 export function TextField(props: TextFieldProps) {
   const {
+    as: Elem = "input",
     type = "text",
     size = "md",
     isLabelVisuallyHidden = false,
@@ -196,22 +216,23 @@ export function TextField(props: TextFieldProps) {
     defaultValue,
     iconAtStart,
     iconAtEnd,
+    rows,
   } = props;
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const ref = React.useRef(null);
+  const { labelProps, elementProps, helperTextProps, errorTextProps } =
+    useTextFieldElement(props, ref);
 
-  const {
-    labelProps,
-    inputProps,
-    descriptionProps: helperTextProps,
-    errorMessageProps: errorTextProps,
-  } = useTextField(props, ref);
+  const bothIconPropsDefined = !!iconAtEnd && !!iconAtStart;
+  const smallSizeTextArea = size === "sm" && Elem === "textarea";
+  const definedIconsWithTextArea =
+    (!!iconAtEnd || !!iconAtStart) && Elem === "textarea";
 
-  const bothIconPropsDefined = iconAtEnd && iconAtStart;
-  if (bothIconPropsDefined) {
-    // eslint-disable-next-line no-console
-    console.warn("Cannot simultaneously define `iconAtEnd` and `iconAtStart`");
-  }
+  logWarningsForInvalidPropConfiguration(
+    bothIconPropsDefined,
+    smallSizeTextArea,
+    definedIconsWithTextArea,
+  );
 
   const isPassword = type === "password";
   const hasError = validationState === "invalid";
@@ -223,6 +244,23 @@ export function TextField(props: TextFieldProps) {
   const isTypeAdjustedForPasswordVisibility = isPassword && isPasswordVisible;
   const captionProps = showHelperText ? helperTextProps : errorTextProps;
   const captionText = showHelperText ? helperText : errorText;
+
+  const className = classNames(
+    styles.input,
+    Elem === "textarea" && styles.textArea,
+    isPassword && styles.passwordInput,
+    hasError && styles.errorInput,
+    hasStartIcon && styles.iconStartInput,
+    hasEndIcon && styles.iconEndInput,
+    styles[variationName("inputSize", size)],
+  );
+
+  const inputType =
+    Elem === "textarea"
+      ? undefined
+      : isTypeAdjustedForPasswordVisibility
+      ? "text"
+      : type;
 
   return (
     <div className={classNames(styles.root)}>
@@ -245,24 +283,18 @@ export function TextField(props: TextFieldProps) {
               icon={iconAtStart}
             />
           )}
-          <input
-            {...inputProps}
-            className={classNames(
-              styles.input,
-              isPassword && styles.passwordInput,
-              hasError && styles.errorInput,
-              hasStartIcon && styles.iconStartInput,
-              hasEndIcon && styles.iconEndInput,
-              styles[variationName("inputSize", size)],
-            )}
+          <Elem
+            {...elementProps}
+            className={className}
             ref={ref}
-            type={isTypeAdjustedForPasswordVisibility ? "text" : type}
+            type={inputType}
             value={value}
             required={isRequired}
             disabled={isDisabled}
             placeholder={placeholder}
             autoFocus={autoFocus}
             defaultValue={defaultValue}
+            rows={Elem === "textarea" ? rows : undefined}
           />
           {isPassword ? (
             <PasswordButton

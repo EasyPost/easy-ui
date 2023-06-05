@@ -1,6 +1,8 @@
 @use "../styles/common" as *;
 
 .root {
+  @include component-token("textarea", "min-height", 48px);
+  @include component-token("textarea", "min-height-lg", 56px);
   @include component-token(
     "textfield",
     "border_radius",
@@ -212,6 +214,21 @@
 .input:active + .passwordBtn,
 .input:focus + .passwordBtn {
   border-color: component-token("textfield", "color.border.resting");
+}
+
+.textArea {
+  resize: vertical;
+  min-height: component-token("textarea", "min-height");
+  overflow-y: scroll;
+}
+
+.textArea::-webkit-scrollbar-thumb {
+  color: red;
+  background-color: red;
+}
+
+.textArea.inputSizeLg {
+  min-height: component-token("textarea", "min-height-lg");
 }
 
 .passwordBtnError,

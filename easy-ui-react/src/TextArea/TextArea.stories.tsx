@@ -1,23 +1,18 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import SearchIcon from "@easypost/easy-ui-icons/Search";
-import {
-  createLabelledOptionsControl,
-  InputDecorator,
-} from "../utilities/storybook";
+import { InputDecorator } from "../utilities/storybook";
+import { TextArea, TextAreaProps } from "./TextArea";
 
-import { TextField, TextFieldProps } from "./TextField";
+type Story = StoryObj<typeof TextArea>;
 
-type Story = StoryObj<typeof TextField>;
+const Template = (args: TextAreaProps) => <TextArea {...args} />;
 
-const Template = (args: TextFieldProps) => <TextField {...args} />;
-
-const meta: Meta<typeof TextField> = {
-  title: "Components/TextField",
-  component: TextField,
+const meta: Meta<typeof TextArea> = {
+  title: "Components/TextArea",
+  component: TextArea,
   parameters: {
     controls: {
-      exclude: ["as", "rows"],
+      exclude: ["as"],
     },
   },
 };
@@ -27,7 +22,6 @@ export default meta;
 export const Standard: Story = {
   render: Template.bind({}),
   args: {
-    as: "textarea",
     label: "Label",
     placeholder: "Placeholder text",
     helperText: "Optional helper text",
@@ -35,81 +29,25 @@ export const Standard: Story = {
   decorators: [InputDecorator],
 };
 
-export const Password: Story = {
-  render: Template.bind({}),
-  args: {
-    type: "password",
-    label: "Password",
-    placeholder: "Placeholder text",
-    helperText: "Optional helper text",
-  },
-  decorators: [InputDecorator],
-};
-
-export const Icon: Story = {
+export const CustomRowHeight: Story = {
   render: Template.bind({}),
   args: {
     label: "Label",
     placeholder: "Placeholder text",
     helperText: "Optional helper text",
-    iconAtStart: SearchIcon,
+    rows: 3,
   },
   decorators: [InputDecorator],
 };
 
-export const SmallTextFields: Story = {
-  render: () => (
-    <>
-      <TextField
-        size="sm"
-        label="Label"
-        placeholder="Placeholder text"
-        helperText="Optional helper text"
-      />
-      <TextField
-        type="password"
-        size="sm"
-        label="Password"
-        placeholder="Placeholder text"
-        helperText="Optional helper text"
-      />
-      <TextField
-        size="sm"
-        label="Label"
-        placeholder="Placeholder text"
-        iconAtStart={SearchIcon}
-        helperText="Optional helper text"
-      />
-    </>
-  ),
-  decorators: [InputDecorator],
-};
-
-export const LargeTextFields: Story = {
-  render: () => (
-    <>
-      <TextField
-        size="lg"
-        label="Label"
-        placeholder="Placeholder text"
-        helperText="Optional helper text"
-      />
-      <TextField
-        type="password"
-        size="lg"
-        label="Password"
-        placeholder="Placeholder text"
-        helperText="Optional helper text"
-      />
-      <TextField
-        size="lg"
-        label="Label"
-        placeholder="Placeholder text"
-        iconAtStart={SearchIcon}
-        helperText="Optional helper text"
-      />
-    </>
-  ),
+export const LargeTextArea: Story = {
+  render: Template.bind({}),
+  args: {
+    size: "lg",
+    label: "Label",
+    placeholder: "Placeholder text",
+    helperText: "Optional helper text",
+  },
   decorators: [InputDecorator],
 };
 
@@ -145,20 +83,6 @@ export const VisuallyHiddenLabel: Story = {
 export const Controls: Story = {
   render: Template.bind({}),
   argTypes: {
-    type: {
-      options: ["text", "email", "password", "tel", "search"],
-      control: { type: "radio" },
-      description:
-        "Sets the underlying HTML input type. Setting type to password adds a clickable and focusable right aligned visibility icon.",
-    },
-    iconAtStart: createLabelledOptionsControl({
-      remove: undefined,
-      Search: SearchIcon,
-    }),
-    iconAtEnd: createLabelledOptionsControl({
-      remove: undefined,
-      SearchIcon: SearchIcon,
-    }),
     isDisabled: {
       control: "boolean",
       description: "Whether the input is disabled.",
@@ -199,7 +123,6 @@ export const Controls: Story = {
     },
   },
   args: {
-    type: "text",
     size: "md",
     label: "Label",
     isLabelVisuallyHidden: false,
