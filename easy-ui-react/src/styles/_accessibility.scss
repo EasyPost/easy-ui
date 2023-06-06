@@ -16,6 +16,25 @@
   white-space: nowrap !important;
 }
 
+/// Used to overlay a hidden input on top of a custom-styled control so that
+/// the input will receive user events while only showing the custom control.
+@mixin overlay-input {
+  position: relative;
+  z-index: 0;
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    z-index: 1;
+  }
+}
+
 @mixin native-focus-ring {
   outline-width: 2px;
   outline-style: solid;

@@ -30,8 +30,6 @@ export function Switch(props: SwitchProps) {
     isSelected && styles.selected,
   );
 
-  console.log("is focus visible", isFocusVisible);
-
   return (
     <span className={className}>
       <svg width={32} height={16} aria-hidden="true">
