@@ -1,0 +1,160 @@
+@use "../styles/common" as *;
+
+.Checkbox {
+  @include component-token("checkbox", "size", 16px);
+  @include component-token("checkbox", "box-margin-top", 4px);
+  @include component-token("checkbox", "text-margin-ver", 0);
+  @include component-token(
+    "checkbox",
+    "border-radius",
+    design-token("shape.border_radius.sm")
+  );
+  @include component-token("checkbox", "gap", design-token("space.1"));
+  @include component-token(
+    "checkbox",
+    "color.check",
+    theme-token("color.text.primary.inverse")
+  );
+  @include component-token("checkbox", "color.background", transparent);
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.border.boldest")
+  );
+  @include component-token(
+    "checkbox",
+    "color.error-icon",
+    theme-token("color.text.danger")
+  );
+}
+
+.Checkbox,
+.label {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: component-token("checkbox", "gap");
+}
+
+.box,
+.errorIcon {
+  flex: 0 0 auto;
+}
+
+.box,
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: component-token("checkbox", "size");
+  height: component-token("checkbox", "size");
+}
+
+.box {
+  background: component-token("checkbox", "color.background");
+  border: design-token("shape.border_width.1") solid
+    component-token("checkbox", "color.border");
+  border-radius: component-token("checkbox", "border-radius");
+  margin-top: component-token("checkbox", "box-margin-top");
+
+  .focusVisible & {
+    @include native-focus-ring;
+  }
+}
+
+.check {
+  color: component-token("checkbox", "color.check");
+}
+
+.text {
+  display: inline-flex;
+  margin: component-token("checkbox", "text-margin-ver") 0;
+}
+
+.errorIcon {
+  display: inline-flex;
+  color: component-token("checkbox", "color.error-icon");
+}
+
+.indeterminateSvg {
+  position: absolute;
+}
+
+.nested {
+  @include component-token("checkbox", "text-margin-ver", 4px);
+}
+
+.sizeLg {
+  @include component-token("checkbox", "size", 24px);
+  @include component-token("checkbox", "box-margin-top", 0);
+  @include component-token("checkbox", "gap", design-token("space.1.5"));
+}
+
+.invalid {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.border.danger")
+  );
+}
+
+.disabled {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.border.disabled.subtler")
+  );
+}
+
+.indeterminate,
+.selected {
+  @include component-token(
+    "checkbox",
+    "color.background",
+    theme-token("color.background.primary")
+  );
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.background.primary")
+  );
+}
+
+.indeterminate.disabled,
+.selected.disabled {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.background.disabled.bolder")
+  );
+  @include component-token(
+    "checkbox",
+    "color.background",
+    theme-token("color.background.disabled.bolder")
+  );
+}
+
+.hovered:not(.disabled):not(.readOnly) {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.background.primary.subtler")
+  );
+}
+
+.indeterminate.hovered:not(.disabled):not(.readOnly),
+.selected.hovered:not(.disabled):not(.readOnly) {
+  @include component-token(
+    "checkbox",
+    "color.background",
+    theme-token("color.background.primary.subtler")
+  );
+}
+
+.invalid.hovered:not(.disabled):not(.readOnly) {
+  @include component-token(
+    "checkbox",
+    "color.border",
+    theme-token("color.border.danger.bolder")
+  );
+}
