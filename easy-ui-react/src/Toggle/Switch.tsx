@@ -25,6 +25,9 @@ export type SwitchProps = {
   isSelected?: boolean;
 };
 
+/**
+ * A custom-styled control for displaying an "on/off" state.
+ */
 export function Switch(props: SwitchProps) {
   const { isDisabled, isFocusVisible, isHovered, isSelected } = props;
 

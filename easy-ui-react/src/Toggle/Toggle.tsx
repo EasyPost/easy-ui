@@ -57,6 +57,40 @@ export type ToggleProps = AriaLabelingProps & {
   value?: string;
 };
 
+/**
+ * An interactive binary control.
+ *
+ * @remarks
+ * Use a Toggle when an "on/off" or "yes/no" input is needed.
+ *
+ * @example
+ * ```tsx
+ * <Toggle>Toggle item</Toggle>
+ * ```
+ *
+ * @example
+ * _Default value:_
+ * ```tsx
+ * <Toggle defaultSelected={true}>Toggle item</Toggle>
+ * ```
+ *
+ * @example
+ * _Controlled:_
+ * ```tsx
+ * <Toggle
+ *   isSelected={isSelected}
+ *   onChange={(isSelected) => setIsSelected(isSelected)}
+ * >
+ *   Toggle item
+ * </Toggle>
+ * ```
+ *
+ * @example
+ * _Disabled:_
+ * ```tsx
+ * <Toggle isDisabled>Toggle item</Toggle>
+ * ```
+ */
 export function Toggle(props: ToggleProps) {
   const { children, isDisabled } = props;
 
