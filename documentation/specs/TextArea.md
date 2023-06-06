@@ -34,62 +34,66 @@ The `TextArea` component allows users to input text on multiple lines.
 import type { AriaTextFieldProps } from "react-aria";
 
 export type TextAreaSize = "md" | "lg";
-export type ValidationState = "valid" | "invalid";
 
-export type TextAreaProps = AriaTextFieldProps & {
-  /**
-   * The size of the TextArea.
-   * @default md
-   */
-  size?: TextAreaSize;
+export type BaseInputProps = AriaTextFieldProps & {
   /**
    * Visually hides the label, but keeps it accessible.
    * @default false
    */
   isLabelVisuallyHidden?: boolean;
   /**
-   * Whether the input is disabled
+   * Whether the input is disabled.
    * @default false
    */
   isDisabled?: boolean;
   /**
-   * Whether user input is required on the input before form submission
+   * Whether user input is required on the input before form submission.
    * @default false
    */
   isRequired?: boolean;
   /**
-   * Whether the input should display its "valid" or "invalid" visual styling
+   * Whether the input should display its "valid" or "invalid" visual styling.
    * @default valid
    */
   validationState?: ValidationState;
   /**
-   * Label text displays with emphasis
+   * Label text displays with emphasis.
    * @default false
    */
   emphasizedLabel?: boolean;
   /**
-   * Whether the element should receive focus on render
+   * Whether the element should receive focus on render.
    * @default false
    */
   autoFocus?: boolean;
-  /** The content to display as the label */
+  /** The content to display as the label. */
   label: ReactNode;
-  /** Error text that appears below input */
+  /** Error text that appears below input. */
   errorText?: ReactNode;
-  /** Helper text that appears below input */
+  /** Helper text that appears below input. */
   helperText?: ReactNode;
-  /** Temporary text that occupies the text input when it is empty */
+  /** Temporary text that occupies the text input when it is empty. */
   placeholder?: string;
-  /** The current value (controlled) */
+  /** The current value (controlled). */
   value?: string;
-  /** The default value (uncontrolled) */
+  /** The default value (uncontrolled). */
   defaultValue?: string;
+  /** Specifies the visible height of a text area, in lines. */
+  rows?: number;
+};
+
+export type TextAreaProps = BaseInputProps & {
+  /**
+   * The size of the TextArea.
+   * @default md
+   */
+  size?: TextAreaSize;
 };
 ```
 
 ### Anatomy
 
-The bulk of the `TextArea` component behavior will be handled by React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text area field. The `TextArea` component relies on the following Easy UI utility components: `Label` and `InputCaption`.
+The `TextField` component was extended to accommodate the needs of the `TextArea` component. Behind the scenes, the bulk of the `TextField` component's behavior and accessibility is handled by React Aria's `useTextField` hook.
 
 ```tsx
 export function TextArea(props: TextAreaProps) {
@@ -107,53 +111,26 @@ export function TextArea(props: TextAreaProps) {
     placeholder,
     value,
     defaultValue,
+    rows = 1,
   } = props;
-
-  const ref = React.useRef(null);
-
-  const {
-    labelProps,
-    inputProps,
-    descriptionProps: helperTextProps,
-    errorMessageProps: errorTextProps,
-  } = useTextField({ ...props, inputElementType: "textarea" }, ref);
-
-  const hasError = validationState === "invalid";
-  const showErrorText = hasError && errorText;
-  const showHelperText = !showErrorText && helperText;
-  const captionProps = showHelperText ? helperTextProps : errorTextProps;
-  const captionText = showHelperText ? helperText : errorText;
-
   return (
-    <div>
-      <div>
-        <Label
-          isLabelVisuallyHidden={isLabelVisuallyHidden}
-          inputSize={size}
-          hasError={hasError}
-          emphasizedLabel={emphasizedLabel}
-          {...labelProps}
-        >
-          {label}
-        </Label>
-        <textarea
-          {...inputProps}
-          ref={ref}
-          value={value}
-          required={isRequired}
-          disabled={isDisabled}
-          placeholder={placeholder}
-          autoFocus={autoFocus}
-          defaultValue={defaultValue}
-        />
-      </div>
-      <InputCaption
-        variant={showHelperText ? "helper" : "error"}
-        {...captionProps}
-      >
-        {captionText}
-      </InputCaption>
-    </div>
+    <TextField
+      isMultiline
+      size={size}
+      isLabelVisuallyHidden={isLabelVisuallyHidden}
+      isDisabled={isDisabled}
+      isRequired={isRequired}
+      validationState={validationState}
+      emphasizedLabel={emphasizedLabel}
+      autoFocus={autoFocus}
+      label={label}
+      errorText={errorText}
+      helperText={helperText}
+      placeholder={placeholder}
+      value={value}
+      defaultValue={defaultValue}
+      rows={rows}
+    />
   );
 }
 ```
