@@ -6,6 +6,28 @@
   gap: design-token("space.1.5");
 }
 
+.standalone {
+  position: relative;
+  z-index: 0;
+  gap: normal;
+}
+
+.text {
+  display: inline-flex;
+}
+
+.input {
+  display: inline-flex;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 1;
+}
+
 .switch {
   display: inline-flex;
   border-radius: 999px;
@@ -14,7 +36,7 @@
   }
 }
 
-.switchRect {
+.track {
   fill: design-token("color.gray.100");
   .selected & {
     fill: design-token("color.blue.500");
@@ -24,10 +46,10 @@
   }
 }
 
-.switchCircle {
+.thumb {
   fill: design-token("color.blue.800");
   .selected & {
-    fill: white;
+    fill: design-token("color.white");
   }
   .disabled & {
     fill: design-token("color.gray.200");

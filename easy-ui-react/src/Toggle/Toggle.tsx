@@ -1,18 +1,20 @@
+import { AriaLabelingProps } from "@react-types/shared";
 import React, { ReactNode } from "react";
 import {
+  VisuallyHidden,
   mergeProps,
   useFocusRing,
   useHover,
   useSwitch,
-  VisuallyHidden,
 } from "react-aria";
 import { useToggleState } from "react-stately";
 import { Text } from "../Text";
+import { Noop } from "../utilities/Noop";
 import { classNames } from "../utilities/css";
 
 import styles from "./Toggle.module.scss";
 
-export type ToggleProps = {
+export type ToggleProps = AriaLabelingProps & {
   /**
    * The label for the toggle.
    */
@@ -59,7 +61,7 @@ export function Toggle(props: ToggleProps) {
 
   const ref = React.useRef(null);
   const state = useToggleState(props);
-  const { inputProps } = useSwitch(props, state, ref);
+  const { inputProps: inputPropsFromSwitch } = useSwitch(props, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
   const { isHovered, hoverProps } = useHover(props);
   const isSelected = state.isSelected;
@@ -71,25 +73,26 @@ export function Toggle(props: ToggleProps) {
     isReadOnly && styles.readOnly,
     isFocusVisible && styles.focusVisible,
     isHovered && styles.hovered,
+    !children && styles.standalone,
   );
 
   const textColor = isDisabled ? "disabled" : "primary";
-
-  const LabelComponent = children ? "label" : "span";
-  const labelProps = children ? hoverProps : {};
-  const additionalInputProps = children
-    ? focusProps
-    : mergeProps(focusProps, hoverProps);
+  const RootComponent = children ? "label" : "span";
+  const rootProps = children ? hoverProps : {};
+  const InputWrapperComponent = children ? VisuallyHidden : Noop;
+  const inputProps = children
+    ? mergeProps(inputPropsFromSwitch, focusProps)
+    : mergeProps(inputPropsFromSwitch, focusProps, hoverProps);
 
   return (
-    <LabelComponent className={className} {...labelProps}>
-      <VisuallyHidden>
-        <input {...mergeProps(inputProps, additionalInputProps)} ref={ref} />
-      </VisuallyHidden>
+    <RootComponent {...rootProps} className={className}>
+      <InputWrapperComponent>
+        <input {...inputProps} className={styles.input} ref={ref} />
+      </InputWrapperComponent>
       <span className={styles.switch}>
         <svg width={32} height={16} aria-hidden="true">
           <rect
-            className={styles.switchRect}
+            className={styles.track}
             x={0}
             y={0}
             width={32}
@@ -97,7 +100,7 @@ export function Toggle(props: ToggleProps) {
             rx={8}
           />
           <circle
-            className={styles.switchCircle}
+            className={styles.thumb}
             cx={isSelected ? 32 - 8 : 8}
             cy={8}
             r={6}
@@ -111,6 +114,6 @@ export function Toggle(props: ToggleProps) {
           </Text>
         </span>
       )}
-    </LabelComponent>
+    </RootComponent>
   );
 }

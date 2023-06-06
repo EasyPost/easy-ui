@@ -7,4 +7,34 @@ import * as ToggleStories from "./Toggle.stories";
 
 # Toggle
 
-<Canvas of={ToggleStories.SimpleText} />
+A Toggle is an interactive binary control. Use a Toggle when an "on/off" or "yes/no" input is needed.
+
+<Canvas of={ToggleStories.Default} />
+
+## Selected
+
+A `<Toggle />` can be selected using `isSelected` (controlled) or `defaultSelected` (uncontrolled).
+
+<Canvas of={ToggleStories.Selected} />
+
+<Controls of={ToggleStories.Selected} include={["isSelected"]} />
+
+## Disabled
+
+A `<Toggle />` can be disabled using `isDisabled`.
+
+<Canvas of={ToggleStories.Disabled} />
+
+<Controls of={ToggleStories.Disabled} include={["isDisabled", "isSelected"]} />
+
+## Standalone
+
+In most cases, a `<Toggle />` should have a visual label.
+
+If the switch does not have a visible label, an `aria-label` or `aria-labelledby` prop must be passed instead to identify the element to assistive technology.
+
+<Canvas of={ToggleStories.Standalone} />
+
+## Properties
+
+<ArgTypes of={Toggle} />
