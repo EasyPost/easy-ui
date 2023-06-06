@@ -4,7 +4,7 @@ import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import styles from "./TextField.module.scss";
 import { mapIconSize } from "./utilities";
-import { InputSize } from "./TextField";
+import { TextFieldSize } from "./TextField";
 
 export type InputIconAlignment = "start" | "end";
 
@@ -18,7 +18,7 @@ export type InputIconProps = {
    * Size of associated input.
    * @default 'md'
    */
-  inputSize?: InputSize;
+  inputSize?: TextFieldSize;
   /**
    * Apply disabled styles to icon.
    * @default 'false

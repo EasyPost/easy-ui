@@ -3,7 +3,7 @@ import VisibilityIcon from "@easypost/easy-ui-icons/Visibility";
 import VisibilityOffIcon from "@easypost/easy-ui-icons/VisibilityOff";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
-import { InputSize } from "./TextField";
+import { TextFieldSize } from "./TextField";
 import { classNames, variationName } from "../utilities/css";
 import { UnstyledButton } from "../UnstyledButton";
 import { mapIconSize } from "./utilities";
@@ -21,7 +21,7 @@ export type PasswordButtonProps = {
    * Size of associated input.
    * @default 'md'
    */
-  inputSize?: InputSize;
+  inputSize?: TextFieldSize;
   /**
    * Whether the button is disabled.
    * @default false

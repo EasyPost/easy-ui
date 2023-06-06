@@ -10,7 +10,6 @@ import { useTextFieldElement } from "./useTextFieldElement";
 import styles from "./TextField.module.scss";
 import { logWarningsForInvalidPropConfiguration } from "./utilities";
 
-export type InputVariant = "input" | "textarea";
 export type TextFieldType =
   | "text"
   | "email"
@@ -82,10 +81,10 @@ export type TextFieldProps = BaseInputProps & {
    */
   size?: TextFieldSize;
   /**
-   * Sets the underlying HTML element.
-   * @default input
+   * Sets underlying HTML element to textarea.
+   * @default false
    */
-  as?: InputVariant;
+  isMultiline?: boolean;
   /** Left aligned icon on input. */
   iconAtStart?: IconSymbol;
   /** Right aligned icon on input. */
@@ -199,7 +198,7 @@ export type TextFieldProps = BaseInputProps & {
  */
 export function TextField(props: TextFieldProps) {
   const {
-    as: Elem = "input",
+    isMultiline = false,
     type = "text",
     size = "md",
     isLabelVisuallyHidden = false,
@@ -223,6 +222,8 @@ export function TextField(props: TextFieldProps) {
   const { labelProps, elementProps, helperTextProps, errorTextProps } =
     useTextFieldElement(props, ref);
 
+  const Elem = isMultiline ? "textarea" : "input";
+
   const bothIconPropsDefined = !!iconAtEnd && !!iconAtStart;
   const smallSizeTextArea = size === "sm" && Elem === "textarea";
   const definedIconsWithTextArea =
@@ -238,7 +239,8 @@ export function TextField(props: TextFieldProps) {
   const hasError = validationState === "invalid";
   const showErrorText = hasError && errorText;
   const showHelperText = !showErrorText && helperText;
-  const canUseIcon = !bothIconPropsDefined && !isPassword;
+  const canUseIcon =
+    !bothIconPropsDefined && !isPassword && !definedIconsWithTextArea;
   const hasStartIcon = canUseIcon && iconAtStart;
   const hasEndIcon = canUseIcon && iconAtEnd;
   const isTypeAdjustedForPasswordVisibility = isPassword && isPasswordVisible;

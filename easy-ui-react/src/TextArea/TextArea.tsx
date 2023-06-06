@@ -31,7 +31,7 @@ export function TextArea(props: TextAreaProps) {
   } = props;
   return (
     <TextField
-      as="textarea"
+      isMultiline
       size={size}
       isLabelVisuallyHidden={isLabelVisuallyHidden}
       isDisabled={isDisabled}

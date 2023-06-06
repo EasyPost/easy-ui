@@ -27,7 +27,6 @@ export default meta;
 export const Standard: Story = {
   render: Template.bind({}),
   args: {
-    as: "textarea",
     label: "Label",
     placeholder: "Placeholder text",
     helperText: "Optional helper text",

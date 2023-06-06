@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Text } from "../Text";
-import { InputSize } from "./TextField";
+import { TextFieldSize } from "./TextField";
 import styles from "./TextField.module.scss";
 import { classNames } from "../utilities/css";
 
@@ -19,7 +19,7 @@ export type LabelProps = {
    * Size of associated input.
    * @default 'md'
    */
-  inputSize?: InputSize;
+  inputSize?: TextFieldSize;
   /**
    * Label text displays with error styles.
    * @default false

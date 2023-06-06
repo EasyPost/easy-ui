@@ -6,7 +6,7 @@ export function useTextFieldElement(
   props: TextFieldProps,
   ref: MutableRefObject<null>,
 ) {
-  const { as: Elem } = props;
+  const { isMultiline } = props;
   const {
     labelProps: labelPropsTextArea,
     inputProps: inputPropsTextArea,
@@ -26,7 +26,7 @@ export function useTextFieldElement(
   let helperTextProps = {};
   let errorTextProps = {};
 
-  if (Elem === "textarea") {
+  if (isMultiline) {
     labelProps = labelPropsTextArea;
     elementProps = inputPropsTextArea;
     helperTextProps = helperTextPropsTextArea;
