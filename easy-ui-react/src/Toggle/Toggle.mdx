@@ -35,6 +35,11 @@ If the `<Toggle />` does not have a visible label, an `aria-label` or `aria-labe
 
 <Canvas of={ToggleStories.Standalone} />
 
+<Controls
+  of={ToggleStories.Standalone}
+  include={["isDisabled", "isSelected"]}
+/>
+
 ## Properties
 
 <ArgTypes of={Toggle} />
