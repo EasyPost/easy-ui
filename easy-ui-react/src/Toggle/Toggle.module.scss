@@ -1,15 +1,26 @@
 @use "../styles/common" as *;
 
 .Toggle {
+  @include component-token(
+    "toggle",
+    "color.track",
+    theme-token("color.background.gray")
+  );
+  @include component-token(
+    "toggle",
+    "color.thumb",
+    theme-token("color.text.primary")
+  );
+
   display: inline-flex;
   align-items: center;
   gap: design-token("space.1.5");
 }
 
 .standalone {
+  gap: normal;
   position: relative;
   z-index: 0;
-  gap: normal;
 }
 
 .text {
@@ -18,6 +29,7 @@
 
 .input {
   display: inline-flex;
+  padding: 0;
   margin: 0;
   position: absolute;
   top: 0;
@@ -30,28 +42,42 @@
 
 .switch {
   display: inline-flex;
-  border-radius: 999px;
+  border-radius: 99px;
   .focusVisible & {
     @include native-focus-ring;
   }
 }
 
 .track {
-  fill: design-token("color.gray.100");
-  .selected & {
-    fill: design-token("color.blue.500");
-  }
-  .disabled & {
-    fill: design-token("color.gray.050");
-  }
+  fill: component-token("toggle", "color.track");
 }
 
 .thumb {
-  fill: design-token("color.blue.800");
-  .selected & {
-    fill: design-token("color.white");
-  }
-  .disabled & {
-    fill: design-token("color.gray.200");
-  }
+  fill: component-token("toggle", "color.thumb");
+}
+
+.selected {
+  @include component-token(
+    "toggle",
+    "color.track",
+    theme-token("color.background.primary")
+  );
+  @include component-token(
+    "toggle",
+    "color.thumb",
+    theme-token("color.text.primary.inverse.bold")
+  );
+}
+
+.disabled {
+  @include component-token(
+    "toggle",
+    "color.track",
+    theme-token("color.background.disabled.subtler")
+  );
+  @include component-token(
+    "toggle",
+    "color.thumb",
+    theme-token("color.text.disabled")
+  );
 }
