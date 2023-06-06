@@ -72,4 +72,10 @@ describe("<TextField />", () => {
       screen.getByLabelText("label", { selector: "input" }),
     ).toHaveAttribute("class", expect.stringContaining("inputSizeSm"));
   });
+
+  it("should render a textfield with an emphasized label", () => {
+    render(<TextField label="label" emphasizedLabel />);
+    expect(screen.getByText("label")).toBeInTheDocument();
+    expect(screen.getByText("label").tagName).toBe("STRONG");
+  });
 });
