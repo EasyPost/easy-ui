@@ -40,7 +40,7 @@ describe("<TextArea />", () => {
     expect(screen.getByText("Optional error text")).toBeInTheDocument();
   });
 
-  it("should render a textarea with an emphasized label", () => {
+  it("should render a textarea that displays a label with emphasis", () => {
     render(<TextArea label="label" emphasizedLabel />);
     expect(screen.getByText("label")).toBeInTheDocument();
     expect(screen.getByText("label").tagName).toBe("STRONG");
