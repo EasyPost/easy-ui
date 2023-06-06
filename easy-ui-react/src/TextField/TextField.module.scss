@@ -1,8 +1,8 @@
 @use "../styles/common" as *;
 
 .root {
-  @include component-token("textarea", "min-height", 48px);
-  @include component-token("textarea", "min-height-lg", 56px);
+  @include component-token("textfield", "min-height-textarea", 48px);
+  @include component-token("textfield", "min-height-textarea-lg", 56px);
   @include component-token(
     "textfield",
     "border_radius",
@@ -218,11 +218,11 @@
 
 .textArea {
   resize: vertical;
-  min-height: component-token("textarea", "min-height");
+  min-height: component-token("textfield", "min-height-textarea");
 }
 
 .textArea.inputSizeLg {
-  min-height: component-token("textarea", "min-height-lg");
+  min-height: component-token("textfield", "min-height-textarea-lg");
 }
 
 .passwordBtnError,
