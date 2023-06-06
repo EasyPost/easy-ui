@@ -91,7 +91,7 @@ describe("<Tooltip />", () => {
 // TODO: Look into why hover() and tab() has to be wrapped in act() since this
 //       shouldn't be necessary. Perhaps something being done in Aria
 
-async function hoverOverTooltipTrigger(
+export async function hoverOverTooltipTrigger(
   user: UserEvent,
   el: HTMLElement,
   { runTimers = true } = {},
