@@ -15,18 +15,24 @@ export type SwitchProps = {
   isFocusVisible?: boolean;
 
   /**
+   * Whether the switch should be hovered.
+   */
+  isHovered?: boolean;
+
+  /**
    * Whether the switch should be selected.
    */
   isSelected?: boolean;
 };
 
 export function Switch(props: SwitchProps) {
-  const { isDisabled, isFocusVisible, isSelected } = props;
+  const { isDisabled, isFocusVisible, isHovered, isSelected } = props;
 
   const className = classNames(
     styles.Switch,
     isDisabled && styles.disabled,
     isFocusVisible && styles.focusVisible,
+    isHovered && styles.hovered,
     isSelected && styles.selected,
   );
 

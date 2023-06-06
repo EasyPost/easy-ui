@@ -64,7 +64,7 @@ export function Toggle(props: ToggleProps) {
   const state = useToggleState(props);
   const { inputProps: inputPropsFromSwitch } = useSwitch(props, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
-  const { hoverProps } = useHover(props);
+  const { isHovered, hoverProps } = useHover(props);
   const isSelected = state.isSelected;
 
   const className = classNames(styles.Toggle, !children && styles.standalone);
@@ -83,9 +83,10 @@ export function Toggle(props: ToggleProps) {
         <input {...inputProps} className={styles.input} ref={ref} />
       </InputWrapperComponent>
       <Switch
-        isSelected={isSelected}
         isDisabled={isDisabled}
         isFocusVisible={isFocusVisible}
+        isHovered={isHovered}
+        isSelected={isSelected}
       />
       {children && (
         <span className={styles.text}>

@@ -28,6 +28,14 @@
   fill: component-token("switch", "color.thumb");
 }
 
+.hovered:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.gray.hovered")
+  );
+}
+
 .selected {
   @include component-token(
     "switch",
@@ -38,6 +46,14 @@
     "switch",
     "color.thumb",
     theme-token("color.text.primary.inverse.bold")
+  );
+}
+
+.selected.hovered:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.primary.hovered")
   );
 }
 
