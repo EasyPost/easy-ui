@@ -5,7 +5,7 @@ import { classNames, variationName } from "../utilities/css";
 import { Label } from "./Label";
 import { InputCaption } from "./InputCaption";
 import { PasswordButton } from "./PasswordButton";
-import { InputIcon } from "./InputIcon";
+import { TextFieldIcon } from "./TextFieldIcon";
 import { useTextFieldElement } from "./useTextFieldElement";
 import styles from "./TextField.module.scss";
 import { logWarningsForInvalidPropConfiguration } from "./utilities";
@@ -278,9 +278,9 @@ export function TextField(props: TextFieldProps) {
         </Label>
         <div className={styles.inputIconContainer}>
           {hasStartIcon && (
-            <InputIcon
+            <TextFieldIcon
               alignment="start"
-              inputSize={size}
+              size={size}
               isDisabled={isDisabled}
               icon={iconAtStart}
             />
@@ -310,9 +310,9 @@ export function TextField(props: TextFieldProps) {
             />
           ) : (
             hasEndIcon && (
-              <InputIcon
+              <TextFieldIcon
                 alignment="end"
-                inputSize={size}
+                size={size}
                 isDisabled={isDisabled}
                 icon={iconAtEnd}
               />

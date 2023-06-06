@@ -107,7 +107,7 @@ export type TextFieldProps = AriaTextFieldProps & {
 
 ### Anatomy
 
-The bulk of the `TextField` component behavior will be handled by React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text field. The `TextField` component relies on the following Easy UI utility components: `Label`, `InputIcon`, `PasswordButton`, and `InputCaption`.
+The bulk of the `TextField` component behavior will be handled by React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text field. The `TextField` component relies on the following Easy UI utility components: `Label`, `TextFieldIcon`, `PasswordButton`, and `InputCaption`.
 
 ```tsx
 export function TextField(props: TextFieldProps) {
@@ -170,7 +170,7 @@ export function TextField(props: TextFieldProps) {
         </Label>
         <div className={styles.inputIconContainer}>
           {hasStartIcon && (
-            <InputIcon
+            <TextFieldIcon
               alignment="start"
               inputSize={size}
               isDisabled={isDisabled}
@@ -208,7 +208,7 @@ export function TextField(props: TextFieldProps) {
             />
           ) : (
             hasEndIcon && (
-              <InputIcon
+              <TextFieldIcon
                 alignment="end"
                 inputSize={size}
                 isDisabled={isDisabled}
