@@ -1,0 +1,55 @@
+@use "../styles/common" as *;
+
+.Switch {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.gray")
+  );
+  @include component-token(
+    "switch",
+    "color.thumb",
+    theme-token("color.text.primary")
+  );
+
+  display: inline-flex;
+  border-radius: 99px;
+}
+
+.focusVisible {
+  @include native-focus-ring;
+}
+
+.track {
+  fill: component-token("switch", "color.track");
+}
+
+.thumb {
+  fill: component-token("switch", "color.thumb");
+}
+
+.selected {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.primary")
+  );
+  @include component-token(
+    "switch",
+    "color.thumb",
+    theme-token("color.text.primary.inverse.bold")
+  );
+}
+
+.disabled {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.disabled.subtler")
+  );
+  @include component-token(
+    "switch",
+    "color.thumb",
+    theme-token("color.text.disabled")
+  );
+}
