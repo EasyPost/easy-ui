@@ -1,8 +1,8 @@
-# `TextArea` Component Specification
+# `Textarea` Component Specification
 
 ## Overview
 
-The `TextArea` component allows users to input text on multiple lines.
+The `Textarea` component allows users to input text on multiple lines.
 
 ### Use Cases
 
@@ -20,9 +20,9 @@ The `TextArea` component allows users to input text on multiple lines.
 
 ### Prior Art
 
-- [Paste `<TextArea />`](https://paste.twilio.design/components/textarea)
-- [Atlassian `<TextArea />`](https://atlassian.design/components/textarea/examples)
-- [Spectrum `<TextArea />`](https://react-spectrum.adobe.com/react-spectrum/TextArea.html)
+- [Paste `<Textarea />`](https://paste.twilio.design/components/textarea)
+- [Atlassian `<Textarea />`](https://atlassian.design/components/textarea/examples)
+- [Spectrum `<Textarea />`](https://react-spectrum.adobe.com/react-spectrum/Textarea.html)
 
 ---
 
@@ -33,7 +33,7 @@ The `TextArea` component allows users to input text on multiple lines.
 ```ts
 import type { AriaTextFieldProps } from "react-aria";
 
-export type TextAreaSize = "md" | "lg";
+export type TextareaSize = "md" | "lg";
 
 export type BaseInputProps = AriaTextFieldProps & {
   /**
@@ -82,21 +82,21 @@ export type BaseInputProps = AriaTextFieldProps & {
   rows?: number;
 };
 
-export type TextAreaProps = BaseInputProps & {
+export type TextareaProps = BaseInputProps & {
   /**
-   * The size of the TextArea.
+   * The size of the Textarea.
    * @default md
    */
-  size?: TextAreaSize;
+  size?: TextareaSize;
 };
 ```
 
 ### Anatomy
 
-The `TextField` component was extended to accommodate the needs of the `TextArea` component. Behind the scenes, the bulk of the `TextField` component's behavior and accessibility is handled by React Aria's `useTextField` hook.
+The `TextField` component was extended to accommodate the needs of the `Textarea` component. Behind the scenes, the bulk of the `TextField` component's behavior and accessibility is handled by React Aria's `useTextField` hook.
 
 ```tsx
-export function TextArea(props: TextAreaProps) {
+export function Textarea(props: TextareaProps) {
   const {
     size = "md",
     isLabelVisuallyHidden = false,
@@ -140,13 +140,13 @@ export function TextArea(props: TextAreaProps) {
 _Description with helper text:_
 
 ```tsx
-import { TextArea } from "@easypost/easy-ui/TextArea";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
   const [description, setDescription] = useState("");
   return (
     <>
-      <TextArea
+      <Textarea
         label="Label"
         value={description}
         onChange={(inputValue) => setDescription(inputValue)} // value is returned automatically via react-aria
@@ -162,13 +162,13 @@ export function Component() {
 _Visually hidden label with placeholder text:_
 
 ```tsx
-import { TextArea } from "@easypost/easy-ui/TextArea";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
   const [description, setDescription] = useState("");
   return (
     <>
-      <TextArea
+      <Textarea
         label="Label" // visually hidden but still accessible via isLabelVisuallyHidden prop
         isLabelVisuallyHidden
         value={description}
@@ -184,13 +184,13 @@ export function Component() {
 _Invalid state with error text:_
 
 ```tsx
-import { TextArea } from "@easypost/easy-ui/TextArea";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
   const [value, setValue] = useState("");
   return (
     <>
-      <TextArea
+      <Textarea
         label="Label"
         validationState="invalid"
         helperText="Some text" // will be overriden in the presence of an invalid state with error text

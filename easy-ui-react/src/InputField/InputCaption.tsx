@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Text } from "../Text";
-import styles from "./TextField.module.scss";
+import styles from "./InputField.module.scss";
 
 export type InputCaptionVariant = "error" | "helper";
 export type InputCaptionProps = {
@@ -12,9 +12,8 @@ export type InputCaptionProps = {
 
 /**
  * @privateRemarks
- * The InputCaption component has been designed for use on on the TextField
- * and TextArea components. Appears below input and handles visual styles
- * for helper and error states.
+ * The InputCaption component has been designed for use on on the InputField component.
+ * Appears below input and handles visual styles for helper and error states.
  */
 export function InputCaption(props: InputCaptionProps) {
   const { variant, children, ...captionTextProps } = props;

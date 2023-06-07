@@ -2,23 +2,23 @@ import React from "react";
 import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
-import styles from "./TextField.module.scss";
+import styles from "./InputField.module.scss";
 import { mapIconSize } from "./utilities";
-import { TextFieldSize } from "./TextField";
+import { InputSize } from "./InputField";
 
 export type TextFieldIconAlignment = "start" | "end";
 
 export type TextFieldIconProps = {
   /**
-   * TextField's icon alignment.
+   * Input's icon alignment.
    * @default false
    */
   alignment?: TextFieldIconAlignment;
   /**
-   * Size of associated TextField.
+   * Size of associated input.
    * @default 'md'
    */
-  size?: TextFieldSize;
+  size?: InputSize;
   /**
    * Apply disabled styles to icon.
    * @default 'false
@@ -30,10 +30,10 @@ export type TextFieldIconProps = {
 
 /**
  * @privateRemarks
- * The TextFieldIcon component has been designed for use on on the TextField
+ * The InputIcon component has been designed for use on the InputField
  * component. Icons can appears either at the start or end of the input
  */
-export function TextFieldIcon(props: TextFieldIconProps) {
+export function InputIcon(props: TextFieldIconProps) {
   const { alignment = "start", size = "md", isDisabled = false, icon } = props;
   return (
     <div

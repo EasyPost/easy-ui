@@ -2,4 +2,4 @@
 "@easypost/easy-ui": minor
 ---
 
-Add TextArea component
+Add Textarea component

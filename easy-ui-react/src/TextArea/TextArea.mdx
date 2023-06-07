@@ -1,52 +1,46 @@
 import React from "react";
 import { Canvas, Meta, Controls, ArgTypes, ArgsTable } from "@storybook/blocks";
-import { TextArea } from "./TextArea";
-import * as TextAreaStories from "./TextArea.stories";
+import { Textarea } from "./Textarea";
+import * as TextareaStories from "./Textarea.stories";
 
-<Meta of={TextAreaStories} />
+<Meta of={TextareaStories} />
 
-# TextArea
+# Textarea
 
-The `<TextArea />` component allows users to input text on multiple lines.
+The `<Textarea />` component allows users to input text on multiple lines.
 
 ## Standard
 
-Simple `<TextArea />` with `label`, `placeholder`, and `helperText`.
+Simple `<Textarea />` with `label`, `placeholder`, and `helperText`.
 
-<Canvas of={TextAreaStories.Standard} />
+<Canvas of={TextareaStories.Standard} />
 
 ## Custom row height
 
 To specify the visible height of a text area in lines, use the `rows` property.
 
-<Canvas of={TextAreaStories.CustomRowHeight} />
+<Canvas of={TextareaStories.CustomRowHeight} />
 
-## Large TextArea
+## Large Textarea
 
-Set `size="lg"` for a large `<TextArea />`.
+Set `size="lg"` for a large `<Textarea />`.
 
-<Canvas of={TextAreaStories.LargeTextArea} />
+<Canvas of={TextareaStories.LargeTextarea} />
 
 ## Label with emphasis
 
 Use `emphasizedLabel=true` to display a label with emphasis.
 
-<Canvas of={TextAreaStories.LabelWithEmphasis} />
+<Canvas of={TextareaStories.LabelWithEmphasis} />
 
 ## Error
 
-When `validationState` is set to `invalid`, the `<TextArea />` displays with error styles.
+When `validationState` is set to `invalid`, the `<Textarea />` displays with error styles.
 
-<Canvas of={TextAreaStories.Error} />
+<Canvas of={TextareaStories.Error} />
 
 ## Visually hidden label
 
 To hide a `label` but maintain accessibility, use `isLabelVisuallyHidden`.
 
-<Canvas of={TextAreaStories.VisuallyHiddenLabel} />
-
-## Controls
-
-<Canvas of={TextAreaStories.Controls} />
-
-<Controls of={TextAreaStories.Controls} />
+<Canvas of={TextareaStories.VisuallyHiddenLabel} />

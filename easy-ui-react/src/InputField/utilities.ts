@@ -1,7 +1,7 @@
-import { TextFieldSize } from "./TextField";
+import { InputSize } from "./InputField";
 
 /** Small textfield needs xs icon */
-export function mapIconSize(size: TextFieldSize) {
+export function mapIconSize(size: InputSize) {
   if (size === "sm") {
     return "xs";
   } else if (size === "lg") {
@@ -12,18 +12,22 @@ export function mapIconSize(size: TextFieldSize) {
 
 export function logWarningsForInvalidPropConfiguration(
   bothIconPropsDefined: boolean,
-  smallSizeTextArea: boolean,
-  definedIconsWithTextArea: boolean,
+  smallSizeTextarea: boolean,
+  definedIconsWithTextarea: boolean,
 ) {
   if (bothIconPropsDefined) {
     console.warn("Cannot simultaneously define `iconAtEnd` and `iconAtStart`");
   }
 
-  if (smallSizeTextArea) {
+  if (smallSizeTextarea) {
     console.warn("`textarea` cannot be defined with size `sm`");
   }
 
-  if (definedIconsWithTextArea) {
+  if (definedIconsWithTextarea) {
     console.warn("Cannot define `textarea` with `iconAtEnd` or `iconAtStart`");
   }
+}
+
+export function getElementType(isMultiline: boolean) {
+  return isMultiline ? "textarea" : "input";
 }

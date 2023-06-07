@@ -1,37 +1,37 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { TextArea } from "./TextArea";
+import { Textarea } from "./Textarea";
 
-describe("<TextArea />", () => {
+describe("<Textarea />", () => {
   it("should render a standard textarea", () => {
-    render(<TextArea label="label" />);
+    render(<Textarea label="label" />);
     expect(
       screen.getByLabelText("label", { selector: "textarea" }),
     ).toBeInTheDocument();
   });
 
   it("should render a textarea with placeholder text", () => {
-    render(<TextArea label="label" placeholder="enter description" />);
+    render(<Textarea label="label" placeholder="enter description" />);
     expect(
       screen.getByPlaceholderText("enter description"),
     ).toBeInTheDocument();
   });
 
   it("should render a disabled textarea", () => {
-    render(<TextArea label="label" isDisabled />);
+    render(<Textarea label="label" isDisabled />);
     expect(
       screen.getByLabelText("label", { selector: "textarea" }),
     ).toBeDisabled();
   });
 
   it("should render a textarea with helperText", () => {
-    render(<TextArea label="label" helperText="Optional helper text" />);
+    render(<Textarea label="label" helperText="Optional helper text" />);
     expect(screen.getByText("Optional helper text")).toBeInTheDocument();
   });
 
   it("should render a textarea with errorText", () => {
     render(
-      <TextArea
+      <Textarea
         label="label"
         errorText="Optional error text"
         validationState="invalid"
@@ -41,7 +41,7 @@ describe("<TextArea />", () => {
   });
 
   it("should render a textarea that displays a label with emphasis", () => {
-    render(<TextArea label="label" emphasizedLabel />);
+    render(<Textarea label="label" emphasizedLabel />);
     expect(screen.getByText("label")).toBeInTheDocument();
     expect(screen.getByText("label").tagName).toBe("STRONG");
   });

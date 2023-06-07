@@ -153,14 +153,14 @@ export function TextField(props: TextFieldProps) {
   const Elem = isMultiline ? "textarea" : "input";
 
   const bothIconPropsDefined = !!iconAtEnd && !!iconAtStart;
-  const smallSizeTextArea = size === "sm" && Elem === "textarea";
-  const definedIconsWithTextArea =
+  const smallSizeTextarea = size === "sm" && Elem === "textarea";
+  const definedIconsWithTextarea =
     (!!iconAtEnd || !!iconAtStart) && Elem === "textarea";
 
   logWarningsForInvalidPropConfiguration(
     bothIconPropsDefined,
-    smallSizeTextArea,
-    definedIconsWithTextArea,
+    smallSizeTextarea,
+    definedIconsWithTextarea,
   );
 
   const isPassword = type === "password";
@@ -168,7 +168,7 @@ export function TextField(props: TextFieldProps) {
   const showErrorText = hasError && errorText;
   const showHelperText = !showErrorText && helperText;
   const canUseIcon =
-    !bothIconPropsDefined && !isPassword && !definedIconsWithTextArea;
+    !bothIconPropsDefined && !isPassword && !definedIconsWithTextarea;
   const hasStartIcon = canUseIcon && iconAtStart;
   const hasEndIcon = canUseIcon && iconAtEnd;
   const isTypeAdjustedForPasswordVisibility = isPassword && isPasswordVisible;

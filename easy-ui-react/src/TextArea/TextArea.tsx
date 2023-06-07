@@ -1,17 +1,12 @@
 import React from "react";
-import { BaseInputProps } from "../TextField";
-import { TextField } from "../TextField";
+import { InputField, InputFieldProps } from "../InputField";
 
-export type TextAreaSize = "md" | "lg";
+export type TextareaSize = "md" | "lg";
 
-export type TextAreaProps = BaseInputProps & {
-  /**
-   * The size of the TextArea.
-   * @default md
-   */
-  size?: TextAreaSize;
-};
-
+export type TextareaProps = Omit<
+  InputFieldProps,
+  "type" | "iconAtStart" | "iconAtEnd"
+>;
 /**
  * Allows users to input text on multiple lines.
  *
@@ -24,13 +19,13 @@ export type TextAreaProps = BaseInputProps & {
  * @example
  * _Description with helper text:_
  * ```tsx
- * import { TextArea } from "@easypost/easy-ui/TextArea";
+ * import { Textarea } from "@easypost/easy-ui/Textarea";
  *
  * export function Component() {
  *  const [description, setDescription] = useState("");
  *  return (
  *    <>
- *      <TextArea
+ *      <Textarea
  *        label="Label"
  *        value={description}
  *        onChange={(inputValue) => setDescription(inputValue)} // value is returned automatically via react-aria
@@ -45,13 +40,13 @@ export type TextAreaProps = BaseInputProps & {
  * @example
  * _Visually hidden label with placeholder text:_
  * ```tsx
- * import { TextArea } from "@easypost/easy-ui/TextArea";
+ * import { Textarea } from "@easypost/easy-ui/Textarea";
  *
  * export function Component() {
  *  const [description, setDescription] = useState("");
  *  return (
  *    <>
- *      <TextArea
+ *      <Textarea
  *        label="Label" // visually hidden but still accessible via isLabelVisuallyHidden prop
  *        isLabelVisuallyHidden
  *        value={description}
@@ -67,13 +62,13 @@ export type TextAreaProps = BaseInputProps & {
  * @example
  * _Invalid state with error text:_
  * ```tsx
- * import { TextArea } from "@easypost/easy-ui/TextArea";
+ * import { Textarea } from "@easypost/easy-ui/Textarea";
  *
  * export function Component() {
  *  const [value, setValue] = useState("");
  *  return (
  *    <>
- *      <TextArea
+ *      <Textarea
  *        label="Label"
  *        validationState="invalid"
  *        helperText="Some text" // will be overriden in the presence of an invalid state with error text
@@ -87,7 +82,7 @@ export type TextAreaProps = BaseInputProps & {
  * }
  * ```
  */
-export function TextArea(props: TextAreaProps) {
+export function Textarea(props: TextareaProps) {
   const {
     size = "md",
     isLabelVisuallyHidden = false,
@@ -105,7 +100,7 @@ export function TextArea(props: TextAreaProps) {
     rows = 1,
   } = props;
   return (
-    <TextField
+    <InputField
       isMultiline
       size={size}
       isLabelVisuallyHidden={isLabelVisuallyHidden}
