@@ -10,11 +10,6 @@ const Template = (args: TextareaProps) => <Textarea {...args} />;
 const meta: Meta<typeof Textarea> = {
   title: "Components/Textarea",
   component: Textarea,
-  parameters: {
-    controls: {
-      exclude: ["as"],
-    },
-  },
   decorators: [InputDecorator],
 };
 

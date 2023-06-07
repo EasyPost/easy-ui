@@ -24,7 +24,6 @@ export const Standard: Story = {
     placeholder: "Placeholder text",
     helperText: "Optional helper text",
   },
-  decorators: [InputDecorator],
 };
 
 export const Password: Story = {
@@ -35,7 +34,6 @@ export const Password: Story = {
     placeholder: "Placeholder text",
     helperText: "Optional helper text",
   },
-  decorators: [InputDecorator],
 };
 
 export const Icon: Story = {
@@ -46,7 +44,6 @@ export const Icon: Story = {
     helperText: "Optional helper text",
     iconAtStart: SearchIcon,
   },
-  decorators: [InputDecorator],
 };
 
 export const SmallTextFields: Story = {
@@ -74,7 +71,6 @@ export const SmallTextFields: Story = {
       />
     </>
   ),
-  decorators: [InputDecorator],
 };
 
 export const LargeTextFields: Story = {
@@ -102,7 +98,6 @@ export const LargeTextFields: Story = {
       />
     </>
   ),
-  decorators: [InputDecorator],
 };
 
 export const LabelWithEmphasis: Story = {
@@ -112,7 +107,6 @@ export const LabelWithEmphasis: Story = {
     emphasizedLabel: true,
     helperText: "Optional helper text",
   },
-  decorators: [InputDecorator],
 };
 
 export const Error: Story = {
@@ -122,7 +116,6 @@ export const Error: Story = {
     label: "Label",
     errorText: "Optional error text",
   },
-  decorators: [InputDecorator],
 };
 
 export const VisuallyHiddenLabel: Story = {
@@ -131,5 +124,4 @@ export const VisuallyHiddenLabel: Story = {
     label: "Label",
     isLabelVisuallyHidden: true,
   },
-  decorators: [InputDecorator],
 };
