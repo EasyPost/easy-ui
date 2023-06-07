@@ -3,13 +3,11 @@ import VisibilityIcon from "@easypost/easy-ui-icons/Visibility";
 import VisibilityOffIcon from "@easypost/easy-ui-icons/VisibilityOff";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
-import { InputSize } from "./TextField";
+import { InputSize } from "./InputField";
 import { classNames, variationName } from "../utilities/css";
 import { UnstyledButton } from "../UnstyledButton";
 import { mapIconSize } from "./utilities";
-import styles from "./TextField.module.scss";
-
-export type VisibilityIconSize = "xs" | "md";
+import styles from "./InputField.module.scss";
 
 export type PasswordButtonProps = {
   /**
@@ -38,7 +36,7 @@ export type PasswordButtonProps = {
 
 /**
  * @privateRemarks
- * The PasswordButton component has been designed for use on on the TextField
+ * The PasswordButton component has been designed for use on on the InputField
  * component. Renders a button with a visibility toggle that aligns at
  * the end of the input.
  */

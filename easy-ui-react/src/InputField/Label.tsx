@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { Text } from "../Text";
-import { InputSize } from "./TextField";
-import styles from "./TextField.module.scss";
+import { InputSize } from "./InputField";
+import styles from "./InputField.module.scss";
 import { classNames } from "../utilities/css";
 
 export type LabelProps = {
@@ -31,9 +31,9 @@ export type LabelProps = {
 
 /**
  * @privateRemarks
- * The Label component has been designed for use on the TextField
- * and TextArea components. Appears above inputs and handles sizing,
- * visual styles for emphasis and error states, and can be visually hidden.
+ * The Label component has been designed for use on the InputField component.
+ * Appears above inputs and handles sizing, visual styles for emphasis and
+ * error states, and can be visually hidden.
  */
 export function Label(props: LabelProps) {
   const {
