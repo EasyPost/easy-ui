@@ -1,0 +1,46 @@
+import React from "react";
+import { Canvas, Meta, Controls, ArgTypes, ArgsTable } from "@storybook/blocks";
+import { Textarea } from "./Textarea";
+import * as TextareaStories from "./Textarea.stories";
+
+<Meta of={TextareaStories} />
+
+# Textarea
+
+The `<Textarea />` component allows users to input text on multiple lines.
+
+## Standard
+
+Simple `<Textarea />` with `label`, `placeholder`, and `helperText`.
+
+<Canvas of={TextareaStories.Standard} />
+
+## Custom row height
+
+To specify the visible height of a text area in lines, use the `rows` property.
+
+<Canvas of={TextareaStories.CustomRowHeight} />
+
+## Large Textarea
+
+Set `size="lg"` for a large `<Textarea />`.
+
+<Canvas of={TextareaStories.LargeTextarea} />
+
+## Label with emphasis
+
+Use `emphasizedLabel=true` to display a label with emphasis.
+
+<Canvas of={TextareaStories.LabelWithEmphasis} />
+
+## Error
+
+When `validationState` is set to `invalid`, the `<Textarea />` displays with error styles.
+
+<Canvas of={TextareaStories.Error} />
+
+## Visually hidden label
+
+To hide a `label` but maintain accessibility, use `isLabelVisuallyHidden`.
+
+<Canvas of={TextareaStories.VisuallyHiddenLabel} />
