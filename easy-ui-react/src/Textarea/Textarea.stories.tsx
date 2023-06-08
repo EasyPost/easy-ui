@@ -69,3 +69,60 @@ export const VisuallyHiddenLabel: Story = {
     isLabelVisuallyHidden: true,
   },
 };
+
+export const Controls: Story = {
+  render: Template.bind({}),
+  argTypes: {
+    isDisabled: {
+      control: "boolean",
+      description: "Whether the input is disabled",
+    },
+    isRequired: {
+      control: "boolean",
+      description:
+        "Whether user input is required on the input before form submission",
+    },
+    errorText: {
+      control: "text",
+    },
+    helperText: {
+      control: "text",
+    },
+    validationState: {
+      options: ["valid", "invalid"],
+      control: { type: "radio" },
+      description:
+        "Whether the input should display its 'valid' or 'invalid' visual styling",
+    },
+    autoFocus: {
+      control: "boolean",
+      description: "Whether the element should receive focus on render",
+    },
+    label: {
+      control: "text",
+      description: "The content to display as the label",
+    },
+    placeholder: {
+      control: "text",
+      description:
+        "Temporary text that occupies the text input when it is empty",
+    },
+    value: {
+      control: "text",
+      description: "The current value (controlled)",
+    },
+  },
+  args: {
+    size: "md",
+    label: "Label",
+    isLabelVisuallyHidden: false,
+    isDisabled: false,
+    isRequired: false,
+    validationState: "valid",
+    emphasizedLabel: false,
+    autoFocus: false,
+    errorText: "",
+    helperText: "Optional helper text",
+    placeholder: "Placeholder text",
+  },
+};
