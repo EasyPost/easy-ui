@@ -148,12 +148,12 @@ export const Controls: Story = {
     }),
     isDisabled: {
       control: "boolean",
-      description: "Whether the input is disabled",
+      description: "Whether the input is disabled.",
     },
     isRequired: {
       control: "boolean",
       description:
-        "Whether user input is required on the input before form submission",
+        "Whether user input is required on the input before form submission.",
     },
     errorText: {
       control: "text",
@@ -165,24 +165,24 @@ export const Controls: Story = {
       options: ["valid", "invalid"],
       control: { type: "radio" },
       description:
-        "Whether the input should display its 'valid' or 'invalid' visual styling",
+        "Whether the input should display its 'valid' or 'invalid' visual styling.",
     },
     autoFocus: {
       control: "boolean",
-      description: "Whether the element should receive focus on render",
+      description: "Whether the element should receive focus on render.",
     },
     label: {
       control: "text",
-      description: "The content to display as the label",
+      description: "The content to display as the label.",
     },
     placeholder: {
       control: "text",
       description:
-        "Temporary text that occupies the text input when it is empty",
+        "Temporary text that occupies the text input when it is empty.",
     },
     value: {
       control: "text",
-      description: "The current value (controlled)",
+      description: "The current value (controlled).",
     },
   },
   args: {

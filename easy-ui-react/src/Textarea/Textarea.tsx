@@ -6,7 +6,13 @@ export type TextareaSize = "md" | "lg";
 export type TextareaProps = Omit<
   InputFieldProps,
   "type" | "iconAtStart" | "iconAtEnd"
->;
+> & {
+  /**
+   * Size of textarea.
+   * @default md
+   */
+  size?: TextareaSize;
+};
 /**
  * Allows users to input text on multiple lines.
  *
