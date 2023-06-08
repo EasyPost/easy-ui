@@ -1,32 +1,28 @@
-# `TextField` Component Specification
+# `Textarea` Component Specification
 
 ## Overview
 
-The `TextField` component allows users to input text on a single line and provides the essentials to be used as a form control element.
+The `Textarea` component allows users to input text on multiple lines.
 
 ### Use Cases
 
-- Use this component when building forms that require `text`, `email`, `password`, and `tel` inputs.
-- Can be used as the basis for a `search` input.
+- Allows users to enter free-form multi-line plain text.
 
 ### Features
 
-- Setting `type` to `password` adds a clickable and focusable right aligned visibility icon as well.
-- Setting the `size` property also sets size for iconAtStart and iconAtEnd: The size values map to Easy UI's token sizes for icons.
+- Users can adjust height, but not width.
 - When `errorText` is supplied with `validationState="invalid"`, `helperText` is overriden.
-- Underlying input type can be set to `text`, `email`, `password`, `tel`, or `search`.
 - `isLabelVisuallyHidden` property can be used to visually hide the label.
 
 ### Risks and Challenges
 
-- Accomodating various input types and variations while keeping a relatively simple and approachable API.
 - Ensuring the component remains accessible when label is visually hidden.
 
 ### Prior Art
 
-- [Paste `<Input />`](https://paste.twilio.design/components/input)
-- [Polaris `<TextField />`](https://polaris.shopify.com/components/selection-and-input/text-field)
-- [Spectrum `<TextField />`](https://react-spectrum.adobe.com/react-spectrum/TextField.html)
+- [Paste `<Textarea />`](https://paste.twilio.design/components/textarea)
+- [Atlassian `<Textarea />`](https://atlassian.design/components/textarea/examples)
+- [Spectrum `<Textarea />`](https://react-spectrum.adobe.com/react-spectrum/Textarea.html)
 
 ---
 
@@ -37,8 +33,7 @@ The `TextField` component allows users to input text on a single line and provid
 ```ts
 import type { AriaTextFieldProps } from "react-aria";
 
-export type InputType = "text" | "email" | "password" | "tel" | "search";
-export type TextFieldSize = "sm" | "md" | "lg";
+export type TextareaSize = "md" | "lg";
 export type ValidationState = "valid" | "invalid";
 
 export type InputFieldProps = AriaTextFieldProps & {
@@ -109,17 +104,25 @@ export type InputFieldProps = AriaTextFieldProps & {
   iconAtEnd?: IconSymbol;
 };
 
-export type TextFieldProps = Omit<InputFieldProps, "isMultiline" | "rows">;
+export type TextareaProps = Omit<
+  InputFieldProps,
+  "type" | "iconAtStart" | "iconAtEnd"
+> & {
+  /**
+   * Size of textarea.
+   * @default md
+   */
+  size?: TextareaSize;
+};
 ```
 
 ### Anatomy
 
-The bulk of the `TextFild` component behavior will be handled by an internal `InputField` component, which will do the heavy lifting with regards to styling and form control logic. The `InputField` component is using React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text field.
+The bulk of the `Textarea` component behavior will be handled by an internal `InputField` component, which will do the heavy lifting with regards to styling and form control logic. The `InputField` component is using React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text area field.
 
 ```tsx
-export function TextField(props: TextFieldProps) {
+export function Textarea(props: TextareaProps) {
   const {
-    type = "text",
     size = "md",
     isLabelVisuallyHidden = false,
     isDisabled = false,
@@ -133,13 +136,11 @@ export function TextField(props: TextFieldProps) {
     placeholder,
     value,
     defaultValue,
-    iconAtStart,
-    iconAtEnd,
+    rows = 1,
   } = props;
-
   return (
     <InputField
-      type={type}
+      isMultiline
       size={size}
       isLabelVisuallyHidden={isLabelVisuallyHidden}
       isDisabled={isDisabled}
@@ -153,8 +154,7 @@ export function TextField(props: TextFieldProps) {
       placeholder={placeholder}
       value={value}
       defaultValue={defaultValue}
-      iconAtStart={iconAtStart}
-      iconAtEnd={iconAtEnd}
+      rows={rows}
     />
   );
 }
@@ -162,90 +162,44 @@ export function TextField(props: TextFieldProps) {
 
 ### Example Usage
 
-_Email with autoFocus:_
+_Description with helper text:_
 
 ```tsx
-import { TextField } from "@easypost/easy-ui/TextField";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
-  const [email, setEmail] = useState("");
+  const [description, setDescription] = useState("");
   return (
     <>
-      <TextField
-        type="email"
-        label="Email address"
-        autoFocus
-        value={email}
-        onChange={(inputValue) => setEmail(inputValue)} // value is returned automatically via react-aria
+      <Textarea
+        label="Label"
+        value={description}
+        onChange={(inputValue) => setDescription(inputValue)} // value is returned automatically via react-aria
+        helperText="Enter some text"
         isRequired
       />
-      <span>email entered: {email}</span>
+      <span>description entered: {description}</span>
     </>
   );
 }
 ```
 
-_Password variation with helper text:_
+_Visually hidden label with placeholder text:_
 
 ```tsx
-import { TextField } from "@easypost/easy-ui/TextField";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
-  const [password, setPassword] = useState("");
+  const [description, setDescription] = useState("");
   return (
     <>
-      <TextField
-        type="password"
-        label="Password"
-        helperText={<a href={RESET_URL}>Forgot password? </a>}
-        value={password}
-        onChange={(inputValue) => setPassword(inputValue)} // value is returned automatically via react-aria
-        isRequired
-      />
-    </>
-  );
-}
-```
-
-_Visually hidden label with left aligned icon and placeholder text:_
-
-```tsx
-import { TextField } from "@easypost/easy-ui/TextField";
-import SearchIcon from "@easypost/easy-ui-icons/Search";
-
-export function Component() {
-  const [searchedValue, setSearchedValue] = useState("");
-  return (
-    <>
-      <TextField
-        type="search"
-        label="Search for carriers" // visually hidden but still accessible via isLabelVisuallyHidden prop
+      <Textarea
+        label="Label" // visually hidden but still accessible via isLabelVisuallyHidden prop
         isLabelVisuallyHidden
-        iconAtStart={AnIcon}
-        value={searchedValue}
-        onChange={(inputValue) => setSearchedValue(inputValue)} // value is returned automatically via react-aria
-        placeholder="FedEx, UPS, USPS"
+        value={description}
+        onChange={(inputValue) => setDescription(inputValue)} // value is returned automatically via react-aria
+        placeholder="Enter free-form text"
         isRequired
-      />
-    </>
-  );
-}
-```
-
-_Disabled TextField:_
-
-```tsx
-import { TextField } from "@easypost/easy-ui/TextField";
-
-export function Component() {
-  const [value, setValue] = useState("");
-  return (
-    <>
-      <TextField
-        label="Disabled"
-        value={value}
-        onChange={(inputValue) => setValue(inputValue)} // value is returned automatically via react-aria
-        isDisabled
       />
     </>
   );
@@ -255,14 +209,14 @@ export function Component() {
 _Invalid state with error text:_
 
 ```tsx
-import { TextField } from "@easypost/easy-ui/TextField";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
   const [value, setValue] = useState("");
   return (
     <>
-      <TextField
-        label="Error"
+      <Textarea
+        label="Label"
         validationState="invalid"
         helperText="Some text" // will be overriden in the presence of an invalid state with error text
         errorText="Some error text"
@@ -283,7 +237,7 @@ export function Component() {
 
 Accessibility
 
-- Labels should be included on all text fields as they describe the purpose of the form control. In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
+- Labels should be included on all text area fields as they describe the purpose of any associated form control. In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
 - Do not use `placeholder` text as a replacement for labels. It can be used to provide an example to users, but will disappear from the field when a user enters text. It's also not broadly supported by assistive technologies and won't display in older browsers.
 
 ## Dependencies

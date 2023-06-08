@@ -94,8 +94,8 @@ export type InputFieldProps = AriaTextFieldProps & {
 /**
  * @privateRemarks
  * The InputField is an internal component that has been designed to support the TextField
- * and Textarea components. It handles all the heavy lifting with styling and makes
- * use of React Aria's useTextField hook through a lightweight wrapper.
+ * and Textarea components. It handles the heavy lifting with regards to styling and form control logic,
+ * and is using React Aria's `useTextField` hook to provide the behavior and accessibility implementation.
  */
 export function InputField(props: InputFieldProps) {
   const {
