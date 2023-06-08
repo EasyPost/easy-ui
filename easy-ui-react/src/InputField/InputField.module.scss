@@ -141,6 +141,7 @@
     )
     calc(#{design-token("space.1.5")} - #{design-token("shape.border_width.1")});
   max-height: component-token("inputfield", "max-height-sm");
+  @include component-token("inputfield", "password-input-padding-right", 0);
 }
 
 .inputSizeLg {
@@ -148,18 +149,14 @@
     #{design-token("space.2")} - #{design-token("shape.border_width.1")}
   );
   @include component-token("inputfield", "min-height-textarea", 56px);
-}
-
-.passwordInput,
-.passwordInput.inputSizeSm,
-.passwordInput.inputSizeLg {
-  padding-right: 0;
+  @include component-token("inputfield", "password-input-padding-right", 0);
 }
 
 .passwordInput {
   border-radius: component-token("inputfield", "border_radius") 0 0
     component-token("inputfield", "border_radius");
   border-right: none;
+  padding-right: component-token("inputfield", "password-input-padding-right");
   &:focus,
   &:active {
     border-radius: component-token("inputfield", "border_radius");
