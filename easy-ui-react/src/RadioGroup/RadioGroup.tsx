@@ -47,7 +47,12 @@ function RadioGroupContainer(props: RadioGroupProps) {
     <fieldset className={styles.RadioGroup} {...radioGroupProps}>
       {label && (
         <div>
-          <Text as="legend" variant="subtitle1" {...labelProps}>
+          <Text
+            as="legend"
+            variant="subtitle1"
+            color="gray.bold"
+            {...labelProps}
+          >
             {label}
           </Text>
         </div>
