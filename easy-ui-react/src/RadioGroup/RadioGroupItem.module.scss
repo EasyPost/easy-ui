@@ -1,0 +1,92 @@
+@use "../styles/common" as *;
+
+.RadioGroupItem {
+  @include component-token("radio-group-item", "size", 16px);
+  @include component-token(
+    "radio-group-item",
+    "color",
+    theme-token("color.border.boldest")
+  );
+}
+
+.radioOuter,
+.radioInner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+
+.radioOuter {
+  margin-top: 4px;
+  flex: 0 0 auto;
+  width: component-token("radio-group-item", "size");
+  height: component-token("radio-group-item", "size");
+  border: design-token("shape.border_width.1") solid
+    component-token("radio-group-item", "color");
+
+  .focusVisible & {
+    @include native-focus-ring;
+    // without an offset the outline conflicts with the radio outline
+    outline-offset: 1px;
+  }
+}
+
+.radioInner {
+  width: calc(#{component-token("radio-group-item", "size")} * (12 / 16));
+  height: calc(#{component-token("radio-group-item", "size")} * (12 / 16));
+  background: component-token("radio-group-item", "color");
+  opacity: 0;
+
+  .selected & {
+    opacity: 1;
+  }
+}
+
+.invalid {
+  @include component-token(
+    "radio-group-item",
+    "color",
+    theme-token("color.border.danger")
+  );
+}
+
+.disabled {
+  @include component-token(
+    "radio-group-item",
+    "color",
+    theme-token("color.border.disabled.subtler")
+  );
+}
+
+.selected {
+  @include component-token(
+    "radio-group-item",
+    "color",
+    theme-token("color.background.primary")
+  );
+}
+
+.selected.disabled {
+  @include component-token(
+    "radio-group-item",
+    "color",
+    theme-token("color.background.disabled.bolder")
+  );
+}
+
+.hovered:not(.disabled):not(.readOnly) {
+  @include component-token(
+    "radio-group-item",
+    "color",
+    theme-token("color.background.primary.subtler")
+  );
+}
+
+.invalid.hovered:not(.disabled):not(.readOnly) {
+  @include component-token(
+    "radio-group-item",
+    "color",
+    theme-token("color.border.danger.bolder")
+  );
+}

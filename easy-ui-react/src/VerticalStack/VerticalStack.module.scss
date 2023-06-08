@@ -2,7 +2,7 @@
 
 .VerticalStack {
   @include responsive-prop("vertical-stack", "gap", "gap");
-  display: flex;
+  display: component-token("vertical-stack", "display");
   flex-direction: component-token("vertical-stack", "order");
   align-items: component-token("vertical-stack", "inline-align");
   justify-content: component-token("vertical-stack", "align");

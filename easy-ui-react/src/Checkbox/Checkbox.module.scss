@@ -21,11 +21,6 @@
     "color.border",
     theme-token("color.border.boldest")
   );
-  @include component-token(
-    "checkbox",
-    "color.error-icon",
-    theme-token("color.text.danger")
-  );
 }
 
 .Checkbox,
@@ -34,11 +29,6 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: component-token("checkbox", "gap");
-}
-
-.box,
-.errorIcon {
-  flex: 0 0 auto;
 }
 
 .box,
@@ -55,6 +45,7 @@
   border: design-token("shape.border_width.1") solid
     component-token("checkbox", "color.border");
   border-radius: component-token("checkbox", "border-radius");
+  flex: 0 0 auto;
   margin-top: component-token("checkbox", "box-margin-top");
 
   .focusVisible & {
@@ -69,11 +60,6 @@
 .text {
   display: inline-flex;
   margin: component-token("checkbox", "text-margin-ver") 0;
-}
-
-.errorIcon {
-  display: inline-flex;
-  color: component-token("checkbox", "color.error-icon");
 }
 
 .indeterminateSvg {

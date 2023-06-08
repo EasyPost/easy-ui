@@ -1,6 +1,7 @@
 import React, { ElementType, ReactNode } from "react";
 import {
   ResponsiveProp,
+  classNames,
   getComponentToken,
   getResponsiveDesignToken,
   getResponsiveValue,
@@ -23,6 +24,12 @@ export type Gap = ResponsiveProp<SpaceScale>;
 export type HorizontalGridAlignItems = "start" | "end" | "center";
 
 export type HorizontalGridProps = {
+  /** Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.
+   * @example
+   * alignItems='start'
+   */
+  alignItems?: HorizontalGridAlignItems;
+
   /**
    * HTML element type.
    * @default div
@@ -31,6 +38,9 @@ export type HorizontalGridProps = {
 
   /** Content of the horizontal grid. */
   children: ReactNode;
+
+  /** Custom className for the horizontal grid. */
+  className?: string;
 
   /** The number of columns to display. Accepts either a single value or an object of values for different screen sizes.
    * @example
@@ -46,11 +56,8 @@ export type HorizontalGridProps = {
    */
   gap?: Gap;
 
-  /** Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.
-   * @example
-   * alignItems='start'
-   */
-  alignItems?: HorizontalGridAlignItems;
+  /** Whether or not the horizontal grid uses inline-grid instead of grid. */
+  inline?: boolean;
 };
 
 /**
@@ -69,7 +76,15 @@ export type HorizontalGridProps = {
  */
 export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
   (props, ref) => {
-    const { as: As = "div", children, columns, gap, alignItems } = props;
+    const {
+      alignItems,
+      as: As = "div",
+      children,
+      className,
+      columns,
+      gap,
+      inline,
+    } = props;
     const style = {
       ...getResponsiveValue(
         "horizontal-grid",
@@ -78,9 +93,18 @@ export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
       ),
       ...getResponsiveDesignToken("horizontal-grid", "gap", "space", gap),
       ...getComponentToken("horizontal-grid", "align-items", alignItems),
+      ...getComponentToken(
+        "horizontal-grid",
+        "display",
+        inline ? "inline-grid" : "grid",
+      ),
     } as React.CSSProperties;
     return (
-      <As className={styles.HorizontalGrid} style={style} ref={ref}>
+      <As
+        className={classNames(styles.HorizontalGrid, className)}
+        style={style}
+        ref={ref}
+      >
         {children}
       </As>
     );

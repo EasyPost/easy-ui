@@ -28,9 +28,6 @@ type SpaceScale = DesignTokenNamespace<"space">;
 type Gap = ResponsiveProp<SpaceScale>;
 
 export type VerticalStackProps = {
-  /** Contents of the vertical stack. */
-  children: React.ReactNode;
-
   /** HTML Element type
    * @default 'div'
    */
@@ -39,14 +36,23 @@ export type VerticalStackProps = {
   /** Vertical alignment of children */
   align?: Align;
 
-  /** Horizontal alignment of children */
-  inlineAlign?: InlineAlign;
+  /** Contents of the vertical stack. */
+  children: React.ReactNode;
+
+  /** Custom className for the vertical stack. */
+  className?: string;
 
   /** The spacing between children */
   gap?: Gap;
 
   /** HTML id attribute */
   id?: string;
+
+  /** Whether or not the vertical stack uses inline-flex instead of flex. */
+  inline?: boolean;
+
+  /** Horizontal alignment of children */
+  inlineAlign?: InlineAlign;
 
   /** Reverse the render order of child items
    * @default false
@@ -72,10 +78,12 @@ export const VerticalStack = forwardRef<null, VerticalStackProps>(
   (props, ref) => {
     const {
       as: As = "div",
-      children,
       align,
-      inlineAlign,
+      children,
+      className: customClassName,
       gap,
+      inline,
+      inlineAlign,
       reverseOrder = false,
       ...restProps
     } = props;
@@ -84,6 +92,7 @@ export const VerticalStack = forwardRef<null, VerticalStackProps>(
       styles.VerticalStack,
       (As === "ul" || As === "ol") && styles.listReset,
       As === "fieldset" && styles.fieldsetReset,
+      customClassName,
     );
 
     const style = {
@@ -94,6 +103,11 @@ export const VerticalStack = forwardRef<null, VerticalStackProps>(
         "vertical-stack",
         "order",
         reverseOrder ? "column-reverse" : "column",
+      ),
+      ...getComponentToken(
+        "vertical-stack",
+        "display",
+        inline ? "inline-flex" : "flex",
       ),
     } as React.CSSProperties;
 

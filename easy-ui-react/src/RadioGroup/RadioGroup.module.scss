@@ -1,0 +1,17 @@
+@use "../styles/common" as *;
+
+.RadioGroup {
+  border: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1.5");
+}
+
+.list {
+  display: inline-flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+}

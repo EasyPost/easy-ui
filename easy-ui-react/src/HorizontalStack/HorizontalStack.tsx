@@ -2,6 +2,7 @@ import React, { ElementType } from "react";
 import { DesignTokenNamespace } from "../types";
 import {
   ResponsiveProp,
+  classNames,
   getComponentToken,
   getResponsiveDesignToken,
 } from "../utilities/css";
@@ -35,6 +36,12 @@ export type HorizontalStackProps = {
 
   /** Content of the horizontal stack. */
   children?: React.ReactNode;
+
+  /** Custom className for the horizontal stack. */
+  className?: string;
+
+  /** Whether or not the horizontal stack uses inline-flex instead of flex. */
+  inline?: boolean;
 
   /** The spacing between elements. Accepts a spacing token or an object of spacing tokens for different screen sizes.
    * @example
@@ -72,6 +79,8 @@ export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
       gap,
       wrap = true,
       children,
+      className,
+      inline,
       ...restProps
     } = props;
     const style = {
@@ -83,10 +92,15 @@ export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
         "wrap",
         wrap ? "wrap" : "nowrap",
       ),
+      ...getComponentToken(
+        "horizontal-stack",
+        "display",
+        inline ? "inline-flex" : "flex",
+      ),
     } as React.CSSProperties;
     return (
       <As
-        className={styles.HorizontalStack}
+        className={classNames(styles.HorizontalStack, className)}
         style={style}
         ref={ref}
         {...restProps}

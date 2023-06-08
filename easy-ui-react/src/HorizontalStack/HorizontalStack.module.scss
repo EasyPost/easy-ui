@@ -3,7 +3,7 @@
 .HorizontalStack {
   @include responsive-prop("horizontal-stack", "gap", gap);
 
-  display: flex;
+  display: component-token("horizontal-stack", "display");
   flex-wrap: component-token("horizontal-stack", "wrap");
   align-items: component-token("horizontal-stack", "block-align");
   justify-content: component-token("horizontal-stack", "align");
