@@ -1,15 +1,8 @@
 import { AriaLabelingProps } from "@react-types/shared";
 import React, { ReactNode } from "react";
-import {
-  VisuallyHidden,
-  mergeProps,
-  useFocusRing,
-  useHover,
-  useSwitch,
-} from "react-aria";
+import { mergeProps, useFocusRing, useHover, useSwitch } from "react-aria";
 import { useToggleState } from "react-stately";
 import { Text } from "../Text";
-import { Noop } from "../utilities/Noop";
 import { classNames } from "../utilities/css";
 import { Switch } from "./Switch";
 
@@ -106,16 +99,13 @@ export function Toggle(props: ToggleProps) {
 
   const RootComponent = children ? "label" : "span";
   const rootProps = children ? hoverProps : {};
-  const InputWrapperComponent = children ? VisuallyHidden : Noop;
   const inputProps = children
     ? mergeProps(inputPropsFromSwitch, focusProps)
     : mergeProps(inputPropsFromSwitch, focusProps, hoverProps);
 
   return (
     <RootComponent {...rootProps} className={className}>
-      <InputWrapperComponent>
-        <input {...inputProps} className={styles.input} ref={ref} />
-      </InputWrapperComponent>
+      <input {...inputProps} className={styles.input} ref={ref} />
       <Switch
         isDisabled={isDisabled}
         isFocusVisible={isFocusVisible}
