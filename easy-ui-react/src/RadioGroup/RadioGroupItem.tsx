@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { VisuallyHidden, useFocusRing, useHover, useRadio } from "react-aria";
+import { useFocusRing, useHover, useRadio } from "react-aria";
 import { ValidationState } from "react-stately";
 import { HorizontalStack } from "../HorizontalStack";
 import { SelectorErrorTooltip } from "../SelectorErrorTooltip";
@@ -77,11 +77,15 @@ export function RadioGroupItem(props: RadioGroupItemProps) {
         blockAlign="start"
         gap="1"
         wrap={false}
+        className={styles.label}
         {...hoverProps}
       >
-        <VisuallyHidden>
-          <input {...inputProps} {...focusProps} ref={ref} />
-        </VisuallyHidden>
+        <input
+          {...inputProps}
+          {...focusProps}
+          className={styles.input}
+          ref={ref}
+        />
         <span className={styles.radioOuter}>
           <span className={styles.radioInner} />
         </span>

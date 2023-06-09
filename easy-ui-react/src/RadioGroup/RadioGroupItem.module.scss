@@ -9,6 +9,10 @@
   );
 }
 
+.label {
+  @include overlay-input;
+}
+
 .radioOuter,
 .radioInner {
   display: inline-flex;
