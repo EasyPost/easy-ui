@@ -36,6 +36,10 @@
   gap: component-token("checkbox", "gap");
 }
 
+.label {
+  @include overlay-input;
+}
+
 .box,
 .errorIcon {
   flex: 0 0 auto;

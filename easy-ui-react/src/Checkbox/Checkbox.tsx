@@ -1,13 +1,8 @@
 import CheckIcon from "@easypost/easy-ui-icons/Check600";
-import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
 import ErrorIcon from "@easypost/easy-ui-icons/ErrorFill";
+import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
 import React, { ReactNode } from "react";
-import {
-  useCheckbox,
-  useFocusRing,
-  useHover,
-  VisuallyHidden,
-} from "react-aria";
+import { useCheckbox, useFocusRing, useHover } from "react-aria";
 import { useToggleState, ValidationState } from "react-stately";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
@@ -166,9 +161,12 @@ export function Checkbox(props: CheckboxProps) {
   return (
     <span className={className} data-testid="root">
       <label className={styles.label} {...hoverProps}>
-        <VisuallyHidden>
-          <input {...inputProps} {...focusProps} ref={ref} />
-        </VisuallyHidden>
+        <input
+          {...inputProps}
+          {...focusProps}
+          className={styles.input}
+          ref={ref}
+        />
         <span className={styles.box}>
           {(isIndeterminate || isSelected) && (
             <span className={styles.check}>
