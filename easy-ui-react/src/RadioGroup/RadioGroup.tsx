@@ -64,6 +64,43 @@ function RadioGroupContainer(props: RadioGroupProps) {
   );
 }
 
+/**
+ * A form element that lets users select a single choice from a list of at
+ * least two options.
+ *
+ * @remarks
+ * Use a radio group to select a single choice from a list of at least two
+ * options. The user can only select one radio option at a time.
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup label="Options:">
+ *   <RadioGroup.Item value="first">First item</RadioGroup.Item>
+ *   <RadioGroup.Item value="second">Second item</RadioGroup.Item>
+ *   <RadioGroup.Item value="third">Third item</RadioGroup.Item>
+ * </RadioGroup>
+ * ```
+ *
+ * @example
+ * _Default value:_
+ * ```tsx
+ * <RadioGroup label="Options:" defaultValue="first">
+ *   <RadioGroup.Item value="first">First item</RadioGroup.Item>
+ *   <RadioGroup.Item value="second">Second item</RadioGroup.Item>
+ *   <RadioGroup.Item value="third">Third item</RadioGroup.Item>
+ * </RadioGroup>
+ * ```
+ *
+ * @example
+ * _Controlled value:_
+ * ```tsx
+ * <RadioGroup label="Options:" value="first" onChange={(value) => {}}>
+ *   <RadioGroup.Item value="first">First item</RadioGroup.Item>
+ *   <RadioGroup.Item value="second">Second item</RadioGroup.Item>
+ *   <RadioGroup.Item value="third">Third item</RadioGroup.Item>
+ * </RadioGroup>
+ * ```
+ */
 export function RadioGroup(props: RadioGroupProps) {
   const { children, ...containerProps } = props;
   return (
@@ -73,7 +110,14 @@ export function RadioGroup(props: RadioGroupProps) {
   );
 }
 
+/**
+ * Represents the outermost element of a `<RadioGroup />`.
+ */
 RadioGroup.Container = RadioGroupContainer;
+
+/**
+ * Represents an item in a `<RadioGroup />`.
+ */
 RadioGroup.Item = RadioGroupItem;
 
 export { useRadioGroupContext };

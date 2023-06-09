@@ -5,6 +5,9 @@ export const RadioGroupContext = React.createContext<RadioGroupState | null>(
   null,
 );
 
+/**
+ * Access the radio group state.
+ */
 export const useRadioGroupContext = () => {
   const radioGroupContext = useContext(RadioGroupContext);
   if (!radioGroupContext) {
