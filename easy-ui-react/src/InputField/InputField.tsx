@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from "react";
-import { AriaTextFieldProps } from "react-aria";
+import { AriaTextFieldProps, useHover } from "react-aria";
 import { ValidationState } from "@react-types/shared";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
@@ -122,6 +122,7 @@ export function InputField(props: InputFieldProps) {
   const ref = React.useRef(null);
   const { labelProps, elementProps, helperTextProps, errorTextProps } =
     useInputField(props, ref);
+  const { isHovered: isInputHovered, hoverProps } = useHover(props);
 
   const Component = getElementType(isMultiline);
 
@@ -151,6 +152,7 @@ export function InputField(props: InputFieldProps) {
 
   const className = classNames(
     styles.input,
+    isInputHovered && styles.hovered,
     Component === "textarea" && styles.textArea,
     isPassword && styles.passwordInput,
     hasError && styles.errorInput,
@@ -188,6 +190,7 @@ export function InputField(props: InputFieldProps) {
         )}
         <Component
           {...elementProps}
+          {...hoverProps}
           className={className}
           ref={ref}
           type={inputType}
@@ -201,6 +204,7 @@ export function InputField(props: InputFieldProps) {
         />
         {isPassword ? (
           <PasswordButton
+            isInputHovered={isInputHovered}
             hasError={hasError}
             inputSize={adjustedSize}
             isDisabled={isDisabled}

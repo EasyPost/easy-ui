@@ -82,6 +82,14 @@
   position: relative;
 }
 
+.label {
+  margin-bottom: design-token("space.1");
+}
+
+.labelHidden {
+  margin-bottom: 0;
+}
+
 .input {
   @include font-style("body1");
   @include component-token("inputfield", "min-height-textarea", 48px);
@@ -110,10 +118,6 @@
 
   &:focus {
     box-shadow: component-token("inputfield", "box_shadow");
-  }
-
-  &:hover {
-    border-color: component-token("inputfield", "color.border.engaged");
   }
 
   &::placeholder {
@@ -217,7 +221,7 @@
   }
 }
 
-.input:hover + .passwordBtn {
+.hovered {
   border-color: component-token("inputfield", "color.border.engaged");
 }
 
@@ -291,14 +295,6 @@
 
 .inputIconPlacementLg {
   top: design-token("space.2");
-}
-
-.label {
-  margin-bottom: design-token("space.1");
-}
-
-.labelHidden {
-  margin-bottom: 0;
 }
 
 .caption {

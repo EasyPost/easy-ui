@@ -30,6 +30,11 @@ export type PasswordButtonProps = {
    * @default false
    */
   isPasswordVisible?: boolean;
+  /**
+   * Whether the associated input is hovered.
+   * @default false
+   */
+  isInputHovered?: boolean;
   /** Callback function when password button is clicked. */
   toggleVisibility?: () => void;
 };
@@ -47,11 +52,13 @@ export function PasswordButton(props: PasswordButtonProps) {
     isDisabled = false,
     isPasswordVisible = false,
     toggleVisibility,
+    isInputHovered = false,
   } = props;
   return (
     <UnstyledButton
       className={classNames(
         styles.passwordBtn,
+        isInputHovered && styles.hovered,
         hasError && styles.passwordBtnError,
         styles[variationName("passwordBtn", inputSize)],
       )}
