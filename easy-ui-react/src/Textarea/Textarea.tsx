@@ -13,6 +13,7 @@ export type TextareaProps = Omit<
    */
   size?: TextareaSize;
 };
+
 /**
  * Allows users to input text on multiple lines.
  *
@@ -95,7 +96,7 @@ export function Textarea(props: TextareaProps) {
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
-    emphasizedLabel = false,
+    isLabelEmphasized = false,
     autoFocus = false,
     label,
     errorText,
@@ -113,7 +114,7 @@ export function Textarea(props: TextareaProps) {
       isDisabled={isDisabled}
       isRequired={isRequired}
       validationState={validationState}
-      emphasizedLabel={emphasizedLabel}
+      isLabelEmphasized={isLabelEmphasized}
       autoFocus={autoFocus}
       label={label}
       errorText={errorText}

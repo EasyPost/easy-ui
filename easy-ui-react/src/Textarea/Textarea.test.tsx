@@ -41,7 +41,7 @@ describe("<Textarea />", () => {
   });
 
   it("should render a textarea that displays a label with emphasis", () => {
-    render(<Textarea label="label" emphasizedLabel />);
+    render(<Textarea label="label" isLabelEmphasized />);
     expect(screen.getByText("label")).toBeInTheDocument();
     expect(screen.getByText("label").tagName).toBe("STRONG");
   });

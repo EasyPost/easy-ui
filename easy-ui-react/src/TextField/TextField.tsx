@@ -116,7 +116,7 @@ export function TextField(props: TextFieldProps) {
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
-    emphasizedLabel = false,
+    isLabelEmphasized = false,
     autoFocus = false,
     label,
     errorText,
@@ -136,7 +136,7 @@ export function TextField(props: TextFieldProps) {
       isDisabled={isDisabled}
       isRequired={isRequired}
       validationState={validationState}
-      emphasizedLabel={emphasizedLabel}
+      isLabelEmphasized={isLabelEmphasized}
       autoFocus={autoFocus}
       label={label}
       errorText={errorText}

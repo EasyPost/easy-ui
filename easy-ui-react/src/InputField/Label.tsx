@@ -14,7 +14,7 @@ export type LabelProps = {
    * Label text displays with emphasis.
    * @default false
    */
-  emphasizedLabel?: boolean;
+  isLabelEmphasized?: boolean;
   /**
    * Size of associated input.
    * @default 'md'
@@ -38,19 +38,19 @@ export type LabelProps = {
 export function Label(props: LabelProps) {
   const {
     isLabelVisuallyHidden = false,
-    emphasizedLabel = false,
+    isLabelEmphasized = false,
     inputSize = "md",
     hasError = false,
     children,
     ...labelProps
   } = props;
 
-  const textVariant = emphasizedLabel
+  const textVariant = isLabelEmphasized
     ? "subtitle1"
     : inputSize === "sm"
     ? "body2"
     : "body1";
-  const as = emphasizedLabel ? "strong" : "span";
+  const as = isLabelEmphasized ? "strong" : "span";
   const color = hasError ? "danger" : undefined;
   return (
     <label

@@ -53,7 +53,7 @@ export const LabelWithEmphasis: Story = {
   render: Template.bind({}),
   args: {
     label: "Label",
-    emphasizedLabel: true,
+    isLabelEmphasized: true,
     helperText: "Optional helper text",
   },
 };
@@ -124,7 +124,7 @@ export const Controls: Story = {
     isDisabled: false,
     isRequired: false,
     validationState: "valid",
-    emphasizedLabel: false,
+    isLabelEmphasized: false,
     autoFocus: false,
     errorText: "",
     helperText: "Optional helper text",

@@ -72,7 +72,7 @@ export type InputFieldProps = AriaTextFieldProps & {
    * Label text displays with emphasis.
    * @default false
    */
-  emphasizedLabel?: boolean;
+  isLabelEmphasized?: boolean;
   /**
    * Whether the element should receive focus on render.
    * @default false
@@ -125,7 +125,7 @@ export function TextField(props: TextFieldProps) {
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
-    emphasizedLabel = false,
+    isLabelEmphasized = false,
     autoFocus = false,
     label,
     errorText,
@@ -145,7 +145,7 @@ export function TextField(props: TextFieldProps) {
       isDisabled={isDisabled}
       isRequired={isRequired}
       validationState={validationState}
-      emphasizedLabel={emphasizedLabel}
+      isLabelEmphasized={isLabelEmphasized}
       autoFocus={autoFocus}
       label={label}
       errorText={errorText}

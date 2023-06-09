@@ -52,7 +52,7 @@ describe("<TextField />", () => {
   });
 
   it("should render a textfield that displays a label with emphasis", () => {
-    render(<TextField label="label" emphasizedLabel />);
+    render(<TextField label="label" isLabelEmphasized />);
     expect(screen.getByText("label")).toBeInTheDocument();
     expect(screen.getByText("label").tagName).toBe("STRONG");
   });

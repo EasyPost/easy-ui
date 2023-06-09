@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import { AriaTextFieldProps } from "react-aria";
+import { ValidationState } from "@react-types/shared";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { Label } from "./Label";
@@ -21,7 +22,6 @@ export type InputType =
   | "search"
   | undefined;
 export type InputSize = "sm" | "md" | "lg";
-export type ValidationState = "valid" | "invalid";
 
 export type InputFieldProps = AriaTextFieldProps & {
   /**
@@ -54,7 +54,7 @@ export type InputFieldProps = AriaTextFieldProps & {
    * Label text displays with emphasis.
    * @default false
    */
-  emphasizedLabel?: boolean;
+  isLabelEmphasized?: boolean;
   /**
    * Whether the element should receive focus on render.
    * @default false
@@ -106,7 +106,7 @@ export function InputField(props: InputFieldProps) {
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
-    emphasizedLabel = false,
+    isLabelEmphasized = false,
     autoFocus = false,
     label,
     errorText,
@@ -123,12 +123,12 @@ export function InputField(props: InputFieldProps) {
   const { labelProps, elementProps, helperTextProps, errorTextProps } =
     useInputField(props, ref);
 
-  const Elem = getElementType(isMultiline);
+  const Component = getElementType(isMultiline);
 
   const bothIconPropsDefined = !!iconAtEnd && !!iconAtStart;
-  const smallSizeTextarea = size === "sm" && Elem === "textarea";
+  const smallSizeTextarea = size === "sm" && Component === "textarea";
   const definedIconsWithTextarea =
-    (!!iconAtEnd || !!iconAtStart) && Elem === "textarea";
+    (!!iconAtEnd || !!iconAtStart) && Component === "textarea";
 
   logWarningsForInvalidPropConfiguration(
     bothIconPropsDefined,
@@ -151,7 +151,7 @@ export function InputField(props: InputFieldProps) {
 
   const className = classNames(
     styles.input,
-    Elem === "textarea" && styles.textArea,
+    Component === "textarea" && styles.textArea,
     isPassword && styles.passwordInput,
     hasError && styles.errorInput,
     hasStartIcon && styles.iconStartInput,
@@ -160,7 +160,7 @@ export function InputField(props: InputFieldProps) {
   );
 
   const inputType =
-    Elem === "textarea"
+    Component === "textarea"
       ? undefined
       : isTypeAdjustedForPasswordVisibility
       ? "text"
@@ -172,7 +172,7 @@ export function InputField(props: InputFieldProps) {
         isLabelVisuallyHidden={isLabelVisuallyHidden}
         inputSize={adjustedSize}
         hasError={hasError}
-        emphasizedLabel={emphasizedLabel}
+        isLabelEmphasized={isLabelEmphasized}
         {...labelProps}
       >
         {label}
@@ -186,7 +186,7 @@ export function InputField(props: InputFieldProps) {
             icon={iconAtStart}
           />
         )}
-        <Elem
+        <Component
           {...elementProps}
           className={className}
           ref={ref}
@@ -197,7 +197,7 @@ export function InputField(props: InputFieldProps) {
           placeholder={placeholder}
           autoFocus={autoFocus}
           defaultValue={defaultValue}
-          rows={Elem === "textarea" ? rows : undefined}
+          rows={Component === "textarea" ? rows : undefined}
         />
         {isPassword ? (
           <PasswordButton
