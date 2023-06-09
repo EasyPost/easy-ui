@@ -63,7 +63,7 @@
   );
 }
 
-.selected {
+.selected:not(.invalid) {
   @include component-token(
     "radio-group-item",
     "color",

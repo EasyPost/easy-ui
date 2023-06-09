@@ -92,8 +92,8 @@
   );
 }
 
-.indeterminate,
-.selected {
+.indeterminate:not(.invalid),
+.selected:not(.invalid) {
   @include component-token(
     "checkbox",
     "color.background",
@@ -103,6 +103,15 @@
     "checkbox",
     "color.border",
     theme-token("color.background.primary")
+  );
+}
+
+.indeterminate.invalid,
+.selected.invalid {
+  @include component-token(
+    "checkbox",
+    "color.background",
+    theme-token("color.border.danger")
   );
 }
 
@@ -128,8 +137,8 @@
   );
 }
 
-.indeterminate.hovered:not(.disabled):not(.readOnly),
-.selected.hovered:not(.disabled):not(.readOnly) {
+.indeterminate.hovered:not(.disabled):not(.readOnly):not(.invalid),
+.selected.hovered:not(.disabled):not(.readOnly):not(.invalid) {
   @include component-token(
     "checkbox",
     "color.background",
@@ -141,6 +150,15 @@
   @include component-token(
     "checkbox",
     "color.border",
+    theme-token("color.border.danger.bolder")
+  );
+}
+
+.indeterminate.invalid.hovered:not(.disabled):not(.readOnly),
+.selected.invalid.hovered:not(.disabled):not(.readOnly) {
+  @include component-token(
+    "checkbox",
+    "color.background",
     theme-token("color.border.danger.bolder")
   );
 }
