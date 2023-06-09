@@ -115,7 +115,7 @@ describe("<RadioGroup />", () => {
         <RadioGroup.Item value="second">Second item</RadioGroup.Item>
       </RadioGroup>,
     );
-    await hoverOverTooltipTrigger(user, screen.getByLabelText("Error"));
+    await hoverOverTooltipTrigger(user, screen.getByText("Error"));
     expect(screen.getAllByRole("radio")[0]).toBeInvalid();
     expect(screen.getByText("This field is required")).toBeInTheDocument();
   });

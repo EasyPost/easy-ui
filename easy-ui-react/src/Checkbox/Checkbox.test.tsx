@@ -72,7 +72,7 @@ describe("<Checkbox />", () => {
         Checkbox item
       </Checkbox>,
     );
-    await hoverOverTooltipTrigger(user, screen.getByLabelText("Error"));
+    await hoverOverTooltipTrigger(user, screen.getByText("Error"));
     expect(screen.getByRole("checkbox")).toBeInvalid();
     expect(screen.getByText("This field is required")).toBeInTheDocument();
   });
