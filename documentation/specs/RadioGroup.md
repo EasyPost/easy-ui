@@ -42,9 +42,6 @@ type RadioGroupProps = {
   /** Whether the radio is disabled. */
   isDisabled?: boolean;
 
-  /** Whether or not the radio group label is visually hidden. Only recommended for when the grouping is visually implicit. */
-  isLabelVisuallyHidden?: boolean;
-
   /** Whether the radio group can be selected but not changed by the user. */
   isReadOnly?: boolean;
 
