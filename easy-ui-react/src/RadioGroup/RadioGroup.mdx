@@ -80,9 +80,17 @@ Radio groups are composable. Use `<RadioGroup.Container />` and `<RadioGroup.Ite
 
 <Canvas of={RadioGroupStories.Composition} />
 
-_CustomRadioGroupItem.tsx:_
+_CustomRadioGroup.tsx:_
 
 ```tsx
+<RadioGroup.Container {...args} defaultValue="first">
+  <VerticalStack gap="1">
+    <CustomRadioGroupItem value="first">First item</CustomRadioGroupItem>
+    <CustomRadioGroupItem value="second">Second item</CustomRadioGroupItem>
+    <CustomRadioGroupItem value="third">Third item</CustomRadioGroupItem>
+  </VerticalStack>
+</RadioGroup.Container>;
+
 function CustomRadioGroupItem({ value, ...restProps }: RadioGroupItemProps) {
   const state = useRadioGroupContext();
   const isSelected = value === state.selectedValue;
