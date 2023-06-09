@@ -11,9 +11,10 @@
     "color.thumb",
     theme-token("color.text.primary")
   );
+  @include component-token("switch", "border_radius", 99px);
 
   display: inline-flex;
-  border-radius: 99px;
+  border-radius: component-token("switch", "border_radius");
 }
 
 .focusVisible {
