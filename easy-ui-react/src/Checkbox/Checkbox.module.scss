@@ -31,6 +31,10 @@
   gap: component-token("checkbox", "gap");
 }
 
+.label {
+  @include overlay-input;
+}
+
 .box,
 .check {
   display: inline-flex;

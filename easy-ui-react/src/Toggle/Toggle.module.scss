@@ -1,0 +1,13 @@
+@use "../styles/common" as *;
+
+.Toggle {
+  @include overlay-input;
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1.5");
+}
+
+.text,
+.input {
+  display: inline-flex;
+}

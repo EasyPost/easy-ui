@@ -1,0 +1,72 @@
+@use "../styles/common" as *;
+
+.Switch {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.gray")
+  );
+  @include component-token(
+    "switch",
+    "color.thumb",
+    theme-token("color.text.primary")
+  );
+  @include component-token("switch", "border_radius", 99px);
+
+  display: inline-flex;
+  border-radius: component-token("switch", "border_radius");
+}
+
+.focusVisible {
+  @include native-focus-ring;
+}
+
+.track {
+  fill: component-token("switch", "color.track");
+}
+
+.thumb {
+  fill: component-token("switch", "color.thumb");
+}
+
+.hovered:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.gray.hovered")
+  );
+}
+
+.selected {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.primary")
+  );
+  @include component-token(
+    "switch",
+    "color.thumb",
+    theme-token("color.text.primary.inverse.bold")
+  );
+}
+
+.selected.hovered:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.primary.hovered")
+  );
+}
+
+.disabled {
+  @include component-token(
+    "switch",
+    "color.track",
+    theme-token("color.background.disabled.subtler")
+  );
+  @include component-token(
+    "switch",
+    "color.thumb",
+    theme-token("color.text.disabled")
+  );
+}
