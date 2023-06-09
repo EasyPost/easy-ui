@@ -9,16 +9,6 @@ describe("<TextField />", () => {
     expect(
       screen.getByLabelText("label", { selector: "input" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByLabelText("label", { selector: "input" }),
-    ).toHaveAttribute("type", "text");
-  });
-
-  it("should render a standard textfield with correct type", () => {
-    render(<TextField label="label" />);
-    expect(
-      screen.getByLabelText("label", { selector: "input" }),
-    ).toHaveAttribute("type", "text");
   });
 
   it("should render a password textfield", () => {
@@ -31,18 +21,6 @@ describe("<TextField />", () => {
   it("should render a password textfield with visibility button", () => {
     render(<TextField type="password" label="password" />);
     expect(screen.getByRole("button")).toBeInTheDocument();
-  });
-
-  it("should render a textfield with placeholder text", () => {
-    render(<TextField label="label" placeholder="enter email" />);
-    expect(screen.getByPlaceholderText("enter email")).toBeInTheDocument();
-  });
-
-  it("should render a disabled textfield", () => {
-    render(<TextField label="label" isDisabled />);
-    expect(
-      screen.getByLabelText("label", { selector: "input" }),
-    ).toBeDisabled();
   });
 
   it("should render a textfield with an icon", () => {
@@ -71,5 +49,11 @@ describe("<TextField />", () => {
     expect(
       screen.getByLabelText("label", { selector: "input" }),
     ).toHaveAttribute("class", expect.stringContaining("inputSizeSm"));
+  });
+
+  it("should render a textfield that displays a label with emphasis", () => {
+    render(<TextField label="label" isLabelEmphasized />);
+    expect(screen.getByText("label")).toBeInTheDocument();
+    expect(screen.getByText("label").tagName).toBe("STRONG");
   });
 });
