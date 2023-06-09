@@ -81,6 +81,7 @@ export function RadioGroupItem(props: RadioGroupItemProps) {
         {...hoverProps}
       >
         <input
+          aria-invalid={validationState === "invalid"}
           {...inputProps}
           {...focusProps}
           className={styles.input}
