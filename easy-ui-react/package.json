@@ -52,6 +52,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/react-syntax-highlighter": "^15.5.7",
     "@vitejs/plugin-react": "^4.0.0",
     "glob": "^10.2.5",
     "jsdom": "^22.1.0",

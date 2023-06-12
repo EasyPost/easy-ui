@@ -1,0 +1,7 @@
+@use "../styles/common" as *;
+
+.CodeBlock {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+}
