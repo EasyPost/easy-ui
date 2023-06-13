@@ -2,7 +2,6 @@ import React, { ElementType } from "react";
 import { DesignTokenNamespace } from "../types";
 import {
   ResponsiveProp,
-  classNames,
   getComponentToken,
   getResponsiveDesignToken,
 } from "../utilities/css";
@@ -36,9 +35,6 @@ export type HorizontalStackProps = {
 
   /** Content of the horizontal stack. */
   children?: React.ReactNode;
-
-  /** Custom className for the horizontal stack. */
-  className?: string;
 
   /** Whether or not the horizontal stack uses inline-flex instead of flex. */
   inline?: boolean;
@@ -79,7 +75,6 @@ export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
       gap,
       wrap = true,
       children,
-      className,
       inline,
       ...restProps
     } = props;
@@ -100,7 +95,7 @@ export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
     } as React.CSSProperties;
     return (
       <As
-        className={classNames(styles.HorizontalStack, className)}
+        className={styles.HorizontalStack}
         style={style}
         ref={ref}
         {...restProps}

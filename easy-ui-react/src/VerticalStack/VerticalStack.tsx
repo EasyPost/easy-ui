@@ -39,9 +39,6 @@ export type VerticalStackProps = {
   /** Contents of the vertical stack. */
   children: React.ReactNode;
 
-  /** Custom className for the vertical stack. */
-  className?: string;
-
   /** The spacing between children */
   gap?: Gap;
 
@@ -80,7 +77,6 @@ export const VerticalStack = forwardRef<null, VerticalStackProps>(
       as: As = "div",
       align,
       children,
-      className: customClassName,
       gap,
       inline,
       inlineAlign,
@@ -92,7 +88,6 @@ export const VerticalStack = forwardRef<null, VerticalStackProps>(
       styles.VerticalStack,
       (As === "ul" || As === "ol") && styles.listReset,
       As === "fieldset" && styles.fieldsetReset,
-      customClassName,
     );
 
     const style = {

@@ -1,12 +1,11 @@
 import React, { ElementType, ReactNode } from "react";
+import { DesignTokenNamespace } from "../types";
 import {
   ResponsiveProp,
-  classNames,
   getComponentToken,
   getResponsiveDesignToken,
   getResponsiveValue,
 } from "../utilities/css";
-import { DesignTokenNamespace } from "../types";
 
 import styles from "./HorizontalGrid.module.scss";
 
@@ -38,9 +37,6 @@ export type HorizontalGridProps = {
 
   /** Content of the horizontal grid. */
   children: ReactNode;
-
-  /** Custom className for the horizontal grid. */
-  className?: string;
 
   /** The number of columns to display. Accepts either a single value or an object of values for different screen sizes.
    * @example
@@ -80,7 +76,6 @@ export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
       alignItems,
       as: As = "div",
       children,
-      className,
       columns,
       gap,
       inline,
@@ -100,11 +95,7 @@ export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
       ),
     } as React.CSSProperties;
     return (
-      <As
-        className={classNames(styles.HorizontalGrid, className)}
-        style={style}
-        ref={ref}
-      >
+      <As className={styles.HorizontalGrid} style={style} ref={ref}>
         {children}
       </As>
     );

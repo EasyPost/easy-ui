@@ -64,39 +64,34 @@ export function RadioGroupItem(props: RadioGroupItemProps) {
     : "primary";
 
   return (
-    <HorizontalStack
-      gap="1"
-      inline
-      blockAlign="center"
-      className={className}
-      data-testid="root"
-    >
-      <HorizontalStack
-        as="label"
-        inline
-        blockAlign="start"
-        gap="1"
-        wrap={false}
-        className={styles.label}
-        {...hoverProps}
-      >
-        <input
-          aria-invalid={validationState === "invalid"}
-          {...inputProps}
-          {...focusProps}
-          className={styles.input}
-          ref={ref}
-        />
-        <span className={styles.radioOuter}>
-          <span className={styles.radioInner} />
-        </span>
-        <Text variant="body1" color={textColor}>
-          {children}
-        </Text>
+    <div className={className} data-testid="root">
+      <HorizontalStack gap="1" blockAlign="center">
+        <label className={styles.label}>
+          <HorizontalStack
+            blockAlign="start"
+            gap="1"
+            wrap={false}
+            {...hoverProps}
+          >
+            <input
+              aria-invalid={validationState === "invalid"}
+              {...inputProps}
+              {...focusProps}
+              className={styles.input}
+              ref={ref}
+            />
+            <span className={styles.radioOuter}>
+              <span className={styles.radioInner} />
+            </span>
+            <Text variant="body1" color={textColor}>
+              {children}
+            </Text>
+          </HorizontalStack>
+        </label>
+        {validationState === "invalid" && errorText && (
+          <SelectorErrorTooltip content={errorText} />
+        )}
       </HorizontalStack>
-      {validationState === "invalid" && errorText && (
-        <SelectorErrorTooltip content={errorText} />
-      )}
-    </HorizontalStack>
+    </div>
   );
 }

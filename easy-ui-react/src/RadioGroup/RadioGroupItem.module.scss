@@ -7,10 +7,12 @@
     "color",
     theme-token("color.border.boldest")
   );
+  display: inline-flex;
 }
 
 .label {
   @include overlay-input;
+  display: inline-flex;
 }
 
 .radioOuter,
