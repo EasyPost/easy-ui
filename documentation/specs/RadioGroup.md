@@ -32,7 +32,7 @@ _Note that radios are only made meaningful as a part of a broader group. Due to 
 ### API
 
 ```ts
-type RadioGroupProps = {
+type RadioGroupProps = AriaLabelingProps & {
   /** Radio buttons to render inside the radio group. */
   children?: ReactNode;
 
