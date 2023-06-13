@@ -1,15 +1,30 @@
 @use "overlayscrollbars/overlayscrollbars.css";
 @use "token-helpers";
 
+@mixin default-os-style {
+  --os-track-bg: #{token-helpers.design-token("color.gray.050")};
+  --os-track-bg-hover: #{token-helpers.design-token("color.gray.100")};
+  --os-track-bg-active: #{token-helpers.design-token("color.gray.100")};
+  --os-handle-bg: #{token-helpers.design-token("color.gray.500")};
+  --os-handle-bg-active: #{token-helpers.design-token("color.gray.700")};
+  --os-handle-bg-hover: #{token-helpers.design-token("color.gray.600")};
+  --os-track-border-radius: 999px;
+  --os-handle-border-radius: 999px;
+}
+
 .ezui-os-theme-overlay {
+  @include default-os-style;
   --ezui-scrollbar-width: 2px;
   --os-size: calc(
     (#{token-helpers.design-token("space.1")} * 2) + var(--ezui-scrollbar-width)
   );
   --os-padding-perpendicular: #{token-helpers.design-token("space.1")};
   --os-padding-axis: #{token-helpers.design-token("space.1")};
-  --os-track-bg: #{token-helpers.design-token("color.gray.050")};
-  --os-handle-bg: #{token-helpers.design-token("color.gray.500")};
-  --os-track-border-radius: 999px;
-  --os-handle-border-radius: 999px;
+}
+
+.ezui-os-theme-code-block {
+  @include default-os-style;
+  --os-size: 4px;
+  --os-padding-perpendicular: 0;
+  --os-padding-axis: 0;
 }
