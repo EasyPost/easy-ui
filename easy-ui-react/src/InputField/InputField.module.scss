@@ -2,79 +2,76 @@
 
 .root {
   @include component-token(
-    "textfield",
+    "inputfield",
     "border_radius",
     design-token("shape.border_radius.md")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "box_shadow",
     design-token("shadow.input")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.text.resting",
     theme-token("color.text")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.text.gray.resting",
     theme-token("color.text.gray.resting")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.text.gray.bold",
     theme-token("color.text.gray.bold")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.text.disabled",
     theme-token("color.text.disabled")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.text.engaged",
     theme-token("color.text.engaged")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.text.danger",
     theme-token("color.text.danger")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.border.resting",
     theme-token("color.border.resting")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.border.engaged",
     theme-token("color.border.engaged")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.border.danger",
     theme-token("color.border.danger")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.background",
     theme-token("color.background")
   );
   @include component-token(
-    "textfield",
+    "inputfield",
     "color.background.disabled",
     theme-token("color.background.disabled.subtle")
   );
-  @include component-token("textfield", "max-height-sm", 32px);
+  @include component-token("inputfield", "max-height-sm", 32px);
   @include component-token(
-    "textfield",
+    "inputfield",
     "z-index",
     design-token("z_index.input_icon")
   );
-}
-
-.inputLabelContainer {
   display: flex;
   flex-direction: column;
 }
@@ -85,13 +82,27 @@
   position: relative;
 }
 
+.label {
+  margin-bottom: design-token("space.1");
+}
+
+.labelHidden {
+  margin-bottom: 0;
+}
+
 .input {
   @include font-style("body1");
-  color: component-token("textfield", "color.text.resting");
-  background-color: component-token("textfield", "color.background");
+  @include component-token("inputfield", "min-height-textarea", 48px);
+  @include component-token(
+    "inputfield",
+    "icon-input-padding",
+    design-token("space.6")
+  );
+  color: component-token("inputfield", "color.text.resting");
+  background-color: component-token("inputfield", "color.background");
   border: design-token("shape.border_width.1") solid
-    component-token("textfield", "color.border.resting");
-  border-radius: component-token("textfield", "border_radius");
+    component-token("inputfield", "color.border.resting");
+  border-radius: component-token("inputfield", "border_radius");
   padding: calc(
     #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
   );
@@ -101,35 +112,34 @@
 
   &:focus,
   &:active {
-    color: component-token("textfield", "color.text.engaged");
-    border-color: component-token("textfield", "color.border.engaged");
+    color: component-token("inputfield", "color.text.engaged");
+    border-color: component-token("inputfield", "color.border.engaged");
   }
 
   &:focus {
-    box-shadow: component-token("textfield", "box_shadow");
-  }
-
-  &:hover {
-    border-color: component-token("textfield", "color.border.engaged");
+    box-shadow: component-token("inputfield", "box_shadow");
   }
 
   &::placeholder {
-    color: component-token("textfield", "color.text.gray.resting");
+    color: component-token("inputfield", "color.text.gray.resting");
   }
 
   &:disabled {
-    background-color: component-token("textfield", "color.background.disabled");
-    color: component-token("textfield", "color.text.disabled");
+    background-color: component-token(
+      "inputfield",
+      "color.background.disabled"
+    );
+    color: component-token("inputfield", "color.text.disabled");
   }
 }
 
 .errorInput {
-  color: component-token("textfield", "color.text.danger");
-  border-color: component-token("textfield", "color.border.danger");
+  color: component-token("inputfield", "color.text.danger");
+  border-color: component-token("inputfield", "color.border.danger");
 
   &:focus,
   &:active {
-    border-color: component-token("textfield", "color.border.danger");
+    border-color: component-token("inputfield", "color.border.danger");
   }
 }
 
@@ -139,40 +149,43 @@
       #{design-token("space.1")} - #{design-token("shape.border_width.1")}
     )
     calc(#{design-token("space.1.5")} - #{design-token("shape.border_width.1")});
-  max-height: component-token("textfield", "max-height-sm");
+  max-height: component-token("inputfield", "max-height-sm");
+  @include component-token("inputfield", "password-input-padding-right", 0);
+  @include component-token(
+    "inputfield",
+    "icon-input-padding",
+    design-token("space.4.5")
+  );
 }
 
 .inputSizeLg {
   padding: calc(
     #{design-token("space.2")} - #{design-token("shape.border_width.1")}
   );
-}
-
-.passwordInput,
-.passwordInput.inputSizeSm,
-.passwordInput.inputSizeLg {
-  padding-right: 0;
+  @include component-token("inputfield", "min-height-textarea", 56px);
+  @include component-token("inputfield", "password-input-padding-right", 0);
 }
 
 .passwordInput {
-  border-radius: component-token("textfield", "border_radius") 0 0
-    component-token("textfield", "border_radius");
+  border-radius: component-token("inputfield", "border_radius") 0 0
+    component-token("inputfield", "border_radius");
   border-right: none;
+  padding-right: component-token("inputfield", "password-input-padding-right");
   &:focus,
   &:active {
-    border-radius: component-token("textfield", "border_radius");
+    border-radius: component-token("inputfield", "border_radius");
     border-right: design-token("shape.border_width.1") solid
-      component-token("textfield", "color.border.engaged");
+      component-token("inputfield", "color.border.engaged");
   }
 }
 
 .passwordBtn {
-  background-color: component-token("textfield", "color.background");
-  color: component-token("textfield", "color.text.gray.resting");
-  border-radius: 0 component-token("textfield", "border_radius")
-    component-token("textfield", "border_radius") 0;
+  background-color: component-token("inputfield", "color.background");
+  color: component-token("inputfield", "color.text.gray.resting");
+  border-radius: 0 component-token("inputfield", "border_radius")
+    component-token("inputfield", "border_radius") 0;
   border: design-token("shape.border_width.1") solid
-    component-token("textfield", "color.border.resting");
+    component-token("inputfield", "color.border.resting");
   border-left: none;
   margin: 0;
   padding: calc(
@@ -183,41 +196,49 @@
   &:focus,
   &:active {
     border: design-token("shape.border_width.1") solid
-      component-token("textfield", "color.border.engaged");
+      component-token("inputfield", "color.border.engaged");
     padding-left: calc(
       #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
     );
-    border-radius: component-token("textfield", "border_radius");
+    border-radius: component-token("inputfield", "border_radius");
   }
 
   &:focus {
-    box-shadow: component-token("textfield", "box_shadow");
+    box-shadow: component-token("inputfield", "box_shadow");
     outline: none;
-    z-index: component-token("textfield", "z-index");
+    z-index: component-token("inputfield", "z-index");
   }
 
   &:hover {
-    color: component-token("textfield", "color.text.gray.bold");
+    color: component-token("inputfield", "color.text.gray.bold");
   }
 
   &:disabled {
-    background-color: component-token("textfield", "color.background.disabled");
+    background-color: component-token(
+      "inputfield",
+      "color.background.disabled"
+    );
   }
 }
 
-.input:hover + .passwordBtn {
-  border-color: component-token("textfield", "color.border.engaged");
+.hovered {
+  border-color: component-token("inputfield", "color.border.engaged");
 }
 
 .input:active + .passwordBtn,
 .input:focus + .passwordBtn {
-  border-color: component-token("textfield", "color.border.resting");
+  border-color: component-token("inputfield", "color.border.resting");
+}
+
+.textArea {
+  resize: vertical;
+  min-height: component-token("inputfield", "min-height-textarea");
 }
 
 .passwordBtnError,
 .passwordBtnError:focus,
 .passwordBtnError:active {
-  border-color: component-token("textfield", "color.border.danger");
+  border-color: component-token("inputfield", "color.border.danger");
 }
 
 .passwordBtnSm {
@@ -239,17 +260,17 @@
 }
 
 .icon {
-  background-color: component-token("textfield", "color.background");
-  color: component-token("textfield", "color.text.gray.resting");
+  background-color: component-token("inputfield", "color.background");
+  color: component-token("inputfield", "color.text.gray.resting");
   border: 0;
   display: inline-block;
   position: absolute;
   top: design-token("space.1.5");
-  z-index: component-token("textfield", "z-index");
+  z-index: component-token("inputfield", "z-index");
 }
 
 .iconDisabled {
-  background-color: component-token("textfield", "color.background.disabled");
+  background-color: component-token("inputfield", "color.background.disabled");
 }
 
 .iconStart {
@@ -261,11 +282,11 @@
 }
 
 .iconStartInput {
-  padding-left: design-token("space.6");
+  padding-left: component-token("inputfield", "icon-input-padding");
 }
 
 .iconEndInput {
-  padding-right: design-token("space.6");
+  padding-right: component-token("inputfield", "icon-input-padding");
 }
 
 .inputIconPlacementSm {
@@ -274,22 +295,6 @@
 
 .inputIconPlacementLg {
   top: design-token("space.2");
-}
-
-.iconStartInput.inputSizeSm {
-  padding-left: design-token("space.4.5");
-}
-
-.iconEndInput.inputSizeSm {
-  padding-right: design-token("space.4.5");
-}
-
-.label {
-  margin-bottom: design-token("space.1");
-}
-
-.labelHidden {
-  margin-bottom: 0;
 }
 
 .caption {

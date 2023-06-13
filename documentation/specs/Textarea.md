@@ -1,8 +1,8 @@
-# `TextArea` Component Specification
+# `Textarea` Component Specification
 
 ## Overview
 
-The `TextArea` component allows users to input text on multiple lines.
+The `Textarea` component allows users to input text on multiple lines.
 
 ### Use Cases
 
@@ -20,9 +20,9 @@ The `TextArea` component allows users to input text on multiple lines.
 
 ### Prior Art
 
-- [Paste `<TextArea />`](https://paste.twilio.design/components/textarea)
-- [Atlassian `<TextArea />`](https://atlassian.design/components/textarea/examples)
-- [Spectrum `<TextArea />`](https://react-spectrum.adobe.com/react-spectrum/TextArea.html)
+- [Paste `<Textarea />`](https://paste.twilio.design/components/textarea)
+- [Atlassian `<Textarea />`](https://atlassian.design/components/textarea/examples)
+- [Spectrum `<Textarea />`](https://react-spectrum.adobe.com/react-spectrum/Textarea.html)
 
 ---
 
@@ -33,73 +33,102 @@ The `TextArea` component allows users to input text on multiple lines.
 ```ts
 import type { AriaTextFieldProps } from "react-aria";
 
-export type TextAreaSize = "md" | "lg";
+export type TextareaSize = "md" | "lg";
 export type ValidationState = "valid" | "invalid";
 
-export type TextAreaProps = AriaTextFieldProps & {
+export type InputFieldProps = AriaTextFieldProps & {
   /**
-   * The size of the TextArea.
-   * @default md
+   * Sets the underlying HTML input type. Setting type to password adds a clickable and
+   * focusable right aligned visibility icon.
+   * @default text
    */
-  size?: TextAreaSize;
+  type?: InputType;
   /**
    * Visually hides the label, but keeps it accessible.
    * @default false
    */
   isLabelVisuallyHidden?: boolean;
   /**
-   * Whether the input is disabled
+   * Whether the input is disabled.
    * @default false
    */
   isDisabled?: boolean;
   /**
-   * Whether user input is required on the input before form submission
+   * Whether user input is required on the input before form submission.
    * @default false
    */
   isRequired?: boolean;
   /**
-   * Whether the input should display its "valid" or "invalid" visual styling
+   * Whether the input should display its "valid" or "invalid" visual styling.
    * @default valid
    */
   validationState?: ValidationState;
   /**
-   * Label text displays with emphasis
+   * Label text displays with emphasis.
    * @default false
    */
-  emphasizedLabel?: boolean;
+  isLabelEmphasized?: boolean;
   /**
-   * Whether the element should receive focus on render
+   * Whether the element should receive focus on render.
    * @default false
    */
   autoFocus?: boolean;
-  /** The content to display as the label */
+  /**
+   * Size affects the overall size of the input, but it also influences the size of
+   * iconAtStart and iconAtEnd.
+   * @default md
+   */
+  size?: InputSize;
+  /**
+   * Sets underlying HTML element to textarea.
+   * @default false
+   */
+  isMultiline?: boolean;
+  /** The content to display as the label. */
   label: ReactNode;
-  /** Error text that appears below input */
+  /** Error text that appears below input. */
   errorText?: ReactNode;
-  /** Helper text that appears below input */
+  /** Helper text that appears below input. */
   helperText?: ReactNode;
-  /** Temporary text that occupies the text input when it is empty */
+  /** Temporary text that occupies the text input when it is empty. */
   placeholder?: string;
-  /** The current value (controlled) */
+  /** The current value (controlled). */
   value?: string;
-  /** The default value (uncontrolled) */
+  /** The default value (uncontrolled). */
   defaultValue?: string;
+  /** Specifies the visible height of a text area, in lines. */
+  rows?: number;
+  /** Left aligned icon on input. */
+  iconAtStart?: IconSymbol;
+  /** Right aligned icon on input. */
+  iconAtEnd?: IconSymbol;
+};
+
+export type TextareaProps = Omit<
+  InputFieldProps,
+  "type" | "iconAtStart" | "iconAtEnd"
+> & {
+  /**
+   * Size of textarea.
+   * @default md
+   */
+  size?: TextareaSize;
 };
 ```
 
 ### Anatomy
 
-The bulk of the `TextArea` component behavior will be handled by React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text area field. The `TextArea` component relies on the following Easy UI utility components: `Label` and `InputCaption`.
+The bulk of the `Textarea` component behavior will be handled by an internal `InputField` component, which will do the heavy lifting with regards to styling and form control logic. The `InputField` component is using React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text area field.
 
 ```tsx
-export function TextArea(props: TextAreaProps) {
+export function Textarea(props: TextareaProps) {
   const {
     size = "md",
     isLabelVisuallyHidden = false,
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
-    emphasizedLabel = false,
+    isLabelEmphasized = false,
     autoFocus = false,
     label,
     errorText,
@@ -107,53 +136,26 @@ export function TextArea(props: TextAreaProps) {
     placeholder,
     value,
     defaultValue,
+    rows = 1,
   } = props;
-
-  const ref = React.useRef(null);
-
-  const {
-    labelProps,
-    inputProps,
-    descriptionProps: helperTextProps,
-    errorMessageProps: errorTextProps,
-  } = useTextField({ ...props, inputElementType: "textarea" }, ref);
-
-  const hasError = validationState === "invalid";
-  const showErrorText = hasError && errorText;
-  const showHelperText = !showErrorText && helperText;
-  const captionProps = showHelperText ? helperTextProps : errorTextProps;
-  const captionText = showHelperText ? helperText : errorText;
-
   return (
-    <div>
-      <div>
-        <Label
-          isLabelVisuallyHidden={isLabelVisuallyHidden}
-          inputSize={size}
-          hasError={hasError}
-          emphasizedLabel={emphasizedLabel}
-          {...labelProps}
-        >
-          {label}
-        </Label>
-        <textarea
-          {...inputProps}
-          ref={ref}
-          value={value}
-          required={isRequired}
-          disabled={isDisabled}
-          placeholder={placeholder}
-          autoFocus={autoFocus}
-          defaultValue={defaultValue}
-        />
-      </div>
-      <InputCaption
-        variant={showHelperText ? "helper" : "error"}
-        {...captionProps}
-      >
-        {captionText}
-      </InputCaption>
-    </div>
+    <InputField
+      isMultiline
+      size={size}
+      isLabelVisuallyHidden={isLabelVisuallyHidden}
+      isDisabled={isDisabled}
+      isRequired={isRequired}
+      validationState={validationState}
+      isLabelEmphasized={isLabelEmphasized}
+      autoFocus={autoFocus}
+      label={label}
+      errorText={errorText}
+      helperText={helperText}
+      placeholder={placeholder}
+      value={value}
+      defaultValue={defaultValue}
+      rows={rows}
+    />
   );
 }
 ```
@@ -163,13 +165,13 @@ export function TextArea(props: TextAreaProps) {
 _Description with helper text:_
 
 ```tsx
-import { TextArea } from "@easypost/easy-ui/TextArea";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
   const [description, setDescription] = useState("");
   return (
     <>
-      <TextArea
+      <Textarea
         label="Label"
         value={description}
         onChange={(inputValue) => setDescription(inputValue)} // value is returned automatically via react-aria
@@ -185,13 +187,13 @@ export function Component() {
 _Visually hidden label with placeholder text:_
 
 ```tsx
-import { TextArea } from "@easypost/easy-ui/TextArea";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
   const [description, setDescription] = useState("");
   return (
     <>
-      <TextArea
+      <Textarea
         label="Label" // visually hidden but still accessible via isLabelVisuallyHidden prop
         isLabelVisuallyHidden
         value={description}
@@ -207,13 +209,13 @@ export function Component() {
 _Invalid state with error text:_
 
 ```tsx
-import { TextArea } from "@easypost/easy-ui/TextArea";
+import { Textarea } from "@easypost/easy-ui/Textarea";
 
 export function Component() {
   const [value, setValue] = useState("");
   return (
     <>
-      <TextArea
+      <Textarea
         label="Label"
         validationState="invalid"
         helperText="Some text" // will be overriden in the presence of an invalid state with error text

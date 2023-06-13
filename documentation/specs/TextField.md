@@ -41,19 +41,13 @@ export type InputType = "text" | "email" | "password" | "tel" | "search";
 export type TextFieldSize = "sm" | "md" | "lg";
 export type ValidationState = "valid" | "invalid";
 
-export type TextFieldProps = AriaTextFieldProps & {
+export type InputFieldProps = AriaTextFieldProps & {
   /**
    * Sets the underlying HTML input type. Setting type to password adds a clickable and
    * focusable right aligned visibility icon.
-   * @default 'text'
+   * @default text
    */
   type?: InputType;
-  /**
-   * TextField size affects the overall size of the input, but it also influences the size of
-   * iconAtStart and iconAtEnd.
-   * @default md
-   */
-  size?: TextFieldSize;
   /**
    * Visually hides the label, but keeps it accessible.
    * @default false
@@ -78,36 +72,49 @@ export type TextFieldProps = AriaTextFieldProps & {
    * Label text displays with emphasis.
    * @default false
    */
-  emphasizedLabel?: boolean;
+  isLabelEmphasized?: boolean;
   /**
    * Whether the element should receive focus on render.
    * @default false
    */
   autoFocus?: boolean;
-  /** The content to display as the label */
+  /**
+   * Size affects the overall size of the input, but it also influences the size of
+   * iconAtStart and iconAtEnd.
+   * @default md
+   */
+  size?: InputSize;
+  /**
+   * Sets underlying HTML element to textarea.
+   * @default false
+   */
+  isMultiline?: boolean;
+  /** The content to display as the label. */
   label: ReactNode;
-  /** Error text that appears below input */
+  /** Error text that appears below input. */
   errorText?: ReactNode;
-  /** Helper text that appears below input */
+  /** Helper text that appears below input. */
   helperText?: ReactNode;
   /** Temporary text that occupies the text input when it is empty. */
   placeholder?: string;
-  /** The current value (controlled) */
+  /** The current value (controlled). */
   value?: string;
-  /** The default value (uncontrolled) */
+  /** The default value (uncontrolled). */
   defaultValue?: string;
-  /** Left aligned icon. */
+  /** Specifies the visible height of a text area, in lines. */
+  rows?: number;
+  /** Left aligned icon on input. */
   iconAtStart?: IconSymbol;
-  /** Right aligned icon. */
+  /** Right aligned icon on input. */
   iconAtEnd?: IconSymbol;
-  /** Handler that is called when the value changes. */
-  onChange?: (value: C) => void;
 };
+
+export type TextFieldProps = Omit<InputFieldProps, "isMultiline" | "rows">;
 ```
 
 ### Anatomy
 
-The bulk of the `TextField` component behavior will be handled by React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text field. The `TextField` component relies on the following Easy UI utility components: `Label`, `InputIcon`, `PasswordButton`, and `InputCaption`.
+The bulk of the `TextFild` component behavior will be handled by an internal `InputField` component, which will do the heavy lifting with regards to styling and form control logic. The `InputField` component is using React Aria's `useTextField` hook as it provides the behavior and accessibility implementation for a text field.
 
 ```tsx
 export function TextField(props: TextFieldProps) {
@@ -118,7 +125,7 @@ export function TextField(props: TextFieldProps) {
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
-    emphasizedLabel = false,
+    isLabelEmphasized = false,
     autoFocus = false,
     label,
     errorText,
@@ -129,102 +136,26 @@ export function TextField(props: TextFieldProps) {
     iconAtStart,
     iconAtEnd,
   } = props;
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const ref = React.useRef(null);
-
-  const {
-    labelProps,
-    inputProps,
-    descriptionProps: helperTextProps,
-    errorMessageProps: errorTextProps,
-  } = useTextField(props, ref);
-
-  const bothIconPropsDefined = iconAtEnd && iconAtStart;
-  if (bothIconPropsDefined) {
-    // eslint-disable-next-line no-console
-    console.warn("Cannot simultaneously define `iconAtEnd` and `iconAtStart`");
-  }
-
-  const isPassword = type === "password";
-  const hasError = validationState === "invalid";
-  const showErrorText = hasError && errorText;
-  const showHelperText = !showErrorText && helperText;
-  const canUseIcon = !bothIconPropsDefined && !isPassword;
-  const hasStartIcon = canUseIcon && iconAtStart;
-  const hasEndIcon = canUseIcon && iconAtEnd;
-  const isTypeAdjustedForPasswordVisibility = isPassword && isPasswordVisible;
-  const captionProps = showHelperText ? helperTextProps : errorTextProps;
-  const captionText = showHelperText ? helperText : errorText;
 
   return (
-    <div className={classNames(styles.root)}>
-      <div className={styles.inputLabelContainer}>
-        <Label
-          isLabelVisuallyHidden={isLabelVisuallyHidden}
-          inputSize={size}
-          hasError={hasError}
-          emphasizedLabel={emphasizedLabel}
-          {...labelProps}
-        >
-          {label}
-        </Label>
-        <div className={styles.inputIconContainer}>
-          {hasStartIcon && (
-            <InputIcon
-              alignment="start"
-              inputSize={size}
-              isDisabled={isDisabled}
-              icon={iconAtStart}
-            />
-          )}
-          <input
-            {...inputProps}
-            className={classNames(
-              styles.input,
-              isPassword && styles.passwordInput,
-              hasError && styles.errorInput,
-              hasStartIcon && styles.iconStartInput,
-              hasEndIcon && styles.iconEndInput,
-              styles[variationName("inputSize", size)],
-            )}
-            ref={ref}
-            type={isTypeAdjustedForPasswordVisibility ? "text" : type}
-            value={value}
-            required={isRequired}
-            disabled={isDisabled}
-            placeholder={placeholder}
-            autoFocus={autoFocus}
-            defaultValue={defaultValue}
-          />
-          {isPassword ? (
-            <PasswordButton
-              hasError={hasError}
-              inputSize={size}
-              isDisabled={isDisabled}
-              isPasswordVisible={isPasswordVisible}
-              toggleVisibility={() =>
-                setIsPasswordVisible((prevVisibility) => !prevVisibility)
-              }
-            />
-          ) : (
-            hasEndIcon && (
-              <InputIcon
-                alignment="end"
-                inputSize={size}
-                isDisabled={isDisabled}
-                icon={iconAtEnd}
-              />
-            )
-          )}
-        </div>
-      </div>
-      <InputCaption
-        variant={showHelperText ? "helper" : "error"}
-        {...captionProps}
-      >
-        {captionText}
-      </InputCaption>
-    </div>
+    <InputField
+      type={type}
+      size={size}
+      isLabelVisuallyHidden={isLabelVisuallyHidden}
+      isDisabled={isDisabled}
+      isRequired={isRequired}
+      validationState={validationState}
+      isLabelEmphasized={isLabelEmphasized}
+      autoFocus={autoFocus}
+      label={label}
+      errorText={errorText}
+      helperText={helperText}
+      placeholder={placeholder}
+      value={value}
+      defaultValue={defaultValue}
+      iconAtStart={iconAtStart}
+      iconAtEnd={iconAtEnd}
+    />
   );
 }
 ```

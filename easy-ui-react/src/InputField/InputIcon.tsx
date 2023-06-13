@@ -2,23 +2,23 @@ import React from "react";
 import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
-import styles from "./TextField.module.scss";
+import styles from "./InputField.module.scss";
 import { mapIconSize } from "./utilities";
-import { InputSize } from "./TextField";
+import { InputSize } from "./InputField";
 
-export type InputIconAlignment = "start" | "end";
+export type TextFieldIconAlignment = "start" | "end";
 
-export type InputIconProps = {
+export type TextFieldIconProps = {
   /**
    * Input's icon alignment.
    * @default false
    */
-  alignment?: InputIconAlignment;
+  alignment?: TextFieldIconAlignment;
   /**
    * Size of associated input.
    * @default 'md'
    */
-  inputSize?: InputSize;
+  size?: InputSize;
   /**
    * Apply disabled styles to icon.
    * @default 'false
@@ -30,26 +30,21 @@ export type InputIconProps = {
 
 /**
  * @privateRemarks
- * The InputIcon component has been designed for use on on the TextField
+ * The InputIcon component has been designed for use on the InputField
  * component. Icons can appears either at the start or end of the input
  */
-export function InputIcon(props: InputIconProps) {
-  const {
-    alignment = "start",
-    inputSize = "md",
-    isDisabled = false,
-    icon,
-  } = props;
+export function InputIcon(props: TextFieldIconProps) {
+  const { alignment = "start", size = "md", isDisabled = false, icon } = props;
   return (
     <div
       className={classNames(
         styles.icon,
         alignment === "start" ? styles.iconStart : styles.iconEnd,
         isDisabled && styles.iconDisabled,
-        styles[variationName("inputIconPlacement", inputSize)],
+        styles[variationName("inputIconPlacement", size)],
       )}
     >
-      <Icon symbol={icon} size={mapIconSize(inputSize)} />
+      <Icon symbol={icon} size={mapIconSize(size)} />
     </div>
   );
 }
