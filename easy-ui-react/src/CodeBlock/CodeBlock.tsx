@@ -1,12 +1,7 @@
-import ezuiTokens from "@easypost/easy-ui-tokens/js/tokens";
-import React, { useMemo } from "react";
+import React, { forwardRef } from "react";
 import { Card } from "../Card";
-import { pxToRem } from "../utilities/css";
-import {
-  SnippetLanguages,
-  SyntaxHighlighter,
-  buildTheme,
-} from "./SyntaxHighlighter";
+import { SnippetLanguages, SyntaxHighlighter } from "./SyntaxHighlighter";
+import { useEasyUiSyntaxHighlighterTheme } from "./theme";
 
 import styles from "./CodeBlock.module.scss";
 
@@ -37,29 +32,10 @@ export type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
   showLineNumbers?: boolean;
 };
 
-export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
-  (props, ref) => {
+export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
+  (props: CodeBlockProps, ref) => {
     const { code, language, maxLines, showLineNumbers } = props;
-    const syntaxTheme = useMemo(
-      () =>
-        buildTheme({
-          maxLines,
-          fontFamily: ezuiTokens["font.family.mono"],
-          fontSize: `${pxToRem(14)}rem`,
-          base: ezuiTokens["color.blue.800"],
-          lineNumber: ezuiTokens["color.gray.500"],
-          comment: ezuiTokens["color.gray.400"],
-          punctuation: ezuiTokens["color.gray.700"],
-          property: ezuiTokens["color.red.600"],
-          selector: ezuiTokens["color.green.600"],
-          operator: ezuiTokens["color.yellow.800"],
-          operatorBg: ezuiTokens["color.white"],
-          variable: ezuiTokens["color.yellow.700"],
-          function: ezuiTokens["color.red.500"],
-          keyword: ezuiTokens["color.blue.500"],
-        }),
-      [maxLines],
-    );
+    const syntaxTheme = useEasyUiSyntaxHighlighterTheme(maxLines);
     return (
       <Card background="primary">
         <div className={styles.CodeBlock} ref={ref}>

@@ -13,7 +13,9 @@ const meta: Meta<typeof CodeBlock> = {
   title: "Components/CodeBlock",
   component: CodeBlock,
   args: {
-    language: "javascript",
+    language: SnippetLanguage.JAVASCRIPT,
+    showLineNumbers: false,
+    maxLines: undefined,
   },
 };
 
@@ -33,23 +35,7 @@ export const LineNumbers: Story = {
 export const MaxLines: Story = {
   render: Template.bind({}),
   args: {
-    maxLines: 10,
-    showLineNumbers: true,
-  },
-};
-
-export const Javascript: Story = {
-  render: Template.bind({}),
-  args: {
-    showLineNumbers: true,
-  },
-};
-
-export const Csharp: Story = {
-  render: Template.bind({}),
-  args: {
-    code: getSnippets()[SnippetLanguage.CSHARP],
-    language: "csharp",
+    maxLines: 8,
     showLineNumbers: true,
   },
 };
