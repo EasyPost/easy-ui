@@ -77,7 +77,11 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
     useScrollbar(codeBlockRef);
     return (
       <Card background="primary">
-        <div className={styles.CodeBlock} ref={mergeRefs(ref, codeBlockRef)}>
+        <div
+          className={styles.CodeBlock}
+          ref={mergeRefs(ref, codeBlockRef)}
+          tabIndex={maxLines != null ? 0 : undefined}
+        >
           <SyntaxHighlighter
             language={language}
             style={syntaxTheme}
