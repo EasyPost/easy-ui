@@ -8,6 +8,6 @@
   );
   @include responsive-prop("horizontal-grid", "gap", "gap");
 
-  display: grid;
+  display: component-token("horizontal-grid", "display");
   align-items: component-token("horizontal-grid", "align-items");
 }

@@ -3,6 +3,7 @@
 .Text {
   @include component-token("text", "color", inherit);
   margin: 0;
+  padding: 0;
   text-align: inherit;
   color: component-token("text", "color");
 }

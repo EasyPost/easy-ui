@@ -1,11 +1,11 @@
 import React, { ElementType, ReactNode } from "react";
+import { DesignTokenNamespace } from "../types";
 import {
   ResponsiveProp,
   getComponentToken,
   getResponsiveDesignToken,
   getResponsiveValue,
 } from "../utilities/css";
-import { DesignTokenNamespace } from "../types";
 
 import styles from "./HorizontalGrid.module.scss";
 
@@ -23,6 +23,12 @@ export type Gap = ResponsiveProp<SpaceScale>;
 export type HorizontalGridAlignItems = "start" | "end" | "center";
 
 export type HorizontalGridProps = {
+  /** Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.
+   * @example
+   * alignItems='start'
+   */
+  alignItems?: HorizontalGridAlignItems;
+
   /**
    * HTML element type.
    * @default div
@@ -46,11 +52,8 @@ export type HorizontalGridProps = {
    */
   gap?: Gap;
 
-  /** Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.
-   * @example
-   * alignItems='start'
-   */
-  alignItems?: HorizontalGridAlignItems;
+  /** Whether or not the horizontal grid uses inline-grid instead of grid. */
+  inline?: boolean;
 };
 
 /**
@@ -69,7 +72,14 @@ export type HorizontalGridProps = {
  */
 export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
   (props, ref) => {
-    const { as: As = "div", children, columns, gap, alignItems } = props;
+    const {
+      alignItems,
+      as: As = "div",
+      children,
+      columns,
+      gap,
+      inline,
+    } = props;
     const style = {
       ...getResponsiveValue(
         "horizontal-grid",
@@ -78,6 +88,11 @@ export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
       ),
       ...getResponsiveDesignToken("horizontal-grid", "gap", "space", gap),
       ...getComponentToken("horizontal-grid", "align-items", alignItems),
+      ...getComponentToken(
+        "horizontal-grid",
+        "display",
+        inline ? "inline-grid" : "grid",
+      ),
     } as React.CSSProperties;
     return (
       <As className={styles.HorizontalGrid} style={style} ref={ref}>

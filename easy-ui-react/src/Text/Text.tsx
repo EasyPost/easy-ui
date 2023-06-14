@@ -11,6 +11,7 @@ export type TextAs =
   | "h4"
   | "h5"
   | "h6"
+  | "legend"
   | "p"
   | "span"
   | "strong";

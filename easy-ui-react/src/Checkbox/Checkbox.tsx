@@ -1,12 +1,11 @@
 import CheckIcon from "@easypost/easy-ui-icons/Check600";
-import ErrorIcon from "@easypost/easy-ui-icons/ErrorFill";
 import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
 import React, { ReactNode } from "react";
 import { useCheckbox, useFocusRing, useHover } from "react-aria";
-import { useToggleState, ValidationState } from "react-stately";
+import { ValidationState, useToggleState } from "react-stately";
 import { Icon } from "../Icon";
+import { SelectorErrorTooltip } from "../SelectorErrorTooltip";
 import { Text } from "../Text";
-import { Tooltip } from "../Tooltip";
 import { classNames, variationName } from "../utilities/css";
 
 import styles from "./Checkbox.module.scss";
@@ -185,11 +184,7 @@ export function Checkbox(props: CheckboxProps) {
         </span>
       </label>
       {validationState === "invalid" && errorText && (
-        <Tooltip content={errorText}>
-          <span tabIndex={0} className={styles.errorIcon} aria-label="Error">
-            <Icon symbol={ErrorIcon} />
-          </span>
-        </Tooltip>
+        <SelectorErrorTooltip content={errorText} />
       )}
     </span>
   );

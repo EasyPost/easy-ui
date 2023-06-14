@@ -21,11 +21,6 @@
     "color.border",
     theme-token("color.border.boldest")
   );
-  @include component-token(
-    "checkbox",
-    "color.error-icon",
-    theme-token("color.text.danger")
-  );
 }
 
 .Checkbox,
@@ -38,11 +33,6 @@
 
 .label {
   @include overlay-input;
-}
-
-.box,
-.errorIcon {
-  flex: 0 0 auto;
 }
 
 .box,
@@ -59,6 +49,7 @@
   border: design-token("shape.border_width.1") solid
     component-token("checkbox", "color.border");
   border-radius: component-token("checkbox", "border-radius");
+  flex: 0 0 auto;
   margin-top: component-token("checkbox", "box-margin-top");
 
   .focusVisible & {
@@ -73,11 +64,6 @@
 .text {
   display: inline-flex;
   margin: component-token("checkbox", "text-margin-ver") 0;
-}
-
-.errorIcon {
-  display: inline-flex;
-  color: component-token("checkbox", "color.error-icon");
 }
 
 .indeterminateSvg {
@@ -110,8 +96,8 @@
   );
 }
 
-.indeterminate,
-.selected {
+.indeterminate:not(.invalid),
+.selected:not(.invalid) {
   @include component-token(
     "checkbox",
     "color.background",
@@ -121,6 +107,15 @@
     "checkbox",
     "color.border",
     theme-token("color.background.primary")
+  );
+}
+
+.indeterminate.invalid,
+.selected.invalid {
+  @include component-token(
+    "checkbox",
+    "color.background",
+    theme-token("color.border.danger")
   );
 }
 
@@ -146,8 +141,8 @@
   );
 }
 
-.indeterminate.hovered:not(.disabled):not(.readOnly),
-.selected.hovered:not(.disabled):not(.readOnly) {
+.indeterminate.hovered:not(.disabled):not(.readOnly):not(.invalid),
+.selected.hovered:not(.disabled):not(.readOnly):not(.invalid) {
   @include component-token(
     "checkbox",
     "color.background",
@@ -159,6 +154,15 @@
   @include component-token(
     "checkbox",
     "color.border",
+    theme-token("color.border.danger.bolder")
+  );
+}
+
+.indeterminate.invalid.hovered:not(.disabled):not(.readOnly),
+.selected.invalid.hovered:not(.disabled):not(.readOnly) {
+  @include component-token(
+    "checkbox",
+    "color.background",
     theme-token("color.border.danger.bolder")
   );
 }

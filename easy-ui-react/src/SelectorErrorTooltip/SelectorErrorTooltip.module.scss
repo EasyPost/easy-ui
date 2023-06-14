@@ -1,0 +1,6 @@
+@use "../styles/common" as *;
+
+.SelectorErrorTooltip {
+  display: inline-flex;
+  color: theme-token("color.text.danger");
+}

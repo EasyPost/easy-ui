@@ -1,0 +1,118 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { RadioGroup } from "./RadioGroup";
+import * as RadioGroupStories from "./RadioGroup.stories";
+
+<Meta of={RadioGroupStories} />
+
+# RadioGroup
+
+A `<RadioGroup />` is a form element that lets users select a single choice from a list of at least two options.
+
+<Canvas of={RadioGroupStories.Default} />
+
+## Selected
+
+A `<RadioGroup />` can control selection with `value` and `onChange`.
+
+<Canvas of={RadioGroupStories.Value} />
+
+<Controls of={RadioGroupStories.Value} include={["onChange", "value"]} />
+
+A `<RadioGroup />` can default selection with `defaultValue`.
+
+<Canvas of={RadioGroupStories.DefaultValue} />
+
+<Controls of={RadioGroupStories.DefaultValue} include={["defaultValue"]} />
+
+## Disabled
+
+A `<RadioGroup />` can be disabled using `isDisabled`.
+
+<Canvas of={RadioGroupStories.Disabled} />
+
+<Controls of={RadioGroupStories.Disabled} include={["isDisabled"]} />
+
+An item in a `<RadioGroup />` can be disabled using `isDisabled` on the item.
+
+<Canvas of={RadioGroupStories.DisabledItem} />
+
+## Standalone
+
+In most cases, a `<RadioGroup />` should have a visible label.
+
+If the `<RadioGroup />` does not have a visible label, an `aria-label` or `aria-labelledby` prop must be passed instead to identify the element to assistive technology.
+
+<Canvas of={RadioGroupStories.Standalone} />
+
+<Controls of={RadioGroupStories.Standalone} include={["aria-label", "label"]} />
+
+## Errors
+
+An item in a `<RadioGroup />` can be marked invalid using `validationState="invalid"`.
+
+Use `errorText` to provide an inline error message in a tooltip.
+
+<Canvas of={RadioGroupStories.InvalidItem} />
+
+<Controls
+  of={RadioGroupStories.InvalidItem}
+  include={["validationState", "errorText"]}
+/>
+
+## Multiline
+
+A `<RadioGroup />` will break into multiple lines on smaller screens. The radio will stay aligned to the top of the respective label.
+
+<Canvas of={RadioGroupStories.Multiline} />
+
+<Controls of={RadioGroupStories.Multiline} include={["children"]} />
+
+## Composition
+
+Radio groups are composable. Use `<RadioGroup.Container />` and `<RadioGroup.Item />` to create complex radio groups.
+
+`<RadioGroup.Container />` is the radio group containing its fieldset and legend.
+
+`<RadioGroup.Item />` is the individual radio item containing a radio and label.
+
+`useRadioGroupContext()` can be used to retrieve the radio group state.
+
+<Canvas of={RadioGroupStories.Composition} />
+
+_CustomRadioGroup.tsx:_
+
+```tsx
+<RadioGroup.Container {...args} defaultValue="first">
+  <VerticalStack gap="1">
+    <CustomRadioGroupItem value="first">First item</CustomRadioGroupItem>
+    <CustomRadioGroupItem value="second">Second item</CustomRadioGroupItem>
+    <CustomRadioGroupItem value="third">Third item</CustomRadioGroupItem>
+  </VerticalStack>
+</RadioGroup.Container>;
+
+function CustomRadioGroupItem({ value, ...restProps }: RadioGroupItemProps) {
+  const state = useRadioGroupContext();
+  const isSelected = value === state.selectedValue;
+  return (
+    <VerticalStack inline gap="1">
+      <RadioGroup.Item value={value} {...restProps} />
+      {isSelected && (
+        <div style={{ paddingLeft: 24 }}>
+          <PlaceholderBox height={100} />
+        </div>
+      )}
+    </VerticalStack>
+  );
+}
+```
+
+## Properties
+
+### RadioGroup / RadioGroup.Container
+
+<ArgTypes of={RadioGroup} />
+
+### RadioGroup.Item
+
+<ArgTypes of={RadioGroup.Item} />

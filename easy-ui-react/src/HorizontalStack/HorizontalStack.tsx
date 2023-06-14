@@ -36,6 +36,9 @@ export type HorizontalStackProps = {
   /** Content of the horizontal stack. */
   children?: React.ReactNode;
 
+  /** Whether or not the horizontal stack uses inline-flex instead of flex. */
+  inline?: boolean;
+
   /** The spacing between elements. Accepts a spacing token or an object of spacing tokens for different screen sizes.
    * @example
    * gap='2'
@@ -72,6 +75,7 @@ export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
       gap,
       wrap = true,
       children,
+      inline,
       ...restProps
     } = props;
     const style = {
@@ -82,6 +86,11 @@ export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
         "horizontal-stack",
         "wrap",
         wrap ? "wrap" : "nowrap",
+      ),
+      ...getComponentToken(
+        "horizontal-stack",
+        "display",
+        inline ? "inline-flex" : "flex",
       ),
     } as React.CSSProperties;
     return (
