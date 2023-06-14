@@ -1,4 +1,4 @@
-import React, { ElementType, ReactNode } from "react";
+import React, { ElementType, ReactNode, forwardRef } from "react";
 import { DesignTokenNamespace } from "../types";
 import {
   ResponsiveProp,
@@ -23,9 +23,8 @@ export type Gap = ResponsiveProp<SpaceScale>;
 export type HorizontalGridAlignItems = "start" | "end" | "center";
 
 export type HorizontalGridProps = {
-  /** Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.
-   * @example
-   * alignItems='start'
+  /**
+   * Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.
    */
   alignItems?: HorizontalGridAlignItems;
 
@@ -38,14 +37,16 @@ export type HorizontalGridProps = {
   /** Content of the horizontal grid. */
   children: ReactNode;
 
-  /** The number of columns to display. Accepts either a single value or an object of values for different screen sizes.
+  /**
+   * The number of columns to display. Accepts either a single value, an array of column values, or an object of values for different screen sizes.
    * @example
    * columns={6}
    * columns={{xs: 1, sm: 1, md: 3, lg: 6, xl: 6}}
    */
   columns: Columns;
 
-  /** The spacing between children. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+  /**
+   * The spacing between children. Accepts a spacing token or an object of spacing tokens for different screen sizes.
    * @example
    * gap='2'
    * gap={{xs: '1', sm: '2', md: '3', lg: '4', xl: '5'}}
@@ -70,7 +71,7 @@ export type HorizontalGridProps = {
  * </HorizontalGrid>
  * ```
  */
-export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
+export const HorizontalGrid = forwardRef<null, HorizontalGridProps>(
   (props, ref) => {
     const {
       alignItems,
@@ -104,7 +105,7 @@ export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
 
 HorizontalGrid.displayName = "HorizontalGrid";
 
-function formatHorizontalGrid(
+export function formatHorizontalGrid(
   columns?: Columns,
 ): ResponsiveProp<string | undefined> {
   if (

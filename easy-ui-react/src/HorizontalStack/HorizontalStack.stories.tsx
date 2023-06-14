@@ -1,12 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { HorizontalStack } from "../HorizontalStack";
+import { HorizontalStack, HorizontalStackProps } from "../HorizontalStack";
 import {
   PlaceholderBox,
   PlaceholderBoxProps,
   getDesignTokensControl,
 } from "../utilities/storybook";
-import { HorizontalStackProps } from "./HorizontalStack";
 
 type Story = StoryObj<typeof HorizontalStack>;
 
