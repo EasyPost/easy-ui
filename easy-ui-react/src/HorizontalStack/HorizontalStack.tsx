@@ -95,10 +95,10 @@ export const HorizontalStack = forwardRef<null, HorizontalStackProps>(
     } as React.CSSProperties;
     return (
       <As
+        {...restProps}
         className={styles.HorizontalStack}
         style={style}
         ref={ref}
-        {...restProps}
       >
         {children}
       </As>

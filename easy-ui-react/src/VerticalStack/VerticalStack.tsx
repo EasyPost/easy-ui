@@ -1,5 +1,4 @@
 import React, { forwardRef } from "react";
-import omit from "lodash/omit";
 import {
   ResponsiveProp,
   classNames,
@@ -42,16 +41,14 @@ export type VerticalStackProps = {
   /** The spacing between children */
   gap?: Gap;
 
-  /** HTML id attribute */
-  id?: string;
-
   /** Whether or not the vertical stack uses inline-flex instead of flex. */
   inline?: boolean;
 
   /** Horizontal alignment of children */
   inlineAlign?: InlineAlign;
 
-  /** Reverse the render order of child items
+  /**
+   * Reverse the render order of child items
    * @default false
    */
   reverseOrder?: boolean;
@@ -108,10 +105,10 @@ export const VerticalStack = forwardRef<null, VerticalStackProps>(
 
     return (
       <As
+        {...restProps}
         className={className}
         style={sanitizeCustomProperties(style)}
         ref={ref}
-        {...omit(restProps, ["className", "style"])}
       >
         {children}
       </As>
