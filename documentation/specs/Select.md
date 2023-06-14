@@ -96,8 +96,6 @@ export type SelectProps = AriaSelectProps & {
   onSelectionChange?: (key: Key) => any;
   /** The contents of the collection. */
   children: CollectionChildren<T>;
-  /** Item objects in the collection. */
-  items?: Iterable<T>;
   /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
   disabledKeys?: Iterable<Key>;
 };
@@ -152,10 +150,11 @@ export function Component() {
       label="Monthly shipping volume"
       selectedKey={shippingVolume}
       onSelectionChange={(selected) => setShippingVolume(selected)}
-      items={options}
       helperText="Helper text"
     >
-      {(item) => <Select.Item>{item.volume}</Select.Item>}
+      {options.map((item) => (
+        <Select.Item key={item.volume}>{item.volume}</Select.Item>
+      ))}
     </Select>
   );
 }
