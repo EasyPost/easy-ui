@@ -10,7 +10,9 @@ import { MutableRefObject, useEffect } from "react";
  *
  * @param scrollRef Ref of element to scroll
  */
-export function useScrollbar(scrollRef: MutableRefObject<HTMLElement | null>) {
+export function useScrollbar(
+  codeBlockRef: MutableRefObject<HTMLDivElement | null>,
+) {
   const [initialize] = useOverlayScrollbars({
     options: {
       scrollbars: {
@@ -20,16 +22,13 @@ export function useScrollbar(scrollRef: MutableRefObject<HTMLElement | null>) {
     defer: false,
   });
   useEffect(() => {
-    if (scrollRef.current) {
-      const $pre = scrollRef.current.querySelector("pre");
-      if ($pre) {
-        initialize({
-          target: scrollRef.current,
-          elements: {
-            viewport: $pre,
-          },
-        });
-      }
+    if (codeBlockRef.current) {
+      initialize({
+        target: codeBlockRef.current,
+        elements: {
+          viewport: codeBlockRef.current.querySelector("pre"),
+        },
+      });
     }
-  }, [initialize, scrollRef]);
+  }, [initialize, codeBlockRef]);
 }

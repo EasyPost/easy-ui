@@ -1,7 +1,6 @@
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 
 import csharp from "react-syntax-highlighter/dist/esm/languages/prism/csharp";
-import shell from "react-syntax-highlighter/dist/esm/languages/prism/shell-session";
 import go from "react-syntax-highlighter/dist/esm/languages/prism/go";
 import java from "react-syntax-highlighter/dist/esm/languages/prism/java";
 import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
@@ -9,6 +8,7 @@ import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
 import php from "react-syntax-highlighter/dist/esm/languages/prism/php";
 import python from "react-syntax-highlighter/dist/esm/languages/prism/python";
 import ruby from "react-syntax-highlighter/dist/esm/languages/prism/ruby";
+import shell from "react-syntax-highlighter/dist/esm/languages/prism/shell-session";
 
 export type SnippetLanguages =
   | "csharp"

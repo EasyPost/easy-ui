@@ -37,15 +37,12 @@ export type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
 export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
   (props: CodeBlockProps, ref) => {
     const { code, language, maxLines, showLineNumbers } = props;
-
-    const blockRef = useRef<HTMLDivElement | null>(null);
+    const codeBlockRef = useRef<HTMLDivElement | null>(null);
     const syntaxTheme = useEasyUiSyntaxHighlighterTheme(maxLines);
-
-    useScrollbar(blockRef);
-
+    useScrollbar(codeBlockRef);
     return (
       <Card background="primary">
-        <div className={styles.CodeBlock} ref={mergeRefs(ref, blockRef)}>
+        <div className={styles.CodeBlock} ref={mergeRefs(ref, codeBlockRef)}>
           <SyntaxHighlighter
             language={language}
             style={syntaxTheme}
