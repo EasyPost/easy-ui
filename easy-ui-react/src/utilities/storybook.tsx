@@ -140,10 +140,11 @@ export const overlayPlacements = [
   "right bottom",
 ] as AriaPlacement[];
 
-type PlaceholderBoxProps = {
+export type PlaceholderBoxProps = {
   children?: ReactNode;
   width?: number | string;
   height?: number | string;
+  style?: React.CSSProperties;
 };
 
 /**
@@ -153,6 +154,7 @@ export const PlaceholderBox = ({
   width = 378,
   height = 224,
   children = <>Content</>,
+  style = {},
 }: PlaceholderBoxProps) => (
   <div
     style={{
@@ -164,6 +166,7 @@ export const PlaceholderBox = ({
       background: tokens["color.gray.100"],
       borderRadius: 4,
       padding: 12,
+      ...style,
     }}
   >
     {children}

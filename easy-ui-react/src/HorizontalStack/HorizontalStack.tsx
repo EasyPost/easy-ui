@@ -1,4 +1,4 @@
-import React, { ElementType } from "react";
+import React, { ElementType, forwardRef } from "react";
 import { DesignTokenNamespace } from "../types";
 import {
   ResponsiveProp,
@@ -66,7 +66,7 @@ export type HorizontalStackProps = {
  * </HorizontalStack>
  * ```
  */
-export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
+export const HorizontalStack = forwardRef<null, HorizontalStackProps>(
   (props, ref) => {
     const {
       as: As = "div",
