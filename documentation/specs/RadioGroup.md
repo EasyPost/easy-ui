@@ -32,7 +32,7 @@ _Note that radios are only made meaningful as a part of a broader group. Due to 
 ### API
 
 ```ts
-type RadioGroupProps = {
+type RadioGroupProps = AriaLabelingProps & {
   /** Radio buttons to render inside the radio group. */
   children?: ReactNode;
 
@@ -41,9 +41,6 @@ type RadioGroupProps = {
 
   /** Whether the radio is disabled. */
   isDisabled?: boolean;
-
-  /** Whether or not the radio group label is visually hidden. Only recommended for when the grouping is visually implicit. */
-  isLabelVisuallyHidden?: boolean;
 
   /** Whether the radio group can be selected but not changed by the user. */
   isReadOnly?: boolean;
