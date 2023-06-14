@@ -34,6 +34,41 @@ export type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
   showLineNumbers?: boolean;
 };
 
+/**
+ * A display element for readable blocks of code.
+ *
+ * @remarks
+ * Use a Code Block to improve readability of embedded code samples with
+ * syntax highlighting and automatic line numbering.
+ *
+ * @example
+ * ```tsx
+ * <CodeBlock
+ *   code={`console.log("Hello world");`}
+ *   language="javascript"
+ * />
+ * ```
+ *
+ * @example
+ * _Line numbers:_
+ * ```tsx
+ * <CodeBlock
+ *   code={`console.log("Hello world");`}
+ *   language="javascript"
+ *   showLineNumbers
+ * />
+ * ```
+ *
+ * @example
+ * _Max lines:_
+ * ```tsx
+ * <CodeBlock
+ *   code={`console.log("Hello world");`}
+ *   language="javascript"
+ *   maxLines={8}
+ * />
+ * ```
+ */
 export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
   (props: CodeBlockProps, ref) => {
     const { code, language, maxLines, showLineNumbers } = props;
