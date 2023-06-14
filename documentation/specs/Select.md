@@ -182,6 +182,24 @@ export function Component() {
 }
 ```
 
+_With left aligned icon:_
+
+```tsx
+import { Select } from "@easypost/easy-ui/Select";
+import SomeIcon from "@easypost/easy-ui-icons/Some";
+
+export function Component() {
+  return (
+    <Select label="Monthly shipping volume" iconAtStart={SomeIcon}>
+      <Select.Item key="# of packages"># of packages</Select.Item>
+      <Select.Item key="1000">1000</Select.Item>
+      <Select.Item key="50000">50000</Select.Item>
+      <Select.Item key="1M+">1M+</Select.Item>
+    </Select>
+  );
+}
+```
+
 ---
 
 ## Behavior
@@ -191,7 +209,6 @@ export function Component() {
 Accessibility
 
 - Labels should be included on all select fields as they describe the purpose of any associated form control. In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
-- Do not use `placeholder` text as a replacement for labels. It can be used to provide an example to users, but will disappear from the field when a user enters text. It's also not broadly supported by assistive technologies and won't display in older browsers.
 
 ## Dependencies
 
