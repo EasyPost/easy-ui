@@ -24,7 +24,7 @@ const meta: Meta<typeof HorizontalGrid> = {
   title: "Components/HorizontalGrid",
   component: HorizontalGrid,
   args: {
-    columns: 2,
+    columns: 4,
     gap: "2",
     children: (
       <>
