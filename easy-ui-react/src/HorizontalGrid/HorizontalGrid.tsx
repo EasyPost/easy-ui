@@ -56,7 +56,7 @@ export type HorizontalGridProps = {
 };
 
 /**
- * Use to display children horizontally. Based on CSS Grid.
+ * Use to display children in a horizontal grid. Based on CSS Grid.
  *
  * @remarks
  * Properties like `gap` use Easy UI's constraint system.
