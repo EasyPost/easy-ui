@@ -2,7 +2,7 @@
 
 ## Overview
 
-A HorizontalStack displays children horizontally based on CSS Flexbox.
+A HorizontalStack displays children horizontally based on CSS flexbox.
 
 ### Features
 
