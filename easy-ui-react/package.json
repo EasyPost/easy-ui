@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",
@@ -29,8 +29,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@easypost/easy-ui-icons": "1.0.0-alpha.3",
-    "@easypost/easy-ui-tokens": "1.0.0-alpha.2",
+    "@easypost/easy-ui-icons": "1.0.0-alpha.4",
+    "@easypost/easy-ui-tokens": "1.0.0-alpha.3",
     "@react-aria/toast": "^3.0.0-beta.1",
     "@react-aria/utils": "^3.17.0",
     "@react-stately/toast": "^3.0.0-beta.0",

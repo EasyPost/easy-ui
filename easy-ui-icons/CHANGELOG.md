@@ -1,5 +1,13 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.4
+
+### Minor Changes
+
+- b6c7ec4: Create `<Checkbox />` component
+- ccf7b2b: Add `TextField` component
+- 9dd6938: Add `<Notification />` components
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes
