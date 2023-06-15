@@ -1,0 +1,36 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { CodeBlock } from "./CodeBlock";
+import * as CodeBlockStories from "./CodeBlock.stories";
+
+<Meta of={CodeBlockStories} />
+
+# CodeBlock
+
+A `<CodeBlock />` is used to improve readability of embedded code samples with syntax highlighting and automatic line numbering.
+
+Use the `code` and `language` props to control the contents of the `<CodeBlock />`.
+
+<Canvas of={CodeBlockStories.Default} />
+
+<Controls of={CodeBlockStories.Default} include={["language"]} />
+
+## Line Numbers
+
+A `<CodeBlock />` can show line numbers using `showLineNumbers`.
+
+<Canvas of={CodeBlockStories.LineNumbers} />
+
+<Controls of={CodeBlockStories.LineNumbers} include={["showLineNumbers"]} />
+
+## Max Lines
+
+A `<CodeBlock />` can limit its height to a maximum number of lines using the `maxLines` prop.
+
+<Canvas of={CodeBlockStories.MaxLines} />
+
+<Controls of={CodeBlockStories.MaxLines} include={["maxLines"]} />
+
+## Properties
+
+<ArgTypes of={CodeBlock} exclude={["children"]} />

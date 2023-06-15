@@ -7,5 +7,9 @@ module.exports = {
   rules: {
     "scss/comment-no-empty": null,
     "scss/dollar-variable-pattern": [/^ezui-/, { ignore: "local" }],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      { ignorePseudoClasses: ["global"] },
+    ],
   },
 };
