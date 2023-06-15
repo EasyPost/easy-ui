@@ -5,9 +5,9 @@
   --os-track-bg: #{token-helpers.design-token("color.gray.050")};
   --os-track-bg-hover: #{token-helpers.design-token("color.gray.100")};
   --os-track-bg-active: #{token-helpers.design-token("color.gray.100")};
-  --os-handle-bg: #{token-helpers.design-token("color.gray.500")};
-  --os-handle-bg-active: #{token-helpers.design-token("color.gray.700")};
-  --os-handle-bg-hover: #{token-helpers.design-token("color.gray.600")};
+  --os-handle-bg: #{token-helpers.design-token("color.gray.300")};
+  --os-handle-bg-hover: #{token-helpers.design-token("color.gray.400")};
+  --os-handle-bg-active: #{token-helpers.design-token("color.gray.500")};
   --os-track-border-radius: 999px;
   --os-handle-border-radius: 999px;
 }
