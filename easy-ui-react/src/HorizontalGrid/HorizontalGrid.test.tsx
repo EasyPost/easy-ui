@@ -5,7 +5,8 @@ import {
   getResponsiveDesignToken,
   getResponsiveValue,
 } from "../utilities/css";
-import { HorizontalGrid, formatHorizontalGrid } from "./HorizontalGrid";
+import { HorizontalGrid } from "./HorizontalGrid";
+import { formatHorizontalGrid } from "./utilities";
 
 describe("<HorizontalGrid />", () => {
   const props = {

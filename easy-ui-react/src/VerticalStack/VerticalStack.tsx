@@ -1,33 +1,27 @@
-import React, { forwardRef } from "react";
+import React, { ReactNode, forwardRef } from "react";
+import { ResponsiveSpaceScale } from "../types";
 import {
-  ResponsiveProp,
   classNames,
   getComponentToken,
   getResponsiveDesignToken,
   sanitizeCustomProperties,
 } from "../utilities/css";
-import { DesignTokenNamespace } from "../types";
 
 import styles from "./VerticalStack.module.scss";
 
-type Align =
+export type Align =
   | "start"
   | "center"
   | "end"
   | "space-around"
   | "space-between"
   | "space-evenly";
-
-type InlineAlign = "start" | "center" | "end" | "baseline" | "stretch";
-
-type Element = "div" | "ul" | "ol" | "fieldset";
-
-type SpaceScale = DesignTokenNamespace<"space">;
-
-type Gap = ResponsiveProp<SpaceScale>;
+export type InlineAlign = "start" | "center" | "end" | "baseline" | "stretch";
+export type Element = "div" | "ul" | "ol" | "fieldset";
 
 export type VerticalStackProps = {
-  /** HTML Element type
+  /**
+   * HTML Element type
    * @default 'div'
    */
   as?: Element;
@@ -36,10 +30,10 @@ export type VerticalStackProps = {
   align?: Align;
 
   /** Contents of the vertical stack. */
-  children: React.ReactNode;
+  children: ReactNode;
 
   /** The spacing between children */
-  gap?: Gap;
+  gap?: ResponsiveSpaceScale;
 
   /** Whether or not the vertical stack uses inline-flex instead of flex. */
   inline?: boolean;

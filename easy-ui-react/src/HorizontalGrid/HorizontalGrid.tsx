@@ -1,15 +1,14 @@
 import React, { ElementType, ReactNode, forwardRef } from "react";
-import { DesignTokenNamespace } from "../types";
+import { ResponsiveSpaceScale } from "../types";
 import {
   ResponsiveProp,
   getComponentToken,
   getResponsiveDesignToken,
   getResponsiveValue,
 } from "../utilities/css";
+import { formatHorizontalGrid } from "./utilities";
 
 import styles from "./HorizontalGrid.module.scss";
-
-type SpaceScale = DesignTokenNamespace<"space">;
 
 export type ColumnsAlias =
   | "oneFourth"
@@ -19,7 +18,6 @@ export type ColumnsAlias =
   | "threeFourths";
 export type ColumnsType = number | string | (string | ColumnsAlias)[];
 export type Columns = ResponsiveProp<ColumnsType>;
-export type Gap = ResponsiveProp<SpaceScale>;
 export type HorizontalGridAlignItems = "start" | "end" | "center";
 
 export type HorizontalGridProps = {
@@ -51,7 +49,7 @@ export type HorizontalGridProps = {
    * gap='2'
    * gap={{xs: '1', sm: '2', md: '3', lg: '4', xl: '5'}}
    */
-  gap?: Gap;
+  gap?: ResponsiveSpaceScale;
 
   /** Whether or not the horizontal grid uses inline-grid instead of grid. */
   inline?: boolean;
@@ -104,51 +102,3 @@ export const HorizontalGrid = forwardRef<null, HorizontalGridProps>(
 );
 
 HorizontalGrid.displayName = "HorizontalGrid";
-
-export function formatHorizontalGrid(
-  columns?: Columns,
-): ResponsiveProp<string | undefined> {
-  if (
-    typeof columns === "object" &&
-    columns !== null &&
-    !Array.isArray(columns)
-  ) {
-    return Object.fromEntries(
-      Object.entries(columns).map(
-        ([breakpointAlias, breakpointHorizontalGrid]) => [
-          breakpointAlias,
-          getColumnValue(breakpointHorizontalGrid),
-        ],
-      ),
-    );
-  }
-
-  return getColumnValue(columns);
-}
-
-function getColumnValue(columns?: ColumnsType) {
-  if (!columns) return undefined;
-
-  if (typeof columns === "number" || !isNaN(Number(columns))) {
-    return `repeat(${Number(columns)}, minmax(0, 1fr))`;
-  }
-
-  if (typeof columns === "string") return columns;
-
-  return columns
-    .map((column) => {
-      switch (column) {
-        case "oneFourth":
-        case "oneThird":
-        case "oneHalf":
-          return "minmax(0, 1fr)";
-        case "twoThirds":
-          return "minmax(0, 2fr)";
-        case "threeFourths":
-          return "minmax(0, 3fr)";
-        default:
-          return column;
-      }
-    })
-    .join(" ");
-}
