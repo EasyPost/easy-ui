@@ -1,0 +1,66 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { HorizontalStack } from "./HorizontalStack";
+import * as HorizontalStackStories from "./HorizontalStack.stories";
+
+<Meta of={HorizontalStackStories} />
+
+# HorizontalStack
+
+A `<HorizontalStack />` is used to display children horizontally based on CSS flexbox.
+
+<Canvas of={HorizontalStackStories.Default} />
+
+## Gap
+
+A `<HorizontalStack />` can have a custom gap between elements using Easy UI's space scale.
+
+<Canvas of={HorizontalStackStories.Gap} />
+
+<Controls of={HorizontalStackStories.Gap} include={["gap"]} />
+
+`gap` can also be set on a per-breakpoint basis:
+
+```tsx
+<HorizontalStack gap={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }}>
+  <Content />
+</HorizontalStack>
+```
+
+## Align
+
+A `<HorizontalStack />` can align its children horizontally using the `align` prop.
+
+<Canvas of={HorizontalStackStories.Align} />
+
+<Controls of={HorizontalStackStories.Align} include={["align"]} />
+
+## Block Align
+
+A `<HorizontalStack />` can align its children vertically using the `blockAlign` prop.
+
+<Canvas of={HorizontalStackStories.BlockAlign} />
+
+<Controls of={HorizontalStackStories.BlockAlign} include={["blockAlign"]} />
+
+## Inline
+
+A `<HorizontalStack />` can be rendered as an inline element using the `inline` prop.
+
+<Canvas of={HorizontalStackStories.Inline} />
+
+<Controls of={HorizontalStackStories.Inline} include={["inline"]} />
+
+## Wrap
+
+A `<HorizontalStack />` can wrap its children using the `wrap` prop.
+
+_Resize the story window to see the wrapping behavior._
+
+<Canvas of={HorizontalStackStories.Wrap} />
+
+<Controls of={HorizontalStackStories.Wrap} include={["wrap"]} />
+
+## Properties
+
+<ArgTypes of={HorizontalStack} />

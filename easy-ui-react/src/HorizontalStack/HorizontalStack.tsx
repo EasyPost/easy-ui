@@ -1,16 +1,9 @@
-import React, { ElementType } from "react";
-import { DesignTokenNamespace } from "../types";
-import {
-  ResponsiveProp,
-  getComponentToken,
-  getResponsiveDesignToken,
-} from "../utilities/css";
+import React, { ElementType, ReactNode, forwardRef } from "react";
+import { ResponsiveSpaceScale } from "../types";
+import { getComponentToken, getResponsiveDesignToken } from "../utilities/css";
 
 import styles from "./HorizontalStack.module.scss";
 
-type SpaceScale = DesignTokenNamespace<"space">;
-
-export type Gap = ResponsiveProp<SpaceScale>;
 export type Align =
   | "start"
   | "center"
@@ -34,19 +27,21 @@ export type HorizontalStackProps = {
   blockAlign?: BlockAlign;
 
   /** Content of the horizontal stack. */
-  children?: React.ReactNode;
+  children: ReactNode;
 
   /** Whether or not the horizontal stack uses inline-flex instead of flex. */
   inline?: boolean;
 
-  /** The spacing between elements. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+  /**
+   * The spacing between elements. Accepts a spacing token or an object of spacing tokens for different screen sizes.
    * @example
    * gap='2'
    * gap={{xs: '2', sm: '3', md: '4', lg: '5', xl: '6'}}
    */
-  gap?: Gap;
+  gap?: ResponsiveSpaceScale;
 
-  /** Wrap stack elements to additional rows as needed on small screens
+  /**
+   * Wrap stack elements to additional rows as needed on small screens
    * @default true
    */
   wrap?: boolean;
@@ -66,7 +61,7 @@ export type HorizontalStackProps = {
  * </HorizontalStack>
  * ```
  */
-export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
+export const HorizontalStack = forwardRef<null, HorizontalStackProps>(
   (props, ref) => {
     const {
       as: As = "div",
@@ -95,10 +90,10 @@ export const HorizontalStack = React.forwardRef<null, HorizontalStackProps>(
     } as React.CSSProperties;
     return (
       <As
+        {...restProps}
         className={styles.HorizontalStack}
         style={style}
         ref={ref}
-        {...restProps}
       >
         {children}
       </As>

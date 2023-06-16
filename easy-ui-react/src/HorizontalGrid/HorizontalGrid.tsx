@@ -1,15 +1,14 @@
-import React, { ElementType, ReactNode } from "react";
-import { DesignTokenNamespace } from "../types";
+import React, { ElementType, ReactNode, forwardRef } from "react";
+import { ResponsiveSpaceScale } from "../types";
 import {
   ResponsiveProp,
   getComponentToken,
   getResponsiveDesignToken,
   getResponsiveValue,
 } from "../utilities/css";
+import { formatHorizontalGrid } from "./utilities";
 
 import styles from "./HorizontalGrid.module.scss";
-
-type SpaceScale = DesignTokenNamespace<"space">;
 
 export type ColumnsAlias =
   | "oneFourth"
@@ -19,13 +18,11 @@ export type ColumnsAlias =
   | "threeFourths";
 export type ColumnsType = number | string | (string | ColumnsAlias)[];
 export type Columns = ResponsiveProp<ColumnsType>;
-export type Gap = ResponsiveProp<SpaceScale>;
 export type HorizontalGridAlignItems = "start" | "end" | "center";
 
 export type HorizontalGridProps = {
-  /** Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.
-   * @example
-   * alignItems='start'
+  /**
+   * Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.
    */
   alignItems?: HorizontalGridAlignItems;
 
@@ -38,26 +35,28 @@ export type HorizontalGridProps = {
   /** Content of the horizontal grid. */
   children: ReactNode;
 
-  /** The number of columns to display. Accepts either a single value or an object of values for different screen sizes.
+  /**
+   * The number of columns to display. Accepts either a single value, an array of column values, or an object of values for different screen sizes.
    * @example
    * columns={6}
    * columns={{xs: 1, sm: 1, md: 3, lg: 6, xl: 6}}
    */
   columns: Columns;
 
-  /** The spacing between children. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+  /**
+   * The spacing between children. Accepts a spacing token or an object of spacing tokens for different screen sizes.
    * @example
    * gap='2'
    * gap={{xs: '1', sm: '2', md: '3', lg: '4', xl: '5'}}
    */
-  gap?: Gap;
+  gap?: ResponsiveSpaceScale;
 
   /** Whether or not the horizontal grid uses inline-grid instead of grid. */
   inline?: boolean;
 };
 
 /**
- * Use to display children horizontally. Based on CSS Grid.
+ * Use to display children in a horizontal grid. Based on CSS Grid.
  *
  * @remarks
  * Properties like `gap` use Easy UI's constraint system.
@@ -70,7 +69,7 @@ export type HorizontalGridProps = {
  * </HorizontalGrid>
  * ```
  */
-export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
+export const HorizontalGrid = forwardRef<null, HorizontalGridProps>(
   (props, ref) => {
     const {
       alignItems,
@@ -103,51 +102,3 @@ export const HorizontalGrid = React.forwardRef<null, HorizontalGridProps>(
 );
 
 HorizontalGrid.displayName = "HorizontalGrid";
-
-function formatHorizontalGrid(
-  columns?: Columns,
-): ResponsiveProp<string | undefined> {
-  if (
-    typeof columns === "object" &&
-    columns !== null &&
-    !Array.isArray(columns)
-  ) {
-    return Object.fromEntries(
-      Object.entries(columns).map(
-        ([breakpointAlias, breakpointHorizontalGrid]) => [
-          breakpointAlias,
-          getColumnValue(breakpointHorizontalGrid),
-        ],
-      ),
-    );
-  }
-
-  return getColumnValue(columns);
-}
-
-function getColumnValue(columns?: ColumnsType) {
-  if (!columns) return undefined;
-
-  if (typeof columns === "number" || !isNaN(Number(columns))) {
-    return `repeat(${Number(columns)}, minmax(0, 1fr))`;
-  }
-
-  if (typeof columns === "string") return columns;
-
-  return columns
-    .map((column) => {
-      switch (column) {
-        case "oneFourth":
-        case "oneThird":
-        case "oneHalf":
-          return "minmax(0, 1fr)";
-        case "twoThirds":
-          return "minmax(0, 2fr)";
-        case "threeFourths":
-          return "minmax(0, 3fr)";
-        default:
-          return column;
-      }
-    })
-    .join(" ");
-}

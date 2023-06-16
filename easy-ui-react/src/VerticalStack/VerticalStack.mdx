@@ -1,0 +1,64 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { VerticalStack } from "./VerticalStack";
+import * as VerticalStackStories from "./VerticalStack.stories";
+
+<Meta of={VerticalStackStories} />
+
+# VerticalStack
+
+A `<VerticalStack />` is used to display children vertically based on CSS flexbox.
+
+<Canvas of={VerticalStackStories.Default} />
+
+## Gap
+
+A `<VerticalStack />` can have a custom gap between elements using Easy UI's space scale.
+
+<Canvas of={VerticalStackStories.Gap} />
+
+<Controls of={VerticalStackStories.Gap} include={["gap"]} />
+
+`gap` can also be set on a per-breakpoint basis:
+
+```tsx
+<VerticalStack gap={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }}>
+  <Content />
+</VerticalStack>
+```
+
+## Align
+
+A `<VerticalStack />` can align its children vertically using the `align` prop.
+
+<Canvas of={VerticalStackStories.Align} />
+
+<Controls of={VerticalStackStories.Align} include={["align"]} />
+
+## Inline Align
+
+A `<VerticalStack />` can align its children horizontally using the `inlineAlign` prop.
+
+<Canvas of={VerticalStackStories.InlineAlign} />
+
+<Controls of={VerticalStackStories.InlineAlign} include={["inlineAlign"]} />
+
+## Inline
+
+A `<VerticalStack />` can be rendered as an inline element using the `inline` prop.
+
+<Canvas of={VerticalStackStories.Inline} />
+
+<Controls of={VerticalStackStories.Inline} include={["inline"]} />
+
+## Reverse Order
+
+A `<VerticalStack />` can reverse its children using the `reverseOrder` prop.
+
+<Canvas of={VerticalStackStories.ReverseOrder} />
+
+<Controls of={VerticalStackStories.ReverseOrder} include={["reverseOrder"]} />
+
+## Properties
+
+<ArgTypes of={VerticalStack} />

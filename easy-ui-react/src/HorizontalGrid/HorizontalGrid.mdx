@@ -1,0 +1,86 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { HorizontalGrid } from "./HorizontalGrid";
+import * as HorizontalGridStories from "./HorizontalGrid.stories";
+
+<Meta of={HorizontalGridStories} />
+
+# HorizontalGrid
+
+A `<HorizontalGrid />` is used to display children horizontally on a grid using CSS grid.
+
+<Canvas of={HorizontalGridStories.Default} />
+
+## Columns
+
+A `<HorizontalGrid />` specifies the number of columns to display with the `columns` prop.
+
+It accepts a single column value or an array of column values.
+
+Column values can be a number, or one of `oneFourth`, `oneThird`, `oneHalf`, `twoThirds`, `threeFourths`, or any value accepted by `grid-template-columns`.
+
+`columns` can also be set on a per-breakpoint basis:
+
+```tsx
+<HorizontalGrid columns={{ xs: 1, md: 2, xl: 4 }}>
+  <Content />
+</HorizontalGrid>
+```
+
+<Canvas of={HorizontalGridStories.Columns4} />
+
+<Controls of={HorizontalGridStories.Columns4} include={["columns"]} />
+
+### Fractional Columns
+
+`<HorizontalGrid />` comes with keywords for up to fourth fractionals to make common layouts easier.
+
+<Canvas of={HorizontalGridStories.ColumnsFractional} />
+
+### Custom Columns
+
+`columns` accepts any value accepted by `grid-template-columns` for custom layouts.
+
+<Canvas of={HorizontalGridStories.ColumnsCustom} />
+
+### Responsive Columns
+
+`columns` can be adjusted per breakpoint.
+
+<Canvas of={HorizontalGridStories.ColumnsResponsive} />
+
+## Gap
+
+A `<HorizontalGrid />` can have a custom gap between elements using Easy UI's space scale.
+
+<Canvas of={HorizontalGridStories.Gap} />
+
+<Controls of={HorizontalGridStories.Gap} include={["gap"]} />
+
+`gap` can also be set on a per-breakpoint basis:
+
+```tsx
+<HorizontalGrid gap={{ xs: "2", sm: "3", md: "4", lg: "5", xl: "6" }}>
+  <Content />
+</HorizontalGrid>
+```
+
+## Align Items
+
+A `<HorizontalGrid />` can adjust the vertical alignment of its children with the `alignItems` prop. If not set, inline elements will stretch to the height of the parent.
+
+<Canvas of={HorizontalGridStories.AlignItems} />
+
+<Controls of={HorizontalGridStories.AlignItems} include={["alignItems"]} />
+
+## Inline
+
+A `<HorizontalGrid />` can be rendered as an inline element using the `inline` prop.
+
+<Canvas of={HorizontalGridStories.Inline} />
+
+<Controls of={HorizontalGridStories.Inline} include={["inline"]} />
+
+## Properties
+
+<ArgTypes of={HorizontalGrid} />
