@@ -52,7 +52,7 @@
     "@storybook/addon-a11y": "^7.0.21",
     "@storybook/addon-essentials": "^7.0.21",
     "@storybook/blocks": "^7.0.21",
-    "@storybook/manager-api": "^7.0.21",
+    "@storybook/manager-api": "^7.0.22",
     "@storybook/react": "^7.0.21",
     "@storybook/react-vite": "^7.0.21",
     "@storybook/testing-library": "^0.1.0",
