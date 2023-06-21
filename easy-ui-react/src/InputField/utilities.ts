@@ -1,6 +1,6 @@
 import { InputSize } from "./InputField";
 
-/** Small textfield needs xs icon */
+/** Small fields need xs icon */
 export function mapIconSize(size: InputSize) {
   if (size === "sm") {
     return "xs";

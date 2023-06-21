@@ -172,7 +172,7 @@ export function InputField(props: InputFieldProps) {
     <div className={classNames(styles.root)}>
       <Label
         isLabelVisuallyHidden={isLabelVisuallyHidden}
-        inputSize={adjustedSize}
+        fieldSize={adjustedSize}
         hasError={hasError}
         isLabelEmphasized={isLabelEmphasized}
         {...labelProps}
