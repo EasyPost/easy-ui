@@ -14,7 +14,7 @@ export type SelectSectionProps = {
 
 /**
  * @privateRemarks
- * This is what is exposed as `<Menu.Section />`. This is a wrapper around
+ * This is what is exposed as `<Select.Section />`. This is a wrapper around
  * @react-stately's Section collection component to control the props that are
  * allowed for the component.
  */
