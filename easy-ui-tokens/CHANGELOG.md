@@ -1,5 +1,16 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.3
+
+### Minor Changes
+
+- 8a0fc63: Create `<CodeBlock />` component
+- 98a9e63: Create `<Card />` component
+- b6c7ec4: Create `<Checkbox />` component
+- ccf7b2b: Add `TextField` component
+- b8be2c6: Create `<Toggle />` component
+- 9dd6938: Add `<Notification />` components
+
 ## 1.0.0-alpha.2
 
 ### Minor Changes

@@ -10,15 +10,23 @@
     "@easypost/stylelint-easy-ui": "0.0.0"
   },
   "changesets": [
+    "chilled-meals-whisper",
+    "chilly-dolphins-obey",
     "curly-poems-attend",
+    "empty-carrots-smash",
+    "empty-pandas-matter",
     "fresh-kids-peel",
     "large-cows-destroy",
     "metal-comics-clap",
     "rich-keys-guess",
     "shaggy-bats-hope",
+    "six-monkeys-chew",
+    "small-dodos-sniff",
+    "small-houses-confess",
     "strange-olives-deliver",
     "ten-toes-grin",
     "tricky-dogs-live",
+    "unlucky-insects-punch",
     "violet-weeks-notice"
   ]
 }

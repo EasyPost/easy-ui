@@ -1,5 +1,29 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.4
+
+### Minor Changes
+
+- 8a0fc63: Create `<CodeBlock />` component
+- 0e0522e: Add Textarea and InputField components
+- 98a9e63: Create `<Card />` component
+- b6c7ec4: Create `<Checkbox />` component
+- ccf7b2b: Add `TextField` component
+- b8be2c6: Create `<Toggle />` component
+- 9dd6938: Add `<Notification />` components
+- 60660db: Create `<RadioGroup />` component
+
+### Patch Changes
+
+- Updated dependencies [8a0fc63]
+- Updated dependencies [98a9e63]
+- Updated dependencies [b6c7ec4]
+- Updated dependencies [ccf7b2b]
+- Updated dependencies [b8be2c6]
+- Updated dependencies [9dd6938]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.3
+  - @easypost/easy-ui-icons@1.0.0-alpha.4
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes
