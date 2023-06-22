@@ -18,13 +18,21 @@ export type SelectTriggerProps = {
   size?: SelectFieldSize;
   /** Left aligned icon on input. */
   iconAtStart?: IconSymbol;
-  valueProps: DOMAttributes<FocusableElement>;
+  valueProps?: DOMAttributes<FocusableElement>;
   hasError?: boolean;
+  isDisabled?: boolean;
   children: ReactNode;
 };
 
 export function SelectTrigger(props: SelectTriggerProps) {
-  const { size = "md", valueProps, iconAtStart, hasError, children } = props;
+  const {
+    size = "md",
+    valueProps,
+    iconAtStart,
+    hasError,
+    isDisabled,
+    children,
+  } = props;
   const { triggerProps, triggerRef } = useInternalSelectContext();
 
   const hasStartIcon = !!iconAtStart;
@@ -38,14 +46,24 @@ export function SelectTrigger(props: SelectTriggerProps) {
   return (
     <div className={styles.selectFieldIconContainer}>
       {hasStartIcon && (
-        <InputIcon alignment="start" icon={iconAtStart} size={size} />
+        <InputIcon
+          alignment="start"
+          icon={iconAtStart}
+          size={size}
+          isDisabled={isDisabled}
+        />
       )}
       <UnstyledButton {...triggerProps} ref={triggerRef} className={className}>
         <span {...valueProps} className={styles.selectFieldText}>
           {children}
         </span>
       </UnstyledButton>
-      <InputIcon alignment="end" icon={ExpandMoreIcon400} size={size} />
+      <InputIcon
+        alignment="end"
+        icon={ExpandMoreIcon400}
+        size={size}
+        isDisabled={isDisabled}
+      />
     </div>
   );
 }

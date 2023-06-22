@@ -7,12 +7,18 @@ import { NoInfer } from "../types";
 import styles from "./Select.module.scss";
 
 export type SelectOptionProps = {
-  /** An accessibility label for the item. */
+  /** An accessibility label for the option. */
   "aria-label"?: string;
-  /** Rendered contents of the item or child items. */
+  /** Rendered contents of the option or child options. */
   children: ReactNode;
 };
 
+/**
+ * @privateRemarks
+ * This is what is exposed as `<Select.Option />`. This is a wrapper around
+ * @react-stately's Item component to control the props that are
+ * allowed for the component.
+ */
 export function SelectOption<T>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _props: SelectOptionProps & NoInfer<T>,

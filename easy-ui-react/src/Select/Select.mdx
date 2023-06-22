@@ -38,3 +38,40 @@ Set `size="lg"` for a large `<Select />`.
 Use `isLabelEmphasized=true` to display a label with emphasis.
 
 <Canvas of={SelectStories.LabelWithEmphasis} />
+
+## Error
+
+When `validationState` is set to `invalid`, the `<Select />` field displays with error styles. If provided,
+`errorText` will be displayed as well and override `helperText`.
+
+<Canvas of={SelectStories.Error} />
+
+## Visually hidden label
+
+To hide a `label` but maintain accessibility, use `isLabelVisuallyHidden`.
+
+<Canvas of={SelectStories.VisuallyHiddenLabel} />
+
+## With Separator
+
+Options can be divided into sections via `<Select.Section />`
+
+<Canvas of={SelectStories.WithSeparator} />
+
+## Controlled Selection
+
+For controlled selection, use `selectedKey` and `onSelectionChange`. Uncontrolled selection is possible with `defaultSelectedKey`. See associated code snippet.
+
+<Canvas of={SelectStories.ControlledSelection} />
+
+## Disabled Options
+
+Options can be disabled via the `disabledKeys` prop.
+
+<Canvas of={SelectStories.DisabledOptions} />
+
+## Disabled Select
+
+Use `isDisabled` to disabled the field entirely.
+
+<Canvas of={SelectStories.DisabledSelect} />

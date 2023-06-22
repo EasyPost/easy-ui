@@ -55,10 +55,14 @@ export type SelectFieldProps = {
   placeholder?: string;
   /** Left aligned icon on input. */
   iconAtStart?: IconSymbol;
-  labelProps: DOMAttributes<FocusableElement>;
-  helperTextProps: DOMAttributes<FocusableElement>;
-  errorTextProps: DOMAttributes<FocusableElement>;
-  valueProps: DOMAttributes<FocusableElement>;
+  /** Label props associated with field. */
+  labelProps?: DOMAttributes<FocusableElement>;
+  /** Helper text props associated with field. */
+  helperTextProps?: DOMAttributes<FocusableElement>;
+  /** Error text props associated with field. */
+  errorTextProps?: DOMAttributes<FocusableElement>;
+  /** Field value props. */
+  valueProps?: DOMAttributes<FocusableElement>;
 };
 
 export function SelectField(props: SelectFieldProps) {
@@ -107,6 +111,7 @@ export function SelectField(props: SelectFieldProps) {
         valueProps={valueProps}
         iconAtStart={iconAtStart}
         hasError={hasError}
+        isDisabled={isDisabled}
         size={size}
       >
         {selectState.selectedItem ? (
