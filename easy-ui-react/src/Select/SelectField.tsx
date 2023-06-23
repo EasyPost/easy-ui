@@ -13,7 +13,7 @@ import { SelectTrigger } from "./SelectTrigger";
 export type SelectFieldSize = "sm" | "md" | "lg";
 export type ValidationState = "valid" | "invalid";
 
-export type SelectFieldProps = {
+export type BaseSelectFieldProps = {
   /**
    * Visually hides the label, but keeps it accessible.
    * @default false
@@ -55,6 +55,9 @@ export type SelectFieldProps = {
   placeholder?: string;
   /** Left aligned icon on the select field. */
   iconAtStart?: IconSymbol;
+};
+
+type SelectFieldAttributeProps = {
   /** Label props associated with field. */
   labelProps?: DOMAttributes<FocusableElement>;
   /** Helper text props associated with field. */
@@ -64,6 +67,8 @@ export type SelectFieldProps = {
   /** Field value props. */
   valueProps?: DOMAttributes<FocusableElement>;
 };
+
+type SelectFieldProps = BaseSelectFieldProps & SelectFieldAttributeProps;
 
 export function SelectField(props: SelectFieldProps) {
   const {

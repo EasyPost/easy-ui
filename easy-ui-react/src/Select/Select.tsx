@@ -3,14 +3,14 @@ import { CollectionChildren } from "@react-types/shared";
 import { useSelectState } from "react-stately";
 import { AriaSelectProps, useSelect } from "react-aria";
 import { InternalSelectContext } from "./SelectContext";
-import { SelectField, SelectFieldProps } from "./SelectField";
+import { SelectField, BaseSelectFieldProps } from "./SelectField";
 import { SelectOption } from "./SelectOption";
 import { SelectSection } from "./SelectSection";
 import { SelectOverlay } from "./SelectOverlay";
 import { useTriggerWidth } from "../Menu/useTriggerWidth";
 
 export type SelectProps<T> = AriaSelectProps<T> &
-  SelectFieldProps & {
+  BaseSelectFieldProps & {
     /** Method that is called when the open state of the select field changes. */
     onOpenChange?: (isOpen: boolean) => void;
     /** Sets the open state of the select field. */
@@ -23,7 +23,7 @@ export type SelectProps<T> = AriaSelectProps<T> &
     onSelectionChange?: (key: Key) => void;
     /** The contents of the collection. */
     children: CollectionChildren<T>;
-    /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
+    /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
     disabledKeys?: Iterable<Key>;
   };
 

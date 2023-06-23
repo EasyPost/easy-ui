@@ -40,7 +40,7 @@ export type SelectSize = "sm" | "md" | "lg";
 export type ValidationState = "valid" | "invalid";
 
 export type SelectProps<T> = AriaSelectProps<T> &
-  SelectFieldProps & {
+  BaseSelectFieldProps & {
     /** Method that is called when the open state of the select field changes. */
     onOpenChange?: (isOpen: boolean) => void;
     /** Sets the open state of the select field. */
@@ -53,11 +53,11 @@ export type SelectProps<T> = AriaSelectProps<T> &
     onSelectionChange?: (key: Key) => void;
     /** The contents of the collection. */
     children: CollectionChildren<T>;
-    /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
+    /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
     disabledKeys?: Iterable<Key>;
   };
 
-export type SelectFieldProps = {
+export type BaseSelectFieldProps = {
   /**
    * Visually hides the label, but keeps it accessible.
    * @default false
@@ -99,6 +99,9 @@ export type SelectFieldProps = {
   placeholder?: string;
   /** Left aligned icon on input. */
   iconAtStart?: IconSymbol;
+};
+
+type SelectFieldAttributeProps = {
   /** Label props associated with field. */
   labelProps?: DOMAttributes<FocusableElement>;
   /** Helper text props associated with field. */
@@ -108,6 +111,8 @@ export type SelectFieldProps = {
   /** Field value props. */
   valueProps?: DOMAttributes<FocusableElement>;
 };
+
+type SelectFieldProps = BaseSelectFieldProps & SelectFieldAttributeProps;
 ```
 
 ### Anatomy

@@ -1,5 +1,5 @@
 import React from "react";
-import { Canvas, Meta } from "@storybook/blocks";
+import { Canvas, Meta, ArgTypes } from "@storybook/blocks";
 import { Select } from "./Select";
 import * as SelectStories from "./Select.stories";
 
@@ -75,3 +75,74 @@ Options can be disabled via the `disabledKeys` prop.
 Use `isDisabled` to disabled the field entirely.
 
 <Canvas of={SelectStories.DisabledSelect} />
+
+## Properties
+
+### Select
+
+```tsx
+export type SelectSize = "sm" | "md" | "lg";
+export type ValidationState = "valid" | "invalid";
+
+export type SelectProps<T> = AriaSelectProps<T> &
+  BaseSelectFieldProps & {
+    /** Method that is called when the open state of the select field changes. */
+    onOpenChange?: (isOpen: boolean) => void;
+    /** Sets the open state of the select field. */
+    isOpen?: boolean;
+    /** The currently selected key in the collection (controlled). */
+    selectedKey?: Key | null;
+    /** The initial selected key in the collection (uncontrolled). */
+    defaultSelectedKey?: Key;
+    /** Handler that is called when the selection changes. */
+    onSelectionChange?: (key: Key) => void;
+    /** The contents of the collection. */
+    children: CollectionChildren<T>;
+    /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
+    disabledKeys?: Iterable<Key>;
+  };
+
+export type BaseSelectFieldProps = {
+  /**
+   * Visually hides the label, but keeps it accessible.
+   * @default false
+   */
+  isLabelVisuallyHidden?: boolean;
+  /**
+   * Whether the select field is disabled.
+   * @default false
+   */
+  isDisabled?: boolean;
+  /**
+   * Whether user input is required on the select field before form submission.
+   * @default false
+   */
+  isRequired?: boolean;
+  /**
+   * Whether the input should display its "valid" or "invalid" visual styling.
+   * @default valid
+   */
+  validationState?: ValidationState;
+  /**
+   * Label text displays with emphasis.
+   * @default false
+   */
+  isLabelEmphasized?: boolean;
+  /**
+   * Size affects the overall size of the select field, but it also influences
+   * the size of iconAtStart.
+   * @default md
+   */
+  size?: SelectFieldSize;
+  /** The content to display as the label. */
+  label: ReactNode;
+  /** Error text that appears below select field. */
+  errorText?: ReactNode;
+  /** Helper text that appears below select field. */
+  helperText?: ReactNode;
+  /** Temporary text that occupies select field when it is empty. */
+  placeholder?: string;
+  /** Left aligned icon on input. */
+  iconAtStart?: IconSymbol;
+};
+```
