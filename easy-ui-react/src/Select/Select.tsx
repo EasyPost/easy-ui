@@ -9,9 +9,6 @@ import { SelectSection } from "./SelectSection";
 import { SelectOverlay } from "./SelectOverlay";
 import { useTriggerWidth } from "../Menu/useTriggerWidth";
 
-export type SelectSize = "sm" | "md" | "lg";
-export type ValidationState = "valid" | "invalid";
-
 export type SelectProps<T> = AriaSelectProps<T> &
   SelectFieldProps & {
     /** Method that is called when the open state of the select field changes. */
@@ -30,6 +27,66 @@ export type SelectProps<T> = AriaSelectProps<T> &
     disabledKeys?: Iterable<Key>;
   };
 
+/**
+ * The `<Select />` component allows users to select a value from a set of options.
+ *
+ * @remarks
+ * A common use-case for this component is to be used on forms as a traditional
+ * select.
+ *
+ * @example
+ * _Simple controlled selection:_
+*```tsx
+* import { Select } from "@easypost/easy-ui/Select";
+*
+* export function Component() {
+*  const [selectedOption, setSelectedOption] = React.useState("Option 1");
+*
+*  return (
+*    <Select
+*      label="Label"
+*      selectedKey={selectedOption}
+*      onSelectionChange={(selected) => setSelectedOption(selected)}
+*      helperText="Helper text"
+*    >
+*      <Select.Option key="Option 1">Option 1</Select.Option>
+*      <Select.Option key="Option 2">Option 2</Select.Option>
+*      <Select.Option key="Option 3">Option 3</Select.Option>
+*    </Select>
+*  );
+* }
+```
+*
+* @example
+* _Simple controlled selection with separator:_
+*```tsx
+* import { Select } from "@easypost/easy-ui/Select";
+*
+* export function Component() {
+*  const [selectedOption, setSelectedOption] = React.useState("Option 1");
+*
+*  return (
+*    <Select
+*      label="Label"
+*      selectedKey={selectedOption}
+*      onSelectionChange={(selected) => setSelectedOption(selected)}
+*      helperText="Helper text"
+*    >
+*      <Select.Section aria-label="Primary options">
+*       <Select.Option key="Option 1">Option 1</Select.Option>
+*       <Select.Option key="Option 2">Option 2</Select.Option>
+*       <Select.Option key="Option 3">Option 3</Select.Option>
+*       </Select.Section>
+*      <Select.Section aria-label="Secondary options">
+*       <Select.Option key="Option 4">Option 4</Select.Option>
+*       <Select.Option key="Option 5">Option 5</Select.Option>
+*       <Select.Option key="Option 6">Option 6</Select.Option>
+*       </Select.Section>
+*    </Select>
+*  );
+* }
+```
+ */
 export function Select<T extends object>(props: SelectProps<T>) {
   const {
     isLabelVisuallyHidden,
