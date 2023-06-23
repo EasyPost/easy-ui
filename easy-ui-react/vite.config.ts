@@ -4,10 +4,14 @@ import react from "@vitejs/plugin-react";
 import { glob } from "glob";
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import VitePluginReactRemoveAttributes from "vite-plugin-react-remove-attributes";
 import { cleanPkgJsonForDist } from "../scripts/copyDistFiles.mjs";
 
 export default defineConfig({
   plugins: [
+    VitePluginReactRemoveAttributes({
+      attributes: ["data-testid"],
+    }),
     react({ jsxRuntime: "classic" }),
     viteStaticCopy({
       targets: [
