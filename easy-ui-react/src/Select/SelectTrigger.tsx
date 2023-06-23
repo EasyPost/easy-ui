@@ -16,11 +16,21 @@ export type SelectTriggerProps = {
    * @default md
    */
   size?: SelectFieldSize;
-  /** Left aligned icon on input. */
-  iconAtStart?: IconSymbol;
-  valueProps?: DOMAttributes<FocusableElement>;
-  hasError?: boolean;
+  /**
+   * Whether the select field is disabled.
+   * @default false
+   */
   isDisabled?: boolean;
+  /**
+   * Whether or not to apply error styles to field.
+   * @default false
+   */
+  hasError?: boolean;
+  /** Left aligned icon on the select field. */
+  iconAtStart?: IconSymbol;
+  /** Field value props. */
+  valueProps?: DOMAttributes<FocusableElement>;
+  /** Text to render. */
   children: ReactNode;
 };
 

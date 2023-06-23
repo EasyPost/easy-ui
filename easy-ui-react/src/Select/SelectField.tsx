@@ -53,7 +53,7 @@ export type SelectFieldProps = {
   helperText?: ReactNode;
   /** Temporary text that occupies select field when it is empty. */
   placeholder?: string;
-  /** Left aligned icon on input. */
+  /** Left aligned icon on the select field. */
   iconAtStart?: IconSymbol;
   /** Label props associated with field. */
   labelProps?: DOMAttributes<FocusableElement>;
