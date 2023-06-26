@@ -55,7 +55,7 @@
     "@storybook/manager-api": "^7.0.23",
     "@storybook/react": "^7.0.23",
     "@storybook/react-vite": "^7.0.23",
-    "@storybook/testing-library": "^0.1.0",
+    "@storybook/testing-library": "^0.2.0",
     "babel-loader": "^9.1.2",
     "eslint": "^8.43.0",
     "glob": "^8.1.0",
