@@ -94,3 +94,7 @@
 .selectFieldText {
   overflow: hidden;
 }
+
+.listboxOpen {
+  border-color: component-token("inputfield", "color.border.engaged");
+}

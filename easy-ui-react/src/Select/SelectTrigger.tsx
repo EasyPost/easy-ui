@@ -43,12 +43,13 @@ export function SelectTrigger(props: SelectTriggerProps) {
     isDisabled,
     children,
   } = props;
-  const { triggerProps, triggerRef } = useInternalSelectContext();
+  const { triggerProps, triggerRef, selectState } = useInternalSelectContext();
 
   const hasStartIcon = !!iconAtStart;
   const className = classNames(
     styles.selectField,
     styles.selectFieldIconEnd,
+    selectState.isOpen && styles.listboxOpen,
     hasError && styles.selectFieldError,
     hasStartIcon && styles.selectFieldIconStart,
     styles[variationName("selectSize", size)],
