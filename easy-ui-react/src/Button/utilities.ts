@@ -31,3 +31,7 @@ export function omitReactAriaSpecificProps(props: object) {
     "onPressUp",
   ]);
 }
+
+export function addOne(num: number) {
+  return num + 1;
+}
