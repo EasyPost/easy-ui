@@ -41,7 +41,7 @@
     "overlayscrollbars": "^2.2.0",
     "overlayscrollbars-react": "^0.5.0",
     "react-aria": "^3.26.0",
-    "react-stately": "^3.23.0",
+    "react-stately": "^3.24.0",
     "react-syntax-highlighter": "^15.5.0"
   },
   "peerDependencies": {
