@@ -1,5 +1,13 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.5
+
+### Patch Changes
+
+- 88673e3: Add layout primitive stories
+- Updated dependencies
+  - @easypost/easy-ui-icons@1.0.0-alpha.5
+
 ## 1.0.0-alpha.4
 
 ### Minor Changes

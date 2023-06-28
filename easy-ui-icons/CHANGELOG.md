@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- Adds CopyContent and MoreVert icons
+
 ## 1.0.0-alpha.4
 
 ### Minor Changes
