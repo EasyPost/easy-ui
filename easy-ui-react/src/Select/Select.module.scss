@@ -1,0 +1,100 @@
+@use "../styles/common" as *;
+@use "../InputField/mixins" as Input;
+@use "../Menu/mixins" as Menu;
+
+.underlay {
+  position: fixed;
+  inset: 0;
+}
+.listboxRoot {
+  @include Menu.root;
+}
+
+.listbox {
+  @include Menu.menu;
+}
+
+.listboxList,
+.sectionList {
+  @include Menu.menuList;
+}
+
+.optionContent,
+.separator {
+  @include Menu.itemContent;
+}
+
+.option {
+  text-decoration: none;
+}
+
+.optionContent {
+  @include Menu.itemContentColor;
+}
+
+.listbox,
+.option {
+  outline: none;
+}
+
+.option:not([data-is-disabled="true"]) {
+  cursor: pointer;
+}
+
+.option[data-is-focused="true"] .optionContent {
+  @include Menu.itemDataFocused;
+}
+
+.option[data-is-disabled="true"] .optionContent {
+  @include Menu.itemDataDisabled;
+}
+
+.separator::after {
+  @include Menu.separator;
+}
+
+.fieldRoot {
+  @include Input.root;
+}
+
+.selectField {
+  @include Input.input;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    @include Input.hovered;
+  }
+}
+
+.selectSizeSm {
+  @include Input.inputSm;
+}
+
+.selectSizeLg {
+  @include Input.inputLg;
+}
+
+.selectFieldError {
+  @include Input.error;
+}
+
+.selectFieldIconStart {
+  @include Input.iconStartInput;
+}
+
+.selectFieldIconEnd {
+  @include Input.iconEndInput;
+}
+
+.selectFieldIconContainer {
+  @include Input.inputIconContainer;
+}
+
+.selectFieldText {
+  overflow: hidden;
+}
+
+.listboxOpen {
+  border-color: component-token("inputfield", "color.border.engaged");
+}

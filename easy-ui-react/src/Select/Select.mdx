@@ -1,0 +1,148 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes } from "@storybook/blocks";
+import { Select } from "./Select";
+import * as SelectStories from "./Select.stories";
+
+<Meta of={SelectStories} />
+
+# Select
+
+The `<Select />` component allows users to select a value from a set of options.
+
+## Standard
+
+Simple `<Select />` with `label`, `placeholder`, and `helperText`.
+
+<Canvas of={SelectStories.Standard} />
+
+## Icon
+
+Use `iconAtStart` to add a left aligned icon.
+
+<Canvas of={SelectStories.Icon} />
+
+## Small Select
+
+Set `size="sm"` for a small `<Select />`.
+
+<Canvas of={SelectStories.SmallSelect} />
+
+## Large Select
+
+Set `size="lg"` for a large `<Select />`.
+
+<Canvas of={SelectStories.LargeSelect} />
+
+## Label with emphasis
+
+Use `isLabelEmphasized=true` to display a label with emphasis.
+
+<Canvas of={SelectStories.LabelWithEmphasis} />
+
+## Error
+
+When `validationState` is set to `invalid`, the `<Select />` field displays with error styles. If provided,
+`errorText` will be displayed as well and override `helperText`.
+
+<Canvas of={SelectStories.Error} />
+
+## Visually hidden label
+
+To hide a `label` but maintain accessibility, use `isLabelVisuallyHidden`.
+
+<Canvas of={SelectStories.VisuallyHiddenLabel} />
+
+## With Separator
+
+Options can be divided into sections via `<Select.Section />`
+
+<Canvas of={SelectStories.WithSeparator} />
+
+## Controlled Selection
+
+For controlled selection, use `selectedKey` and `onSelectionChange`. Uncontrolled selection is possible with `defaultSelectedKey`. See associated code snippet.
+
+<Canvas of={SelectStories.ControlledSelection} />
+
+## Disabled Options
+
+Options can be disabled via the `disabledKeys` prop.
+
+<Canvas of={SelectStories.DisabledOptions} />
+
+## Disabled Select
+
+Use `isDisabled` to disabled the field entirely.
+
+<Canvas of={SelectStories.DisabledSelect} />
+
+## Properties
+
+### Select
+
+```tsx
+export type SelectSize = "sm" | "md" | "lg";
+export type ValidationState = "valid" | "invalid";
+
+export type SelectProps<T> = AriaSelectProps<T> &
+  BaseSelectFieldProps & {
+    /** Method that is called when the open state of the select field changes. */
+    onOpenChange?: (isOpen: boolean) => void;
+    /** Sets the open state of the select field. */
+    isOpen?: boolean;
+    /** The currently selected key in the collection (controlled). */
+    selectedKey?: Key | null;
+    /** The initial selected key in the collection (uncontrolled). */
+    defaultSelectedKey?: Key;
+    /** Handler that is called when the selection changes. */
+    onSelectionChange?: (key: Key) => void;
+    /** The contents of the collection. */
+    children: CollectionChildren<T>;
+    /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
+    disabledKeys?: Iterable<Key>;
+  };
+
+export type BaseSelectFieldProps = {
+  /**
+   * Visually hides the label, but keeps it accessible.
+   * @default false
+   */
+  isLabelVisuallyHidden?: boolean;
+  /**
+   * Whether the select field is disabled.
+   * @default false
+   */
+  isDisabled?: boolean;
+  /**
+   * Whether user input is required on the select field before form submission.
+   * @default false
+   */
+  isRequired?: boolean;
+  /**
+   * Whether the input should display its "valid" or "invalid" visual styling.
+   * @default valid
+   */
+  validationState?: ValidationState;
+  /**
+   * Label text displays with emphasis.
+   * @default false
+   */
+  isLabelEmphasized?: boolean;
+  /**
+   * Size affects the overall size of the select field, but it also influences
+   * the size of iconAtStart.
+   * @default md
+   */
+  size?: SelectFieldSize;
+  /** The content to display as the label. */
+  label: ReactNode;
+  /** Error text that appears below select field. */
+  errorText?: ReactNode;
+  /** Helper text that appears below select field. */
+  helperText?: ReactNode;
+  /** Temporary text that occupies select field when it is empty. */
+  placeholder?: string;
+  /** Left aligned icon on input. */
+  iconAtStart?: IconSymbol;
+};
+```

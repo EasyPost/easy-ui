@@ -9,26 +9,23 @@ import {
   usePopover,
 } from "react-aria";
 import { useTreeState } from "react-stately";
-import {
-  ResponsiveProp,
-  getComponentToken,
-  getResponsiveValue,
-  pxToRem,
-} from "../utilities/css";
+import { ResponsiveProp } from "../utilities/css";
 import { useInternalMenuContext } from "./MenuContext";
 import { MenuItemContent } from "./MenuItem";
 import { MenuSectionContent } from "./MenuSection";
 import { useScrollbar } from "./useScrollbar";
+import {
+  DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
+  DEFAULT_PLACEMENT,
+  DEFAULT_WIDTH,
+  ITEM_HEIGHT,
+  Y_PADDING_INSIDE_OVERLAY,
+  OVERLAY_OFFSET,
+  OVERLAY_PADDING_FROM_CONTAINER,
+  getUnmergedPopoverStyles,
+} from "./utilities";
 
 import styles from "./Menu.module.scss";
-
-const DEFAULT_MAX_ITEMS_UNTIL_SCROLL = 5;
-const DEFAULT_PLACEMENT = "bottom";
-const DEFAULT_WIDTH = "auto";
-const ITEM_HEIGHT = 32;
-const Y_PADDING_INSIDE_OVERLAY = 8;
-const OVERLAY_OFFSET = 8;
-const OVERLAY_PADDING_FROM_CONTAINER = 12;
 
 export type MenuOverlayWidth =
   | "auto"
@@ -118,22 +115,7 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
 
   const style = {
     ...popoverProps.style,
-    ...getComponentToken("menu", "item_height", `${pxToRem(ITEM_HEIGHT)}rem`),
-    ...getComponentToken(
-      "menu",
-      "padding.y",
-      `${pxToRem(Y_PADDING_INSIDE_OVERLAY)}rem`,
-    ),
-    ...getComponentToken(
-      "menu",
-      "min-width",
-      width === "auto" ? `${triggerWidth}px` : undefined,
-    ),
-    ...getResponsiveValue(
-      "menu",
-      "width",
-      width !== "auto" && width !== "fit-content" ? width : "auto",
-    ),
+    ...getUnmergedPopoverStyles(width, triggerWidth),
   } as React.CSSProperties;
 
   return (

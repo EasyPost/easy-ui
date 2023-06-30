@@ -16,10 +16,10 @@ export type LabelProps = {
    */
   isLabelEmphasized?: boolean;
   /**
-   * Size of associated input.
+   * Size of associated field.
    * @default 'md'
    */
-  inputSize?: InputSize;
+  fieldSize?: InputSize;
   /**
    * Label text displays with error styles.
    * @default false
@@ -39,7 +39,7 @@ export function Label(props: LabelProps) {
   const {
     isLabelVisuallyHidden = false,
     isLabelEmphasized = false,
-    inputSize = "md",
+    fieldSize = "md",
     hasError = false,
     children,
     ...labelProps
@@ -47,7 +47,7 @@ export function Label(props: LabelProps) {
 
   const textVariant = isLabelEmphasized
     ? "subtitle1"
-    : inputSize === "sm"
+    : fieldSize === "sm"
     ? "body2"
     : "body1";
   const as = isLabelEmphasized ? "strong" : "span";

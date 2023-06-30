@@ -1,0 +1,80 @@
+@use "../styles/common" as *;
+
+@mixin root {
+  @include component-token(
+    "menu",
+    "border_radius",
+    design-token("shape.border_radius.md")
+  );
+  @include component-token(
+    "menu",
+    "color.background",
+    theme-token("color.surface.overlay")
+  );
+  @include component-token("menu", "color.text", theme-token("color.text"));
+  @include component-token(
+    "menu",
+    "color.text.disabled",
+    theme-token("color.text.disabled")
+  );
+  @include component-token(
+    "menu",
+    "color.background.hovered",
+    theme-token("color.surface.overlay.hovered")
+  );
+  @include component-token("menu", "shadow", theme-token("shadow.overlay"));
+  @include component-token("menu", "padding.x", design-token("space.2"));
+  @include component-token("menu", "color.border", theme-token("color.border"));
+
+  @include responsive-prop("menu", "width", width);
+
+  background: component-token("menu", "color.background");
+  border: design-token("shape.border_width.1") solid
+    component-token("menu", "color.border");
+  border-radius: component-token("menu", "border_radius");
+  box-shadow: component-token("menu", "shadow");
+  display: flex;
+  flex-direction: column;
+  min-width: component-token("menu", "min-width");
+}
+
+@mixin menu {
+  overflow: auto;
+  padding: component-token("menu", "padding.y") 0;
+}
+
+@mixin menuList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+@mixin itemContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: component-token("menu", "item_height");
+  padding: 0 component-token("menu", "padding.x");
+}
+
+@mixin itemContentColor {
+  color: component-token("menu", "color.text");
+}
+
+@mixin itemDataFocused {
+  background: component-token("menu", "color.background.hovered");
+}
+
+@mixin itemDataDisabled {
+  color: component-token("menu", "color.text.disabled");
+  cursor: default;
+  font-style: italic;
+}
+
+@mixin separator {
+  content: "";
+  height: 0;
+  border: 0 solid component-token("menu", "color.border");
+  border-top-width: 0.5px;
+  border-bottom-width: 0.5px;
+}

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Select` component allows users to select a value from a set of options.
+The `Select` component allows users to select a value from a set of options. Though the associated dropdown is visually similar to Easy UI's `Menu`, it takes on the ARIA role of `listbox` and the associated options have a role of `option`.
 
 ### Use Cases
 
@@ -39,7 +39,25 @@ import type { AriaSelectProps } from "react-aria";
 export type SelectSize = "sm" | "md" | "lg";
 export type ValidationState = "valid" | "invalid";
 
-export type SelectProps = AriaSelectProps & {
+export type SelectProps<T> = AriaSelectProps<T> &
+  BaseSelectFieldProps & {
+    /** Method that is called when the open state of the select field changes. */
+    onOpenChange?: (isOpen: boolean) => void;
+    /** Sets the open state of the select field. */
+    isOpen?: boolean;
+    /** The currently selected key in the collection (controlled). */
+    selectedKey?: Key | null;
+    /** The initial selected key in the collection (uncontrolled). */
+    defaultSelectedKey?: Key;
+    /** Handler that is called when the selection changes. */
+    onSelectionChange?: (key: Key) => void;
+    /** The contents of the collection. */
+    children: CollectionChildren<T>;
+    /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
+    disabledKeys?: Iterable<Key>;
+  };
+
+export type BaseSelectFieldProps = {
   /**
    * Visually hides the label, but keeps it accessible.
    * @default false
@@ -56,7 +74,7 @@ export type SelectProps = AriaSelectProps & {
    */
   isRequired?: boolean;
   /**
-   * Whether the select field should display its "valid" or "invalid" visual styling.
+   * Whether the input should display its "valid" or "invalid" visual styling.
    * @default valid
    */
   validationState?: ValidationState;
@@ -66,44 +84,40 @@ export type SelectProps = AriaSelectProps & {
    */
   isLabelEmphasized?: boolean;
   /**
-   * Whether the element should receive focus on render.
-   * @default false
-   */
-  autoFocus?: boolean;
-  /**
    * Size affects the overall size of the select field, but it also influences
    * the size of iconAtStart.
    * @default md
    */
-  size?: SelectSize;
+  size?: SelectFieldSize;
   /** The content to display as the label. */
   label: ReactNode;
   /** Error text that appears below select field. */
   errorText?: ReactNode;
   /** Helper text that appears below select field. */
   helperText?: ReactNode;
-  /** Left aligned icon on select field. */
+  /** Temporary text that occupies select field when it is empty. */
+  placeholder?: string;
+  /** Left aligned icon on input. */
   iconAtStart?: IconSymbol;
-  /** Method that is called when the open state of the select field changes. */
-  onOpenChange?: (isOpen: boolean) => void;
-  /** Sets the open state of the select field. */
-  isOpen?: boolean;
-  /** The currently selected key in the collection (controlled). */
-  selectedKey?: Key | null;
-  /** The initial selected key in the collection (uncontrolled). */
-  defaultSelectedKey?: Key;
-  /** Handler that is called when the selection changes. */
-  onSelectionChange?: (key: Key) => any;
-  /** The contents of the collection. */
-  children: CollectionChildren<T>;
-  /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
-  disabledKeys?: Iterable<Key>;
 };
+
+type SelectFieldAttributeProps = {
+  /** Label props associated with field. */
+  labelProps?: DOMAttributes<FocusableElement>;
+  /** Helper text props associated with field. */
+  helperTextProps?: DOMAttributes<FocusableElement>;
+  /** Error text props associated with field. */
+  errorTextProps?: DOMAttributes<FocusableElement>;
+  /** Field value props. */
+  valueProps?: DOMAttributes<FocusableElement>;
+};
+
+type SelectFieldProps = BaseSelectFieldProps & SelectFieldAttributeProps;
 ```
 
 ### Anatomy
 
-The `Select` component's behavior and accessibility implementation will be handled by React Aria's `useSelect` hook. State managment will be handled by React Stately's `useSelectState` hook. To handle the associated dropdown menu, `OverlayContainer` and `usePopover` will be used from React Aria. The implementation for the menu will take heavy inspiration from Easy UI's `MenuOverlay`.
+The `Select` component's behavior and accessibility implementation will be handled by React Aria's `useSelect` hook. State managment will be handled by React Stately's `useSelectState` hook. To handle the associated listbox, `OverlayContainer`, `useListBox`, and `usePopover` will be used from React Aria. For the options, `useOption` will be used from React Aria. The `Select` component will also support sections and will use `useListBoxSection` and `useSeparator` from React Aria. The implementation for the listbox will take heavy inspiration from Easy UI's `MenuOverlay`.
 
 ### Example Usage
 
@@ -113,48 +127,48 @@ _Simple controlled selection:_
 import { Select } from "@easypost/easy-ui/Select";
 
 export function Component() {
-  const [shippingVolume, setShippingVolume] = React.useState("# of packages");
+  const [selectedOption, setSelectedOption] = React.useState("Option 1");
 
   return (
     <Select
-      label="Monthly shipping volume"
-      selectedKey={shippingVolume}
-      onSelectionChange={(selected) => setShippingVolume(selected)}
+      label="Label"
+      selectedKey={selectedOption}
+      onSelectionChange={(selected) => setSelectedOption(selected)}
+      helperText="Helper text"
     >
-      <Select.Item key="# of packages"># of packages</Select.Item>
-      <Select.Item key="1000">1000</Select.Item>
-      <Select.Item key="50000">50000</Select.Item>
-      <Select.Item key="1M+">1M+</Select.Item>
+      <Select.Option key="Option 1">Option 1</Select.Option>
+      <Select.Option key="Option 2">Option 2</Select.Option>
+      <Select.Option key="Option 3">Option 3</Select.Option>
     </Select>
   );
 }
 ```
 
-_With helper text and passing data from external source:_
+_Simple controlled selection with separator:_
 
 ```tsx
 import { Select } from "@easypost/easy-ui/Select";
 
-const options = [
-  { volume: "# of packages" },
-  { volume: "1000" },
-  { volume: "50000" },
-  { volume: "1M+" },
-];
-
 export function Component() {
-  const [shippingVolume, setShippingVolume] = React.useState("# of packages");
+  const [selectedOption, setSelectedOption] = React.useState("Option 1");
 
   return (
     <Select
-      label="Monthly shipping volume"
-      selectedKey={shippingVolume}
-      onSelectionChange={(selected) => setShippingVolume(selected)}
+      label="Label"
+      selectedKey={selectedOption}
+      onSelectionChange={(selected) => setSelectedOption(selected)}
       helperText="Helper text"
     >
-      {options.map((item) => (
-        <Select.Item key={item.volume}>{item.volume}</Select.Item>
-      ))}
+      <Select.Section aria-label="Primary options">
+        <Select.Option key="Option 1">Option 1</Select.Option>
+        <Select.Option key="Option 2">Option 2</Select.Option>
+        <Select.Option key="Option 3">Option 3</Select.Option>
+      </Select.Section>
+      <Select.Section aria-label="Secondary options">
+        <Select.Option key="Option 4">Option 4</Select.Option>
+        <Select.Option key="Option 5">Option 5</Select.Option>
+        <Select.Option key="Option 6">Option 6</Select.Option>
+      </Select.Section>
     </Select>
   );
 }
@@ -168,14 +182,13 @@ import { Select } from "@easypost/easy-ui/Select";
 export function Component() {
   return (
     <Select
-      label="Monthly shipping volume"
+      label="Label"
       validationState="invalid"
       errorText="Something went wrong"
     >
-      <Select.Item key="# of packages"># of packages</Select.Item>
-      <Select.Item key="1000">1000</Select.Item>
-      <Select.Item key="50000">50000</Select.Item>
-      <Select.Item key="1M+">1M+</Select.Item>
+      <Select.Option key="Option 1">Option 1</Select.Option>
+      <Select.Option key="Option 2">Option 2</Select.Option>
+      <Select.Option key="Option 3">Option 3</Select.Option>
     </Select>
   );
 }
@@ -189,11 +202,10 @@ import SomeIcon from "@easypost/easy-ui-icons/Some";
 
 export function Component() {
   return (
-    <Select label="Monthly shipping volume" iconAtStart={SomeIcon}>
-      <Select.Item key="# of packages"># of packages</Select.Item>
-      <Select.Item key="1000">1000</Select.Item>
-      <Select.Item key="50000">50000</Select.Item>
-      <Select.Item key="1M+">1M+</Select.Item>
+    <Select label="Label" iconAtStart={SomeIcon}>
+      <Select.Option key="Option 1">Option 1</Select.Option>
+      <Select.Option key="Option 2">Option 2</Select.Option>
+      <Select.Option key="Option 3">Option 3</Select.Option>
     </Select>
   );
 }
@@ -208,8 +220,9 @@ export function Component() {
 Accessibility
 
 - Labels should be included on all select fields as they describe the purpose of any associated form control. In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
+- The dropdown has an ARIA role of `listbox`.
 
 ## Dependencies
 
-- `react-aria`— `useSelect` `usePopover` `OverlayContainer`
-- `react-stately` - `useSelectState` `Item`
+- `react-aria`— `useSelect` `usePopover` `OverlayContainer` `useListBox` `useOption` `useListBoxSection` `useSeparator`
+- `react-stately` - `useSelectState` `Item` `Section`
