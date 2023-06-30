@@ -1,5 +1,18 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- 1bdf32b: Add `Select` component
+
+### Patch Changes
+
+- 88673e3: Add layout primitive stories
+- Updated dependencies [1bdf32b]
+- Updated dependencies
+  - @easypost/easy-ui-icons@1.0.0-alpha.5
+
 ## 1.0.0-alpha.4
 
 ### Minor Changes
