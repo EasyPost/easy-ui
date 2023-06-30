@@ -1,4 +1,5 @@
 @use "../styles/common" as *;
+@use "mixins" as Menu;
 
 .underlay {
   position: fixed;
@@ -6,62 +7,21 @@
 }
 
 .root {
-  @include component-token(
-    "menu",
-    "border_radius",
-    design-token("shape.border_radius.md")
-  );
-  @include component-token(
-    "menu",
-    "color.background",
-    theme-token("color.surface.overlay")
-  );
-  @include component-token("menu", "color.text", theme-token("color.text"));
-  @include component-token(
-    "menu",
-    "color.text.disabled",
-    theme-token("color.text.disabled")
-  );
-  @include component-token(
-    "menu",
-    "color.background.hovered",
-    theme-token("color.surface.overlay.hovered")
-  );
-  @include component-token("menu", "shadow", theme-token("shadow.overlay"));
-  @include component-token("menu", "padding.x", design-token("space.2"));
-  @include component-token("menu", "color.border", theme-token("color.border"));
-
-  @include responsive-prop("menu", "width", width);
-
-  background: component-token("menu", "color.background");
-  border: design-token("shape.border_width.1") solid
-    component-token("menu", "color.border");
-  border-radius: component-token("menu", "border_radius");
-  box-shadow: component-token("menu", "shadow");
-  display: flex;
-  flex-direction: column;
-  min-width: component-token("menu", "min-width");
+  @include Menu.root;
 }
 
 .menu {
-  overflow: auto;
-  padding: component-token("menu", "padding.y") 0;
+  @include Menu.menu;
 }
 
 .menuList,
 .sectionList {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+  @include Menu.menuList;
 }
 
 .itemContent,
 .separator {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: component-token("menu", "item_height");
-  padding: 0 component-token("menu", "padding.x");
+  @include Menu.itemContent;
 }
 
 .item {
@@ -69,7 +29,7 @@
 }
 
 .itemContent {
-  color: component-token("menu", "color.text");
+  @include Menu.itemContentColor;
 }
 
 .menu,
@@ -82,19 +42,13 @@
 }
 
 .item[data-is-focused="true"] .itemContent {
-  background: component-token("menu", "color.background.hovered");
+  @include Menu.itemDataFocused;
 }
 
 .item[data-is-disabled="true"] .itemContent {
-  color: component-token("menu", "color.text.disabled");
-  cursor: default;
-  font-style: italic;
+  @include Menu.itemDataDisabled;
 }
 
 .separator::after {
-  content: "";
-  height: 0;
-  border: 0 solid component-token("menu", "color.border");
-  border-top-width: 0.5px;
-  border-bottom-width: 0.5px;
+  @include Menu.separator;
 }
