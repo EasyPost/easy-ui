@@ -21,6 +21,54 @@ export type DropdownButtonProps = AriaButtonProps & {
   children?: ReactNode;
 };
 
+/**
+ * Typically used as a trigger to display a set of options for
+ * the user to choose from.
+ *
+ * @remarks
+ * Can be used alongside Easy UI's `<Menu />` as the trigger element.
+ * Comes pre-styled with seperator and right-aligned arrow icon. Supports
+ * multiple colors and an outlined variant. Underlying element is a button.
+ *
+ * @example
+ * _Default:_
+ * ```tsx
+ * import { DropdownButton } from "@easypost/easy-ui/DropdownButton";
+ *
+ * export function Component() {
+ *  return (
+ *   <DropdownButton onPress={() => alert("clicked")}>Button</DropdownButton>
+ *  );
+ * }
+ * ```
+ *
+ * @example
+ * _Outlined variant:_
+ * ```tsx
+ * import { DropdownButton } from "@easypost/easy-ui/DropdownButton";
+ *
+ * export function Component() {
+ *  return (
+ *    <DropdownButton onPress={() => alert("clicked")} variant="outlined">
+ *      Button
+ *    </DropdownButton>
+ *  );
+ * }
+ * ```
+ * @example
+ * _Success color:_
+ * ```tsx
+ * import { DropdownButton } from "@easypost/easy-ui/DropdownButton";
+ *
+ * export function Component() {
+ *  return (
+ *    <DropdownButton onPress={() => alert("clicked")} color="success">
+ *      Button
+ *    </DropdownButton>
+ *  );
+ * }
+ * ```
+ */
 export const DropdownButton = forwardRef<null, DropdownButtonProps>(
   (props, inRef) => {
     const {
