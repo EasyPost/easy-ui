@@ -27,7 +27,7 @@ export type DropdownButtonProps = AriaButtonProps & {
  *
  * @remarks
  * Can be used alongside Easy UI's `<Menu />` as the trigger element.
- * Comes pre-styled with seperator and right-aligned arrow icon. Supports
+ * Comes pre-styled with separator and right-aligned arrow icon. Supports
  * multiple colors and an outlined variant. Underlying element is a button.
  *
  * @example

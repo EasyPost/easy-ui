@@ -48,7 +48,7 @@ export type ButtonProps = AriaButtonProps & {
  * Use to call attention to a place in the UI where the user needs to do
  * something in order to continue flow. Supports icons, multiple colors,
  * outlined and link variations, and small size buttons. Underlying element
- * is a button element, but becomes an achor when `href` is provided.
+ * is a button element, but becomes an anchor when `href` is provided.
  *
  * @example
  * _Default:_
