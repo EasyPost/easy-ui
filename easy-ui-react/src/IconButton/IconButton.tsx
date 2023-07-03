@@ -29,10 +29,9 @@ export type IconButtonProps = AriaButtonProps & {
  * appropriate icon instead of text.
  *
  * @remarks
- * Use to call attention to where a user needs to do something in order
- * to move forward in a flow. Supports multiple colors, an outlined
- * variation, and an accessibility label that describes the icon. Underlying
- * element is a button.
+ * Use to call attention to a place in the UI where the user needs to do something
+ * in order to continue flow. Supports multiple colors, an outlined variation, and
+ * an accessibility label that describes the icon. Underlying element is a button.
  *
  * @example
  * _Default:_
