@@ -42,13 +42,13 @@ export type ButtonProps = AriaButtonProps & {
 };
 
 /**
- * Allow users to preform an action or to navigate to another page.
+ * Allow users to perform an action or to navigate to another page.
  *
  * @remarks
- * Use to call attention to a place in the UI where the user needs to do
- * something in order to continue flow. Supports icons, multiple colors,
- * outlined and link variations, and small size buttons. Underlying element
- * is a button element, but becomes an anchor when `href` is provided.
+ * Use to call attention to a place in the UI where the user can act in order
+ * to continue flow. Supports icons, multiple colors, outlined and link variations,
+ * and small size buttons. Underlying element is a button, but becomes an
+ * anchor when `href` is provided.
  *
  * @example
  * _Default:_
