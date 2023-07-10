@@ -54,10 +54,11 @@ function buildSvg() {
       const res = await transformWithEsbuild(componentCode, id, {
         loader: "jsx",
       });
+      const svgTypeFile = await generateSvgTypeFile(svgName);
       this.emitFile({
         type: "asset",
         fileName: `${JS_PREFIX}${svgName}.d.ts`,
-        source: Buffer.from(svgTypeFileTemplate(svgName)),
+        source: Buffer.from(svgTypeFile),
       });
       this.emitFile({
         type: "asset",
@@ -84,8 +85,8 @@ async function getSvgFilenameFromJson(filename: string) {
 
 // it's much faster and easier to generate these typings by hand than run them
 // through typescript's compiler
-function svgTypeFileTemplate(svgName: string) {
-  return prettier.format(
+async function generateSvgTypeFile(svgName: string) {
+  return await prettier.format(
     `
     declare const ${svgName}: ({
       title,
