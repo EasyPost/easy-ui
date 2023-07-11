@@ -24,6 +24,68 @@ export type IconButtonProps = AriaButtonProps & {
   isDisabled?: boolean;
 };
 
+/**
+ * Button element that represents its behavior with a contextually
+ * appropriate icon instead of text.
+ *
+ * @remarks
+ * Use to communicate an action the user can take in order to continue
+ * flow in the UI. Supports multiple colors, an outlined variation, and
+ * an accessibility label that describes the icon. Underlying element
+ * is a button.
+ *
+ * @example
+ * _Default:_
+ * ```tsx
+ * import { IconButton } from "@easypost/easy-ui/IconButton";
+ * import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
+ *
+ * export function Component() {
+ *  return (
+ *    <IconButton
+ *      onPress={() => alert("clicked")}
+ *      icon={ArrowBackIcon}
+ *      accessibilityLabel="Back"
+ *    />
+ *  );
+ * }
+ * ```
+ *
+ * @example
+ * _Outlined variant:_
+ * ```tsx
+ * import { IconButton } from "@easypost/easy-ui/IconButton";
+ * import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
+ *
+ * export function Component() {
+ *  return (
+ *    <IconButton
+ *      onPress={() => alert("clicked")}
+ *      icon={ArrowBackIcon}
+ *      accessibilityLabel="Back"
+ *      variant="outlined"
+ *    />
+ *  );
+ * }
+ * ```
+ * @example
+ * _Success color:_
+ * ```tsx
+ * import { IconButton } from "@easypost/easy-ui/IconButton";
+ * import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
+ *
+ * export function Component() {
+ *  return (
+ *    <IconButton
+ *      onPress={() => alert("clicked")}
+ *      icon={ArrowBackIcon}
+ *      accessibilityLabel="Back"
+ *      color="success"
+ *    />
+ *  );
+ * }
+ * ```
+ */
 export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
   const {
     color = "primary",
