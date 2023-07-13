@@ -1,17 +1,19 @@
-# `CodeVisualizer` Component Specification
+# `CodeBlock` Component Specification
 
 ## Design
 
-`CodeVisualizer` wraps one or more `CodeBlock`s with a header to allow the user to switch between blocks.
+**Our current `CodeBlock` component will be renamed to `CodeSnippet`.**
 
-`CodeVisualizer` will be a controlled component. It will require the consumer to provide a selected language and manage its state.
+`CodeBlock` wraps one or more `CodeSnippet`s with a header to allow the user to switch between them.
+
+`CodeBlock` will be a controlled component. It will require the consumer to provide a selected language and manage its state.
 
 ### API
 
 ```ts
-export type CodeVisualizerProps = {
+type CodeBlockProps = {
   /**
-   * CodeVisualizer content. This should be a header and collection of snippets.
+   * CodeBlock content. This should be a header and collection of snippets.
    */
   children: ReactNode;
 
@@ -26,7 +28,7 @@ export type CodeVisualizerProps = {
   onLanguageChange: (language: SnippetLanguages) => void;
 };
 
-export type CodeVisualizerHeaderProps = {
+type CodeBlockHeaderProps = {
   /**
    * Header title.
    */
@@ -40,36 +42,22 @@ export type CodeVisualizerHeaderProps = {
   color?: "neutral" | "primary" | "secondary";
 };
 
-export type CodeVisualizerSnippetProps = {
-  /**
-   * Code snippet content. This should contain a CodeBlock.
-   */
-  children: ReactNode;
-};
+type CodeBlockSnippetProps = CodeSnippetProps;
 ```
 
 ### Example Usage
 
 ```tsx
-import { CodeVisualizer } from "@easypost/easy-ui/CodeBlock";
+import { CodeBlock } from "@easypost/easy-ui/CodeBlock";
 
 function Component() {
   const [language, setLanguage] = useState("javascript");
   return (
-    <CodeVisualizer language={language} onLanguageChange={setLanguage}>
-      <CodeVisualizer.Header>Header</CodeVisualizer.Header>
-      <CodeVisualizer.Snippet>
-        <CodeBlock
-          language="javascript"
-          code={``}
-          maxLines={12}
-          showLineNumbers
-        />
-      </CodeVisualizer.Snippet>
-      <CodeVisualizer.Snippet>
-        <CodeBlock language="csharp" code={``} maxLines={12} showLineNumbers />
-      </CodeVisualizer.Snippet>
-    </CodeVisualizer>
+    <CodeBlock language={language} onLanguageChange={setLanguage}>
+      <CodeBlock.Header>Header</CodeVisualizer.Header>
+      <CodeBlock.Snippet language="javascript" code={``} />
+      <CodeBlock.Snippet language="csharp" code={``} />
+    </CodeBlock>
   );
 }
 ```
@@ -77,25 +65,16 @@ function Component() {
 _Custom header color:_
 
 ```tsx
-import { CodeVisualizer } from "@easypost/easy-ui/CodeBlock";
+import { CodeBlock } from "@easypost/easy-ui/CodeBlock";
 
 function Component() {
   const [language, setLanguage] = useState("javascript");
   return (
-    <CodeVisualizer language={language} onLanguageChange={setLanguage}>
-      <CodeVisualizer.Header color="primary">Header</CodeVisualizer.Header>
-      <CodeVisualizer.Snippet>
-        <CodeBlock
-          language="javascript"
-          code={``}
-          maxLines={12}
-          showLineNumbers
-        />
-      </CodeVisualizer.Snippet>
-      <CodeVisualizer.Snippet>
-        <CodeBlock language="csharp" code={``} maxLines={12} showLineNumbers />
-      </CodeVisualizer.Snippet>
-    </CodeVisualizer>
+    <CodeBlock language={language} onLanguageChange={setLanguage}>
+      <CodeBlock.Header color="secondary">Header</CodeVisualizer.Header>
+      <CodeBlock.Snippet language="javascript" code={``} />
+      <CodeBlock.Snippet language="csharp" code={``} />
+    </CodeBlock>
   );
 }
 ```
@@ -103,22 +82,21 @@ function Component() {
 _Dynamic snippets:_
 
 ```tsx
-import { CodeVisualizer } from "@easypost/easy-ui/CodeBlock";
+import { CodeBlock } from "@easypost/easy-ui/CodeBlock";
 
 function Component() {
   const [language, setLanguage] = useState("javascript");
   return (
-    <CodeVisualizer language={language} onLanguageChange={setLanguage}>
-      <CodeVisualizer.Header>Header</CodeVisualizer.Header>
+    <CodeBlock language={language} onLanguageChange={setLanguage}>
+      <CodeBlock.Header>Header</CodeBlock.Header>
       {Object.entries(getSnippets()).map(([language, code]) => (
-        <CodeVisualizer.Snippet key={language}>
-          <CodeBlock
-            language={language}
-            code={code}
-            maxLines={12}
-            showLineNumbers
-          />
-        </CodeVisualizer.Snippet>
+        <CodeBlock.Snippet
+          key={language}
+          language={language}
+          code={code}
+          maxLines={12}
+          showLineNumbers
+        />
       ))}
     </CodeVisualizer>
   );
