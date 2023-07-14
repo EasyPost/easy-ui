@@ -36,7 +36,7 @@
     "@react-stately/toast": "^3.0.0-beta.1",
     "@react-types/shared": "^3.18.0",
     "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
+    "@types/react-dom": "^18.2.7",
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.2.1",
     "overlayscrollbars-react": "^0.5.1",
