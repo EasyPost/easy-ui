@@ -1,5 +1,12 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.6
+
+### Minor Changes
+
+- f03de81: Adds "help" and "add_circle" icons
+- b652cd3: Adds "cycle", "add_card", "alarm", "filter_alt", "filter_alt_off", and "article" icons
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes
