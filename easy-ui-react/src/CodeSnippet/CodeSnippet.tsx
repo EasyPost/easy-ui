@@ -5,9 +5,9 @@ import { SnippetLanguages, SyntaxHighlighter } from "./SyntaxHighlighter";
 import { useEasyUiSyntaxHighlighterTheme } from "./theme";
 import { useScrollbar } from "./useScrollbar";
 
-import styles from "./CodeBlock.module.scss";
+import styles from "./CodeSnippet.module.scss";
 
-export type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
+export type CodeSnippetProps = Partial<Omit<HTMLDivElement, "children">> & {
   /**
    * `children` is not supported. Use `code` instead.
    */
@@ -43,7 +43,7 @@ export type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
  *
  * @example
  * ```tsx
- * <CodeBlock
+ * <CodeSnippet
  *   code={`console.log("Hello world");`}
  *   language="javascript"
  * />
@@ -52,7 +52,7 @@ export type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
  * @example
  * _Line numbers:_
  * ```tsx
- * <CodeBlock
+ * <CodeSnippet
  *   code={`console.log("Hello world");`}
  *   language="javascript"
  *   showLineNumbers
@@ -62,15 +62,15 @@ export type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
  * @example
  * _Max lines:_
  * ```tsx
- * <CodeBlock
+ * <CodeSnippet
  *   code={`console.log("Hello world");`}
  *   language="javascript"
  *   maxLines={8}
  * />
  * ```
  */
-export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
-  (props: CodeBlockProps, ref) => {
+export const CodeSnippet = forwardRef<HTMLDivElement, CodeSnippetProps>(
+  (props: CodeSnippetProps, ref) => {
     const { code, language, maxLines, showLineNumbers } = props;
     const codeBlockRef = useRef<HTMLDivElement | null>(null);
     const syntaxTheme = useEasyUiSyntaxHighlighterTheme(maxLines);
@@ -78,7 +78,7 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
     return (
       <Card background="primary">
         <div
-          className={styles.CodeBlock}
+          className={styles.CodeSnippet}
           ref={mergeRefs(ref, codeBlockRef)}
           tabIndex={maxLines != null ? 0 : undefined}
         >
@@ -95,4 +95,4 @@ export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
   },
 );
 
-CodeBlock.displayName = "CodeBlock";
+CodeSnippet.displayName = "CodeSnippet";

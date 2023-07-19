@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { mockGetComputedStyle } from "../utilities/test";
-import { CodeBlock } from "./CodeBlock";
+import { CodeSnippet } from "./CodeSnippet";
 
-describe("<CodeBlock />", () => {
+describe("<CodeSnippet />", () => {
   let restoreGetComputedStyle: () => void;
 
   beforeEach(() => {
@@ -16,14 +16,17 @@ describe("<CodeBlock />", () => {
 
   it("should render a code block", () => {
     render(
-      <CodeBlock code={`console.log("Hello world!");`} language="javascript" />,
+      <CodeSnippet
+        code={`console.log("Hello world!");`}
+        language="javascript"
+      />,
     );
     expect(screen.getByText(/hello world/i)).toBeInTheDocument();
   });
 
   it("should render line numbers", () => {
     render(
-      <CodeBlock
+      <CodeSnippet
         code={`console.log("Hello world!");`}
         language="javascript"
         showLineNumbers
@@ -35,7 +38,7 @@ describe("<CodeBlock />", () => {
 
   it("should render max lines", () => {
     render(
-      <CodeBlock
+      <CodeSnippet
         code={`one
 two
 three

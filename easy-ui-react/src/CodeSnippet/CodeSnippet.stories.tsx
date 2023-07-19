@@ -1,17 +1,17 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { CodeBlock, CodeBlockProps } from "./CodeBlock";
+import { CodeSnippet, CodeSnippetProps } from "./CodeSnippet";
 import { SnippetLanguage } from "./SyntaxHighlighter";
 
-type Story = StoryObj<typeof CodeBlock>;
+type Story = StoryObj<typeof CodeSnippet>;
 
-const Template = (args: CodeBlockProps) => (
-  <CodeBlock {...args} code={getSnippets()[args.language]} />
+const Template = (args: CodeSnippetProps) => (
+  <CodeSnippet {...args} code={getSnippets()[args.language]} />
 );
 
-const meta: Meta<typeof CodeBlock> = {
-  title: "Components/CodeBlock",
-  component: CodeBlock,
+const meta: Meta<typeof CodeSnippet> = {
+  title: "Components/CodeSnippet",
+  component: CodeSnippet,
   args: {
     language: SnippetLanguage.JAVASCRIPT,
     showLineNumbers: false,
