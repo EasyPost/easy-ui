@@ -1,9 +1,10 @@
 import { mergeRefs } from "@react-aria/utils";
-import React, { forwardRef, useRef } from "react";
+import React, { forwardRef, useContext, useRef } from "react";
 import { Card } from "../Card";
-import { SnippetLanguages, SyntaxHighlighter } from "./SyntaxHighlighter";
+import { SnippetLanguage, SyntaxHighlighter } from "./SyntaxHighlighter";
 import { useEasyUiSyntaxHighlighterTheme } from "./theme";
 import { useScrollbar } from "./useScrollbar";
+import { CodeBlockContext } from "../CodeBlock/context";
 
 import styles from "./CodeSnippet.module.scss";
 
@@ -21,7 +22,7 @@ export type CodeSnippetProps = Partial<Omit<HTMLDivElement, "children">> & {
   /**
    * The language of the code snippet.
    */
-  language: SnippetLanguages;
+  language: SnippetLanguage;
 
   /**
    * Constrains the height of code block to a set number of lines.
@@ -71,12 +72,15 @@ export type CodeSnippetProps = Partial<Omit<HTMLDivElement, "children">> & {
  */
 export const CodeSnippet = forwardRef<HTMLDivElement, CodeSnippetProps>(
   (props: CodeSnippetProps, ref) => {
+    const codeBlockContext = useContext(CodeBlockContext);
+    const isWithinCodeBlock = Boolean(codeBlockContext);
+    const Component = isWithinCodeBlock ? Card.Area : Card;
     const { code, language, maxLines, showLineNumbers } = props;
     const codeBlockRef = useRef<HTMLDivElement | null>(null);
     const syntaxTheme = useEasyUiSyntaxHighlighterTheme(maxLines);
     useScrollbar(codeBlockRef);
     return (
-      <Card background="primary">
+      <Component background="primary">
         <div
           className={styles.CodeSnippet}
           ref={mergeRefs(ref, codeBlockRef)}
@@ -90,7 +94,7 @@ export const CodeSnippet = forwardRef<HTMLDivElement, CodeSnippetProps>(
             {code}
           </SyntaxHighlighter>
         </div>
-      </Card>
+      </Component>
     );
   },
 );

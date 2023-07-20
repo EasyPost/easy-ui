@@ -10,7 +10,7 @@ import python from "react-syntax-highlighter/dist/esm/languages/prism/python";
 import ruby from "react-syntax-highlighter/dist/esm/languages/prism/ruby";
 import shell from "react-syntax-highlighter/dist/esm/languages/prism/shell-session";
 
-export type SnippetLanguages =
+export type SnippetLanguage =
   | "csharp"
   | "go"
   | "java"
@@ -21,7 +21,7 @@ export type SnippetLanguages =
   | "ruby"
   | "shell";
 
-const SnippetLanguage: Record<string, SnippetLanguages> = {
+const SnippetLanguages: Record<string, SnippetLanguage> = {
   CSHARP: "csharp",
   GO: "go",
   JAVA: "java",
@@ -33,14 +33,26 @@ const SnippetLanguage: Record<string, SnippetLanguages> = {
   SHELL: "shell",
 };
 
-SyntaxHighlighter.registerLanguage(SnippetLanguage.CSHARP, csharp);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.GO, go);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.JAVA, java);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.JAVASCRIPT, javascript);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.JSON, json);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.PHP, php);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.PYTHON, python);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.RUBY, ruby);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.SHELL, shell);
+const friendlySnippetLanguageNames = {
+  [SnippetLanguages.CSHARP]: "C#/.NET",
+  [SnippetLanguages.GO]: "Go",
+  [SnippetLanguages.JAVA]: "Java",
+  [SnippetLanguages.JAVASCRIPT]: "Node.js",
+  [SnippetLanguages.JSON]: "JSON",
+  [SnippetLanguages.PHP]: "PHP",
+  [SnippetLanguages.PYTHON]: "Python",
+  [SnippetLanguages.RUBY]: "Ruby",
+  [SnippetLanguages.SHELL]: "cURL",
+};
 
-export { SyntaxHighlighter, SnippetLanguage };
+SyntaxHighlighter.registerLanguage(SnippetLanguages.CSHARP, csharp);
+SyntaxHighlighter.registerLanguage(SnippetLanguages.GO, go);
+SyntaxHighlighter.registerLanguage(SnippetLanguages.JAVA, java);
+SyntaxHighlighter.registerLanguage(SnippetLanguages.JAVASCRIPT, javascript);
+SyntaxHighlighter.registerLanguage(SnippetLanguages.JSON, json);
+SyntaxHighlighter.registerLanguage(SnippetLanguages.PHP, php);
+SyntaxHighlighter.registerLanguage(SnippetLanguages.PYTHON, python);
+SyntaxHighlighter.registerLanguage(SnippetLanguages.RUBY, ruby);
+SyntaxHighlighter.registerLanguage(SnippetLanguages.SHELL, shell);
+
+export { SyntaxHighlighter, SnippetLanguages, friendlySnippetLanguageNames };

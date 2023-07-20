@@ -41,8 +41,10 @@
     "overlayscrollbars": "^2.2.1",
     "overlayscrollbars-react": "^0.5.1",
     "react-aria": "^3.26.0",
+    "react-is": "^18.2.0",
     "react-stately": "^3.24.0",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "use-clipboard-copy": "^0.2.0"
   },
   "peerDependencies": {
     "react": "^16.14.0 || ^17.0.0 || ^18.0.0",
@@ -52,6 +54,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/react-is": "^18.2.1",
     "@types/react-syntax-highlighter": "^15.5.7",
     "@vitejs/plugin-react": "^4.0.3",
     "glob": "^10.2.5",

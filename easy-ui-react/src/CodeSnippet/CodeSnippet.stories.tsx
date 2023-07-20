@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { CodeSnippet, CodeSnippetProps } from "./CodeSnippet";
-import { SnippetLanguage } from "./SyntaxHighlighter";
+import { SnippetLanguages, SnippetLanguage } from "./SyntaxHighlighter";
 
 type Story = StoryObj<typeof CodeSnippet>;
 
@@ -13,10 +13,11 @@ const meta: Meta<typeof CodeSnippet> = {
   title: "Components/CodeSnippet",
   component: CodeSnippet,
   args: {
-    language: SnippetLanguage.JAVASCRIPT,
+    language: SnippetLanguages.JAVASCRIPT,
     showLineNumbers: false,
     maxLines: undefined,
   },
+  excludeStories: ["getSnippets", "getSnippetEntries"],
 };
 
 export default meta;
@@ -40,9 +41,13 @@ export const MaxLines: Story = {
   },
 };
 
-function getSnippets() {
+export function getSnippetEntries() {
+  return Object.entries(getSnippets()) as [SnippetLanguage, string][];
+}
+
+export function getSnippets() {
   return {
-    [SnippetLanguage.CSHARP]: `using System;
+    [SnippetLanguages.CSHARP]: `using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -72,7 +77,7 @@ namespace EasyPostExamples
         }
     }
 }`,
-    [SnippetLanguage.GO]: `package example
+    [SnippetLanguages.GO]: `package example
 
 import (
   "fmt"
@@ -94,7 +99,7 @@ func main() {
 
   fmt.Println(tracker)
 }`,
-    [SnippetLanguage.JAVA]: `package trackers;
+    [SnippetLanguages.JAVA]: `package trackers;
 
 import com.easypost.exception.EasyPostException;
 import com.easypost.model.Tracker;
@@ -115,7 +120,7 @@ public class Create {
         System.out.println(tracker);
     }
 }`,
-    [SnippetLanguage.JAVASCRIPT]: `const EasyPostClient = require('@easypost/api');
+    [SnippetLanguages.JAVASCRIPT]: `const EasyPostClient = require('@easypost/api');
 
 const client = new EasyPostClient(process.env.EASYPOST_API_KEY);
 
@@ -127,7 +132,7 @@ const client = new EasyPostClient(process.env.EASYPOST_API_KEY);
 
   console.log(tracker);
 })();`,
-    [SnippetLanguage.JSON]: `{
+    [SnippetLanguages.JSON]: `{
   "id": "trk_52af8b25ec1a4ca687a9691e0dc2198b",
   "object": "Tracker",
   "mode": "test",
@@ -210,7 +215,7 @@ const client = new EasyPostClient(process.env.EASYPOST_API_KEY);
     }
   ]
 }`,
-    [SnippetLanguage.PHP]: `<?php
+    [SnippetLanguages.PHP]: `<?php
 
 $client = new \EasyPost\EasyPostClient(getenv('EASYPOST_API_KEY'));
 
@@ -220,7 +225,7 @@ $tracker = $client->tracker->create([
 ]);
 
 echo $tracker;`,
-    [SnippetLanguage.PYTHON]: `import os
+    [SnippetLanguages.PYTHON]: `import os
 
 import easypost
 
@@ -232,7 +237,7 @@ tracker = client.tracker.create(
 )
 
 print(tracker)`,
-    [SnippetLanguage.RUBY]: `require 'easypost'
+    [SnippetLanguages.RUBY]: `require 'easypost'
 
 client = EasyPost::Client.new(api_key: ENV['EASYPOST_API_KEY'])
 
@@ -242,7 +247,7 @@ tracker = client.tracker.create(
 )
 
 puts tracker`,
-    [SnippetLanguage.SHELL]: `curl -X POST https://api.easypost.com/v2/trackers \
+    [SnippetLanguages.SHELL]: `curl -X POST https://api.easypost.com/v2/trackers \
 -u "$EASYPOST_API_KEY": \
 -H 'Content-Type: application/json' \
 -d '{

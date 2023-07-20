@@ -1,0 +1,54 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { CodeBlock } from "./CodeBlock";
+import * as CodeBlockStories from "./CodeBlock.stories";
+
+<Meta of={CodeBlockStories} />
+
+# CodeBlock
+
+A `<CodeBlock />` wraps one or more `<CodeSnippet />`s to provide the user with a friendly way to switch snippets and copy their code.
+
+`<CodeBlock />` is a multi-part component. Use `<CodeBlock.Header />` and `<CodeBlock.Snippet />` to build the `<CodeBlock />`. `<CodeBlock.Snippet />` accepts all properties that `<CodeSnippet />` accepts. `<CodeBlock.Header />` and `<CodeBlock.Snippet />` should be direct children of `<CodeBlock />`. To reuse multiple snippets, enclose them in a function and invoke directly in render.
+
+`<CodeBlock />` is a controlled component. It requires the consumer to provide a selected language and manage its state. Use the `language` and `onLanguageChange` props to control the currently active `<CodeSnippet />`.
+
+```tsx
+const [language, onLanguageChange] = useState("javascript");
+
+<CodeBlock language={language} onLanguageChange={onLanguageChange}>
+  <CodeBlock.Header color="neutral">Header title</CodeBlock.Header>
+  <CodeBlock.Snippet language="javascript" code={``} />
+  <CodeBlock.Snippet language="php" code={``} />
+</CodeBlock>;
+```
+
+<Canvas of={CodeBlockStories.Default} />
+
+## Header color
+
+`<CodeBlock.Header />` accepts a `color` property to change its color. Defaults to `neutral`.
+
+<Canvas of={CodeBlockStories.HeaderColor} />
+
+<Controls of={CodeBlockStories.HeaderColor} />
+
+## View only
+
+If `<CodeBlock />` contains only one `<CodeBlock.Snippet />`, the `<CodeBlock />` will be in view only mode and not show a language selector.
+
+<Canvas of={CodeBlockStories.ViewOnly} />
+
+## Properties
+
+### CodeBlock
+
+<ArgTypes of={CodeBlock} />
+
+### CodeBlock.Header
+
+<ArgTypes of={CodeBlock.Header} />
+
+### CodeBlock.Snippet
+
+<ArgTypes of={CodeBlock.Snippet} />

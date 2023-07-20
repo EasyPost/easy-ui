@@ -1,0 +1,144 @@
+import React, { ReactNode, useCallback, useMemo } from "react";
+import { CodeSnippet, CodeSnippetProps } from "../CodeSnippet";
+import {
+  SnippetLanguage,
+  friendlySnippetLanguageNames,
+} from "../CodeSnippet/SyntaxHighlighter";
+import { HorizontalStack } from "../HorizontalStack";
+import { Text } from "../Text";
+import { classNames, variationName } from "../utilities/css";
+import { filterChildrenByDisplayName } from "../utilities/react";
+import { CopyButton } from "./CopyButton";
+import { LanguageSelector } from "./LanguageSelector";
+import { CodeBlockContext, useCodeBlock } from "./context";
+
+import styles from "./CodeBlock.module.scss";
+
+export type CodeBlockProps = {
+  /**
+   * CodeBlock content. This should be a header and collection of snippets.
+   */
+  children: ReactNode;
+
+  /**
+   * Selected language.
+   */
+  language: SnippetLanguage;
+
+  /**
+   * Callback for when the selected language changes.
+   */
+  onLanguageChange: (language: SnippetLanguage) => void;
+};
+
+export type CodeBlockHeaderProps = {
+  /**
+   * Header title.
+   */
+  children: ReactNode;
+
+  /**
+   * Header color.
+   *
+   * @default neutral
+   */
+  color?: "neutral" | "primary" | "secondary";
+};
+
+export type CodeBlockSnippetProps = CodeSnippetProps;
+
+function CodeBlockHeader(props: CodeBlockHeaderProps) {
+  const { children, color = "neutral" } = props;
+  const { snippet, languages, language, onLanguageChange } = useCodeBlock();
+
+  const handleSelectChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const value = e.target.value as SnippetLanguage;
+      onLanguageChange(value);
+    },
+    [onLanguageChange],
+  );
+
+  const className = classNames(
+    styles.header,
+    styles[variationName("color", color)],
+  );
+
+  return (
+    <div className={className}>
+      <HorizontalStack align="space-between">
+        <Text variant="subtitle1">{children}</Text>
+        <HorizontalStack gap="2">
+          {languages.length > 1 && (
+            <>
+              <LanguageSelector value={language} onChange={handleSelectChange}>
+                {languages.map((language) => (
+                  <option key={language} value={language}>
+                    {friendlySnippetLanguageNames[language]}
+                  </option>
+                ))}
+              </LanguageSelector>
+              <span className={styles.divider} />
+            </>
+          )}
+          <CopyButton text={snippet.props.code} />
+        </HorizontalStack>
+      </HorizontalStack>
+    </div>
+  );
+}
+
+function CodeBlockSnippet(props: CodeBlockSnippetProps) {
+  return <CodeSnippet {...props} />;
+}
+
+export function CodeBlock(props: CodeBlockProps) {
+  const { children, language, onLanguageChange } = props;
+
+  const snippets = useMemo(() => {
+    return filterChildrenByDisplayName(children, "CodeBlock.Snippet");
+  }, [children]);
+
+  const headers = useMemo(() => {
+    return filterChildrenByDisplayName(children, "CodeBlock.Header");
+  }, [children]);
+
+  if (snippets.length === 0) {
+    throw new Error("Must supply at least one CodeBlock.Snippet");
+  }
+
+  if (headers.length !== 1) {
+    throw new Error("Must supply one CodeBlock.Header");
+  }
+
+  const snippet = snippets.find(
+    (snippet) => snippet.props.language === language,
+  );
+
+  if (!snippet) {
+    throw new Error("No snippet matching supplied language");
+  }
+
+  const header = headers[0];
+
+  const languages = useMemo(() => {
+    return snippets.map((snippet) => snippet.props.language);
+  }, [snippets]);
+
+  const context = useMemo(() => {
+    return { languages, snippet, language, onLanguageChange };
+  }, [languages, snippet, language, onLanguageChange]);
+
+  return (
+    <CodeBlockContext.Provider value={context}>
+      <div className={styles.CodeBlock}>
+        {header}
+        {snippet}
+      </div>
+    </CodeBlockContext.Provider>
+  );
+}
+
+CodeBlock.displayName = "CodeBlock";
+CodeBlock.Header = CodeBlockHeader;
+CodeBlock.Snippet = CodeBlockSnippet;
