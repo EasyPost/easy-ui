@@ -19,7 +19,7 @@ import { isFragment, isElement } from "react-is";
  *
  * @returns flattened children
  */
-export default function flattenChildren(
+export function flattenChildren(
   children: ReactNode,
   depth: number = 0,
   keys: (string | number)[] = [],

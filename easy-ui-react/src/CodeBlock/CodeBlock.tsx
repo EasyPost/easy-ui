@@ -6,7 +6,7 @@ import { Text } from "../Text";
 import { classNames, variationName } from "../utilities/css";
 import { filterChildrenByDisplayName } from "../utilities/react";
 import { CopyButton } from "./CopyButton";
-import LanguageMenu from "./LanguageMenu";
+import { LanguageMenu } from "./LanguageMenu";
 import { CodeBlockContext, useCodeBlock } from "./context";
 
 import styles from "./CodeBlock.module.scss";

@@ -29,7 +29,7 @@ export type LanguageMenuProps = {
   onChange: (language: SnippetLanguage) => void;
 };
 
-function LanguageMenu(props: LanguageMenuProps) {
+export function LanguageMenu(props: LanguageMenuProps) {
   const { languages, language, onChange } = props;
   const handleMenuAction = useCallback(
     (key: React.Key) => {
@@ -60,5 +60,3 @@ function LanguageMenu(props: LanguageMenuProps) {
     </Menu>
   );
 }
-
-export default LanguageMenu;
