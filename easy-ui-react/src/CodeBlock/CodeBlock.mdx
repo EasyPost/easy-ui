@@ -13,16 +13,6 @@ A `<CodeBlock />` wraps one or more `<CodeSnippet />`s to provide the user the a
 
 `<CodeBlock />` is a controlled component. It requires the consumer to provide a selected language and manage its state. Use the `language` and `onLanguageChange` props to control the currently active `<CodeSnippet />`.
 
-```tsx
-const [language, onLanguageChange] = useState("javascript");
-
-<CodeBlock language={language} onLanguageChange={onLanguageChange}>
-  <CodeBlock.Header color="neutral">Header title</CodeBlock.Header>
-  <CodeBlock.Snippet language="javascript" code={``} />
-  <CodeBlock.Snippet language="php" code={``} />
-</CodeBlock>;
-```
-
 <Canvas of={CodeBlockStories.Default} />
 
 ## View only
@@ -60,3 +50,15 @@ Using `<HorizontalGrid />`, two `<CodeBlock />`'s can be placed side by side for
 ### CodeBlock.Snippet
 
 <ArgTypes of={CodeBlock.Snippet} />
+
+### Example architecture
+
+```jsx
+const [language, onLanguageChange] = useState("javascript");
+
+<CodeBlock language={language} onLanguageChange={onLanguageChange}>
+  <CodeBlock.Header color="neutral">Header title</CodeBlock.Header>
+  <CodeBlock.Snippet language="javascript" code={``} />
+  <CodeBlock.Snippet language="php" code={``} />
+</CodeBlock>;
+```
