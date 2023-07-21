@@ -1,9 +1,0 @@
-@use "../styles/common" as *;
-
-.LanguageSelector {
-  @include overlay-input;
-}
-
-.focusVisible .facade {
-  @include native-focus-ring;
-}

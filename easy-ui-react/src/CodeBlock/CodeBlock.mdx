@@ -20,24 +20,24 @@ const [language, onLanguageChange] = useState("javascript");
   <CodeBlock.Header color="neutral">Header title</CodeBlock.Header>
   <CodeBlock.Snippet language="javascript" code={``} />
   <CodeBlock.Snippet language="php" code={``} />
-</CodeBlock>;
+</CodeBlock>
 ```
 
 <Canvas of={CodeBlockStories.Default} />
-
-## Header color
-
-`<CodeBlock.Header />` accepts a `color` property to change its color. Defaults to `neutral`.
-
-<Canvas of={CodeBlockStories.HeaderColor} />
-
-<Controls of={CodeBlockStories.HeaderColor} />
 
 ## View only
 
 If `<CodeBlock />` contains only one `<CodeBlock.Snippet />`, the `<CodeBlock />` will be in view only mode and not show a language selector.
 
 <Canvas of={CodeBlockStories.ViewOnly} />
+
+## Custom Header
+
+`<CodeBlock.Header />` can be customized. It accepts a `color` property to change its color scheme, defaulting to `neutral`. Change the header's title by modifying the `children` prop.
+
+<Canvas of={CodeBlockStories.CustomHeader} />
+
+<Controls of={CodeBlockStories.CustomHeader} />
 
 ## Properties
 

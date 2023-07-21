@@ -40,19 +40,13 @@ CopyButton.displayName = "CopyButton";
 function useCopyButtonTooltipState() {
   const tooltipState = useTooltipTriggerState();
   const { hoverProps } = useHover({
-    onHoverStart() {
-      tooltipState.open();
-    },
-    onHoverEnd() {
-      tooltipState.close();
+    onHoverChange(isHovering) {
+      tooltipState[isHovering ? "open" : "close"]();
     },
   });
   const { focusProps } = useFocus({
-    onFocus() {
-      tooltipState.open();
-    },
-    onBlur() {
-      tooltipState.close();
+    onFocusChange(isFocused) {
+      tooltipState[isFocused ? "open" : "close"]();
     },
   });
   return { triggerProps: mergeProps(hoverProps, focusProps), tooltipState };

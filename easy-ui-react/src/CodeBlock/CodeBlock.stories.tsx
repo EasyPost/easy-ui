@@ -1,10 +1,13 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React, { useState } from "react";
-import { getSnippetEntries } from "../CodeSnippet/CodeSnippet.stories";
+import { getSnippetEntries as getAllSnippetEntries } from "../CodeSnippet/CodeSnippet.stories";
 import { CodeBlock, CodeBlockProps } from "./CodeBlock";
 
 type Story = StoryObj<typeof CodeBlock>;
 type TemplateProps = Omit<CodeBlockProps, "language" | "onLanguageChange">;
+
+const getSnippetEntries = () =>
+  getAllSnippetEntries().filter(([language]) => language !== "json");
 
 const Template = (props: TemplateProps) => {
   const [language, setLanguage] = useState(() => getSnippetEntries()[0][0]);
@@ -51,24 +54,6 @@ export const Default: Story = {
   render: Template.bind({}),
 };
 
-export const HeaderColor: StoryObj<typeof CodeBlock.Header> = {
-  render: (args) => (
-    <Template>
-      <CodeBlock.Header {...args}>Header</CodeBlock.Header>
-      {getSnippets()}
-    </Template>
-  ),
-  args: {
-    color: "primary",
-  },
-  argTypes: {
-    color: {
-      options: ["neutral", "secondary", "primary"],
-      control: { type: "radio" },
-    },
-  },
-};
-
 export const ViewOnly: Story = {
   render: () => {
     const [language, code] = getSnippetEntries()[0];
@@ -83,5 +68,30 @@ export const ViewOnly: Story = {
         />
       </Template>
     );
+  },
+};
+
+export const CustomHeader: StoryObj<typeof CodeBlock.Header> = {
+  render: (args) => (
+    <Template>
+      <CodeBlock.Header {...args} />
+      {getSnippets()}
+    </Template>
+  ),
+  args: {
+    children: "Header",
+    color: "primary",
+  },
+  argTypes: {
+    children: { control: "text" },
+    color: {
+      options: ["neutral", "secondary", "primary"],
+      control: { type: "radio" },
+    },
+  },
+  parameters: {
+    controls: {
+      exclude: ["language", "onLanguageChange"],
+    },
   },
 };

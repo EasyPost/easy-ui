@@ -1,15 +1,12 @@
-import React, { ReactNode, useCallback, useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { CodeSnippet, CodeSnippetProps } from "../CodeSnippet";
-import {
-  SnippetLanguage,
-  friendlySnippetLanguageNames,
-} from "../CodeSnippet/SyntaxHighlighter";
+import { SnippetLanguage } from "../CodeSnippet/SyntaxHighlighter";
 import { HorizontalStack } from "../HorizontalStack";
 import { Text } from "../Text";
 import { classNames, variationName } from "../utilities/css";
 import { filterChildrenByDisplayName } from "../utilities/react";
 import { CopyButton } from "./CopyButton";
-import { LanguageSelector } from "./LanguageSelector";
+import LanguageMenu from "./LanguageMenu";
 import { CodeBlockContext, useCodeBlock } from "./context";
 
 import styles from "./CodeBlock.module.scss";
@@ -50,20 +47,10 @@ export type CodeBlockSnippetProps = CodeSnippetProps;
 function CodeBlockHeader(props: CodeBlockHeaderProps) {
   const { children, color = "neutral" } = props;
   const { snippet, languages, language, onLanguageChange } = useCodeBlock();
-
-  const handleSelectChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = e.target.value as SnippetLanguage;
-      onLanguageChange(value);
-    },
-    [onLanguageChange],
-  );
-
   const className = classNames(
     styles.header,
     styles[variationName("color", color)],
   );
-
   return (
     <div className={className}>
       <HorizontalStack align="space-between">
@@ -71,13 +58,11 @@ function CodeBlockHeader(props: CodeBlockHeaderProps) {
         <HorizontalStack gap="2">
           {languages.length > 1 && (
             <>
-              <LanguageSelector value={language} onChange={handleSelectChange}>
-                {languages.map((language) => (
-                  <option key={language} value={language}>
-                    {friendlySnippetLanguageNames[language]}
-                  </option>
-                ))}
-              </LanguageSelector>
+              <LanguageMenu
+                languages={languages}
+                language={language}
+                onChange={onLanguageChange}
+              />
               <span className={styles.divider} />
             </>
           )}
