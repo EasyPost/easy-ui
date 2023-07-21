@@ -96,9 +96,10 @@ export function CodeBlock(props: CodeBlockProps) {
     throw new Error("Must supply one CodeBlock.Header");
   }
 
-  const snippet = snippets.find(
-    (snippet) => snippet.props.language === language,
-  );
+  const snippet =
+    snippets.length === 1
+      ? snippets[0]
+      : snippets.find((snippet) => snippet.props.language === language);
 
   if (!snippet) {
     throw new Error("No snippet matching supplied language");

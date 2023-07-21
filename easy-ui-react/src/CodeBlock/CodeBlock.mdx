@@ -20,7 +20,7 @@ const [language, onLanguageChange] = useState("javascript");
   <CodeBlock.Header color="neutral">Header title</CodeBlock.Header>
   <CodeBlock.Snippet language="javascript" code={``} />
   <CodeBlock.Snippet language="php" code={``} />
-</CodeBlock>
+</CodeBlock>;
 ```
 
 <Canvas of={CodeBlockStories.Default} />
@@ -38,6 +38,14 @@ If `<CodeBlock />` contains only one `<CodeBlock.Snippet />`, the `<CodeBlock />
 <Canvas of={CodeBlockStories.CustomHeader} />
 
 <Controls of={CodeBlockStories.CustomHeader} />
+
+## Side by Side
+
+Using `<HorizontalGrid />`, two `<CodeBlock />`'s can be placed side by side for a request-response pattern.
+
+<Canvas of={CodeBlockStories.SideBySide} />
+
+<Controls of={CodeBlockStories.SideBySide} />
 
 ## Properties
 
