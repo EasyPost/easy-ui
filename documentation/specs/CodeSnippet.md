@@ -2,11 +2,11 @@
 
 ## Overview
 
-A Code Block is used to display readable blocks of code.
+A `CodeSnippet` is used to display readable blocks of code.
 
 ### Use Cases
 
-- Use a Code Block to improve readability of embedded code samples with syntax highlighting and automatic line numbering.
+- Use a `CodeSnippet` to improve readability of embedded code samples with syntax highlighting and automatic line numbering.
 
 ### Features
 
