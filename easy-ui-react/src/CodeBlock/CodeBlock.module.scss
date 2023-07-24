@@ -26,6 +26,8 @@
 }
 
 .divider {
+  align-self: stretch;
+  display: inline-flex;
   width: design-token("shape.border_width.1");
   background-color: theme-token("color.border.bolder");
 }

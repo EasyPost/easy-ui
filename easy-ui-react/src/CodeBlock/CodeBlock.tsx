@@ -53,9 +53,14 @@ function CodeBlockHeader(props: CodeBlockHeaderProps) {
   );
   return (
     <div className={className}>
-      <HorizontalStack align="space-between">
+      <HorizontalStack
+        align="space-between"
+        gap="2"
+        wrap={false}
+        blockAlign="start"
+      >
         <Text variant="subtitle1">{children}</Text>
-        <HorizontalStack gap="2">
+        <HorizontalStack gap="2" wrap={false}>
           {languages.length > 1 && (
             <>
               <LanguageMenu

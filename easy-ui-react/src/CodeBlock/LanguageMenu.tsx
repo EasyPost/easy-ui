@@ -42,7 +42,7 @@ export function LanguageMenu(props: LanguageMenuProps) {
     <Menu>
       <Menu.Trigger>
         <UnstyledButton className={styles.button}>
-          <HorizontalStack blockAlign="center" gap="1">
+          <HorizontalStack blockAlign="center" gap="1" wrap={false}>
             <Text variant="body1">
               {friendlySnippetLanguageNames[language]}
             </Text>
