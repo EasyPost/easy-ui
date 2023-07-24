@@ -19,10 +19,12 @@ export function CopyButton({ text }: CopyButtonProps) {
     clipboard.copy(text);
     tooltipState.close();
   }, [clipboard, text, tooltipState]);
+  const content = clipboard.copied ? "Copied!" : "Copy code block";
   return (
     <Tooltip
+      key={content}
       isOpen={tooltipState.isOpen || clipboard.copied}
-      content={clipboard.copied ? "Copied!" : "Copy code block"}
+      content={content}
     >
       <button
         className={styles.CopyButton}
