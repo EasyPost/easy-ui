@@ -3,7 +3,7 @@ import React, {
   MutableRefObject,
   ReactElement,
   ReactNode,
-  useEffect,
+  useLayoutEffect,
 } from "react";
 import {
   OverlayContainer,
@@ -191,7 +191,7 @@ function TooltipInner(props: TooltipInnerProps) {
   } as React.CSSProperties;
 
   // When the content of the tooltip changes, update the overlay position
-  useEffect(() => {
+  useLayoutEffect(() => {
     updatePosition();
   }, [content, updatePosition]);
 
