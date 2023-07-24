@@ -52,7 +52,7 @@ function CodeBlockHeader(props: CodeBlockHeaderProps) {
     styles[variationName("color", color)],
   );
   return (
-    <div className={className}>
+    <div className={className} data-testid="header">
       <HorizontalStack
         align="space-between"
         gap="2"
@@ -78,9 +78,13 @@ function CodeBlockHeader(props: CodeBlockHeaderProps) {
   );
 }
 
+CodeBlockHeader.displayName = "CodeBlock.Header";
+
 function CodeBlockSnippet(props: CodeBlockSnippetProps) {
   return <CodeSnippet {...props} />;
 }
+
+CodeBlockSnippet.displayName = "CodeBlock.Snippet";
 
 export function CodeBlock(props: CodeBlockProps) {
   const { children, language, onLanguageChange } = props;

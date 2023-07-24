@@ -14,7 +14,7 @@ describe("<CodeSnippet />", () => {
     restoreGetComputedStyle();
   });
 
-  it("should render a code block", () => {
+  it("should render a code snippet", () => {
     render(
       <CodeSnippet
         code={`console.log("Hello world!");`}
