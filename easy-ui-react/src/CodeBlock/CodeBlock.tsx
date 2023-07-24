@@ -86,6 +86,30 @@ function CodeBlockSnippet(props: CodeBlockSnippetProps) {
 
 CodeBlockSnippet.displayName = "CodeBlock.Snippet";
 
+/**
+ * A component to display and switch between readable blocks of code.
+ *
+ * @remarks
+ * Use a `CodeBlock` to improve readability of embedded code samples, to allow
+ * the user to select between multiple `CodeSnippet`s, and to allow copying
+ * code to the user's clipboard.
+ *
+ * @example
+ * ```tsx
+ * import { CodeBlock } from "@easypost/easy-ui/CodeBlock";
+ *
+ * function Component() {
+ *   const [language, setLanguage] = useState("javascript");
+ *   return (
+ *     <CodeBlock language={language} onLanguageChange={setLanguage}>
+ *       <CodeBlock.Header>Header</CodeVisualizer.Header>
+ *       <CodeBlock.Snippet language="javascript" code={``} />
+ *       <CodeBlock.Snippet language="csharp" code={``} />
+ *     </CodeBlock>
+ *   );
+ * }
+ * ```
+ */
 export function CodeBlock(props: CodeBlockProps) {
   const { children, language, onLanguageChange } = props;
 
@@ -135,5 +159,15 @@ export function CodeBlock(props: CodeBlockProps) {
 }
 
 CodeBlock.displayName = "CodeBlock";
+
+/**
+ * Represents the header of the `<CodeBlock />`. There should only be one in a
+ * `<CodeBlock />`.
+ */
 CodeBlock.Header = CodeBlockHeader;
+
+/**
+ * Represents snippets in the `<CodeBlock />`. There can be multiple snippets
+ * in a `<CodeBlock />`.
+ */
 CodeBlock.Snippet = CodeBlockSnippet;
