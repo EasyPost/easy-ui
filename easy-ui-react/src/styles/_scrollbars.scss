@@ -10,6 +10,10 @@
   --os-handle-bg-active: #{token-helpers.design-token("color.gray.500")};
   --os-track-border-radius: 999px;
   --os-handle-border-radius: 999px;
+
+  // there's a bug in Firefox with overlay elements rendering below the
+  // scrollbar due to `contain` rasterizing this slice of the screen
+  contain: unset;
 }
 
 .os-scrollbar.ezui-os-theme-overlay {
