@@ -22,7 +22,7 @@
   background: component-token("tooltip", "background");
   border-radius: component-token("tooltip", "border_radius");
   color: component-token("tooltip", "color");
-  display: block;
+  display: inline-flex;
   filter: drop-shadow(#{component-token("tooltip", "shadow")});
   max-width: calc(
     100% - (#{component-token("tooltip", "container_padding")} * 2)
