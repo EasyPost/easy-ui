@@ -18,6 +18,7 @@
     "shadow",
     theme-token("shadow.overlay.subdued")
   );
+  @include component-token("tooltip", "max-width", 232px);
 
   background: component-token("tooltip", "background");
   border-radius: component-token("tooltip", "border_radius");
@@ -25,7 +26,10 @@
   display: inline-flex;
   filter: drop-shadow(#{component-token("tooltip", "shadow")});
   max-width: calc(
-    100% - (#{component-token("tooltip", "container_padding")} * 2)
+    #{component-token("tooltip", "max-width")} - (#{component-token(
+            "tooltip",
+            "container_padding"
+          )} * 2)
   );
   padding: design-token("space.1");
   will-change: filter;

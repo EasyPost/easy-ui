@@ -88,6 +88,13 @@ export const FocusOnly: Story = {
   },
 };
 
+export const LongText: Story = {
+  render: Template.bind({}),
+  args: {
+    content: "This is a really long tooltip that wraps to the next line",
+  },
+};
+
 export const ButtonTrigger: Story = {
   render: Template.bind({}),
   args: {
