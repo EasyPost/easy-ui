@@ -78,7 +78,7 @@ function Component() {
   const [language, setLanguage] = useState("javascript");
   return (
     <CodeBlock language={language} onLanguageChange={setLanguage}>
-      <CodeBlock.Header>Header</CodeVisualizer.Header>
+      <CodeBlock.Header>Header</CodeBlock.Header>
       <CodeBlock.Snippet language="javascript" code={``} />
       <CodeBlock.Snippet language="csharp" code={``} />
     </CodeBlock>
