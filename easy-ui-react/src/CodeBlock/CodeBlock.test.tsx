@@ -71,7 +71,7 @@ describe("<CodeBlock />", () => {
     expect(handleLanguageChange).toBeCalledWith("javascript");
   });
 
-  it("should support view only", async () => {
+  it("should support single language mode", async () => {
     render(
       <CodeBlock language="javascript" onLanguageChange={() => {}}>
         <CodeBlock.Header color="primary">Header</CodeBlock.Header>

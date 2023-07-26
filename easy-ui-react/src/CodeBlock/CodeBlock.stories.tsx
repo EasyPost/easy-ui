@@ -55,7 +55,7 @@ export const Default: Story = {
   render: Template.bind({}),
 };
 
-export const ViewOnly: Story = {
+export const SingleLanguageMode: Story = {
   render: () => {
     const [language, code] = getSnippetEntries()[0];
     return (
