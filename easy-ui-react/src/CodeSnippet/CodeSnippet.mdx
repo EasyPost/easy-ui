@@ -1,0 +1,36 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { CodeSnippet } from "./CodeSnippet";
+import * as CodeSnippetStories from "./CodeSnippet.stories";
+
+<Meta of={CodeSnippetStories} />
+
+# CodeSnippet
+
+A `<CodeSnippet />` is used to improve readability of embedded code samples with syntax highlighting and automatic line numbering.
+
+Use the `code` and `language` props to control the contents of the `<CodeSnippet />`.
+
+<Canvas of={CodeSnippetStories.Default} />
+
+<Controls of={CodeSnippetStories.Default} include={["language"]} />
+
+## Line Numbers
+
+A `<CodeSnippet />` can show line numbers using `showLineNumbers`.
+
+<Canvas of={CodeSnippetStories.LineNumbers} />
+
+<Controls of={CodeSnippetStories.LineNumbers} include={["showLineNumbers"]} />
+
+## Max Lines
+
+A `<CodeSnippet />` can limit its height to a maximum number of lines using the `maxLines` prop.
+
+<Canvas of={CodeSnippetStories.MaxLines} />
+
+<Controls of={CodeSnippetStories.MaxLines} include={["maxLines"]} />
+
+## Properties
+
+<ArgTypes of={CodeSnippet} exclude={["children"]} />

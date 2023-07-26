@@ -1,7 +1,54 @@
 @use "../styles/common" as *;
 
 .CodeBlock {
-  display: flex;
-  align-items: center;
-  overflow: auto;
+  @include component-token(
+    "card-header",
+    "background",
+    theme-token("color.surface.card")
+  );
+  @include component-token(
+    "card-header",
+    "color",
+    theme-token("color.text.primary")
+  );
+  border: design-token("shape.border_width.1") solid
+    theme-token("color.border.bolder");
+  border-radius: design-token("shape.border_radius.md");
+  overflow: hidden;
+}
+
+.header {
+  padding: design-token("space.1.5") design-token("space.2");
+  border-bottom: design-token("shape.border_width.1") solid
+    theme-token("color.border.bolder");
+  background: component-token("card-header", "background");
+  color: component-token("card-header", "color");
+}
+
+.divider {
+  align-self: stretch;
+  display: inline-flex;
+  width: design-token("shape.border_width.1");
+  background-color: theme-token("color.border.bolder");
+}
+
+.colorPrimary {
+  @include component-token(
+    "card-header",
+    "background",
+    theme-token("color.background.primary.bolder")
+  );
+  @include component-token(
+    "card-header",
+    "color",
+    theme-token("color.text.inverse")
+  );
+}
+
+.colorSecondary {
+  @include component-token(
+    "card-header",
+    "background",
+    theme-token("color.surface.card.secondary")
+  );
 }

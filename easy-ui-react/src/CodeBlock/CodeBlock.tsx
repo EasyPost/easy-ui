@@ -1,98 +1,173 @@
-import { mergeRefs } from "@react-aria/utils";
-import React, { forwardRef, useRef } from "react";
-import { Card } from "../Card";
-import { SnippetLanguages, SyntaxHighlighter } from "./SyntaxHighlighter";
-import { useEasyUiSyntaxHighlighterTheme } from "./theme";
-import { useScrollbar } from "./useScrollbar";
+import React, { ReactNode, useMemo } from "react";
+import { CodeSnippet, CodeSnippetProps } from "../CodeSnippet";
+import { SnippetLanguage } from "../CodeSnippet/SyntaxHighlighter";
+import { HorizontalStack } from "../HorizontalStack";
+import { Text } from "../Text";
+import { classNames, variationName } from "../utilities/css";
+import { filterChildrenByDisplayName } from "../utilities/react";
+import { CopyButton } from "./CopyButton";
+import { LanguageMenu } from "./LanguageMenu";
+import { CodeBlockContext, useCodeBlock } from "./context";
 
 import styles from "./CodeBlock.module.scss";
 
-export type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
+export type CodeBlockProps = {
   /**
-   * `children` is not supported. Use `code` instead.
+   * CodeBlock content. This should be a header and collection of snippets.
    */
-  children?: never;
+  children: ReactNode;
 
   /**
-   * The code snippet to be rendered.
+   * Selected language.
    */
-  code: string;
+  language: SnippetLanguage;
 
   /**
-   * The language of the code snippet.
+   * Callback for when the selected language changes.
    */
-  language: SnippetLanguages;
-
-  /**
-   * Constrains the height of code block to a set number of lines.
-   */
-  maxLines?: number;
-
-  /**
-   * Include line numbers in code block.
-   */
-  showLineNumbers?: boolean;
+  onLanguageChange: (language: SnippetLanguage) => void;
 };
 
+export type CodeBlockHeaderProps = {
+  /**
+   * Header title.
+   */
+  children: ReactNode;
+
+  /**
+   * Header color.
+   *
+   * @default neutral
+   */
+  color?: "neutral" | "primary" | "secondary";
+};
+
+export type CodeBlockSnippetProps = CodeSnippetProps;
+
+function CodeBlockHeader(props: CodeBlockHeaderProps) {
+  const { children, color = "neutral" } = props;
+  const { snippet, languages, language, onLanguageChange } = useCodeBlock();
+  const className = classNames(
+    styles.header,
+    styles[variationName("color", color)],
+  );
+  return (
+    <div className={className} data-testid="header">
+      <HorizontalStack
+        align="space-between"
+        gap="2"
+        wrap={false}
+        blockAlign="start"
+      >
+        <Text variant="subtitle1">{children}</Text>
+        <HorizontalStack gap="2" wrap={false}>
+          {languages.length > 1 && (
+            <>
+              <LanguageMenu
+                languages={languages}
+                language={language}
+                onChange={onLanguageChange}
+              />
+              <span className={styles.divider} />
+            </>
+          )}
+          <CopyButton text={snippet.props.code} />
+        </HorizontalStack>
+      </HorizontalStack>
+    </div>
+  );
+}
+
+CodeBlockHeader.displayName = "CodeBlock.Header";
+
+function CodeBlockSnippet(props: CodeBlockSnippetProps) {
+  return <CodeSnippet {...props} />;
+}
+
+CodeBlockSnippet.displayName = "CodeBlock.Snippet";
+
 /**
- * A display element for readable blocks of code.
+ * A component to display and switch between readable blocks of code.
  *
  * @remarks
- * Use a Code Block to improve readability of embedded code samples with
- * syntax highlighting and automatic line numbering.
+ * Use a `CodeBlock` to improve readability of embedded code samples, to allow
+ * the user to select between multiple `CodeSnippet`s, and to allow copying
+ * code to the user's clipboard.
  *
  * @example
  * ```tsx
- * <CodeBlock
- *   code={`console.log("Hello world");`}
- *   language="javascript"
- * />
- * ```
+ * import { CodeBlock } from "@easypost/easy-ui/CodeBlock";
  *
- * @example
- * _Line numbers:_
- * ```tsx
- * <CodeBlock
- *   code={`console.log("Hello world");`}
- *   language="javascript"
- *   showLineNumbers
- * />
- * ```
- *
- * @example
- * _Max lines:_
- * ```tsx
- * <CodeBlock
- *   code={`console.log("Hello world");`}
- *   language="javascript"
- *   maxLines={8}
- * />
+ * function Component() {
+ *   const [language, setLanguage] = useState("javascript");
+ *   return (
+ *     <CodeBlock language={language} onLanguageChange={setLanguage}>
+ *       <CodeBlock.Header>Header</CodeVisualizer.Header>
+ *       <CodeBlock.Snippet language="javascript" code={``} />
+ *       <CodeBlock.Snippet language="csharp" code={``} />
+ *     </CodeBlock>
+ *   );
+ * }
  * ```
  */
-export const CodeBlock = forwardRef<HTMLDivElement, CodeBlockProps>(
-  (props: CodeBlockProps, ref) => {
-    const { code, language, maxLines, showLineNumbers } = props;
-    const codeBlockRef = useRef<HTMLDivElement | null>(null);
-    const syntaxTheme = useEasyUiSyntaxHighlighterTheme(maxLines);
-    useScrollbar(codeBlockRef);
-    return (
-      <Card background="primary">
-        <div
-          className={styles.CodeBlock}
-          ref={mergeRefs(ref, codeBlockRef)}
-          tabIndex={maxLines != null ? 0 : undefined}
-        >
-          <SyntaxHighlighter
-            language={language}
-            style={syntaxTheme}
-            showLineNumbers={showLineNumbers}
-          >
-            {code}
-          </SyntaxHighlighter>
-        </div>
-      </Card>
-    );
-  },
-);
+export function CodeBlock(props: CodeBlockProps) {
+  const { children, language, onLanguageChange } = props;
+
+  const snippets = useMemo(() => {
+    return filterChildrenByDisplayName(children, "CodeBlock.Snippet");
+  }, [children]);
+
+  const headers = useMemo(() => {
+    return filterChildrenByDisplayName(children, "CodeBlock.Header");
+  }, [children]);
+
+  if (snippets.length === 0) {
+    throw new Error("Must supply at least one CodeBlock.Snippet");
+  }
+
+  if (headers.length !== 1) {
+    throw new Error("Must supply one CodeBlock.Header");
+  }
+
+  const snippet =
+    snippets.length === 1
+      ? snippets[0]
+      : snippets.find((snippet) => snippet.props.language === language);
+
+  if (!snippet) {
+    throw new Error("No snippet matching supplied language");
+  }
+
+  const header = headers[0];
+
+  const languages = useMemo(() => {
+    return snippets.map((snippet) => snippet.props.language);
+  }, [snippets]);
+
+  const context = useMemo(() => {
+    return { languages, snippet, language, onLanguageChange };
+  }, [languages, snippet, language, onLanguageChange]);
+
+  return (
+    <CodeBlockContext.Provider value={context}>
+      <div className={styles.CodeBlock}>
+        {header}
+        {snippet}
+      </div>
+    </CodeBlockContext.Provider>
+  );
+}
 
 CodeBlock.displayName = "CodeBlock";
+
+/**
+ * Represents the header of the `<CodeBlock />`. There should only be one in a
+ * `<CodeBlock />`.
+ */
+CodeBlock.Header = CodeBlockHeader;
+
+/**
+ * Represents snippets in the `<CodeBlock />`. There can be multiple snippets
+ * in a `<CodeBlock />`.
+ */
+CodeBlock.Snippet = CodeBlockSnippet;

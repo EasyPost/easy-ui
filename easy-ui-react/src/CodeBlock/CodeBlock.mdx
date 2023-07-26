@@ -7,30 +7,58 @@ import * as CodeBlockStories from "./CodeBlock.stories";
 
 # CodeBlock
 
-A `<CodeBlock />` is used to improve readability of embedded code samples with syntax highlighting and automatic line numbering.
+A `<CodeBlock />` wraps one or more `<CodeSnippet />`s to provide the user the ability to switch languages and copy code.
 
-Use the `code` and `language` props to control the contents of the `<CodeBlock />`.
+`<CodeBlock />` is a multi-part component. Use `<CodeBlock.Header />` and `<CodeBlock.Snippet />` to build the `<CodeBlock />`. `<CodeBlock.Snippet />` accepts all properties that `<CodeSnippet />` accepts. `<CodeBlock.Header />` and `<CodeBlock.Snippet />` should be direct children of `<CodeBlock />`. To reuse multiple snippets, enclose them in a function and invoke directly in render.
+
+`<CodeBlock />` is a controlled component. It requires the consumer to provide a selected language and manage its state. Use the `language` and `onLanguageChange` props to control the currently active `<CodeSnippet />`.
 
 <Canvas of={CodeBlockStories.Default} />
 
-<Controls of={CodeBlockStories.Default} include={["language"]} />
+## Single Language Mode
 
-## Line Numbers
+If `<CodeBlock />` contains only one `<CodeBlock.Snippet />`, the `<CodeBlock />` will be in single language mode and not show a language selector.
 
-A `<CodeBlock />` can show line numbers using `showLineNumbers`.
+<Canvas of={CodeBlockStories.SingleLanguageMode} />
 
-<Canvas of={CodeBlockStories.LineNumbers} />
+## Custom Header
 
-<Controls of={CodeBlockStories.LineNumbers} include={["showLineNumbers"]} />
+`<CodeBlock.Header />` can be customized. It accepts a `color` property to change its color scheme, defaulting to `neutral`. Change the header's title by modifying the `children` prop.
 
-## Max Lines
+<Canvas of={CodeBlockStories.CustomHeader} />
 
-A `<CodeBlock />` can limit its height to a maximum number of lines using the `maxLines` prop.
+<Controls of={CodeBlockStories.CustomHeader} />
 
-<Canvas of={CodeBlockStories.MaxLines} />
+## Side by Side
 
-<Controls of={CodeBlockStories.MaxLines} include={["maxLines"]} />
+Using `<HorizontalGrid />`, two `<CodeBlock />`'s can be placed side by side for a request-response pattern.
+
+<Canvas of={CodeBlockStories.SideBySide} />
+
+<Controls of={CodeBlockStories.SideBySide} />
 
 ## Properties
 
-<ArgTypes of={CodeBlock} exclude={["children"]} />
+### CodeBlock
+
+<ArgTypes of={CodeBlock} />
+
+### CodeBlock.Header
+
+<ArgTypes of={CodeBlock.Header} />
+
+### CodeBlock.Snippet
+
+<ArgTypes of={CodeBlock.Snippet} />
+
+### Example architecture
+
+```jsx
+const [language, onLanguageChange] = useState("javascript");
+
+<CodeBlock language={language} onLanguageChange={onLanguageChange}>
+  <CodeBlock.Header color="neutral">Header title</CodeBlock.Header>
+  <CodeBlock.Snippet language="javascript" code={``} />
+  <CodeBlock.Snippet language="php" code={``} />
+</CodeBlock>;
+```

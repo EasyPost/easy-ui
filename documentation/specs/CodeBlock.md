@@ -2,17 +2,19 @@
 
 ## Overview
 
-A Code Block is used to display readable blocks of code.
+A `CodeBlock` is used to display and switch between readable blocks of code.
 
 ### Use Cases
 
-- Use a Code Block to improve readability of embedded code samples with syntax highlighting and automatic line numbering.
+- Use a `CodeBlock` to improve readability of embedded code samples with syntax highlighting and automatic line numbering.
+- Use a `CodeBlock` to allow the user to select between multiple `CodeSnippet`s.
+- Use a `CodeBlock` to allow copying code to the user's clipboard.
 
 ### Features
 
-- Supports optional line numbering
-- Supports maximum number of lines before scroll
-- Supports multiple languages
+- Supports selecting among several `CodeSnippet`s
+- Supports copying code to the clipboard
+- Supports a header with title describing the code block
 
 ### Prior Art
 
@@ -24,59 +26,47 @@ A Code Block is used to display readable blocks of code.
 
 ## Design
 
-`CodeBlock` at a base level is pretty simple. It requires a `code` snippet and `language` for highlighting. It can optionally show line numbers and render a maximum number of lines before scrolling. It renders inside of a `Card`.
+`CodeBlock` wraps one or more `CodeSnippet`s with a header to allow the user to switch between them.
 
-`CodeBlock` will utilize the `PrismLight` export of `react-syntax-highlighter` to enable syntax highlighting. A lightweight wrapper component called `SyntaxHighlighter` will be created to wrap some details specific to EasyPost, including importing required languages and building some utilities around theme customization.
+`CodeBlock` will be a controlled component. It will require the consumer to provide a selected language and manage its state.
 
-`CodeBlock` in the future can be expanded to support more complex use cases such as including a header with label, a copy button, etc. In such case, it may make sense to augment `CodeBlock` to support a dot notation paradigm:
-
-```tsx
-<CodeBlock.Container>
-  <CodeBlock.Header label="filename.js" />
-  <CodeBlock.Snippet code={`console.log("Hello world");`} />
-</CodeBlock.Container>
-```
+`CodeBlock` will flatten and read its children to pull out the snippets and header. This means that the snippets and header need to be direct children. This shouldn't pose problems. If a set of snippets need to be reused, it can be made a function. If it does end up being a problem, we can consider rearchitecting it to use context. Using context is a more complex implementation so we'll cross that bridge when we need to.
 
 ### API
 
 ```ts
-export type SnippetLanguages =
-  | "csharp"
-  | "go"
-  | "java"
-  | "javascript"
-  | "json"
-  | "php"
-  | "python"
-  | "ruby"
-  | "shell";
-
-type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
+type CodeBlockProps = {
   /**
-   * `children` is not supported. Use `code` instead.
+   * CodeBlock content. This should be a header and collection of snippets.
    */
-  children?: never;
+  children: ReactNode;
 
   /**
-   * The code snippet to be rendered.
-   */
-  code: string;
-
-  /**
-   * The language of the code snippet.
+   * Selected language.
    */
   language: SnippetLanguages;
 
   /**
-   * Constrains the height of code block to a set number of lines.
+   * Callback for when the selected language changes.
    */
-  maxLines?: number;
+  onLanguageChange: (language: SnippetLanguages) => void;
+};
+
+type CodeBlockHeaderProps = {
+  /**
+   * Header title.
+   */
+  children: ReactNode;
 
   /**
-   * Include line numbers in code block.
+   * Header color.
+   *
+   * @default neutral
    */
-  showLineNumbers?: boolean;
+  color?: "neutral" | "primary" | "secondary";
 };
+
+type CodeBlockSnippetProps = CodeSnippetProps;
 ```
 
 ### Example Usage
@@ -85,108 +75,65 @@ type CodeBlockProps = Partial<Omit<HTMLDivElement, "children">> & {
 import { CodeBlock } from "@easypost/easy-ui/CodeBlock";
 
 function Component() {
+  const [language, setLanguage] = useState("javascript");
   return (
-    <CodeBlock
-      code={`console.log("Hello world!");`}
-      language="javascript"
-    >
+    <CodeBlock language={language} onLanguageChange={setLanguage}>
+      <CodeBlock.Header>Header</CodeBlock.Header>
+      <CodeBlock.Snippet language="javascript" code={``} />
+      <CodeBlock.Snippet language="csharp" code={``} />
+    </CodeBlock>
   );
 }
 ```
 
-_With line numbers:_
+_Custom header color:_
 
 ```tsx
 import { CodeBlock } from "@easypost/easy-ui/CodeBlock";
 
 function Component() {
+  const [language, setLanguage] = useState("javascript");
   return (
-    <CodeBlock
-      code={`console.log("Hello world!");`}
-      language="javascript"
-      showLineNumbers
-    >
+    <CodeBlock language={language} onLanguageChange={setLanguage}>
+      <CodeBlock.Header color="secondary">Header</CodeVisualizer.Header>
+      <CodeBlock.Snippet language="javascript" code={``} />
+      <CodeBlock.Snippet language="csharp" code={``} />
+    </CodeBlock>
   );
 }
 ```
 
-_With max lines:_
+_Dynamic snippets:_
 
 ```tsx
 import { CodeBlock } from "@easypost/easy-ui/CodeBlock";
 
 function Component() {
+  const [language, setLanguage] = useState("javascript");
   return (
-    <CodeBlock
-      code={`const EasyPostClient = require('@easypost/api');
-
-const client = new EasyPostClient(process.env.EASYPOST_API_KEY);
-
-(async () => {
-  const tracker = await client.Tracker.create({
-    tracking_code: 'EZ1000000001',
-    carrier: 'USPS',
-  });
-
-  console.log(tracker);
-})();`}
-      language="javascript"
-      maxLines={10}
-    >
-  );
-}
-```
-
-### Anatomy
-
-`CodeBlock` will render a lightweight `SyntaxHighlighter` component that wraps `PrismLight` from `react-syntax-highlighter`. It will be wrapped in Easy UI's `Card` component.
-
-```tsx
-export function CodeBlock() {
-  const { code, language, maxLines, showLineNumbers } = props;
-  const syntaxTheme = buildTheme();
-  return (
-    <Card background="primary">
-      <div className={styles.CodeBlock}>
-        <SyntaxHighlighter
+    <CodeBlock language={language} onLanguageChange={setLanguage}>
+      <CodeBlock.Header>Header</CodeBlock.Header>
+      {Object.entries(getSnippets()).map(([language, code]) => (
+        <CodeBlock.Snippet
+          key={language}
           language={language}
-          style={syntaxTheme}
-          showLineNumbers={showLineNumbers}
-        >
-          {code}
-        </SyntaxHighlighter>
-      </div>
-    </Card>
+          code={code}
+          maxLines={12}
+          showLineNumbers
+        />
+      ))}
+    </CodeBlock>
   );
 }
-```
 
-_SyntaxHighlighter:_
-
-```tsx
-import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
-
-import csharp from "react-syntax-highlighter/dist/esm/languages/prism/csharp";
-import shell from "react-syntax-highlighter/dist/esm/languages/prism/shell-session";
-import go from "react-syntax-highlighter/dist/esm/languages/prism/go";
-import java from "react-syntax-highlighter/dist/esm/languages/prism/java";
-import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
-import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
-import php from "react-syntax-highlighter/dist/esm/languages/prism/php";
-import python from "react-syntax-highlighter/dist/esm/languages/prism/python";
-import ruby from "react-syntax-highlighter/dist/esm/languages/prism/ruby";
-
-SyntaxHighlighter.registerLanguage(SnippetLanguage.CSHARP, csharp);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.GO, go);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.JAVA, java);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.JAVASCRIPT, javascript);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.JSON, json);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.PHP, php);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.PYTHON, python);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.RUBY, ruby);
-SyntaxHighlighter.registerLanguage(SnippetLanguage.SHELL, shell);
-
-export { SyntaxHighlighter, SnippetLanguage };
+function getSnippets() {
+  return {
+    [SnippetLanguage.CSHARP]: `code here...`,
+    [SnippetLanguage.JAVA]: `code here...`,
+    [SnippetLanguage.JSON]: `code here...`,
+    [SnippetLanguage.PHP]: `code here...`,
+  };
+}
 ```
 
 ---
@@ -195,10 +142,9 @@ export { SyntaxHighlighter, SnippetLanguage };
 
 ### Accessibility
 
-- No accessibility concerns internal to the component.
-- Consumers should consider providing a descriptive label such as the current filename or step in a process to clarify the purpose of the `CodeBlock`.
+- User should provide a descriptive label such as the current filename or step in a process to clarify the purpose of the Code Block
+- Copy button should have relevant visually hidden text
 
 ### Dependencies
 
-- Easy UI `Card` component
-- `react-syntax-highlighter` which uses a lightweight version of `Prism`
+- Easy UI `Card`, `Tooltip` components

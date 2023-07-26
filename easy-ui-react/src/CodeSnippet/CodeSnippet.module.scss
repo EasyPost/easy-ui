@@ -1,0 +1,7 @@
+@use "../styles/common" as *;
+
+.CodeSnippet {
+  display: flex;
+  align-items: center;
+  overflow: auto;
+}

@@ -23,6 +23,7 @@
     "color.background.neutral.pressed": { "value": "{color.blue.700}" },
     "color.background.primary": { "value": "{color.blue.500}" },
     "color.background.primary.bold": { "value": "{color.blue.600}" },
+    "color.background.primary.bolder": { "value": "{color.blue.700}" },
     "color.background.primary.hovered": { "value": "{color.blue.600}" },
     "color.background.primary.pressed": { "value": "{color.blue.700}" },
     "color.background.primary.subtler": { "value": "{color.blue.400}" },
