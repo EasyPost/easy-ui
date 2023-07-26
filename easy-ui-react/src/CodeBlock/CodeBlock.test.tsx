@@ -1,4 +1,4 @@
-import { act, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
 import { mockGetComputedStyle, render } from "../utilities/test";
@@ -29,10 +29,6 @@ describe("<CodeBlock />", () => {
   });
 
   it("should support copy", async () => {
-    Object.assign(window.navigator.clipboard, {
-      writeText: vi.fn().mockImplementation(() => Promise.resolve()),
-    });
-
     const { user } = render(
       <CodeBlock language="javascript" onLanguageChange={() => {}}>
         <CodeBlock.Header>Header</CodeBlock.Header>
@@ -41,8 +37,12 @@ describe("<CodeBlock />", () => {
       </CodeBlock>,
     );
 
+    Object.assign(window.navigator.clipboard, {
+      writeText: vi.fn().mockImplementation(() => Promise.resolve()),
+    });
+
     const copyBtn = screen.getByRole("button", { name: /copy code/i });
-    await act(async () => await user.click(copyBtn));
+    await user.click(copyBtn);
 
     expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
       "hello javascript",
@@ -63,10 +63,10 @@ describe("<CodeBlock />", () => {
     expect(screen.getByText("hello php")).toBeInTheDocument();
 
     const menuBtn = screen.getByRole("button", { name: /php/i });
-    await act(async () => await user.click(menuBtn));
+    await user.click(menuBtn);
 
     const itemBtn = screen.getByRole("menuitem", { name: /node.js/i });
-    await act(async () => await user.click(itemBtn));
+    await user.click(itemBtn);
 
     expect(handleLanguageChange).toBeCalledWith("javascript");
   });
