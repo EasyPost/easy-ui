@@ -122,7 +122,7 @@ function Component() {
           showLineNumbers
         />
       ))}
-    </CodeVisualizer>
+    </CodeBlock>
   );
 }
 
