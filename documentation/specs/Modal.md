@@ -70,7 +70,7 @@ type ModalHeaderProps = {
   iconAtEnd?: {
     accessibilityLabel?: string;
     symbol: IconSymbol;
-    size: "md" | "2xl";
+    size?: "md" | "2xl";
   };
 };
 
@@ -101,6 +101,35 @@ type ModalFooterProps = {
 ```
 
 ### Example Usage
+
+_Basic_:
+
+```tsx
+import { Modal } from "@easypost/easy-ui/Modal";
+
+function PageWithModal() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  return (
+    <Modal
+      isOpen={isModalOpen}
+      onClose={() => {
+        setIsModalOpen(false);
+      }}
+    >
+      <Modal.Header>Modal title</Modal.Header>
+      <Modal.Body>Modal content</Modal.Body>
+      <Modal.Footer
+        primaryAction={{
+          content: "Button 1",
+          onAction: () => {},
+        }}
+      />
+    </Modal>
+  );
+}
+```
+
+_Fully featured_:
 
 ```tsx
 import { Modal } from "@easypost/easy-ui/Modal";
