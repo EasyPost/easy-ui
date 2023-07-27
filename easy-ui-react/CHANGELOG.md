@@ -1,5 +1,19 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- f98ca90: Add max width to `<Tooltip />`
+- 644a07b: Create `<CodeBlock />` component
+
+### Patch Changes
+
+- Updated dependencies [44ceab3]
+- Updated dependencies [644a07b]
+  - @easypost/easy-ui-icons@1.0.0-alpha.7
+  - @easypost/easy-ui-tokens@1.0.0-alpha.4
+
 ## 1.0.0-alpha.6
 
 ### Patch Changes

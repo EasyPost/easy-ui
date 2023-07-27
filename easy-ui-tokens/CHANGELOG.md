@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.4
+
+### Minor Changes
+
+- 644a07b: Create `<CodeBlock />` component
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes
