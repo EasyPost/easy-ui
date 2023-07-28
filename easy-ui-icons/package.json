@@ -21,7 +21,7 @@
   "devDependencies": {
     "@material-symbols/svg-300": "^0.10.1",
     "@material-symbols/svg-400": "^0.10.1",
-    "@material-symbols/svg-600": "^0.10.1",
+    "@material-symbols/svg-600": "^0.10.2",
     "@svgr/cli": "^8.0.1",
     "@svgr/plugin-jsx": "^8.0.1",
     "glob": "^10.2.5"
