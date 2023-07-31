@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- 44ceab3: Add "arrow_drop_up" and "arrow_drop_down" icons
+
 ## 1.0.0-alpha.6
 
 ### Minor Changes
