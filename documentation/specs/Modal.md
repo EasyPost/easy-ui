@@ -110,21 +110,24 @@ import { Modal } from "@easypost/easy-ui/Modal";
 function PageWithModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <Modal
+    <ModalTrigger
       isOpen={isModalOpen}
       onClose={() => {
         setIsModalOpen(false);
       }}
     >
-      <Modal.Header>Modal title</Modal.Header>
-      <Modal.Body>Modal content</Modal.Body>
-      <Modal.Footer
-        primaryAction={{
-          content: "Button 1",
-          onAction: () => {},
-        }}
-      />
-    </Modal>
+      <Button>Test</Button>
+      <Modal>
+        <Modal.Header>Modal title</Modal.Header>
+        <Modal.Body>Modal content</Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: () => {},
+          }}
+        />
+      </Modal>
+    </ModalTrigger>
   );
 }
 ```

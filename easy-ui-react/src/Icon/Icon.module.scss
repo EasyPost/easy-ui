@@ -7,7 +7,10 @@
     height: $var;
   }
 
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   max-height: 100%;
   max-width: 100%;
   margin: auto;

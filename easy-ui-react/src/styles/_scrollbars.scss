@@ -32,3 +32,12 @@
   --os-padding-perpendicular: 0;
   --os-padding-axis: 0;
 }
+
+.os-scrollbar.ezui-os-theme-modal {
+  @include default-os-style;
+  --os-handle-bg: #{token-helpers.design-token("color.gray.200")};
+  --os-size: 8px;
+  --os-padding-perpendicular: 0;
+  --os-padding-axis: 0;
+  right: 16px;
+}

@@ -1,0 +1,118 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.Modal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dialog {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-height: 762px;
+  max-width: component-token("modal", "max-width");
+  width: 95vw;
+  overflow: hidden;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 8px 16px 0px hsla(220, 23%, 28%, 0.5);
+  pointer-events: auto;
+  outline: none;
+}
+
+.before,
+.after {
+  flex: 0 9 auto;
+  height: 72px;
+  min-height: 2.5vh;
+}
+
+.underlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: hsla(227, 83%, 14%, 0.4);
+}
+
+.header {
+  margin: 0;
+  padding: 40px 40px 16px 40px;
+  color: theme-token("color.text.primary");
+  &.stuck {
+    box-shadow: 0px 4px 4px 0px hsla(221, 30%, 74%, 0.25);
+  }
+}
+
+.closeBtn {
+  @include unstyled.button;
+  display: inline-flex;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.body {
+  padding: 0 40px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  overscroll-behavior: contain;
+}
+
+.content {
+  position: relative;
+
+  :global([data-intercept]) {
+    position: absolute;
+    left: 0;
+    height: 1px;
+    width: 1px;
+  }
+  :global([data-intercept="header"]) {
+    top: 0;
+  }
+  :global([data-intercept="footer"]) {
+    bottom: 0;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: design-token("space.2");
+
+  @include breakpoint-sm-up {
+    flex-direction: row;
+  }
+
+  padding: 24px 40px 40px 40px;
+  &.stuck {
+    box-shadow: 0px -4px 4px 0px hsla(221, 30%, 74%, 0.25);
+  }
+}
+
+.iconAtEnd[data-size="2xl"] {
+  display: inline-flex;
+  margin-top: -5px;
+  margin-bottom: -5px;
+}
+
+.sizeSm {
+  @include component-token("modal", "max-width", 528px);
+}
+
+.sizeMd {
+  @include component-token("modal", "max-width", 672px);
+}
+
+.sizeLg {
+  @include component-token("modal", "max-width", 788px);
+}

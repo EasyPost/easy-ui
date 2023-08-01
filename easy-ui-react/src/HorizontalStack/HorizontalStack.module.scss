@@ -7,4 +7,7 @@
   flex-wrap: component-token("horizontal-stack", "wrap");
   align-items: component-token("horizontal-stack", "block-align");
   justify-content: component-token("horizontal-stack", "align");
+
+  // fixes cases where text needs to be truncated inside a horizontal stack
+  min-width: 0;
 }
