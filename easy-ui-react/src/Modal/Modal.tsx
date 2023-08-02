@@ -28,9 +28,9 @@ import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
-import { useScrollbar } from "./useScrollbar";
 
 import styles from "./Modal.module.scss";
+import { useScrollbar } from "../utilities/useScrollbar";
 
 type HeaderElementType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -213,7 +213,7 @@ function ModalHeader(props: ModalHeaderProps) {
 function ModalBody(props: ModalBodyProps) {
   const modalContext = useModal();
   const { children } = props;
-  useScrollbar(modalContext.bodyRef);
+  useScrollbar(modalContext.bodyRef, "ezui-os-theme-modal");
   return (
     <div className={styles.body} ref={modalContext.bodyRef}>
       <div className={styles.content}>

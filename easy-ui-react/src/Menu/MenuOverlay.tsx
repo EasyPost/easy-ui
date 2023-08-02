@@ -13,7 +13,6 @@ import { ResponsiveProp } from "../utilities/css";
 import { useInternalMenuContext } from "./MenuContext";
 import { MenuItemContent } from "./MenuItem";
 import { MenuSectionContent } from "./MenuSection";
-import { useScrollbar } from "./useScrollbar";
 import {
   DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
   DEFAULT_PLACEMENT,
@@ -26,6 +25,7 @@ import {
 } from "./utilities";
 
 import styles from "./Menu.module.scss";
+import { useScrollbar } from "../utilities/useScrollbar";
 
 export type MenuOverlayWidth =
   | "auto"
@@ -111,7 +111,7 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
     menuRef,
   );
 
-  useScrollbar(menuRef);
+  useScrollbar(menuRef, "ezui-os-theme-overlay");
 
   const style = {
     ...popoverProps.style,

@@ -36,8 +36,8 @@
 .os-scrollbar.ezui-os-theme-modal {
   @include default-os-style;
   --os-handle-bg: #{token-helpers.design-token("color.gray.200")};
-  --os-size: 8px;
+  --os-size: #{token-helpers.design-token("space.1")};
   --os-padding-perpendicular: 0;
-  --os-padding-axis: 16px;
-  right: 16px;
+  --os-padding-axis: #{token-helpers.design-token("space.2")};
+  right: #{token-helpers.design-token("space.2")};
 }

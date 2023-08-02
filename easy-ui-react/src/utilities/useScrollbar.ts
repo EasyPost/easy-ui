@@ -4,18 +4,15 @@ import { MutableRefObject, useEffect } from "react";
 /**
  * Attaches custom scrollbars to an overflow element.
  *
- * @privateRemarks
- * TODO: Figure out how to make this more generic
- *
  * @param scrollRef Ref of element to scroll
+ * @param theme Name of theme to apply—see styles/_scrollbars.scss
  */
-export function useScrollbar(scrollRef: MutableRefObject<HTMLElement | null>) {
+export function useScrollbar(
+  scrollRef: MutableRefObject<HTMLElement | null>,
+  theme: string,
+) {
   const [initialize] = useOverlayScrollbars({
-    options: {
-      scrollbars: {
-        theme: "ezui-os-theme-modal",
-      },
-    },
+    options: { scrollbars: { theme } },
     defer: false,
   });
   useEffect(() => {
