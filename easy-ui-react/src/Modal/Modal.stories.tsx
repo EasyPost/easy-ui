@@ -1,91 +1,203 @@
+import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
-import React, { ComponentProps } from "react";
+import React, { SVGProps } from "react";
 import { Button } from "../Button";
+import { PlaceholderBox } from "../utilities/storybook";
 import { Modal } from "./Modal";
+import { ModalTrigger } from "./ModalTrigger";
 
-type Story = StoryObj<typeof Modal>;
+type ModalStory = StoryObj<typeof Modal>;
+type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
 
 const meta: Meta<typeof Modal> = {
   title: "Components/Modal",
   component: Modal,
+  parameters: {
+    controls: {
+      exclude: ["children"],
+    },
+  },
 };
 
 export default meta;
 
-export const Basic: Story = {
-  render: () => {
-    return (
-      <Modal.Trigger>
-        <Button>Open modal</Button>
-        {(close) => (
-          <Modal>
-            <Modal.Header>H4 Title</Modal.Header>
-            <Modal.Body>
-              <ContentContainer>Space for content</ContentContainer>
-            </Modal.Body>
-            <Modal.Footer
-              primaryAction={{
-                content: "Button 1",
-                onAction: () => {
-                  close();
-                },
-              }}
-            />
-          </Modal>
-        )}
-      </Modal.Trigger>
-    );
+export const Simple: ModalStory = {
+  render: () => (
+    <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+};
+
+export const Advanced: ModalStory = {
+  render: () => (
+    <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
+      <Button>Open modal</Button>
+      {(close) => (
+        <Modal>
+          <Modal.Header
+            iconAtStart={{
+              accessibilityLabel: "EasyPost Logo",
+              symbol: EasyPostLogo,
+            }}
+            iconAtEnd={{
+              accessibilityLabel: "Stripe Logo",
+              symbol: StripeLogo,
+              size: "2xl",
+            }}
+            subtitle="Optional subtitle"
+          >
+            H4 Title
+          </Modal.Header>
+          <Modal.Body>
+            <PlaceholderBox width="100%" height={800}>
+              Space for content
+            </PlaceholderBox>
+          </Modal.Body>
+          <Modal.Footer
+            primaryAction={{
+              content: "Button 1",
+              onAction: () => {
+                action("Button 1 clicked!")();
+                close();
+              },
+            }}
+            secondaryAction={{
+              content: "Optional Button 2",
+              onAction: () => {
+                action("Button 2 clicked!")();
+                close();
+              },
+            }}
+          />
+        </Modal>
+      )}
+    </Modal.Trigger>
+  ),
+};
+
+export const Nondismissable: ModalTriggerStory = {
+  render: (args) => (
+    <Modal.Trigger isDismissable={args.isDismissable}>
+      <Button>Open modal</Button>
+      {(close) => (
+        <Modal>
+          <Modal.Header>H4 Title</Modal.Header>
+          <Modal.Body>
+            <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+          </Modal.Body>
+          <Modal.Footer
+            primaryAction={{
+              content: "Button 1",
+              onAction: () => {
+                action("Button 1 clicked!");
+                close();
+              },
+            }}
+          />
+        </Modal>
+      )}
+    </Modal.Trigger>
+  ),
+  args: {
+    isDismissable: false,
+  },
+  parameters: {
+    controls: { include: ["isDismissable"] },
   },
 };
 
-export const Complex: Story = {
-  render: () => {
-    return (
-      <Modal.Trigger isDismissable={false}>
-        <Button>Open modal</Button>
-        {(close) => (
-          <Modal>
-            <Modal.Header
-              iconAtStart={{
-                accessibilityLabel: "EasyPost Logo",
-                symbol: EasyPostLogo,
-              }}
-              iconAtEnd={{
-                accessibilityLabel: "Stripe Logo",
-                symbol: StripeLogo,
-                size: "2xl",
-              }}
-              subtitle="Optional subtitle"
-            >
-              H4 Title
-            </Modal.Header>
-            <Modal.Body>
-              <ContentContainer height={800}>
-                Space for content
-              </ContentContainer>
-            </Modal.Body>
-            <Modal.Footer
-              primaryAction={{
-                content: "Button 1",
-                onAction: () => {
-                  close();
-                },
-              }}
-              secondaryAction={{
-                content: "Optional Button 2",
-                onAction: () => {
-                  close();
-                },
-              }}
-            />
-          </Modal>
-        )}
-      </Modal.Trigger>
-    );
+export const CustomSize: ModalStory = {
+  render: (args) => (
+    <Modal.Trigger>
+      <Button>Open modal</Button>
+      <Modal size={args.size}>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+  args: {
+    size: "sm",
+  },
+  parameters: {
+    controls: { include: ["size"] },
   },
 };
 
-function EasyPostLogo(props: React.SVGProps<SVGSVGElement>) {
+export const DefaultOpen: ModalTriggerStory = {
+  render: (args) => (
+    <Modal.Trigger {...args} onOpenChange={action("Open state changed!")}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+  args: {
+    defaultOpen: true,
+  },
+  parameters: {
+    controls: { include: ["defaultOpen"] },
+  },
+};
+
+export const Controlled: ModalTriggerStory = {
+  render: (args) => (
+    <Modal.Trigger {...args} onOpenChange={action("Open state changed!")}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+  args: {
+    isOpen: true,
+  },
+  parameters: {
+    controls: { include: ["isOpen"] },
+  },
+};
+
+function EasyPostLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="28"
@@ -103,7 +215,7 @@ function EasyPostLogo(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function StripeLogo(props: React.SVGProps<SVGSVGElement>) {
+function StripeLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="36"
@@ -120,25 +232,5 @@ function StripeLogo(props: React.SVGProps<SVGSVGElement>) {
         fill="#635BFF"
       />
     </svg>
-  );
-}
-
-function ContentContainer({
-  height = 300,
-  ...props
-}: { height?: number } & ComponentProps<"div">) {
-  return (
-    <div
-      style={{
-        height,
-        padding: "40px 20px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: "13px",
-        background: "hsla(219, 32%, 91%, 1)",
-      }}
-      {...props}
-    />
   );
 }

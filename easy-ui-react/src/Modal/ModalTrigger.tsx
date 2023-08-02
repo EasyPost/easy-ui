@@ -13,9 +13,24 @@ type ModalTriggerProps = {
   children: [ReactElement, CloseableModalElement | ReactElement];
 
   /**
+   * Whether the modal is open by default (uncontrolled).
+   */
+  defaultOpen?: boolean;
+
+  /**
    * Whether or not the modal can be dismissed.
    */
   isDismissable?: boolean;
+
+  /**
+   * Whether the modal is open by default (controlled).
+   */
+  isOpen?: boolean;
+
+  /**
+   * Handler that is called when the overlay's open state changes.
+   */
+  onOpenChange?: (isOpen: boolean) => void;
 };
 
 export function ModalTrigger(props: ModalTriggerProps) {
