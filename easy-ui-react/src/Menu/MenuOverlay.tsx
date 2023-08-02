@@ -10,6 +10,7 @@ import {
 } from "react-aria";
 import { useTreeState } from "react-stately";
 import { ResponsiveProp } from "../utilities/css";
+import { useScrollbar } from "../utilities/useScrollbar";
 import { useInternalMenuContext } from "./MenuContext";
 import { MenuItemContent } from "./MenuItem";
 import { MenuSectionContent } from "./MenuSection";
@@ -18,14 +19,13 @@ import {
   DEFAULT_PLACEMENT,
   DEFAULT_WIDTH,
   ITEM_HEIGHT,
-  Y_PADDING_INSIDE_OVERLAY,
   OVERLAY_OFFSET,
   OVERLAY_PADDING_FROM_CONTAINER,
+  Y_PADDING_INSIDE_OVERLAY,
   getUnmergedPopoverStyles,
 } from "./utilities";
 
 import styles from "./Menu.module.scss";
-import { useScrollbar } from "../utilities/useScrollbar";
 
 export type MenuOverlayWidth =
   | "auto"
