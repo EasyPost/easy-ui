@@ -4,7 +4,7 @@ import { OverlayTriggerState } from "react-stately";
 
 import styles from "./Modal.module.scss";
 
-type ModalWrapProps = {
+type ModalUnderlayProps = {
   /**
    * Modal state.
    */
@@ -21,7 +21,7 @@ type ModalWrapProps = {
   isDismissable?: boolean;
 };
 
-export function ModalWrap(props: ModalWrapProps) {
+export function ModalUnderlay(props: ModalUnderlayProps) {
   const { state, children, ...overlayProps } = props;
   const { isDismissable = true } = overlayProps;
 
@@ -38,11 +38,11 @@ export function ModalWrap(props: ModalWrapProps) {
 
   return (
     <Overlay>
-      <div className={styles.underlay} {...underlayProps}>
-        <div {...modalProps} ref={ref} className={styles.Modal}>
-          <div className={styles.before} />
+      <div className={styles.underlayBg} {...underlayProps}>
+        <div {...modalProps} ref={ref} className={styles.underlayBox}>
+          <div className={styles.underlayEdge} />
           {children}
-          <div className={styles.after} />
+          <div className={styles.underlayEdge} />
         </div>
       </div>
     </Overlay>

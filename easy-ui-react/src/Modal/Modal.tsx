@@ -52,7 +52,7 @@ export function Modal(props: ModalProps) {
   }, [dialogProps, isFooterStuck, isHeaderStuck, titleProps]);
 
   const className = classNames(
-    styles.dialog,
+    styles.Modal,
     styles[variationName("size", size)],
   );
 

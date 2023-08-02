@@ -11,6 +11,15 @@
     },
     "overlay_subdued": {
       "value": "1px 1px 4px rgba(141, 158, 193, 0.5)"
+    },
+    "modal": {
+      "value": "0px 8px 16px 0px hsla(220, 23%, 28%, 0.5)"
+    },
+    "stuck-on-top": {
+      "value": "0px 4px 4px 0px hsla(221, 30%, 74%, 0.25)"
+    },
+    "stuck-on-bottom": {
+      "value": "0px -4px 4px 0px hsla(221, 30%, 74%, 0.25)"
     }
   }
 }

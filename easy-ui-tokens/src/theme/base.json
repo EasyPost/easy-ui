@@ -40,6 +40,7 @@
     "color.background.success.subtle": { "value": "{color.green.100}" },
     "color.background.warning.bold": { "value": "{color.yellow.500}" },
     "color.background.warning.subtle": { "value": "{color.yellow.300}" },
+    "color.background.underlay": { "value": "{color.blue.800}" },
     "color.border": { "value": "{color.gray.300}" },
     "color.border.bolder": { "value": "{color.gray.400}" },
     "color.border.boldest": { "value": "{color.gray.500}" },
