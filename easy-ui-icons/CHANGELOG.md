@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.8
+
+### Minor Changes
+
+- e64ff79: Adds history icon
+
 ## 1.0.0-alpha.7
 
 ### Minor Changes
