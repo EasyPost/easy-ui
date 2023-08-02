@@ -10,7 +10,7 @@ import { useModalContext, useModalTriggerContext } from "./context";
 
 import styles from "./Modal.module.scss";
 
-type ModalHeaderProps = {
+export type ModalHeaderProps = {
   /**
    * Modal header element type. Should be a valid document heading level.
    *
@@ -84,6 +84,7 @@ export function ModalHeader(props: ModalHeaderProps) {
                 modalTriggerContext.state.close();
               }}
             >
+              <Text visuallyHidden>Close modal</Text>
               <Icon symbol={CloseIcon} size="sm" />
             </button>
           ) : null}

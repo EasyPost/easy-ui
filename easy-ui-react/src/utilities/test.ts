@@ -41,3 +41,15 @@ export function mockGetComputedStyle() {
     window.getComputedStyle = originalGetComputedStyle;
   };
 }
+
+export function mockIntersectionObserver() {
+  const originalIntersectionObserver = window.IntersectionObserver;
+  window.IntersectionObserver = vi.fn(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  })) as unknown as typeof window.IntersectionObserver;
+  return () => {
+    window.IntersectionObserver = originalIntersectionObserver;
+  };
+}

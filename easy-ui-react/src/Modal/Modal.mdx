@@ -13,6 +13,8 @@ A `<Modal />` traps focus until it's closed at which point it returns focus to t
 
 `<Modal />` is a compound component. Use `<Modal.Trigger />`, `<Modal />`, `<Modal.Header />`, `<Modal.Body />`, and `<Modal.Footer />` to construct a modal.
 
+`<Modal.Trigger />` must contain exactly two direct children. The first child should be a trigger element, such as a `<Button />`, where the trigger events and appropriate accessibility attributes can be applied. The second element must be a `<Modal />`. If access to programmatically close the modal is needed, a child with a function that has a close method and returns a `<Modal />` (`(close) => <Modal />`) can be passed as the second child instead of a `<Modal />`. See the examples below for reference.
+
 By default, a `<Modal />` manages its own open state. It can be made to be a controlled component by using the `isOpen` and `onOpenChange` prop on `<Modal.Trigger />`. Additionally, it can be made to open by default using the `defaultOpen` prop on `<Modal.Trigger />`.
 
 <Canvas of={ModalStories.Simple} />

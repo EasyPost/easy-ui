@@ -6,7 +6,7 @@ import { ModalTriggerContext } from "./context";
 
 type CloseableModalElement = (close: () => void) => ReactElement;
 
-type ModalTriggerProps = {
+export type ModalTriggerProps = {
   /**
    * Content of modal trigger. Must be exactly two elements.
    */

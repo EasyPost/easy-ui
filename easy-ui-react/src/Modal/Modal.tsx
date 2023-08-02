@@ -12,7 +12,7 @@ import styles from "./Modal.module.scss";
 
 type ModalSize = "sm" | "md" | "lg";
 
-type ModalProps = {
+export type ModalProps = {
   /**
    * Content of the modal.
    */
