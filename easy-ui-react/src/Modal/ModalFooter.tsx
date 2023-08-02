@@ -5,28 +5,22 @@ import { useModalContext } from "./context";
 
 import styles from "./Modal.module.scss";
 
-type ModalAction = {
-  /**
-   * Content of the action.
-   */
-  content: string;
-
-  /**
-   * Event that's triggered by the action.
-   */
-  onAction: () => void;
-};
-
 type ModalFooterProps = {
   /**
    * Primary action slot.
    */
-  primaryAction: ModalAction;
+  primaryAction: {
+    content: string;
+    onAction: () => void;
+  };
 
   /**
    * Secondary action slot.
    */
-  secondaryAction?: ModalAction;
+  secondaryAction?: {
+    content: string;
+    onAction: () => void;
+  };
 };
 
 export function ModalFooter(props: ModalFooterProps) {

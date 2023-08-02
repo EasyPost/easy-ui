@@ -7,4 +7,60 @@ import * as ModalStories from "./Modal.stories";
 
 # Modal
 
-Coming soon...
+A `<Modal />` is a page overlay that displays information and blocks interaction with the page until an action is taken or the `Modal` is dismissed.
+
+A `<Modal />` traps focus until it's closed at which point it returns focus to the element that triggered the modal.
+
+`<Modal />` is a compound component. Use `<Modal.Trigger />`, `<Modal />`, `<Modal.Header />`, `<Modal.Body />`, and `<Modal.Footer />` to construct a modal.
+
+By default, a `<Modal />` manages its own open state. It can be made to be a controlled component by using the `isOpen` and `onOpenChange` prop on `<Modal.Trigger />`. Additionally, it can be made to open by default using the `defaultOpen` prop on `<Modal.Trigger />`.
+
+<Canvas of={ModalStories.Simple} />
+
+## A Complete Example
+
+A `<Modal />` has several options across its components to customize the experience. The example below showcases the different available options.
+
+Refer to the property tables at the bottom of the page for full documentation on what's available.
+
+<Canvas of={ModalStories.Complete} />
+
+## Nondismissable
+
+By default, `<Modal />`s are dismissable, meaning a user can exit the modal without performing an action. Exiting can be done by clicking on the underlay behind the modal, pressing the `Esc` key, or clicking the close icon in the header.
+
+To override that behavior, set `isDismissable` to `false` on the `<Modal.Trigger />`.
+
+<Canvas of={ModalStories.Nondismissable} />
+
+<Controls of={ModalStories.Nondismissable} />
+
+## Size
+
+A `<Modal />` comes in three sizes—`sm`, `md`, or `lg`—which governs the width of the modal. Use the `size` prop on `<Modal />` to change its size. Modals default to `lg`.
+
+<Canvas of={ModalStories.Size} />
+
+<Controls of={ModalStories.Size} />
+
+## Properties
+
+### Modal.Trigger
+
+<ArgTypes of={Modal.Trigger} />
+
+### Modal
+
+<ArgTypes of={Modal} />
+
+### Modal.Header
+
+<ArgTypes of={Modal.Header} />
+
+### Modal.Body
+
+<ArgTypes of={Modal.Body} />
+
+### Modal.Footer
+
+<ArgTypes of={Modal.Footer} />

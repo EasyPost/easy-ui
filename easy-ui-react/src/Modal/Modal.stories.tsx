@@ -41,7 +41,7 @@ export const Simple: ModalStory = {
   ),
 };
 
-export const Advanced: ModalStory = {
+export const Complete: ModalStory = {
   render: () => (
     <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
       <Button>Open modal</Button>
@@ -119,7 +119,7 @@ export const Nondismissable: ModalTriggerStory = {
   },
 };
 
-export const CustomSize: ModalStory = {
+export const Size: ModalStory = {
   render: (args) => (
     <Modal.Trigger>
       <Button>Open modal</Button>
@@ -164,7 +164,7 @@ export const DefaultOpen: ModalTriggerStory = {
     </Modal.Trigger>
   ),
   args: {
-    defaultOpen: true,
+    defaultOpen: false,
   },
   parameters: {
     controls: { include: ["defaultOpen"] },
@@ -190,7 +190,7 @@ export const Controlled: ModalTriggerStory = {
     </Modal.Trigger>
   ),
   args: {
-    isOpen: true,
+    isOpen: false,
   },
   parameters: {
     controls: { include: ["isOpen"] },

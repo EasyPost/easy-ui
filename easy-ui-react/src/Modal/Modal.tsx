@@ -21,7 +21,7 @@ type ModalProps = {
   /**
    * Size of the modal.
    *
-   * @default "lg"
+   * @default lg
    */
   size?: ModalSize;
 };

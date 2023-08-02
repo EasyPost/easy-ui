@@ -10,20 +10,13 @@ import { useModalContext, useModalTriggerContext } from "./context";
 
 import styles from "./Modal.module.scss";
 
-type HeaderElementType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-
-type Icon = {
-  accessibilityLabel?: string;
-  symbol: IconSymbol;
-};
-
 type ModalHeaderProps = {
   /**
    * Modal header element type. Should be a valid document heading level.
    *
-   * @default "h2"
+   * @default h2
    */
-  as?: HeaderElementType;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
   /**
    * The content for the title of the modal.
@@ -38,12 +31,19 @@ type ModalHeaderProps = {
   /**
    * Icon to display at the start of the header title.
    */
-  iconAtStart?: Icon;
+  iconAtStart?: {
+    accessibilityLabel?: string;
+    symbol: IconSymbol;
+  };
 
   /**
    * Icon to display at the end of the header title.
    */
-  iconAtEnd?: Icon & { size?: "md" | "2xl" };
+  iconAtEnd?: {
+    accessibilityLabel?: string;
+    symbol: IconSymbol;
+    size?: "md" | "2xl";
+  };
 };
 
 export function ModalHeader(props: ModalHeaderProps) {
