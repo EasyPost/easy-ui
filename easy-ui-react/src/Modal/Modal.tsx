@@ -26,6 +26,30 @@ export type ModalProps = {
   size?: ModalSize;
 };
 
+/**
+ * A `Modal` is a page overlay that displays information and blocks interaction
+ * with the page until an action is taken or the `Modal` is dismissed.
+ *
+ * @remarks
+ * Use a `<Modal />` when you want to capture information from the user without
+ * having them leave the parent page, or when you want to show additional
+ * information to the user without losing context of the parent page.
+ *
+ * @example
+ * <Modal.Trigger>
+ *   <Button>Open modal</Button>
+ *   <Modal>
+ *     <Modal.Header>H4 Title</Modal.Header>
+ *     <Modal.Body>Modal content</Modal.Body>
+ *     <Modal.Footer
+ *       primaryAction={{
+ *         content: "Button 1",
+ *         onAction: () => {},
+ *       }}
+ *     />
+ *   </Modal>
+ * </Modal.Trigger>
+ */
 export function Modal(props: ModalProps) {
   const { children, size = "lg" } = props;
 
@@ -65,7 +89,33 @@ export function Modal(props: ModalProps) {
   );
 }
 
+/**
+ * Represents the trigger for a `<Modal />`.
+ *
+ * @remarks
+ * A `<Modal />` must be attached to a focusable trigger element such as a
+ * `Button` through the `<Modal.Trigger />` component. This ensures
+ * the trigger and modal are accessible.
+ *
+ * `<Modal.Trigger />` must contain exactly two direct children. The first
+ * child must be a focusable trigger such as `Button`. The second child must
+ * be either a `Modal` or a render function that returns a `Modal`. If using
+ * a render function, a `close` argument will be passed to allow for
+ * programmatically closing the `Modal`.
+ */
 Modal.Trigger = ModalTrigger;
+
+/**
+ * Represents the header of a `<Modal />`.
+ */
 Modal.Header = ModalHeader;
+
+/**
+ * Represents the body of a `<Modal />`.
+ */
 Modal.Body = ModalBody;
+
+/**
+ * Represents the footer of a `<Modal />`.
+ */
 Modal.Footer = ModalFooter;
