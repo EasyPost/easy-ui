@@ -7,13 +7,12 @@
     height: $var;
   }
 
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 
   max-height: 100%;
   max-width: 100%;
-  margin: auto;
 
   svg {
     fill: component-token("icon", "color");
