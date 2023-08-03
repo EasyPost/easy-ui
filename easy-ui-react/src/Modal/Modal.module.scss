@@ -9,7 +9,7 @@
   &::before {
     content: "";
     position: absolute;
-    background: design-token("color.blue.800");
+    background: theme-token("color.background.underlay");
     opacity: design-token("opacity.underlay");
   }
 }
