@@ -2,6 +2,9 @@
 @use "../styles/unstyled";
 
 .underlayBg {
+  @include component-token("modal", "underlay-edge-max-height", 72px);
+  @include component-token("modal", "underlay-edge-min-height", 2.5vh);
+
   position: fixed;
   z-index: design-token("z-index.modal");
   display: flex;
@@ -32,8 +35,8 @@
 
 .underlayEdge {
   flex: 0 9 auto;
-  height: 72px;
-  min-height: 2.5vh;
+  height: component-token("modal", "underlay-edge-max-height");
+  min-height: component-token("modal", "underlay-edge-min-height");
 }
 
 .Modal {
