@@ -118,16 +118,8 @@ export function TextField(props: TextFieldProps) {
     validationState = "valid",
     isLabelEmphasized = false,
     autoFocus = false,
-    label,
-    errorText,
-    helperText,
-    placeholder,
-    value,
-    defaultValue,
-    iconAtStart,
-    iconAtEnd,
+    ...restProps
   } = props;
-
   return (
     <InputField
       type={type}
@@ -138,14 +130,7 @@ export function TextField(props: TextFieldProps) {
       validationState={validationState}
       isLabelEmphasized={isLabelEmphasized}
       autoFocus={autoFocus}
-      label={label}
-      errorText={errorText}
-      helperText={helperText}
-      placeholder={placeholder}
-      value={value}
-      defaultValue={defaultValue}
-      iconAtStart={iconAtStart}
-      iconAtEnd={iconAtEnd}
+      {...restProps}
     />
   );
 }

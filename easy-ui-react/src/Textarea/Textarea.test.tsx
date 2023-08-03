@@ -1,8 +1,18 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import React from "react";
+import { vi } from "vitest";
+import { render } from "../utilities/test";
 import { Textarea } from "./Textarea";
 
 describe("<Textarea />", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("should render a standard textarea", () => {
     render(<Textarea label="label" />);
     expect(
@@ -44,5 +54,24 @@ describe("<Textarea />", () => {
     render(<Textarea label="label" isLabelEmphasized />);
     expect(screen.getByText("label")).toBeInTheDocument();
     expect(screen.getByText("label").tagName).toBe("STRONG");
+  });
+
+  it("should support passing through properties", async () => {
+    const handleChange = vi.fn();
+    const { user } = render(
+      <Textarea
+        label="label"
+        defaultValue="test"
+        onChange={handleChange}
+        data-custom-attribute="text"
+      />,
+    );
+    expect(screen.getByLabelText("label")).toHaveValue("test");
+    const textField = screen.getByLabelText("label");
+    await user.type(textField, "value");
+    expect(handleChange).toBeCalled();
+    expect(screen.getByLabelText("label")).toHaveAttribute(
+      "data-custom-attribute",
+    );
   });
 });

@@ -1,9 +1,19 @@
-import { render, screen } from "@testing-library/react";
 import SearchIcon from "@easypost/easy-ui-icons/Search";
+import { screen } from "@testing-library/react";
 import React from "react";
+import { vi } from "vitest";
+import { render } from "../utilities/test";
 import { TextField } from "./TextField";
 
 describe("<TextField />", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("should render a standard textfield", () => {
     render(<TextField label="label" />);
     expect(
@@ -55,5 +65,24 @@ describe("<TextField />", () => {
     render(<TextField label="label" isLabelEmphasized />);
     expect(screen.getByText("label")).toBeInTheDocument();
     expect(screen.getByText("label").tagName).toBe("STRONG");
+  });
+
+  it("should support passing through properties", async () => {
+    const handleChange = vi.fn();
+    const { user } = render(
+      <TextField
+        label="label"
+        defaultValue="test"
+        onChange={handleChange}
+        data-custom-attribute="text"
+      />,
+    );
+    expect(screen.getByLabelText("label")).toHaveValue("test");
+    const textField = screen.getByLabelText("label");
+    await user.type(textField, "value");
+    expect(handleChange).toBeCalled();
+    expect(screen.getByLabelText("label")).toHaveAttribute(
+      "data-custom-attribute",
+    );
   });
 });
