@@ -5,6 +5,9 @@
     },
     "notification": {
       "value": "999999"
+    },
+    "modal": {
+      "value": "20"
     }
   }
 }

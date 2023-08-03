@@ -3,6 +3,7 @@
 
 .underlayBg {
   position: fixed;
+  z-index: design-token("z-index.modal");
   display: flex;
   flex-direction: column;
   &::before {
