@@ -15,10 +15,10 @@
     "modal": {
       "value": "0px 8px 16px 0px hsla(220, 23%, 28%, 0.5)"
     },
-    "stuck-on-top": {
+    "stuck-from-top": {
       "value": "0px 4px 4px 0px hsla(221, 30%, 74%, 0.25)"
     },
-    "stuck-on-bottom": {
+    "stuck-from-bottom": {
       "value": "0px -4px 4px 0px hsla(221, 30%, 74%, 0.25)"
     }
   }

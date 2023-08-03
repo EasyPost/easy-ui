@@ -64,7 +64,7 @@
   padding-bottom: design-token("space.2");
   color: theme-token("color.text.primary");
   &.stuck {
-    box-shadow: design-token("shadow.stuck-on-top");
+    box-shadow: design-token("shadow.stuck-from-top");
   }
 }
 
@@ -106,7 +106,7 @@
   }
 
   &.stuck {
-    box-shadow: design-token("shadow.stuck-on-bottom");
+    box-shadow: design-token("shadow.stuck-from-bottom");
   }
 }
 
