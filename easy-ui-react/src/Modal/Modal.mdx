@@ -9,17 +9,76 @@ import * as ModalStories from "./Modal.stories";
 
 A `<Modal />` is a page overlay that displays information and blocks interaction with the page until an action is taken or the `Modal` is dismissed.
 
-A `<Modal />` traps focus until it's closed at which point it returns focus to the element that triggered the modal.
+### Modal architecture
 
 `<Modal />` is a compound component. Use `<Modal.Trigger />`, `<Modal />`, `<Modal.Header />`, `<Modal.Body />`, and `<Modal.Footer />` to construct a modal.
 
-`<Modal.Trigger />` must contain exactly two direct children. The first child should be a trigger element, such as a `<Button />`, where the trigger events and appropriate accessibility attributes can be applied. The second element must be a `<Modal />`. If access to programmatically close the modal is needed, a child with a function that has a close method and returns a `<Modal />` (`(close) => <Modal />`) can be passed as the second child instead of a `<Modal />`. See the examples below for reference.
+```tsx
+<Modal.Trigger>
+  <Button>Open modal</Button>
+  <Modal>
+    <Modal.Header>H4 Title</Modal.Header>
+    <Modal.Body>Modal content</Modal.Body>
+    <Modal.Footer
+      primaryAction={{
+        content: "Button 1",
+        onAction: () => {},
+      }}
+    />
+  </Modal>
+</Modal.Trigger>
+```
 
-By default, a `<Modal />` manages its own open state. It can be made to be a controlled component by using the `isOpen` and `onOpenChange` prop on `<Modal.Trigger />`. Additionally, it can be made to open by default using the `defaultOpen` prop on `<Modal.Trigger />`.
+### Triggering the modal
+
+`<Modal.Trigger />` must contain exactly two direct children.
+
+The first child should be a trigger element, such as a `<Button />`, where the trigger events and appropriate accessibility attributes can be applied.
+
+The second element must be a `<Modal />`. If access to programmatically close the modal is needed, a child with a function that has a close method and returns a `<Modal />` (`(close) => <Modal />`) can be passed as the second child instead of a `<Modal />`.
+
+_Modal with close function injected:_
+
+```tsx
+<Modal.Trigger>
+  <Button>Open modal</Button>
+  {(close) => (
+    <Modal>
+      <Modal.Header>H4 Title</Modal.Header>
+      <Modal.Body>Modal content</Modal.Body>
+      <Modal.Footer
+        primaryAction={{
+          content: "Button 1",
+          onAction: () => {
+            // do something
+            close();
+          },
+        }}
+      />
+    </Modal>
+  )}
+</Modal.Trigger>
+```
+
+### State management
+
+By default, a `<Modal />` manages its own open state.
+
+It can be made to be a controlled component by using the `isOpen` and `onOpenChange` prop on `<Modal.Trigger />`.
+
+It can be made to open by default using the `defaultOpen` prop on `<Modal.Trigger />`.
+
+### Focus containment
+
+A `<Modal />` traps focus until it's closed. When a modal is closed, it returns focus to the element that triggered the modal.
+
+## Simple Example
+
+In its simplest form, a `<Modal />` requires a triggering element and a `<Modal />` that renders a header, body, and footer.
 
 <Canvas of={ModalStories.Simple} />
 
-## A Complete Example
+## Complete Example
 
 A `<Modal />` has several options across its components to customize the experience. The example below showcases the different available options.
 
