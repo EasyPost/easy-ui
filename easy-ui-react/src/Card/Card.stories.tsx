@@ -260,3 +260,55 @@ export const ExampleCallout: Story = {
     </div>
   ),
 };
+
+export const ExampleLayouts: Story = {
+  render: () => (
+    <VerticalStack gap="4">
+      <VerticalStack gap="2">
+        <Text variant="subtitle1">Stretch-aligned Horizontal Grid</Text>
+        <HorizontalGrid columns={2} gap="2">
+          <Card background="secondary">
+            <div>
+              This card&apos;s area should behave rules of parent layout
+            </div>
+          </Card>
+          <Card>
+            <div style={{ border: "1px solid", height: 200 }}>
+              Content with a height set to 200px
+            </div>
+          </Card>
+        </HorizontalGrid>
+      </VerticalStack>
+      <VerticalStack gap="2">
+        <Text variant="subtitle1">Center-aligned Horizontal Grid</Text>
+        <HorizontalGrid columns={2} gap="2" alignItems="center">
+          <Card background="secondary">
+            <div>
+              This card&apos;s area should behave rules of parent layout
+            </div>
+          </Card>
+          <Card>
+            <div style={{ border: "1px solid", height: 200 }}>
+              Content with a height set to 200px
+            </div>
+          </Card>
+        </HorizontalGrid>
+      </VerticalStack>
+      <VerticalStack gap="2">
+        <Text variant="subtitle1">Bottom-aligned Horizontal Grid</Text>
+        <HorizontalGrid columns={2} gap="2" alignItems="end">
+          <Card background="secondary">
+            <div>
+              This card&apos;s area should behave rules of parent layout
+            </div>
+          </Card>
+          <Card>
+            <div style={{ border: "1px solid", height: 200 }}>
+              Content with a height set to 200px
+            </div>
+          </Card>
+        </HorizontalGrid>
+      </VerticalStack>
+    </VerticalStack>
+  ),
+};
