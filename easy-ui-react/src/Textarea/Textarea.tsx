@@ -98,13 +98,8 @@ export function Textarea(props: TextareaProps) {
     validationState = "valid",
     isLabelEmphasized = false,
     autoFocus = false,
-    label,
-    errorText,
-    helperText,
-    placeholder,
-    value,
-    defaultValue,
     rows = 1,
+    ...restProps
   } = props;
   return (
     <InputField
@@ -116,13 +111,8 @@ export function Textarea(props: TextareaProps) {
       validationState={validationState}
       isLabelEmphasized={isLabelEmphasized}
       autoFocus={autoFocus}
-      label={label}
-      errorText={errorText}
-      helperText={helperText}
-      placeholder={placeholder}
-      value={value}
-      defaultValue={defaultValue}
       rows={rows}
+      {...restProps}
     />
   );
 }
