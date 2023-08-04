@@ -261,54 +261,24 @@ export const ExampleCallout: Story = {
   ),
 };
 
-export const ExampleLayouts: Story = {
+export const ExampleStretch: Story = {
   render: () => (
-    <VerticalStack gap="4">
-      <VerticalStack gap="2">
-        <Text variant="subtitle1">Stretch-aligned Horizontal Grid</Text>
-        <HorizontalGrid columns={2} gap="2">
-          <Card background="secondary">
-            <div>
-              This card&apos;s area should behave rules of parent layout
-            </div>
-          </Card>
-          <Card>
-            <div style={{ border: "1px solid", height: 200 }}>
-              Content with a height set to 200px
-            </div>
-          </Card>
-        </HorizontalGrid>
-      </VerticalStack>
-      <VerticalStack gap="2">
-        <Text variant="subtitle1">Center-aligned Horizontal Grid</Text>
-        <HorizontalGrid columns={2} gap="2" alignItems="center">
-          <Card background="secondary">
-            <div>
-              This card&apos;s area should behave rules of parent layout
-            </div>
-          </Card>
-          <Card>
-            <div style={{ border: "1px solid", height: 200 }}>
-              Content with a height set to 200px
-            </div>
-          </Card>
-        </HorizontalGrid>
-      </VerticalStack>
-      <VerticalStack gap="2">
-        <Text variant="subtitle1">Bottom-aligned Horizontal Grid</Text>
-        <HorizontalGrid columns={2} gap="2" alignItems="end">
-          <Card background="secondary">
-            <div>
-              This card&apos;s area should behave rules of parent layout
-            </div>
-          </Card>
-          <Card>
-            <div style={{ border: "1px solid", height: 200 }}>
-              Content with a height set to 200px
-            </div>
-          </Card>
-        </HorizontalGrid>
-      </VerticalStack>
-    </VerticalStack>
+    <HorizontalGrid columns={2} gap="2">
+      <Card background="secondary">
+        <VerticalStack gap="2" align="space-between">
+          <div>Short content</div>
+          <div>Card footer</div>
+        </VerticalStack>
+      </Card>
+      <Card>
+        <VerticalStack gap="2" align="space-between">
+          <div>
+            Long content that stretches the height of the grid row to show that
+            the footer in the first card will stay aligned to the bottom
+          </div>
+          <div>Card footer</div>
+        </VerticalStack>
+      </Card>
+    </HorizontalGrid>
   ),
 };
