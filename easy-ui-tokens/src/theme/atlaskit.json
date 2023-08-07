@@ -1,6 +1,6 @@
 {
   "theme": {
-    "new": {
+    "atlaskit": {
       "text": {
         "primary": { "value": "" },
         "accent.blue": { "value": "" },
@@ -118,6 +118,9 @@
         "selected.bold": { "value": "" },
         "selected.bold.hovered": { "value": "" },
         "selected.bold.pressed": { "value": "" },
+        "blanket": { "value": "" },
+        "blanket.selected": { "value": "" },
+        "blanket.danger": { "value": "" },
         "brand.subtlest": { "value": "" },
         "brand.subtlest.hovered": { "value": "" },
         "brand.subtlest.pressed": { "value": "" },
@@ -156,20 +159,9 @@
         "information.pressed": { "value": "" },
         "information.bold": { "value": "" },
         "information.bold.hovered": { "value": "" },
-        "information.bold.pressed": { "value": "" }
-      },
-      "blanket": {
-        "base": { "value": "" },
-        "selected": { "value": "" },
-        "danger": { "value": "" }
-      },
-      "interaction": {
-        "hovered": { "value": "" },
-        "pressed": { "value": "" }
-      },
-      "skeleton": {
-        "base": { "value": "" },
-        "subtle": { "value": "" }
+        "information.bold.pressed": { "value": "" },
+        "interaction.hovered": { "value": "" },
+        "interaction.pressed": { "value": "" }
       }
     }
   }
