@@ -83,6 +83,14 @@ To create a card with two columns, for instance, use `<Card.Container />` and `<
 
 <Canvas of={CardStories.ExampleCallout} />
 
+### Layouts
+
+Card content behavior should follow the rules of their parent layouts.
+
+In the example below, a `HorizontalGrid` is set to stretch each `Card` to the height of the tallest `Card` in the row. `Card` content will behave that rule and stretch with it.
+
+<Canvas of={CardStories.ExampleStretch} />
+
 ## Properties
 
 ### Card

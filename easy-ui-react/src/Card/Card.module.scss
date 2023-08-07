@@ -15,6 +15,12 @@ button.container:not([disabled]) {
 .area {
   @include responsive-prop("card-area", "padding", padding);
   background: component-token("card-area", "background");
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  > * {
+    flex: 1 0 auto;
+  }
 }
 
 .variantOutlined,

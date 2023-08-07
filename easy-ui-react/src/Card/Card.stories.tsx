@@ -260,3 +260,25 @@ export const ExampleCallout: Story = {
     </div>
   ),
 };
+
+export const ExampleStretch: Story = {
+  render: () => (
+    <HorizontalGrid columns={2} gap="2">
+      <Card background="secondary">
+        <VerticalStack gap="2" align="space-between">
+          <div>Short content</div>
+          <div>Card footer</div>
+        </VerticalStack>
+      </Card>
+      <Card>
+        <VerticalStack gap="2" align="space-between">
+          <div>
+            Long content that stretches the height of the grid row to show that
+            the footer in the first card will stay aligned to the bottom
+          </div>
+          <div>Card footer</div>
+        </VerticalStack>
+      </Card>
+    </HorizontalGrid>
+  ),
+};
