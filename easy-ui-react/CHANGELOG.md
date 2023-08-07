@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.9
+
+### Patch Changes
+
+- 4d13775: fix(TextField,Textarea): pass all properties through to InputField
+
 ## 1.0.0-alpha.8
 
 ### Patch Changes
