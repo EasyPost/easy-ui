@@ -2,4 +2,4 @@
 "@easypost/easy-ui": patch
 ---
 
-fix(Card): card area should behave rules of parent layout
+fix(Card): Card area behavior should follow the rules of their parent layout
