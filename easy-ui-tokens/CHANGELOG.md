@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- f06d077: Add `<Modal />` component
+
 ## 1.0.0-alpha.4
 
 ### Minor Changes
