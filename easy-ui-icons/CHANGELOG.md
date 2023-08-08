@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- 508c475: Add link icon
+
 ## 1.0.0-alpha.8
 
 ### Minor Changes

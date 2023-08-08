@@ -1,5 +1,19 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.10
+
+### Minor Changes
+
+- f06d077: Add `<Modal />` component
+
+### Patch Changes
+
+- 5b3447a: fix(Card): Card area behavior should follow the rules of their parent layout
+- Updated dependencies [508c475]
+- Updated dependencies [f06d077]
+  - @easypost/easy-ui-icons@1.0.0-alpha.9
+  - @easypost/easy-ui-tokens@1.0.0-alpha.5
+
 ## 1.0.0-alpha.9
 
 ### Patch Changes
