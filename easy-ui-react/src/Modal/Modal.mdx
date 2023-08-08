@@ -1,0 +1,127 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { Modal } from "./Modal";
+import * as ModalStories from "./Modal.stories";
+
+<Meta of={ModalStories} />
+
+# Modal
+
+A `<Modal />` is a page overlay that displays information and blocks interaction with the page until an action is taken or the `Modal` is dismissed.
+
+### Modal architecture
+
+`<Modal />` is a compound component. Use `<Modal.Trigger />`, `<Modal />`, `<Modal.Header />`, `<Modal.Body />`, and `<Modal.Footer />` to construct a modal.
+
+```tsx
+<Modal.Trigger>
+  <Button>Open modal</Button>
+  <Modal>
+    <Modal.Header>H4 Title</Modal.Header>
+    <Modal.Body>Modal content</Modal.Body>
+    <Modal.Footer
+      primaryAction={{
+        content: "Button 1",
+        onAction: () => {},
+      }}
+    />
+  </Modal>
+</Modal.Trigger>
+```
+
+### Triggering the modal
+
+`<Modal.Trigger />` must contain exactly two direct children.
+
+The first child should be a trigger element, such as a `<Button />`, where the trigger events and appropriate accessibility attributes can be applied.
+
+The second element must be a `<Modal />`. If access to programmatically close the modal is needed, a child with a function that has a close method and returns a `<Modal />` (`(close) => <Modal />`) can be passed as the second child instead of a `<Modal />`.
+
+_Modal with close function injected:_
+
+```tsx
+<Modal.Trigger>
+  <Button>Open modal</Button>
+  {(close) => (
+    <Modal>
+      <Modal.Header>H4 Title</Modal.Header>
+      <Modal.Body>Modal content</Modal.Body>
+      <Modal.Footer
+        primaryAction={{
+          content: "Button 1",
+          onAction: () => {
+            // do something
+            close();
+          },
+        }}
+      />
+    </Modal>
+  )}
+</Modal.Trigger>
+```
+
+### State management
+
+By default, a `<Modal />` manages its own open state.
+
+It can be made to be a controlled component by using the `isOpen` and `onOpenChange` prop on `<Modal.Trigger />`.
+
+It can be made to open by default using the `defaultOpen` prop on `<Modal.Trigger />`.
+
+### Focus containment
+
+A `<Modal />` traps focus until it's closed. When a modal is closed, it returns focus to the element that triggered the modal.
+
+## Simple Example
+
+In its simplest form, a `<Modal />` requires a triggering element and a `<Modal />` that renders a header, body, and footer.
+
+<Canvas of={ModalStories.Simple} />
+
+## Complete Example
+
+A `<Modal />` has several options across its components to customize the experience. The example below showcases the different available options.
+
+Refer to the property tables at the bottom of the page for full documentation on what's available.
+
+<Canvas of={ModalStories.Complete} />
+
+## Nondismissable
+
+By default, `<Modal />`s are dismissable, meaning a user can exit the modal without performing an action. Exiting can be done by clicking on the underlay behind the modal, pressing the `Esc` key, or clicking the close icon in the header.
+
+To override that behavior, set `isDismissable` to `false` on the `<Modal.Trigger />`.
+
+<Canvas of={ModalStories.Nondismissable} />
+
+<Controls of={ModalStories.Nondismissable} />
+
+## Size
+
+A `<Modal />` comes in three sizes—`sm`, `md`, or `lg`—which governs the width of the modal. Use the `size` prop on `<Modal />` to change its size. Modals default to `lg`.
+
+<Canvas of={ModalStories.Size} />
+
+<Controls of={ModalStories.Size} />
+
+## Properties
+
+### Modal.Trigger
+
+<ArgTypes of={Modal.Trigger} />
+
+### Modal
+
+<ArgTypes of={Modal} />
+
+### Modal.Header
+
+<ArgTypes of={Modal.Header} />
+
+### Modal.Body
+
+<ArgTypes of={Modal.Body} />
+
+### Modal.Footer
+
+<ArgTypes of={Modal.Footer} />

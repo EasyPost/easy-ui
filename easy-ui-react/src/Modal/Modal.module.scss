@@ -1,0 +1,139 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.underlayBg {
+  @include component-token("modal", "underlay-edge-max-height", 72px);
+  @include component-token("modal", "underlay-edge-min-height", 2.5vh);
+
+  position: fixed;
+  z-index: design-token("z-index.modal");
+  display: flex;
+  flex-direction: column;
+  &::before {
+    content: "";
+    position: absolute;
+    background: theme-token("color.background.underlay");
+    opacity: design-token("opacity.underlay");
+  }
+}
+
+.underlayBg,
+.underlayBg::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.underlayBox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  pointer-events: none;
+}
+
+.underlayEdge {
+  flex: 0 9 auto;
+  height: component-token("modal", "underlay-edge-max-height");
+  min-height: component-token("modal", "underlay-edge-min-height");
+}
+
+.Modal {
+  @include component-token("modal", "max-height", 762px);
+  @include component-token("modal", "width", 95vw);
+
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-height: component-token("modal", "max-height");
+  max-width: component-token("modal", "max-width");
+  width: component-token("modal", "width");
+  overflow: hidden;
+  background: theme-token("color.surface.overlay");
+  border-radius: design-token("shape.border_radius.lg");
+  box-shadow: design-token("shadow.modal");
+  pointer-events: auto;
+  outline: none;
+}
+
+.header {
+  margin: 0;
+  padding: design-token("space.5");
+  padding-bottom: design-token("space.2");
+  color: theme-token("color.text.primary");
+  &.stuck {
+    box-shadow: design-token("shadow.stuck-from-top");
+  }
+}
+
+.body {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  overscroll-behavior: contain;
+}
+
+.content {
+  padding: 0 design-token("space.5");
+  position: relative;
+
+  :global([data-intercept]) {
+    position: absolute;
+    left: 0;
+    width: 1px;
+    height: 1px;
+  }
+  :global([data-intercept="header"]) {
+    top: 0;
+  }
+  :global([data-intercept="footer"]) {
+    bottom: 0;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: design-token("space.2");
+  padding: design-token("space.5");
+  padding-top: design-token("space.3");
+
+  @include breakpoint-sm-up {
+    flex-direction: row;
+  }
+
+  &.stuck {
+    box-shadow: design-token("shadow.stuck-from-bottom");
+  }
+}
+
+.closeBtn {
+  @include unstyled.button;
+  display: inline-flex;
+  padding: design-token("space.0.25");
+  cursor: pointer;
+}
+
+.iconAtEnd[data-size="2xl"] {
+  display: inline-flex;
+
+  // offset 2xl icon size so that the icon box continues to stay flush with
+  // the header line height
+  margin-top: -5px;
+  margin-bottom: -5px;
+}
+
+.sizeSm {
+  @include component-token("modal", "max-width", 528px);
+}
+
+.sizeMd {
+  @include component-token("modal", "max-width", 672px);
+}
+
+.sizeLg {
+  @include component-token("modal", "max-width", 788px);
+}

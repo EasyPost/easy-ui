@@ -10,18 +10,18 @@ import {
 } from "react-aria";
 import { useTreeState } from "react-stately";
 import { ResponsiveProp } from "../utilities/css";
+import { useScrollbar } from "../utilities/useScrollbar";
 import { useInternalMenuContext } from "./MenuContext";
 import { MenuItemContent } from "./MenuItem";
 import { MenuSectionContent } from "./MenuSection";
-import { useScrollbar } from "./useScrollbar";
 import {
   DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
   DEFAULT_PLACEMENT,
   DEFAULT_WIDTH,
   ITEM_HEIGHT,
-  Y_PADDING_INSIDE_OVERLAY,
   OVERLAY_OFFSET,
   OVERLAY_PADDING_FROM_CONTAINER,
+  Y_PADDING_INSIDE_OVERLAY,
   getUnmergedPopoverStyles,
 } from "./utilities";
 
@@ -111,7 +111,7 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
     menuRef,
   );
 
-  useScrollbar(menuRef);
+  useScrollbar(menuRef, "ezui-os-theme-overlay");
 
   const style = {
     ...popoverProps.style,

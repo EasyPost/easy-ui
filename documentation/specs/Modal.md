@@ -4,47 +4,96 @@
 
 A `Modal` is a page overlay that displays information and blocks interaction with the page until an action is taken or the `Modal` is dismissed.
 
+### Use Cases
+
+A Modal is a dialog that appears over content and requires some kind of user interaction. Modals are typically used to focus a user's attention.
+
+- Use a `<Modal />` when you want to capture information from the user without having them leave the parent page.
+- Use a `<Modal />` when you want to show additional information to the user without losing context of the parent page.
+
+### Features
+
+- Supports composability with a container, header, body, and footer components
+- Supports self-contained state management by default
+- Supports being controlled
+- Supports default state
+- Supports being nondismissable
+- Supports multiple sizes
+
+### Prior Art
+
+- [Aria `<Dialog />`](https://react-spectrum.adobe.com/react-aria/Dialog.html)
+- [Paste `<Modal />`](https://paste.twilio.design/components/modal)
+- [Polaris `<Modal />`](https://polaris.shopify.com/components/overlays/modal)
+- [Material UI `<Modal />`](https://mui.com/material-ui/react-modal/)
+
+---
+
 ## Design
 
 `Modal` will use `useDialog` and `useModalOverlay` from `react-aria` to provide the technical foundation for an accessible dialog.
 
-The component design was inspired both by Shopify's Modal component and Twilio's Modal component.
+The component design was inspired by Aria's Dialog component, Shopify's Modal component, and Twilio's Modal component.
 
-`Modal` will be a controlled component deferring the state management to the consumer.
+`Modal` will manage its own state by default but can be controlled if the consumer opts in.
 
 `Modal` will be a compound component consistenting of `Modal`, `Modal.Header`, `Modal.Body`, and `Modal.Footer`.
+
+`Modal` must be attached to a focusable trigger element such as a `Button` through the `Modal.Trigger` component. This ensures the trigger and modal are accessible.
+
+`Modal.Trigger` must contain exactly two direct children. The first child must be a focusable trigger such as `Button`. The second child must be either a `Modal` or a render function that returns a `Modal`. If using a render function, a `close` argument will be passed to allow for programmatically closing the `Modal`. This pattern is adopted from the suggested patterns of React Aria and React Spectrum.
 
 ### API
 
 ```ts
-type HeaderElementType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-
-type ModalProps = {
+type ModalTriggerProps = {
   /**
-   * Whether the modal is open or not.
+   * Content of modal trigger. Must be exactly two elements.
    */
-  isOpen: boolean;
+  children: [ReactElement, CloseableModalElement | ReactElement];
 
   /**
-   * Callback when the modal is closed.
+   * Whether the modal is open by default (uncontrolled).
    */
-  onClose: () => void;
+  defaultOpen?: boolean;
 
   /**
    * Whether or not the modal can be dismissed.
-   *
-   * @default true
    */
   isDismissable?: boolean;
+
+  /**
+   * Whether the modal is open by default (controlled).
+   */
+  isOpen?: boolean;
+
+  /**
+   * Handler that is called when the overlay's open state changes.
+   */
+  onOpenChange?: (isOpen: boolean) => void;
+};
+
+type ModalProps = {
+  /**
+   * Content of the modal.
+   */
+  children: ReactNode;
+
+  /**
+   * Size of the modal.
+   *
+   * @default lg
+   */
+  size?: "sm" | "md" | "lg";
 };
 
 type ModalHeaderProps = {
   /**
    * Modal header element type. Should be a valid document heading level.
    *
-   * @default "h2"
+   * @default h2
    */
-  as?: HeaderElementType;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
   /**
    * The content for the title of the modal.
@@ -102,74 +151,107 @@ type ModalFooterProps = {
 
 ### Example Usage
 
-_Basic_:
+_Simple_:
 
 ```tsx
 import { Modal } from "@easypost/easy-ui/Modal";
 
 function PageWithModal() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <Modal
-      isOpen={isModalOpen}
-      onClose={() => {
-        setIsModalOpen(false);
-      }}
-    >
-      <Modal.Header>Modal title</Modal.Header>
-      <Modal.Body>Modal content</Modal.Body>
-      <Modal.Footer
-        primaryAction={{
-          content: "Button 1",
-          onAction: () => {},
-        }}
-      />
-    </Modal>
+    <Modal.Trigger>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>Modal content</Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: () => {},
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
   );
 }
 ```
 
-_Fully featured_:
+_Advanced_:
 
 ```tsx
 import { Modal } from "@easypost/easy-ui/Modal";
 
 function PageWithModal() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <Modal
-      isOpen={isModalOpen}
-      onClose={() => {
-        setIsModalOpen(false);
+    <Modal.Trigger onOpenChange={(openState) => {}} isDismissable={false}>
+      <Button>Open modal</Button>
+      {(close) => (
+        <Modal size="md">
+          <Modal.Header
+            iconAtStart={{
+              accessibilityLabel: "EasyPost Logo",
+              symbol: EasyPostLogo,
+            }}
+            iconAtEnd={{
+              accessibilityLabel: "Stripe Logo",
+              symbol: StripeLogo,
+              size: "2xl",
+            }}
+            subtitle="Optional subtitle"
+          >
+            H4 Title
+          </Modal.Header>
+          <Modal.Body>Modal content</Modal.Body>
+          <Modal.Footer
+            primaryAction={{
+              content: "Button 1",
+              onAction: () => {
+                // do something. then close
+                close();
+              },
+            }}
+            secondaryAction={{
+              content: "Optional Button 2",
+              onAction: () => {
+                close();
+              },
+            }}
+          />
+        </Modal>
+      )}
+    </Modal.Trigger>
+  );
+}
+```
+
+_Controlled_:
+
+```tsx
+import { Modal } from "@easypost/easy-ui/Modal";
+
+function PageWithModal() {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Modal.Trigger
+      isOpen={isOpen}
+      onOpenChange={(openState) => {
+        setIsOpen(openState);
       }}
-      isDismissable={false}
     >
-      <Modal.Header
-        subtitle="Modal subtitle"
-        iconAtStart={{
-          accessibilityLabel: "Logo",
-          symbol: IconSymbol,
-        }}
-        iconAtEnd={{
-          accessibilityLabel: "Logo",
-          symbol: IconSymbol,
-          size: "2xl",
-        }}
-      >
-        Modal title
-      </Modal.Header>
-      <Modal.Body>Modal content</Modal.Body>
-      <Modal.Footer
-        primaryAction={{
-          content: "Button 1",
-          onAction: () => {},
-        }}
-        secondaryAction={{
-          content: "Button 2",
-          onAction: () => {},
-        }}
-      />
-    </Modal>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>Modal content</Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: () => {
+              // do something. then close
+              setIsOpen(false);
+            },
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
   );
 }
 ```
