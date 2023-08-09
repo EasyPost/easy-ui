@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.11
+
+### Patch Changes
+
+- d102967: Specify color for Button filled variant to avoid collisons with `a` element selector style rules
+
 ## 1.0.0-alpha.10
 
 ### Minor Changes
