@@ -45,6 +45,7 @@
 
   &:hover:not(:disabled):not(:active) {
     background-color: component-token("button", "hover.focus.color");
+    color: component-token("button", "filled.font.color");
   }
 }
 
