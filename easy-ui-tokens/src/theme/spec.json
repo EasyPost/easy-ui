@@ -1,7 +1,7 @@
 {
   "format": {
     "value": "type-category-instance-variant-state",
-    "description": "Design tokens represent fundamental decisions of a design language, specifying their intended usage with their semantic naming in a predictable and clear way. For example, $color-text-link-destructive is used for displaying link text that communicates an action is destructive. Using the appropriate token ensures that all destructive actions are styled consistently, appearing as red text in this case. Tokens are named semantically to specify their intended usage. The format of a design token name is: $type-category-instance-variant-state"
+    "description": "Design tokens represent fundamental decisions of a design language, specifying their intended usage with their semantic naming in a predictable and clear way. For example, $color-text-link-destructive is used for displaying link text that communicates an action is destructive. Using the appropriate token ensures that all destructive actions are styled consistently, appearing as red text in this case. Tokens are named semantically to specify their intended usage. The format of a design token name is: $type-category-instance-variant-state. Pieces of the name structure can be omitted if they're not relevant. There may be cases where simply a $type-instance makes the most sense, such as $space-2."
   },
   "$type": {
     "value": [
@@ -22,35 +22,34 @@
   },
   "$instance": {
     "value": [
-      "accent-blue",
-      "accent-red",
-      "accent-green",
-      "accent-yellow",
-      "accent-purple",
-      "accent-gray",
-      "app",
-      "available",
-      "base",
-      "blanket",
-      "body",
-      "brand",
-      "busy",
-      "caution",
-      "critical",
-      "danger",
+      {
+        "value": "base",
+        "description": "Use for the default value of an entity or state as a mechanism for namespacing tokens."
+      },
+      "// blanket",
+      "// body",
+      "// brand",
+      {
+        "value": "critical",
+        "description": "Use for communicating critical information, such as errors."
+      },
       "decorative-10",
       "decorative-20",
       "decorative-30",
       "decorative-40",
-      "destructive",
-      "discovery",
-      "error",
-      "highlight",
-      "info",
+      "decorative-50",
+      "decorative-60",
+      {
+        "value": "discovery",
+        "description": "Use for communicating something new or something changed."
+      },
+      {
+        "value": "information",
+        "description": "Use for communicating information or something in-progress."
+      },
       "input",
       "inset",
       "interactive",
-      "inverse",
       "link",
       "magic",
       "neutral",
@@ -67,7 +66,10 @@
       "trial",
       "unavailable",
       "user",
-      "warning"
+      {
+        "value": "warning",
+        "description": "Use for communicating caution, such as 'at risk' statuses."
+      }
     ],
     "description": "Instances are the occurrences in which the token might be used to express that instance in the UI."
   },
@@ -76,15 +78,13 @@
       "bold",
       "bolder",
       "boldest",
-      "strong",
-      "stronger",
-      "strongest",
+      {
+        "value": "inverse",
+        "description": "Use for variations on bold or inverse backgrounds."
+      },
       "subtle",
       "subtler",
-      "subtlest",
-      "weak",
-      "weaker",
-      "weakest"
+      "subtlest"
     ],
     "description": "The variant of an instance token."
   },

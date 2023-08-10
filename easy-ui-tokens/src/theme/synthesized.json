@@ -413,5 +413,105 @@
       "weaker": { "value": "1" },
       "weakest": { "value": "1" }
     }
+  },
+  "format": {
+    "value": "type-category-instance-variant-state",
+    "description": "Design tokens represent fundamental decisions of a design language, specifying their intended usage with their semantic naming in a predictable and clear way. For example, $color-text-link-destructive is used for displaying link text that communicates an action is destructive. Using the appropriate token ensures that all destructive actions are styled consistently, appearing as red text in this case. Tokens are named semantically to specify their intended usage. The format of a design token name is: $type-category-instance-variant-state. Pieces of the name structure can be omitted if they're not relevant. There may be cases where simply a $type-instance makes the most sense, such as $space-2."
+  },
+  "$type": {
+    "value": [
+      "breakpoint",
+      "color",
+      "font",
+      "shadow",
+      "shape",
+      "size",
+      "space",
+      "z-index"
+    ],
+    "description": "Types are the high-level, foundational styles the token will be applied to."
+  },
+  "$category": {
+    "value": ["background", "border", "icon", "text"],
+    "description": "Categories are the UI entities the token will be applied to."
+  },
+  "$instance": {
+    "value": [
+      "accent-blue",
+      "accent-red",
+      "accent-green",
+      "accent-yellow",
+      "accent-purple",
+      "accent-gray",
+      "app",
+      "available",
+      "base",
+      "blanket",
+      "body",
+      "brand",
+      "busy",
+      "caution",
+      "critical",
+      "danger",
+      "decorative-10",
+      "decorative-20",
+      "decorative-30",
+      "decorative-40",
+      "destructive",
+      "discovery",
+      "error",
+      "highlight",
+      "info",
+      "input",
+      "inset",
+      "interactive",
+      "inverse",
+      "link",
+      "magic",
+      "neutral",
+      "new",
+      "offline",
+      "on-color",
+      "overlay",
+      "primary",
+      "required",
+      "row-striped",
+      "subaccount",
+      "subdued",
+      "success",
+      "trial",
+      "unavailable",
+      "user",
+      "warning"
+    ],
+    "description": "Instances are the occurrences in which the token might be used to express that instance in the UI."
+  },
+  "$variant": {
+    "value": [
+      "bold",
+      "bolder",
+      "boldest",
+      "strong",
+      "stronger",
+      "strongest",
+      "subtle",
+      "subtler",
+      "subtlest",
+      "weak",
+      "weaker",
+      "weakest"
+    ],
+    "description": "The variant of an instance token."
+  },
+  "$state": {
+    "value": [
+      "active",
+      "disabled",
+      "focused",
+      "hovered",
+      "pressed",
+      "selected"
+    ],
+    "description": "State in which the token should be used."
   }
 }
