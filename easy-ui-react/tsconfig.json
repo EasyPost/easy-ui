@@ -8,7 +8,8 @@
     "paths": {
       "@easypost/easy-ui-icons/*": ["../../easy-ui-icons/dist/*"],
       "@easypost/easy-ui-tokens/*": ["../../easy-ui-tokens/dist/*"]
-    }
+    },
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": ["./src/**/*"]
 }

@@ -3,6 +3,11 @@ import userEvent from "@testing-library/user-event";
 import { ReactElement } from "react";
 import { vi } from "vitest";
 
+declare global {
+  // eslint-disable-next-line no-var
+  var jest: object;
+}
+
 /**
  * Render a react element for testing. Passes in vitest's timers for user-event.
  */
