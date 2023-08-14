@@ -26,19 +26,46 @@
         "value": "base",
         "description": "Use for the default value of an entity or state as a mechanism for namespacing tokens."
       },
-      "// blanket",
-      "// body",
-      "// brand",
+      {
+        "value": "blanket",
+        "description": "Use for the screen overlay that appears with modals and other popovers."
+      },
+      {
+        "value": "body",
+        "description": "Use for the main page body."
+      },
+      {
+        "value": "brand",
+        "description": "Use for elements that reinforce the brand."
+      },
       {
         "value": "critical",
         "description": "Use for communicating critical information, such as errors."
       },
-      "decorative-10",
-      "decorative-20",
-      "decorative-30",
-      "decorative-40",
-      "decorative-50",
-      "decorative-60",
+      {
+        "value": "decorative-10",
+        "description": "Use for decorative purposes only when no semantic meaning is applicable."
+      },
+      {
+        "value": "decorative-20",
+        "description": "Use for decorative purposes only when no semantic meaning is applicable."
+      },
+      {
+        "value": "decorative-30",
+        "description": "Use for decorative purposes only when no semantic meaning is applicable."
+      },
+      {
+        "value": "decorative-40",
+        "description": "Use for decorative purposes only when no semantic meaning is applicable."
+      },
+      {
+        "value": "decorative-50",
+        "description": "Use for decorative purposes only when no semantic meaning is applicable."
+      },
+      {
+        "value": "decorative-60",
+        "description": "Use for decorative purposes only when no semantic meaning is applicable."
+      },
       {
         "value": "discovery",
         "description": "Use for communicating something new or something changed."
@@ -47,25 +74,30 @@
         "value": "information",
         "description": "Use for communicating information or something in-progress."
       },
-      "input",
-      "inset",
-      "interactive",
-      "link",
-      "magic",
-      "neutral",
-      "new",
-      "offline",
-      "on-color",
-      "overlay",
-      "primary",
-      "required",
-      "row-striped",
-      "subaccount",
-      "subdued",
-      "success",
-      "trial",
-      "unavailable",
-      "user",
+      {
+        "value": "input",
+        "description": "Use for form elements, such as text fields, checkboxes, and radio buttons."
+      },
+      {
+        "value": "interactive",
+        "description": "Use for communicating interaction."
+      },
+      {
+        "value": "link",
+        "description": "Use for links."
+      },
+      {
+        "value": "magic",
+        "description": "Use for communicating positive information that is of special importance."
+      },
+      {
+        "value": "neutral",
+        "description": "Use for communicating base or neutral information."
+      },
+      {
+        "value": "success",
+        "description": "Use to communicate a favorable outcome."
+      },
       {
         "value": "warning",
         "description": "Use for communicating caution, such as 'at risk' statuses."
@@ -79,8 +111,20 @@
       "bolder",
       "boldest",
       {
+        "value": "inset",
+        "description": "Use for variations on shadows."
+      },
+      {
         "value": "inverse",
         "description": "Use for variations on bold or inverse backgrounds."
+      },
+      {
+        "value": "primary",
+        "description": "Use to communicate primary importance."
+      },
+      {
+        "value": "required",
+        "description": "Use to communicate required information."
       },
       "subtle",
       "subtler",
