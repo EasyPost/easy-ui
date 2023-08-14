@@ -80,7 +80,7 @@ type TableProps<C extends Column> = AriaLabelingProps & {
   renderHeaderCell?: (cell: C, key: Key) => ReactNode;
 
   /** Action definitions for the row. */
-  rowActions?: RowAction[];
+  rowActions?: (key: Key) => RowAction[];
 
   /** Rows for the table. */
   rows: Row<C>[];
@@ -196,7 +196,7 @@ function CustomTable() {
       aria-label="Example table with row actions"
       columns={columns}
       rows={rows}
-      rowActions={[
+      rowActions={(rowKey) => [
         {
           type: "menu",
           accessibilityLabel: "Delete record",
