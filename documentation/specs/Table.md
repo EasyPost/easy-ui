@@ -8,23 +8,40 @@ A `Table` is a collection of information displayed across columns and rows.
 
 ## Design
 
-Tables are complicated, particularly when selection, sorting, and expansion are customization options. Fortunately React Aria has a set of hooks for dealing with a lot of the complexity.
+`Table` will use the `useTable` hooks from React Aria for managing display, selection, and sort. React Aria doesn't support expansion capabilities out of the box, so an additional layer on top of Aria's will need to be built to support expansion.
 
-`Table` will use the `useTable` hooks from React Aria for managing display, selection, and sort. React Aria doesn't support expansion capabilities out of the box, so a lightweight layer on top will need to be built to support expansion.
+Data will be passed to the `Table` component through the `columns` and `rows` prop. This allows us to support Aria's dynamic collections API through a single prop interface. Custom rendering within parts of the table will be supported through [render props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop).
 
-While React Aria allows for specifying JSX children to the `Table`, we will control the API for the `Table` component to only allow data to be passed through a `columns` and `rows` prop. While this is a departure from other components we have that support compound composability—i.e. `Menu`, `CodeBlock`, `Card`—this allows us to support Aria's dynamic collections API out-of-the-box while also removing API surface area for our consumers.
+`columns` and `rows` will be arrays of objects and must follow a certain signature. `columns` should define the column structure for the table and must contain a unique `key`. `rows` should contain the content of the table and must contain a unique `key` along with properties for each `key` defined in the `columns` definition. The remainder of the data structure can be arbitrary. Column and row keys will be passed to render prop functions to control their rendering.
 
-`columns` and `rows` will be arrays of objects. They must have a `key` property that will be passed to supporting rendering functions. `rows` must contain objects with a property for each `key` in `columns`.
+_`columns` definition example_:
+
+```tsx
+const columns = [
+  { key: "name", name: "Name" },
+  { key: "type", name: "Type" },
+  { key: "date", name: "Date Modified" },
+] as const;
+```
+
+_`rows` definition example_:
+
+```tsx
+const rows = [
+  { key: 1, name: "filename_1", type: "js", date: new Date(2023, 1, 1) },
+  { key: 2, name: "filename_2", type: "js", date: new Date(2023, 1, 2) },
+] as const;
+```
 
 ### API
 
 ```ts
-type TableProps<C, R> = AriaLabelingProps & {
+type TableProps<C extends Column> = AriaLabelingProps & {
   /** Use columns and rows to specify Table content. */
   children?: never;
 
   /** Columns for the table. */
-  columns: C[];
+  columns: readonly C[];
 
   /** The initial expanded key in the collection (uncontrolled). */
   defaultExpandedKey?: Key;
@@ -32,61 +49,50 @@ type TableProps<C, R> = AriaLabelingProps & {
   /** The initial selected keys in the collection (uncontrolled). */
   defaultSelectedKeys?: "all" | Iterable<Key>;
 
-  /** A list of row keys to disable. */
-  disabledKeys?: Iterable<Key>;
-
   /** The currently expanded key in the collection (controlled). */
   expandedKey?: Key;
 
-  /**
-   * Whether or not row expansion is enabled.
-   */
+  /** Whether or not row expansion is enabled. */
   hasExpandableRows?: boolean;
+
+  /** Handler that is called when a user performs an action on the cell. */
+  onCellAction?: (key: Key) => void;
+
+  /** Handler that is called when the expansion changes. */
+  onExpandedChange?: (key: Key) => void;
+
+  /** Handler that is called when a user performs an action on the row. */
+  onRowAction?: (key: Key) => void;
+
+  /** Handler that is called when the selection changes. */
+  onSelectionChange?: (keys: Iterable<Key>) => void;
+
+  /** Handler that is called when the sorted column or direction changes. */
+  onSortChange?: (descriptor: SortDescriptor) => void;
+
+  /** Renders the content of a body cell. Defaults to row property text. */
+  renderBodyCell?: (cell: unknown, rowKey: Key, columnKey: Key) => ReactNode;
+
+  /** Renders the contents of the expanded row. */
+  renderExpandedRow?: (key: Key) => ReactNode;
+
+  /** Renders the content of a header cell. Defaults to column text. */
+  renderHeaderCell?: (cell: C, key: Key) => ReactNode;
+
+  /** Action definitions for the row. */
+  rowActions?: RowAction[];
+
+  /** Rows for the table. */
+  rows: Row<C>[];
+
+  /** The currently selected keys in the collection (controlled). */
+  selectedKeys?: "all" | Iterable<Key>;
 
   /** The type of selection that is allowed in the collection. */
   selectionMode?: "none" | "single" | "multiple";
 
   /** The current sorted column and direction. */
   sortDescriptor?: SortDescriptor;
-
-  /** Handler that is called when a user performs an action on the cell. */
-  onCellAction?: (key: Key) => void;
-
-  /** Handler that is called when a user performs an action on the row. */
-  onRowAction?: (key: Key) => void;
-
-  /** Handler that is called when the expansion changes. */
-  onExpandedChange?: (key: Key) => void;
-
-  /** Handler that is called when the selection changes. */
-  onSelectionChange?: (keys: Selection) => void;
-
-  /** Handler that is called when the sorted column or direction changes. */
-  onSortChange?: (descriptor: SortDescriptor) => void;
-
-  /**
-   * Renders the content of a row cell. Defaults to the text value of the row property if available.
-   */
-  renderCell?: (cell: unknown, row: R, columnKey: Key) => ReactNode;
-
-  /**
-   * Renders the content of a column cell. Defaults to the text value of the column property if available.
-   */
-  renderColumn?: (cell: C) => ReactNode;
-
-  /**
-   * Renders the contents of the expanded row.
-   */
-  renderExpandedRow?: (key: Key) => ReactNode;
-
-  /** Actions for the row. */
-  rowActions?: RowAction[];
-
-  /** Rows for the table. */
-  rows: R[];
-
-  /** The currently selected keys in the collection (controlled). */
-  selectedKeys?: "all" | Iterable<Key>;
 };
 
 type MenuRowAction = {
@@ -99,8 +105,8 @@ type MenuRowAction = {
   renderMenuOverlay: () => ReactNode;
 };
 
-type ActionRowAction = {
-  type: "action";
+type IconRowAction = {
+  type: "icon";
 
   /** Accessibility label describing the menu action. */
   accessibilityLabel: string;
@@ -112,66 +118,82 @@ type ActionRowAction = {
   onAction: () => void;
 };
 
-type RowAction = MenuRowAction | ActionRowAction;
+type RowAction = MenuRowAction | IconRowAction;
+
+type SortDescriptor = {
+  /** The key of the column to sort by. */
+  column?: Key;
+
+  /** The direction to sort by. */
+  direction?: SortDirection;
+};
+
+type SortDirection = "ascending" | "descending";
+
+type KeyedObject = {
+  /** Must contain a key. */
+  readonly key: Key;
+};
+
+type Column = KeyedObject & {
+  /** Another arbitrary data is allowed. */
+  [property: string]: unknown;
+};
+
+type Row<C extends Column> = KeyedObject & {
+  /** Must contain a property for each key in column. */
+  [property in C["key"]]: unknown;
+};
 ```
 
 ### Example Usage
 
-_Basic usage:_
+_Basic static usage:_
 
 ```tsx
 import { Table } from "@easypost/easy-ui/Table";
 
+const columns = [
+  { key: "name", name: "Name" },
+  { key: "type", name: "Type" },
+  { key: "date", name: "Date Modified" },
+] as const;
+
+const rows = [
+  { key: 1, name: "Games", date: "6/7/2020", type: "File folder" },
+  {
+    key: 2,
+    name: "Program Files",
+    date: "4/7/2021",
+    type: "File folder",
+  },
+  { key: 3, name: "bootmgr", date: "11/20/2010", type: "System file" },
+  { key: 4, name: "log.txt", date: "1/18/2016", type: "Text Document" },
+] as const;
+
 function CustomTable() {
-  const columns = useMemo(
-    () => [
-      { key: "name", name: "Name" },
-      { key: "type", name: "Type" },
-      { key: "date", name: "Date Modified" },
-    ],
-    [],
-  );
-  const rows = useMemo(
-    () => [
-      { key: 1, name: "Games", date: "6/7/2020", type: "File folder" },
-      {
-        key: 2,
-        name: "Program Files",
-        date: "4/7/2021",
-        type: "File folder",
-      },
-      { key: 3, name: "bootmgr", date: "11/20/2010", type: "System file" },
-      { key: 4, name: "log.txt", date: "1/18/2016", type: "Text Document" },
-    ],
-    [],
-  );
   return (
-    <Table aria-label="Example custom table" columns={columns} rows={rows} />
+    <Table
+      aria-label="Example basic static table"
+      columns={columns}
+      rows={rows}
+    />
   );
 }
 ```
 
-_Row actions:_
+_Table with row actions:_
 
 ```tsx
 import { Table } from "@easypost/easy-ui/Table";
 
+const columns = []; /*...*/
+const rows = []; /*...*/
+
 function CustomTable() {
-  const columns = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
-  const rows = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
   return (
     <Table
-      aria-label="Example custom table"
+      aria-label="Example table with row actions"
       columns={columns}
       rows={rows}
       rowActions={[
@@ -190,7 +212,7 @@ function CustomTable() {
           ),
         },
         {
-          type: "action",
+          type: "icon",
           iconSymbol: TrashCanIcon,
           accessibilityLabel: "Delete record",
           onAction: () => {
@@ -203,62 +225,25 @@ function CustomTable() {
 }
 ```
 
-_Disabling rows:_
+_Table with selection:_
 
 ```tsx
 import { Table } from "@easypost/easy-ui/Table";
 
-function CustomTable() {
-  const columns = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
-  const rows = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
-  return (
-    <Table
-      aria-label="Example custom table"
-      columns={columns}
-      rows={rows}
-      disabledKeys={[2]}
-    />
-  );
-}
-```
-
-_Selection:_
-
-```tsx
-import { Table } from "@easypost/easy-ui/Table";
+const columns = []; /*...*/
+const rows = [{ key: 1, key: 2, key: 3 }]; /*...*/
 
 function CustomTable() {
-  const columns = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
-  const rows = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
   return (
     <Table
-      aria-label="Example custom table"
+      aria-label="Example table with selection"
       columns={columns}
       rows={rows}
-      // can be "single" or "multiple"
+      // supports "single" or "multiple"
       selectionMode="single"
-      // can be controlled or uncontrolle
+      // uncontrolled
       defaultSelectedKeys={[2]}
+      // controlled
       selectedKeys={[2]}
       onSelectionChange={(keys) => {
         // do something
@@ -268,35 +253,27 @@ function CustomTable() {
 }
 ```
 
-_Row expansion:_
+_Table with row expansion:_
 
 ```tsx
 import { Table } from "@easypost/easy-ui/Table";
 
+const columns = []; /*...*/
+const rows = [{ key: 1, key: 2, key: 3 }]; /*...*/
+
 function CustomTable() {
-  const columns = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
-  const rows = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
   return (
     <Table
-      aria-label="Example custom table"
+      aria-label="Example table with row expansion"
       columns={columns}
       rows={rows}
       hasExpandedRows
-      renderExpandedRow={(rowKey) => {
+      renderExpandedRow={(key) => {
         return <>Content for expanded row</>;
       }}
-      // can be controlled or uncontrolle
+      // uncontrolled
       defaultExpandedKey={2}
+      // controlled
       expandedKey={2}
       onExpandedChange={(keys) => {
         // do something
@@ -306,25 +283,17 @@ function CustomTable() {
 }
 ```
 
-_Sorting:_
+_Table with sorting:_
 
 ```tsx
 import { Table } from "@easypost/easy-ui/Table";
 
+const columns = []; /*...*/
+
 function CustomTable() {
-  const columns = useMemo(
-    () => [
-      /*...*/
-    ],
-    [],
-  );
-  // list helper from react-aria that can handle async fetching and sorting
-  const list = useAsyncList<{
-    name: string;
-    height: string;
-    mass: string;
-    birth_year: string;
-  }>({
+  // useAsyncList is a helper from React Aria that handles async loading
+  // and async sorting. it also supports sync loading and sync sorting
+  const list = useAsyncList({
     async load() {
       return {
         items: [
@@ -334,43 +303,50 @@ function CustomTable() {
             mass: "77",
             birth_year: "19BBY",
           },
-          {
-            name: "C-3PO",
-            height: "167",
-            mass: "75",
-            birth_year: "112BBY",
-          },
-          {
-            name: "R2-D2",
-            height: "96",
-            mass: "32",
-            birth_year: "33BBY",
-          },
+          /* ... */
         ],
       };
     },
     async sort({ items, sortDescriptor }) {
       return {
         items: items.sort((a, b) => {
-          const first = a[sortDescriptor.column as keyof typeof a];
-          const second = b[sortDescriptor.column as keyof typeof b];
-          let cmp =
-            (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
-          if (sortDescriptor.direction === "descending") {
-            cmp *= -1;
-          }
-          return cmp;
+          /* perform sort logic */
         }),
       };
     },
   });
   return (
     <Table
-      aria-label="Example custom table"
+      aria-label="Example table with sorting"
       columns={columns}
       rows={list.items}
       sortDescriptor={list.sortDescriptor}
       onSortChange={list.sort}
+    />
+  );
+}
+```
+
+_Table with custom cell rendering:_
+
+```tsx
+import { Table } from "@easypost/easy-ui/Table";
+
+const columns = []; /*...*/
+const rows = []; /*...*/
+
+function CustomTable() {
+  return (
+    <Table
+      aria-label="Example table with sorting"
+      columns={columns}
+      rows={list.items}
+      renderHeaderCell={(column) => {
+        return <>Custom header cell for {column}</>;
+      }}
+      renderBodyCell={(cell) => {
+        return <>Custom body cell for {cell}</>;
+      }}
     />
   );
 }
