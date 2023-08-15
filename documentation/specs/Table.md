@@ -199,7 +199,7 @@ function CustomTable() {
       rowActions={(rowKey) => [
         {
           type: "menu",
-          accessibilityLabel: "Delete record",
+          accessibilityLabel: "View row actions",
           renderMenuOverlay: () => (
             <Menu.Overlay
               onAction={() => {
