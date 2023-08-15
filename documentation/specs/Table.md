@@ -2,7 +2,7 @@
 
 ## Overview
 
-A `Table` is a collection of information displayed across columns and rows.
+A `Table` is an interactive data grid used for working with a large collection of data in a scannable way.
 
 ---
 
