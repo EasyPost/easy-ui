@@ -23,20 +23,16 @@
   "$instance": {
     "value": [
       {
-        "value": "base",
-        "description": "Use for the default value of an entity or state as a mechanism for namespacing tokens."
-      },
-      {
         "value": "blanket",
-        "description": "Use for the screen overlay that appears with modals and other popovers."
+        "description": "Use for elements above primary content but below floating elements, such as underlays behind modals and popovers."
       },
       {
         "value": "body",
-        "description": "Use for the main page body."
+        "description": "Use for the main content area of a module or component."
       },
       {
         "value": "brand",
-        "description": "Use for elements that reinforce the brand."
+        "description": "Use for communicating brand reinforcement on elements."
       },
       {
         "value": "critical",
@@ -71,7 +67,7 @@
         "description": "Use for communicating something new or something changed."
       },
       {
-        "value": "information",
+        "value": "informative",
         "description": "Use for communicating information or something in-progress."
       },
       {
@@ -83,16 +79,16 @@
         "description": "Use for communicating interaction."
       },
       {
-        "value": "link",
-        "description": "Use for links."
-      },
-      {
-        "value": "magic",
-        "description": "Use for communicating positive information that is of special importance."
-      },
-      {
         "value": "neutral",
-        "description": "Use for communicating base or neutral information."
+        "description": "Use for communicating standard or neutral information."
+      },
+      {
+        "value": "primary",
+        "description": "Use to communicate the main or default value of an entity or state."
+      },
+      {
+        "value": "required",
+        "description": "Use to communicate required information."
       },
       {
         "value": "success",
@@ -112,19 +108,11 @@
       "boldest",
       {
         "value": "inset",
-        "description": "Use for variations on shadows."
+        "description": "Use for variations on shadows that face inward."
       },
       {
         "value": "inverse",
-        "description": "Use for variations on bold or inverse backgrounds."
-      },
-      {
-        "value": "primary",
-        "description": "Use to communicate primary importance."
-      },
-      {
-        "value": "required",
-        "description": "Use to communicate required information."
+        "description": "Use for variations of colors on bold or inverse backgrounds."
       },
       "subtle",
       "subtler",
@@ -133,14 +121,7 @@
     "description": "The variant of an instance token."
   },
   "$state": {
-    "value": [
-      "active",
-      "disabled",
-      "focused",
-      "hovered",
-      "pressed",
-      "selected"
-    ],
+    "value": ["disabled", "focused", "hovered", "pressed", "selected"],
     "description": "State in which the token should be used."
   }
 }
