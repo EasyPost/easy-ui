@@ -298,6 +298,7 @@ function CustomTable() {
       return {
         items: [
           {
+            key: 1,
             name: "Luke Skywalker",
             height: "172",
             mass: "77",
@@ -338,7 +339,7 @@ const rows = []; /*...*/
 function CustomTable() {
   return (
     <Table
-      aria-label="Example table with sorting"
+      aria-label="Example table with custom cell rendering"
       columns={columns}
       rows={list.items}
       renderHeaderCell={(column) => {
