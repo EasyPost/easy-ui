@@ -30,7 +30,7 @@ type DisplayTableProps = AriaLabelingProps & {
   dataAlignment?: "start" | "center" | "end";
 
   /**
-   * Marks the table has having no row headers. For accessibility reasons, this should be avoided when possible.
+   * Marks the table as having no row headers. For accessibility reasons, this should be avoided when possible.
    */
   hasNoRowHeaders?: boolean;
 
