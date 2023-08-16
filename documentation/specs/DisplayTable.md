@@ -29,8 +29,10 @@ type DisplayTableProps = AriaLabelingProps & {
    */
   dataAlignment?: "start" | "center" | "end";
 
-  /** Renders the first row cell as a row header. */
-  hasRowHeaders?: boolean;
+  /**
+   * Marks the table has having no row headers. For accessibility reasons, this should be avoided when possible.
+   */
+  hasNoRowHeaders?: boolean;
 
   /** Rows for the table. */
   rows: Row[];
