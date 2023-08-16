@@ -225,7 +225,7 @@ Tables are used to organize data with a logical relationship in grids. Accessibl
 
 - Tables must have a thead, containing a th for each column.
 - Tables must have a tbody wrapping the table body of rows.
-- Tables should include row headers as the first cell in a row.
+- Tables should try to include row headers as the first cell in a row.
 - `DisplayTable` should contain static textual and numeric data rather than actionable components. For more advanced cases, see `Table`.
 
 Most accessibility concerns will be handled through React Aria.
