@@ -52,9 +52,6 @@ type TableProps<C extends Column> = AriaLabelingProps & {
   /** The currently expanded key in the collection (controlled). */
   expandedKey?: Key;
 
-  /** Whether or not row expansion is enabled. */
-  hasExpandableRows?: boolean;
-
   /**
    * Variant of the table header to use.
    * @default primary
@@ -273,7 +270,6 @@ function CustomTable() {
       aria-label="Example table with row expansion"
       columns={columns}
       rows={rows}
-      hasExpandedRows
       renderExpandedRow={(key) => {
         return <>Content for expanded row</>;
       }}
