@@ -55,6 +55,12 @@ type TableProps<C extends Column> = AriaLabelingProps & {
   /** Whether or not row expansion is enabled. */
   hasExpandableRows?: boolean;
 
+  /**
+   * Variant of the table header to use.
+   * @default primary
+   */
+  headerVariant?: "primary" | "secondary";
+
   /** Handler that is called when a user performs an action on the cell. */
   onCellAction?: (key: Key) => void;
 
@@ -348,6 +354,26 @@ function CustomTable() {
       renderBodyCell={(cell) => {
         return <>Custom body cell for {cell}</>;
       }}
+    />
+  );
+}
+```
+
+_Header variant:_
+
+```tsx
+import { Table } from "@easypost/easy-ui/Table";
+
+const columns = []; /*...*/
+const rows = []; /*...*/
+
+function CustomTable() {
+  return (
+    <Table
+      aria-label="Example basic static table"
+      columns={columns}
+      rows={rows}
+      headerVariant="secondary"
     />
   );
 }
