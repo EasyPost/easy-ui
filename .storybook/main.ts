@@ -5,6 +5,7 @@ const config: StorybookConfig = {
   addons: [
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-a11y"),
+    "@storybook/addon-mdx-gfm",
   ],
   docs: {
     autodocs: true,
