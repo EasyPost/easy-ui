@@ -8,11 +8,13 @@ A `DisplayTable` is used for presenting information displayed across columns and
 
 ## Design
 
-`DisplayTable` is for presentational concerns only. It doesn't support interaction such as selection, sorting, and row expansion. For an interactive table accommodating advanced use cases, see `Table`.
+`DisplayTable` is for presentational concerns only. It doesn't support interactions such as selection, sorting, and row expansion. See the `Table` component for an interactive table accommodating advanced use cases.
 
 Without interaction, complexities are shifted to surfacing a simple component API, structuring the table for style requirements, and ensuring appropriate application of accessibility markup.
 
-`DisplayTable` will use React Aria's `useTable` under the hood to reliably generate accessibility markup for the table.
+`DisplayTable` will use React Aria's `useTable` under the hood to reliably generate accessibile markup for the table.
+
+`DisplayTable` will use `columns` and `rows` as the primary mechanism for passing data to the table. While this is a slight departure from our dot-notation pattern used throughout the rest of Easy UI, this makes for a consistent data input pattern with our `Table`-related components.
 
 ### API
 
@@ -45,7 +47,7 @@ type Cell =
       /** Cell icon. */
       symbol?: IconSymbol;
 
-      /** Mark cell as highlighted. */
+      /** Mark cell as highlighted. Not applicable on row headers. */
       isHighlighted?: boolean;
     };
 
@@ -119,12 +121,18 @@ function CustomDisplayTable() {
         {
           heading: "Uptime",
           subheading: "(Peak 2020)",
-          media: { symbol: IconSymbol },
+          media: {
+            src: "/assets/images/carriers/apc-logo-ca.png",
+            alt: "",
+          },
         },
         {
           heading: "Outage events",
           subheading: "(Peak 2020)",
-          media: { symbol: IconSymbol },
+          media: {
+            src: "/assets/images/carriers/dai-post-logo.png",
+            alt: "",
+          },
         },
         {
           heading: "Uptime",
