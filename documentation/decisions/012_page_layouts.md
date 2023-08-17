@@ -64,5 +64,3 @@ function DashboardLayout() {
   );
 }
 ```
-
-Note that this isn't a spec, just a high-level example of how to think about what the component library would offer and how it could be incorporated into existing apps.
