@@ -4,20 +4,11 @@
     "description": "Design tokens represent fundamental decisions of a design language, specifying their intended usage with their semantic naming in a predictable and clear way. For example, $color-text-link-destructive is used for displaying link text that communicates an action is destructive. Using the appropriate token ensures that all destructive actions are styled consistently, appearing as red text in this case. Tokens are named semantically to specify their intended usage. The format of a design token name is: $type-category-instance-variant-state. Pieces of the name structure can be omitted if they're not relevant. There may be cases where simply a $type-instance makes the most sense, such as $space-2."
   },
   "$type": {
-    "value": [
-      "breakpoint",
-      "color",
-      "font",
-      "shadow",
-      "shape",
-      "size",
-      "space",
-      "z-index"
-    ],
-    "description": "Types are the high-level, foundational styles the token will be applied to."
+    "value": ["color"],
+    "description": "Types are the high-level, foundational styles the token will be applied to. (Only dealing with colors in this spec, as the other types are more straightforward.)"
   },
   "$category": {
-    "value": ["background", "border", "icon", "text"],
+    "value": ["background", "border", "text"],
     "description": "Categories are the UI entities the token will be applied to."
   },
   "$instance": {
@@ -39,36 +30,16 @@
         "description": "Use for communicating critical information, such as errors."
       },
       {
-        "value": "decorative-10",
-        "description": "Use for decorative purposes only when no semantic meaning is applicable."
-      },
-      {
-        "value": "decorative-20",
-        "description": "Use for decorative purposes only when no semantic meaning is applicable."
-      },
-      {
-        "value": "decorative-30",
-        "description": "Use for decorative purposes only when no semantic meaning is applicable."
-      },
-      {
-        "value": "decorative-40",
-        "description": "Use for decorative purposes only when no semantic meaning is applicable."
-      },
-      {
-        "value": "decorative-50",
-        "description": "Use for decorative purposes only when no semantic meaning is applicable."
-      },
-      {
-        "value": "decorative-60",
+        "value": "decorative",
         "description": "Use for decorative purposes only when no semantic meaning is applicable."
       },
       {
         "value": "discovery",
-        "description": "Use for communicating something new or something changed."
+        "description": "Use for communicating information that encourages exploration or discovery within the interface, such as something new or something changed."
       },
       {
         "value": "informative",
-        "description": "Use for communicating information or something in-progress."
+        "description": "Use for communicating information, something in-progress, or providing feedback to the user."
       },
       {
         "value": "input",
@@ -76,19 +47,23 @@
       },
       {
         "value": "interactive",
-        "description": "Use for communicating interaction."
+        "description": "Use for communicating information that users can actively engage with."
       },
       {
         "value": "neutral",
-        "description": "Use for communicating standard or neutral information."
+        "description": "Use for communicating information that is not intended to stand out or draw much attention."
       },
       {
         "value": "primary",
-        "description": "Use to communicate the main or default value of an entity or state."
+        "description": "Use to communicate information that is most essential and attention grabbing while connecting to the core brand, such as key interactive elements."
       },
       {
         "value": "required",
         "description": "Use to communicate required information."
+      },
+      {
+        "value": "secondary",
+        "description": "Use to communicate information that supports or complements visual elements that are not as prominent as the primary elements but connect tothe core brand."
       },
       {
         "value": "success",
@@ -116,12 +91,39 @@
       },
       "subtle",
       "subtler",
-      "subtlest"
+      "subtlest",
+      "10",
+      "20",
+      "30",
+      "40",
+      "50",
+      "60"
     ],
     "description": "The variant of an instance token."
   },
   "$state": {
     "value": ["disabled", "focused", "hovered", "pressed", "selected"],
     "description": "State in which the token should be used."
+  },
+  "examples": {
+    "color-background-critical": "",
+    "color-background-discovery": "",
+    "color-background-neutral": "",
+    "color-background-informative": "",
+    "color-background-interactive": "",
+    "color-background-primary": "",
+    "color-background-success": "",
+    "color-background-warning": "",
+    "color-border-critical": "",
+    "color-border-interactive": "",
+    "color-border-interactive-disabled": "",
+    "color-border-interactive-hovered": "",
+    "color-border-interactive-pressed": "",
+    "color-border-success": "",
+    "color-border-warning": "",
+    "color-text-disabled": "",
+    "color-text-interactive": "",
+    "color-text-primary": "",
+    "color-text-secondary": ""
   }
 }
