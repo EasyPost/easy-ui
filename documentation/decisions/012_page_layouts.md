@@ -26,13 +26,13 @@ Easy UI is evaluating the inclusion of site-specific page layouts in its compone
 
 ## Decision Outcome
 
-Easy UI will incorporate layouts into its component library as "PageShell" components, focusing solely on presentation while delegating business logic to consumers.
+Easy UI will incorporate page layouts into its component library as "PageShell" components, focusing solely on presentation while delegating business logic to consumers.
 
 ## Analysis
 
 Various component libraries adopt different strategies for managing page layouts, each with its own set of advantages and limitations. These strategies include:
 
-**Opting Out**: Some component libraries choose not to include predefined page layouts. This approach allows the library to focus on specific, shared functionalities. While it reduces responsibilities for platform teams, it places greater onus on feature teams. As a consequence, without the support of component library tools, feature teams might need to reimplement certain elements, potentially leading to inconsistent and suboptimal user experiences (UX).
+**Opting Out**: Many component libraries choose not to include predefined page layouts. This approach allows the library to focus on specific, shared functionalities. While it reduces responsibilities for platform teams, it places greater onus on feature teams. As a consequence, without the support of component library tools, feature teams may need to implement elements of their own, potentially leading to inconsistent and suboptimal user experiences (UX).
 
 **Using Documented "Patterns"**: Some component libraries provide users with documented "Patterns" to guide them in creating layouts using the library's components. This approach simplifies implementation compared to starting from scratch and permits customization at the site level. However, it can still result in disparities and duplicated efforts over time. For this method to be successful, Easy UI must build and document all essential components necessary for building page layouts.
 
@@ -40,7 +40,9 @@ Various component libraries adopt different strategies for managing page layouts
 
 It's important to emphasize that, regardless of the approach chosen, the handling of business logic remains the responsibility of the consumer. Components should exclusively address presentation-related matters.
 
-Given EasyPost's organizational structure, characterized by distinct feature teams and relatively subpar UX tooling/processes beyond the component library, we opt to develop and maintain page layout components within Easy UI. These page layout components will include essential properties and hooks, enabling consuming sites to meet their individual design and feature requisites. This decision benefits our entire platform by promoting uniformity and upholding higher quality standards, particularly for page layouts being some of the more UI-challenging aspects of our sites.
+**We opt to develop and maintain page layout components within Easy UI.** Considering EasyPost's organizational structure, which consists of distinct feature teams, and acknowledging the limited quality of UX tooling outside the component library, Easy UI emerges as the best choice for success with page layout components.
+
+These components will include essential properties and hooks, enabling consuming sites to meet their individual design and feature requisites. This decision benefits our entire platform by promoting uniformity and upholding higher quality standards, particularly for page layouts being some of the more UI-challenging aspects of our sites.
 
 **Regarding Terminology:** Although we will incorporate these components into Easy UI, we intend to preserve the distinct meanings of "page" and "layout" found in web frameworks. "Pages" often represent terminal nodes in routing structures, whereas "layouts" signify branches. Both pages and layouts commonly involve specific business logic pertaining to their respective parts of the routing tree. Since Easy UI exclusively deals with presentation-related concerns, we will avoid naming components in a way that might confuse or overlap with these established semantics. Instead, we will adopt the term "Shell" (i.e. `ProductShell`), to explicitly indicate that it encompasses the outer presentation container of the corresponding layout.
 
