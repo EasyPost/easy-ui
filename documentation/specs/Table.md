@@ -1,25 +1,25 @@
-# `DisplayTable` Component Specification
+# `Table` Component Specification
 
 ## Overview
 
-A `DisplayTable` is used for presenting information displayed across columns and rows.
+A `Table` is used for presenting information displayed across columns and rows.
 
 ---
 
 ## Design
 
-`DisplayTable` is for presentational concerns only. It doesn't support interactions such as selection, sorting, and row expansion. See the `Table` component for an interactive table accommodating advanced use cases.
+`Table` is for presentational concerns only. It doesn't support interactions such as selection, sorting, and row expansion. See the `DataGrid` component for an interactive table accommodating advanced use cases.
 
 Without interaction, complexities are shifted to surfacing a simple component API, structuring the table for style requirements, and ensuring appropriate application of accessibility markup.
 
-`DisplayTable` will use React Aria's `useTable` under the hood to reliably generate accessibile markup for the table.
+`Table` will use React Aria's `useTable` under the hood to reliably generate accessibile markup for the table.
 
-`DisplayTable` will use `columns` and `rows` as the primary mechanism for passing data to the table. While this is a slight departure from our dot-notation pattern used throughout the rest of Easy UI, this makes for a consistent data input pattern with our `Table`-related components.
+`Table` will use `columns` and `rows` as the primary mechanism for passing data to the table. While this is a slight departure from our dot-notation pattern used throughout the rest of Easy UI, this makes for a consistent data input pattern with our table-adjacent components.
 
 ### API
 
 ```ts
-type DisplayTableProps = AriaLabelingProps & {
+type TableProps = AriaLabelingProps & {
   /** Columns for the table. */
   columns: Column[];
 
@@ -81,12 +81,12 @@ type ImgMedia = {
 _Basic usage_:
 
 ```tsx
-import { DisplayTable } from "@easypost/easy-ui/DisplayTable";
+import { Table } from "@easypost/easy-ui/Table";
 
-function CustomDisplayTable() {
+function CustomTable() {
   return (
-    <DisplayTable
-      aria-label="Example basic display table"
+    <Table
+      aria-label="Example basic table"
       columns={[
         "Weight",
         "Priority",
@@ -111,13 +111,12 @@ function CustomDisplayTable() {
 _Advanced usage_:
 
 ```tsx
-import { DisplayTable } from "@easypost/easy-ui/DisplayTable";
+import { Table } from "@easypost/easy-ui/Table";
 
-function CustomDisplayTable() {
+function CustomTable() {
   return (
-    <DisplayTable
-      aria-label="Example advanced display table"
-      hasRowHeaders
+    <Table
+      aria-label="Example advanced table"
       columns={[
         null,
         {
@@ -228,7 +227,7 @@ Tables are used to organize data with a logical relationship in grids. Accessibl
 - Tables must have a thead, containing a th for each column.
 - Tables must have a tbody wrapping the table body of rows.
 - Tables should try to include row headers as the first cell in a row.
-- `DisplayTable` should contain static textual and numeric data rather than actionable components. For more advanced cases, see `Table`.
+- `Table` should contain static textual and numeric data rather than actionable components. For more advanced cases, see `DataGrid`.
 
 Most accessibility concerns will be handled through React Aria.
 
