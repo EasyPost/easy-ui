@@ -1,18 +1,18 @@
-# `Table` Component Specification
+# `DataGrid` Component Specification
 
 ## Overview
 
-A `Table` is an interactive data grid used for working with a large collection of data in a scannable way.
+A `DataGrid` is an interactive table used for working with a large collection of data in a scannable way.
 
 ---
 
 ## Design
 
-`Table` will use the `useTable` hooks from React Aria for managing display, selection, and sort. React Aria doesn't support expansion capabilities out of the box, so an additional layer on top of Aria's will need to be built to support expansion.
+`DataGrid` will use the `useTable` hooks from React Aria for managing display, selection, and sort. React Aria doesn't support expansion capabilities out of the box, so an additional layer on top of Aria's will need to be built to support expansion.
 
-Data will be passed to the `Table` component through the `columns` and `rows` prop. This allows us to support Aria's dynamic collections API through a single prop interface. Custom rendering within parts of the table will be supported through [render props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop).
+Data will be passed to the `DataGrid` component through the `columns` and `rows` prop. This allows us to support Aria's dynamic collections API through a single prop interface. Custom rendering within parts of the data grid will be supported through [render props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop).
 
-`columns` and `rows` will be arrays of objects and must follow a certain signature. `columns` should define the column structure for the table and must contain a unique `key`. `rows` should contain the content of the table and must contain a unique `key` along with properties for each `key` defined in the `columns` definition. The remainder of the data structure can be arbitrary. Column and row keys will be passed to render prop functions to control their rendering.
+`columns` and `rows` will be arrays of objects and must follow a certain signature. `columns` should define the column structure for the data grid and must contain a unique `key`. `rows` should contain the content of the data grid and must contain a unique `key` along with properties for each `key` defined in the `columns` definition. The remainder of the data structure can be arbitrary. Column and row keys will be passed to render prop functions to control their rendering.
 
 _`columns` definition example_:
 
@@ -36,11 +36,11 @@ const rows = [
 ### API
 
 ```ts
-type TableProps<C extends Column> = AriaLabelingProps & {
-  /** Use columns and rows to specify Table content. */
+type DataGridProps<C extends Column> = AriaLabelingProps & {
+  /** Use columns and rows to specify data grid content. */
   children?: never;
 
-  /** Columns for the table. */
+  /** Columns for the data grid. */
   columns: readonly C[];
 
   /** The initial expanded key in the collection (uncontrolled). */
@@ -53,7 +53,7 @@ type TableProps<C extends Column> = AriaLabelingProps & {
   expandedKey?: Key;
 
   /**
-   * Variant of the table header to use.
+   * Variant of the data grid header to use.
    * @default primary
    */
   headerVariant?: "primary" | "secondary";
@@ -85,7 +85,7 @@ type TableProps<C extends Column> = AriaLabelingProps & {
   /** Action definitions for the row. */
   rowActions?: (key: Key) => RowAction[];
 
-  /** Rows for the table. */
+  /** Rows for the data grid. */
   rows: Row<C>[];
 
   /** The currently selected keys in the collection (controlled). */
@@ -154,7 +154,7 @@ type Row<C extends Column> = KeyedObject & {
 _Basic static usage:_
 
 ```tsx
-import { Table } from "@easypost/easy-ui/Table";
+import { DataGrid } from "@easypost/easy-ui/DataGrid";
 
 const columns = [
   { key: "name", name: "Name" },
@@ -174,10 +174,10 @@ const rows = [
   { key: 4, name: "log.txt", date: "1/18/2016", type: "Text Document" },
 ] as const;
 
-function CustomTable() {
+function CustomDataGrid() {
   return (
-    <Table
-      aria-label="Example basic static table"
+    <DataGrid
+      aria-label="Example basic static data grid"
       columns={columns}
       rows={rows}
     />
@@ -185,18 +185,18 @@ function CustomTable() {
 }
 ```
 
-_Table with row actions:_
+_DataGrid with row actions:_
 
 ```tsx
-import { Table } from "@easypost/easy-ui/Table";
+import { DataGrid } from "@easypost/easy-ui/DataGrid";
 
 const columns = []; /*...*/
 const rows = []; /*...*/
 
-function CustomTable() {
+function CustomDataGrid() {
   return (
-    <Table
-      aria-label="Example table with row actions"
+    <DataGrid
+      aria-label="Example data grid with row actions"
       columns={columns}
       rows={rows}
       rowActions={(rowKey) => [
@@ -228,18 +228,18 @@ function CustomTable() {
 }
 ```
 
-_Table with selection:_
+_DataGrid with selection:_
 
 ```tsx
-import { Table } from "@easypost/easy-ui/Table";
+import { DataGrid } from "@easypost/easy-ui/DataGrid";
 
 const columns = []; /*...*/
 const rows = [{ key: 1, key: 2, key: 3 }]; /*...*/
 
-function CustomTable() {
+function CustomDataGrid() {
   return (
-    <Table
-      aria-label="Example table with selection"
+    <DataGrid
+      aria-label="Example data grid with selection"
       columns={columns}
       rows={rows}
       // supports "single" or "multiple"
@@ -256,18 +256,18 @@ function CustomTable() {
 }
 ```
 
-_Table with row expansion:_
+_DataGrid with row expansion:_
 
 ```tsx
-import { Table } from "@easypost/easy-ui/Table";
+import { DataGrid } from "@easypost/easy-ui/DataGrid";
 
 const columns = []; /*...*/
 const rows = [{ key: 1, key: 2, key: 3 }]; /*...*/
 
-function CustomTable() {
+function CustomDataGrid() {
   return (
-    <Table
-      aria-label="Example table with row expansion"
+    <DataGrid
+      aria-label="Example data grid with row expansion"
       columns={columns}
       rows={rows}
       renderExpandedRow={(key) => {
@@ -285,14 +285,14 @@ function CustomTable() {
 }
 ```
 
-_Table with sorting:_
+_DataGrid with sorting:_
 
 ```tsx
-import { Table } from "@easypost/easy-ui/Table";
+import { DataGrid } from "@easypost/easy-ui/DataGrid";
 
 const columns = []; /*...*/
 
-function CustomTable() {
+function CustomDataGrid() {
   // useAsyncList is a helper from React Aria that handles async loading
   // and async sorting. it also supports sync loading and sync sorting
   const list = useAsyncList({
@@ -319,8 +319,8 @@ function CustomTable() {
     },
   });
   return (
-    <Table
-      aria-label="Example table with sorting"
+    <DataGrid
+      aria-label="Example data grid with sorting"
       columns={columns}
       rows={list.items}
       sortDescriptor={list.sortDescriptor}
@@ -330,18 +330,18 @@ function CustomTable() {
 }
 ```
 
-_Table with custom cell rendering:_
+_DataGrid with custom cell rendering:_
 
 ```tsx
-import { Table } from "@easypost/easy-ui/Table";
+import { DataGrid } from "@easypost/easy-ui/DataGrid";
 
 const columns = []; /*...*/
 const rows = []; /*...*/
 
-function CustomTable() {
+function CustomDataGrid() {
   return (
-    <Table
-      aria-label="Example table with custom cell rendering"
+    <DataGrid
+      aria-label="Example data grid with custom cell rendering"
       columns={columns}
       rows={list.items}
       renderHeaderCell={(column) => {
@@ -358,15 +358,15 @@ function CustomTable() {
 _Header variant:_
 
 ```tsx
-import { Table } from "@easypost/easy-ui/Table";
+import { DataGrid } from "@easypost/easy-ui/DataGrid";
 
 const columns = []; /*...*/
 const rows = []; /*...*/
 
-function CustomTable() {
+function CustomDataGrid() {
   return (
-    <Table
-      aria-label="Example basic static table"
+    <DataGrid
+      aria-label="Example basic static data grid"
       columns={columns}
       rows={rows}
       headerVariant="secondary"
