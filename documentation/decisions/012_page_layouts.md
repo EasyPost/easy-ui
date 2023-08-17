@@ -56,11 +56,11 @@ import { ProductShell } from "@easypost/easy-ui/FocusedProductLayout";
 function DashboardLayout() {
   return (
     <ProductShell>
-      <ProductShell.Sidebar {/*props*/} />
-      <ProductShell.Body>
-        {children}
-      <ProductShell.Body>
+      <ProductShell.Sidebar {/* props and hooks for customization */} />
+      <ProductShell.Body {/* props and hooks for customization */} />
     <ProductShell>
   );
 }
 ```
+
+Note that this isn't a spec, just a high-level example of how to think about what the component library would offer and how it could be incorporated into existing apps.
