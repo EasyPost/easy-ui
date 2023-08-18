@@ -1,6 +1,6 @@
 {
   "format": {
-    "value": "type-category-instance-variant-state",
+    "value": "type-category-instance-state-variant",
     "description": "Design tokens represent fundamental decisions of a design language, specifying their intended usage with their semantic naming in a predictable and clear way. For example, $color-text-link-destructive is used for displaying link text that communicates an action is destructive. Using the appropriate token ensures that all destructive actions are styled consistently, appearing as red text in this case. Tokens are named semantically to specify their intended usage. The format of a design token name is: $type-category-instance-variant-state. Pieces of the name structure can be omitted if they're not relevant. There may be cases where simply a $type-instance makes the most sense, such as $space-2."
   },
   "$type": {
@@ -76,6 +76,10 @@
     ],
     "description": "Instances are the occurrences in which the token might be used to express that instance in the UI."
   },
+  "$state": {
+    "value": ["disabled", "focused", "hovered", "pressed", "selected"],
+    "description": "State in which the token should be used."
+  },
   "$variant": {
     "value": [
       "bold",
@@ -83,11 +87,11 @@
       "boldest",
       {
         "value": "inset",
-        "description": "Use for variations on shadows that face inward."
+        "description": "Use for variations that face inward, such as for shadows."
       },
       {
         "value": "inverse",
-        "description": "Use for variations of colors on bold or inverse backgrounds."
+        "description": "Use for variations of colors on bold or opposite-themed backgrounds."
       },
       "subtle",
       "subtler",
@@ -99,31 +103,61 @@
       "50",
       "60"
     ],
-    "description": "The variant of an instance token."
-  },
-  "$state": {
-    "value": ["disabled", "focused", "hovered", "pressed", "selected"],
-    "description": "State in which the token should be used."
+    "description": "The variant of a token."
   },
   "examples": {
+    "color-background": "",
+    "color-background-bold": "",
+    "color-background-subtle": "",
     "color-background-critical": "",
+    "color-background-disabled": "",
     "color-background-discovery": "",
     "color-background-neutral": "",
     "color-background-informative": "",
     "color-background-interactive": "",
+    "color-background-inverse": "",
     "color-background-primary": "",
+    "color-background-primary-bold": "",
+    "color-background-primary-subtle": "",
+    "color-background-secondary": "",
+    "color-background-secondary-bold": "",
+    "color-background-secondary-subtle": "",
     "color-background-success": "",
+    "color-background-success-hovered": "",
+    "color-background-success-pressed": "",
+    "color-background-success-subtle": "",
     "color-background-warning": "",
+    "color-background-warning-bold": "",
+    "color-background-warning-subtle": "",
+    "color-border": "",
+    "color-border-bold": "",
+    "color-border-subtle": "",
     "color-border-critical": "",
+    "color-border-disabled": "",
+    "color-border-selected": "",
+    "color-border-neutral": "",
     "color-border-interactive": "",
     "color-border-interactive-disabled": "",
     "color-border-interactive-hovered": "",
     "color-border-interactive-pressed": "",
+    "color-border-inverse": "",
     "color-border-success": "",
     "color-border-warning": "",
+    "color-text": "",
+    "color-text-bold": "",
+    "color-text-subtle": "",
+    "color-text-critical": "",
+    "color-text-critical-inverse": "",
     "color-text-disabled": "",
+    "color-text-disabled-inverse": "",
     "color-text-interactive": "",
+    "color-text-inverse": "",
     "color-text-primary": "",
-    "color-text-secondary": ""
+    "color-text-primary-inverse": "",
+    "color-text-secondary": "",
+    "color-text-success": "",
+    "color-text-success-inverse": "",
+    "color-text-warning": "",
+    "color-text-warning-inverse": ""
   }
 }
