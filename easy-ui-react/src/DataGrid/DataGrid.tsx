@@ -1,101 +1,140 @@
-import React, { useMemo, useState } from "react";
-import {
-  Cell,
-  Row,
-  Column as StatelyColumn,
-  TableBody,
-  TableHeader,
-} from "react-stately";
+import React, { Key, useMemo, useState } from "react";
+import { Cell, Row, Column, TableBody, TableHeader } from "react-stately";
 import { ActionsCell } from "./ActionsCell";
 import { ExpansionCell } from "./ExpansionCell";
 import { Table } from "./Table";
-import { Column, TableProps } from "./types";
+import { EXPAND_ROW_COLUMN_KEY, ROW_ACTIONS_COLUMN_KEY } from "./constants";
+import { DataGridContext } from "./context";
+import { Column as ColumnType, DataGridProps } from "./types";
 
-export function DataGrid<C extends Column = Column, R extends Column = Column>(
-  props: TableProps<C, R>,
+export function DataGrid<C extends ColumnType = ColumnType>(
+  props: DataGridProps<C>,
 ) {
   const {
+    columns: unprocessedColumns,
     defaultExpandedKey,
-    hasExpandableRows,
-    columns,
-    rows,
     renderColumnCell,
     renderRowCell,
     rowActions,
   } = props;
 
-  const hasRowActions = Boolean(rowActions);
+  if (!Array.isArray(unprocessedColumns) || unprocessedColumns.length === 0) {
+    throw new Error("DataGrid must contain a non-empty array of columns");
+  }
+
+  // TODO: Support a dynamic row header key via props
+  const rowHeaderColumnKey = unprocessedColumns[0].key;
 
   const [expandedKey, setExpandedKey] = useState(() => {
     return defaultExpandedKey ? defaultExpandedKey : null;
   });
 
-  const effectiveColumns = useMemo(() => {
+  const columns = useProcessedColumns(props);
+  const rows = useProcessedRows(props, expandedKey);
+
+  const context = useMemo(() => {
+    return { expandedKey, setExpandedKey };
+  }, [expandedKey]);
+
+  return (
+    <DataGridContext.Provider value={context}>
+      <Table {...props}>
+        <TableHeader columns={columns}>
+          {(column) => (
+            <Column isRowHeader={column.key === rowHeaderColumnKey}>
+              {column.key === EXPAND_ROW_COLUMN_KEY
+                ? null
+                : column.key === ROW_ACTIONS_COLUMN_KEY
+                ? null
+                : renderColumnCell(column)}
+            </Column>
+          )}
+        </TableHeader>
+        <TableBody items={rows}>
+          {(row) => (
+            <Row>
+              {(columnKey) => {
+                const item = row[columnKey as keyof typeof row];
+                return (
+                  <Cell>
+                    {columnKey === EXPAND_ROW_COLUMN_KEY ? (
+                      <ExpansionCell
+                        isExpanded={row.key === expandedKey}
+                        toggleExpanded={() => {
+                          setExpandedKey((prevKey) =>
+                            prevKey === row.key ? null : row.key,
+                          );
+                        }}
+                      />
+                    ) : columnKey === ROW_ACTIONS_COLUMN_KEY && rowActions ? (
+                      <ActionsCell rowActions={rowActions} />
+                    ) : (
+                      renderRowCell(item, row, columnKey)
+                    )}
+                  </Cell>
+                );
+              }}
+            </Row>
+          )}
+        </TableBody>
+      </Table>
+    </DataGridContext.Provider>
+  );
+}
+
+/**
+ * Modifies the passed in columns to include support for Easy UI requirements.
+ * This is done before being passed into React Stately's Column interface.
+ *
+ * @param props data grid props
+ * @returns processed columns
+ */
+function useProcessedColumns<C extends ColumnType>(
+  props: Pick<DataGridProps<C>, "renderExpandedRow" | "columns" | "rowActions">,
+) {
+  const { renderExpandedRow, columns, rowActions } = props;
+  const hasExpandableRows = Boolean(renderExpandedRow);
+  const hasRowActions = Boolean(rowActions);
+  return useMemo(() => {
     let c = columns;
     if (hasExpandableRows) {
-      c = [{ key: "__ezui-table-expanded-rows__" } as C, ...c];
+      c = [{ key: EXPAND_ROW_COLUMN_KEY } as C, ...c];
     }
     if (hasRowActions) {
-      c = [...c, { key: "__ezui-table-row-actions__" } as C];
+      c = [...c, { key: ROW_ACTIONS_COLUMN_KEY } as C];
     }
     return c;
   }, [columns, hasExpandableRows, hasRowActions]);
+}
 
-  const effectiveRows = useMemo(() => {
+/**
+ * Modifies the passed in rows to include support for Easy UI requirements.
+ * This is done before being passed into React Stately's Row interface.
+ *
+ * @param props data grid props
+ * @param expandedKey the currently expanded row key
+ * @returns processed rows
+ */
+function useProcessedRows<C extends ColumnType>(
+  props: Pick<DataGridProps<C>, "renderExpandedRow" | "rows" | "rowActions">,
+  expandedKey: Key | null,
+) {
+  const { renderExpandedRow, rows, rowActions } = props;
+
+  const hasExpandableRows = Boolean(renderExpandedRow);
+  const hasRowActions = Boolean(rowActions);
+
+  return useMemo(() => {
     const mappedRows = rows.map((row) => {
       let r = row;
       if (hasExpandableRows) {
-        r = { "__ezui-table-expanded-rows__": expandedKey === row.key, ...r };
+        r = { [EXPAND_ROW_COLUMN_KEY]: expandedKey === row.key, ...r };
       }
       if (hasRowActions) {
-        r = { ...r, "__ezui-table-row-actions__": true };
+        r = { ...r, [ROW_ACTIONS_COLUMN_KEY]: true };
       }
       return r;
     });
     return mappedRows;
   }, [rows, hasExpandableRows, hasRowActions, expandedKey]);
-
-  return (
-    <Table<C, R> {...props}>
-      <TableHeader columns={effectiveColumns}>
-        {(column) => (
-          <StatelyColumn isRowHeader={column.key === columns[0].key}>
-            {column.key === "__ezui-table-expanded-rows__"
-              ? null
-              : column.key === "__ezui-table-row-actions__"
-              ? null
-              : renderColumnCell(column)}
-          </StatelyColumn>
-        )}
-      </TableHeader>
-      <TableBody items={effectiveRows}>
-        {(row) => (
-          <Row>
-            {(columnKey) => {
-              const item = row[columnKey as keyof typeof row];
-              return (
-                <Cell>
-                  {columnKey === "__ezui-table-expanded-rows__" ? (
-                    <ExpansionCell
-                      isExpanded={row.key === expandedKey}
-                      toggleExpanded={() => {
-                        setExpandedKey((prevKey) =>
-                          prevKey === row.key ? null : row.key,
-                        );
-                      }}
-                    />
-                  ) : columnKey === "__ezui-table-row-actions__" &&
-                    rowActions ? (
-                    <ActionsCell rowActions={rowActions} />
-                  ) : (
-                    renderRowCell(item, row, columnKey)
-                  )}
-                </Cell>
-              );
-            }}
-          </Row>
-        )}
-      </TableBody>
-    </Table>
-  );
 }

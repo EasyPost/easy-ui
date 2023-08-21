@@ -8,9 +8,10 @@ import { Row } from "./Row";
 import { RowGroup } from "./RowGroup";
 import { SelectAllCell } from "./SelectAllCell";
 import { SelectCell } from "./SelectCell";
-import { TableProps } from "./types";
+import { Column, DataGridProps } from "./types";
+import { EXPAND_ROW_COLUMN_KEY } from "./constants";
 
-export function Table<C, R>(props: TableProps<C, R>) {
+export function Table<C extends Column>(props: DataGridProps<C>) {
   const { selectionMode, renderExpandedRow } = props;
 
   const state = useTableState({
@@ -55,9 +56,8 @@ export function Table<C, R>(props: TableProps<C, R>) {
                 })}
               </Row>
               {row.value &&
-                row.value[
-                  "__ezui-table-expanded-rows__" as keyof typeof row.value
-                ] === true &&
+                row.value[EXPAND_ROW_COLUMN_KEY as keyof typeof row.value] ===
+                  true &&
                 renderExpandedRow && (
                   <tr>
                     {/** should make this inside the row instead in real implementation */}

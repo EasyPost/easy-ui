@@ -7,9 +7,20 @@ import {
 import { Key, ReactElement, ReactNode } from "react";
 import { IconSymbol } from "../types";
 
-export type Column = {
-  key: Key;
-} & object;
+export type KeyedObject = {
+  /** Must contain a key. */
+  readonly key: Key;
+};
+
+export type Column = KeyedObject & {
+  /** Another arbitrary data is allowed. */
+  [property: string]: unknown;
+};
+
+export type Row<C extends Column> = KeyedObject & {
+  /** Must contain a property for each key in column. */
+  [property in C["key"]]: unknown;
+};
 
 export type MenuRowAction = {
   type: "menu";
@@ -25,7 +36,7 @@ export type ActionRowAction = {
 
 export type RowAction = MenuRowAction | ActionRowAction;
 
-export type TableProps<C, R> = AriaLabelingProps & {
+export type DataGridProps<C extends Column> = AriaLabelingProps & {
   /** The elements that make up the table. Includes the TableHeader, TableBody, Columns, and Rows. */
   children?: [ReactElement, ReactElement];
 
@@ -43,11 +54,6 @@ export type TableProps<C, R> = AriaLabelingProps & {
 
   /** The currently expanded key in the collection (controlled). */
   expandedKey?: Key;
-
-  /**
-   * Whether or not row expansion is enabled.
-   */
-  hasExpandableRows?: boolean;
 
   /** The type of selection that is allowed in the collection. */
   selectionMode?: SelectionMode;
@@ -85,7 +91,7 @@ export type TableProps<C, R> = AriaLabelingProps & {
   rowActions?: RowAction[];
 
   /** Rows for the table. */
-  rows: R[];
+  rows: Row<C>[];
 
   /** The currently selected keys in the collection (controlled). */
   selectedKeys?: "all" | Iterable<Key>;
