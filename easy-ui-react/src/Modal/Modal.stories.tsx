@@ -209,7 +209,7 @@ export const MenuTrigger: ModalTriggerStory = {
     const [modal, setModal] = useState<Key | null>(null);
     return (
       <>
-        <Menu isOpen={true}>
+        <Menu>
           <Menu.Trigger>
             <DropdownButton>Account actions</DropdownButton>
           </Menu.Trigger>
