@@ -1,4 +1,4 @@
-import React, { Key, useMemo, useState } from "react";
+import React, { Key, useCallback, useMemo, useState } from "react";
 import { Cell, Row, Column, TableBody, TableHeader } from "react-stately";
 import { ActionsCell } from "./ActionsCell";
 import { ExpansionCell } from "./ExpansionCell";
@@ -6,6 +6,7 @@ import { Table } from "./Table";
 import { EXPAND_ROW_COLUMN_KEY, ROW_ACTIONS_COLUMN_KEY } from "./constants";
 import { DataGridContext } from "./context";
 import { Column as ColumnType, DataGridProps } from "./types";
+import { EmptyCell } from "./EmptyCell";
 
 export function DataGrid<C extends ColumnType = ColumnType>(
   props: DataGridProps<C>,
@@ -29,6 +30,10 @@ export function DataGrid<C extends ColumnType = ColumnType>(
     return defaultExpandedKey ? defaultExpandedKey : null;
   });
 
+  const toggleExpandedRow = useCallback((rowKey: Key) => {
+    setExpandedKey((prevKey) => (prevKey === rowKey ? null : rowKey));
+  }, []);
+
   const columns = useProcessedColumns(props);
   const rows = useProcessedRows(props, expandedKey);
 
@@ -42,38 +47,36 @@ export function DataGrid<C extends ColumnType = ColumnType>(
         <TableHeader columns={columns}>
           {(column) => (
             <Column isRowHeader={column.key === rowHeaderColumnKey}>
-              {column.key === EXPAND_ROW_COLUMN_KEY
-                ? null
-                : column.key === ROW_ACTIONS_COLUMN_KEY
-                ? null
-                : renderColumnCell(column)}
+              {column.key === EXPAND_ROW_COLUMN_KEY ||
+              column.key === ROW_ACTIONS_COLUMN_KEY ? (
+                <EmptyCell />
+              ) : (
+                renderColumnCell(column)
+              )}
             </Column>
           )}
         </TableHeader>
         <TableBody items={rows}>
           {(row) => (
             <Row>
-              {(columnKey) => {
-                const item = row[columnKey as keyof typeof row];
-                return (
-                  <Cell>
-                    {columnKey === EXPAND_ROW_COLUMN_KEY ? (
-                      <ExpansionCell
-                        isExpanded={row.key === expandedKey}
-                        toggleExpanded={() => {
-                          setExpandedKey((prevKey) =>
-                            prevKey === row.key ? null : row.key,
-                          );
-                        }}
-                      />
-                    ) : columnKey === ROW_ACTIONS_COLUMN_KEY && rowActions ? (
-                      <ActionsCell rowActions={rowActions} />
-                    ) : (
-                      renderRowCell(item, row, columnKey)
-                    )}
-                  </Cell>
-                );
-              }}
+              {(columnKey) => (
+                <Cell>
+                  {columnKey === EXPAND_ROW_COLUMN_KEY ? (
+                    <ExpansionCell
+                      isExpanded={row.key === expandedKey}
+                      toggleExpanded={() => toggleExpandedRow(row.key)}
+                    />
+                  ) : columnKey === ROW_ACTIONS_COLUMN_KEY && rowActions ? (
+                    <ActionsCell rowActions={rowActions} />
+                  ) : (
+                    renderRowCell(
+                      row[columnKey as keyof typeof row],
+                      row,
+                      columnKey,
+                    )
+                  )}
+                </Cell>
+              )}
             </Row>
           )}
         </TableBody>
