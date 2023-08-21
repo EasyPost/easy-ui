@@ -1,6 +1,6 @@
 import React from "react";
 import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
-import { Modal } from "./Modal";
+import { Modal, ModalContainer } from "./Modal";
 import * as ModalStories from "./Modal.stories";
 
 <Meta of={ModalStories} />
@@ -35,7 +35,7 @@ A `<Modal />` is a page overlay that displays information and blocks interaction
 
 The first child should be a trigger element, such as a `<Button />`, where the trigger events and appropriate accessibility attributes can be applied.
 
-The second element must be a `<Modal />`. If access to programmatically close the modal is needed, a child with a function that has a close method and returns a `<Modal />` (`(close) => <Modal />`) can be passed as the second child instead of a `<Modal />`.
+The second element must be a `<Modal />`. If access to programmatically close the modal inline is needed, a child with a function that has a close method and returns a `<Modal />` (`(close) => <Modal />`) can be passed as the second child instead of a `<Modal />`.
 
 _Modal with close function injected:_
 
@@ -67,6 +67,8 @@ By default, a `<Modal />` manages its own open state.
 It can be made to be a controlled component by using the `isOpen` and `onOpenChange` prop on `<Modal.Trigger />`.
 
 It can be made to open by default using the `defaultOpen` prop on `<Modal.Trigger />`.
+
+Use the `useModalTrigger()` hook inside a Modal component to access the modal state. Use the modal trigger state to determine if the modal `isOpen`. The modal trigger state can also be used to programmatically `close()` the modal.
 
 ### Focus containment
 
@@ -104,6 +106,14 @@ A `<Modal />` comes in three sizes—`sm`, `md`, or `lg`—which governs the wid
 
 <Controls of={ModalStories.Size} />
 
+## Custom Triggers
+
+A `<Modal />` can be wrapped in a `<ModalContainer />` to entirely control the triggering process.
+
+A `<ModalContainer />` accepts a single `<Modal />` as a child. If no child is provided, the `<ModalContainer />` renders itself as closed. Use the `onDismiss` prop to know when the modal closes.
+
+<Canvas of={ModalStories.MenuTrigger} />
+
 ## Properties
 
 ### Modal.Trigger
@@ -125,3 +135,7 @@ A `<Modal />` comes in three sizes—`sm`, `md`, or `lg`—which governs the wid
 ### Modal.Footer
 
 <ArgTypes of={Modal.Footer} />
+
+### ModalContainer
+
+<ArgTypes of={ModalContainer} />

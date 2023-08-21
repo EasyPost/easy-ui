@@ -7,7 +7,7 @@ import {
   PlaceholderBox,
   StripeLogo,
 } from "../utilities/storybook";
-import { Modal, ModalContainer, useModalTriggerContext } from "./Modal";
+import { Modal, ModalContainer, useModalTrigger } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
 import { Menu } from "../Menu";
 import { DropdownButton } from "../DropdownButton";
@@ -209,21 +209,12 @@ export const MenuTrigger: ModalTriggerStory = {
     const [modal, setModal] = useState<Key | null>(null);
     return (
       <>
-        <Menu>
+        <Menu isOpen={true}>
           <Menu.Trigger>
             <DropdownButton>Account actions</DropdownButton>
           </Menu.Trigger>
-          <Menu.Overlay
-            onAction={(key) => {
-              if (key === "manage") {
-                setModal(key);
-              } else {
-                action("Delete account")();
-              }
-            }}
-          >
+          <Menu.Overlay onAction={(key) => setModal(key)}>
             <Menu.Item key="manage">Manage Account</Menu.Item>
-            <Menu.Item key="delete">Delete</Menu.Item>
           </Menu.Overlay>
         </Menu>
         <ModalContainer
@@ -239,7 +230,7 @@ export const MenuTrigger: ModalTriggerStory = {
 };
 
 function ManageAccountModel() {
-  const modalTrigger = useModalTriggerContext();
+  const modalTriggerState = useModalTrigger();
   return (
     <Modal>
       <Modal.Header>Manage Account</Modal.Header>
@@ -251,7 +242,7 @@ function ManageAccountModel() {
           content: "Save",
           onAction: () => {
             action("Save clicked!");
-            modalTrigger.state.close();
+            modalTriggerState.close();
           },
         }}
       />

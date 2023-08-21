@@ -37,3 +37,8 @@ export const useModalTriggerContext = () => {
   }
   return modalTriggerContext;
 };
+
+export const useModalTrigger = () => {
+  const modalTriggerContext = useModalTriggerContext();
+  return modalTriggerContext.state;
+};
