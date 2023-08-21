@@ -6,7 +6,7 @@ import { Table } from "./Table";
 import { EXPAND_ROW_COLUMN_KEY, ROW_ACTIONS_COLUMN_KEY } from "./constants";
 import { DataGridContext } from "./context";
 import { Column as ColumnType, DataGridProps } from "./types";
-import { EmptyCell } from "./EmptyCell";
+import { VisuallyHiddenCell } from "./VisuallyHiddenCell";
 
 export function DataGrid<C extends ColumnType = ColumnType>(
   props: DataGridProps<C>,
@@ -47,9 +47,10 @@ export function DataGrid<C extends ColumnType = ColumnType>(
         <TableHeader columns={columns}>
           {(column) => (
             <Column isRowHeader={column.key === rowHeaderColumnKey}>
-              {column.key === EXPAND_ROW_COLUMN_KEY ||
-              column.key === ROW_ACTIONS_COLUMN_KEY ? (
-                <EmptyCell />
+              {column.key === EXPAND_ROW_COLUMN_KEY ? (
+                <VisuallyHiddenCell>Expand row</VisuallyHiddenCell>
+              ) : column.key === ROW_ACTIONS_COLUMN_KEY ? (
+                <VisuallyHiddenCell>Row actions</VisuallyHiddenCell>
               ) : (
                 renderColumnCell(column)
               )}

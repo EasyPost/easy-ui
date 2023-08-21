@@ -55,6 +55,12 @@ export type DataGridProps<C extends Column> = AriaLabelingProps & {
   /** The currently expanded key in the collection (controlled). */
   expandedKey?: Key;
 
+  /**
+   * Variant of the data grid header to use.
+   * @default primary
+   */
+  headerVariant?: "primary" | "secondary";
+
   /** The type of selection that is allowed in the collection. */
   selectionMode?: SelectionMode;
 
