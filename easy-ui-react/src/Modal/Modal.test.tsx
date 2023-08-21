@@ -1,15 +1,15 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
+import { Button } from "../Button";
 import {
   mockGetComputedStyle,
   mockIntersectionObserver,
   render,
 } from "../utilities/test";
-import { Modal, ModalProps } from "./Modal";
-import { Button } from "../Button";
-import { ModalTriggerProps } from "./ModalTrigger";
+import { Modal, ModalContainer, ModalProps, useModalTrigger } from "./Modal";
 import { ModalHeaderProps } from "./ModalHeader";
+import { ModalTriggerProps } from "./ModalTrigger";
 
 describe("<Modal />", () => {
   let restoreGetComputedStyle: () => void;
@@ -99,6 +99,46 @@ describe("<Modal />", () => {
   it("should support being controlled", () => {
     renderModal({ isOpen: true });
     expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("should support rendering in a container", async () => {
+    function CustomModal() {
+      const modalTrigger = useModalTrigger();
+      return (
+        <Modal>
+          <Modal.Header>Header</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+          <Modal.Footer
+            primaryAction={{
+              content: "Modal Action Button",
+              onAction: () => {
+                modalTrigger.close();
+              },
+            }}
+          />
+        </Modal>
+      );
+    }
+
+    const handleDismiss = vi.fn();
+    const { user, rerender } = render(
+      <ModalContainer onDismiss={handleDismiss}>
+        {true ? <CustomModal /> : null}
+      </ModalContainer>,
+    );
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", { name: "Modal Action Button" }),
+    );
+    expect(handleDismiss).toBeCalled();
+
+    rerender(
+      <ModalContainer onDismiss={handleDismiss}>
+        {false ? <CustomModal /> : null}
+      </ModalContainer>,
+    );
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });
 
