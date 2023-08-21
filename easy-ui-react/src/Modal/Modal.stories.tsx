@@ -1,14 +1,16 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
-import React from "react";
+import React, { Key, useState } from "react";
 import { Button } from "../Button";
 import {
   EasyPostLogo,
   PlaceholderBox,
   StripeLogo,
 } from "../utilities/storybook";
-import { Modal } from "./Modal";
+import { Modal, ModalContainer, useModalTriggerContext } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
+import { Menu } from "../Menu";
+import { DropdownButton } from "../DropdownButton";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
@@ -200,3 +202,59 @@ export const Controlled: ModalTriggerStory = {
     controls: { include: ["isOpen"] },
   },
 };
+
+export const MenuTrigger: ModalTriggerStory = {
+  render: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [modal, setModal] = useState<Key | null>(null);
+    return (
+      <>
+        <Menu>
+          <Menu.Trigger>
+            <DropdownButton>Account actions</DropdownButton>
+          </Menu.Trigger>
+          <Menu.Overlay
+            onAction={(key) => {
+              if (key === "manage") {
+                setModal(key);
+              } else {
+                action("Delete account")();
+              }
+            }}
+          >
+            <Menu.Item key="manage">Manage Account</Menu.Item>
+            <Menu.Item key="delete">Delete</Menu.Item>
+          </Menu.Overlay>
+        </Menu>
+        <ModalContainer
+          onDismiss={() => {
+            setModal(null);
+          }}
+        >
+          {modal === "manage" && <ManageAccountModel />}
+        </ModalContainer>
+      </>
+    );
+  },
+};
+
+function ManageAccountModel() {
+  const modalTrigger = useModalTriggerContext();
+  return (
+    <Modal>
+      <Modal.Header>Manage Account</Modal.Header>
+      <Modal.Body>
+        <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+      </Modal.Body>
+      <Modal.Footer
+        primaryAction={{
+          content: "Save",
+          onAction: () => {
+            action("Save clicked!");
+            modalTrigger.state.close();
+          },
+        }}
+      />
+    </Modal>
+  );
+}

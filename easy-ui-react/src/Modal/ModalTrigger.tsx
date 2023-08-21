@@ -4,7 +4,7 @@ import { useOverlayTriggerState } from "react-stately";
 import { ModalUnderlay } from "./ModalUnderlay";
 import { ModalTriggerContext } from "./context";
 
-type CloseableModalElement = (close: () => void) => ReactElement;
+export type CloseableModalElement = (close: () => void) => ReactElement;
 
 export type ModalTriggerProps = {
   /**
