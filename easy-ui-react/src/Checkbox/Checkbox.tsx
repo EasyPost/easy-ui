@@ -1,7 +1,7 @@
 import CheckIcon from "@easypost/easy-ui-icons/Check600";
 import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
 import React, { ReactNode } from "react";
-import { useCheckbox, useFocusRing, useHover } from "react-aria";
+import { mergeProps, useCheckbox, useFocusRing, useHover } from "react-aria";
 import { ValidationState, useToggleState } from "react-stately";
 import { Icon } from "../Icon";
 import { SelectorErrorTooltip } from "../SelectorErrorTooltip";
@@ -126,7 +126,7 @@ export function Checkbox(props: CheckboxProps) {
   const ref = React.useRef(null);
 
   const state = useToggleState(props);
-  const { inputProps } = useCheckbox(props, state, ref);
+  const { inputProps: inputPropsFromAria } = useCheckbox(props, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
   const { isHovered, hoverProps } = useHover(props);
 
@@ -143,6 +143,7 @@ export function Checkbox(props: CheckboxProps) {
     isHovered && styles.hovered,
     styles[variationName("size", size)],
     validationState === "invalid" && styles.invalid,
+    !children && styles.standalone,
   );
 
   const textVariant =
@@ -157,15 +158,16 @@ export function Checkbox(props: CheckboxProps) {
     console.warn("isNested is incompatible with lg Checkbox");
   }
 
+  const RootComponent = children ? "label" : "span";
+  const rootProps = children ? hoverProps : {};
+  const inputProps = children
+    ? mergeProps(inputPropsFromAria, focusProps)
+    : mergeProps(inputPropsFromAria, focusProps, hoverProps);
+
   return (
     <span className={className} data-testid="root">
-      <label className={styles.label} {...hoverProps}>
-        <input
-          {...inputProps}
-          {...focusProps}
-          className={styles.input}
-          ref={ref}
-        />
+      <RootComponent className={styles.label} {...rootProps}>
+        <input {...inputProps} className={styles.input} ref={ref} />
         <span className={styles.box}>
           {(isIndeterminate || isSelected) && (
             <span className={styles.check}>
@@ -177,12 +179,14 @@ export function Checkbox(props: CheckboxProps) {
             </span>
           )}
         </span>
-        <span className={styles.text}>
-          <Text variant={textVariant} color={textColor}>
-            {children}
-          </Text>
-        </span>
-      </label>
+        {children && (
+          <span className={styles.text}>
+            <Text variant={textVariant} color={textColor}>
+              {children}
+            </Text>
+          </span>
+        )}
+      </RootComponent>
       {validationState === "invalid" && errorText && (
         <SelectorErrorTooltip content={errorText} />
       )}
