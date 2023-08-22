@@ -78,6 +78,11 @@
   }
 }
 
+.expandedRow {
+  position: absolute;
+  border: 1px solid red;
+}
+
 .rowFocused {
   .cell {
     background: blue;

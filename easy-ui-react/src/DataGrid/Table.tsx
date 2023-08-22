@@ -11,6 +11,7 @@ import { SelectAllColumnHeader } from "./SelectAllColumnHeader";
 import { SelectCell } from "./SelectCell";
 import { EXPAND_ROW_COLUMN_KEY, ROW_ACTIONS_COLUMN_KEY } from "./constants";
 import { Column, DataGridProps } from "./types";
+import { ExpandedRow } from "./ExpandedRow";
 
 import styles from "./DataGrid.module.scss";
 
@@ -93,6 +94,12 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
     ),
   } as CSSProperties;
 
+  const expandedRow = [...collection.body.childNodes].find((r) => {
+    return r.value
+      ? r.value[EXPAND_ROW_COLUMN_KEY as keyof typeof r.value] === true
+      : false;
+  });
+
   return (
     <div {...gridProps} ref={tableRef} className={className} style={style}>
       <div role="presentation" className={styles.contentWrapper}>
@@ -118,38 +125,21 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
           ))}
         </RowGroup>
         <RowGroup>
-          {[...collection.body.childNodes].map((row) => {
-            return (
-              <React.Fragment key={row.key}>
-                <Row item={row} state={state}>
-                  {[...row.childNodes].map((cell) => {
-                    return cell.props.isSelectionCell ? (
-                      <SelectCell key={cell.key} cell={cell} state={state} />
-                    ) : (
-                      <Cell key={cell.key} cell={cell} state={state} />
-                    );
-                  })}
-                </Row>
-                {row.value &&
-                  row.value[EXPAND_ROW_COLUMN_KEY as keyof typeof row.value] ===
-                    true &&
-                  renderExpandedRow && (
-                    <div style={{ position: "absolute" }}>
-                      {/** should make this inside the row instead in real implementation */}
-                      {/** should attach an aria-controls and id to trigger and this element */}
-                      <td
-                        colSpan={
-                          [...collection.headerRows[0].childNodes].length
-                        }
-                      >
-                        {renderExpandedRow(row.key)}
-                      </td>
-                    </div>
-                  )}
-              </React.Fragment>
-            );
-          })}
+          {[...collection.body.childNodes].map((row) => (
+            <Row key={row.key} item={row} state={state}>
+              {[...row.childNodes].map((cell) => {
+                return cell.props.isSelectionCell ? (
+                  <SelectCell key={cell.key} cell={cell} state={state} />
+                ) : (
+                  <Cell key={cell.key} cell={cell} state={state} />
+                );
+              })}
+            </Row>
+          ))}
         </RowGroup>
+        {expandedRow && renderExpandedRow && (
+          <ExpandedRow>{renderExpandedRow(expandedRow.key)}</ExpandedRow>
+        )}
       </div>
     </div>
   );
