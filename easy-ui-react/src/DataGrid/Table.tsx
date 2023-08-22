@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
+import { classNames } from "../utilities/css";
 import { Cell } from "./Cell";
 import { ColumnHeader } from "./ColumnHeader";
 import { HeaderRow } from "./HeaderRow";
@@ -8,8 +9,10 @@ import { Row } from "./Row";
 import { RowGroup } from "./RowGroup";
 import { SelectAllCell } from "./SelectAllCell";
 import { SelectCell } from "./SelectCell";
-import { Column, DataGridProps } from "./types";
 import { EXPAND_ROW_COLUMN_KEY } from "./constants";
+import { Column, DataGridProps } from "./types";
+
+import styles from "./DataGrid.module.scss";
 
 export function Table<C extends Column>(props: DataGridProps<C>) {
   const { selectionMode, renderExpandedRow } = props;
@@ -26,9 +29,11 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   const { collection } = state;
   const { gridProps } = useTable(props, state, tableRef);
 
+  const className = classNames(styles.DataGrid);
+
   return (
-    <table {...gridProps} ref={tableRef} style={{ borderCollapse: "collapse" }}>
-      <RowGroup as="thead">
+    <div {...gridProps} ref={tableRef} className={className}>
+      <RowGroup>
         {collection.headerRows.map((headerRow) => (
           <HeaderRow key={headerRow.key} item={headerRow} state={state}>
             {[...headerRow.childNodes].map((column) =>
@@ -41,12 +46,11 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
           </HeaderRow>
         ))}
       </RowGroup>
-      <RowGroup as="tbody">
+      <RowGroup>
         {[...collection.body.childNodes].map((row) => {
-          console.log("row", row);
           return (
             <React.Fragment key={row.key}>
-              <Row key={row.key} item={row} state={state}>
+              <Row item={row} state={state}>
                 {[...row.childNodes].map((cell) => {
                   return cell.props.isSelectionCell ? (
                     <SelectCell key={cell.key} cell={cell} state={state} />
@@ -73,6 +77,6 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
           );
         })}
       </RowGroup>
-    </table>
+    </div>
   );
 }

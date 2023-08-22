@@ -2,11 +2,11 @@ import React, { ReactNode } from "react";
 import { useTableRowGroup } from "react-aria";
 
 type RowGroupProps = {
-  as: "thead" | "tbody";
+  as?: "div" | "thead" | "tbody";
   children: ReactNode;
 };
 
-export function RowGroup({ as: As, children }: RowGroupProps) {
+export function RowGroup({ as: As = "div", children }: RowGroupProps) {
   const { rowGroupProps } = useTableRowGroup();
   return (
     <As

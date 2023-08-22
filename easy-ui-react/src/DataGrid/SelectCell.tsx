@@ -17,8 +17,8 @@ export function SelectCell({ cell, state }: SelectCellProps) {
     state,
   );
   return (
-    <td {...gridCellProps} ref={ref}>
+    <div {...gridCellProps} ref={ref}>
       <Checkbox {...checkboxProps} />
-    </td>
+    </div>
   );
 }

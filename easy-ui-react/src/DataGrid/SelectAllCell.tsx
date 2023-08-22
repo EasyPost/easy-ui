@@ -22,12 +22,12 @@ export function SelectAllCell({ column, state }: SelectAllCellProps) {
   );
   const { checkboxProps } = useTableSelectAllCheckbox(state);
   return (
-    <th {...columnHeaderProps} ref={ref}>
+    <div {...columnHeaderProps} ref={ref}>
       {state.selectionManager.selectionMode === "single" ? (
         <VisuallyHidden>{checkboxProps["aria-label"]}</VisuallyHidden>
       ) : (
         <Checkbox {...checkboxProps} />
       )}
-    </th>
+    </div>
   );
 }

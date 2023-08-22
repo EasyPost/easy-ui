@@ -13,8 +13,8 @@ export function HeaderRow({ item, state, children }: HeaderRowProps) {
   const ref = useRef(null);
   const { rowProps } = useTableHeaderRow({ node: item }, state, ref);
   return (
-    <tr {...rowProps} ref={ref}>
+    <div {...rowProps} ref={ref}>
       {children}
-    </tr>
+    </div>
   );
 }

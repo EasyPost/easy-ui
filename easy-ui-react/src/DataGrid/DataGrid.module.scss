@@ -1,0 +1,7 @@
+@use "../styles/common" as *;
+
+.DataGrid {
+  border: 1px solid red;
+  display: grid;
+  grid-template-columns: 1fr;
+}

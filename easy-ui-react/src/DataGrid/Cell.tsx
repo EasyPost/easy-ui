@@ -13,7 +13,7 @@ export function Cell({ cell, state }: CellProps) {
   const { gridCellProps } = useTableCell({ node: cell }, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
   return (
-    <td
+    <div
       {...mergeProps(gridCellProps, focusProps)}
       style={{
         padding: "5px 10px",
@@ -24,6 +24,6 @@ export function Cell({ cell, state }: CellProps) {
       ref={ref}
     >
       {cell.rendered}
-    </td>
+    </div>
   );
 }

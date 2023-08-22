@@ -18,9 +18,9 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
   const { isFocusVisible, focusProps } = useFocusRing();
   const arrowIcon = state.sortDescriptor?.direction === "ascending" ? "▲" : "▼";
   return (
-    <th
+    <div
       {...mergeProps(columnHeaderProps, focusProps)}
-      colSpan={column.colspan}
+      data-colSpan={column.colspan}
       style={{
         textAlign: column.colspan && column.colspan > 1 ? "center" : "left",
         padding: "5px 10px",
@@ -45,6 +45,6 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
           {arrowIcon}
         </span>
       )}
-    </th>
+    </div>
   );
 }

@@ -15,7 +15,7 @@ export function Row({ item, children, state }: RowProps) {
   const { rowProps, isPressed } = useTableRow({ node: item }, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
   return (
-    <tr
+    <div
       style={{
         background: isSelected
           ? "blueviolet"
@@ -32,6 +32,6 @@ export function Row({ item, children, state }: RowProps) {
       ref={ref}
     >
       {children}
-    </tr>
+    </div>
   );
 }
