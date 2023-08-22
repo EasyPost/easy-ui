@@ -1,5 +1,10 @@
 import React from "react";
+import ArrowForwardIos from "@easypost/easy-ui-icons/ArrowForwardIos";
 import { UnstyledPressButton } from "./UnstyledPressButton";
+import { Icon } from "../Icon";
+import { classNames } from "../utilities/css";
+
+import styles from "./DataGrid.module.scss";
 
 type ExpansionCellContentProps = {
   isExpanded: boolean;
@@ -10,17 +15,19 @@ export function ExpansionCellContent({
   isExpanded,
   toggleExpanded,
 }: ExpansionCellContentProps) {
+  const className = classNames(
+    styles.expandRowButton,
+    isExpanded && styles.expanded,
+  );
   return (
-    <div>
-      <UnstyledPressButton
-        onClick={() => {
-          toggleExpanded();
-        }}
-        aria-expanded={isExpanded}
-        style={{ width: 40 }}
-      >
-        {isExpanded ? "C" : "E"}
-      </UnstyledPressButton>
-    </div>
+    <UnstyledPressButton
+      onClick={() => {
+        toggleExpanded();
+      }}
+      className={className}
+      aria-expanded={isExpanded}
+    >
+      <Icon symbol={ArrowForwardIos} size="xs" />
+    </UnstyledPressButton>
   );
 }

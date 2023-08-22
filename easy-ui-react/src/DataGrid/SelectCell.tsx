@@ -20,7 +20,7 @@ export function SelectCell({ cell, state }: SelectCellProps) {
   );
   return (
     <div {...gridCellProps} ref={ref} className={styles.cell}>
-      <Checkbox {...checkboxProps} />
+      <Checkbox size="lg" {...checkboxProps} />
     </div>
   );
 }
