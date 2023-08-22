@@ -57,8 +57,12 @@ export const Default: Story = {
         columns={columns}
         rows={rows}
         renderExpandedRow={(rowKey) => <>Custom Content {rowKey}</>}
-        renderColumnCell={(column) => <>{column.name}</>}
-        renderRowCell={(item) => <>{item}</>}
+        renderColumnCell={(column) => (
+          <span style={{ whiteSpace: "nowrap" }}>{column.name}</span>
+        )}
+        renderRowCell={(item) => (
+          <span style={{ whiteSpace: "nowrap" }}>{item as string}</span>
+        )}
         rowActions={[
           {
             type: "menu",
@@ -80,6 +84,7 @@ export const Default: Story = {
             onAction: () => {},
           },
         ]}
+        templateColumns="1fr 2fr min-content"
       />
     );
   },

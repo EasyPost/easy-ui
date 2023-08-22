@@ -101,4 +101,7 @@ export type DataGridProps<C extends Column> = AriaLabelingProps & {
 
   /** The currently selected keys in the collection (controlled). */
   selectedKeys?: "all" | Iterable<Key>;
+
+  /** Define a custom grid-template-columns. Defaults to taking up an even amount of space. */
+  templateColumns?: string;
 };

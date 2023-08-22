@@ -1,17 +1,17 @@
 import React from "react";
 import { UnstyledPressButton } from "./UnstyledPressButton";
 
-type ExpansionCellProps = {
+type ExpansionCellContentProps = {
   isExpanded: boolean;
   toggleExpanded: () => void;
 };
 
-export function ExpansionCell({
+export function ExpansionCellContent({
   isExpanded,
   toggleExpanded,
-}: ExpansionCellProps) {
+}: ExpansionCellContentProps) {
   return (
-    <span>
+    <div>
       <UnstyledPressButton
         onClick={() => {
           toggleExpanded();
@@ -21,6 +21,6 @@ export function ExpansionCell({
       >
         {isExpanded ? "C" : "E"}
       </UnstyledPressButton>
-    </span>
+    </div>
   );
 }

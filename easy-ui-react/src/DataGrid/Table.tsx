@@ -7,7 +7,7 @@ import { ColumnHeader } from "./ColumnHeader";
 import { HeaderRow } from "./HeaderRow";
 import { Row } from "./Row";
 import { RowGroup } from "./RowGroup";
-import { SelectAllCell } from "./SelectAllCell";
+import { SelectAllColumnHeader } from "./SelectAllColumnHeader";
 import { SelectCell } from "./SelectCell";
 import { EXPAND_ROW_COLUMN_KEY } from "./constants";
 import { Column, DataGridProps } from "./types";
@@ -15,7 +15,7 @@ import { Column, DataGridProps } from "./types";
 import styles from "./DataGrid.module.scss";
 
 export function Table<C extends Column>(props: DataGridProps<C>) {
-  const { selectionMode, renderExpandedRow } = props;
+  const { selectionMode, renderExpandedRow, templateColumns } = props;
 
   const state = useTableState({
     ...props,
@@ -27,27 +27,41 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   const tableRef = useRef(null);
 
   const { collection } = state;
-  const { gridProps } = useTable(props, state, tableRef);
+  const { gridProps } = useTable(
+    { ...props, focusMode: "cell" },
+    state,
+    tableRef,
+  );
 
   const className = classNames(styles.DataGrid);
 
+  const cols = state.collection.columnCount;
+  const areas = Array.from({ length: cols - 3 }, () => ".").join(" ");
+  const columns = templateColumns
+    ? templateColumns
+    : Array.from({ length: cols - 3 }, () => "1fr").join(" ");
   const style = {
     ...getComponentToken(
       "data-grid",
-      "columns",
-      String(state.collection.columnCount),
+      "template-areas",
+      `"select expand ${areas} actions"`,
+    ),
+    ...getComponentToken(
+      "data-grid",
+      "template-columns",
+      `min-content min-content ${columns} min-content`,
     ),
   } as CSSProperties;
 
   return (
     <div {...gridProps} ref={tableRef} className={className} style={style}>
-      <div role="presentation" className={styles.contents}>
+      <div role="presentation" className={styles.contentWrapper}>
         <RowGroup>
           {collection.headerRows.map((headerRow) => (
             <HeaderRow key={headerRow.key} item={headerRow} state={state}>
               {[...headerRow.childNodes].map((column) =>
                 column.props.isSelectionCell ? (
-                  <SelectAllCell
+                  <SelectAllColumnHeader
                     key={column.key}
                     column={column}
                     state={state}
@@ -80,7 +94,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
                   row.value[EXPAND_ROW_COLUMN_KEY as keyof typeof row.value] ===
                     true &&
                   renderExpandedRow && (
-                    <tr>
+                    <div style={{ position: "absolute" }}>
                       {/** should make this inside the row instead in real implementation */}
                       {/** should attach an aria-controls and id to trigger and this element */}
                       <td
@@ -90,7 +104,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
                       >
                         {renderExpandedRow(row.key)}
                       </td>
-                    </tr>
+                    </div>
                   )}
               </React.Fragment>
             );

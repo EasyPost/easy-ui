@@ -2,7 +2,59 @@
 
 .DataGrid {
   display: grid;
-  grid-template-columns: repeat(component-token("data-grid", "columns"), 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: component-token("data-grid", "template-areas");
+  grid-template-columns: component-token("data-grid", "template-columns");
+  border: 1px solid design-token("color.gray.300");
+  border-radius: design-token("shape.border_radius.md");
+  overflow: auto;
+}
+
+.contentWrapper {
+  display: contents;
+  position: relative;
+}
+
+.columnHeader {
+  background: design-token("color.blue.800");
+  color: design-token("color.white");
+}
+
+.row {
+  display: contents;
+}
+
+.cell {
+  background: white;
+}
+
+.columnHeader,
+.cell {
+  display: inline-flex;
+  align-items: center;
+
+  height: 56px;
+  padding: 0 design-token("space.2");
+  outline: none;
+
+  &:first-child {
+    padding-left: design-token("space.5");
+  }
+  &:last-child {
+    padding-right: design-token("space.5");
+  }
+}
+
+.rowFocused {
+  .cell {
+    background: blue;
+  }
+}
+
+.rowHovered {
+  .cell {
+    background: design-token("color.gray.050");
+  }
 }
 
 .contents {

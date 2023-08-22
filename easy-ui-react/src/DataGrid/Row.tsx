@@ -1,7 +1,8 @@
 import { Node } from "@react-types/shared";
 import React, { ReactNode, useRef } from "react";
-import { mergeProps, useFocusRing, useTableRow } from "react-aria";
+import { mergeProps, useFocusRing, useHover, useTableRow } from "react-aria";
 import { TableState } from "react-stately";
+import { classNames } from "../utilities/css";
 
 import styles from "./DataGrid.module.scss";
 
@@ -16,22 +17,18 @@ export function Row({ item, children, state }: RowProps) {
   const isSelected = state.selectionManager.isSelected(item.key);
   const { rowProps, isPressed } = useTableRow({ node: item }, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
+  const { isHovered, hoverProps } = useHover({});
+  const className = classNames(
+    styles.row,
+    isHovered && styles.rowHovered,
+    isFocusVisible && styles.rowFocused,
+    isSelected && styles.rowSelected,
+    isPressed && styles.rowPressed,
+  );
   return (
     <div
-      className={styles.contents}
-      style={{
-        background: isSelected
-          ? "blueviolet"
-          : isPressed
-          ? "var(--spectrum-global-color-gray-400)"
-          : item.index && item.index % 2
-          ? "var(--spectrum-alias-highlight-hover)"
-          : "none",
-        color: isSelected ? "white" : undefined,
-        outline: "none",
-        boxShadow: isFocusVisible ? "inset 0 0 0 2px orange" : "none",
-      }}
-      {...mergeProps(rowProps, focusProps)}
+      className={className}
+      {...mergeProps(rowProps, focusProps, hoverProps)}
       ref={ref}
     >
       {children}

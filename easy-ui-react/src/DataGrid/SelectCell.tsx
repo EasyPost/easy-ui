@@ -4,6 +4,8 @@ import { useTableCell, useTableSelectionCheckbox } from "react-aria";
 import { TableState } from "react-stately";
 import { Checkbox } from "../Checkbox";
 
+import styles from "./DataGrid.module.scss";
+
 type SelectCellProps<T = unknown> = {
   cell: GridNode<T>;
   state: TableState<T>;
@@ -17,7 +19,7 @@ export function SelectCell({ cell, state }: SelectCellProps) {
     state,
   );
   return (
-    <div {...gridCellProps} ref={ref}>
+    <div {...gridCellProps} ref={ref} className={styles.cell}>
       <Checkbox {...checkboxProps} />
     </div>
   );

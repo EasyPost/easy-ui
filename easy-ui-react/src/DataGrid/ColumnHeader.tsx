@@ -2,6 +2,9 @@ import { GridNode } from "@react-types/grid";
 import React, { useRef } from "react";
 import { mergeProps, useFocusRing, useTableColumnHeader } from "react-aria";
 import { TableState } from "react-stately";
+import { classNames } from "../utilities/css";
+
+import styles from "./DataGrid.module.scss";
 
 type ColumnHeaderProps<T = unknown> = {
   column: GridNode<T>;
@@ -17,18 +20,16 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
   );
   const { isFocusVisible, focusProps } = useFocusRing();
   const arrowIcon = state.sortDescriptor?.direction === "ascending" ? "▲" : "▼";
+  const className = classNames(
+    styles.columnHeader,
+    isFocusVisible && styles.columnHeaderFocused,
+  );
   return (
     <div
       {...mergeProps(columnHeaderProps, focusProps)}
-      data-col-span={column.colspan}
-      style={{
-        textAlign: column.colspan && column.colspan > 1 ? "center" : "left",
-        padding: "5px 10px",
-        outline: "none",
-        boxShadow: isFocusVisible ? "inset 0 0 0 2px orange" : "none",
-        cursor: "default",
-      }}
+      className={className}
       ref={ref}
+      data-col-span={column.colspan}
     >
       {column.rendered}
       {column.props.allowsSorting && (

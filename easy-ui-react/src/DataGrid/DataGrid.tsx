@@ -1,7 +1,7 @@
 import React, { Key, useCallback, useMemo, useState } from "react";
 import { Cell, Row, Column, TableBody, TableHeader } from "react-stately";
-import { ActionsCell } from "./ActionsCell";
-import { ExpansionCell } from "./ExpansionCell";
+import { ActionsCellContent } from "./ActionsCellContent";
+import { ExpansionCellContent } from "./ExpansionCellContent";
 import { Table } from "./Table";
 import { EXPAND_ROW_COLUMN_KEY, ROW_ACTIONS_COLUMN_KEY } from "./constants";
 import { DataGridContext } from "./context";
@@ -63,12 +63,12 @@ export function DataGrid<C extends ColumnType = ColumnType>(
               {(columnKey) => (
                 <Cell>
                   {columnKey === EXPAND_ROW_COLUMN_KEY ? (
-                    <ExpansionCell
+                    <ExpansionCellContent
                       isExpanded={row.key === expandedKey}
                       toggleExpanded={() => toggleExpandedRow(row.key)}
                     />
                   ) : columnKey === ROW_ACTIONS_COLUMN_KEY && rowActions ? (
-                    <ActionsCell rowActions={rowActions} />
+                    <ActionsCellContent rowActions={rowActions} />
                   ) : (
                     renderRowCell(
                       row[columnKey as keyof typeof row],

@@ -7,13 +7,19 @@ import {
 } from "react-aria";
 import { TableState } from "react-stately";
 import { Checkbox } from "../Checkbox";
+import { classNames } from "../utilities/css";
 
-type SelectAllCellProps<T = unknown> = {
+import styles from "./DataGrid.module.scss";
+
+type SelectAllColumnHeaderProps<T = unknown> = {
   column: GridNode<T>;
   state: TableState<T>;
 };
 
-export function SelectAllCell({ column, state }: SelectAllCellProps) {
+export function SelectAllColumnHeader({
+  column,
+  state,
+}: SelectAllColumnHeaderProps) {
   const ref = useRef(null);
   const { columnHeaderProps } = useTableColumnHeader(
     { node: column },
@@ -21,8 +27,9 @@ export function SelectAllCell({ column, state }: SelectAllCellProps) {
     ref,
   );
   const { checkboxProps } = useTableSelectAllCheckbox(state);
+  const className = classNames(styles.columnHeader);
   return (
-    <div {...columnHeaderProps} ref={ref}>
+    <div {...columnHeaderProps} ref={ref} className={className}>
       {state.selectionManager.selectionMode === "single" ? (
         <VisuallyHidden>{checkboxProps["aria-label"]}</VisuallyHidden>
       ) : (

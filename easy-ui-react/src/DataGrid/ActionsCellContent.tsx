@@ -3,11 +3,11 @@ import { Menu } from "../Menu";
 import { UnstyledPressButton } from "./UnstyledPressButton";
 import { RowAction } from "./types";
 
-type ActionsCellProps = {
+type ActionsCellContentProps = {
   rowActions: RowAction[];
 };
 
-export function ActionsCell({ rowActions }: ActionsCellProps) {
+export function ActionsCellContent({ rowActions }: ActionsCellContentProps) {
   return (
     <span style={{ display: "inline-flex", gap: "12px" }}>
       {rowActions.map((rowAction, i) => {
