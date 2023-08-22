@@ -1,7 +1,10 @@
 @use "../styles/common" as *;
 
 .DataGrid {
-  border: 1px solid red;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(component-token("data-grid", "columns"), 1fr);
+}
+
+.contents {
+  display: contents;
 }

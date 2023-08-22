@@ -3,6 +3,8 @@ import React, { ReactNode, useRef } from "react";
 import { mergeProps, useFocusRing, useTableRow } from "react-aria";
 import { TableState } from "react-stately";
 
+import styles from "./DataGrid.module.scss";
+
 type RowProps<T = unknown> = {
   item: Node<T>;
   state: TableState<T>;
@@ -16,6 +18,7 @@ export function Row({ item, children, state }: RowProps) {
   const { isFocusVisible, focusProps } = useFocusRing();
   return (
     <div
+      className={styles.contents}
       style={{
         background: isSelected
           ? "blueviolet"

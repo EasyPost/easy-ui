@@ -20,7 +20,7 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
   return (
     <div
       {...mergeProps(columnHeaderProps, focusProps)}
-      data-colSpan={column.colspan}
+      data-col-span={column.colspan}
       style={{
         textAlign: column.colspan && column.colspan > 1 ? "center" : "left",
         padding: "5px 10px",
