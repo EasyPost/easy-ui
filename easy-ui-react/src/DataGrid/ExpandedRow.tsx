@@ -8,7 +8,7 @@ type ExpandedRowProps = {
 
 export function ExpandedRow({ children }: ExpandedRowProps) {
   return (
-    <div className={styles.expandedRow}>
+    <div className={styles.expandedRow} data-expanded-row="true">
       <div>{children}</div>
     </div>
   );

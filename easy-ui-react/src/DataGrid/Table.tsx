@@ -1,4 +1,10 @@
-import React, { CSSProperties, useRef } from "react";
+import React, {
+  CSSProperties,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
@@ -26,7 +32,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
     showSelectionCheckboxes: selectionMode !== "none",
   });
 
-  const tableRef = useRef(null);
+  const tableRef = useRef<HTMLDivElement | null>(null);
 
   const { collection } = state;
   const { gridProps } = useTable(
@@ -34,6 +40,17 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
     state,
     tableRef,
   );
+
+  const [expandedRowHeight, setExpandedRowHeight] = useState<number | null>(
+    null,
+  );
+  const [expandedRowPosition, setExpandedRowPosition] = useState<number | null>(
+    null,
+  );
+  const handleLoadExpandedRowHeight = useCallback((height: number) => {
+    setExpandedRowHeight(height);
+  }, []);
+
   const firstColumn = collection.columns[0];
   const lastColumn = collection.columns[collection.columns.length - 1];
   const isInteractiveLeft =
@@ -92,6 +109,16 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
       "template-columns",
       `${prefixColumns.join(" ")} ${columns} ${suffixColumns.join(" ")}`.trim(),
     ),
+    ...getComponentToken(
+      "data-grid",
+      "expanded-row-height",
+      `${expandedRowHeight ?? 0}px`,
+    ),
+    ...getComponentToken(
+      "data-grid",
+      "expanded-row-position",
+      `${expandedRowPosition ?? 0}px`,
+    ),
   } as CSSProperties;
 
   const expandedRow = [...collection.body.childNodes].find((r) => {
@@ -100,47 +127,64 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
       : false;
   });
 
+  useLayoutEffect(() => {
+    if (tableRef.current && expandedRow) {
+      const expandedRow = tableRef.current.querySelector(
+        "[data-expanded-row='true']",
+      );
+      const rowThatsExpanded = tableRef.current.querySelector(
+        "[data-row-thats-expanded='true']",
+      );
+
+      const childNode = rowThatsExpanded.childNodes[0];
+
+      const tableTop = tableRef.current.offsetTop;
+      const childTop = childNode.offsetTop;
+      const relativeTop = childTop + childNode.offsetHeight;
+      const expandedRowHeight = expandedRow?.offsetHeight;
+
+      console.log(expandedRow?.offsetHeight, tableTop, childTop, relativeTop);
+
+      setExpandedRowHeight(expandedRowHeight);
+      setExpandedRowPosition(relativeTop);
+    }
+  }, [expandedRow]);
+
   return (
     <div {...gridProps} ref={tableRef} className={className} style={style}>
-      <div role="presentation" className={styles.contentWrapper}>
-        <RowGroup>
-          {collection.headerRows.map((headerRow) => (
-            <HeaderRow key={headerRow.key} item={headerRow} state={state}>
-              {[...headerRow.childNodes].map((column) =>
-                column.props.isSelectionCell ? (
-                  <SelectAllColumnHeader
-                    key={column.key}
-                    column={column}
-                    state={state}
-                  />
-                ) : (
-                  <ColumnHeader
-                    key={column.key}
-                    column={column}
-                    state={state}
-                  />
-                ),
-              )}
-            </HeaderRow>
-          ))}
-        </RowGroup>
-        <RowGroup>
-          {[...collection.body.childNodes].map((row) => (
-            <Row key={row.key} item={row} state={state}>
-              {[...row.childNodes].map((cell) => {
-                return cell.props.isSelectionCell ? (
-                  <SelectCell key={cell.key} cell={cell} state={state} />
-                ) : (
-                  <Cell key={cell.key} cell={cell} state={state} />
-                );
-              })}
-            </Row>
-          ))}
-        </RowGroup>
-        {expandedRow && renderExpandedRow && (
-          <ExpandedRow>{renderExpandedRow(expandedRow.key)}</ExpandedRow>
-        )}
-      </div>
+      <RowGroup>
+        {collection.headerRows.map((headerRow) => (
+          <HeaderRow key={headerRow.key} item={headerRow} state={state}>
+            {[...headerRow.childNodes].map((column) =>
+              column.props.isSelectionCell ? (
+                <SelectAllColumnHeader
+                  key={column.key}
+                  column={column}
+                  state={state}
+                />
+              ) : (
+                <ColumnHeader key={column.key} column={column} state={state} />
+              ),
+            )}
+          </HeaderRow>
+        ))}
+      </RowGroup>
+      <RowGroup>
+        {[...collection.body.childNodes].map((row) => (
+          <Row key={row.key} item={row} state={state}>
+            {[...row.childNodes].map((cell) => {
+              return cell.props.isSelectionCell ? (
+                <SelectCell key={cell.key} cell={cell} state={state} />
+              ) : (
+                <Cell key={cell.key} cell={cell} state={state} />
+              );
+            })}
+          </Row>
+        ))}
+      </RowGroup>
+      {expandedRow && renderExpandedRow && (
+        <ExpandedRow>{renderExpandedRow(expandedRow.key)}</ExpandedRow>
+      )}
     </div>
   );
 }
