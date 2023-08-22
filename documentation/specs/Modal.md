@@ -271,3 +271,11 @@ function PageWithModal() {
 
 - `useDialog`, `useModalOverlay` from `react-aria`
 - `IntersectionObserver` for styling when header and footer are stuck, as denoted here: https://ryanmulligan.dev/blog/sticky-header-scroll-shadow/
+
+---
+
+## Versions
+
+| Version    | Owner           | Change                                           |
+| :--------- | :-------------- | :----------------------------------------------- |
+| 2023-08-22 | stephenjwatkins | Add `isDisabled` to actions to support disabling |
