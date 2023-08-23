@@ -44,12 +44,10 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   const [expandedRowHeight, setExpandedRowHeight] = useState<number | null>(
     null,
   );
+  const [expandedRowWidth, setExpandedRowWidth] = useState<number | null>(null);
   const [expandedRowPosition, setExpandedRowPosition] = useState<number | null>(
     null,
   );
-  const handleLoadExpandedRowHeight = useCallback((height: number) => {
-    setExpandedRowHeight(height);
-  }, []);
 
   const firstColumn = collection.columns[0];
   const lastColumn = collection.columns[collection.columns.length - 1];
@@ -116,6 +114,11 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
     ),
     ...getComponentToken(
       "data-grid",
+      "expanded-row-width",
+      `${expandedRowWidth ?? 0}px`,
+    ),
+    ...getComponentToken(
+      "data-grid",
       "expanded-row-position",
       `${expandedRowPosition ?? 0}px`,
     ),
@@ -142,10 +145,15 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
       const childTop = childNode.offsetTop;
       const relativeTop = childTop + childNode.offsetHeight;
       const expandedRowHeight = expandedRow?.offsetHeight;
+      const expandedRowWidth = [...rowThatsExpanded.childNodes].reduce(
+        (a, c) => a + c.offsetWidth,
+        0,
+      );
 
       console.log(expandedRow?.offsetHeight, tableTop, childTop, relativeTop);
 
       setExpandedRowHeight(expandedRowHeight);
+      setExpandedRowWidth(expandedRowWidth);
       setExpandedRowPosition(relativeTop);
     }
   }, [expandedRow]);

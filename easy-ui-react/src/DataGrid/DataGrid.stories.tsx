@@ -82,7 +82,12 @@ export const WithExpansion: Story = {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const rows = useMemo(
       () => [
-        { key: 1, name: "Games", date: "6/7/2020", type: "File folder" },
+        {
+          key: 1,
+          name: "Games",
+          date: "6/7/2020",
+          type: "File folder with really long text let's see what happens",
+        },
         {
           key: 2,
           name: "Program Files",

@@ -25,8 +25,16 @@
 }
 
 .columnHeader {
+  position: sticky;
+  top: 0;
   background: component-token("data-grid", "header-bg");
   color: component-token("data-grid", "header-text");
+  z-index: 2;
+
+  &:first-child {
+    background: yellow;
+    z-index: 3;
+  }
 }
 
 .row {
@@ -35,6 +43,9 @@
 
 .cell {
   background: white;
+  &:first-child {
+    z-index: 1;
+  }
 }
 
 .cellFocused {
@@ -52,6 +63,14 @@
 
   &:first-child {
     padding-left: design-token("space.5");
+  }
+  &:nth-child(1) {
+    position: sticky;
+    left: 0;
+  }
+  &:nth-child(2) {
+    position: sticky;
+    left: 48px;
   }
   &:last-child {
     padding-right: design-token("space.5");
@@ -78,8 +97,8 @@
 .expandedRow {
   position: absolute;
   left: 0;
-  right: 0;
   top: component-token("data-grid", "expanded-row-position");
+  width: component-token("data-grid", "expanded-row-width");
   border: 1px solid red;
 }
 
