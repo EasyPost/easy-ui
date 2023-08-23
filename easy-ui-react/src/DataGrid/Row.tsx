@@ -38,7 +38,7 @@ export function Row({ item, children, state }: RowProps) {
       className={className}
       {...mergeProps(rowProps, focusProps, hoverProps)}
       ref={ref}
-      data-row-thats-expanded={isExpanded}
+      data-ezui-expanded-row={isExpanded}
     >
       {children}
     </div>
