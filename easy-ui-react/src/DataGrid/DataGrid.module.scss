@@ -36,6 +36,8 @@
 }
 
 .columnHeader {
+  @include font-style("subtitle2");
+
   position: sticky;
   top: 0;
   background: component-token("data-grid", "header-bg");
@@ -49,34 +51,18 @@
 }
 
 .cell {
-  background: white;
+  @include font-style("body1");
+
+  background: design-token("color.white");
+  color: design-token("color.blue.800");
   height: component-token("data-grid", "body-row-height");
   z-index: 1;
 }
 
-.cell:nth-child(-n + 2) {
-  z-index: 2;
-  position: sticky;
-}
-.cell:nth-child(1) {
-  left: 0;
-}
-.cell:nth-child(2) {
-  left: 48px;
-}
-
-.columnHeader:nth-child(-n + 2) {
-  z-index: 4;
-}
-.columnHeader:nth-child(1) {
-  left: 0;
-}
-.columnHeader:nth-child(2) {
-  left: 48px;
-}
-
+.columnHeaderFocused,
 .cellFocused {
-  box-shadow: inset 0 0 2px red;
+  @include native-focus-ring;
+  outline-offset: -1px;
 }
 
 .columnHeader,
@@ -85,7 +71,6 @@
   align-items: center;
 
   padding: 0 design-token("space.2");
-  outline: none;
 
   &:first-child {
     padding-left: design-token("space.5");
@@ -121,15 +106,10 @@
   padding: design-token("space.1") design-token("space.5");
 }
 
-.rowFocused {
-  .cell {
-    background: blue;
-  }
-}
-
 .rowHovered {
   .cell {
     background: design-token("color.gray.050");
+    color: design-token("color.blue.700");
   }
 }
 
@@ -143,14 +123,51 @@
   .columnHeader,
   .cell {
     &:last-child {
-      padding-left: 0;
+      padding-left: design-token("space.0.5");
       padding-right: design-token("space.2");
+      position: sticky;
+      right: -12px;
+      z-index: 2;
+    }
+    &:nth-last-child(2) {
+      padding-right: design-token("space.1.5");
+    }
+  }
+  .columnHeader {
+    &:last-child {
+      z-index: 4;
     }
   }
 }
 
+.cell:nth-child(1) {
+  position: sticky;
+  left: -16px;
+  z-index: 2;
+}
+
+.columnHeader:nth-child(1) {
+  left: -16px;
+  z-index: 4;
+}
+
 .hasSelection,
 .hasExpansion {
+  .cell:nth-child(1) {
+    left: 0;
+  }
+  .columnHeader:nth-child(1) {
+    left: 0;
+  }
+  .cell:nth-child(2) {
+    position: sticky;
+    left: 48px;
+    z-index: 2;
+  }
+  .columnHeader:nth-child(2) {
+    left: 48px;
+    z-index: 4;
+  }
   .columnHeader,
   .cell {
     &:first-child {

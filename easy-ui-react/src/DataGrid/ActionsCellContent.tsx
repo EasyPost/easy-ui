@@ -1,7 +1,9 @@
 import React from "react";
+import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
 import { Menu } from "../Menu";
 import { UnstyledPressButton } from "./UnstyledPressButton";
 import { RowAction } from "./types";
+import { Icon } from "../Icon";
 
 type ActionsCellContentProps = {
   rowActions: RowAction[];
@@ -15,22 +17,26 @@ export function ActionsCellContent({ rowActions }: ActionsCellContentProps) {
           return (
             <Menu key={i}>
               <Menu.Trigger>
-                <UnstyledPressButton>Test1</UnstyledPressButton>
+                <UnstyledPressButton>
+                  <Icon symbol={MoreVertIcon} />
+                </UnstyledPressButton>
               </Menu.Trigger>
               {rowAction.renderMenuOverlay()}
             </Menu>
           );
         }
         return (
-          <span key={i}>
-            <UnstyledPressButton
-              onClick={() => {
-                rowAction.onAction();
-              }}
-            >
-              Test2
-            </UnstyledPressButton>
-          </span>
+          <UnstyledPressButton
+            key={i}
+            onClick={() => {
+              rowAction.onAction();
+            }}
+          >
+            <Icon
+              symbol={rowAction.iconSymbol}
+              accessibilityLabel={rowAction.accessibilityLabel}
+            />
+          </UnstyledPressButton>
         );
       })}
     </span>

@@ -49,7 +49,7 @@ export type DataGridProps<C extends Column> = AriaLabelingProps & {
   /** The initial selected keys in the collection (uncontrolled). */
   defaultSelectedKeys?: "all" | Iterable<Key>;
 
-  /** A list of row keys to disable. */
+  /** A list of row keys to disable from selection. */
   disabledKeys?: Iterable<Key>;
 
   /** The currently expanded key in the collection (controlled). */
