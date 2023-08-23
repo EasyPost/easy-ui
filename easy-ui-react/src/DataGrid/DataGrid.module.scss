@@ -23,10 +23,13 @@
   border-radius: design-token("shape.border_radius.md");
   overflow: auto;
   max-height: calc(
-    component-token("data-grid", "header-row-height") +
+    2px +
       (
-        component-token("data-grid", "body-row-height") *
-          component-token("data-grid", "max-rows")
+        component-token("data-grid", "header-row-height") +
+          (
+            component-token("data-grid", "body-row-height") *
+              component-token("data-grid", "max-rows")
+          )
       )
   );
   position: relative;
@@ -115,7 +118,7 @@
   top: component-token("data-grid", "expanded-row-position");
   width: component-token("data-grid", "expanded-row-width");
   opacity: component-token("data-grid", "expanded-row-opacity");
-  border: 1px solid red;
+  padding: design-token("space.1") design-token("space.5");
 }
 
 .rowFocused {

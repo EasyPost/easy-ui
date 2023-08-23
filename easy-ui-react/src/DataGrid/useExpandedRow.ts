@@ -1,3 +1,4 @@
+import { useResizeObserver } from "@react-aria/utils";
 import {
   CSSProperties,
   MutableRefObject,
@@ -9,6 +10,9 @@ import { TableState } from "react-stately";
 import { getComponentToken } from "../utilities/css";
 import { EXPAND_ROW_COLUMN_KEY } from "./constants";
 
+/**
+ * Manages the size and positioning of the expanded row content.
+ */
 export function useExpandedRow({
   tableRef,
   state,
@@ -34,24 +38,29 @@ export function useExpandedRow({
   //     width, since its height will be determined by its width
   useLayoutEffect(() => {
     if (tableRef.current && expandedRow) {
-      const $expandedRowContent = getExpandedRowContentEl(tableRef.current);
-      const $expandedRow = getExpandedRowEl(tableRef.current);
-      if ($expandedRow && $expandedRowContent) {
-        const $children = [...$expandedRow.childNodes] as HTMLElement[];
-        const $firstChild = $children[0];
-        const y = $firstChild.offsetTop + $firstChild.offsetHeight;
-        const width = $children.reduce((acc, c) => acc + c.offsetWidth, 0);
-        setRect(new DOMRect(0, 0, width, 0));
-        const animationFrame = requestAnimationFrame(() => {
-          const height = $expandedRowContent.offsetHeight;
-          setRect(new DOMRect(0, y, width, height));
-        });
-        return () => {
-          window.cancelAnimationFrame(animationFrame);
-        };
-      }
+      const rect = getExpandedRowContentRect(tableRef.current);
+      rect.height = 0;
+      setRect(rect);
+      const animationFrame = requestAnimationFrame(() => {
+        if (tableRef.current && expandedRow) {
+          setRect(getExpandedRowContentRect(tableRef.current));
+        }
+      });
+      return () => {
+        window.cancelAnimationFrame(animationFrame);
+      };
     }
   }, [expandedRow, tableRef]);
+
+  // update the expanded row content rect on table resize
+  useResizeObserver({
+    ref: tableRef,
+    onResize() {
+      if (tableRef.current && expandedRow) {
+        setRect(getExpandedRowContentRect(tableRef.current));
+      }
+    },
+  });
 
   const expandedRowStyle = useMemo(() => {
     return {
@@ -89,4 +98,17 @@ function getExpandedRowContentEl($table: HTMLElement) {
 
 function getExpandedRowEl($table: HTMLElement) {
   return $table.querySelector("[data-ezui-expanded-row='true']") as HTMLElement;
+}
+
+function getExpandedRowContentRect($tableEl: HTMLElement) {
+  const $expandedRowContent = getExpandedRowContentEl($tableEl);
+  const $expandedRow = getExpandedRowEl($tableEl);
+  const $children = [...$expandedRow.childNodes] as HTMLElement[];
+  const $firstChild = $children[0];
+  const y = $firstChild.offsetTop + $firstChild.offsetHeight;
+  // sum up the row's children for its width. subtract one to ensure we never
+  // get scrollbars from fractional quirks
+  const width = $children.reduce((acc, c) => acc + c.offsetWidth, 0) - 1;
+  const height = $expandedRowContent.offsetHeight;
+  return new DOMRect(0, y, width, height);
 }

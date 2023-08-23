@@ -4,6 +4,7 @@ import { Selection } from "react-stately";
 import { DataGrid } from "./DataGrid";
 import { Menu } from "../Menu";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
+import { PlaceholderBox } from "../utilities/storybook";
 
 type Story = StoryObj<typeof DataGrid>;
 
@@ -106,7 +107,11 @@ export const WithExpansion: Story = {
         columns={columns}
         maxRows={4}
         rows={rows}
-        renderExpandedRow={(rowKey) => <>Custom Content {rowKey}</>}
+        renderExpandedRow={() => (
+          <PlaceholderBox width="100%" height="140px">
+            Space for content
+          </PlaceholderBox>
+        )}
         renderColumnCell={(column) => (
           <span style={{ whiteSpace: "nowrap" }}>{column.name}</span>
         )}
