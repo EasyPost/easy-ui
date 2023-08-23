@@ -1,5 +1,5 @@
 import { GridNode } from "@react-types/grid";
-import React, { useRef } from "react";
+import React, { ComponentProps, useRef } from "react";
 import { mergeProps, useFocusRing, useTableColumnHeader } from "react-aria";
 import { TableState } from "react-stately";
 import { classNames } from "../utilities/css";
@@ -19,7 +19,6 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
     ref,
   );
   const { isFocusVisible, focusProps } = useFocusRing();
-  const arrowIcon = state.sortDescriptor?.direction === "ascending" ? "▲" : "▼";
   const className = classNames(
     styles.columnHeader,
     isFocusVisible && styles.columnHeaderFocused,
@@ -35,17 +34,41 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
       {column.props.allowsSorting && (
         <span
           aria-hidden="true"
-          style={{
-            padding: "0 2px",
-            visibility:
-              state.sortDescriptor?.column === column.key
-                ? "visible"
-                : "hidden",
-          }}
+          className={styles.sortIcon}
+          data-sorted={state.sortDescriptor?.column === column.key}
         >
-          {arrowIcon}
+          {state.sortDescriptor?.column === column.key &&
+          state.sortDescriptor?.direction === "ascending" ? (
+            <Up />
+          ) : (
+            <Down />
+          )}
         </span>
       )}
     </div>
   );
+}
+
+function Down(props: ComponentProps<"svg">) {
+  return (
+    <svg
+      width="12"
+      height="8"
+      viewBox="0 0 12 8"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 0.344238L0 0.344238L6 7.561L12 0.344238Z"
+      />
+    </svg>
+  );
+}
+
+function Up() {
+  return <Down style={{ transform: "rotate(180deg)" }} />;
 }

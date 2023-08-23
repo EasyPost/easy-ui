@@ -4,4 +4,5 @@
 .UnstyledPressButton {
   @include unstyled.button;
   display: inline-flex;
+  cursor: pointer;
 }

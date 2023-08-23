@@ -13,6 +13,7 @@ export function DataGrid<C extends ColumnType = ColumnType>(
 ) {
   const {
     columns: unprocessedColumns,
+    columnKeysAllowingSort = [],
     defaultExpandedKey,
     renderColumnCell,
     renderRowCell,
@@ -46,7 +47,15 @@ export function DataGrid<C extends ColumnType = ColumnType>(
       <Table {...props}>
         <TableHeader columns={columns}>
           {(column) => (
-            <Column isRowHeader={column.key === rowHeaderColumnKey}>
+            <Column
+              isRowHeader={column.key === rowHeaderColumnKey}
+              allowsSorting={
+                column.key === EXPAND_ROW_COLUMN_KEY ||
+                column.key === ROW_ACTIONS_COLUMN_KEY
+                  ? false
+                  : columnKeysAllowingSort.includes(column.key)
+              }
+            >
               {column.key === EXPAND_ROW_COLUMN_KEY ? (
                 <VisuallyHiddenCell>Expand row</VisuallyHiddenCell>
               ) : column.key === ROW_ACTIONS_COLUMN_KEY ? (

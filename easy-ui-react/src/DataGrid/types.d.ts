@@ -40,6 +40,9 @@ export type DataGridProps<C extends Column> = AriaLabelingProps & {
   /** The elements that make up the table. Includes the TableHeader, TableBody, Columns, and Rows. */
   children?: [ReactElement, ReactElement];
 
+  /** List of keys for columns to allow sort. */
+  columnKeysAllowingSort?: Key[];
+
   /** Columns for the table. */
   columns: C[];
 

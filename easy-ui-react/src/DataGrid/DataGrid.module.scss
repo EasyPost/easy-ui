@@ -44,6 +44,20 @@
   color: component-token("data-grid", "header-text");
   height: component-token("data-grid", "header-row-height");
   z-index: 3;
+  outline: none;
+
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1");
+}
+
+.sortIcon {
+  display: inline-flex;
+  color: design-token("color.gray.700");
+
+  &[data-sorted="true"] {
+    color: design-token("color.gray.500");
+  }
 }
 
 .row {
@@ -110,11 +124,13 @@
   .cell {
     background: design-token("color.gray.050");
     color: design-token("color.blue.700");
+    font-weight: 500;
   }
 }
 
 .rowExpanded {
   .cell {
+    font-weight: 600;
     margin-bottom: component-token("data-grid", "expanded-row-height");
   }
 }

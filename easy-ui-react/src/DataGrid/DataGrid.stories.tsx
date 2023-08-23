@@ -2,7 +2,7 @@ import DeleteIcon from "@easypost/easy-ui-icons/Delete";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React, { useMemo } from "react";
-import { Selection } from "react-stately";
+import { Selection, useAsyncList } from "react-stately";
 import { Menu } from "../Menu";
 import { PlaceholderBox } from "../utilities/storybook";
 import { DataGrid } from "./DataGrid";
@@ -160,7 +160,6 @@ export const WithExpansion: Story = {
       <DataGrid
         aria-label="Example expandable data grid"
         columns={columns}
-        maxRows={4}
         rows={rows}
         renderExpandedRow={() => (
           <PlaceholderBox width="100%" height="140px">
@@ -388,6 +387,137 @@ export const SingleSelectionModeWithDisabledKeys: Story = {
         rows={rows}
         disabledKeys={[3]}
         selectionMode="single"
+        renderColumnCell={(column) => (
+          <span style={{ whiteSpace: "nowrap" }}>{column.name}</span>
+        )}
+        renderRowCell={(item) => (
+          <span style={{ whiteSpace: "nowrap" }}>{item as string}</span>
+        )}
+      />
+    );
+  },
+};
+
+export const WithSort: Story = {
+  render: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const columns = useMemo(
+      () => [
+        { key: "name", name: "Name" },
+        { key: "height", name: "Height" },
+        { key: "mass", name: "Mass" },
+        { key: "birth_year", name: "Birth Year" },
+      ],
+      [],
+    );
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const list = useAsyncList({
+      async load() {
+        return await Promise.resolve({
+          items: [
+            {
+              key: 1,
+              name: "Luke Skywalker",
+              height: "172",
+              mass: "77",
+              birth_year: "19BBY",
+            },
+            {
+              key: 2,
+              name: "C-3PO",
+              height: "167",
+              mass: "75",
+              birth_year: "112BBY",
+            },
+            {
+              key: 3,
+              name: "R2-D2",
+              height: "96",
+              mass: "32",
+              birth_year: "33BBY",
+            },
+            {
+              key: 4,
+              name: "Darth Vader",
+              height: "202",
+              mass: "136",
+              birth_year: "41.9BBY",
+            },
+            {
+              key: 5,
+              name: "Leia Organa",
+              height: "150",
+              mass: "49",
+              birth_year: "19BBY",
+            },
+            {
+              key: 6,
+              name: "Owen Lars",
+              height: "178",
+              mass: "120",
+              birth_year: "52BBY",
+            },
+            {
+              key: 7,
+              name: "Beru Whitesun lars",
+              height: "165",
+              mass: "75",
+              birth_year: "47BBY",
+            },
+            {
+              key: 8,
+              name: "R5-D4",
+              height: "97",
+              mass: "32",
+              birth_year: "unknown",
+            },
+            {
+              key: 9,
+              name: "Biggs Darklighter",
+              height: "183",
+              mass: "84",
+              birth_year: "24BBY",
+            },
+            {
+              key: 10,
+              name: "Obi-Wan Kenobi",
+              height: "182",
+              mass: "77",
+              birth_year: "57BBY",
+            },
+          ],
+        });
+      },
+      async sort({ items, sortDescriptor }) {
+        return {
+          items: items.sort((a, b) => {
+            const first =
+              a[sortDescriptor.column as keyof typeof sortDescriptor.column];
+            const second =
+              b[sortDescriptor.column as keyof typeof sortDescriptor.column];
+            let cmp =
+              (parseInt(first) || first) < (parseInt(second) || second)
+                ? -1
+                : 1;
+            if (sortDescriptor.direction === "descending") {
+              cmp *= -1;
+            }
+            return cmp;
+          }),
+        };
+      },
+    });
+
+    return (
+      <DataGrid
+        aria-label="Example sort table"
+        sortDescriptor={list.sortDescriptor}
+        onSortChange={list.sort}
+        columnKeysAllowingSort={["height", "mass"]}
+        columns={columns}
+        rows={list.items}
+        selectionMode="multiple"
         renderColumnCell={(column) => (
           <span style={{ whiteSpace: "nowrap" }}>{column.name}</span>
         )}
