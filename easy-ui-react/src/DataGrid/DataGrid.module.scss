@@ -12,6 +12,8 @@
     "header-text",
     design-token("color.white")
   );
+  @include component-token("data-grid", "header-row-height", 48px);
+  @include component-token("data-grid", "body-row-height", 56px);
 
   display: grid;
   grid-template-rows: auto;
@@ -20,7 +22,13 @@
   border: 1px solid design-token("color.gray.300");
   border-radius: design-token("shape.border_radius.md");
   overflow: auto;
-  max-height: 168px;
+  max-height: calc(
+    component-token("data-grid", "header-row-height") +
+      (
+        component-token("data-grid", "body-row-height") *
+          component-token("data-grid", "max-rows")
+      )
+  );
   position: relative;
 }
 
@@ -29,6 +37,8 @@
   top: 0;
   background: component-token("data-grid", "header-bg");
   color: component-token("data-grid", "header-text");
+  height: component-token("data-grid", "header-row-height");
+  z-index: 3;
 }
 
 .row {
@@ -37,11 +47,10 @@
 
 .cell {
   background: white;
-}
-
-.cell {
+  height: component-token("data-grid", "body-row-height");
   z-index: 1;
 }
+
 .cell:nth-child(-n + 2) {
   z-index: 2;
   position: sticky;
@@ -53,11 +62,6 @@
   left: 48px;
 }
 
-.columnHeader {
-  z-index: 3;
-  position: sticky;
-  top: 0;
-}
 .columnHeader:nth-child(-n + 2) {
   z-index: 4;
 }
@@ -77,20 +81,11 @@
   display: inline-flex;
   align-items: center;
 
-  height: 56px;
   padding: 0 design-token("space.2");
   outline: none;
 
   &:first-child {
     padding-left: design-token("space.5");
-  }
-  &:nth-child(1) {
-    position: sticky;
-    left: 0;
-  }
-  &:nth-child(2) {
-    position: sticky;
-    left: 48px;
   }
   &:last-child {
     padding-right: design-token("space.5");

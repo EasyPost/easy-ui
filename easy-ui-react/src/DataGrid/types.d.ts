@@ -61,6 +61,11 @@ export type DataGridProps<C extends Column> = AriaLabelingProps & {
    */
   headerVariant?: "primary" | "secondary";
 
+  /**
+   * Constrains the height of the data grid to a set number of rows.
+   */
+  maxRows?: number;
+
   /** The type of selection that is allowed in the collection. */
   selectionMode?: SelectionMode;
 

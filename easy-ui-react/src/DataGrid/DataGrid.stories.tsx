@@ -104,6 +104,7 @@ export const WithExpansion: Story = {
       <DataGrid
         aria-label="Example expandable data grid"
         columns={columns}
+        maxRows={4}
         rows={rows}
         renderExpandedRow={(rowKey) => <>Custom Content {rowKey}</>}
         renderColumnCell={(column) => (

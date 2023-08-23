@@ -1,7 +1,7 @@
 import React, { CSSProperties, useRef } from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
-import { classNames, variationName } from "../utilities/css";
+import { classNames, getComponentToken, variationName } from "../utilities/css";
 import { Cell } from "./Cell";
 import { ColumnHeader } from "./ColumnHeader";
 import { ExpandedRowContent } from "./ExpandedRowContent";
@@ -10,7 +10,11 @@ import { Row } from "./Row";
 import { RowGroup } from "./RowGroup";
 import { SelectAllColumnHeader } from "./SelectAllColumnHeader";
 import { SelectCell } from "./SelectCell";
-import { EXPAND_ROW_COLUMN_KEY, ROW_ACTIONS_COLUMN_KEY } from "./constants";
+import {
+  DEFAULT_MAX_ROWS,
+  EXPAND_ROW_COLUMN_KEY,
+  ROW_ACTIONS_COLUMN_KEY,
+} from "./constants";
 import { Column, DataGridProps } from "./types";
 import { useExpandedRow } from "./useExpandedRow";
 import { useGridTemplate } from "./useGridTemplate";
@@ -18,8 +22,13 @@ import { useGridTemplate } from "./useGridTemplate";
 import styles from "./DataGrid.module.scss";
 
 export function Table<C extends Column>(props: DataGridProps<C>) {
-  const { headerVariant, renderExpandedRow, selectionMode, templateColumns } =
-    props;
+  const {
+    headerVariant,
+    maxRows = DEFAULT_MAX_ROWS,
+    renderExpandedRow,
+    selectionMode,
+    templateColumns,
+  } = props;
 
   const tableRef = useRef<HTMLDivElement | null>(null);
   const state = useTableState({
@@ -53,6 +62,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   );
 
   const style = {
+    ...getComponentToken("data-grid", "max-rows", String(maxRows)),
     ...gridTemplateStyle,
     ...expandedRowStyle,
   } as CSSProperties;
