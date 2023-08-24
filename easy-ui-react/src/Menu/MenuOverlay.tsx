@@ -2,7 +2,7 @@ import { CollectionChildren } from "@react-types/shared";
 import React, { Key } from "react";
 import {
   DismissButton,
-  OverlayContainer,
+  Overlay,
   Placement,
   mergeProps,
   useMenu,
@@ -119,7 +119,7 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
   } as React.CSSProperties;
 
   return (
-    <OverlayContainer>
+    <Overlay>
       <div {...underlayProps} className={styles.underlay} />
       <div
         {...mergeProps(popoverProps, { style })}
@@ -155,6 +155,6 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
         </div>
         <DismissButton onDismiss={menuTriggerState.close} />
       </div>
-    </OverlayContainer>
+    </Overlay>
   );
 }

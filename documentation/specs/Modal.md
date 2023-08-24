@@ -279,3 +279,4 @@ function PageWithModal() {
 | Version    | Owner           | Change                                              |
 | :--------- | :-------------- | :-------------------------------------------------- |
 | 2023-08-21 | stephenjwatkins | Add `<ModalContainer />` to support custom triggers |
+| 2023-08-22 | stephenjwatkins | Add `isDisabled` to actions to support disabling    |
