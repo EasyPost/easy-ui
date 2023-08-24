@@ -53,11 +53,7 @@
 
 .sortIcon {
   display: inline-flex;
-  color: design-token("color.gray.700");
-
-  &[data-sorted="true"] {
-    color: design-token("color.gray.500");
-  }
+  color: design-token("color.gray.500");
 }
 
 .row {

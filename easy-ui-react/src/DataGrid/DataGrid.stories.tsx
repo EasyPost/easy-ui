@@ -470,7 +470,7 @@ export const WithSort: Story = {
               name: "R5-D4",
               height: "97",
               mass: "32",
-              birth_year: "unknown",
+              birth_year: "999BBY",
             },
             {
               key: 9,
@@ -514,10 +514,9 @@ export const WithSort: Story = {
         aria-label="Example sort table"
         sortDescriptor={list.sortDescriptor}
         onSortChange={list.sort}
-        columnKeysAllowingSort={["height", "mass"]}
+        columnKeysAllowingSort={columns.map((c) => c.key)}
         columns={columns}
         rows={list.items}
-        selectionMode="multiple"
         renderColumnCell={(column) => (
           <span style={{ whiteSpace: "nowrap" }}>{column.name}</span>
         )}
