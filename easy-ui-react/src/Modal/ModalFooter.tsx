@@ -12,6 +12,7 @@ type ModalFooterProps = {
   primaryAction: {
     content: string;
     onAction: () => void;
+    isDisabled?: boolean;
   };
 
   /**
@@ -20,6 +21,7 @@ type ModalFooterProps = {
   secondaryAction?: {
     content: string;
     onAction: () => void;
+    isDisabled?: boolean;
   };
 };
 
@@ -33,11 +35,20 @@ export function ModalFooter(props: ModalFooterProps) {
   return (
     <div className={className}>
       {secondaryAction && (
-        <Button onPress={secondaryAction.onAction} color="neutral">
+        <Button
+          onPress={secondaryAction.onAction}
+          color="neutral"
+          isDisabled={secondaryAction.isDisabled}
+        >
           {secondaryAction.content}
         </Button>
       )}
-      <Button onPress={primaryAction.onAction}>{primaryAction.content}</Button>
+      <Button
+        onPress={primaryAction.onAction}
+        isDisabled={primaryAction.isDisabled}
+      >
+        {primaryAction.content}
+      </Button>
     </div>
   );
 }
