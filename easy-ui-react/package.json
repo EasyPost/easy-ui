@@ -39,7 +39,7 @@
     "@types/react-dom": "^18.2.7",
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.3.0",
-    "overlayscrollbars-react": "^0.5.1",
+    "overlayscrollbars-react": "^0.5.2",
     "react-aria": "^3.27.0",
     "react-is": "^18.2.0",
     "react-stately": "^3.25.0",
