@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.12
+
+### Minor Changes
+
+- ecb5e71: feat(Modal): support custom triggers
+- 8fe2ca9: feat(Modal): support disabled actions
+
+### Patch Changes
+
+- 9089d64: fix(Menu): return focus to trigger after closing menu
+
 ## 1.0.0-alpha.11
 
 ### Patch Changes

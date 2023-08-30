@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui",
-  "version": "1.0.0-alpha.11",
+  "version": "1.0.0-alpha.12",
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",
@@ -38,8 +38,8 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "lodash": "^4.17.21",
-    "overlayscrollbars": "^2.2.1",
-    "overlayscrollbars-react": "^0.5.1",
+    "overlayscrollbars": "^2.3.0",
+    "overlayscrollbars-react": "^0.5.2",
     "react-aria": "^3.27.0",
     "react-is": "^18.2.0",
     "react-stately": "^3.25.0",

@@ -7,6 +7,8 @@ import { ModalHeader } from "./ModalHeader";
 import { ModalTrigger } from "./ModalTrigger";
 import { ModalContext } from "./context";
 import { useIntersectionDetection } from "./useIntersectionDetection";
+import { ModalContainer } from "./ModalContainer";
+import { useModalTrigger } from "./context";
 
 import styles from "./Modal.module.scss";
 
@@ -119,3 +121,5 @@ Modal.Body = ModalBody;
  * Represents the footer of a `<Modal />`.
  */
 Modal.Footer = ModalFooter;
+
+export { ModalContainer, useModalTrigger };
