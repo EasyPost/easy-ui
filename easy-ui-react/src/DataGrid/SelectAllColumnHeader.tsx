@@ -33,7 +33,7 @@ export function SelectAllColumnHeader({
       {state.selectionManager.selectionMode === "single" ? (
         <VisuallyHidden>{checkboxProps["aria-label"]}</VisuallyHidden>
       ) : (
-        <Checkbox size="lg" {...checkboxProps} />
+        <Checkbox {...checkboxProps} />
       )}
     </div>
   );

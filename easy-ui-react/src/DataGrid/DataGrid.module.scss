@@ -125,6 +125,7 @@
 
   width: 24px;
   height: 24px;
+  margin: -4px;
 
   cursor: pointer;
 
@@ -224,18 +225,18 @@
   }
   .cell:nth-child(2) {
     position: sticky;
-    left: 48px;
+    left: 44px;
     z-index: 2;
   }
   .columnHeader:nth-child(2) {
-    left: 48px;
+    left: 44px;
     z-index: 4;
   }
   .columnHeader,
   .cell {
     &:first-child {
       padding-left: design-token("space.2");
-      padding-right: design-token("space.1");
+      padding-right: design-token("space.1.5");
     }
     & + * {
       padding-left: 0;

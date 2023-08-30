@@ -15,6 +15,7 @@ type RowProps<T = object> = {
 
 export function Row({ item, children, state }: RowProps) {
   const isSelected = state.selectionManager.isSelected(item.key);
+  const isDisabled = state.disabledKeys.has(item.key);
   const isExpanded = item.value
     ? item.value[EXPAND_ROW_COLUMN_KEY as keyof typeof item.value] === true
     : false;
@@ -31,6 +32,7 @@ export function Row({ item, children, state }: RowProps) {
     isFocusVisible && styles.rowFocused,
     isSelected && styles.rowSelected,
     isPressed && styles.rowPressed,
+    isDisabled && styles.rowDisabled,
   );
 
   return (
