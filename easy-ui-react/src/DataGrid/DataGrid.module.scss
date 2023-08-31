@@ -64,6 +64,10 @@
   color: design-token("color.gray.500");
 }
 
+.sortIconIsSorted {
+  color: design-token("color.white");
+}
+
 .row {
   display: contents;
 }
@@ -147,13 +151,11 @@
   .cell {
     background: design-token("color.gray.050");
     color: design-token("color.blue.700");
-    font-weight: 500;
   }
 }
 
 .rowExpanded {
   .cell {
-    font-weight: 600;
     margin-bottom: component-token("data-grid", "expanded-row-height");
   }
 }

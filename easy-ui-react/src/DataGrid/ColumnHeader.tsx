@@ -31,17 +31,23 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
       data-col-span={column.colspan}
     >
       {column.rendered}
-      {column.props.allowsSorting &&
-        state.sortDescriptor?.column === column.key && (
-          <span aria-hidden="true" className={styles.sortIcon}>
-            {state.sortDescriptor?.column === column.key &&
-            state.sortDescriptor?.direction === "ascending" ? (
-              <Up />
-            ) : (
-              <Down />
-            )}
-          </span>
-        )}
+      {column.props.allowsSorting && (
+        <span
+          aria-hidden="true"
+          className={classNames(
+            styles.sortIcon,
+            state.sortDescriptor?.column === column.key &&
+              styles.sortIconIsSorted,
+          )}
+        >
+          {state.sortDescriptor?.column === column.key &&
+          state.sortDescriptor?.direction === "ascending" ? (
+            <Up />
+          ) : (
+            <Down />
+          )}
+        </span>
+      )}
     </div>
   );
 }
