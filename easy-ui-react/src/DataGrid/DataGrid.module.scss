@@ -17,6 +17,11 @@
   );
   @include component-token("data-grid", "header-row-height", 48px);
   @include component-token("data-grid", "body-row-height", 56px);
+  @include component-token(
+    "data-grid",
+    "sort-icon-color",
+    design-token("color.gray.500")
+  );
 
   border: 1px solid design-token("color.gray.300");
   border-radius: design-token("shape.border_radius.md");
@@ -61,11 +66,15 @@
 
 .sortIcon {
   display: inline-flex;
-  color: design-token("color.gray.500");
+  color: component-token("data-grid", "sort-icon-color");
 }
 
 .sortIconIsSorted {
-  color: design-token("color.white");
+  @include component-token(
+    "data-grid",
+    "sort-icon-color",
+    design-token("color.white")
+  );
 }
 
 .row {
@@ -261,4 +270,17 @@
     "header-text",
     design-token("color.blue.800")
   );
+
+  @include component-token(
+    "data-grid",
+    "sort-icon-color",
+    design-token("color.gray.400")
+  );
+  .sortIconIsSorted {
+    @include component-token(
+      "data-grid",
+      "sort-icon-color",
+      design-token("color.blue.800")
+    );
+  }
 }
