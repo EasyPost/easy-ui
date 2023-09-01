@@ -6,6 +6,8 @@ import { Selection, useAsyncList } from "react-stately";
 import { Menu } from "../Menu";
 import { PlaceholderBox } from "../utilities/storybook";
 import { DataGrid } from "./DataGrid";
+import CheckCircle from "@easypost/easy-ui-icons/CheckCircle";
+import { Icon } from "../Icon";
 
 type Story = StoryObj<typeof DataGrid>;
 
@@ -23,6 +25,7 @@ export const Basic: Story = {
       () => [
         { key: "name", name: "Name" },
         { key: "type", name: "Type" },
+        { key: "verified", name: "Verified" },
         { key: "date", name: "Date Modified" },
       ],
       [],
@@ -34,17 +37,31 @@ export const Basic: Story = {
         {
           key: 1,
           name: "Games",
-          date: "6/7/2020",
           type: "File folder with really long text let's see what happens",
+          verified: false,
+          date: "6/7/2020",
         },
         {
           key: 2,
           name: "Program Files",
-          date: "4/7/2021",
           type: "File folder",
+          verified: false,
+          date: "4/7/2021",
         },
-        { key: 3, name: "bootmgr", date: "11/20/2010", type: "System file" },
-        { key: 4, name: "log.txt", date: "1/18/2016", type: "Text Document" },
+        {
+          key: 3,
+          name: "bootmgr",
+          type: "System file",
+          verified: true,
+          date: "11/20/2010",
+        },
+        {
+          key: 4,
+          name: "log.txt",
+          type: "Text Document",
+          verified: false,
+          date: "1/18/2016",
+        },
       ],
       [],
     );
@@ -54,12 +71,19 @@ export const Basic: Story = {
         aria-label="Example dynamic collection table"
         columns={columns}
         rows={rows}
-        renderColumnCell={(column) => (
-          <span style={{ whiteSpace: "nowrap" }}>{column.name}</span>
-        )}
-        renderRowCell={(item) => (
-          <span style={{ whiteSpace: "nowrap" }}>{item as string}</span>
-        )}
+        renderColumnCell={(column) => {
+          return <span style={{ whiteSpace: "nowrap" }}>{column.name}</span>;
+        }}
+        renderRowCell={(item, _, columnKey) => {
+          if (columnKey === "verified") {
+            return (
+              <span style={{ display: "inline-flex" }}>
+                {item ? <Icon symbol={CheckCircle} /> : null}
+              </span>
+            );
+          }
+          return <span style={{ whiteSpace: "nowrap" }}>{item as string}</span>;
+        }}
       />
     );
   },
