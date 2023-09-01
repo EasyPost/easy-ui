@@ -97,8 +97,6 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
     ...expandedRowStyle,
   } as CSSProperties;
 
-  console.log("expanded row", pendingExpandedRow);
-
   return (
     <div ref={containerRef} className={styles.container} style={style}>
       <div {...gridProps} ref={tableRef} className={className}>
