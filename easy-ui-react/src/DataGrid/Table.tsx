@@ -45,7 +45,15 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
     tableRef,
   );
 
-  const { expandedRow, expandedRowStyle } = useExpandedRow({ tableRef, state });
+  const {
+    pendingExpandedRow,
+    expandedRow,
+    pendingExpandedRowStyle,
+    expandedRowStyle,
+  } = useExpandedRow({
+    tableRef,
+    state,
+  });
   const { gridTemplateStyle } = useGridTemplate({ templateColumns, state });
 
   const headerInterceptorRef = useRef<HTMLDivElement | null>(null);
@@ -85,8 +93,11 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   const style = {
     ...getComponentToken("data-grid", "max-rows", String(maxRows)),
     ...gridTemplateStyle,
+    ...pendingExpandedRowStyle,
     ...expandedRowStyle,
   } as CSSProperties;
+
+  console.log("expanded row", pendingExpandedRow);
 
   return (
     <div ref={containerRef} className={styles.container} style={style}>
@@ -144,7 +155,12 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
         </RowGroup>
         <RowGroup>
           {[...collection.body.childNodes].map((row) => (
-            <Row key={row.key} item={row} state={state}>
+            <Row
+              key={row.key}
+              item={row}
+              state={state}
+              isExpanded={expandedRow ? expandedRow.key === row.key : false}
+            >
               {[...row.childNodes].map((cell) => {
                 return cell.props.isSelectionCell ? (
                   <SelectCell key={cell.key} cell={cell} state={state} />
@@ -155,6 +171,11 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
             </Row>
           ))}
         </RowGroup>
+        {pendingExpandedRow && renderExpandedRow && (
+          <ExpandedRowContent isPending>
+            {renderExpandedRow(pendingExpandedRow.key)}
+          </ExpandedRowContent>
+        )}
         {expandedRow && renderExpandedRow && (
           <ExpandedRowContent>
             {renderExpandedRow(expandedRow.key)}

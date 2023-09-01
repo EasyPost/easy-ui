@@ -147,13 +147,24 @@
   }
 }
 
+.pendingExpandedRowContent,
 .expandedRowContent {
   position: absolute;
   left: 0;
+}
+
+.expandedRowContent {
   top: component-token("data-grid", "expanded-row-position");
   width: component-token("data-grid", "expanded-row-width");
   opacity: component-token("data-grid", "expanded-row-opacity");
   padding: design-token("space.1") design-token("space.5");
+}
+
+.pendingExpandedRowContent {
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+  width: component-token("data-grid", "pending-expanded-row-width");
 }
 
 .rowHovered {

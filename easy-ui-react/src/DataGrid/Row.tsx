@@ -11,12 +11,13 @@ type RowProps<T = object> = {
   item: Node<T>;
   state: TableState<T>;
   children: ReactNode;
+  isExpanded: boolean;
 };
 
-export function Row({ item, children, state }: RowProps) {
+export function Row({ item, children, state, isExpanded }: RowProps) {
   const isSelected = state.selectionManager.isSelected(item.key);
   const isDisabled = state.disabledKeys.has(item.key);
-  const isExpanded = item.value
+  const isPendingExpanded = item.value
     ? item.value[EXPAND_ROW_COLUMN_KEY as keyof typeof item.value] === true
     : false;
 
@@ -40,7 +41,8 @@ export function Row({ item, children, state }: RowProps) {
       className={className}
       {...mergeProps(rowProps, focusProps, hoverProps)}
       ref={ref}
-      data-ezui-expanded-row={isExpanded}
+      data-ezui-expanded-row={isPendingExpanded}
+      data-ezui-data-grid-row="true"
     >
       {children}
     </div>
