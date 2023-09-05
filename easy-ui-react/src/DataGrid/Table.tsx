@@ -14,7 +14,7 @@ import { SelectCell } from "./SelectCell";
 import {
   DEFAULT_MAX_ROWS,
   EXPAND_COLUMN_KEY,
-  ACTION_COLUMN_KEY,
+  ACTIONS_COLUMN_KEY,
 } from "./constants";
 import { Column, DataGridProps } from "./types";
 import { useExpandedRow } from "./useExpandedRow";
@@ -77,7 +77,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
 
   const hasSelection = columns.some((c) => c.props.isSelectionCell);
   const hasExpansion = columns.some((c) => c.key === EXPAND_COLUMN_KEY);
-  const hasRowActions = columns.some((c) => c.key === ACTION_COLUMN_KEY);
+  const hasRowActions = columns.some((c) => c.key === ACTIONS_COLUMN_KEY);
 
   const className = classNames(
     styles.DataGrid,
