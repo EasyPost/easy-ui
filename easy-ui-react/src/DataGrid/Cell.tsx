@@ -21,9 +21,9 @@ export function Cell({ cell, state }: CellProps) {
   );
   return (
     <div
+      {...mergeProps(gridCellProps, focusProps)}
       ref={ref}
       className={className}
-      {...mergeProps(gridCellProps, focusProps)}
     >
       {cell.rendered}
     </div>

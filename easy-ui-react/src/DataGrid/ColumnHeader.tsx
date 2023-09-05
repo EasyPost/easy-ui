@@ -1,8 +1,9 @@
 import { GridNode } from "@react-types/grid";
-import React, { ComponentProps, useRef } from "react";
+import React, { useRef } from "react";
 import { mergeProps, useFocusRing, useTableColumnHeader } from "react-aria";
 import { TableState } from "react-stately";
 import { classNames } from "../utilities/css";
+import { SortIndicator } from "./SortIndicator";
 
 import styles from "./DataGrid.module.scss";
 
@@ -25,53 +26,17 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
   );
   return (
     <div
+      ref={ref}
       {...mergeProps(columnHeaderProps, focusProps)}
       className={className}
-      ref={ref}
-      data-col-span={column.colspan}
     >
       {column.rendered}
       {column.props.allowsSorting && (
-        <span
-          aria-hidden="true"
-          className={classNames(
-            styles.sortIcon,
-            state.sortDescriptor?.column === column.key &&
-              styles.sortIconIsSorted,
-          )}
-        >
-          {state.sortDescriptor?.column === column.key &&
-          state.sortDescriptor?.direction === "ascending" ? (
-            <Up />
-          ) : (
-            <Down />
-          )}
-        </span>
+        <SortIndicator
+          isColumnSorted={state.sortDescriptor?.column === column.key}
+          sortDirection={state.sortDescriptor?.direction}
+        />
       )}
     </div>
   );
-}
-
-function Down(props: ComponentProps<"svg">) {
-  return (
-    <svg
-      width="12"
-      height="8"
-      viewBox="0 0 12 8"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M12 0.344238L0 0.344238L6 7.561L12 0.344238Z"
-      />
-    </svg>
-  );
-}
-
-function Up() {
-  return <Down style={{ transform: "rotate(180deg)" }} />;
 }
