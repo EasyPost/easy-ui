@@ -1,7 +1,13 @@
-import React, { ReactElement, cloneElement, useContext, useMemo } from "react";
+import React, {
+  ReactElement,
+  ReactNode,
+  cloneElement,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { useOverlayTrigger } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
-import { CloseableModalElement } from "./ModalTrigger";
 import { ModalUnderlay } from "./ModalUnderlay";
 import { ModalTriggerContext } from "./context";
 
@@ -9,7 +15,7 @@ type ModalContainerProps = {
   /**
    * Modal wrap content.
    */
-  children: CloseableModalElement | ReactElement | null | undefined | false;
+  children: ReactNode;
 
   /**
    * Whether or not the modal is dismissable.
@@ -38,8 +44,28 @@ export function ModalContainer(props: ModalContainerProps) {
     throw new Error("Modal.Container must be used outside of a Modal.Trigger");
   }
 
+  const childArray = React.Children.toArray(children);
+  if (childArray.length > 1) {
+    throw new Error("Only a single child can be passed to ModalContainer.");
+  }
+
+  const [lastChild, setLastChild] = useState<ReactElement | null>(null);
+
+  // React.Children.toArray mutates the children, and we need them to be stable
+  // between renders so that the lastChild comparison works.
+  let child = null;
+  if (Array.isArray(children)) {
+    child = children.find(React.isValidElement);
+  } else if (React.isValidElement(children)) {
+    child = children;
+  }
+
+  if (child && child !== lastChild) {
+    setLastChild(child);
+  }
+
   const state = useOverlayTriggerState({
-    isOpen: Boolean(children),
+    isOpen: Boolean(child),
     onOpenChange: (isOpen) => {
       if (!isOpen) {
         onDismiss();
@@ -56,11 +82,7 @@ export function ModalContainer(props: ModalContainerProps) {
     <ModalTriggerContext.Provider value={context}>
       {state.isOpen && (
         <ModalUnderlay state={state} isDismissable={isDismissable}>
-          {children
-            ? typeof children === "function"
-              ? children(state.close)
-              : cloneElement(children, overlayProps)
-            : null}
+          {lastChild ? cloneElement(lastChild, overlayProps) : null}
         </ModalUnderlay>
       )}
     </ModalTriggerContext.Provider>

@@ -215,6 +215,7 @@ export const MenuTrigger: ModalTriggerStory = {
           </Menu.Trigger>
           <Menu.Overlay onAction={(key) => setModal(key)}>
             <Menu.Item key="manage">Manage Account</Menu.Item>
+            <Menu.Item key="delete">Delete Account</Menu.Item>
           </Menu.Overlay>
         </Menu>
         <ModalContainer
@@ -222,26 +223,27 @@ export const MenuTrigger: ModalTriggerStory = {
             setModal(null);
           }}
         >
-          {modal === "manage" && <ManageAccountModel />}
+          {modal === "manage" && <ManageAccountModel title="Manage" />}
+          {modal === "delete" && <ManageAccountModel title="Delete" />}
         </ModalContainer>
       </>
     );
   },
 };
 
-function ManageAccountModel() {
+function ManageAccountModel({ title }: { title: string }) {
   const modalTriggerState = useModalTrigger();
   return (
     <Modal>
-      <Modal.Header>Manage Account</Modal.Header>
+      <Modal.Header>{`${title} Account`}</Modal.Header>
       <Modal.Body>
         <PlaceholderBox width="100%">Space for content</PlaceholderBox>
       </Modal.Body>
       <Modal.Footer
         primaryAction={{
-          content: "Save",
+          content: "Action",
           onAction: () => {
-            action("Save clicked!");
+            action("Action clicked!");
             modalTriggerState.close();
           },
         }}
