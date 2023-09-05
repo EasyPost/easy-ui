@@ -2,9 +2,7 @@ import { FocusableElement, Node } from "@react-types/shared";
 import React, {
   PointerEvent as PointerEventType,
   ReactNode,
-  createContext,
   useCallback,
-  useContext,
   useMemo,
   useRef,
 } from "react";
@@ -12,6 +10,7 @@ import { mergeProps, useFocusRing, useHover, useTableRow } from "react-aria";
 import { TableState } from "react-stately";
 import { classNames } from "../utilities/css";
 import { EXPAND_COLUMN_KEY } from "./constants";
+import { DataGridRowContext } from "./context";
 
 import styles from "./DataGrid.module.scss";
 
@@ -20,20 +19,6 @@ type RowProps<T = object> = {
   state: TableState<T>;
   children: ReactNode;
   isExpanded: boolean;
-};
-
-type RowContextType = {
-  removeHover: () => void;
-};
-
-export const RowContext = createContext<RowContextType | null>(null);
-
-export const useRow = () => {
-  const rowContext = useContext(RowContext);
-  if (!rowContext) {
-    throw new Error("useRow must be used within a Row");
-  }
-  return rowContext;
 };
 
 export function Row({ item, children, state, isExpanded }: RowProps) {
@@ -71,7 +56,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
   );
 
   return (
-    <RowContext.Provider value={context}>
+    <DataGridRowContext.Provider value={context}>
       <div
         className={className}
         {...mergeProps(rowProps, focusProps, hoverProps)}
@@ -81,7 +66,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
       >
         {children}
       </div>
-    </RowContext.Provider>
+    </DataGridRowContext.Provider>
   );
 }
 

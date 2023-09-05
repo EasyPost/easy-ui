@@ -1,9 +1,9 @@
 import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
-import React from "react";
+import React, { useCallback } from "react";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
-import { useRow } from "./Row";
 import { UnstyledPressButton } from "./UnstyledPressButton";
+import { useDataGridRow } from "./context";
 import {
   ActionRowAction as ActionRowActionType,
   MenuRowAction as MenuRowActionType,
@@ -31,15 +31,14 @@ export function ActionsCellContent({ rowActions }: ActionsCellContentProps) {
 }
 
 function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
-  const row = useRow();
+  const { removeHover } = useDataGridRow();
+  const handleClick = useCallback(() => {
+    removeHover();
+  }, [removeHover]);
   return (
     <Menu>
       <Menu.Trigger>
-        <UnstyledPressButton
-          onClick={() => {
-            row.removeHover();
-          }}
-        >
+        <UnstyledPressButton onClick={handleClick}>
           <Icon symbol={MoreVertIcon} />
         </UnstyledPressButton>
       </Menu.Trigger>
@@ -49,12 +48,12 @@ function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
 }
 
 function ActionRowAction({ rowAction }: { rowAction: ActionRowActionType }) {
+  const { onAction } = rowAction;
+  const handleClick = useCallback(() => {
+    onAction();
+  }, [onAction]);
   return (
-    <UnstyledPressButton
-      onClick={() => {
-        rowAction.onAction();
-      }}
-    >
+    <UnstyledPressButton onClick={handleClick}>
       <Icon
         symbol={rowAction.iconSymbol}
         accessibilityLabel={rowAction.accessibilityLabel}

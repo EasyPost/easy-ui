@@ -1,10 +1,12 @@
 import React, { ReactNode } from "react";
 import { Text } from "../Text";
 
-type VisuallyHiddenCellProps = {
+type VisuallyHiddenCellContentProps = {
   children: ReactNode;
 };
 
-export function VisuallyHiddenCell({ children }: VisuallyHiddenCellProps) {
+export function VisuallyHiddenCellContent({
+  children,
+}: VisuallyHiddenCellContentProps) {
   return <Text visuallyHidden>{children}</Text>;
 }

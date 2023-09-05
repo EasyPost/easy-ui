@@ -1,12 +1,12 @@
 import React, { Key, useCallback, useMemo, useState } from "react";
 import { Cell, Row, Column, TableBody, TableHeader } from "react-stately";
 import { ActionsCellContent } from "./ActionsCellContent";
-import { ExpansionCellContent } from "./ExpansionCellContent";
+import { ExpandCellContent } from "./ExpandCellContent";
 import { Table } from "./Table";
 import { EXPAND_COLUMN_KEY, ACTIONS_COLUMN_KEY } from "./constants";
 import { DataGridContext } from "./context";
 import { Column as ColumnType, DataGridProps } from "./types";
-import { VisuallyHiddenCell } from "./VisuallyHiddenCell";
+import { VisuallyHiddenCellContent } from "./VisuallyHiddenCellContent";
 
 export function DataGrid<C extends ColumnType = ColumnType>(
   props: DataGridProps<C>,
@@ -24,7 +24,8 @@ export function DataGrid<C extends ColumnType = ColumnType>(
     throw new Error("DataGrid must contain a non-empty array of columns");
   }
 
-  // TODO: Support a dynamic row header key via props
+  // For now, per design, the first column is always the row header. In the
+  // future, this could be made dynamic
   const rowHeaderColumnKey = unprocessedColumns[0].key;
 
   const [expandedKey, setExpandedKey] = useState(() => {
@@ -57,9 +58,13 @@ export function DataGrid<C extends ColumnType = ColumnType>(
               }
             >
               {column.key === EXPAND_COLUMN_KEY ? (
-                <VisuallyHiddenCell>Expand row</VisuallyHiddenCell>
+                <VisuallyHiddenCellContent>
+                  Expand row
+                </VisuallyHiddenCellContent>
               ) : column.key === ACTIONS_COLUMN_KEY ? (
-                <VisuallyHiddenCell>Row actions</VisuallyHiddenCell>
+                <VisuallyHiddenCellContent>
+                  Row actions
+                </VisuallyHiddenCellContent>
               ) : (
                 renderColumnCell(column)
               )}
@@ -72,7 +77,7 @@ export function DataGrid<C extends ColumnType = ColumnType>(
               {(columnKey) => (
                 <Cell>
                   {columnKey === EXPAND_COLUMN_KEY ? (
-                    <ExpansionCellContent
+                    <ExpandCellContent
                       isExpanded={row.key === expandedKey}
                       toggleExpanded={() => toggleExpandedRow(row.key)}
                     />
