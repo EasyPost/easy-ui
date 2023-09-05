@@ -270,6 +270,11 @@
   display: contents;
 }
 
+.actionsCellContent {
+  display: inline-flex;
+  gap: design-token("space.1.5");
+}
+
 .headerSecondary {
   @include component-token(
     "data-grid",

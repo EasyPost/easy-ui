@@ -4,47 +4,61 @@ import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { useRow } from "./Row";
 import { UnstyledPressButton } from "./UnstyledPressButton";
-import { RowAction } from "./types";
+import {
+  ActionRowAction as ActionRowActionType,
+  MenuRowAction as MenuRowActionType,
+  RowAction,
+} from "./types";
+
+import styles from "./DataGrid.module.scss";
 
 type ActionsCellContentProps = {
   rowActions: RowAction[];
 };
 
 export function ActionsCellContent({ rowActions }: ActionsCellContentProps) {
+  return (
+    <span className={styles.actionsCellContent}>
+      {rowActions.map((rowAction, i) =>
+        rowAction.type === "menu" ? (
+          <MenuRowAction key={i} rowAction={rowAction} />
+        ) : (
+          <ActionRowAction key={i} rowAction={rowAction} />
+        ),
+      )}
+    </span>
+  );
+}
+
+function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
   const row = useRow();
   return (
-    <span style={{ display: "inline-flex", gap: "12px" }}>
-      {rowActions.map((rowAction, i) => {
-        if (rowAction.type === "menu") {
-          return (
-            <Menu key={i}>
-              <Menu.Trigger>
-                <UnstyledPressButton
-                  onClick={() => {
-                    row.removeHover();
-                  }}
-                >
-                  <Icon symbol={MoreVertIcon} />
-                </UnstyledPressButton>
-              </Menu.Trigger>
-              {rowAction.renderMenuOverlay()}
-            </Menu>
-          );
-        }
-        return (
-          <UnstyledPressButton
-            key={i}
-            onClick={() => {
-              rowAction.onAction();
-            }}
-          >
-            <Icon
-              symbol={rowAction.iconSymbol}
-              accessibilityLabel={rowAction.accessibilityLabel}
-            />
-          </UnstyledPressButton>
-        );
-      })}
-    </span>
+    <Menu>
+      <Menu.Trigger>
+        <UnstyledPressButton
+          onClick={() => {
+            row.removeHover();
+          }}
+        >
+          <Icon symbol={MoreVertIcon} />
+        </UnstyledPressButton>
+      </Menu.Trigger>
+      {rowAction.renderMenuOverlay()}
+    </Menu>
+  );
+}
+
+function ActionRowAction({ rowAction }: { rowAction: ActionRowActionType }) {
+  return (
+    <UnstyledPressButton
+      onClick={() => {
+        rowAction.onAction();
+      }}
+    >
+      <Icon
+        symbol={rowAction.iconSymbol}
+        accessibilityLabel={rowAction.accessibilityLabel}
+      />
+    </UnstyledPressButton>
   );
 }
