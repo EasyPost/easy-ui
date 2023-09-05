@@ -11,15 +11,7 @@ type RowGroupProps = {
 export function RowGroup({ as: As = "div", children }: RowGroupProps) {
   const { rowGroupProps } = useTableRowGroup();
   return (
-    <As
-      {...rowGroupProps}
-      className={styles.contents}
-      style={
-        As === "thead"
-          ? { borderBottom: "2px solid var(--spectrum-global-color-gray-800)" }
-          : {}
-      }
-    >
+    <As {...rowGroupProps} className={styles.contents}>
       {children}
     </As>
   );

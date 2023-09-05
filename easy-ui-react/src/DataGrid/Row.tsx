@@ -15,10 +15,10 @@ import { DataGridRowContext } from "./context";
 import styles from "./DataGrid.module.scss";
 
 type RowProps<T = object> = {
-  item: Node<T>;
-  state: TableState<T>;
   children: ReactNode;
   isExpanded: boolean;
+  item: Node<T>;
+  state: TableState<T>;
 };
 
 export function Row({ item, children, state, isExpanded }: RowProps) {
@@ -33,12 +33,19 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
   const { isFocusVisible, focusProps } = useFocusRing();
   const { isHovered, hoverProps } = useHover({});
 
+  // There's an issue in react-aria where a pointer leave event won't get
+  // triggered on menu open. This allows for manually triggering it in our
+  // menu actions deeper in the tree.
+  // https://github.com/adobe/react-spectrum/issues/4951
   const removeHover = useCallback(() => {
     if (!ref.current) {
       return;
     }
     const { onPointerLeave = () => {} } = hoverProps;
-    onPointerLeave(createPointerLeaveEvent(ref.current));
+    onPointerLeave({
+      target: ref.current,
+      currentTarget: ref.current,
+    } as unknown as PointerEventType<FocusableElement>);
   }, [hoverProps]);
 
   const context = useMemo(() => {
@@ -58,9 +65,9 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
   return (
     <DataGridRowContext.Provider value={context}>
       <div
-        className={className}
-        {...mergeProps(rowProps, focusProps, hoverProps)}
         ref={ref}
+        {...mergeProps(rowProps, focusProps, hoverProps)}
+        className={className}
         data-ezui-data-grid-expanded-row={isPendingExpanded}
         data-ezui-data-grid-row="true"
       >
@@ -68,11 +75,4 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
       </div>
     </DataGridRowContext.Provider>
   );
-}
-
-function createPointerLeaveEvent(target: HTMLElement) {
-  return {
-    target,
-    currentTarget: target,
-  } as unknown as PointerEventType<FocusableElement>;
 }
