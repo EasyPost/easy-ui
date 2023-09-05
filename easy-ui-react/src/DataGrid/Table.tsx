@@ -12,9 +12,9 @@ import { RowGroup } from "./RowGroup";
 import { SelectAllColumnHeader } from "./SelectAllColumnHeader";
 import { SelectCell } from "./SelectCell";
 import {
+  ACTIONS_COLUMN_KEY,
   DEFAULT_MAX_ROWS,
   EXPAND_COLUMN_KEY,
-  ACTIONS_COLUMN_KEY,
 } from "./constants";
 import { Column, DataGridProps } from "./types";
 import { useExpandedRow } from "./useExpandedRow";

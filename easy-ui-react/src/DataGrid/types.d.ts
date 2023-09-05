@@ -7,13 +7,13 @@ import {
 import { Key, ReactElement, ReactNode } from "react";
 import { IconSymbol } from "../types";
 
+/** Denote that an object must contain a key. */
 export type KeyedObject = {
-  /** Must contain a key. */
   readonly key: Key;
 };
 
 export type Column = KeyedObject & {
-  /** Another arbitrary data is allowed. */
+  /** Arbitrary data is allowed. */
   [property: string]: unknown;
 };
 

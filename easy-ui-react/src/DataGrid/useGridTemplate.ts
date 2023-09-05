@@ -5,7 +5,9 @@ import { getComponentToken } from "../utilities/css";
 import { EXPAND_COLUMN_KEY, ACTIONS_COLUMN_KEY } from "./constants";
 
 /**
- * Build the CSS grid template definitions for the Data Grid.
+ * Build the CSS grid template definitions for the Data Grid based on the
+ * table column definitions along with any custom template column configuration
+ * provided by the user.
  */
 export function useGridTemplate({
   templateColumns,

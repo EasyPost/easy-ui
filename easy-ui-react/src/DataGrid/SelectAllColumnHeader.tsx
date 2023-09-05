@@ -29,7 +29,7 @@ export function SelectAllColumnHeader({
   const { checkboxProps } = useTableSelectAllCheckbox(state);
   const className = classNames(styles.columnHeader);
   return (
-    <div {...columnHeaderProps} ref={ref} className={className}>
+    <div ref={ref} {...columnHeaderProps} className={className}>
       {state.selectionManager.selectionMode === "single" ? (
         <VisuallyHidden>{checkboxProps["aria-label"]}</VisuallyHidden>
       ) : (
