@@ -8,7 +8,7 @@ import {
 } from "react";
 import { Node, TableState } from "react-stately";
 import { getComponentToken } from "../utilities/css";
-import { EXPAND_ROW_COLUMN_KEY } from "./constants";
+import { EXPAND_COLUMN_KEY } from "./constants";
 
 /**
  * Manages the size and positioning of the expanded row content.
@@ -26,7 +26,7 @@ export function useExpandedRow({
 
   const pendingExpandedRow = [...state.collection.body.childNodes].find((r) => {
     return r.value
-      ? r.value[EXPAND_ROW_COLUMN_KEY as keyof typeof r.value] === true
+      ? r.value[EXPAND_COLUMN_KEY as keyof typeof r.value] === true
       : false;
   });
 

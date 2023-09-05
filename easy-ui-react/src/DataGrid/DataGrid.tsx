@@ -3,7 +3,7 @@ import { Cell, Row, Column, TableBody, TableHeader } from "react-stately";
 import { ActionsCellContent } from "./ActionsCellContent";
 import { ExpansionCellContent } from "./ExpansionCellContent";
 import { Table } from "./Table";
-import { EXPAND_ROW_COLUMN_KEY, ROW_ACTIONS_COLUMN_KEY } from "./constants";
+import { EXPAND_COLUMN_KEY, ACTION_COLUMN_KEY } from "./constants";
 import { DataGridContext } from "./context";
 import { Column as ColumnType, DataGridProps } from "./types";
 import { VisuallyHiddenCell } from "./VisuallyHiddenCell";
@@ -50,15 +50,15 @@ export function DataGrid<C extends ColumnType = ColumnType>(
             <Column
               isRowHeader={column.key === rowHeaderColumnKey}
               allowsSorting={
-                column.key === EXPAND_ROW_COLUMN_KEY ||
-                column.key === ROW_ACTIONS_COLUMN_KEY
+                column.key === EXPAND_COLUMN_KEY ||
+                column.key === ACTION_COLUMN_KEY
                   ? false
                   : columnKeysAllowingSort.includes(column.key)
               }
             >
-              {column.key === EXPAND_ROW_COLUMN_KEY ? (
+              {column.key === EXPAND_COLUMN_KEY ? (
                 <VisuallyHiddenCell>Expand row</VisuallyHiddenCell>
-              ) : column.key === ROW_ACTIONS_COLUMN_KEY ? (
+              ) : column.key === ACTION_COLUMN_KEY ? (
                 <VisuallyHiddenCell>Row actions</VisuallyHiddenCell>
               ) : (
                 renderColumnCell(column)
@@ -71,12 +71,12 @@ export function DataGrid<C extends ColumnType = ColumnType>(
             <Row>
               {(columnKey) => (
                 <Cell>
-                  {columnKey === EXPAND_ROW_COLUMN_KEY ? (
+                  {columnKey === EXPAND_COLUMN_KEY ? (
                     <ExpansionCellContent
                       isExpanded={row.key === expandedKey}
                       toggleExpanded={() => toggleExpandedRow(row.key)}
                     />
-                  ) : columnKey === ROW_ACTIONS_COLUMN_KEY && rowActions ? (
+                  ) : columnKey === ACTION_COLUMN_KEY && rowActions ? (
                     <ActionsCellContent rowActions={rowActions} />
                   ) : (
                     renderRowCell(
@@ -111,10 +111,10 @@ function useProcessedColumns<C extends ColumnType>(
   return useMemo(() => {
     let c = columns;
     if (hasExpandableRows) {
-      c = [{ key: EXPAND_ROW_COLUMN_KEY } as C, ...c];
+      c = [{ key: EXPAND_COLUMN_KEY } as C, ...c];
     }
     if (hasRowActions) {
-      c = [...c, { key: ROW_ACTIONS_COLUMN_KEY } as C];
+      c = [...c, { key: ACTION_COLUMN_KEY } as C];
     }
     return c;
   }, [columns, hasExpandableRows, hasRowActions]);
@@ -141,10 +141,10 @@ function useProcessedRows<C extends ColumnType>(
     const mappedRows = rows.map((row) => {
       let r = row;
       if (hasExpandableRows) {
-        r = { [EXPAND_ROW_COLUMN_KEY]: expandedKey === row.key, ...r };
+        r = { [EXPAND_COLUMN_KEY]: expandedKey === row.key, ...r };
       }
       if (hasRowActions) {
-        r = { ...r, [ROW_ACTIONS_COLUMN_KEY]: true };
+        r = { ...r, [ACTION_COLUMN_KEY]: true };
       }
       return r;
     });

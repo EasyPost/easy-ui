@@ -2,7 +2,7 @@ import range from "lodash/range";
 import { CSSProperties } from "react";
 import { TableState } from "react-stately";
 import { getComponentToken } from "../utilities/css";
-import { EXPAND_ROW_COLUMN_KEY, ROW_ACTIONS_COLUMN_KEY } from "./constants";
+import { EXPAND_COLUMN_KEY, ACTION_COLUMN_KEY } from "./constants";
 
 /**
  * Build the CSS grid template definitions for the Data Grid.
@@ -19,8 +19,8 @@ export function useGridTemplate({
   const userColumns = columns.filter(
     (c) =>
       !c.props.isSelectionCell &&
-      c.key !== EXPAND_ROW_COLUMN_KEY &&
-      c.key !== ROW_ACTIONS_COLUMN_KEY,
+      c.key !== EXPAND_COLUMN_KEY &&
+      c.key !== ACTION_COLUMN_KEY,
   );
 
   const uAreas = range(userColumns.length).map(() => ".");
@@ -36,12 +36,12 @@ export function useGridTemplate({
     pAreas.push("select");
     pDefs.push("min-content");
   }
-  if (columns.some((c) => c.key === EXPAND_ROW_COLUMN_KEY)) {
+  if (columns.some((c) => c.key === EXPAND_COLUMN_KEY)) {
     pAreas.push("expand");
     pDefs.push("min-content");
   }
 
-  if (columns.some((c) => c.key === ROW_ACTIONS_COLUMN_KEY)) {
+  if (columns.some((c) => c.key === ACTION_COLUMN_KEY)) {
     sAreas.push("actions");
     sDefs.push("min-content");
   }

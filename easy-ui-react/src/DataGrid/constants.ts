@@ -1,3 +1,3 @@
-export const EXPAND_ROW_COLUMN_KEY = "__expand-row-column-key__";
-export const ROW_ACTIONS_COLUMN_KEY = "__row-actions-column-key__";
+export const EXPAND_COLUMN_KEY = "__ezui-column-key-expand__";
+export const ACTION_COLUMN_KEY = "__ezui-column-key-action__";
 export const DEFAULT_MAX_ROWS = 7;

@@ -11,7 +11,7 @@ import React, {
 import { mergeProps, useFocusRing, useHover, useTableRow } from "react-aria";
 import { TableState } from "react-stately";
 import { classNames } from "../utilities/css";
-import { EXPAND_ROW_COLUMN_KEY } from "./constants";
+import { EXPAND_COLUMN_KEY } from "./constants";
 
 import styles from "./DataGrid.module.scss";
 
@@ -40,7 +40,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
   const isSelected = state.selectionManager.isSelected(item.key);
   const isDisabled = state.disabledKeys.has(item.key);
   const isPendingExpanded = item.value
-    ? item.value[EXPAND_ROW_COLUMN_KEY as keyof typeof item.value] === true
+    ? item.value[EXPAND_COLUMN_KEY as keyof typeof item.value] === true
     : false;
 
   const ref = useRef(null);
