@@ -51,4 +51,4 @@ deciders: nwithan8
 
 - API keys should be referred to as "Production API key" and "Test API key" (case-sensitive).
 
-- Use "ID" when referring to an object's identifier (e.g. "check the `Shipment`'s ID"). Use `Id` when referring to the `Id` field of an object (e.g. "the `Shipment`'s `Id` field"). Do not use "id" in any context.
+- Use "ID" when referring to an object's identifier (e.g. "check the `Shipment`'s ID"). Use `id` when referring to the `id` field of an object (e.g. "the `Shipment`'s `id` field"). Do not use "Id" in any context.
