@@ -61,7 +61,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
         className={className}
         {...mergeProps(rowProps, focusProps, hoverProps)}
         ref={ref}
-        data-ezui-expanded-row={isPendingExpanded}
+        data-ezui-data-grid-expanded-row={isPendingExpanded}
         data-ezui-data-grid-row="true"
       >
         {children}

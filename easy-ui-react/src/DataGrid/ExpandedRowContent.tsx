@@ -18,7 +18,9 @@ export function ExpandedRowContent({
         styles.expandedRowContent,
         isPending ? styles.pendingExpandedRowContent : null,
       )}
-      data-ezui-expanded-row-content={isPending ? "pending" : "base"}
+      data-ezui-data-grid-expanded-row-content={
+        isPending ? "pending" : "active"
+      }
     >
       <div>{children}</div>
     </div>

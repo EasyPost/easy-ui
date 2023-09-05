@@ -29,6 +29,7 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
       ref={ref}
       {...mergeProps(columnHeaderProps, focusProps)}
       className={className}
+      data-ezui-data-grid-column-header="true"
     >
       {column.rendered}
       {column.props.allowsSorting && (
