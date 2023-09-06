@@ -88,7 +88,6 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   return (
     <div ref={containerRef} className={styles.container} style={style}>
       <div {...gridProps} ref={tableRef} className={className}>
-        {renderInterceptors()}
         <RowGroup>
           {collection.headerRows.map((headerRow) => (
             <HeaderRow key={headerRow.key} item={headerRow} state={state}>
@@ -138,6 +137,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
             {renderExpandedRow(expandedRow.key)}
           </ExpandedRowContent>
         )}
+        {renderInterceptors()}
       </div>
     </div>
   );
