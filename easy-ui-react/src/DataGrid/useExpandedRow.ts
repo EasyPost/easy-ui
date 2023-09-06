@@ -58,10 +58,19 @@ export function useExpandedRow({
   useResizeObserver({
     ref: tableRef,
     onResize() {
-      if (tableRef.current && pendingExpandedRow) {
+      if (tableRef.current && expandedRow) {
         const rect = getExpandedRowContentRect(tableRef.current, false);
-        setExpandedRowRect(rect);
-        setPendingExpandedRowWidth(rect.width);
+        if (
+          !expandedRowRect ||
+          rect.width !== expandedRowRect.width ||
+          rect.height !== expandedRowRect.height ||
+          rect.y !== expandedRowRect.y
+        ) {
+          setExpandedRowRect(rect);
+        }
+        if (rect.width !== pendingExpandedRowWidth) {
+          setPendingExpandedRowWidth(rect.width);
+        }
       }
     },
   });

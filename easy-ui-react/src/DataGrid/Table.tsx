@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef } from "react";
+import React, { CSSProperties, Fragment, useRef } from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
@@ -26,7 +26,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   const {
     headerVariant,
     maxRows = DEFAULT_MAX_ROWS,
-    renderExpandedRow,
+    renderExpandedRow = (r) => r,
     selectionMode,
     templateColumns,
   } = props;
@@ -127,16 +127,15 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
             </Row>
           ))}
         </RowGroup>
-        {renderExpandedRow && pendingExpandedRow && (
-          <ExpandedRowContent isPending>
-            {renderExpandedRow(pendingExpandedRow.key)}
-          </ExpandedRowContent>
-        )}
-        {renderExpandedRow && expandedRow && (
-          <ExpandedRowContent>
-            {renderExpandedRow(expandedRow.key)}
-          </ExpandedRowContent>
-        )}
+        {[pendingExpandedRow, expandedRow].map((row, i) => (
+          <Fragment key={i}>
+            {row && (
+              <ExpandedRowContent isPending={i === 0}>
+                {renderExpandedRow(row.key)}
+              </ExpandedRowContent>
+            )}
+          </Fragment>
+        ))}
         {renderInterceptors()}
       </div>
     </div>
