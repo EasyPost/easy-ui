@@ -1,7 +1,6 @@
 import React, { CSSProperties, useRef } from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
-import { useIntersectionDetection } from "../Modal/useIntersectionDetection";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
 import { Cell } from "./Cell";
 import { ColumnHeader } from "./ColumnHeader";
@@ -17,6 +16,7 @@ import {
   EXPAND_COLUMN_KEY,
 } from "./constants";
 import { Column, DataGridProps } from "./types";
+import { useEdgeInterceptors } from "./useEdgeInterceptors";
 import { useExpandedRow } from "./useExpandedRow";
 import { useGridTemplate } from "./useGridTemplate";
 
@@ -55,22 +55,10 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
     state,
   });
   const { gridTemplateStyle } = useGridTemplate({ templateColumns, state });
-
-  const headerInterceptorRef = useRef<HTMLDivElement | null>(null);
-  const isHeaderUnderScroll = useIntersectionDetection(
-    headerInterceptorRef,
-    containerRef,
-  );
-  const leftColumnInterceptorRef = useRef<HTMLDivElement | null>(null);
-  const isLeftEdgeUnderScroll = useIntersectionDetection(
-    leftColumnInterceptorRef,
-    containerRef,
-  );
-  const rightColumnInterceptorRef = useRef<HTMLDivElement | null>(null);
-  const isRightEdgeUnderScroll = useIntersectionDetection(
-    rightColumnInterceptorRef,
-    containerRef,
-  );
+  const [
+    renderInterceptors,
+    { isTopEdgeUnderScroll, isLeftEdgeUnderScroll, isRightEdgeUnderScroll },
+  ] = useEdgeInterceptors(containerRef);
 
   const { collection } = state;
   const { columns } = collection;
@@ -85,7 +73,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
     hasSelection && styles.hasSelection,
     hasExpansion && styles.hasExpansion,
     hasRowActions && styles.hasRowActions,
-    isHeaderUnderScroll && styles.headerUnderScroll,
+    isTopEdgeUnderScroll && styles.headerUnderScroll,
     isLeftEdgeUnderScroll && styles.leftEdgeUnderScroll,
     isRightEdgeUnderScroll && styles.rightEdgeUnderScroll,
   );
@@ -100,36 +88,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   return (
     <div ref={containerRef} className={styles.container} style={style}>
       <div {...gridProps} ref={tableRef} className={className}>
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 1,
-          }}
-          ref={headerInterceptorRef}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            width: 1,
-          }}
-          ref={leftColumnInterceptorRef}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            right: 0,
-            width: 1,
-          }}
-          ref={rightColumnInterceptorRef}
-        />
+        {renderInterceptors()}
         <RowGroup>
           {collection.headerRows.map((headerRow) => (
             <HeaderRow key={headerRow.key} item={headerRow} state={state}>
@@ -159,22 +118,22 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
               state={state}
               isExpanded={expandedRow ? expandedRow.key === row.key : false}
             >
-              {[...row.childNodes].map((cell) => {
-                return cell.props.isSelectionCell ? (
+              {[...row.childNodes].map((cell) =>
+                cell.props.isSelectionCell ? (
                   <SelectCell key={cell.key} cell={cell} state={state} />
                 ) : (
                   <Cell key={cell.key} cell={cell} state={state} />
-                );
-              })}
+                ),
+              )}
             </Row>
           ))}
         </RowGroup>
-        {pendingExpandedRow && renderExpandedRow && (
+        {renderExpandedRow && pendingExpandedRow && (
           <ExpandedRowContent isPending>
             {renderExpandedRow(pendingExpandedRow.key)}
           </ExpandedRowContent>
         )}
-        {expandedRow && renderExpandedRow && (
+        {renderExpandedRow && expandedRow && (
           <ExpandedRowContent>
             {renderExpandedRow(expandedRow.key)}
           </ExpandedRowContent>

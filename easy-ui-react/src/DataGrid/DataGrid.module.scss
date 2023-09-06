@@ -275,6 +275,38 @@
   gap: design-token("space.1.5");
 }
 
+.topInterceptor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.bottomInterceptor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.leftInterceptor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+}
+
+.rightInterceptor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+}
+
 .headerSecondary {
   @include component-token(
     "data-grid",
