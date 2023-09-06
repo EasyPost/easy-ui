@@ -64,6 +64,10 @@
   gap: design-token("space.1");
 }
 
+.columnHeaderSortable {
+  user-select: none;
+}
+
 .sortIcon {
   display: inline-flex;
   color: component-token("data-grid", "sort-icon-color");
