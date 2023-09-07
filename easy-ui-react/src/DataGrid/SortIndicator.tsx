@@ -17,8 +17,8 @@ export function SortIndicator({
     <span
       aria-hidden="true"
       className={classNames(
-        styles.sortIcon,
-        isColumnSorted && styles.sortIconIsSorted,
+        styles.sortIndicator,
+        isColumnSorted && styles.sortIndicatorSorted,
       )}
     >
       {isColumnSorted && sortDirection === "ascending" ? <Asc /> : <Desc />}

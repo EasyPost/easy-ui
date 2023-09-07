@@ -68,7 +68,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   const hasRowActions = columns.some((c) => c.key === ACTIONS_COLUMN_KEY);
 
   const className = classNames(
-    styles.DataGrid,
+    styles.table,
     headerVariant && styles[variationName("header", headerVariant)],
     hasSelection && styles.hasSelection,
     hasExpansion && styles.hasExpansion,
@@ -86,7 +86,7 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
   } as CSSProperties;
 
   return (
-    <div ref={containerRef} className={styles.container} style={style}>
+    <div ref={containerRef} className={styles.DataGrid} style={style}>
       <div {...gridProps} ref={tableRef} className={className}>
         <RowGroup>
           {collection.headerRows.map((headerRow) => (

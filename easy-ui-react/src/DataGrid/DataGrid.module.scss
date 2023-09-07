@@ -1,10 +1,10 @@
-/* stylelint-disable scss/operator-no-newline-after */
 /* stylelint-disable no-descending-specificity */
+/* stylelint-disable scss/operator-no-newline-after */
 
 @use "../styles/common" as *;
 @use "../styles/unstyled";
 
-.container {
+.DataGrid {
   @include component-token(
     "data-grid",
     "header-bg",
@@ -17,17 +17,48 @@
   );
   @include component-token("data-grid", "header-row-height", 48px);
   @include component-token("data-grid", "body-row-height", 56px);
+  @include component-token("data-grid", "expand-btn-size", 24px);
   @include component-token(
     "data-grid",
     "sort-icon-color",
     design-token("color.gray.500")
   );
+  @include component-token(
+    "data-grid",
+    "border-width",
+    design-token("shape.border_width.1")
+  );
+  @include component-token(
+    "data-grid",
+    "border-color",
+    design-token("color.gray.300")
+  );
+  @include component-token("data-grid", "sticky-shadow-size", 8px);
+  @include component-token("data-grid", "sticky-shadow-opacity", 0.25);
+  @include component-token(
+    "data-grid",
+    "sticky-shadow-color",
+    design-token("color.gray.500")
+  );
+  @include component-token("data-grid", "cell-bg", design-token("color.white"));
+  @include component-token(
+    "data-grid",
+    "cell-text",
+    design-token("color.blue.800")
+  );
+  @include component-token("data-grid", "cell-z-index", 1);
+  @include component-token("data-grid", "cell-stuck-z-index", 2);
+  @include component-token("data-grid", "column-z-index", 3);
+  @include component-token("data-grid", "column-stuck-z-index", 4);
+  @include component-token("data-grid", "sticky-left-offset", -16px);
+  @include component-token("data-grid", "sticky-right-offset", -12px);
 
-  border: 1px solid design-token("color.gray.300");
+  border: component-token("data-grid", "border-width") solid
+    component-token("data-grid", "border-color");
   border-radius: design-token("shape.border_radius.md");
   overflow: auto;
   max-height: calc(
-    2px +
+    (component-token("data-grid", "border-width") * 2) +
       (
         component-token("data-grid", "header-row-height") +
           (
@@ -39,7 +70,7 @@
   position: relative;
 }
 
-.DataGrid {
+.table {
   position: relative;
   min-width: min-content;
   display: grid;
@@ -56,7 +87,7 @@
   background: component-token("data-grid", "header-bg");
   color: component-token("data-grid", "header-text");
   height: component-token("data-grid", "header-row-height");
-  z-index: 3;
+  z-index: component-token("data-grid", "column-z-index");
   outline: none;
 
   display: inline-flex;
@@ -64,21 +95,13 @@
   gap: design-token("space.1");
 }
 
-.columnHeaderSortable {
+.columnHeaderAllowsSorting {
   user-select: none;
 }
 
-.sortIcon {
+.sortIndicator {
   display: inline-flex;
   color: component-token("data-grid", "sort-icon-color");
-}
-
-.sortIconIsSorted {
-  @include component-token(
-    "data-grid",
-    "sort-icon-color",
-    design-token("color.white")
-  );
 }
 
 .row {
@@ -87,11 +110,10 @@
 
 .cell {
   @include font-style("body1");
-
-  background: design-token("color.white");
-  color: design-token("color.blue.800");
+  background: component-token("data-grid", "cell-bg");
+  color: component-token("data-grid", "cell-text");
   height: component-token("data-grid", "body-row-height");
-  z-index: 1;
+  z-index: component-token("data-grid", "cell-z-index");
 }
 
 .headerUnderScroll .columnHeader {
@@ -101,15 +123,19 @@
     position: absolute;
     top: 100%;
     left: 0;
-    height: 8px;
     width: 100%;
+    height: component-token("data-grid", "sticky-shadow-size");
   }
   &::before {
-    background-color: white;
+    background-color: component-token("data-grid", "cell-bg");
   }
   &::after {
-    background-image: linear-gradient(to bottom, #7086b2, transparent);
-    opacity: 0.5;
+    background-image: linear-gradient(
+      to bottom,
+      component-token("data-grid", "sticky-shadow-color"),
+      transparent
+    );
+    opacity: component-token("data-grid", "sticky-shadow-opacity");
   }
 }
 
@@ -140,8 +166,8 @@
   align-items: center;
   justify-content: center;
 
-  width: 24px;
-  height: 24px;
+  width: component-token("data-grid", "expand-btn-size");
+  height: component-token("data-grid", "expand-btn-size");
   margin: -4px;
 
   cursor: pointer;
@@ -171,17 +197,8 @@
   width: component-token("data-grid", "pending-expanded-row-width");
 }
 
-.rowHovered {
-  .cell {
-    background: design-token("color.gray.050");
-    color: design-token("color.blue.700");
-  }
-}
-
-.rowExpanded {
-  .cell {
-    margin-bottom: component-token("data-grid", "expanded-row-height");
-  }
+.rowExpanded .cell {
+  margin-bottom: component-token("data-grid", "expanded-row-height");
 }
 
 .hasRowActions {
@@ -191,39 +208,41 @@
       padding-left: design-token("space.0.5");
       padding-right: design-token("space.2");
       position: sticky;
-      right: -12px;
-      z-index: 2;
+      right: component-token("data-grid", "sticky-right-offset");
+      z-index: component-token("data-grid", "cell-stuck-z-index");
     }
     &:nth-last-child(2) {
       padding-right: design-token("space.1.5");
     }
   }
-  .columnHeader {
-    &:last-child {
-      z-index: 4;
-    }
+  .columnHeader:last-child {
+    z-index: component-token("data-grid", "column-stuck-z-index");
   }
   &.rightEdgeUnderScroll .cell:last-child::before {
     content: "";
     position: absolute;
-    right: 100%;
     top: 0;
+    right: 100%;
     height: 100%;
-    width: 8px;
-    background-image: linear-gradient(to left, #7086b2, transparent);
-    opacity: 0.25;
+    width: component-token("data-grid", "sticky-shadow-size");
+    background-image: linear-gradient(
+      to left,
+      component-token("data-grid", "sticky-shadow-color"),
+      transparent
+    );
+    opacity: component-token("data-grid", "sticky-shadow-opacity");
   }
 }
 
 .cell:nth-child(1) {
   position: sticky;
-  left: -16px;
-  z-index: 2;
+  left: component-token("data-grid", "sticky-left-offset");
+  z-index: component-token("data-grid", "cell-stuck-z-index");
 }
 
 .columnHeader:nth-child(1) {
-  left: -16px;
-  z-index: 4;
+  left: component-token("data-grid", "sticky-left-offset");
+  z-index: component-token("data-grid", "column-stuck-z-index");
 }
 
 .leftEdgeUnderScroll:not(.hasSelection):not(.hasExpansion) .cell:nth-child(1),
@@ -232,12 +251,16 @@
   &::before {
     content: "";
     position: absolute;
-    left: 100%;
     top: 0;
+    left: 100%;
     height: 100%;
-    width: 8px;
-    background-image: linear-gradient(to right, #7086b2, transparent);
-    opacity: 0.25;
+    width: component-token("data-grid", "sticky-shadow-size");
+    background-image: linear-gradient(
+      to right,
+      component-token("data-grid", "sticky-shadow-color"),
+      transparent
+    );
+    opacity: component-token("data-grid", "sticky-shadow-opacity");
   }
 }
 
@@ -251,18 +274,19 @@
   }
   .cell:nth-child(2) {
     position: sticky;
-    left: 44px;
-    z-index: 2;
+    z-index: component-token("data-grid", "cell-stuck-z-index");
   }
   .columnHeader:nth-child(2) {
-    left: 44px;
-    z-index: 4;
+    z-index: component-token("data-grid", "column-stuck-z-index");
   }
   .columnHeader,
   .cell {
-    &:first-child {
+    &:nth-child(1) {
       padding-left: design-token("space.2");
       padding-right: design-token("space.1.5");
+    }
+    &:nth-child(2) {
+      left: 44px;
     }
     & + * {
       padding-left: 0;
@@ -279,36 +303,62 @@
   gap: design-token("space.1.5");
 }
 
-.topInterceptor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
-.bottomInterceptor {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
+.topInterceptor,
+.rightInterceptor,
+.bottomInterceptor,
 .leftInterceptor {
   position: absolute;
   top: 0;
+  right: 0;
   bottom: 0;
   left: 0;
+}
+
+.topInterceptor,
+.bottomInterceptor {
+  height: 1px;
+}
+
+.leftInterceptor,
+.rightInterceptor {
   width: 1px;
 }
 
+.topInterceptor {
+  bottom: auto;
+}
+
+.bottomInterceptor {
+  top: auto;
+}
+
+.leftInterceptor {
+  right: auto;
+}
+
 .rightInterceptor {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 1px;
+  left: auto;
+}
+
+.rowHovered {
+  @include component-token(
+    "data-grid",
+    "cell-bg",
+    design-token("color.gray.050")
+  );
+  @include component-token(
+    "data-grid",
+    "cell-text",
+    design-token("color.blue.700")
+  );
+}
+
+.sortIndicatorSorted {
+  @include component-token(
+    "data-grid",
+    "sort-icon-color",
+    design-token("color.white")
+  );
 }
 
 .headerSecondary {
@@ -322,13 +372,12 @@
     "header-text",
     design-token("color.blue.800")
   );
-
   @include component-token(
     "data-grid",
     "sort-icon-color",
     design-token("color.gray.400")
   );
-  .sortIconIsSorted {
+  .sortIndicatorSorted {
     @include component-token(
       "data-grid",
       "sort-icon-color",

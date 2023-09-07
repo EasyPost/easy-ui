@@ -1,12 +1,12 @@
 import React, { Key, useCallback, useMemo, useState } from "react";
-import { Cell, Row, Column, TableBody, TableHeader } from "react-stately";
+import { Cell, Column, Row, TableBody, TableHeader } from "react-stately";
 import { ActionsCellContent } from "./ActionsCellContent";
 import { ExpandCellContent } from "./ExpandCellContent";
 import { Table } from "./Table";
-import { EXPAND_COLUMN_KEY, ACTIONS_COLUMN_KEY } from "./constants";
+import { VisuallyHiddenCellContent } from "./VisuallyHiddenCellContent";
+import { ACTIONS_COLUMN_KEY, EXPAND_COLUMN_KEY } from "./constants";
 import { DataGridContext } from "./context";
 import { Column as ColumnType, DataGridProps } from "./types";
-import { VisuallyHiddenCellContent } from "./VisuallyHiddenCellContent";
 
 export function DataGrid<C extends ColumnType = ColumnType>(
   props: DataGridProps<C>,

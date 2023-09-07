@@ -23,7 +23,7 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
   const className = classNames(
     styles.columnHeader,
     isFocusVisible && styles.columnHeaderFocused,
-    column.props.allowsSorting && styles.columnHeaderSortable,
+    column.props.allowsSorting && styles.columnHeaderAllowsSorting,
   );
   return (
     <div
