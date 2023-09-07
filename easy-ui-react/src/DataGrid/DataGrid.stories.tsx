@@ -189,15 +189,12 @@ function WithSortTemplate(args: DataGridProps) {
       type ColumnType = keyof typeof sortDescriptor.column;
       return {
         items: items.sort((a, b) => {
+          const sign = sortDescriptor.direction === "descending" ? -1 : 1;
           const first = a[sortDescriptor.column as ColumnType];
           const second = b[sortDescriptor.column as ColumnType];
-          let cmp =
-            (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
-          if (sortDescriptor.direction === "descending") {
-            cmp *= -1;
-          }
-          console.log("sorting", first, second, cmp);
-          return cmp;
+          const firstValue = parseInt(first) || first;
+          const secondValue = parseInt(second) || second;
+          return (firstValue < secondValue ? -1 : 1) * sign;
         }),
       };
     },
