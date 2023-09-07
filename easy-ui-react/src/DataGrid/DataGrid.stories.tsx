@@ -66,22 +66,6 @@ const rows = [
     status: "Active",
     lastActive: "2023-06-06",
   },
-  {
-    key: 7,
-    name: "Chris Rowan",
-    email: "chris.rowan@easypost.com",
-    permissions: "Admin",
-    status: "Active",
-    lastActive: "2023-08-15",
-  },
-  {
-    key: 8,
-    name: "Russell Schavers",
-    email: "russell.schavers@easypost.com",
-    permissions: "User",
-    status: "Inactive",
-    lastActive: "2022-12-01",
-  },
 ];
 
 const Template = (args: Partial<DataGridProps>) => {
