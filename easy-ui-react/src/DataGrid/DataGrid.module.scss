@@ -34,7 +34,7 @@
     design-token("color.gray.300")
   );
   @include component-token("data-grid", "sticky-shadow-size", 8px);
-  @include component-token("data-grid", "sticky-shadow-opacity", 0.25);
+  @include component-token("data-grid", "sticky-shadow-opacity", 0.5);
   @include component-token(
     "data-grid",
     "sticky-shadow-color",

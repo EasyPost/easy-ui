@@ -36,7 +36,7 @@ export type ActionRowAction = {
 
 export type RowAction = MenuRowAction | ActionRowAction;
 
-export type DataGridProps<C extends Column> = AriaLabelingProps & {
+export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   /** The elements that make up the table. Includes the TableHeader, TableBody, Columns, and Rows. */
   children?: [ReactElement, ReactElement];
 

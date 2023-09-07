@@ -18,10 +18,21 @@ export function DataGrid<C extends ColumnType = ColumnType>(
     renderColumnCell,
     renderRowCell,
     rowActions,
+    selectionMode,
+    renderExpandedRow,
   } = props;
 
   if (!Array.isArray(unprocessedColumns) || unprocessedColumns.length === 0) {
     throw new Error("DataGrid must contain a non-empty array of columns");
+  }
+
+  if (
+    (selectionMode === "single" || selectionMode === "multiple") &&
+    renderExpandedRow
+  ) {
+    throw new Error(
+      "DataGrid does not support selection and row expansion at the same time",
+    );
   }
 
   // For now, per design, the first column is always the row header. In the
