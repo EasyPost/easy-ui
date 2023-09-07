@@ -49,6 +49,6 @@ deciders: nwithan8
 - Use "list", not "List" when referring to the verb (e.g. "list shipments") or noun (e.g. "a list of shipments").
   - Use "retrieve all" when referring to the action of retrieving all objects (listing) of a certain type (e.g. "retrieve all shipments"). Do not use the verb "list" in this context.
 
-- API keys should be referred to as "Production API key" and "Test API key" (case-sensitive).
+- API keys should be referred to as "Production API Key" and "Test API Key" (case-sensitive).
 
 - Use "ID" when referring to an object's identifier (e.g. "check the `Shipment`'s ID"). Use `id` when referring to the `id` field of an object (e.g. "the `Shipment`'s `id` field"). Do not use "Id" in any context.
