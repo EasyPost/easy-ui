@@ -1,5 +1,5 @@
-import React, { ComponentProps, forwardRef } from "react";
-import { PressHookProps, usePress } from "react-aria";
+import React, { forwardRef } from "react";
+import { AriaButtonProps, PressHookProps, usePress } from "react-aria";
 
 import styles from "./UnstyledPressButton.module.scss";
 
@@ -7,9 +7,9 @@ import styles from "./UnstyledPressButton.module.scss";
  * Simple button wrapper that just accommodates for press events sent in by
  * React Aria.
  *
- * @todo figure out how to supersed this with UnstyledButton
+ * @todo figure out how to supersede this with UnstyledButton
  */
-export const UnstyledPressButton = forwardRef<null, ComponentProps<"button">>(
+export const UnstyledPressButton = forwardRef<null, AriaButtonProps>(
   (props, ref) => {
     const { pressProps } = usePress(props as PressHookProps);
     return (

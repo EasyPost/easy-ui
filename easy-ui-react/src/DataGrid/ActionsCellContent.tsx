@@ -38,7 +38,7 @@ function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
   return (
     <Menu>
       <Menu.Trigger>
-        <UnstyledPressButton onClick={handleClick}>
+        <UnstyledPressButton onPress={handleClick}>
           <Icon symbol={MoreVertIcon} />
         </UnstyledPressButton>
       </Menu.Trigger>
@@ -53,7 +53,7 @@ function ActionRowAction({ rowAction }: { rowAction: ActionRowActionType }) {
     onAction();
   }, [onAction]);
   return (
-    <UnstyledPressButton onClick={handleClick}>
+    <UnstyledPressButton onPress={handleClick}>
       <Icon
         symbol={rowAction.iconSymbol}
         accessibilityLabel={rowAction.accessibilityLabel}

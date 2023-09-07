@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { mergeProps } from "react-aria";
 import { useInternalMenuContext } from "./MenuContext";
 
 export type MenuTriggerProps = {
@@ -9,5 +10,6 @@ export type MenuTriggerProps = {
 export function MenuTrigger(props: MenuTriggerProps) {
   const { children } = props;
   const { triggerRef, menuTriggerProps } = useInternalMenuContext();
-  return React.cloneElement(children, { ...menuTriggerProps, ref: triggerRef });
+  const clonedProps = mergeProps(menuTriggerProps, children.props);
+  return React.cloneElement(children, { ...clonedProps, ref: triggerRef });
 }
