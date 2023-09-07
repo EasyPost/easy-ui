@@ -1,5 +1,15 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.13
+
+### Minor Changes
+
+- 6c31126: feat(Modal): support passing color to actions
+
+### Patch Changes
+
+- e86999d: fix(Modal): support ReactNode as ModalContainer children
+
 ## 1.0.0-alpha.12
 
 ### Minor Changes
