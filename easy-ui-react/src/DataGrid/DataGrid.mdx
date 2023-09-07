@@ -11,6 +11,80 @@ A `DataGrid` is an interactive table used for working with a large collection of
 
 <Canvas of={DataGridStories.Default} />
 
+## `DataGrid` architecture
+
+`DataGrid` is a single component that takes in a `columns` array to define its structure and a `rows` array to define its content. `columns` and `rows` must have `key`s. `rows` must have a corresponding property for each `key` in `column`.
+
+`DataGrid` uses [render props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop) to control the rendering of its column cells, row cells, and expanded row content. Use `renderColumnCell`, `renderRowCell`, and `renderExpandedRow` respectively.
+
+Additional props exist to enable different functionality for the table, such as sorting and selection. See the snippet below for a quick-start guide on using the component.
+
+```tsx
+const columns = [
+  { key: "name", name: "Name" },
+  { key: "email", name: "Email" },
+];
+
+const rows = [
+  {
+    key: 1,
+    name: "Julie Smith",
+    email: "julie.smith@easypost.com",
+  },
+  {
+    key: 2,
+    name: "Sam Frost",
+    email: "sam.frost@easypost.com",
+  },
+];
+
+<DataGrid
+  aria-label="Example data grid"
+  columns={columns}
+  rows={rows}
+  renderColumnCell={(column) => <span>{String(column.name)}</span>}
+  renderRowCell={(item) => <span>{String(item)}</span>}
+  // Enable row expansion
+  renderExpandedRow={(rowKey: Key) => <div>Expanded row content</div>}
+  // Customize how many rows show before scroll
+  maxRows={7}
+  // Enable selection. Can be "multiple" or "single"
+  selectionMode="multiple"
+  // Support a kebab menu on each row
+  rowActions={[
+    {
+      type: "menu",
+      renderMenuOverlay: () => (
+        <Menu.Overlay onAction={action("Menu item clicked!")}>
+          <Menu.Item>Action 1</Menu.Item>
+          <Menu.Item>Action 2</Menu.Item>
+        </Menu.Overlay>
+      ),
+    },
+  ]}
+  // Support alternate header color
+  headerVariant="secondary"
+  // Enable sorting
+  sortDescriptor={{ column, direction }}
+  onSortChange={({ column, direction }) => {
+    // update row order
+  }}
+  columnKeysAllowingSort={["name"]}
+  // Provide a custom grid-template-columns value
+  templateColumns="repeat(2, 1fr)"
+/>;
+```
+
+## A simple `DataGrid`
+
+<Canvas of={DataGridStories.Default} />
+
+<Controls of={DataGridStories.Default} />
+
+## A simple `DataGrid`
+
+<Canvas of={DataGridStories.Default} />
+
 <Controls of={DataGridStories.Default} />
 
 ## Properties
