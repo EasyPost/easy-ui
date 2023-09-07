@@ -111,13 +111,7 @@ const meta: Meta<typeof DataGrid> = {
   },
   parameters: {
     controls: {
-      include: [
-        "aria-label",
-        "headerVariant",
-        "maxRows",
-        "selectionMode",
-        "templateColumns",
-      ],
+      include: [],
     },
   },
 };
@@ -128,6 +122,17 @@ export const Default: Story = {
   render: Template.bind({}),
   args: {
     "aria-label": "Example data grid",
+  },
+  parameters: {
+    controls: {
+      include: [
+        "aria-label",
+        "headerVariant",
+        "maxRows",
+        "selectionMode",
+        "templateColumns",
+      ],
+    },
   },
 };
 
@@ -154,11 +159,6 @@ export const WithRowExpansion: Story = {
       </PlaceholderBox>
     ),
   },
-  parameters: {
-    controls: {
-      include: [],
-    },
-  },
 };
 
 export const WithKebabMenu: Story = {
@@ -184,6 +184,11 @@ export const WithHeaderVariant: Story = {
   args: {
     "aria-label": "Example data grid with header variant",
     headerVariant: "secondary",
+  },
+  parameters: {
+    controls: {
+      include: ["headerVariant"],
+    },
   },
 };
 
