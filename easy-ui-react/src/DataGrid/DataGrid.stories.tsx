@@ -89,7 +89,6 @@ const meta: Meta<typeof DataGrid> = {
   component: DataGrid,
   args: {
     headerVariant: "primary",
-    maxRows: 7,
     selectionMode: "none",
     templateColumns: "min-content 1fr min-content min-content min-content",
   },
