@@ -46,10 +46,16 @@ const rows = [
   renderRowCell={(item) => <span>{String(item)}</span>}
   // Enable row expansion
   renderExpandedRow={(rowKey: Key) => <div>Expanded row content</div>}
+  defaultExpandedKey={1}
+  expandedKey={1}
+  onExpandedChange={(key) => {}}
   // Customize how many rows show before scroll
   maxRows={7}
   // Enable selection. Can be "multiple" or "single"
   selectionMode="multiple"
+  defaultSelectedKeys={[]}
+  selectedKeys={[]}
+  onSelectionChange={(keys) => {}}
   // Support a kebab menu on each row
   rowActions={[
     {
@@ -75,17 +81,23 @@ const rows = [
 />;
 ```
 
-## A simple `DataGrid`
+## With Selection
 
-<Canvas of={DataGridStories.Default} />
+`DataGrid` supports selection with the `selectionMode` prop. Pass in `multiple` to allow selecting multiple rows. Pass in `single` to allow selecting a single row at a time.
 
-<Controls of={DataGridStories.Default} />
+Selection can be controlled with the `selectedKeys` and `onSelectionChange` props. Use `defaultSelectedKeys` to control only the initial selection.
 
-## A simple `DataGrid`
+<Canvas of={DataGridStories.WithSelection} />
 
-<Canvas of={DataGridStories.Default} />
+<Controls of={DataGridStories.WithSelection} />
 
-<Controls of={DataGridStories.Default} />
+## With Row Expansion
+
+`DataGrid` supports row expansion through the `renderExpandedRow` prop. Supplying a function to this render prop, with the content to render for each row, will show expansion buttons on each row for the user to expand.
+
+Expansion can be controlled with the `expandedKey` and `onExpandedChange` props. Use `defaultExpandedKey` to control only the initial row to expand.
+
+<Canvas of={DataGridStories.WithRowExpansion} />
 
 ## Properties
 

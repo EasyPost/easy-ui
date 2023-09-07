@@ -137,6 +137,11 @@ export const WithSelection: Story = {
     "aria-label": "Example data grid with selection",
     selectionMode: "multiple",
   },
+  parameters: {
+    controls: {
+      include: ["selectionMode"],
+    },
+  },
 };
 
 export const WithRowExpansion: Story = {
@@ -148,6 +153,11 @@ export const WithRowExpansion: Story = {
         Space for row {rowKey} content
       </PlaceholderBox>
     ),
+  },
+  parameters: {
+    controls: {
+      include: [],
+    },
   },
 };
 
