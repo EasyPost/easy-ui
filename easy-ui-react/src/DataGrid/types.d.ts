@@ -64,9 +64,7 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
    */
   headerVariant?: "primary" | "secondary";
 
-  /**
-   * Constrains the height of the data grid to a set number of rows.
-   */
+  /** Constrains the height of the data grid to a set number of rows. */
   maxRows?: number;
 
   /** The type of selection that is allowed in the collection. */
@@ -93,9 +91,7 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   /** Renders the content of a column cell. */
   renderColumnCell: (cell: C) => ReactNode;
 
-  /**
-   * Renders the contents of the expanded row.
-   */
+  /** Renders the contents of the expanded row. */
   renderExpandedRow?: (key: Key) => ReactNode;
 
   /** Renders the content of a row cell. */

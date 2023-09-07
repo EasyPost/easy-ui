@@ -87,6 +87,18 @@ const rows = [
 
 Selection can be controlled with the `selectedKeys` and `onSelectionChange` props. Use `defaultSelectedKeys` to control only the initial selection.
 
+```tsx
+<DataGrid
+  {/** other data grid props */}
+  selectionMode="multiple"
+  defaultSelectedKeys={[/** row keys */]}
+  selectedKeys={[/** row keys */]}
+  onSelectionChange={(keys: "all" | Key[]) => {
+    /** Run code when selection changes */
+  }}
+/>
+```
+
 <Canvas of={DataGridStories.WithSelection} />
 
 <Controls of={DataGridStories.WithSelection} />
@@ -96,6 +108,20 @@ Selection can be controlled with the `selectedKeys` and `onSelectionChange` prop
 `DataGrid` supports row expansion through the `renderExpandedRow` prop. Supplying a function to this render prop, with the content to render for each row, will show expansion buttons on each row for the user to expand.
 
 Expansion can be controlled with the `expandedKey` and `onExpandedChange` props. Use `defaultExpandedKey` to control only the initial row to expand.
+
+```tsx
+<DataGrid
+  {/** other data grid props */}
+  renderExpandedRow={(rowKey: Key) => (
+    <div>Expanded row content for {rowKey}</div>
+  )}
+  defaultExpandedKey={/** initial key of expanded row (uncontrolled) */}
+  expandedKey={/** key of expanded row (controlled) */}
+  onExpandedChange={(key: Key) => {
+    /** Run code when row expansion changes */
+  }}
+/>
+```
 
 <Canvas of={DataGridStories.WithRowExpansion} />
 
@@ -107,6 +133,7 @@ Provide an array of actions to the `rowActions` prop with an action type of `men
 
 ```tsx
 <DataGrid
+  {/** other data grid props */}
   rowActions={[
     {
       type: "menu",
@@ -130,6 +157,47 @@ Provide an array of actions to the `rowActions` prop with an action type of `men
 <Canvas of={DataGridStories.WithHeaderVariant} />
 
 <Controls of={DataGridStories.WithHeaderVariant} />
+
+## With Sort
+
+`DataGrid` supports sorting through the `sortDescriptor` and `onSortChange` props.
+
+`sortDescriptor` accepts an object with a `column` key and a `direction` of `ascending` or `descending`. `onSortChange` accepts a function with a sort descriptor for updating the data grid rows sort.
+
+Consumers can utilize React Stately's [`useAsyncList`](https://react-spectrum.adobe.com/react-stately/useAsyncList.html) hooks to manage data loading and sorting. See its [documentation](https://react-spectrum.adobe.com/react-stately/useAsyncList.html) for more use cases, such as server-side sorting.
+
+```tsx
+function SortableDataGrid(args: DataGridProps) {
+  const list = useAsyncList({
+    async load() {
+      return await Promise.resolve({
+        items: [
+          /** Rows */
+        ],
+      });
+    },
+    async sort({ items, sortDescriptor }) {
+      return {
+        items: items.sort((a, b) => {
+          const comparison = /** Comparison logic */;
+          return comparison;
+        }),
+      };
+    },
+  });
+  return (
+    <DataGrid
+      columns={[/** Column definitions */]}
+      rows={list.items}
+      sortDescriptor={list.sortDescriptor}
+      onSortChange={list.sort}
+      columnKeysAllowingSort={[/** List of sortable columns */]}
+    />
+  );
+}
+```
+
+<Canvas of={DataGridStories.WithSort} />
 
 ## Properties
 
