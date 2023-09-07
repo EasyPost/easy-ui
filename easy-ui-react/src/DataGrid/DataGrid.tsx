@@ -15,11 +15,13 @@ export function DataGrid<C extends ColumnType = ColumnType>(
     columns: unprocessedColumns,
     columnKeysAllowingSort = [],
     defaultExpandedKey,
+    expandedKey: expandedKeyFromUser,
+    onExpandedChange = () => {},
     renderColumnCell,
+    renderExpandedRow,
     renderRowCell,
     rowActions,
     selectionMode,
-    renderExpandedRow,
   } = props;
 
   if (!Array.isArray(unprocessedColumns) || unprocessedColumns.length === 0) {
@@ -39,13 +41,29 @@ export function DataGrid<C extends ColumnType = ColumnType>(
   // future, this could be made dynamic
   const rowHeaderColumnKey = unprocessedColumns[0].key;
 
+  const isRowExpansionControlled = expandedKeyFromUser !== undefined;
+
   const [expandedKey, setExpandedKey] = useState(() => {
-    return defaultExpandedKey ? defaultExpandedKey : null;
+    return isRowExpansionControlled
+      ? expandedKeyFromUser
+      : defaultExpandedKey
+      ? defaultExpandedKey
+      : null;
   });
 
-  const toggleExpandedRow = useCallback((rowKey: Key) => {
-    setExpandedKey((prevKey) => (prevKey === rowKey ? null : rowKey));
-  }, []);
+  const toggleExpandedRow = useCallback(
+    (rowKey: Key) => {
+      onExpandedChange(rowKey);
+      if (!isRowExpansionControlled) {
+        setExpandedKey((prevKey) => (prevKey === rowKey ? null : rowKey));
+      }
+    },
+    [isRowExpansionControlled, onExpandedChange],
+  );
+
+  if (isRowExpansionControlled && expandedKeyFromUser !== expandedKey) {
+    setExpandedKey(expandedKeyFromUser);
+  }
 
   const columns = useProcessedColumns(props);
   const rows = useProcessedRows(props, expandedKey);

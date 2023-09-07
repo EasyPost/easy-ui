@@ -24,7 +24,7 @@ export function ExpandCellContent({
   );
   return (
     <UnstyledPressButton
-      onClick={handleClick}
+      onPress={handleClick}
       className={className}
       aria-expanded={isExpanded}
     >
