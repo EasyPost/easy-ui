@@ -95,7 +95,6 @@ const Template = (args: Partial<DataGridProps>) => {
       renderRowCell={(item) => (
         <span style={{ whiteSpace: "nowrap" }}>{String(item)}</span>
       )}
-      templateColumns="min-content 1fr min-content min-content min-content"
       {...args}
     />
   );
@@ -104,6 +103,12 @@ const Template = (args: Partial<DataGridProps>) => {
 const meta: Meta<typeof DataGrid> = {
   title: "Components/DataGrid",
   component: DataGrid,
+  args: {
+    headerVariant: "primary",
+    maxRows: 7,
+    selectionMode: "none",
+    templateColumns: "min-content 1fr min-content min-content min-content",
+  },
   parameters: {
     controls: {
       include: [
