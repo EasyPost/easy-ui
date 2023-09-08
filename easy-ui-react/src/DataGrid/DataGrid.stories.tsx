@@ -182,6 +182,28 @@ export const WithSort: Story = {
   },
 };
 
+export const WithCustomRendering: Story = {
+  render: Template.bind({}),
+  args: {
+    "aria-label": "Example data grid with custom rendering",
+    renderRowCell(cell, columnKey) {
+      if (columnKey === "status") {
+        return (
+          <span
+            style={{
+              whiteSpace: "nowrap",
+              color: cell === "Inactive" ? "red" : "green",
+            }}
+          >
+            {String(cell)}
+          </span>
+        );
+      }
+      return <span style={{ whiteSpace: "nowrap" }}>{String(cell)}</span>;
+    },
+  },
+};
+
 function WithSortTemplate(args: DataGridProps) {
   // https://react-spectrum.adobe.com/react-stately/useAsyncList.html
   const list = useAsyncList({

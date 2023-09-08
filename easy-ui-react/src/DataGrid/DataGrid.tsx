@@ -115,8 +115,8 @@ export function DataGrid<C extends ColumnType = ColumnType>(
                   ) : (
                     renderRowCell(
                       row[columnKey as keyof typeof row],
-                      row,
                       columnKey,
+                      row,
                     )
                   )}
                 </Cell>

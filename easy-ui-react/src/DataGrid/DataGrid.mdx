@@ -43,7 +43,7 @@ const rows = [
   columns={columns}
   rows={rows}
   renderColumnCell={(column) => <span>{String(column.name)}</span>}
-  renderRowCell={(item) => <span>{String(item)}</span>}
+  renderRowCell={(item, columnKey, row) => <span>{String(item)}</span>}
   // Enable row expansion
   renderExpandedRow={(rowKey: Key) => <div>Expanded row content</div>}
   defaultExpandedKey={1}
@@ -190,6 +190,35 @@ function SortableDataGrid(args: DataGridProps) {
 ```
 
 <Canvas of={DataGridStories.WithSort} />
+
+## With Custom Rendering
+
+`DataGrid` supports custom rendering of content for row and column cells using the `renderRowCell` and `renderColumnCell` props.
+
+In the example below, to make the status text green or red depending on whether a user's active or inactive, target that column and adjust the style accordingly.
+
+```tsx
+<DataGrid
+  {/** other data grid props */}
+  renderRowCell={(cell, columnKey) => {
+    if (columnKey === "status") {
+      return (
+        <span
+          style={{
+            whiteSpace: "nowrap",
+            color: cell === "Inactive" ? "red" : "green",
+          }}
+        >
+          {String(cell)}
+        </span>
+      );
+    }
+    return <span style={{ whiteSpace: "nowrap" }}>{String(cell)}</span>;
+  }}
+/>
+```
+
+<Canvas of={DataGridStories.WithCustomRendering} />
 
 ## Header Variant
 
