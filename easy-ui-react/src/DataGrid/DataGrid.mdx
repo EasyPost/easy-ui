@@ -57,7 +57,7 @@ const rows = [
   selectedKeys={[]}
   onSelectionChange={(keys) => {}}
   // Support a kebab menu on each row
-  rowActions={[
+  rowActions={(rowKey: Key) => [
     {
       type: "menu",
       renderMenuOverlay: () => (
@@ -134,7 +134,7 @@ Provide an array of actions to the `rowActions` prop with an action type of `men
 ```tsx
 <DataGrid
   {/** other data grid props */}
-  rowActions={[
+  rowActions={(rowKey: Key) => [
     {
       type: "menu",
       renderMenuOverlay: () => (

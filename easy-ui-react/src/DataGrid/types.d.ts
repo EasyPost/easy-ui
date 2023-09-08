@@ -98,7 +98,7 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   renderRowCell: (cell: unknown, row: R, columnKey: Key) => ReactNode;
 
   /** Actions for the row */
-  rowActions?: RowAction[];
+  rowActions?: (key: Key) => RowAction[];
 
   /** Rows for the table. */
   rows: Row<C>[];

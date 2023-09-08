@@ -148,7 +148,7 @@ export const WithKebabMenu: Story = {
   render: Template.bind({}),
   args: {
     "aria-label": "Example data grid with kebab menu",
-    rowActions: [
+    rowActions: () => [
       {
         type: "menu",
         renderMenuOverlay: () => (

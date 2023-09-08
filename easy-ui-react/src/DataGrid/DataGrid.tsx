@@ -111,7 +111,7 @@ export function DataGrid<C extends ColumnType = ColumnType>(
                       toggleExpanded={() => toggleExpandedRow(row.key)}
                     />
                   ) : columnKey === ACTIONS_COLUMN_KEY && rowActions ? (
-                    <ActionsCellContent rowActions={rowActions} />
+                    <ActionsCellContent rowActions={rowActions(row.key)} />
                   ) : (
                     renderRowCell(
                       row[columnKey as keyof typeof row],
