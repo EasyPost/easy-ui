@@ -44,6 +44,7 @@ export const useDataGridTable = () => {
 };
 
 type DataGridRowContextType = {
+  isExpanded: boolean;
   removeHover: () => void;
 };
 

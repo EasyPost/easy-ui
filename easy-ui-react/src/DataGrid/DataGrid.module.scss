@@ -70,6 +70,10 @@
   position: relative;
 }
 
+.contents {
+  display: contents;
+}
+
 .table {
   position: relative;
   min-width: min-content;
@@ -97,10 +101,6 @@
 
 .columnHeaderAllowsSorting {
   user-select: none;
-}
-
-.row {
-  display: contents;
 }
 
 .cell {
@@ -192,7 +192,7 @@
   width: component-token("data-grid", "pending-expanded-row-width");
 }
 
-.rowExpanded .cell {
+.cellExpanded {
   margin-bottom: component-token("data-grid", "expanded-row-height");
 }
 
@@ -289,26 +289,9 @@
   }
 }
 
-.contents {
-  display: contents;
-}
-
 .actionsCellContent {
   display: inline-flex;
   gap: design-token("space.1.5");
-}
-
-.rowHovered {
-  @include component-token(
-    "data-grid",
-    "cell-bg",
-    design-token("color.gray.050")
-  );
-  @include component-token(
-    "data-grid",
-    "cell-text",
-    design-token("color.blue.700")
-  );
 }
 
 .headerSecondary {

@@ -12,7 +12,7 @@ import { classNames } from "../utilities/css";
 import { EXPAND_COLUMN_KEY } from "./constants";
 import { DataGridRowContext } from "./context";
 
-import styles from "./DataGrid.module.scss";
+import styles from "./Row.module.scss";
 
 type RowProps<T = object> = {
   children: ReactNode;
@@ -49,17 +49,17 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
   }, [hoverProps]);
 
   const context = useMemo(() => {
-    return { removeHover };
-  }, [removeHover]);
+    return { isExpanded, removeHover };
+  }, [isExpanded, removeHover]);
 
   const className = classNames(
-    styles.row,
-    isExpanded && styles.rowExpanded,
-    isHovered && styles.rowHovered,
-    isFocusVisible && styles.rowFocused,
-    isSelected && styles.rowSelected,
-    isPressed && styles.rowPressed,
-    isDisabled && styles.rowDisabled,
+    styles.Row,
+    isExpanded && styles.expanded,
+    isHovered && styles.hovered,
+    isFocusVisible && styles.focused,
+    isSelected && styles.selected,
+    isPressed && styles.pressed,
+    isDisabled && styles.disabled,
   );
 
   return (
