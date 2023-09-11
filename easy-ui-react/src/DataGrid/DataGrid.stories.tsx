@@ -3,7 +3,10 @@ import { Meta, StoryObj } from "@storybook/react";
 import React, { Key } from "react";
 import { useAsyncList } from "react-stately";
 import { Menu } from "../Menu";
-import { PlaceholderBox } from "../utilities/storybook";
+import {
+  PlaceholderBox,
+  createNaiveSortingFunction,
+} from "../utilities/storybook";
 import { DataGrid } from "./DataGrid";
 import { DataGridProps } from "./types";
 
@@ -211,17 +214,7 @@ function WithSortTemplate(args: DataGridProps) {
       return await Promise.resolve({ items: rows });
     },
     async sort({ items, sortDescriptor }) {
-      type ColumnType = keyof typeof sortDescriptor.column;
-      return {
-        items: items.sort((a, b) => {
-          const sign = sortDescriptor.direction === "descending" ? -1 : 1;
-          const first = a[sortDescriptor.column as ColumnType];
-          const second = b[sortDescriptor.column as ColumnType];
-          const firstValue = parseInt(first) || first;
-          const secondValue = parseInt(second) || second;
-          return (firstValue < secondValue ? -1 : 1) * sign;
-        }),
-      };
+      return { items: items.sort(createNaiveSortingFunction(sortDescriptor)) };
     },
   });
   return (

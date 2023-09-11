@@ -126,6 +126,38 @@ describe("<DataGrid />", () => {
     await user.click(screen.getByRole("menuitem", { name: "Action 1" }));
     expect(handleMenuAction).toBeCalled();
   });
+
+  it("should support sorting", async () => {
+    const handleSortChange = vi.fn();
+    const { user, rerender } = render(
+      createDataGrid({
+        onSortChange: handleSortChange,
+        columnKeysAllowingSort: ["name"],
+      }),
+    );
+    expect(getColumn("Name")).toHaveAccessibleDescription("sortable column");
+
+    await user.click(getColumn("Name"));
+    expect(handleSortChange).toBeCalledWith({
+      column: "name",
+      direction: "ascending",
+    });
+
+    rerender(
+      createDataGrid({
+        sortDescriptor: { column: "name", direction: "ascending" },
+        onSortChange: handleSortChange,
+        columnKeysAllowingSort: ["name"],
+      }),
+    );
+    expect(getColumn("Name")).toHaveAttribute("aria-sort", "ascending");
+
+    await user.click(getColumn("Name"));
+    expect(handleSortChange).toBeCalledWith({
+      column: "name",
+      direction: "ascending",
+    });
+  });
 });
 
 const columns = [
@@ -146,8 +178,8 @@ const rows = [
   },
 ];
 
-function renderDataGrid(props: Partial<DataGridProps> = {}) {
-  const renderResult = render(
+function createDataGrid(props: Partial<DataGridProps> = {}) {
+  return (
     <DataGrid
       aria-label="Test DataGrid"
       columns={columns}
@@ -155,14 +187,22 @@ function renderDataGrid(props: Partial<DataGridProps> = {}) {
       renderColumnCell={(column) => <span>{String(column.name)}</span>}
       renderRowCell={(item) => <span>{String(item)}</span>}
       {...props}
-    />,
+    />
   );
+}
+
+function renderDataGrid(props: Partial<DataGridProps> = {}) {
+  const renderResult = render(createDataGrid(props));
   return [renderResult] as const;
 }
 
 function getHead() {
   const [head] = screen.getAllByRole("rowgroup");
   return head;
+}
+
+function getColumn(name: string) {
+  return getByRole(getHead(), "columnheader", { name });
 }
 
 function getBody() {
