@@ -7,7 +7,6 @@ import {
 import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React, { Key } from "react";
 import { vi } from "vitest";
-import { selectCheckbox } from "../Checkbox/Checkbox.test";
 import { Menu } from "../Menu";
 import { getComponentToken } from "../utilities/css";
 import {
@@ -246,14 +245,11 @@ function getCheckbox(key: Key) {
 async function selectRow(user: UserEvent, key: Key) {
   const row = getRow(key);
   const select = getByLabelText(row, "Select");
-  await selectCheckbox(user, select);
+  await user.click(select);
 }
 
 async function selectAll(user: UserEvent) {
-  await selectCheckbox(
-    user,
-    getByLabelText(getByRole(getHead(), "row"), "Select All"),
-  );
+  await user.click(getByLabelText(getByRole(getHead(), "row"), "Select All"));
 }
 
 async function expandRow(user: UserEvent, key: Key) {
