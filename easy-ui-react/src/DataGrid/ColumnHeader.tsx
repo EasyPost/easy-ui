@@ -4,8 +4,9 @@ import { mergeProps, useFocusRing, useTableColumnHeader } from "react-aria";
 import { TableState } from "react-stately";
 import { classNames } from "../utilities/css";
 import { SortIndicator } from "./SortIndicator";
+import { useDataGridTable } from "./context";
 
-import styles from "./DataGrid.module.scss";
+import styles from "./ColumnHeader.module.scss";
 
 type ColumnHeaderProps<T = unknown> = {
   column: GridNode<T>;
@@ -13,6 +14,7 @@ type ColumnHeaderProps<T = unknown> = {
 };
 
 export function ColumnHeader({ column, state }: ColumnHeaderProps) {
+  const table = useDataGridTable();
   const ref = useRef(null);
   const { columnHeaderProps } = useTableColumnHeader(
     { node: column },
@@ -21,9 +23,12 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
   );
   const { isFocusVisible, focusProps } = useFocusRing();
   const className = classNames(
-    styles.columnHeader,
-    isFocusVisible && styles.columnHeaderFocused,
-    column.props.allowsSorting && styles.columnHeaderAllowsSorting,
+    styles.ColumnHeader,
+    isFocusVisible && styles.focused,
+    column.props.allowsSorting && styles.allowsSorting,
+    table.isTopEdgeUnderScroll && styles.topEdgeUnderScroll,
+    table.hasRowActions && styles.hasEndMatter,
+    (table.hasSelection || table.hasExpansion) && styles.hasStartMatter,
   );
   return (
     <div

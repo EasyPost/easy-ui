@@ -96,64 +96,6 @@
   );
 }
 
-.columnHeader {
-  @include font-style("subtitle2");
-
-  position: sticky;
-  top: 0;
-  background: component-token("data-grid", "header-bg");
-  color: component-token("data-grid", "header-text");
-  height: component-token("data-grid", "header-row-height");
-  z-index: component-token("data-grid", "column-z-index");
-  outline: none;
-
-  display: inline-flex;
-  align-items: center;
-  gap: design-token("space.1");
-}
-
-.columnHeaderAllowsSorting {
-  user-select: none;
-}
-
-.cell {
-  @include font-style("body1");
-  background: component-token("data-grid", "cell-bg");
-  color: component-token("data-grid", "cell-text");
-  height: component-token("data-grid", "body-row-height");
-  z-index: component-token("data-grid", "cell-z-index");
-}
-
-.topEdgeUnderScroll .columnHeader {
-  &::after,
-  &::before {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: component-token("data-grid", "sticky-shadow-size");
-  }
-  &::before {
-    background-color: component-token("data-grid", "cell-bg");
-  }
-  &::after {
-    background-image: linear-gradient(
-      to bottom,
-      component-token("data-grid", "sticky-shadow-color"),
-      transparent
-    );
-    opacity: component-token("data-grid", "sticky-shadow-opacity");
-  }
-}
-
-.columnHeaderFocused,
-.cellFocused {
-  @include native-focus-ring;
-  outline-offset: -1px;
-}
-
-.columnHeader,
 .cell {
   display: inline-flex;
   align-items: center;
@@ -165,6 +107,17 @@
   &:last-child {
     padding-right: design-token("space.5");
   }
+
+  @include font-style("body1");
+  background: component-token("data-grid", "cell-bg");
+  color: component-token("data-grid", "cell-text");
+  height: component-token("data-grid", "body-row-height");
+  z-index: component-token("data-grid", "cell-z-index");
+}
+
+.cellFocused {
+  @include native-focus-ring;
+  outline-offset: -1px;
 }
 
 .cellExpanded {
@@ -172,7 +125,6 @@
 }
 
 .hasRowActions {
-  .columnHeader,
   .cell {
     &:last-child {
       padding-left: design-token("space.0.5");
@@ -184,9 +136,6 @@
     &:nth-last-child(2) {
       padding-right: design-token("space.1.5");
     }
-  }
-  .columnHeader:last-child {
-    z-index: component-token("data-grid", "column-stuck-z-index");
   }
   &.rightEdgeUnderScroll .cell:last-child::before {
     content: "";
@@ -208,11 +157,6 @@
   position: sticky;
   left: component-token("data-grid", "sticky-left-offset");
   z-index: component-token("data-grid", "cell-stuck-z-index");
-}
-
-.columnHeader:nth-child(1) {
-  left: component-token("data-grid", "sticky-left-offset");
-  z-index: component-token("data-grid", "column-stuck-z-index");
 }
 
 .leftEdgeUnderScroll:not(.hasSelection):not(.hasExpansion) .cell:nth-child(1),
@@ -238,26 +182,15 @@
 .hasExpansion {
   .cell:nth-child(1) {
     left: 0;
-  }
-  .columnHeader:nth-child(1) {
-    left: 0;
+    padding-left: design-token("space.2");
+    padding-right: design-token("space.1.5");
   }
   .cell:nth-child(2) {
+    left: 44px;
     position: sticky;
     z-index: component-token("data-grid", "cell-stuck-z-index");
   }
-  .columnHeader:nth-child(2) {
-    z-index: component-token("data-grid", "column-stuck-z-index");
-  }
-  .columnHeader,
   .cell {
-    &:nth-child(1) {
-      padding-left: design-token("space.2");
-      padding-right: design-token("space.1.5");
-    }
-    &:nth-child(2) {
-      left: 44px;
-    }
     & + * {
       padding-left: 0;
     }

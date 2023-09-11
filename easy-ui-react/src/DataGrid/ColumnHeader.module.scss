@@ -1,0 +1,92 @@
+/* stylelint-disable no-descending-specificity */
+/* stylelint-disable scss/operator-no-newline-after */
+
+@use "../styles/common" as *;
+
+.ColumnHeader {
+  @include font-style("subtitle2");
+
+  position: sticky;
+  top: 0;
+  background: component-token("data-grid", "header-bg");
+  color: component-token("data-grid", "header-text");
+  height: component-token("data-grid", "header-row-height");
+  z-index: component-token("data-grid", "column-z-index");
+  outline: none;
+
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1");
+  padding: 0 design-token("space.2");
+
+  &:first-child {
+    padding-left: design-token("space.5");
+  }
+  &:last-child {
+    padding-right: design-token("space.5");
+  }
+  &:nth-child(1) {
+    left: component-token("data-grid", "sticky-left-offset");
+    z-index: component-token("data-grid", "column-stuck-z-index");
+  }
+}
+
+.allowsSorting {
+  user-select: none;
+}
+
+.focused {
+  @include native-focus-ring;
+  outline-offset: -1px;
+}
+
+.topEdgeUnderScroll {
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: component-token("data-grid", "sticky-shadow-size");
+  }
+  &::before {
+    background-color: component-token("data-grid", "cell-bg");
+  }
+  &::after {
+    background-image: linear-gradient(
+      to bottom,
+      component-token("data-grid", "sticky-shadow-color"),
+      transparent
+    );
+    opacity: component-token("data-grid", "sticky-shadow-opacity");
+  }
+}
+
+.hasStartMatter {
+  &:nth-child(1) {
+    left: 0;
+    padding-left: design-token("space.2");
+    padding-right: design-token("space.1.5");
+  }
+  &:nth-child(2) {
+    left: 44px;
+    z-index: component-token("data-grid", "column-stuck-z-index");
+  }
+  & + * {
+    padding-left: 0;
+  }
+}
+
+.hasEndMatter {
+  &:last-child {
+    padding-left: design-token("space.0.5");
+    padding-right: design-token("space.2");
+    position: sticky;
+    right: component-token("data-grid", "sticky-right-offset");
+    z-index: component-token("data-grid", "column-stuck-z-index");
+  }
+  &:nth-last-child(2) {
+    padding-right: design-token("space.1.5");
+  }
+}

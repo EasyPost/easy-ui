@@ -8,8 +8,9 @@ import {
 import { TableState } from "react-stately";
 import { Checkbox } from "../Checkbox";
 import { classNames } from "../utilities/css";
+import { useDataGridTable } from "./context";
 
-import styles from "./DataGrid.module.scss";
+import styles from "./ColumnHeader.module.scss";
 
 type SelectAllColumnHeaderProps<T = unknown> = {
   column: GridNode<T>;
@@ -20,6 +21,7 @@ export function SelectAllColumnHeader({
   column,
   state,
 }: SelectAllColumnHeaderProps) {
+  const table = useDataGridTable();
   const ref = useRef(null);
   const { columnHeaderProps } = useTableColumnHeader(
     { node: column },
@@ -27,7 +29,12 @@ export function SelectAllColumnHeader({
     ref,
   );
   const { checkboxProps } = useTableSelectAllCheckbox(state);
-  const className = classNames(styles.columnHeader);
+  const className = classNames(
+    styles.ColumnHeader,
+    table.isTopEdgeUnderScroll && styles.topEdgeUnderScroll,
+    table.hasRowActions && styles.hasEndMatter,
+    (table.hasSelection || table.hasExpansion) && styles.hasStartMatter,
+  );
   return (
     <div ref={ref} {...columnHeaderProps} className={className}>
       {state.selectionManager.selectionMode === "single" ? (
