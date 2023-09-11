@@ -154,24 +154,6 @@
   }
 }
 
-.expandRowButton {
-  @include unstyled.button;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: component-token("data-grid", "expand-btn-size");
-  height: component-token("data-grid", "expand-btn-size");
-  margin: -4px;
-
-  cursor: pointer;
-
-  &.expanded {
-    transform: rotate(90deg);
-  }
-}
-
 .cellExpanded {
   margin-bottom: component-token("data-grid", "expanded-row-height");
 }

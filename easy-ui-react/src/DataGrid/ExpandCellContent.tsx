@@ -3,9 +3,9 @@ import React, { useCallback } from "react";
 import { Icon } from "../Icon";
 import { classNames } from "../utilities/css";
 import { UnstyledPressButton } from "./UnstyledPressButton";
-
-import styles from "./DataGrid.module.scss";
 import { Text } from "../Text";
+
+import styles from "./ExpandCellContent.module.scss";
 
 type ExpandCellContentProps = {
   isExpanded: boolean;
@@ -19,10 +19,7 @@ export function ExpandCellContent({
   const handleClick = useCallback(() => {
     toggleExpanded();
   }, [toggleExpanded]);
-  const className = classNames(
-    styles.expandRowButton,
-    isExpanded && styles.expanded,
-  );
+  const className = classNames(styles.button, isExpanded && styles.expanded);
   return (
     <UnstyledPressButton
       onPress={handleClick}
