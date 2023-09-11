@@ -8,27 +8,20 @@ import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React, { Key } from "react";
 import { vi } from "vitest";
 import { selectCheckbox } from "../Checkbox/Checkbox.test";
-import {
-  mockGetComputedStyle,
-  mockIntersectionObserver,
-  render,
-} from "../utilities/test";
+import { mockIntersectionObserver, render } from "../utilities/test";
 import { DataGrid } from "./DataGrid";
 import { DataGridProps } from "./types";
 
 describe("<DataGrid />", () => {
-  let restoreGetComputedStyle: () => void;
   let restoreIntersectionObserver: () => void;
 
   beforeEach(() => {
     vi.useFakeTimers();
-    restoreGetComputedStyle = mockGetComputedStyle();
     restoreIntersectionObserver = mockIntersectionObserver();
   });
 
   afterEach(() => {
     restoreIntersectionObserver();
-    restoreGetComputedStyle();
     vi.useRealTimers();
   });
 
@@ -73,6 +66,24 @@ describe("<DataGrid />", () => {
     expect(handleSelectionChange).toBeCalledTimes(2);
     expect(getCheckbox(1)).not.toBeChecked();
     expect(getCheckbox(2)).toBeChecked();
+  });
+
+  it("should support row expansion", async () => {
+    const handleExpandedChange = vi.fn();
+    const [{ user }] = renderDataGrid({
+      renderExpandedRow: (rowKey: Key) => <div>Row {rowKey} content</div>,
+      onExpandedChange: handleExpandedChange,
+    });
+
+    await expandRow(user, 1);
+    expect(screen.getByText("Row 1 content")).toBeInTheDocument();
+
+    await expandRow(user, 2);
+    expect(screen.getByText("Row 2 content")).toBeInTheDocument();
+    expect(screen.queryByText("Row 1 content")).not.toBeInTheDocument();
+
+    expect(handleExpandedChange).toBeCalledTimes(2);
+    expect(handleExpandedChange.mock.calls[0][0]).toEqual(1);
   });
 });
 
@@ -142,4 +153,8 @@ async function selectAll(user: UserEvent) {
     user,
     getByLabelText(getByRole(getHead(), "row"), "Select All"),
   );
+}
+
+async function expandRow(user: UserEvent, key: Key) {
+  await user.click(getByRole(getRow(key), "button", { name: "Expand" }));
 }

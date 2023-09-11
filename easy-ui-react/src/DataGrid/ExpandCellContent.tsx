@@ -5,6 +5,7 @@ import { classNames } from "../utilities/css";
 import { UnstyledPressButton } from "./UnstyledPressButton";
 
 import styles from "./DataGrid.module.scss";
+import { Text } from "../Text";
 
 type ExpandCellContentProps = {
   isExpanded: boolean;
@@ -28,6 +29,7 @@ export function ExpandCellContent({
       className={className}
       aria-expanded={isExpanded}
     >
+      <Text visuallyHidden>Expand</Text>
       <Icon symbol={ArrowForwardIos} size="xs" />
     </UnstyledPressButton>
   );
