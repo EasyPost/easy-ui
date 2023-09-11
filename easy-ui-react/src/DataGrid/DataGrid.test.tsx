@@ -25,10 +25,20 @@ describe("<DataGrid />", () => {
     vi.useRealTimers();
   });
 
-  it("should render a DataGrid", () => {
+  it("should render", () => {
     renderDataGrid();
     expect(screen.getByRole("grid")).toBeInTheDocument();
     expect(screen.getByLabelText("Test DataGrid")).toBeInTheDocument();
+  });
+
+  it("should support a header variant", () => {
+    renderDataGrid({
+      headerVariant: "secondary",
+    });
+    expect(screen.getByRole("grid")).toHaveAttribute(
+      "class",
+      expect.stringContaining("headerSecondary"),
+    );
   });
 
   it("should support multiple selection", async () => {
