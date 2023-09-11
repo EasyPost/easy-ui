@@ -56,7 +56,6 @@
   border: component-token("data-grid", "border-width") solid
     component-token("data-grid", "border-color");
   border-radius: design-token("shape.border_radius.md");
-  overflow: auto;
   max-height: calc(
     (component-token("data-grid", "border-width") * 2) +
       (
@@ -67,6 +66,7 @@
           )
       )
   );
+  overflow: auto;
   position: relative;
 }
 
@@ -81,6 +81,19 @@
   grid-template-rows: auto;
   grid-template-areas: component-token("data-grid", "template-areas");
   grid-template-columns: component-token("data-grid", "template-columns");
+}
+
+.headerSecondary {
+  @include component-token(
+    "data-grid",
+    "header-bg",
+    design-token("color.gray.050")
+  );
+  @include component-token(
+    "data-grid",
+    "header-text",
+    design-token("color.blue.800")
+  );
 }
 
 .columnHeader {
@@ -249,22 +262,4 @@
       padding-left: 0;
     }
   }
-}
-
-.actionsCellContent {
-  display: inline-flex;
-  gap: design-token("space.1.5");
-}
-
-.headerSecondary {
-  @include component-token(
-    "data-grid",
-    "header-bg",
-    design-token("color.gray.050")
-  );
-  @include component-token(
-    "data-grid",
-    "header-text",
-    design-token("color.blue.800")
-  );
 }

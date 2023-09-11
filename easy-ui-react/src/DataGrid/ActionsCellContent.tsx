@@ -2,6 +2,7 @@ import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
 import React, { useCallback } from "react";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
+import { Text } from "../Text";
 import { UnstyledPressButton } from "./UnstyledPressButton";
 import { useDataGridRow } from "./context";
 import {
@@ -10,8 +11,7 @@ import {
   RowAction,
 } from "./types";
 
-import styles from "./DataGrid.module.scss";
-import { Text } from "../Text";
+import styles from "./ActionsCellContent.module.scss";
 
 type ActionsCellContentProps = {
   rowActions: RowAction[];
@@ -19,7 +19,7 @@ type ActionsCellContentProps = {
 
 export function ActionsCellContent({ rowActions }: ActionsCellContentProps) {
   return (
-    <span className={styles.actionsCellContent}>
+    <span className={styles.ActionsCellContent}>
       {rowActions.map((rowAction, i) =>
         rowAction.type === "menu" ? (
           <MenuRowAction key={i} rowAction={rowAction} />
