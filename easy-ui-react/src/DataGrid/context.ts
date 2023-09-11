@@ -5,6 +5,7 @@ import {
   createContext,
   useContext,
 } from "react";
+import { DataGridProps } from "./types";
 
 type DataGridContextType = {
   expandedKey: Key | null;
@@ -19,6 +20,27 @@ export const useDataGrid = () => {
     throw new Error("useDataGrid must be used within a DataGrid");
   }
   return dataGridContext;
+};
+
+type DataGridTableContextType = {
+  headerVariant: DataGridProps["headerVariant"];
+  hasSelection: boolean;
+  hasExpansion: boolean;
+  hasRowActions: boolean;
+  isTopEdgeUnderScroll: boolean;
+  isLeftEdgeUnderScroll: boolean;
+  isRightEdgeUnderScroll: boolean;
+};
+
+export const DataGridTableContext =
+  createContext<DataGridTableContextType | null>(null);
+
+export const useDataGridTable = () => {
+  const dataGridTableContext = useContext(DataGridTableContext);
+  if (!dataGridTableContext) {
+    throw new Error("useDataGridTable must be used within a DataGrid");
+  }
+  return dataGridTableContext;
 };
 
 type DataGridRowContextType = {

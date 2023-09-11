@@ -99,11 +99,6 @@
   user-select: none;
 }
 
-.sortIndicator {
-  display: inline-flex;
-  color: component-token("data-grid", "sort-icon-color");
-}
-
 .row {
   display: contents;
 }
@@ -116,7 +111,7 @@
   z-index: component-token("data-grid", "cell-z-index");
 }
 
-.headerUnderScroll .columnHeader {
+.topEdgeUnderScroll .columnHeader {
   &::after,
   &::before {
     content: "";
@@ -353,14 +348,6 @@
   );
 }
 
-.sortIndicatorSorted {
-  @include component-token(
-    "data-grid",
-    "sort-icon-color",
-    design-token("color.white")
-  );
-}
-
 .headerSecondary {
   @include component-token(
     "data-grid",
@@ -372,16 +359,4 @@
     "header-text",
     design-token("color.blue.800")
   );
-  @include component-token(
-    "data-grid",
-    "sort-icon-color",
-    design-token("color.gray.400")
-  );
-  .sortIndicatorSorted {
-    @include component-token(
-      "data-grid",
-      "sort-icon-color",
-      design-token("color.blue.800")
-    );
-  }
 }

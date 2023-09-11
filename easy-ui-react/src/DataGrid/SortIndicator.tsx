@@ -1,8 +1,9 @@
 import React, { ComponentProps } from "react";
 import { SortDirection } from "react-stately";
-import { classNames } from "../utilities/css";
+import { classNames, variationName } from "../utilities/css";
+import { useDataGridTable } from "./context";
 
-import styles from "./DataGrid.module.scss";
+import styles from "./SortIndicator.module.scss";
 
 export type SortIndicatorProps = {
   isColumnSorted: boolean;
@@ -13,12 +14,14 @@ export function SortIndicator({
   isColumnSorted,
   sortDirection,
 }: SortIndicatorProps) {
+  const { headerVariant } = useDataGridTable();
   return (
     <span
       aria-hidden="true"
       className={classNames(
-        styles.sortIndicator,
-        isColumnSorted && styles.sortIndicatorSorted,
+        styles.SortIndicator,
+        isColumnSorted && styles.sorted,
+        headerVariant && styles[variationName("onHeader", headerVariant)],
       )}
     >
       {isColumnSorted && sortDirection === "ascending" ? <Asc /> : <Desc />}
