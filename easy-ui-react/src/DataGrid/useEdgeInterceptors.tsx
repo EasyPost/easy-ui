@@ -1,7 +1,7 @@
 import React, { MutableRefObject, useCallback, useRef } from "react";
 import { useIntersectionDetection } from "../Modal/useIntersectionDetection";
 
-import styles from "./DataGrid.module.scss";
+import styles from "./useEdgeInterceptors.module.scss";
 
 /**
  * Provides elements to render for detecting when the edges within a container

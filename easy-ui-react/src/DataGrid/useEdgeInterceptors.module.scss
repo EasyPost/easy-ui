@@ -1,0 +1,38 @@
+@use "../styles/common" as *;
+
+.topInterceptor,
+.rightInterceptor,
+.bottomInterceptor,
+.leftInterceptor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.topInterceptor,
+.bottomInterceptor {
+  height: 1px;
+}
+
+.leftInterceptor,
+.rightInterceptor {
+  width: 1px;
+}
+
+.topInterceptor {
+  bottom: auto;
+}
+
+.bottomInterceptor {
+  top: auto;
+}
+
+.leftInterceptor {
+  right: auto;
+}
+
+.rightInterceptor {
+  left: auto;
+}
