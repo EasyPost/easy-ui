@@ -8,24 +8,32 @@ import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React, { Key } from "react";
 import { vi } from "vitest";
 import { selectCheckbox } from "../Checkbox/Checkbox.test";
-import { mockIntersectionObserver, render } from "../utilities/test";
+import { Menu } from "../Menu";
+import {
+  mockGetComputedStyle,
+  mockIntersectionObserver,
+  render,
+} from "../utilities/test";
 import { DataGrid } from "./DataGrid";
 import { DataGridProps } from "./types";
 
 describe("<DataGrid />", () => {
+  let restoreGetComputedStyle: () => void;
   let restoreIntersectionObserver: () => void;
 
   beforeEach(() => {
     vi.useFakeTimers();
     restoreIntersectionObserver = mockIntersectionObserver();
+    restoreGetComputedStyle = mockGetComputedStyle();
   });
 
   afterEach(() => {
+    restoreGetComputedStyle();
     restoreIntersectionObserver();
     vi.useRealTimers();
   });
 
-  it("should render", () => {
+  it("should render a data grid", () => {
     renderDataGrid();
     expect(screen.getByRole("grid")).toBeInTheDocument();
     expect(screen.getByLabelText("Test DataGrid")).toBeInTheDocument();
@@ -94,6 +102,29 @@ describe("<DataGrid />", () => {
 
     expect(handleExpandedChange).toBeCalledTimes(2);
     expect(handleExpandedChange.mock.calls[0][0]).toEqual(1);
+  });
+
+  it("should support a kebab menu", async () => {
+    const handleMenuAction = vi.fn();
+    const [{ user }] = renderDataGrid({
+      rowActions: () => [
+        {
+          type: "menu",
+          renderMenuOverlay: () => (
+            <Menu.Overlay onAction={handleMenuAction}>
+              <Menu.Item>Action 1</Menu.Item>
+              <Menu.Item>Action 2</Menu.Item>
+            </Menu.Overlay>
+          ),
+        },
+      ],
+    });
+
+    await user.click(getByRole(getRow(1), "button", { name: "Actions" }));
+    expect(screen.getByRole("menu")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("menuitem", { name: "Action 1" }));
+    expect(handleMenuAction).toBeCalled();
   });
 });
 

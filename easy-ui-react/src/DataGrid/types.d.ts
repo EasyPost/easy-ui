@@ -24,13 +24,14 @@ export type Row<C extends Column> = KeyedObject & {
 
 export type MenuRowAction = {
   type: "menu";
+  accessibilityLabel?: string;
   renderMenuOverlay: () => ReactNode;
 };
 
 export type ActionRowAction = {
   type: "action";
-  iconSymbol: IconSymbol;
   accessibilityLabel: string;
+  iconSymbol: IconSymbol;
   onAction: () => void;
 };
 

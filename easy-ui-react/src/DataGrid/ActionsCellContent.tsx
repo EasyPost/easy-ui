@@ -11,6 +11,7 @@ import {
 } from "./types";
 
 import styles from "./DataGrid.module.scss";
+import { Text } from "../Text";
 
 type ActionsCellContentProps = {
   rowActions: RowAction[];
@@ -31,6 +32,7 @@ export function ActionsCellContent({ rowActions }: ActionsCellContentProps) {
 }
 
 function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
+  const { accessibilityLabel = "Actions" } = rowAction;
   const { removeHover } = useDataGridRow();
   const handleClick = useCallback(() => {
     removeHover();
@@ -39,6 +41,7 @@ function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
     <Menu>
       <Menu.Trigger>
         <UnstyledPressButton onPress={handleClick}>
+          <Text visuallyHidden>{accessibilityLabel}</Text>
           <Icon symbol={MoreVertIcon} />
         </UnstyledPressButton>
       </Menu.Trigger>
@@ -54,10 +57,8 @@ function ActionRowAction({ rowAction }: { rowAction: ActionRowActionType }) {
   }, [onAction]);
   return (
     <UnstyledPressButton onPress={handleClick}>
-      <Icon
-        symbol={rowAction.iconSymbol}
-        accessibilityLabel={rowAction.accessibilityLabel}
-      />
+      <Text visuallyHidden>{rowAction.accessibilityLabel}</Text>
+      <Icon symbol={rowAction.iconSymbol} />
     </UnstyledPressButton>
   );
 }
