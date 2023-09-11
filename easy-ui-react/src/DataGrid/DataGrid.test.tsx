@@ -9,6 +9,7 @@ import React, { Key } from "react";
 import { vi } from "vitest";
 import { selectCheckbox } from "../Checkbox/Checkbox.test";
 import { Menu } from "../Menu";
+import { getComponentToken } from "../utilities/css";
 import {
   mockGetComputedStyle,
   mockIntersectionObserver,
@@ -34,15 +35,27 @@ describe("<DataGrid />", () => {
   });
 
   it("should render a data grid", () => {
-    renderDataGrid();
+    render(createDataGrid());
     expect(screen.getByRole("grid")).toBeInTheDocument();
     expect(screen.getByLabelText("Test DataGrid")).toBeInTheDocument();
   });
 
+  it("should support max rows", () => {
+    render(createDataGrid({ maxRows: 8 }));
+    expect(getContainer()).toHaveStyle(
+      getComponentToken("data-grid", "max-rows", "8"),
+    );
+  });
+
+  it("should support custom template columns", () => {
+    render(createDataGrid({ templateColumns: "1fr 2fr" }));
+    expect(getContainer()).toHaveStyle(
+      getComponentToken("data-grid", "template-columns", "1fr 2fr"),
+    );
+  });
+
   it("should support a header variant", () => {
-    renderDataGrid({
-      headerVariant: "secondary",
-    });
+    render(createDataGrid({ headerVariant: "secondary" }));
     expect(screen.getByRole("grid")).toHaveAttribute(
       "class",
       expect.stringContaining("headerSecondary"),
@@ -51,10 +64,12 @@ describe("<DataGrid />", () => {
 
   it("should support multiple selection", async () => {
     const handleSelectionChange = vi.fn();
-    const [{ user }] = renderDataGrid({
-      selectionMode: "multiple",
-      onSelectionChange: handleSelectionChange,
-    });
+    const { user } = render(
+      createDataGrid({
+        selectionMode: "multiple",
+        onSelectionChange: handleSelectionChange,
+      }),
+    );
 
     await selectRow(user, 1);
     await selectRow(user, 2);
@@ -73,10 +88,12 @@ describe("<DataGrid />", () => {
 
   it("should support single selection", async () => {
     const handleSelectionChange = vi.fn();
-    const [{ user }] = renderDataGrid({
-      selectionMode: "single",
-      onSelectionChange: handleSelectionChange,
-    });
+    const { user } = render(
+      createDataGrid({
+        selectionMode: "single",
+        onSelectionChange: handleSelectionChange,
+      }),
+    );
 
     await selectRow(user, 1);
     await selectRow(user, 2);
@@ -88,10 +105,12 @@ describe("<DataGrid />", () => {
 
   it("should support row expansion", async () => {
     const handleExpandedChange = vi.fn();
-    const [{ user }] = renderDataGrid({
-      renderExpandedRow: (rowKey: Key) => <div>Row {rowKey} content</div>,
-      onExpandedChange: handleExpandedChange,
-    });
+    const { user } = render(
+      createDataGrid({
+        renderExpandedRow: (rowKey: Key) => <div>Row {rowKey} content</div>,
+        onExpandedChange: handleExpandedChange,
+      }),
+    );
 
     await expandRow(user, 1);
     expect(screen.getByText("Row 1 content")).toBeInTheDocument();
@@ -106,19 +125,21 @@ describe("<DataGrid />", () => {
 
   it("should support a kebab menu", async () => {
     const handleMenuAction = vi.fn();
-    const [{ user }] = renderDataGrid({
-      rowActions: () => [
-        {
-          type: "menu",
-          renderMenuOverlay: () => (
-            <Menu.Overlay onAction={handleMenuAction}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
-            </Menu.Overlay>
-          ),
-        },
-      ],
-    });
+    const { user } = render(
+      createDataGrid({
+        rowActions: () => [
+          {
+            type: "menu",
+            renderMenuOverlay: () => (
+              <Menu.Overlay onAction={handleMenuAction}>
+                <Menu.Item>Action 1</Menu.Item>
+                <Menu.Item>Action 2</Menu.Item>
+              </Menu.Overlay>
+            ),
+          },
+        ],
+      }),
+    );
 
     await user.click(getByRole(getRow(1), "button", { name: "Actions" }));
     expect(screen.getByRole("menu")).toBeInTheDocument();
@@ -191,9 +212,8 @@ function createDataGrid(props: Partial<DataGridProps> = {}) {
   );
 }
 
-function renderDataGrid(props: Partial<DataGridProps> = {}) {
-  const renderResult = render(createDataGrid(props));
-  return [renderResult] as const;
+function getContainer() {
+  return screen.getByRole("grid").parentElement as HTMLElement;
 }
 
 function getHead() {
