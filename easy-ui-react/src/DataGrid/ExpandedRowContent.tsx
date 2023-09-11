@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { classNames } from "../utilities/css";
 
-import styles from "./DataGrid.module.scss";
+import styles from "./ExpandedRowContent.module.scss";
 
 type ExpandedRowContentProps = {
   children: ReactNode;
@@ -15,8 +15,8 @@ export function ExpandedRowContent({
   return (
     <div
       className={classNames(
-        styles.expandedRowContent,
-        isPending ? styles.pendingExpandedRowContent : null,
+        styles.ExpandedRowContent,
+        isPending ? styles.pending : styles.active,
       )}
       data-ezui-data-grid-expanded-row-content={
         isPending ? "pending" : "active"
