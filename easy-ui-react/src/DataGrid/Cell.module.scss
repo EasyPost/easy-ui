@@ -1,0 +1,94 @@
+@use "../styles/common" as *;
+
+.Cell {
+  @include font-style("body1");
+
+  display: inline-flex;
+  align-items: center;
+  padding: 0 design-token("space.2");
+
+  background: component-token("data-grid", "cell-bg");
+  color: component-token("data-grid", "cell-text");
+  height: component-token("data-grid", "body-row-height");
+  z-index: component-token("data-grid", "cell-z-index");
+
+  &:first-child {
+    padding-left: design-token("space.5");
+    position: sticky;
+    left: component-token("data-grid", "sticky-left-offset");
+    z-index: component-token("data-grid", "cell-stuck-z-index");
+  }
+  &:last-child {
+    padding-right: design-token("space.5");
+  }
+}
+
+.focused {
+  @include native-focus-ring;
+  outline-offset: -1px;
+}
+
+.expanded {
+  margin-bottom: component-token("data-grid", "expanded-row-height");
+}
+
+.hasStartMatter {
+  &:nth-child(1) {
+    left: 0;
+    padding-left: design-token("space.2");
+    padding-right: design-token("space.1.5");
+  }
+  &:nth-child(2) {
+    left: 44px;
+    position: sticky;
+    z-index: component-token("data-grid", "cell-stuck-z-index");
+  }
+  & + * {
+    padding-left: 0;
+  }
+}
+
+.hasEndMatter {
+  &:last-child {
+    padding-left: design-token("space.0.5");
+    padding-right: design-token("space.2");
+    position: sticky;
+    right: component-token("data-grid", "sticky-right-offset");
+    z-index: component-token("data-grid", "cell-stuck-z-index");
+  }
+  &:nth-last-child(2) {
+    padding-right: design-token("space.1.5");
+  }
+  &.rightEdgeUnderScroll:last-child::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 100%;
+    height: 100%;
+    width: component-token("data-grid", "sticky-shadow-size");
+    background-image: linear-gradient(
+      to left,
+      component-token("data-grid", "sticky-shadow-color"),
+      transparent
+    );
+    opacity: component-token("data-grid", "sticky-shadow-opacity");
+  }
+}
+
+.leftEdgeUnderScroll:not(.hasStartMatter):nth-child(1),
+.leftEdgeUnderScroll.hasStartMatter:nth-child(2) {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    height: 100%;
+    width: component-token("data-grid", "sticky-shadow-size");
+    background-image: linear-gradient(
+      to right,
+      component-token("data-grid", "sticky-shadow-color"),
+      transparent
+    );
+    opacity: component-token("data-grid", "sticky-shadow-opacity");
+  }
+}
