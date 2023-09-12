@@ -1,7 +1,13 @@
 import { GridNode } from "@react-types/grid";
-import React, { useRef } from "react";
-import { mergeProps, useFocusRing, useTableCell } from "react-aria";
+import React, { Key, useRef } from "react";
+import {
+  mergeProps,
+  useFocusRing,
+  useTableCell,
+  useTableSelectionCheckbox,
+} from "react-aria";
 import { TableState } from "react-stately";
+import { Checkbox } from "../Checkbox";
 import { classNames } from "../utilities/css";
 import { useDataGridRow, useDataGridTable } from "./context";
 
@@ -27,13 +33,29 @@ export function Cell({ cell, state }: CellProps) {
     table.hasRowActions && styles.hasEndMatter,
     (table.hasSelection || table.hasExpansion) && styles.hasStartMatter,
   );
+  const CellContentComponent = cell.props.isSelectionCell
+    ? SelectCellContent
+    : DefaultCellContent;
   return (
     <div
       {...mergeProps(gridCellProps, focusProps)}
       ref={ref}
       className={className}
     >
-      {cell.rendered}
+      <CellContentComponent cell={cell} state={state} />
+      <div data-ezui-data-grid-shadow />
     </div>
   );
+}
+
+function DefaultCellContent({ cell }: CellProps) {
+  return <>{cell.rendered}</>;
+}
+
+function SelectCellContent({ cell, state }: CellProps) {
+  const { checkboxProps } = useTableSelectionCheckbox(
+    { key: cell.parentKey as Key },
+    state,
+  );
+  return <Checkbox {...checkboxProps} />;
 }

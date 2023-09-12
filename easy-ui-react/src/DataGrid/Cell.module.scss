@@ -1,4 +1,5 @@
 @use "../styles/common" as *;
+@use "mixins" as DataGrid;
 
 .Cell {
   @include font-style("body1");
@@ -20,6 +21,9 @@
   }
   &:last-child {
     padding-right: design-token("space.5");
+  }
+  [data-ezui-data-grid-shadow] {
+    position: absolute;
   }
 }
 
@@ -59,36 +63,19 @@
   &:nth-last-child(2) {
     padding-right: design-token("space.1.5");
   }
-  &.rightEdgeUnderScroll:last-child::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 100%;
-    height: 100%;
-    width: component-token("data-grid", "sticky-shadow-size");
-    background-image: linear-gradient(
-      to left,
-      component-token("data-grid", "sticky-shadow-color"),
-      transparent
-    );
-    opacity: component-token("data-grid", "sticky-shadow-opacity");
+  &.rightEdgeUnderScroll:last-child {
+    [data-ezui-data-grid-shadow] {
+      @include DataGrid.shadow(
+        $insetDirection: right,
+        $gradientDirection: left
+      );
+    }
   }
 }
 
 .leftEdgeUnderScroll:not(.hasStartMatter):nth-child(1),
 .leftEdgeUnderScroll.hasStartMatter:nth-child(2) {
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 100%;
-    height: 100%;
-    width: component-token("data-grid", "sticky-shadow-size");
-    background-image: linear-gradient(
-      to right,
-      component-token("data-grid", "sticky-shadow-color"),
-      transparent
-    );
-    opacity: component-token("data-grid", "sticky-shadow-opacity");
+  [data-ezui-data-grid-shadow] {
+    @include DataGrid.shadow($insetDirection: left, $gradientDirection: right);
   }
 }

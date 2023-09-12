@@ -8,20 +8,18 @@ import { ExpandedRowContent } from "./ExpandedRowContent";
 import { HeaderRow } from "./HeaderRow";
 import { Row } from "./Row";
 import { RowGroup } from "./RowGroup";
-import { SelectAllColumnHeader } from "./SelectAllColumnHeader";
-import { SelectCell } from "./SelectCell";
 import {
   ACTIONS_COLUMN_KEY,
   DEFAULT_MAX_ROWS,
   EXPAND_COLUMN_KEY,
 } from "./constants";
+import { DataGridTableContext } from "./context";
 import { Column, DataGridProps } from "./types";
 import { useEdgeInterceptors } from "./useEdgeInterceptors";
 import { useExpandedRow } from "./useExpandedRow";
 import { useGridTemplate } from "./useGridTemplate";
 
 import styles from "./DataGrid.module.scss";
-import { DataGridTableContext } from "./context";
 
 export function Table<C extends Column>(props: DataGridProps<C>) {
   const {
@@ -113,21 +111,13 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
           <RowGroup>
             {collection.headerRows.map((headerRow) => (
               <HeaderRow key={headerRow.key} item={headerRow} state={state}>
-                {[...headerRow.childNodes].map((column) =>
-                  column.props.isSelectionCell ? (
-                    <SelectAllColumnHeader
-                      key={column.key}
-                      column={column}
-                      state={state}
-                    />
-                  ) : (
-                    <ColumnHeader
-                      key={column.key}
-                      column={column}
-                      state={state}
-                    />
-                  ),
-                )}
+                {[...headerRow.childNodes].map((column) => (
+                  <ColumnHeader
+                    key={column.key}
+                    column={column}
+                    state={state}
+                  />
+                ))}
               </HeaderRow>
             ))}
           </RowGroup>
@@ -139,13 +129,9 @@ export function Table<C extends Column>(props: DataGridProps<C>) {
                 state={state}
                 isExpanded={expandedRow ? expandedRow.key === row.key : false}
               >
-                {[...row.childNodes].map((cell) =>
-                  cell.props.isSelectionCell ? (
-                    <SelectCell key={cell.key} cell={cell} state={state} />
-                  ) : (
-                    <Cell key={cell.key} cell={cell} state={state} />
-                  ),
-                )}
+                {[...row.childNodes].map((cell) => (
+                  <Cell key={cell.key} cell={cell} state={state} />
+                ))}
               </Row>
             ))}
           </RowGroup>
