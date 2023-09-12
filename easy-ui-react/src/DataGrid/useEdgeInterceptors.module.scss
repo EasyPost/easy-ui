@@ -1,9 +1,6 @@
 @use "../styles/common" as *;
 
-.topInterceptor,
-.rightInterceptor,
-.bottomInterceptor,
-.leftInterceptor {
+.interceptor {
   position: absolute;
   top: 0;
   right: 0;
@@ -11,28 +8,28 @@
   left: 0;
 }
 
-.topInterceptor,
-.bottomInterceptor {
+.top,
+.bottom {
   height: 1px;
 }
 
-.leftInterceptor,
-.rightInterceptor {
+.left,
+.right {
   width: 1px;
 }
 
-.topInterceptor {
+.top {
   bottom: auto;
 }
 
-.bottomInterceptor {
+.bottom {
   top: auto;
 }
 
-.leftInterceptor {
+.left {
   right: auto;
 }
 
-.rightInterceptor {
+.right {
   left: auto;
 }

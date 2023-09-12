@@ -4,6 +4,10 @@
 .ColumnHeader {
   @include font-style("subtitle2");
 
+  display: inline-flex;
+  align-items: center;
+  padding: 0 design-token("space.2");
+
   position: sticky;
   top: 0;
   background: component-token("data-grid", "header-bg");
@@ -11,28 +15,10 @@
   height: component-token("data-grid", "header-row-height");
   z-index: component-token("data-grid", "column-z-index");
   outline: none;
-
-  display: inline-flex;
-  align-items: center;
-  gap: design-token("space.1");
-  padding: 0 design-token("space.2");
-
-  &:first-child {
-    padding-left: design-token("space.5");
-  }
-  &:last-child {
-    padding-right: design-token("space.5");
-  }
-  &:nth-child(1) {
-    left: component-token("data-grid", "sticky-left-offset");
-    z-index: component-token("data-grid", "column-stuck-z-index");
-  }
-  [data-ezui-data-grid-shadow] {
-    position: absolute;
-  }
 }
 
 .allowsSorting {
+  gap: design-token("space.1");
   user-select: none;
 }
 
@@ -41,69 +27,47 @@
   outline-offset: -1px;
 }
 
-.topEdgeUnderScroll {
-  [data-ezui-data-grid-shadow="bottom"] {
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: component-token("data-grid", "sticky-shadow-size");
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: linear-gradient(to bottom, white 65%, transparent);
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      @include DataGrid.shadowGradient(bottom);
-    }
-  }
+.first {
+  padding-left: design-token("space.5");
+  left: component-token("data-grid", "sticky-left-offset");
+  z-index: component-token("data-grid", "column-stuck-z-index");
 }
 
-.hasStartMatter {
-  &:nth-child(1) {
-    left: 0;
-    padding-left: design-token("space.2");
-    padding-right: design-token("space.1.5");
-  }
-  &:nth-child(2) {
-    left: 44px;
-    z-index: component-token("data-grid", "column-stuck-z-index");
-  }
-  & + * {
-    padding-left: 0;
-  }
+.firstWithActions {
+  left: 0;
+  padding-left: design-token("space.2");
+  padding-right: design-token("space.1.5");
 }
 
-.hasEndMatter {
-  &:last-child {
-    padding-left: design-token("space.0.5");
-    padding-right: design-token("space.2");
-    position: sticky;
-    right: component-token("data-grid", "sticky-right-offset");
-    z-index: component-token("data-grid", "column-stuck-z-index");
-  }
-  &:nth-last-child(2) {
-    padding-right: design-token("space.1.5");
-  }
+.secondWithActions {
+  padding-left: 0;
+  left: 44px;
+  z-index: component-token("data-grid", "column-stuck-z-index");
 }
 
-.leftEdgeUnderScroll:not(.hasStartMatter):nth-child(1)
-  [data-ezui-data-grid-shadow="side"],
-.leftEdgeUnderScroll.hasStartMatter:nth-child(2)
-  [data-ezui-data-grid-shadow="side"] {
-  @include DataGrid.shadow($insetDirection: left, $gradientDirection: right);
+.last {
+  padding-right: design-token("space.5");
 }
 
-.rightEdgeUnderScroll.hasEndMatter:last-child
-  [data-ezui-data-grid-shadow="side"] {
-  @include DataGrid.shadow($insetDirection: right, $gradientDirection: left);
+.lastWithActions {
+  padding-left: design-token("space.0.5");
+  padding-right: design-token("space.2");
+  right: component-token("data-grid", "sticky-right-offset");
+  z-index: component-token("data-grid", "column-stuck-z-index");
+}
+
+.secondToLastWithActions {
+  padding-right: design-token("space.1.5");
+}
+
+.shadowBottom [data-ezui-data-grid-shadow="bottom"] {
+  @include DataGrid.shadow(bottom, $backdrop: true);
+}
+
+.shadowRight [data-ezui-data-grid-shadow="side"] {
+  @include DataGrid.shadow(right);
+}
+
+.shadowLeft [data-ezui-data-grid-shadow="side"] {
+  @include DataGrid.shadow(left);
 }

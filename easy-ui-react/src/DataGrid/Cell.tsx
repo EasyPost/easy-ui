@@ -8,7 +8,7 @@ import {
 } from "react-aria";
 import { TableState } from "react-stately";
 import { Checkbox } from "../Checkbox";
-import { classNames } from "../utilities/css";
+import { classNames, variationName } from "../utilities/css";
 import { useDataGridRow, useDataGridTable } from "./context";
 
 import styles from "./Cell.module.scss";
@@ -24,18 +24,39 @@ export function Cell({ cell, state }: CellProps) {
   const ref = useRef(null);
   const { gridCellProps } = useTableCell({ node: cell }, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
+
+  const hasActionsAtStart = table.hasSelection || table.hasExpansion;
+  const hasActionsAtEnd = table.hasRowActions;
+  const hasRightShadow =
+    table.isLeftEdgeUnderScroll &&
+    (hasActionsAtStart ? cell.index === 1 : cell.index === 0);
+  const hasLeftShadow =
+    hasActionsAtEnd &&
+    table.isRightEdgeUnderScroll &&
+    cell.index === state.collection.size - 1;
+
   const className = classNames(
     styles.Cell,
     isFocusVisible && styles.focused,
     row.isExpanded && styles.expanded,
-    table.isLeftEdgeUnderScroll && styles.leftEdgeUnderScroll,
-    table.isRightEdgeUnderScroll && styles.rightEdgeUnderScroll,
-    table.hasRowActions && styles.hasEndMatter,
-    (table.hasSelection || table.hasExpansion) && styles.hasStartMatter,
+    hasRightShadow && styles[variationName("shadow", "right")],
+    hasLeftShadow && styles[variationName("shadow", "left")],
+    cell.index === 0 && styles.first,
+    hasActionsAtStart && cell.index === 0 && styles.firstWithActions,
+    hasActionsAtStart && cell.index === 1 && styles.secondWithActions,
+    cell.index === state.collection.size - 1 && styles.last,
+    hasActionsAtEnd &&
+      cell.index === state.collection.size - 1 &&
+      styles.lastWithActions,
+    hasActionsAtEnd &&
+      cell.index === state.collection.size - 2 &&
+      styles.secondToLastWithActions,
   );
+
   const CellContentComponent = cell.props.isSelectionCell
     ? SelectCellContent
     : DefaultCellContent;
+
   return (
     <div
       {...mergeProps(gridCellProps, focusProps)}

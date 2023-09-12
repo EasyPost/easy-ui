@@ -64,6 +64,10 @@
   /* stylelint-enable scss/operator-no-newline-after */
   overflow: auto;
   position: relative;
+
+  [data-ezui-data-grid-shadow] {
+    position: absolute;
+  }
 }
 
 .contents {

@@ -12,19 +12,6 @@
   color: component-token("data-grid", "cell-text");
   height: component-token("data-grid", "body-row-height");
   z-index: component-token("data-grid", "cell-z-index");
-
-  &:first-child {
-    padding-left: design-token("space.5");
-    position: sticky;
-    left: component-token("data-grid", "sticky-left-offset");
-    z-index: component-token("data-grid", "cell-stuck-z-index");
-  }
-  &:last-child {
-    padding-right: design-token("space.5");
-  }
-  [data-ezui-data-grid-shadow] {
-    position: absolute;
-  }
 }
 
 .focused {
@@ -36,46 +23,46 @@
   margin-bottom: component-token("data-grid", "expanded-row-height");
 }
 
-.hasStartMatter {
-  &:nth-child(1) {
-    left: 0;
-    padding-left: design-token("space.2");
-    padding-right: design-token("space.1.5");
-  }
-  &:nth-child(2) {
-    left: 44px;
-    position: sticky;
-    z-index: component-token("data-grid", "cell-stuck-z-index");
-  }
-  & + * {
-    padding-left: 0;
-  }
+.first {
+  padding-left: design-token("space.5");
+  position: sticky;
+  left: component-token("data-grid", "sticky-left-offset");
+  z-index: component-token("data-grid", "cell-stuck-z-index");
 }
 
-.hasEndMatter {
-  &:last-child {
-    padding-left: design-token("space.0.5");
-    padding-right: design-token("space.2");
-    position: sticky;
-    right: component-token("data-grid", "sticky-right-offset");
-    z-index: component-token("data-grid", "cell-stuck-z-index");
-  }
-  &:nth-last-child(2) {
-    padding-right: design-token("space.1.5");
-  }
-  &.rightEdgeUnderScroll:last-child {
-    [data-ezui-data-grid-shadow] {
-      @include DataGrid.shadow(
-        $insetDirection: right,
-        $gradientDirection: left
-      );
-    }
-  }
+.firstWithActions {
+  left: 0;
+  padding-left: design-token("space.2");
+  padding-right: design-token("space.1.5");
 }
 
-.leftEdgeUnderScroll:not(.hasStartMatter):nth-child(1),
-.leftEdgeUnderScroll.hasStartMatter:nth-child(2) {
-  [data-ezui-data-grid-shadow] {
-    @include DataGrid.shadow($insetDirection: left, $gradientDirection: right);
-  }
+.secondWithActions {
+  padding-left: 0;
+  position: sticky;
+  left: 44px;
+  z-index: component-token("data-grid", "cell-stuck-z-index");
+}
+
+.last {
+  padding-right: design-token("space.5");
+}
+
+.lastWithActions {
+  padding-left: design-token("space.0.5");
+  padding-right: design-token("space.2");
+  position: sticky;
+  right: component-token("data-grid", "sticky-right-offset");
+  z-index: component-token("data-grid", "cell-stuck-z-index");
+}
+
+.secondToLastWithActions {
+  padding-right: design-token("space.1.5");
+}
+
+.shadowLeft [data-ezui-data-grid-shadow] {
+  @include DataGrid.shadow(left);
+}
+
+.shadowRight [data-ezui-data-grid-shadow] {
+  @include DataGrid.shadow(right);
 }

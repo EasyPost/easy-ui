@@ -9,7 +9,7 @@ import {
 } from "react-aria";
 import { TableState } from "react-stately";
 import { Checkbox } from "../Checkbox";
-import { classNames } from "../utilities/css";
+import { classNames, variationName } from "../utilities/css";
 import { SortIndicator } from "./SortIndicator";
 import { useDataGridTable } from "./context";
 
@@ -29,19 +29,40 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
     ref,
   );
   const { isFocusVisible, focusProps } = useFocusRing();
+
+  const hasActionsAtStart = table.hasSelection || table.hasExpansion;
+  const hasActionsAtEnd = table.hasRowActions;
+  const hasRightShadow =
+    table.isLeftEdgeUnderScroll &&
+    (hasActionsAtStart ? column.index === 1 : column.index === 0);
+  const hasLeftShadow =
+    hasActionsAtEnd &&
+    table.isRightEdgeUnderScroll &&
+    column.index === state.collection.size - 1;
+
   const className = classNames(
     styles.ColumnHeader,
     isFocusVisible && styles.focused,
     column.props.allowsSorting && styles.allowsSorting,
-    table.isTopEdgeUnderScroll && styles.topEdgeUnderScroll,
-    table.isLeftEdgeUnderScroll && styles.leftEdgeUnderScroll,
-    table.isRightEdgeUnderScroll && styles.rightEdgeUnderScroll,
-    table.hasRowActions && styles.hasEndMatter,
-    (table.hasSelection || table.hasExpansion) && styles.hasStartMatter,
+    hasRightShadow && styles[variationName("shadow", "right")],
+    hasLeftShadow && styles[variationName("shadow", "left")],
+    table.isTopEdgeUnderScroll && styles[variationName("shadow", "bottom")],
+    column.index === 0 && styles.first,
+    hasActionsAtStart && column.index === 0 && styles.firstWithActions,
+    hasActionsAtStart && column.index === 1 && styles.secondWithActions,
+    column.index === state.collection.size - 1 && styles.last,
+    hasActionsAtEnd &&
+      column.index === state.collection.size - 1 &&
+      styles.lastWithActions,
+    hasActionsAtEnd &&
+      column.index === state.collection.size - 2 &&
+      styles.secondToLastWithActions,
   );
+
   const ColumnHeaderContentComponent = column.props.isSelectionCell
     ? SelectAllColumnHeaderContent
     : DefaultColumnHeaderContent;
+
   return (
     <div
       ref={ref}

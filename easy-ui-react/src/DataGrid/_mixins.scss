@@ -1,18 +1,54 @@
 @use "../styles/common" as *;
 
-@mixin shadowGradient($direction) {
-  background-image: linear-gradient(
-    to #{$direction},
-    component-token("data-grid", "sticky-shadow-color"),
-    transparent
-  );
-  opacity: component-token("data-grid", "sticky-shadow-opacity");
-}
+@mixin shadow($direction, $backdrop: false) {
+  @if $direction == top {
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    height: component-token("data-grid", "sticky-shadow-size");
+  } @else if $direction == right {
+    top: 0;
+    left: 100%;
+    height: 100%;
+    width: component-token("data-grid", "sticky-shadow-size");
+  } @else if $direction == bottom {
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: component-token("data-grid", "sticky-shadow-size");
+  } @else if $direction == left {
+    top: 0;
+    right: 100%;
+    height: 100%;
+    width: component-token("data-grid", "sticky-shadow-size");
+  } @else {
+    @error "Unknown direction #{$direction}.";
+  }
 
-@mixin shadow($insetDirection, $gradientDirection) {
-  @include shadowGradient($gradientDirection);
-  top: 0;
-  #{$insetDirection}: 100%;
-  height: 100%;
-  width: component-token("data-grid", "sticky-shadow-size");
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  @if $backdrop {
+    &::before {
+      background-image: linear-gradient(
+        to #{$direction},
+        white 65%,
+        transparent
+      );
+    }
+  }
+  &::after {
+    background-image: linear-gradient(
+      to #{$direction},
+      component-token("data-grid", "sticky-shadow-color"),
+      transparent
+    );
+    opacity: component-token("data-grid", "sticky-shadow-opacity");
+  }
 }

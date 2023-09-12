@@ -1,5 +1,6 @@
 import React, { MutableRefObject, useCallback, useRef } from "react";
 import { useIntersectionDetection } from "../Modal/useIntersectionDetection";
+import { classNames } from "../utilities/css";
 
 import styles from "./useEdgeInterceptors.module.scss";
 
@@ -36,10 +37,22 @@ export function useEdgeInterceptors(
   const renderInterceptors = useCallback(() => {
     return (
       <>
-        <div ref={topInterceptorRef} className={styles.topInterceptor} />
-        <div ref={bottomInterceptorRef} className={styles.bottomInterceptor} />
-        <div ref={leftInterceptorRef} className={styles.leftInterceptor} />
-        <div ref={rightInterceptorRef} className={styles.rightInterceptor} />
+        <div
+          ref={topInterceptorRef}
+          className={classNames(styles.interceptor, styles.top)}
+        />
+        <div
+          ref={bottomInterceptorRef}
+          className={classNames(styles.interceptor, styles.bottom)}
+        />
+        <div
+          ref={leftInterceptorRef}
+          className={classNames(styles.interceptor, styles.left)}
+        />
+        <div
+          ref={rightInterceptorRef}
+          className={classNames(styles.interceptor, styles.right)}
+        />
       </>
     );
   }, []);
