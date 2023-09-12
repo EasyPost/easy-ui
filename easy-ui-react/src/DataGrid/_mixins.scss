@@ -38,7 +38,7 @@
     &::before {
       background-image: linear-gradient(
         to #{$direction},
-        white 65%,
+        component-token("data-grid", "cell-bg") 65%,
         transparent
       );
     }
