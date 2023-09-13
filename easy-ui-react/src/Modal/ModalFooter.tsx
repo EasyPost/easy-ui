@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../Button";
+import { Button, ButtonColor } from "../Button";
 import { classNames } from "../utilities/css";
 import { useModalContext } from "./context";
 
@@ -10,6 +10,7 @@ type ModalFooterProps = {
    * Primary action slot.
    */
   primaryAction: {
+    color?: ButtonColor;
     content: string;
     onAction: () => void;
     isDisabled?: boolean;
@@ -19,6 +20,7 @@ type ModalFooterProps = {
    * Secondary action slot.
    */
   secondaryAction?: {
+    color?: ButtonColor;
     content: string;
     onAction: () => void;
     isDisabled?: boolean;
@@ -37,7 +39,7 @@ export function ModalFooter(props: ModalFooterProps) {
       {secondaryAction && (
         <Button
           onPress={secondaryAction.onAction}
-          color="neutral"
+          color={secondaryAction.color ? secondaryAction.color : "neutral"}
           isDisabled={secondaryAction.isDisabled}
         >
           {secondaryAction.content}
@@ -46,6 +48,7 @@ export function ModalFooter(props: ModalFooterProps) {
       <Button
         onPress={primaryAction.onAction}
         isDisabled={primaryAction.isDisabled}
+        color={primaryAction.color ? primaryAction.color : undefined}
       >
         {primaryAction.content}
       </Button>
