@@ -8,6 +8,41 @@ import { ACTIONS_COLUMN_KEY, EXPAND_COLUMN_KEY } from "./constants";
 import { DataGridContext } from "./context";
 import { Column as ColumnType, DataGridProps } from "./types";
 
+/**
+ * A `DataGrid` is an interactive table used for working with a large
+ * collection of data in a scannable way.
+ *
+ * @remarks
+ * Use a `<DataGrid />` for interactive, tabular data. Prefer simpler table
+ * components for rendering static data.
+ *
+ * @example
+ * <DataGrid
+ *   aria-label="Basic data grid"
+ *   columns={[
+ *     { key: "name", name: "Name" },
+ *     { key: "email", name: "Email" },
+ *   ]}
+ *   rows={[
+ *     {
+ *       key: 1,
+ *       name: "Julie Smith",
+ *       email: "julie.smith@easypost.com",
+ *     },
+ *     {
+ *       key: 2,
+ *       name: "Sam Frost",
+ *       email: "sam.frost@easypost.com",
+ *     },
+ *   ]}
+ *   renderColumnCell={(column) => (
+ *     <span>{String(column.name)}</span>
+ *   )}
+ *   renderRowCell={(item) => (
+ *     <span>{String(item)}</span>
+ *   )}
+ * />
+ */
 export function DataGrid<C extends ColumnType = ColumnType>(
   props: DataGridProps<C>,
 ) {
