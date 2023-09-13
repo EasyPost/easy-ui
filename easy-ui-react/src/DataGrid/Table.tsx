@@ -1,4 +1,10 @@
-import React, { CSSProperties, Fragment, useMemo, useRef } from "react";
+import React, {
+  CSSProperties,
+  Fragment,
+  ReactElement,
+  useMemo,
+  useRef,
+} from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
@@ -21,7 +27,11 @@ import { useGridTemplate } from "./useGridTemplate";
 
 import styles from "./DataGrid.module.scss";
 
-export function Table<C extends Column>(props: DataGridProps<C>) {
+type TableProps<C extends Column> = Omit<DataGridProps<C>, "children"> & {
+  children?: [ReactElement, ReactElement];
+};
+
+export function Table<C extends Column>(props: TableProps<C>) {
   const {
     headerVariant,
     maxRows = DEFAULT_MAX_ROWS,

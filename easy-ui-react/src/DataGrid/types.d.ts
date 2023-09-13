@@ -4,7 +4,7 @@ import {
   SelectionMode,
   SortDescriptor,
 } from "@react-types/shared";
-import { Key, ReactElement, ReactNode } from "react";
+import { Key, ReactNode } from "react";
 import { IconSymbol } from "../types";
 
 /** Denote that an object must contain a key. */
@@ -24,22 +24,32 @@ export type Row<C extends Column> = KeyedObject & {
 
 export type MenuRowAction = {
   type: "menu";
+
+  /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
+
+  /** Render the menu overlay. */
   renderMenuOverlay: () => ReactNode;
 };
 
 export type ActionRowAction = {
   type: "action";
+
+  /** Accessibility label describing the custom action. */
   accessibilityLabel: string;
+
+  /** Icon symbol for the action. */
   iconSymbol: IconSymbol;
+
+  /** Action to trigger. */
   onAction: () => void;
 };
 
 export type RowAction = MenuRowAction | ActionRowAction;
 
 export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
-  /** The elements that make up the table. Includes the TableHeader, TableBody, Columns, and Rows. */
-  children?: [ReactElement, ReactElement];
+  /** Use columns and rows to specify data grid content. */
+  children?: never;
 
   /** List of keys for columns to allow sort. */
   columnKeysAllowingSort?: Key[];
@@ -68,20 +78,14 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   /** Constrains the height of the data grid to a set number of rows. */
   maxRows?: number;
 
-  /** The type of selection that is allowed in the collection. */
-  selectionMode?: SelectionMode;
-
-  /** The current sorted column and direction. */
-  sortDescriptor?: SortDescriptor;
-
   /** Handler that is called when a user performs an action on the cell. */
   onCellAction?: (key: Key) => void;
 
-  /** Handler that is called when a user performs an action on the row. */
-  onRowAction?: (key: Key) => void;
-
   /** Handler that is called when the expansion changes. */
   onExpandedChange?: (key: Key) => void;
+
+  /** Handler that is called when a user performs an action on the row. */
+  onRowAction?: (key: Key) => void;
 
   /** Handler that is called when the selection changes. */
   onSelectionChange?: (keys: Selection) => void;
@@ -106,6 +110,12 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
 
   /** The currently selected keys in the collection (controlled). */
   selectedKeys?: "all" | Iterable<Key>;
+
+  /** The type of selection that is allowed in the collection. */
+  selectionMode?: SelectionMode;
+
+  /** The current sorted column and direction. */
+  sortDescriptor?: SortDescriptor;
 
   /**
    * Define a custom grid-template-columns.

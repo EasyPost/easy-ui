@@ -40,14 +40,20 @@ type DataGridProps<C extends Column> = AriaLabelingProps & {
   /** Use columns and rows to specify data grid content. */
   children?: never;
 
+  /** List of keys for columns to allow sort. */
+  columnKeysAllowingSort?: Key[];
+
   /** Columns for the data grid. */
-  columns: readonly C[];
+  columns: C[];
 
   /** The initial expanded key in the collection (uncontrolled). */
   defaultExpandedKey?: Key;
 
   /** The initial selected keys in the collection (uncontrolled). */
   defaultSelectedKeys?: "all" | Iterable<Key>;
+
+  /** A list of row keys to disable from selection. */
+  disabledKeys?: Iterable<Key>;
 
   /** The currently expanded key in the collection (controlled). */
   expandedKey?: Key;
@@ -57,6 +63,9 @@ type DataGridProps<C extends Column> = AriaLabelingProps & {
    * @default primary
    */
   headerVariant?: "primary" | "secondary";
+
+  /** Constrains the height of the data grid to a set number of rows. */
+  maxRows?: number;
 
   /** Handler that is called when a user performs an action on the cell. */
   onCellAction?: (key: Key) => void;
@@ -73,14 +82,14 @@ type DataGridProps<C extends Column> = AriaLabelingProps & {
   /** Handler that is called when the sorted column or direction changes. */
   onSortChange?: (descriptor: SortDescriptor) => void;
 
-  /** Renders the content of a body cell. Defaults to row property text. */
-  renderBodyCell?: (cell: unknown, rowKey: Key, columnKey: Key) => ReactNode;
+  /** Renders the content of a header cell. Defaults to column text. */
+  renderColumnCell?: (cell: C) => ReactNode;
 
   /** Renders the contents of the expanded row. */
   renderExpandedRow?: (key: Key) => ReactNode;
 
-  /** Renders the content of a header cell. Defaults to column text. */
-  renderHeaderCell?: (cell: C, key: Key) => ReactNode;
+  /** Renders the content of a body cell. Defaults to row property text. */
+  renderRowCell?: (cell: unknown, columnKey: Key, row: R) => ReactNode;
 
   /** Action definitions for the row. */
   rowActions?: (key: Key) => RowAction[];
@@ -96,6 +105,14 @@ type DataGridProps<C extends Column> = AriaLabelingProps & {
 
   /** The current sorted column and direction. */
   sortDescriptor?: SortDescriptor;
+
+  /**
+   * Define a custom grid-template-columns.
+   * Defaults to taking up an even amount of space.
+   *
+   * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns}
+   */
+  templateColumns?: string;
 };
 
 type MenuRowAction = {
@@ -108,10 +125,10 @@ type MenuRowAction = {
   renderMenuOverlay: () => ReactNode;
 };
 
-type IconRowAction = {
-  type: "icon";
+type ActionRowAction = {
+  type: "action";
 
-  /** Accessibility label describing the menu action. */
+  /** Accessibility label describing the custom action. */
   accessibilityLabel: string;
 
   /** Icon symbol for the action. */
