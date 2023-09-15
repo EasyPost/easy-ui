@@ -20,17 +20,14 @@ export function SortIndicator({ sortDirection }: SortIndicatorProps) {
         headerVariant && styles[variationName("onHeader", headerVariant)],
       )}
     >
-      {sortDirection === "ascending" ? <Asc /> : <Desc />}
+      <Arrow
+        className={styles.arrow}
+        style={{
+          transform: sortDirection === "ascending" ? "scaleY(-1)" : "scaleY(1)",
+        }}
+      />
     </span>
   );
-}
-
-function Desc() {
-  return <Arrow style={{ transform: "rotate(0deg)" }} />;
-}
-
-function Asc() {
-  return <Arrow style={{ transform: "rotate(180deg)" }} />;
 }
 
 function Arrow(props: ComponentProps<"svg">) {

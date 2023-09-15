@@ -5,6 +5,12 @@
   color: component-token("data-grid", "sort-icon-color");
 }
 
+.arrow {
+  transition:
+    transform 0.15s ease-out,
+    fill 0.15s ease-out;
+}
+
 .sorted {
   @include component-token(
     "data-grid",
