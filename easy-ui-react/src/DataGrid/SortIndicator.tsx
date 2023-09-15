@@ -6,25 +6,21 @@ import { useDataGridTable } from "./context";
 import styles from "./SortIndicator.module.scss";
 
 export type SortIndicatorProps = {
-  isColumnSorted: boolean;
   sortDirection?: SortDirection;
 };
 
-export function SortIndicator({
-  isColumnSorted,
-  sortDirection,
-}: SortIndicatorProps) {
+export function SortIndicator({ sortDirection }: SortIndicatorProps) {
   const { headerVariant } = useDataGridTable();
   return (
     <span
       aria-hidden="true"
       className={classNames(
         styles.SortIndicator,
-        isColumnSorted && styles.sorted,
+        sortDirection && styles.sorted,
         headerVariant && styles[variationName("onHeader", headerVariant)],
       )}
     >
-      {isColumnSorted && sortDirection === "ascending" ? <Asc /> : <Desc />}
+      {sortDirection === "ascending" ? <Asc /> : <Desc />}
     </span>
   );
 }

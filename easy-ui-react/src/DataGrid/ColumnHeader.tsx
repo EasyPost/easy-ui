@@ -83,8 +83,11 @@ function DefaultColumnHeaderContent({ column, state }: ColumnHeaderProps) {
       {column.rendered}
       {column.props.allowsSorting && (
         <SortIndicator
-          isColumnSorted={state.sortDescriptor?.column === column.key}
-          sortDirection={state.sortDescriptor?.direction}
+          sortDirection={
+            state.sortDescriptor?.column === column.key
+              ? state.sortDescriptor?.direction
+              : undefined
+          }
         />
       )}
     </>
