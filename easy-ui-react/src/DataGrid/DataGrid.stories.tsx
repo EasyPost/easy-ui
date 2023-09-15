@@ -207,7 +207,7 @@ export const WithCustomRendering: Story = {
   },
 };
 
-function WithSortTemplate(args: DataGridProps) {
+function WithSortTemplate(args: Partial<DataGridProps>) {
   // https://react-spectrum.adobe.com/react-stately/useAsyncList.html
   const list = useAsyncList({
     async load() {
@@ -218,12 +218,19 @@ function WithSortTemplate(args: DataGridProps) {
     },
   });
   return (
-    <Template
-      {...args}
+    <DataGrid
+      columns={columns}
+      rows={list.items}
+      renderColumnCell={(column) => (
+        <span style={{ whiteSpace: "nowrap" }}>{String(column.name)}</span>
+      )}
+      renderRowCell={(item) => (
+        <span style={{ whiteSpace: "nowrap" }}>{String(item)}</span>
+      )}
       sortDescriptor={list.sortDescriptor}
       onSortChange={list.sort}
       columnKeysAllowingSort={columns.map((c) => c.key)}
-      rows={list.items}
+      {...args}
     />
   );
 }
