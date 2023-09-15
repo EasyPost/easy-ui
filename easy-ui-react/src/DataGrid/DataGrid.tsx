@@ -76,14 +76,13 @@ export function DataGrid<C extends ColumnType = ColumnType>(
   // future, this could be made dynamic
   const rowHeaderColumnKey = unprocessedColumns[0].key;
 
-  const isRowExpansionControlled = expandedKeyFromUser !== undefined;
+  const isRowExpansionControlled = expandedKeyFromUser != null;
 
   const [expandedKey, setExpandedKey] = useState(() => {
-    return isRowExpansionControlled
-      ? expandedKeyFromUser
-      : defaultExpandedKey
-      ? defaultExpandedKey
-      : null;
+    if (isRowExpansionControlled) {
+      return expandedKeyFromUser;
+    }
+    return defaultExpandedKey ?? null;
   });
 
   const toggleExpandedRow = useCallback(
