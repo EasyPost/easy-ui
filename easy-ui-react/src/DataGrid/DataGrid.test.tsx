@@ -189,12 +189,12 @@ const rows = [
   {
     key: 1,
     name: "Julie Smith",
-    email: "julie.smith@easypost.com",
+    email: "julie.smith@example.com",
   },
   {
     key: 2,
     name: "Sam Frost",
-    email: "sam.frost@easypost.com",
+    email: "sam.frost@example.com",
   },
 ];
 

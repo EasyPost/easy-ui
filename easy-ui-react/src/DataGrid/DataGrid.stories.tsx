@@ -24,7 +24,7 @@ const rows = [
   {
     key: 1,
     name: "Julie Smith",
-    email: "julie.smith@easypost.com",
+    email: "julie.smith@example.com",
     permissions: "User",
     status: "Active",
     lastActive: "2022-12-08",
@@ -32,7 +32,7 @@ const rows = [
   {
     key: 2,
     name: "Sam Frost",
-    email: "sam.frost@easypost.com",
+    email: "sam.frost@example.com",
     permissions: "User",
     status: "Active",
     lastActive: "2022-12-12",
@@ -40,7 +40,7 @@ const rows = [
   {
     key: 3,
     name: "Ashley Benson",
-    email: "ashley.benson@easypost.com",
+    email: "ashley.benson@example.com",
     permissions: "Admin",
     status: "Active",
     lastActive: "2023-03-24",
@@ -48,7 +48,7 @@ const rows = [
   {
     key: 4,
     name: "Robert Gomez",
-    email: "robert.gomez@easypost.com",
+    email: "robert.gomez@example.com",
     permissions: "User",
     status: "Inactive",
     lastActive: "2022-10-03",
@@ -56,7 +56,7 @@ const rows = [
   {
     key: 5,
     name: "William Macintosh",
-    email: "william.macintosh@easypost.com",
+    email: "william.macintosh@example.com",
     permissions: "User",
     status: "Active",
     lastActive: "2023-01-12",
@@ -64,7 +64,7 @@ const rows = [
   {
     key: 6,
     name: "Sarah Skylar",
-    email: "sarah.skylar@easypost.com",
+    email: "sarah.skylar@example.com",
     permissions: "User",
     status: "Active",
     lastActive: "2023-06-06",
