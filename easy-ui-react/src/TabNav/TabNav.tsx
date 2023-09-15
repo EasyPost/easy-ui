@@ -20,17 +20,10 @@ type TabNavProps = AriaLabelingProps & {
   children: ReactNode;
 };
 
-type TabNavLinkProps<T extends ElementType = "a"> = ComponentProps<T> & {
-  "aria-current"?:
-    | "page"
-    | "step"
-    | "location"
-    | "date"
-    | "time"
-    | true
-    | false;
+type TabNavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
   as?: T;
   children: ReactNode;
+  isCurrentPage?: boolean;
 };
 
 const TabNavContext = createContext<{
@@ -69,35 +62,30 @@ export function TabNav(props: TabNavProps) {
   );
 }
 
-function TabNavLink<T extends ElementType = "a">(props: TabNavLinkProps<T>) {
+function TabNavItem<T extends ElementType = "a">(props: TabNavItemProps<T>) {
   const { setWidth, setLeft } = useTabNav();
-  const {
-    as: As = "a",
-    children,
-    ["aria-current"]: ariaCurrent,
-    ...restProps
-  } = props;
+  const { as: As = "a", children, isCurrentPage, ...restProps } = props;
   const ref = useRef<HTMLLIElement | null>(null);
   const { isHovered, hoverProps } = useHover({});
   const className = classNames(
     styles.TabNavLink,
-    ariaCurrent && styles.selected,
+    isCurrentPage && styles.selected,
     isHovered && styles.hovered,
   );
   useEffect(() => {
-    if (ariaCurrent && ref.current && ref.current.parentElement) {
+    if (isCurrentPage && ref.current && ref.current.parentElement) {
       const parentRect = ref.current.parentElement.getBoundingClientRect();
       const rect = ref.current.getBoundingClientRect();
       setWidth(rect.width);
       setLeft(rect.x - parentRect.x);
     }
-  }, [setWidth, setLeft, ariaCurrent]);
+  }, [setWidth, setLeft, isCurrentPage]);
   return (
     <li ref={ref}>
       <As
         {...hoverProps}
         className={className}
-        aria-current={ariaCurrent}
+        aria-current={isCurrentPage ? "page" : undefined}
         {...restProps}
       >
         <Text variant="subtitle1">{children}</Text>
@@ -106,4 +94,4 @@ function TabNavLink<T extends ElementType = "a">(props: TabNavLinkProps<T>) {
   );
 }
 
-TabNav.Link = TabNavLink;
+TabNav.Item = TabNavItem;

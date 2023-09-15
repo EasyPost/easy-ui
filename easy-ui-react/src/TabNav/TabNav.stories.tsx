@@ -17,51 +17,16 @@ export const Default: Story = {
     const [page, setPage] = useState("Tab 1");
     return (
       <TabNav aria-label="Account">
-        <TabNav.Link
-          as={CustomLink}
-          aria-current={page === "Tab 1" ? true : false}
-          onClick={() => {
-            setPage("Tab 1");
-          }}
-        >
-          Tab 1
-        </TabNav.Link>
-        <TabNav.Link
-          as={CustomLink}
-          aria-current={page === "Tab 2" ? true : false}
-          onClick={() => {
-            setPage("Tab 2");
-          }}
-        >
-          Tab 2
-        </TabNav.Link>
-        <TabNav.Link
-          as={CustomLink}
-          aria-current={page === "Tab 3" ? true : false}
-          onClick={() => {
-            setPage("Tab 3");
-          }}
-        >
-          Tab 3
-        </TabNav.Link>
-        <TabNav.Link
-          as={CustomLink}
-          aria-current={page === "Long Tab" ? true : false}
-          onClick={() => {
-            setPage("Long Tab");
-          }}
-        >
-          Long Tab
-        </TabNav.Link>
-        <TabNav.Link
-          as={CustomLink}
-          aria-current={page === "Tab 4" ? true : false}
-          onClick={() => {
-            setPage("Tab 4");
-          }}
-        >
-          Tab 4
-        </TabNav.Link>
+        {["Tab 1", "Tab 2", "Tab 3", "Tab 4", "Tab 5"].map((tab) => (
+          <TabNav.Item
+            key={tab}
+            as={CustomLink}
+            isCurrentPage={page === tab ? true : false}
+            onClick={() => setPage(tab)}
+          >
+            {tab}
+          </TabNav.Item>
+        ))}
       </TabNav>
     );
   },
