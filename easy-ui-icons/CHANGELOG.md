@@ -1,5 +1,12 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.10
+
+### Minor Changes
+
+- 3353d2a: feat: Create `<DataGrid />` component
+- 5ca9f24: Add "menu_book", "local_shipping", "code_blocks", "collections_bookmark", and "radar" icons
+
 ## 1.0.0-alpha.9
 
 ### Minor Changes
