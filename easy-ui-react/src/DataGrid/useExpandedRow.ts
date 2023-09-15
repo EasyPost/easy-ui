@@ -11,10 +11,8 @@ import { getComponentToken } from "../utilities/css";
 import { EXPAND_COLUMN_KEY } from "./constants";
 
 /**
- * Manages the size and positioning of the expanded row content with
- * minimal-to-no jank. It uses an invisible placeholder box to set and get the
- * appropriate bounding client rectangle representative of the expanded row
- * content box, before applying it to the visible expanded row.
+ * Retrieves the expanded row from Aria's table state and computes the position
+ * and height of the expanded row box to manage its positioning in the grid.
  */
 export function useExpandedRow({
   tableRef,
