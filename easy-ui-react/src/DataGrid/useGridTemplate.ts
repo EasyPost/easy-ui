@@ -48,15 +48,8 @@ export function useGridTemplate({
     sDefs.push("min-content");
   }
 
-  const areas = [pAreas, uAreas, sAreas]
-    .map((a) => a.join(" "))
-    .join(" ")
-    .trim();
-
-  const defs = [pDefs, uDefs, sDefs]
-    .map((d) => d.join(" "))
-    .join(" ")
-    .trim();
+  const areas = [pAreas, uAreas, sAreas].flat().join(" ").trim();
+  const defs = [pDefs, uDefs, sDefs].flat().join(" ").trim();
 
   const gridTemplateStyle = {
     ...getComponentToken("data-grid", "template-areas", `"${areas}"`),
