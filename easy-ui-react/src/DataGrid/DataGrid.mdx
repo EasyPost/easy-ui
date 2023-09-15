@@ -1,0 +1,235 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { DataGrid } from "./DataGrid";
+import * as DataGridStories from "./DataGrid.stories";
+
+<Meta of={DataGridStories} />
+
+# DataGrid
+
+A `DataGrid` is an interactive table used for working with a large collection of data in a scannable way.
+
+<Canvas of={DataGridStories.Default} />
+
+## `DataGrid` architecture
+
+`DataGrid` is a single component that takes in a `columns` array to define its structure and a `rows` array to define its content. `columns` and `rows` must have `key`s. `rows` must have a corresponding property for each `key` in `column`.
+
+`DataGrid` uses [render props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop) to control the rendering of its column cells, row cells, and expanded row content. Use `renderColumnCell`, `renderRowCell`, and `renderExpandedRow` respectively.
+
+Additional props exist to enable different functionality for the table, such as sorting and selection. See the snippet below for a quick-start guide on using the component.
+
+```tsx
+const columns = [
+  { key: "name", name: "Name" },
+  { key: "email", name: "Email" },
+];
+
+const rows = [
+  {
+    key: 1,
+    name: "Julie Smith",
+    email: "julie.smith@example.com",
+  },
+  {
+    key: 2,
+    name: "Sam Frost",
+    email: "sam.frost@example.com",
+  },
+];
+
+<DataGrid
+  aria-label="Example data grid"
+  columns={columns}
+  rows={rows}
+  renderColumnCell={(column) => <span>{String(column.name)}</span>}
+  renderRowCell={(item, columnKey, row) => <span>{String(item)}</span>}
+  // Enable row expansion
+  renderExpandedRow={(rowKey: Key) => <div>Expanded row content</div>}
+  defaultExpandedKey={1}
+  expandedKey={1}
+  onExpandedChange={(key) => {}}
+  // Customize how many rows show before scroll
+  maxRows={7}
+  // Enable selection. Can be "multiple" or "single"
+  selectionMode="multiple"
+  defaultSelectedKeys={[]}
+  selectedKeys={[]}
+  onSelectionChange={(keys) => {}}
+  // Support a kebab menu on each row
+  rowActions={(rowKey) => [
+    {
+      type: "menu",
+      renderMenuOverlay: () => (
+        <Menu.Overlay onAction={action("Menu item clicked!")}>
+          <Menu.Item>Action 1</Menu.Item>
+          <Menu.Item>Action 2</Menu.Item>
+        </Menu.Overlay>
+      ),
+    },
+  ]}
+  // Support alternate header color
+  headerVariant="secondary"
+  // Enable sorting
+  sortDescriptor={{ column, direction }}
+  onSortChange={({ column, direction }) => {
+    // update row order
+  }}
+  columnKeysAllowingSort={["name"]}
+  // Provide a custom grid-template-columns value
+  templateColumns="repeat(2, 1fr)"
+/>;
+```
+
+## With Selection
+
+`DataGrid` supports selection with the `selectionMode` prop. Pass in `multiple` to allow selecting multiple rows. Pass in `single` to allow selecting a single row at a time.
+
+Selection can be controlled with the `selectedKeys` and `onSelectionChange` props. Use `defaultSelectedKeys` to control only the initial selection.
+
+```tsx
+<DataGrid
+  {/** other data grid props */}
+  selectionMode="multiple"
+  defaultSelectedKeys={[/** row keys */]}
+  selectedKeys={[/** row keys */]}
+  onSelectionChange={(keys: "all" | Key[]) => {
+    /** Run code when selection changes */
+  }}
+/>
+```
+
+<Canvas of={DataGridStories.WithSelection} />
+
+<Controls of={DataGridStories.WithSelection} />
+
+## With Row Expansion
+
+`DataGrid` supports row expansion through the `renderExpandedRow` prop. Supplying a function to this render prop, with the content to render for each row, will show expansion buttons on each row for the user to expand.
+
+Expansion can be controlled with the `expandedKey` and `onExpandedChange` props. Use `defaultExpandedKey` to control only the initial row to expand.
+
+```tsx
+<DataGrid
+  {/** other data grid props */}
+  renderExpandedRow={(rowKey: Key) => (
+    <div>Expanded row content for {rowKey}</div>
+  )}
+  defaultExpandedKey={/** initial key of expanded row (uncontrolled) */}
+  expandedKey={/** key of expanded row (controlled) */}
+  onExpandedChange={(key: Key) => {
+    /** Run code when row expansion changes */
+  }}
+/>
+```
+
+<Canvas of={DataGridStories.WithRowExpansion} />
+
+## With Kebab Menu
+
+`DataGrid` supports rendering a kebab menu on each row through the `rowActions` prop.
+
+Provide an array of actions to the `rowActions` prop with an action type of `menu` and a `<Menu.Overlay />` through the `renderMenuOverlay` function.
+
+```tsx
+<DataGrid
+  {/** other data grid props */}
+  rowActions={(rowKey: Key) => [
+    {
+      type: "menu",
+      renderMenuOverlay: () => (
+        <Menu.Overlay onAction={action("Menu item clicked!")}>
+          <Menu.Item>Action 1</Menu.Item>
+          <Menu.Item>Action 2</Menu.Item>
+        </Menu.Overlay>
+      ),
+    },
+  ]}
+/>
+```
+
+<Canvas of={DataGridStories.WithKebabMenu} />
+
+## With Sort
+
+`DataGrid` supports sorting through the `sortDescriptor` and `onSortChange` props.
+
+`sortDescriptor` accepts an object with a `column` key and a `direction` of `ascending` or `descending`. `onSortChange` accepts a function with a sort descriptor for updating the data grid rows sort.
+
+Consumers can utilize React Stately's [`useAsyncList`](https://react-spectrum.adobe.com/react-stately/useAsyncList.html) hooks to manage data loading and sorting. See its [documentation](https://react-spectrum.adobe.com/react-stately/useAsyncList.html) for more use cases, such as server-side sorting.
+
+```tsx
+function SortableDataGrid(args: DataGridProps) {
+  const list = useAsyncList({
+    async load() {
+      return await Promise.resolve({
+        items: [
+          /** Rows */
+        ],
+      });
+    },
+    async sort({ items, sortDescriptor }) {
+      return {
+        items: items.sort((a, b) => {
+          const comparison = /** Comparison logic */;
+          return comparison;
+        }),
+      };
+    },
+  });
+  return (
+    <DataGrid
+      columns={[/** Column definitions */]}
+      rows={list.items}
+      sortDescriptor={list.sortDescriptor}
+      onSortChange={list.sort}
+      columnKeysAllowingSort={[/** List of sortable columns */]}
+    />
+  );
+}
+```
+
+<Canvas of={DataGridStories.WithSort} />
+
+## With Custom Rendering
+
+`DataGrid` supports custom rendering of content for row and column cells using the `renderRowCell` and `renderColumnCell` props.
+
+In the example below, to make the status text green or red depending on whether a user's active or inactive, target that column and adjust the style accordingly.
+
+```tsx
+<DataGrid
+  {/** other data grid props */}
+  renderRowCell={(cell, columnKey) => {
+    if (columnKey === "status") {
+      return (
+        <span
+          style={{
+            whiteSpace: "nowrap",
+            color: cell === "Inactive" ? "red" : "green",
+          }}
+        >
+          {String(cell)}
+        </span>
+      );
+    }
+    return <span style={{ whiteSpace: "nowrap" }}>{String(cell)}</span>;
+  }}
+/>
+```
+
+<Canvas of={DataGridStories.WithCustomRendering} />
+
+## Header Variant
+
+`DataGrid` supports an alternate header color through the `headerVariant` prop. Pass `secondary` as the alternate color for the header.
+
+<Canvas of={DataGridStories.WithHeaderVariant} />
+
+<Controls of={DataGridStories.WithHeaderVariant} />
+
+## Properties
+
+### DataGrid
+
+<ArgTypes of={DataGrid} />

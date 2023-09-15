@@ -1,0 +1,35 @@
+@use "../styles/common" as *;
+
+.SortIndicator {
+  display: inline-flex;
+  color: component-token("data-grid", "sort-icon-color");
+}
+
+.arrow {
+  transition:
+    transform 0.15s ease-out,
+    fill 0.15s ease-out;
+}
+
+.sorted {
+  @include component-token(
+    "data-grid",
+    "sort-icon-color",
+    design-token("color.white")
+  );
+}
+
+.onHeaderSecondary {
+  @include component-token(
+    "data-grid",
+    "sort-icon-color",
+    design-token("color.gray.400")
+  );
+  &.sorted {
+    @include component-token(
+      "data-grid",
+      "sort-icon-color",
+      design-token("color.blue.800")
+    );
+  }
+}

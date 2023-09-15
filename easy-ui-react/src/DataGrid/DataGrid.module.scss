@@ -1,0 +1,97 @@
+@use "../styles/common" as *;
+
+.DataGrid {
+  @include component-token(
+    "data-grid",
+    "header-bg",
+    design-token("color.blue.800")
+  );
+  @include component-token(
+    "data-grid",
+    "header-text",
+    design-token("color.white")
+  );
+  @include component-token("data-grid", "header-row-height", 48px);
+  @include component-token("data-grid", "body-row-height", 56px);
+  @include component-token("data-grid", "expand-btn-size", 24px);
+  @include component-token(
+    "data-grid",
+    "sort-icon-color",
+    design-token("color.gray.500")
+  );
+  @include component-token(
+    "data-grid",
+    "border-width",
+    design-token("shape.border_width.1")
+  );
+  @include component-token(
+    "data-grid",
+    "border-color",
+    design-token("color.gray.300")
+  );
+  @include component-token("data-grid", "sticky-shadow-size", 8px);
+  @include component-token("data-grid", "sticky-shadow-opacity", 0.5);
+  @include component-token(
+    "data-grid",
+    "sticky-shadow-color",
+    design-token("color.gray.500")
+  );
+  @include component-token("data-grid", "cell-bg", design-token("color.white"));
+  @include component-token(
+    "data-grid",
+    "cell-text",
+    design-token("color.blue.800")
+  );
+  @include component-token("data-grid", "cell-z-index", 1);
+  @include component-token("data-grid", "cell-stuck-z-index", 2);
+  @include component-token("data-grid", "column-z-index", 3);
+  @include component-token("data-grid", "column-stuck-z-index", 4);
+  @include component-token("data-grid", "sticky-left-offset", -16px);
+  @include component-token("data-grid", "sticky-right-offset", -12px);
+
+  border: component-token("data-grid", "border-width") solid
+    component-token("data-grid", "border-color");
+  border-radius: design-token("shape.border_radius.md");
+  /* stylelint-disable scss/operator-no-newline-after */
+  max-height: calc(
+    (component-token("data-grid", "border-width") * 2) +
+      component-token("data-grid", "header-row-height") +
+      (
+        component-token("data-grid", "body-row-height") *
+          component-token("data-grid", "max-rows")
+      )
+  );
+  /* stylelint-enable scss/operator-no-newline-after */
+  overflow: auto;
+  position: relative;
+
+  [data-ezui-data-grid-shadow] {
+    position: absolute;
+  }
+}
+
+.contents {
+  display: contents;
+}
+
+.table {
+  position: relative;
+  min-width: min-content;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-areas: component-token("data-grid", "template-areas");
+  grid-template-columns: component-token("data-grid", "template-columns");
+}
+
+.headerSecondary {
+  @include component-token(
+    "data-grid",
+    "header-bg",
+    design-token("color.gray.050")
+  );
+  @include component-token(
+    "data-grid",
+    "header-text",
+    design-token("color.blue.800")
+  );
+}

@@ -1,0 +1,73 @@
+@use "../styles/common" as *;
+@use "mixins" as DataGrid;
+
+.ColumnHeader {
+  @include font-style("subtitle2");
+
+  display: inline-flex;
+  align-items: center;
+  padding: 0 design-token("space.2");
+
+  position: sticky;
+  top: 0;
+  background: component-token("data-grid", "header-bg");
+  color: component-token("data-grid", "header-text");
+  height: component-token("data-grid", "header-row-height");
+  z-index: component-token("data-grid", "column-z-index");
+  outline: none;
+}
+
+.allowsSorting {
+  gap: design-token("space.1");
+  user-select: none;
+}
+
+.focused {
+  @include native-focus-ring;
+  outline-offset: -1px;
+}
+
+.first {
+  padding-left: design-token("space.5");
+  left: component-token("data-grid", "sticky-left-offset");
+  z-index: component-token("data-grid", "column-stuck-z-index");
+}
+
+.firstWithActions {
+  left: 0;
+  padding-left: design-token("space.2");
+  padding-right: design-token("space.1.5");
+}
+
+.secondWithActions {
+  padding-left: 0;
+  left: 44px;
+  z-index: component-token("data-grid", "column-stuck-z-index");
+}
+
+.last {
+  padding-right: design-token("space.5");
+}
+
+.lastWithActions {
+  padding-left: design-token("space.0.5");
+  padding-right: design-token("space.2");
+  right: component-token("data-grid", "sticky-right-offset");
+  z-index: component-token("data-grid", "column-stuck-z-index");
+}
+
+.secondToLastWithActions {
+  padding-right: design-token("space.1.5");
+}
+
+.shadowBottom [data-ezui-data-grid-shadow="bottom"] {
+  @include DataGrid.shadow(bottom, $backdrop: true);
+}
+
+.shadowRight [data-ezui-data-grid-shadow="side"] {
+  @include DataGrid.shadow(right);
+}
+
+.shadowLeft [data-ezui-data-grid-shadow="side"] {
+  @include DataGrid.shadow(left);
+}

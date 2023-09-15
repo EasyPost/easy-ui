@@ -1,0 +1,6 @@
+@use "../styles/common" as *;
+
+.ActionsCellContent {
+  display: inline-flex;
+  gap: design-token("space.1.5");
+}
