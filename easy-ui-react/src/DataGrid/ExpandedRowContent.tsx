@@ -5,22 +5,13 @@ import styles from "./ExpandedRowContent.module.scss";
 
 type ExpandedRowContentProps = {
   children: ReactNode;
-  isPending?: boolean;
 };
 
-export function ExpandedRowContent({
-  children,
-  isPending,
-}: ExpandedRowContentProps) {
+export function ExpandedRowContent({ children }: ExpandedRowContentProps) {
   return (
     <div
-      className={classNames(
-        styles.ExpandedRowContent,
-        isPending ? styles.pending : styles.active,
-      )}
-      data-ezui-data-grid-expanded-row-content={
-        isPending ? "pending" : "active"
-      }
+      className={classNames(styles.ExpandedRowContent)}
+      data-ezui-data-grid-expanded-row-content="active"
     >
       <div>{children}</div>
     </div>

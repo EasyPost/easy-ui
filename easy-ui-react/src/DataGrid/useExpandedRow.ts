@@ -2,11 +2,11 @@ import { useResizeObserver } from "@react-aria/utils";
 import {
   CSSProperties,
   MutableRefObject,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
 } from "react";
-import { Node, TableState } from "react-stately";
+import { TableState } from "react-stately";
 import { getComponentToken } from "../utilities/css";
 import { EXPAND_COLUMN_KEY } from "./constants";
 
@@ -23,69 +23,35 @@ export function useExpandedRow({
   tableRef: MutableRefObject<HTMLDivElement | null>;
   state: TableState<unknown>;
 }) {
-  const [pendingExpandedRowWidth, setPendingExpandedRowWidth] = useState<
-    number | null
-  >(null);
   const [expandedRowRect, setExpandedRowRect] = useState<DOMRect | null>(null);
-  const [expandedRow, setExpandedRow] = useState<Node<unknown> | null>(null);
 
-  const pendingExpandedRow = [...state.collection.body.childNodes].find((r) => {
+  const expandedRow = [...state.collection.body.childNodes].find((r) => {
     return r.value
       ? r.value[EXPAND_COLUMN_KEY as keyof typeof r.value] === true
       : false;
   });
 
-  if (expandedRow && !pendingExpandedRow) {
-    setExpandedRow(null);
-  }
-
-  useEffect(() => {
-    if (tableRef.current && pendingExpandedRow) {
-      const rect = getExpandedRowContentRect(tableRef.current, true);
-      setPendingExpandedRowWidth(rect.width);
-      const animationFrame = requestAnimationFrame(() => {
-        if (tableRef.current && pendingExpandedRow) {
-          setExpandedRowRect(getExpandedRowContentRect(tableRef.current, true));
-          setExpandedRow(pendingExpandedRow);
-        }
-      });
-      return () => {
-        window.cancelAnimationFrame(animationFrame);
-      };
+  useLayoutEffect(() => {
+    if (tableRef.current && expandedRow) {
+      setExpandedRowRect(getExpandedRowContentRect(tableRef.current));
     }
-  }, [pendingExpandedRow, tableRef]);
+  }, [tableRef, expandedRow]);
 
   useResizeObserver({
     ref: tableRef,
     onResize() {
       if (tableRef.current && expandedRow) {
-        const rect = getExpandedRowContentRect(tableRef.current, false);
+        const rect = getExpandedRowContentRect(tableRef.current);
         if (
           !expandedRowRect ||
-          rect.width !== expandedRowRect.width ||
           rect.height !== expandedRowRect.height ||
           rect.y !== expandedRowRect.y
         ) {
           setExpandedRowRect(rect);
         }
-        if (rect.width !== pendingExpandedRowWidth) {
-          setPendingExpandedRowWidth(rect.width);
-        }
       }
     },
   });
-
-  const pendingExpandedRowStyle = useMemo(() => {
-    return {
-      ...getComponentToken(
-        "data-grid",
-        "pending-expanded-row-width",
-        pendingExpandedRowWidth != null
-          ? `${pendingExpandedRowWidth}px`
-          : "100%",
-      ),
-    } as CSSProperties;
-  }, [pendingExpandedRowWidth]);
 
   const expandedRowStyle = useMemo(() => {
     return {
@@ -93,11 +59,6 @@ export function useExpandedRow({
         "data-grid",
         "expanded-row-height",
         expandedRowRect?.height ? `${expandedRowRect.height}px` : "auto",
-      ),
-      ...getComponentToken(
-        "data-grid",
-        "expanded-row-width",
-        expandedRowRect?.width ? `${expandedRowRect.width}px` : "100%",
       ),
       ...getComponentToken(
         "data-grid",
@@ -113,10 +74,8 @@ export function useExpandedRow({
   }, [expandedRowRect]);
 
   return {
-    pendingExpandedRow,
     expandedRow,
     expandedRowStyle,
-    pendingExpandedRowStyle,
   };
 }
 
@@ -129,10 +88,10 @@ export function useExpandedRow({
  * @param isPending whether or not to compute the pending expanded row or the active one
  * @returns a DOMRect of the expanded row content
  */
-function getExpandedRowContentRect($table: HTMLElement, isPending: boolean) {
+function getExpandedRowContentRect($table: HTMLElement) {
   const $rows = getDataGridRowEls($table);
   const $firstColumnHeader = getFirstColumnHeaderEl($table);
-  const $expandedRowContent = getExpandedRowContentEl($table, isPending);
+  const $expandedRowContent = getExpandedRowContentEl($table);
   const $expandedRow = getExpandedRowEl($table);
   const expandedIndex = $rows.findIndex((r) => r === $expandedRow);
   const $expandedRowCells = [...$expandedRow.childNodes] as HTMLElement[];
@@ -162,11 +121,9 @@ function getDataGridRowEls($table: HTMLElement) {
   ] as HTMLElement[];
 }
 
-function getExpandedRowContentEl($table: HTMLElement, isPending: boolean) {
+function getExpandedRowContentEl($table: HTMLElement) {
   return $table.querySelector(
-    `[data-ezui-data-grid-expanded-row-content='${
-      isPending ? "pending" : "active"
-    }']`,
+    `[data-ezui-data-grid-expanded-row-content="active"]`,
   ) as HTMLElement;
 }
 

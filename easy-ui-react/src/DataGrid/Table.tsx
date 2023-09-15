@@ -1,10 +1,4 @@
-import React, {
-  CSSProperties,
-  Fragment,
-  ReactElement,
-  useMemo,
-  useRef,
-} from "react";
+import React, { CSSProperties, ReactElement, useMemo, useRef } from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
@@ -54,15 +48,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
     tableRef,
   );
 
-  const {
-    pendingExpandedRow,
-    expandedRow,
-    pendingExpandedRowStyle,
-    expandedRowStyle,
-  } = useExpandedRow({
-    tableRef,
-    state,
-  });
+  const { expandedRow, expandedRowStyle } = useExpandedRow({ tableRef, state });
   const { gridTemplateStyle } = useGridTemplate({ templateColumns, state });
   const [
     renderInterceptors,
@@ -90,7 +76,6 @@ export function Table<C extends Column>(props: TableProps<C>) {
   const style = {
     ...getComponentToken("data-grid", "max-rows", String(maxRows)),
     ...gridTemplateStyle,
-    ...pendingExpandedRowStyle,
     ...expandedRowStyle,
   } as CSSProperties;
 
@@ -145,15 +130,11 @@ export function Table<C extends Column>(props: TableProps<C>) {
               </Row>
             ))}
           </RowGroup>
-          {[pendingExpandedRow, expandedRow].map((row, i) => (
-            <Fragment key={i}>
-              {row && (
-                <ExpandedRowContent isPending={i === 0}>
-                  {renderExpandedRow(row.key)}
-                </ExpandedRowContent>
-              )}
-            </Fragment>
-          ))}
+          {expandedRow && (
+            <ExpandedRowContent>
+              {renderExpandedRow(expandedRow.key)}
+            </ExpandedRowContent>
+          )}
           {renderInterceptors()}
         </div>
       </div>
