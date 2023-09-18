@@ -1,0 +1,8 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.UnstyledPressButton {
+  @include unstyled.button;
+  display: inline-flex;
+  cursor: pointer;
+}

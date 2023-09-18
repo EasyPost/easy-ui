@@ -1,0 +1,10 @@
+@use "../styles/common" as *;
+
+.ExpandedRowContent {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: component-token("data-grid", "expanded-row-position");
+  opacity: component-token("data-grid", "expanded-row-opacity");
+  padding: design-token("space.1") design-token("space.5");
+}

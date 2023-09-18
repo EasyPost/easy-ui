@@ -1,4 +1,4 @@
-import { act, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React from "react";
 import { vi } from "vitest";
@@ -95,8 +95,5 @@ describe("<Checkbox />", () => {
 });
 
 export async function selectCheckbox(user: UserEvent, el: HTMLElement) {
-  await act(async () => {
-    await user.click(el);
-    vi.runAllTimers();
-  });
+  await user.click(el);
 }

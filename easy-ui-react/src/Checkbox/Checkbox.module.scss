@@ -76,8 +76,12 @@
 
 .sizeLg {
   @include component-token("checkbox", "size", 24px);
-  @include component-token("checkbox", "box-margin-top", 0);
   @include component-token("checkbox", "gap", design-token("space.1.5"));
+}
+
+.standalone,
+.sizeLg {
+  @include component-token("checkbox", "box-margin-top", 0);
 }
 
 .invalid {

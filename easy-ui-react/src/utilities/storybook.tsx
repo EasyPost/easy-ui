@@ -4,6 +4,7 @@ import React, { ReactNode, SVGProps } from "react";
 import type { Placement as AriaPlacement } from "react-aria";
 import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
+import { SortDescriptor } from "react-stately";
 
 export function createLabelledOptionsControl(
   opts: Record<string, unknown>,
@@ -222,4 +223,15 @@ export function StripeLogo(props: SVGProps<SVGSVGElement>) {
       />
     </svg>
   );
+}
+
+export function createNaiveSortingFunction(sortDescriptor: SortDescriptor) {
+  return (a: object, b: object) => {
+    const sign = sortDescriptor.direction === "descending" ? -1 : 1;
+    const first = a[sortDescriptor.column as keyof typeof a];
+    const second = b[sortDescriptor.column as keyof typeof b];
+    const firstValue = parseInt(first) || first;
+    const secondValue = parseInt(second) || second;
+    return (firstValue < secondValue ? -1 : 1) * sign;
+  };
 }

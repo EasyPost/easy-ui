@@ -1,5 +1,17 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.14
+
+### Minor Changes
+
+- 3353d2a: feat: Create `<DataGrid />` component
+
+### Patch Changes
+
+- Updated dependencies [3353d2a]
+- Updated dependencies [5ca9f24]
+  - @easypost/easy-ui-icons@1.0.0-alpha.10
+
 ## 1.0.0-alpha.13
 
 ### Minor Changes

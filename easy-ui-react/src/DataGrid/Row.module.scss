@@ -1,0 +1,18 @@
+@use "../styles/common" as *;
+
+.Row {
+  display: contents;
+}
+
+.hovered {
+  @include component-token(
+    "data-grid",
+    "cell-bg",
+    design-token("color.gray.050")
+  );
+  @include component-token(
+    "data-grid",
+    "cell-text",
+    design-token("color.blue.700")
+  );
+}
