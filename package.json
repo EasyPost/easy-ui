@@ -66,7 +66,7 @@
     "react-dom": "^18.2.0",
     "storybook": "^7.4.2",
     "stylelint": "^15.10.3",
-    "turbo": "^1.10.13",
+    "turbo": "^1.10.14",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
     "vitest": "^0.34.4"
