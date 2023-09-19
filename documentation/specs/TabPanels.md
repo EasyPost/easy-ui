@@ -152,7 +152,7 @@ function CustomLayoutTabPanels() {
 ### Accessibility
 
 - A tab should never contain an interactive element, as doing so makes it difficult for users of assistive technologies to focus or click on the tabs. Interactive elements may live within the panels.
-- When the user is focused on a tab in a `TabPanels`, the following keyboard interactions apply: `Right` and `Left` arrow keys move the user between tabs and open the currently focused tab's panel, if the `keyboardActivation` is set to `automatic`. If `keyboardActivation` is set to `manual`, the user must press `Enter` or `Space` to activate the tab.
+- When the user is focused on a tab in a `TabPanels`, the following keyboard interactions apply: `Right` and `Left` arrow keys move the user between tabs. If the `keyboardActivation` is set to `automatic`, the currently focused tab's panel will open. If `keyboardActivation` is set to `manual`, the user must press `Enter` or `Space` to activate the tab.
 - While an `aria-label` is not explicitly required for a tab list, `TabPanels` should be labeled using an `aria-label` in the absence of an ancestor [landmark](https://www.w3.org/WAI/GL/wiki/Using_ARIA_landmarks_to_identify_regions_of_a_page). This will prevent screen readers from announcing non-focused tabs, allowing for a more focused experience.
 - If the currently focused tab is disabled, the tab panel does not open.
 - `useTabsList` from React Aria provides the heavy lifting for accessibility, conforming to the [W3C ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
