@@ -22,7 +22,7 @@ Tabs in a tab panel should not be links that navigate the user to a new URL. If 
 
 Conforming to the W3C ARIA Tabs pattern, the markup for `TabPanels` uses a container with a `tablist` role, along with styled tabs that have a `tab` role, connected to panels that have a `tabpanel` role. `TabPanels` are not intended to be used for navigation, and as such, are missing critical accessibility information for navigational behavior.
 
-`TabPanels` is a compound component. `TabPanels` is used to setup the container. `TabPanels.Tabs` is used to list the tab items. `TabPanels.Panels` is used to list the panel contents for each tab. `TabPanel.Tabs` and `TabPanels.Panels` accepts a list of `<Item />`s as their children with `key`s that must correspond to each other's tab/panel combination.
+`TabPanels` is a compound component. `TabPanels` is used to setup the container. `TabPanels.Tabs` is used to list the tab items. `TabPanels.Panels` is used to list the panel contents for each tab. `TabPanels.Tabs` and `TabPanels.Panels` accepts a list of `<Item />`s as their children with `key`s that must correspond to each other's tab/panel combination.
 
 ### API
 
