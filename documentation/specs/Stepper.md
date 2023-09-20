@@ -50,11 +50,13 @@ type Stepper = {
   children: ReactNode;
 };
 
+type StepStatus = "accessible" | "completed" | "disabled";
+
 type Step = {
   /**
-   * Whether or not the step should have completed styles.
+   * Status of step, used for styling and button behavior.
    */
-  isCompleted: boolean;
+  status: StepStatus;
   /**
    * Renders StepButton and StepSeparator.
    */
@@ -81,8 +83,8 @@ const steps = ["Step 1", "Step 2", "Step 3"];
 
 function App() {
   const [activeStep, setActiveStep] = useState(0);
-  const [completed, setCompleted] = React.useState<{
-    [index: number]: boolean;
+  const [status, setStatus] = React.useState<{
+    [index: number]: StepStatus;
   }>({});
 
   const handleStep = (index) => setActiveStep(index);
@@ -90,7 +92,7 @@ function App() {
   return (
     <Stepper color="primary" orientation="horizontal" activeStep={activeStep}>
       {steps.map((stepLabel, index) => (
-        <Stepper.Step key={stepLabel} isCompleted={status[index]}>
+        <Stepper.Step key={stepLabel} status={status[index]}>
           <Stepper.StepButton onPress={handleStep(index)}>
             {stepLabel}
           </Stepper.StepButton>
