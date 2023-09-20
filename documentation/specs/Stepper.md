@@ -50,7 +50,7 @@ type Stepper = {
   children: ReactNode;
 };
 
-type StepStatus = "accessible" | "completed" | "disabled";
+type StepStatus = "active" | "accessible" | "completed" | "disabled";
 
 type Step = {
   /**
