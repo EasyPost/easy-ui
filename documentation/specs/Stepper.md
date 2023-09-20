@@ -15,7 +15,6 @@ A `Stepper` component is used to indicate progress as the user goes through a mu
 - The `color` property can be used to display a stepper with primary or inverse colors; inverse is suitable on darker backgrounds.
 - The step sequence is non-linear, which means users can navigate to previously completed steps.
 - On small screens, the step label is not visible.
-- A step can either be active, accessible, completed, or disabled.
 
 ---
 
@@ -34,10 +33,12 @@ type StepperOrientation = "horizontal" | "vertical";
 type Stepper = {
   /**
    * Color scheme that applies to stepper in various states.
+   * @default primary
    */
   color?: StepperColor;
   /**
    * Orientation of stepper, vertical replaces arrow icon with line.
+   * @default horizontal
    */
   orientation?: StepperOrientation;
   /**
@@ -50,13 +51,7 @@ type Stepper = {
   children: ReactNode;
 };
 
-type StepStatus = "active" | "accessible" | "completed" | "disabled";
-
 type Step = {
-  /**
-   * Status of step, used for styling and button behavior.
-   */
-  status: StepStatus;
   /**
    * Renders StepButton and StepSeparator.
    */
@@ -83,8 +78,8 @@ const steps = ["Step 1", "Step 2", "Step 3"];
 
 function App() {
   const [activeStep, setActiveStep] = useState(0);
-  const [status, setStatus] = React.useState<{
-    [index: number]: StepStatus;
+  const [accessible, setAccessible] = React.useState<{
+    [index: number]: boolean;
   }>({});
 
   const handleStep = (index) => setActiveStep(index);
@@ -92,8 +87,10 @@ function App() {
   return (
     <Stepper color="primary" orientation="horizontal" activeStep={activeStep}>
       {steps.map((stepLabel, index) => (
-        <Stepper.Step key={stepLabel} status={status[index]}>
-          <Stepper.StepButton onPress={handleStep(index)}>
+        <Stepper.Step key={stepLabel}>
+          <Stepper.StepButton
+            onPress={accessible[index] ? handleStep(index) : null}
+          >
             {stepLabel}
           </Stepper.StepButton>
         </Stepper.Step>
