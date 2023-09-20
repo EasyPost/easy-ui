@@ -2,7 +2,7 @@
 
 ## Overview
 
-A `TabPanels` is a set of styled links that let users switch between multiple views within a related context under the same URL.
+A `TabPanels` is a set of tabs that let users switch between multiple views within a related context under the same URL.
 
 Tabs in a tab panel should not be links that navigate the user to a new URL. If you want tab-like navigation, use `TabNav` instead.
 
@@ -18,7 +18,7 @@ Tabs in a tab panel should not be links that navigate the user to a new URL. If 
 
 ## Design
 
-`TabPanels` uses React Aria's `useTabsList` under the hood. `useTabsList` provides the behavior and accessibility for a tab list, a faithful implementation of the [W3C ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
+`TabPanels` uses React Aria's [`useTabsList`](https://react-spectrum.adobe.com/react-aria/useTabList.html) under the hood. `useTabsList` provides the behavior and accessibility for a tab list, a faithful implementation of the [W3C ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
 
 Conforming to the W3C ARIA Tabs pattern, the markup for `TabPanels` uses a container with a `tablist` role, along with styled tabs that have a `tab` role, connected to panels that have a `tabpanel` role. `TabPanels` are not intended to be used for navigation, and as such, are missing critical accessibility information for navigational behavior.
 
@@ -92,10 +92,10 @@ function BasicTabPanels() {
     <TabPanels
       aria-label="History of Ancient Rome"
       // managing selection (uncontrolled)
-      defaultSelectedKey={"one"}
+      defaultSelectedKey="one"
       // managing selection (controlled)
-      selectedKey={"one"}
-      onSelectionChange={(keys) => {}}
+      selectedKey="one"
+      onSelectionChange={(key) => {}}
       // keyboard activation can either be automatic or manual
       keyboardActivation="manual"
     >
