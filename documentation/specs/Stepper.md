@@ -15,7 +15,7 @@ A `Stepper` component is used to indicate progress as the user goes through a mu
 - The `color` property can be used to display a stepper with primary or inverse colors; inverse is suitable on darker backgrounds.
 - The step sequence is non-linear, which means users can navigate to previously completed steps.
 - On small screens, the step label is not visible.
-- A step that is not completed or active is considered disabled.
+- A step can either be active, accessible, completed, or disabled.
 
 ---
 
