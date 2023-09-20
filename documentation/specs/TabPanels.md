@@ -2,7 +2,7 @@
 
 ## Overview
 
-A `TabPanels` is a set of tabs that let users switch between multiple views within a related context under the same URL.
+`TabPanels` is a set of tabs that let users switch between multiple views within a related context under the same URL.
 
 Tabs in a tab panel should not be links that navigate the user to a new URL. If you want tab-like navigation, use `TabNav` instead.
 
