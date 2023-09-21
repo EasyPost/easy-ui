@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-type TabNavContextType = {
+export type TabNavContextType = {
   setIndicatorPosition: (value: number) => void;
   setIndicatorWidth: (value: number) => void;
 };

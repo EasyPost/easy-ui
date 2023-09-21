@@ -1,7 +1,9 @@
+import { useResizeObserver } from "@react-aria/utils";
 import React, {
   ComponentProps,
   ElementType,
   ReactNode,
+  useCallback,
   useEffect,
   useRef,
 } from "react";
@@ -32,7 +34,7 @@ export function TabNavItem<T extends ElementType = "a">(
     isHovered && styles.hovered,
   );
 
-  useEffect(() => {
+  const handleIndicatorSizing = useCallback(() => {
     if (isCurrentPage && ref.current) {
       const $item = ref.current;
       const $nav = $item.closest("nav");
@@ -43,12 +45,20 @@ export function TabNavItem<T extends ElementType = "a">(
 
       const itemRect = $item.getBoundingClientRect();
       const navRect = $nav.getBoundingClientRect();
+
+      const width = itemRect.width;
       const position = itemRect.x - navRect.x;
 
-      setIndicatorWidth(itemRect.width);
+      setIndicatorWidth(width);
       setIndicatorPosition(position);
     }
-  }, [setIndicatorWidth, setIndicatorPosition, isCurrentPage]);
+  }, [isCurrentPage, ref, setIndicatorPosition, setIndicatorWidth]);
+
+  useResizeObserver({ ref, onResize: handleIndicatorSizing });
+
+  useEffect(() => {
+    handleIndicatorSizing();
+  }, [handleIndicatorSizing]);
 
   return (
     <li className={className}>

@@ -32,8 +32,10 @@
   @include unstyled.list;
   display: flex;
   align-items: center;
-  gap: design-token("space.4");
+  gap: design-token("space.3");
   padding: design-token("space.1") design-token("space.2");
+  // offset with the border size to ensure the nav height is not off by one
+  margin-bottom: calc(#{design-token("shape.border_width.1")} * -1);
 }
 
 .indicator {
