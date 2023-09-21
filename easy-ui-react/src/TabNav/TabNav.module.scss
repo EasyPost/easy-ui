@@ -2,33 +2,49 @@
 @use "../styles/unstyled";
 
 .TabNav {
-  @include component-token("tab-nav", "selected-tab-width", 0);
-  @include component-token("tab-nav", "selected-tab-left", 0);
+  @include component-token("tab-nav", "indicator-height", 1px);
+  @include component-token("tab-nav", "indicator-width", 0);
+  @include component-token("tab-nav", "indicator-position", 0);
+  @include component-token(
+    "tab-nav",
+    "border-color",
+    design-token("color.gray.100")
+  );
+  @include component-token(
+    "tab-nav",
+    "link-color",
+    design-token("color.blue.800")
+  );
+  @include component-token(
+    "tab-nav",
+    "current-page-color",
+    design-token("color.blue.500")
+  );
 
-  padding: design-token("space.1") design-token("space.2");
+  position: relative;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid hsla(219, 32%, 91%, 1);
+  border-bottom: design-token("shape.border_width.1") solid
+    component-token("tab-nav", "border-color");
 }
 
 .list {
   @include unstyled.list;
-  position: relative;
   display: flex;
   align-items: center;
   gap: design-token("space.4");
+  padding: design-token("space.1") design-token("space.2");
 }
 
-.line {
+.indicator {
   position: absolute;
   left: 0;
-  height: 1px;
-  bottom: -9px;
+  top: 100%;
+  height: component-token("tab-nav", "indicator-height");
 
-  transform: translateX(#{component-token("tab-nav", "selected-tab-left")});
-  width: component-token("tab-nav", "selected-tab-width");
-
-  background: hsla(226, 100%, 54%, 1);
+  background: component-token("tab-nav", "current-page-color");
+  transform: translateX(#{component-token("tab-nav", "indicator-position")});
+  width: component-token("tab-nav", "indicator-width");
 
   transition-property: transform, width;
   transition-duration: 0.2s;

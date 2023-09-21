@@ -21,35 +21,46 @@ export function TabNavItem<T extends ElementType = "a">(
   props: TabNavItemProps<T>,
 ) {
   const { as: As = "a", children, isCurrentPage, ...restProps } = props;
-  const { setWidth, setLeft } = useTabNav();
+  const { setIndicatorWidth, setIndicatorPosition } = useTabNav();
 
   const ref = useRef<HTMLLIElement | null>(null);
   const { isHovered, hoverProps } = useHover({});
 
   const className = classNames(
     styles.TabNavItem,
-    isCurrentPage && styles.selected,
+    isCurrentPage && styles.currentPage,
     isHovered && styles.hovered,
   );
 
   useEffect(() => {
-    if (isCurrentPage && ref.current && ref.current.parentElement) {
-      const parentRect = ref.current.parentElement.getBoundingClientRect();
-      const rect = ref.current.getBoundingClientRect();
-      setWidth(rect.width);
-      setLeft(rect.x - parentRect.x);
+    if (isCurrentPage && ref.current) {
+      const $item = ref.current;
+      const $nav = $item.closest("nav");
+
+      if (!$nav) {
+        throw new Error("Unable to find parent nav element from tab item");
+      }
+
+      const itemRect = $item.getBoundingClientRect();
+      const navRect = $nav.getBoundingClientRect();
+      const position = itemRect.x - navRect.x;
+
+      setIndicatorWidth(itemRect.width);
+      setIndicatorPosition(position);
     }
-  }, [setWidth, setLeft, isCurrentPage]);
+  }, [setIndicatorWidth, setIndicatorPosition, isCurrentPage]);
 
   return (
-    <li ref={ref}>
+    <li className={className}>
       <As
         {...hoverProps}
-        className={className}
+        className={styles.link}
         aria-current={isCurrentPage ? "page" : undefined}
         {...restProps}
       >
-        {children}
+        <span ref={ref} className={styles.text}>
+          {children}
+        </span>
       </As>
     </li>
   );

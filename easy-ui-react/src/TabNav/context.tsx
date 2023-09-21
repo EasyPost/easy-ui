@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
 
 type TabNavContextType = {
-  setLeft: (value: number | null) => void;
-  setWidth: (value: number | null) => void;
+  setIndicatorPosition: (value: number) => void;
+  setIndicatorWidth: (value: number) => void;
 };
 
 export const TabNavContext = createContext<TabNavContextType | null>(null);

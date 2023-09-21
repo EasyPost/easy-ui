@@ -13,16 +13,20 @@ type TabNavProps = AriaLabelingProps & {
 export function TabNav(props: TabNavProps) {
   const { children, ...labelingProps } = props;
 
-  const [width, setWidth] = useState<number | null>(null);
-  const [left, setLeft] = useState<number | null>(null);
+  const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
+  const [indicatorPosition, setIndicatorPosition] = useState<number>(0);
 
   const context = useMemo(() => {
-    return { setWidth, setLeft };
+    return { setIndicatorWidth, setIndicatorPosition };
   }, []);
 
   const style = {
-    ...getComponentToken("tab-nav", "selected-tab-width", `${width}px`),
-    ...getComponentToken("tab-nav", "selected-tab-left", `${left}px`),
+    ...getComponentToken("tab-nav", "indicator-width", `${indicatorWidth}px`),
+    ...getComponentToken(
+      "tab-nav",
+      "indicator-position",
+      `${indicatorPosition}px`,
+    ),
   };
 
   return (
@@ -30,8 +34,8 @@ export function TabNav(props: TabNavProps) {
       <nav {...labelingProps} className={styles.TabNav} style={style}>
         <ul role="list" className={styles.list}>
           {children}
-          <div className={styles.line} />
         </ul>
+        {indicatorWidth !== 0 ? <div className={styles.indicator} /> : null}
       </nav>
     </TabNavContext.Provider>
   );
