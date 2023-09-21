@@ -23,9 +23,15 @@
 
   position: relative;
   display: flex;
-  flex-direction: column;
-  border-bottom: design-token("shape.border_width.1") solid
-    component-token("tab-nav", "border-color");
+  overflow-x: auto;
+}
+
+.navContainer {
+  position: relative;
+}
+
+.listContainer {
+  position: relative;
 }
 
 .list {
@@ -35,13 +41,15 @@
   gap: design-token("space.3");
   padding: design-token("space.1") design-token("space.2");
   // offset with the border size to ensure the nav height is not off by one
-  margin-bottom: calc(#{design-token("shape.border_width.1")} * -1);
+  padding-bottom: calc(#{design-token("space.1")} - 1px);
+  border-bottom: design-token("shape.border_width.1") solid
+    component-token("tab-nav", "border-color");
 }
 
 .indicator {
   position: absolute;
   left: 0;
-  top: 100%;
+  bottom: 0;
   height: component-token("tab-nav", "indicator-height");
 
   background: component-token("tab-nav", "current-page-color");
@@ -51,4 +59,39 @@
   transition-property: transform, width;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
+}
+
+.edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: white;
+  opacity: 0;
+  z-index: 10;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.4;
+  }
+}
+
+.leftEdgeUnderScroll {
+  left: 0;
+  opacity: 1;
+  &::before {
+    box-shadow: 4px 0px 4px 0px #a9b6d1;
+  }
+}
+
+.rightEdgeUnderScroll {
+  right: 0;
+  opacity: 1;
+  &::before {
+    box-shadow: -4px 0px 4px 0px #a9b6d1;
+  }
 }

@@ -1,8 +1,10 @@
 import { AriaLabelingProps } from "@react-types/shared";
-import React, { ReactNode, useMemo, useState } from "react";
-import { getComponentToken } from "../utilities/css";
+import React, { ReactNode, useMemo, useRef, useState } from "react";
+import { useEdgeInterceptors } from "../DataGrid/useEdgeInterceptors";
+import { classNames, getComponentToken } from "../utilities/css";
 import { TabNavItem } from "./TabNavItem";
 import { TabNavContext } from "./context";
+import { useScrollbar } from "./useScrollbar";
 
 import styles from "./TabNav.module.scss";
 
@@ -13,8 +15,16 @@ type TabNavProps = AriaLabelingProps & {
 export function TabNav(props: TabNavProps) {
   const { children, ...labelingProps } = props;
 
+  const navRef = useRef(null);
+  const containerRef = useRef(null);
+
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
   const [indicatorPosition, setIndicatorPosition] = useState<number>(0);
+
+  const [
+    renderInterceptors,
+    { isLeftEdgeUnderScroll, isRightEdgeUnderScroll },
+  ] = useEdgeInterceptors(navRef);
 
   const context = useMemo(() => {
     return { setIndicatorWidth, setIndicatorPosition };
@@ -29,14 +39,38 @@ export function TabNav(props: TabNavProps) {
     ),
   };
 
+  useScrollbar({ navRef, containerRef });
+
   return (
     <TabNavContext.Provider value={context}>
-      <nav {...labelingProps} className={styles.TabNav} style={style}>
-        <ul role="list" className={styles.list}>
-          {children}
-        </ul>
-        {indicatorWidth !== 0 ? <div className={styles.indicator} /> : null}
-      </nav>
+      <div className={styles.navContainer} ref={containerRef}>
+        <nav
+          {...labelingProps}
+          ref={navRef}
+          className={styles.TabNav}
+          style={style}
+        >
+          <div className={styles.listContainer}>
+            <ul role="list" className={styles.list}>
+              {children}
+            </ul>
+            {renderInterceptors()}
+          </div>
+          {indicatorWidth !== 0 ? <div className={styles.indicator} /> : null}
+        </nav>
+        <div
+          className={classNames(
+            styles.edge,
+            isLeftEdgeUnderScroll && styles.leftEdgeUnderScroll,
+          )}
+        />
+        <div
+          className={classNames(
+            styles.edge,
+            isRightEdgeUnderScroll && styles.rightEdgeUnderScroll,
+          )}
+        />
+      </div>
     </TabNavContext.Provider>
   );
 }

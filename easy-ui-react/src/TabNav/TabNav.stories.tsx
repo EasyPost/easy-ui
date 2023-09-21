@@ -20,7 +20,11 @@ export const CustomLink: Story = {
 };
 
 export const Responsive: Story = {
-  render: DefaultTemplate.bind({}),
+  render: () => (
+    <div style={{ maxWidth: 360 }}>
+      <CustomLinkTemplate />
+    </div>
+  ),
 };
 
 const tabs = [

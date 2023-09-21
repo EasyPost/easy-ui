@@ -45,9 +45,10 @@ export function TabNavItem<T extends ElementType = "a">(
 
       const itemRect = $item.getBoundingClientRect();
       const navRect = $nav.getBoundingClientRect();
+      const navScrollLeft = $nav.scrollLeft;
 
       const width = itemRect.width;
-      const position = itemRect.x - navRect.x;
+      const position = navScrollLeft + (itemRect.x - navRect.x);
 
       setIndicatorWidth(width);
       setIndicatorPosition(position);
