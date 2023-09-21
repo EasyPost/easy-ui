@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React, { ComponentProps, useState } from "react";
-import { TabNav } from "./TabNav";
+import { TabNav, TabNavProps } from "./TabNav";
 
 type Story = StoryObj<typeof TabNav>;
 
@@ -35,9 +35,9 @@ const tabs = [
   ["Shipping Settings", "shipping-settings"],
 ];
 
-function DefaultTemplate() {
+function DefaultTemplate(args: TabNavProps) {
   return (
-    <TabNav aria-label="Account">
+    <TabNav aria-label="Account" {...args}>
       {tabs.map(([label, location], i) => (
         <TabNav.Item
           key={location}
@@ -51,10 +51,10 @@ function DefaultTemplate() {
   );
 }
 
-function CustomLinkTemplate() {
+function CustomLinkTemplate(args: Partial<TabNavProps>) {
   const [page, setPage] = useState("billing");
   return (
-    <TabNav aria-label="Account">
+    <TabNav aria-label="Account" {...args}>
       {tabs.map(([label, location]) => (
         <TabNav.Item
           key={location}

@@ -9,4 +9,48 @@ import * as TabNavStories from "./TabNav.stories";
 
 A `TabNav` is a set of styled links that let users navigate between related pages.
 
+`TabNav` accepts a list of `TabNav.Item`s that function as links. Use the `href` prop to denote the URL for the tab. Use `isCurrentPage` to denote what tab is the current page.
+
+```tsx
+<TabNav>
+  <TabNav.Item href="/settings/billing" isCurrentPage>
+    Billing
+  </TabNav.Item>
+  <TabNav.Item href="/settings/members">Members</TabNav.Item>
+  <TabNav.Item href="/settings/api-keys">API Keys</TabNav.Item>
+  <TabNav.Item href="/settings/branded-tracker">Branded Tracker</TabNav.Item>
+  <TabNav.Item href="/settings/shipping-settings">
+    Shipping Settings
+  </TabNav.Item>
+</TabNav>
+```
+
 <Canvas of={TabNavStories.Default} />
+
+## Custom Link Component
+
+A `TabNav` can render custom link components for use in apps that have client-side navigation components, such as Next's `Link` component.
+
+Use the `as` prop to pass in a custom component.
+
+```tsx
+<TabNav.Item as={CustomLink} href="/custom-link-url" passHref>
+  <a>Custom link</a>
+</TabNav.Item>
+```
+
+This example uses a custom link component to mimic client-side routing.
+
+<Canvas of={TabNavStories.CustomLink} />
+
+## Responsive
+
+A `TabNav` scrolls horizontally when it's wider than the width of its container.
+
+<Canvas of={TabNavStories.Responsive} />
+
+## Properties
+
+<ArgTypes of={TabNav} />
+
+<ArgTypes of={TabNav.Item} />
