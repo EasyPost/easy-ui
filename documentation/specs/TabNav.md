@@ -16,12 +16,18 @@ A `TabNav` is a set of styled links that lets users navigate between related pag
 
 ```ts
 type TabNavProps = AriaLabelingProps & {
+  /** The children of the <TabNav> element. Should include <TabNav.Item> elements. */
   children: ReactNode;
 };
 
 type TabNavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
+  /** Override the default element with a custom one to provide unique behavior. Useful for client-side navigation link components in app frameworks. */
   as?: T;
+
+  /** The children of the <TabNav.Item> element. */
   children: ReactNode;
+
+  /** Sets the <TavNav.Item> as the current page and adds `aria-current="page"`. */
   isCurrentPage?: boolean;
 };
 ```
