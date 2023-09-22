@@ -1,4 +1,8 @@
 import "@testing-library/jest-dom";
-import { installJestCompatibleFakeTimers } from "./src/utilities/test";
+import {
+  installJestCompatibleFakeTimers,
+  installScrollToMock,
+} from "./src/utilities/test";
 
 installJestCompatibleFakeTimers();
+installScrollToMock();

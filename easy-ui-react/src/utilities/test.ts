@@ -58,3 +58,7 @@ export function mockIntersectionObserver() {
     window.IntersectionObserver = originalIntersectionObserver;
   };
 }
+
+export function installScrollToMock() {
+  Element.prototype.scrollTo = () => {};
+}
