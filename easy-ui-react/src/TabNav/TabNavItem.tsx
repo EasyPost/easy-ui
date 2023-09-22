@@ -34,7 +34,7 @@ export function TabNavItem<T extends ElementType = "a">(
     isHovered && styles.hovered,
   );
 
-  const handleIndicatorSizing = useCallback(() => {
+  const handleSizingAndScroll = useCallback(() => {
     if (isCurrentPage && ref.current) {
       const $item = ref.current;
       const $nav = $item.closest("nav");
@@ -47,19 +47,38 @@ export function TabNavItem<T extends ElementType = "a">(
       const navRect = $nav.getBoundingClientRect();
       const navScrollLeft = $nav.scrollLeft;
 
-      const width = itemRect.width;
-      const position = navScrollLeft + (itemRect.x - navRect.x);
+      const navWidth = navRect.width;
+      const itemWidth = itemRect.width;
+      const itemPosition = navScrollLeft + (itemRect.x - navRect.x);
 
-      setIndicatorWidth(width);
-      setIndicatorPosition(position);
+      const breathingRoom = 32;
+
+      const itemEndEdge = itemPosition + itemWidth + breathingRoom;
+      const navEndEdge = navScrollLeft + navRect.width;
+
+      const itemStartEdge = itemPosition - breathingRoom;
+      const navStartEdge = navScrollLeft;
+
+      setIndicatorWidth(itemWidth);
+      setIndicatorPosition(itemPosition);
+
+      if (itemEndEdge > navEndEdge) {
+        $nav.scrollTo({
+          left: itemPosition - (navWidth - itemWidth) + breathingRoom,
+        });
+      }
+
+      if (itemStartEdge < navStartEdge) {
+        $nav.scrollTo({ left: itemPosition - breathingRoom });
+      }
     }
   }, [isCurrentPage, ref, setIndicatorPosition, setIndicatorWidth]);
 
-  useResizeObserver({ ref, onResize: handleIndicatorSizing });
+  useResizeObserver({ ref, onResize: handleSizingAndScroll });
 
   useEffect(() => {
-    handleIndicatorSizing();
-  }, [handleIndicatorSizing]);
+    handleSizingAndScroll();
+  }, [handleSizingAndScroll]);
 
   return (
     <li className={className}>
