@@ -2,7 +2,7 @@
 
 ## Overview
 
-A `TabNav` is a set of styled links that let users navigate between related pages.
+A `TabNav` is a set of styled links that lets users navigate between related pages.
 
 ---
 
