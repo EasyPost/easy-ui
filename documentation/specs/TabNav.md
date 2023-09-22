@@ -75,7 +75,7 @@ function AccountTabNav() {
 
 ### Accessibility
 
-- Each `TabNav` must have a unique label. To add the label, add the `aria-label` prop to the `<TabNav>` tag. Omit the term 'navigation'- it is redundant since the role is already defined as 'navigation'.
+- Each `TabNav` should have a unique label. To add the label, add the `aria-label` prop to the `<TabNav>` tag. Omit the term 'navigation'- it is redundant since the role is already defined as 'navigation'.
 - To interact with `TabNav` using the keyboard, use the `tab` key.
 - Each `TabNav` must have a `TabNav.Item` which is the currently selected page. To specify which page is current, add the `isCurrentPage` prop to the respective `<TabNav.Item>`. Doing so will set `aria-current="page"` on that link.
 - `TabNav` uses a `nav` element under the hood with anchor links as discrete tab stops. `TabNav` does not use the W3C ARIA Tabs pattern.

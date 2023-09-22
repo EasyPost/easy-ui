@@ -7,12 +7,14 @@ import * as TabNavStories from "./TabNav.stories";
 
 # TabNav
 
-A `TabNav` is a set of styled links that let users navigate between related pages.
+A `TabNav` is a set of styled links that lets users navigate between related pages.
 
 `TabNav` accepts a list of `TabNav.Item`s that function as links. Use the `href` prop to denote the URL for the tab. Use `isCurrentPage` to denote what tab is the current page.
 
+Each `TabNav` should have a unique label. To add the label, add the `aria-label` prop to the `<TabNav>` tag. Omit the term 'navigation'-it is redundant since the role is already defined as 'navigation'.
+
 ```tsx
-<TabNav>
+<TabNav aria-label="Account">
   <TabNav.Item href="/settings/billing" isCurrentPage>
     Billing
   </TabNav.Item>
@@ -39,7 +41,7 @@ Use the `as` prop to pass in a custom component.
 </TabNav.Item>
 ```
 
-This example uses a custom link component to mimic client-side routing.
+The example below uses a custom link component to mimic client-side routing.
 
 <Canvas of={TabNavStories.CustomLink} />
 
@@ -51,6 +53,10 @@ A `TabNav` scrolls horizontally when it's wider than the width of its container.
 
 ## Properties
 
+### TabNav
+
 <ArgTypes of={TabNav} />
+
+### TabNav.Item
 
 <ArgTypes of={TabNav.Item} />

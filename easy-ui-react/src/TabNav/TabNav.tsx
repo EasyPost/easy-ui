@@ -9,6 +9,7 @@ import { useScrollbar } from "./useScrollbar";
 import styles from "./TabNav.module.scss";
 
 export type TabNavProps = AriaLabelingProps & {
+  /** The children of the <TabNav> element. Should include <TabNav.Item> elements. */
   children: ReactNode;
 };
 
