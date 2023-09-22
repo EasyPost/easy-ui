@@ -1,0 +1,38 @@
+@use "../styles/common" as *;
+
+.Edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: design-token("space.0.5");
+  background: component-token("tab-nav", "background-color");
+  opacity: 0;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.4;
+  }
+}
+
+.sideLeft {
+  left: 0;
+  &::before {
+    box-shadow: design-token("space.0.5") 0px design-token("space.0.5") 0px
+      design-token("color.gray.300");
+  }
+}
+
+.sideRight {
+  right: 0;
+  &::before {
+    box-shadow: calc(#{design-token("space.0.5")} * -1) 0px
+      design-token("space.0.5") 0px design-token("color.gray.300");
+  }
+}
+
+.underScroll {
+  opacity: 1;
+}

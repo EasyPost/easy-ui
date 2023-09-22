@@ -1,7 +1,8 @@
 import { AriaLabelingProps } from "@react-types/shared";
 import React, { ReactNode, useMemo, useRef, useState } from "react";
 import { useEdgeInterceptors } from "../DataGrid/useEdgeInterceptors";
-import { classNames, getComponentToken } from "../utilities/css";
+import { getComponentToken } from "../utilities/css";
+import { Edge } from "./Edge";
 import { TabNavItem } from "./TabNavItem";
 import { TabNavContext } from "./context";
 import { useScrollbar } from "./useScrollbar";
@@ -76,20 +77,8 @@ export function TabNav(props: TabNavProps) {
           </div>
           {indicatorWidth !== 0 ? <div className={styles.indicator} /> : null}
         </nav>
-        <div
-          className={classNames(
-            styles.edge,
-            styles.edgeLeft,
-            isLeftEdgeUnderScroll && styles.edgeUnderScroll,
-          )}
-        />
-        <div
-          className={classNames(
-            styles.edge,
-            styles.edgeRight,
-            isRightEdgeUnderScroll && styles.edgeUnderScroll,
-          )}
-        />
+        <Edge side="left" isUnderScroll={isLeftEdgeUnderScroll} />
+        <Edge side="right" isUnderScroll={isRightEdgeUnderScroll} />
       </div>
     </TabNavContext.Provider>
   );
