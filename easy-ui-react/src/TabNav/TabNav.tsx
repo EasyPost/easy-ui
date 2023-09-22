@@ -48,6 +48,8 @@ export function TabNav(props: TabNavProps) {
     return { setIndicatorWidth, setIndicatorPosition };
   }, []);
 
+  useScrollbar({ navRef, containerRef });
+
   const style = {
     ...getComponentToken("tab-nav", "indicator-width", `${indicatorWidth}px`),
     ...getComponentToken(
@@ -57,15 +59,13 @@ export function TabNav(props: TabNavProps) {
     ),
   };
 
-  useScrollbar({ navRef, containerRef });
-
   return (
     <TabNavContext.Provider value={context}>
-      <div className={styles.navContainer} ref={containerRef}>
+      <div className={styles.TabNav} ref={containerRef}>
         <nav
           {...labelingProps}
           ref={navRef}
-          className={styles.TabNav}
+          className={styles.nav}
           style={style}
         >
           <div className={styles.listContainer}>
@@ -79,13 +79,15 @@ export function TabNav(props: TabNavProps) {
         <div
           className={classNames(
             styles.edge,
-            isLeftEdgeUnderScroll && styles.leftEdgeUnderScroll,
+            styles.edgeLeft,
+            isLeftEdgeUnderScroll && styles.edgeUnderScroll,
           )}
         />
         <div
           className={classNames(
             styles.edge,
-            isRightEdgeUnderScroll && styles.rightEdgeUnderScroll,
+            styles.edgeRight,
+            isRightEdgeUnderScroll && styles.edgeUnderScroll,
           )}
         />
       </div>

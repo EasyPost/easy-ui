@@ -7,6 +7,11 @@
   @include component-token("tab-nav", "indicator-position", 0);
   @include component-token(
     "tab-nav",
+    "background-color",
+    design-token("color.gray.000")
+  );
+  @include component-token(
+    "tab-nav",
     "border-color",
     design-token("color.gray.100")
   );
@@ -22,12 +27,12 @@
   );
 
   position: relative;
-  display: flex;
-  overflow-x: auto;
 }
 
-.navContainer {
+.nav {
   position: relative;
+  display: flex;
+  overflow-x: auto;
 }
 
 .listContainer {
@@ -42,6 +47,7 @@
   padding: design-token("space.1") design-token("space.2");
   // offset with the border size to ensure the nav height is not off by one
   padding-bottom: calc(#{design-token("space.1")} - 1px);
+  background: component-token("tab-nav", "background-color");
   border-bottom: design-token("shape.border_width.1") solid
     component-token("tab-nav", "border-color");
 }
@@ -65,33 +71,35 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 4px;
-  background: white;
+  width: design-token("space.0.5");
+  background: component-token("tab-nav", "background-color");
   opacity: 0;
-  z-index: 10;
+  z-index: 1;
+
   &::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     opacity: 0.4;
   }
 }
 
-.leftEdgeUnderScroll {
+.edgeLeft {
   left: 0;
-  opacity: 1;
   &::before {
-    box-shadow: 4px 0px 4px 0px #a9b6d1;
+    box-shadow: design-token("space.0.5") 0px design-token("space.0.5") 0px
+      design-token("color.gray.300");
   }
 }
 
-.rightEdgeUnderScroll {
+.edgeRight {
   right: 0;
-  opacity: 1;
   &::before {
-    box-shadow: -4px 0px 4px 0px #a9b6d1;
+    box-shadow: calc(#{design-token("space.0.5")} * -1) 0px
+      design-token("space.0.5") 0px design-token("color.gray.300");
   }
+}
+
+.edgeUnderScroll {
+  opacity: 1;
 }

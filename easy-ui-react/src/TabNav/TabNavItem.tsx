@@ -36,12 +36,6 @@ export function TabNavItem<T extends ElementType = "a">(
   const ref = useRef<HTMLElement | null>(null);
   const { isHovered, hoverProps } = useHover({});
 
-  const className = classNames(
-    styles.TabNavItem,
-    isCurrentPage && styles.currentPage,
-    isHovered && styles.hovered,
-  );
-
   useIndicatorSizing({
     itemRef: ref,
     isCurrentPage,
@@ -50,6 +44,12 @@ export function TabNavItem<T extends ElementType = "a">(
   });
 
   useScrollIntoViewIfNeeded({ itemRef: ref, isCurrentPage });
+
+  const className = classNames(
+    styles.TabNavItem,
+    isCurrentPage && styles.currentPage,
+    isHovered && styles.hovered,
+  );
 
   return (
     <li className={className}>
