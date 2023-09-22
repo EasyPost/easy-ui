@@ -2,6 +2,7 @@ import { useResizeObserver } from "@react-aria/utils";
 import React, {
   ComponentProps,
   ElementType,
+  MutableRefObject,
   ReactNode,
   useCallback,
   useEffect,
@@ -9,9 +10,11 @@ import React, {
 } from "react";
 import { useHover } from "react-aria";
 import { classNames } from "../utilities/css";
-import { useTabNav } from "./context";
+import { TabNavContextType, useTabNav } from "./context";
 
 import styles from "./TabNavItem.module.scss";
+
+export const SCROLL_PADDING = 32;
 
 type TabNavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
   /** Override the default element with a custom one to provide unique behavior. Useful for client-side navigation link components in app frameworks. */
@@ -27,10 +30,10 @@ type TabNavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
 export function TabNavItem<T extends ElementType = "a">(
   props: TabNavItemProps<T>,
 ) {
-  const { as: As = "a", children, isCurrentPage, ...restProps } = props;
+  const { as: As = "a", children, isCurrentPage, ...linkProps } = props;
   const { setIndicatorWidth, setIndicatorPosition } = useTabNav();
 
-  const ref = useRef<HTMLLIElement | null>(null);
+  const ref = useRef<HTMLElement | null>(null);
   const { isHovered, hoverProps } = useHover({});
 
   const className = classNames(
@@ -39,59 +42,22 @@ export function TabNavItem<T extends ElementType = "a">(
     isHovered && styles.hovered,
   );
 
-  const handleSizingAndScroll = useCallback(() => {
-    if (isCurrentPage && ref.current) {
-      const $item = ref.current;
-      const $nav = $item.closest("nav");
+  useIndicatorSizing({
+    itemRef: ref,
+    isCurrentPage,
+    setIndicatorPosition,
+    setIndicatorWidth,
+  });
 
-      if (!$nav) {
-        throw new Error("Unable to find parent nav element from tab item");
-      }
-
-      const itemRect = $item.getBoundingClientRect();
-      const navRect = $nav.getBoundingClientRect();
-      const navScrollLeft = $nav.scrollLeft;
-
-      const navWidth = navRect.width;
-      const itemWidth = itemRect.width;
-      const itemPosition = navScrollLeft + (itemRect.x - navRect.x);
-
-      const breathingRoom = 32;
-
-      const itemEndEdge = itemPosition + itemWidth + breathingRoom;
-      const navEndEdge = navScrollLeft + navRect.width;
-
-      const itemStartEdge = itemPosition - breathingRoom;
-      const navStartEdge = navScrollLeft;
-
-      setIndicatorWidth(itemWidth);
-      setIndicatorPosition(itemPosition);
-
-      if (itemEndEdge > navEndEdge) {
-        $nav.scrollTo({
-          left: itemPosition - (navWidth - itemWidth) + breathingRoom,
-        });
-      }
-
-      if (itemStartEdge < navStartEdge) {
-        $nav.scrollTo({ left: itemPosition - breathingRoom });
-      }
-    }
-  }, [isCurrentPage, ref, setIndicatorPosition, setIndicatorWidth]);
-
-  useResizeObserver({ ref, onResize: handleSizingAndScroll });
-
-  useEffect(() => {
-    handleSizingAndScroll();
-  }, [handleSizingAndScroll]);
+  useScrollIntoViewIfNeeded({ itemRef: ref, isCurrentPage });
 
   return (
     <li className={className}>
       <As
         {...hoverProps}
-        className={styles.link}
+        {...linkProps}
         aria-current={isCurrentPage ? "page" : undefined}
-        {...restProps}
+        className={styles.link}
       >
         <span ref={ref} className={styles.text}>
           {children}
@@ -99,4 +65,106 @@ export function TabNavItem<T extends ElementType = "a">(
       </As>
     </li>
   );
+}
+
+/**
+ * Sets the width and position for the indicator (underline) based on the size
+ * of the currently selected tab.
+ */
+function useIndicatorSizing({
+  isCurrentPage,
+  itemRef,
+  setIndicatorPosition,
+  setIndicatorWidth,
+}: TabNavContextType & {
+  isCurrentPage: boolean;
+  itemRef: MutableRefObject<HTMLElement | null>;
+}) {
+  const handleSizing = useCallback(() => {
+    if (isCurrentPage && itemRef.current) {
+      const $item = itemRef.current;
+      const measurements = getSharedMeasurements($item);
+      setIndicatorWidth(measurements.itemWidth);
+      setIndicatorPosition(measurements.itemPosition);
+    }
+  }, [isCurrentPage, itemRef, setIndicatorPosition, setIndicatorWidth]);
+
+  useEffect(() => {
+    handleSizing();
+  }, [handleSizing]);
+
+  useResizeObserver({
+    ref: itemRef,
+    onResize: handleSizing,
+  });
+}
+
+/**
+ * Manages scrolling the tab into view if it's scrolled out of the horizontal
+ * line of sight.
+ */
+function useScrollIntoViewIfNeeded({
+  isCurrentPage,
+  itemRef,
+}: {
+  isCurrentPage: boolean;
+  itemRef: MutableRefObject<HTMLElement | null>;
+}) {
+  const handleScroll = useCallback(() => {
+    if (isCurrentPage && itemRef.current) {
+      const $item = itemRef.current;
+      const { $nav, navRect, itemPosition, itemWidth, navScrollLeft } =
+        getSharedMeasurements($item);
+
+      const navWidth = navRect.width;
+
+      const itemEndEdge = itemPosition + itemWidth + SCROLL_PADDING;
+      const navEndEdge = navScrollLeft + navWidth;
+
+      const itemStartEdge = itemPosition - SCROLL_PADDING;
+      const navStartEdge = navScrollLeft;
+
+      if (itemEndEdge > navEndEdge) {
+        $nav.scrollTo({
+          left: itemPosition - (navWidth - itemWidth) + SCROLL_PADDING,
+        });
+      }
+
+      if (itemStartEdge < navStartEdge) {
+        $nav.scrollTo({ left: itemPosition - SCROLL_PADDING });
+      }
+    }
+  }, [isCurrentPage, itemRef]);
+
+  useEffect(() => {
+    handleScroll();
+  }, [handleScroll]);
+
+  useResizeObserver({
+    ref: itemRef,
+    onResize: handleScroll,
+  });
+}
+
+function getSharedMeasurements($item: HTMLElement) {
+  const $nav = $item.closest("nav");
+  if (!$nav) {
+    throw new Error("Unable to find parent nav element from tab item");
+  }
+
+  const itemRect = $item.getBoundingClientRect();
+  const navRect = $nav.getBoundingClientRect();
+  const navScrollLeft = $nav.scrollLeft;
+
+  const itemWidth = itemRect.width;
+  const itemPosition = navScrollLeft + (itemRect.x - navRect.x);
+
+  return {
+    $nav,
+    itemRect,
+    navRect,
+    navScrollLeft,
+    itemWidth,
+    itemPosition,
+  };
 }

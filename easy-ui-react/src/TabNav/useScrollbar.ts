@@ -16,7 +16,6 @@ export function useScrollbar({
     },
     defer: false,
   });
-
   useLayoutEffect(() => {
     if (navRef.current && containerRef.current) {
       initialize({
