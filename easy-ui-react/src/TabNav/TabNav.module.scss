@@ -55,7 +55,7 @@
   display: flex;
   align-items: center;
   gap: design-token("space.3");
-  padding: design-token("space.1") design-token("space.2");
+  padding: design-token("space.1") design-token("space.1.5");
   // offset with the border size to ensure the nav height is not off by one
   padding-bottom: calc(#{design-token("space.1")} - 1px);
   background: component-token("tab-nav", "background-color");

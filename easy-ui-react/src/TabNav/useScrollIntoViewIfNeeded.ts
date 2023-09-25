@@ -2,7 +2,7 @@ import { useResizeObserver } from "@react-aria/utils";
 import { MutableRefObject, useCallback, useEffect } from "react";
 import { getSharedMeasurementsForTabNavItem } from "./util";
 
-export const SCROLL_PADDING = 32;
+export const SCROLL_PADDING = 24;
 
 /**
  * Manages scrolling the tab into view if it's scrolled out of the horizontal
