@@ -13,26 +13,24 @@
     content: "";
     position: absolute;
     inset: 0;
-    opacity: 0.4;
+    opacity: component-token("tab-nav", "edge-shadow-opacity");
   }
 }
 
 .sideLeft {
   left: 0;
   &::before {
-    box-shadow: design-token("space.0.5") 0px design-token("space.0.5") 0px
-      design-token("color.gray.300");
+    box-shadow: component-token("tab-nav", "edge-shadow-left");
   }
 }
 
 .sideRight {
   right: 0;
   &::before {
-    box-shadow: calc(#{design-token("space.0.5")} * -1) 0px
-      design-token("space.0.5") 0px design-token("color.gray.300");
+    box-shadow: component-token("tab-nav", "edge-shadow-right");
   }
 }
 
-.underScroll {
+.activated {
   opacity: 1;
 }

@@ -12,7 +12,7 @@ export function Edge({ side, isUnderScroll }: EdgeProps) {
   const className = classNames(
     styles.Edge,
     styles[variationName("side", side)],
-    isUnderScroll && styles.underScroll,
+    isUnderScroll && styles.activated,
   );
   return <div className={className} />;
 }
