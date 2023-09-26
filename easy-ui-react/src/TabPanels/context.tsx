@@ -1,7 +1,9 @@
 import { createContext, useContext } from "react";
 import { TabListState } from "react-stately";
+import type { TabPanelsProps } from "./TabPanels";
 
 export type TabPanelsContextType = {
+  tabProps: TabPanelsProps;
   tabListState: TabListState<object> | null;
   setTabListState: (state: TabListState<object>) => void;
 };

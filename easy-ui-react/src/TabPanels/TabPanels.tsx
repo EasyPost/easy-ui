@@ -1,14 +1,11 @@
 import { AriaLabelingProps } from "@react-types/shared";
 import React, { Key, ReactNode, useMemo, useState } from "react";
 import { TabListState } from "react-stately";
-import { classNames } from "../utilities/css";
-import { TabPanelsContext } from "./context";
 import { TabPanelsPanels } from "./TabPanelsPanels";
 import { TabPanelsTabs } from "./TabPanelsTabs";
+import { TabPanelsContext } from "./context";
 
-import styles from "./TabPanels.module.scss";
-
-type TabPanelsProps = AriaLabelingProps & {
+export type TabPanelsProps = AriaLabelingProps & {
   /**
    * The children of the <TabPanels> element. Should include <TabPanels.Tabs>
    * and <TabPanels.Panels> elements.
@@ -45,20 +42,15 @@ type TabPanelsProps = AriaLabelingProps & {
 };
 
 export function TabPanels(props: TabPanelsProps) {
-  const { children } = props;
-
-  const className = classNames(styles.TabPanels);
   const [tabListState, setTabListState] = useState<TabListState<object> | null>(
     null,
   );
-
   const context = useMemo(() => {
-    return { tabListState, setTabListState };
-  }, [tabListState]);
-
+    return { tabProps: props, tabListState, setTabListState };
+  }, [tabListState, props]);
   return (
     <TabPanelsContext.Provider value={context}>
-      <div className={className}>{children}</div>
+      {props.children}
     </TabPanelsContext.Provider>
   );
 }

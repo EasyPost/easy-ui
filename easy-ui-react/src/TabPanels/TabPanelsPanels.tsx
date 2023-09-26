@@ -14,7 +14,10 @@ type TabPanelsPanelsProps = {
 };
 
 type TabPanelProps = AriaTabPanelProps & {
+  /** Children of the tab panel. */
   children: ReactNode;
+
+  /** State for the tab list. */
   state: TabListState<object>;
 };
 
@@ -30,13 +33,11 @@ export function TabPanelsPanels(props: TabPanelsPanelsProps) {
     suppressTextValueWarning: true,
   });
 
-  const selectedItem = tabListState
-    ? collection.getItem(tabListState.selectedKey)
-    : null;
-
   if (!tabListState) {
     return null;
   }
+
+  const selectedItem = collection.getItem(tabListState.selectedKey);
 
   return (
     <TabPanelsPanel

@@ -18,21 +18,12 @@
   border-bottom: 1px solid gray;
 }
 
-[role="tablist"][aria-orientation="vertical"] {
-  flex-direction: column;
-  border-right: 1px solid gray;
-}
-
 [role="tab"] {
   padding: 10px;
 }
 
 [role="tablist"][aria-orientation="horizontal"] [role="tab"] {
   border-bottom: 3px solid transparent;
-}
-
-[role="tablist"][aria-orientation="vertical"] [role="tab"] {
-  border-right: 3px solid transparent;
 }
 
 [role="tablist"] [role="tab"][aria-selected="true"] {

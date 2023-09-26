@@ -1,6 +1,6 @@
 import { AriaLabelingProps, ItemElement, Node } from "@react-types/shared";
 import React, { useEffect } from "react";
-import { useTab, useTabList } from "react-aria";
+import { mergeProps, useTab, useTabList } from "react-aria";
 import { TabListState, useTabListState } from "react-stately";
 import { useTabPanels } from "./context";
 
@@ -12,19 +12,20 @@ type TabPanelsTabsProps = AriaLabelingProps & {
   children: ItemElement<object> | ItemElement<object>[];
 };
 
-type TabProps = {
+type TabPanelsTabProps = {
+  /** The item for the tab. */
   item: Node<object>;
+
+  /** The state for the tab. */
   state: TabListState<object>;
 };
 
 export function TabPanelsTabs(props: TabPanelsTabsProps) {
-  const { setTabListState } = useTabPanels();
-
+  const { tabProps, setTabListState } = useTabPanels();
   const ref = React.useRef(null);
-
-  const state = useTabListState({ ...props, children: props.children });
-
-  const { tabListProps } = useTabList(props, state, ref);
+  const mergedProps = mergeProps(tabProps, props);
+  const state = useTabListState(mergedProps);
+  const { tabListProps } = useTabList(mergedProps, state, ref);
 
   useEffect(
     () => {
@@ -32,6 +33,7 @@ export function TabPanelsTabs(props: TabPanelsTabsProps) {
     },
     // state is too comprehensive of a dependency in and of itself. only change
     // when specific requirements are met
+    // https://github.com/adobe/react-spectrum/blob/main/packages/%40react-spectrum/tabs/src/Tabs.tsx#L273
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state.disabledKeys, state.selectedItem, state.selectedKey, props.children],
   );
@@ -45,13 +47,12 @@ export function TabPanelsTabs(props: TabPanelsTabsProps) {
   );
 }
 
-function TabPanelsTab({ item, state }: TabProps) {
-  const { key, rendered } = item;
+function TabPanelsTab({ item, state }: TabPanelsTabProps) {
   const ref = React.useRef(null);
-  const { tabProps } = useTab({ key }, state, ref);
+  const { tabProps } = useTab({ key: item.key }, state, ref);
   return (
     <div {...tabProps} ref={ref}>
-      {rendered}
+      {item.rendered}
     </div>
   );
 }
