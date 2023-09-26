@@ -59,7 +59,7 @@ function CustomLinkTemplate(args: Partial<TabNavProps>) {
         <TabNav.Item
           key={location}
           as={FakeClientSideRouterLink}
-          isCurrentPage={page === location ? true : false}
+          isCurrentPage={page === location}
           onClick={() => setPage(location)}
         >
           {label}
