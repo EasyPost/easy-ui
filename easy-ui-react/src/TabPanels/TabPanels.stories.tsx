@@ -16,15 +16,13 @@ export const Default: Story = {
   render: () => {
     return (
       <TabPanels aria-label="History of Ancient Rome">
-        <div style={{ border: "1px solid red" }}>
-          <div style={{ border: "1px solid blue" }}>
-            <TabPanels.Tabs>
-              <Item key="FoR">Founding of Rome</Item>
-              <Item key="MaR">Monarchy and Republic</Item>
-              <Item key="Emp">Empire</Item>
-            </TabPanels.Tabs>
-          </div>
-          <div style={{ border: "1px solid green" }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <TabPanels.Tabs>
+            <Item key="FoR">Founding of Rome</Item>
+            <Item key="MaR">Monarchy and Republic</Item>
+            <Item key="Emp">Empire</Item>
+          </TabPanels.Tabs>
+          <div style={{ padding: 24 }}>
             <TabPanels.Panels>
               <Item key="FoR">
                 <div className="test">

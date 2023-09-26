@@ -2,9 +2,8 @@ import { AriaLabelingProps, ItemElement, Node } from "@react-types/shared";
 import React, { useEffect } from "react";
 import { mergeProps, useTab, useTabList } from "react-aria";
 import { TabListState, useTabListState } from "react-stately";
+import { Tabs } from "../Tabs";
 import { useTabPanels } from "./context";
-
-import styles from "./TabPanelsTabs.module.scss";
 
 type TabPanelsTabsProps = AriaLabelingProps & {
   /**
@@ -41,20 +40,27 @@ export function TabPanelsTabs(props: TabPanelsTabsProps) {
   );
 
   return (
-    <div ref={ref} {...tabListProps} className={styles.TabPanelsTabs}>
+    <Tabs
+      containerComponent="div"
+      containerProps={{}}
+      listComponent="div"
+      listProps={tabListProps}
+      listRef={ref}
+    >
       {[...state.collection].map((item) => (
         <TabPanelsTab key={item.key} item={item} state={state} />
       ))}
-    </div>
+    </Tabs>
   );
 }
 
 function TabPanelsTab({ item, state }: TabPanelsTabProps) {
   const ref = React.useRef(null);
   const { tabProps } = useTab({ key: item.key }, state, ref);
+  const isSelected = state.selectedItem === item;
   return (
-    <div {...tabProps} ref={ref}>
+    <Tabs.Item as="div" tabRef={ref} isSelected={isSelected} {...tabProps}>
       {item.rendered}
-    </div>
+    </Tabs.Item>
   );
 }
