@@ -1,0 +1,79 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.TabNav {
+  @include component-token("tab-nav", "indicator-height", 1px);
+  @include component-token("tab-nav", "indicator-width", 0);
+  @include component-token("tab-nav", "indicator-position", 0);
+  @include component-token(
+    "tab-nav",
+    "background-color",
+    design-token("color.gray.000")
+  );
+  @include component-token(
+    "tab-nav",
+    "border-color",
+    design-token("color.gray.100")
+  );
+  @include component-token(
+    "tab-nav",
+    "link-color",
+    design-token("color.blue.800")
+  );
+  @include component-token(
+    "tab-nav",
+    "current-page-color",
+    design-token("color.blue.500")
+  );
+  @include component-token(
+    "tab-nav",
+    "edge-shadow-left",
+    4px 0px 4px 0px design-token("color.gray.300")
+  );
+  @include component-token(
+    "tab-nav",
+    "edge-shadow-right",
+    -4px 0px 4px 0px design-token("color.gray.300")
+  );
+  @include component-token("tab-nav", "edge-shadow-opacity", 0.4);
+
+  position: relative;
+}
+
+.nav {
+  position: relative;
+  display: flex;
+  overflow-x: auto;
+}
+
+.listContainer {
+  position: relative;
+}
+
+.list {
+  @include unstyled.list;
+  display: flex;
+  align-items: center;
+  gap: design-token("space.3");
+  padding: design-token("space.1") design-token("space.1.5");
+  // offset with the border size to ensure the nav height is not off by one
+  padding-bottom: calc(#{design-token("space.1")} - 1px);
+  background: component-token("tab-nav", "background-color");
+  border-bottom: design-token("shape.border_width.1") solid
+    component-token("tab-nav", "border-color");
+}
+
+.indicator {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: component-token("tab-nav", "indicator-height");
+
+  background: component-token("tab-nav", "current-page-color");
+  transform: translateX(#{component-token("tab-nav", "indicator-position")});
+  width: component-token("tab-nav", "indicator-width");
+
+  transition-property: transform, width;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}

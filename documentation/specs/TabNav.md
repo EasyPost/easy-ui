@@ -2,7 +2,7 @@
 
 ## Overview
 
-A `TabNav` is a set of styled links that let users navigate between related pages.
+A `TabNav` is a set of styled links that lets users navigate between related pages.
 
 ---
 
@@ -16,12 +16,18 @@ A `TabNav` is a set of styled links that let users navigate between related page
 
 ```ts
 type TabNavProps = AriaLabelingProps & {
+  /** The children of the <TabNav> element. Should include <TabNav.Item> elements. */
   children: ReactNode;
 };
 
 type TabNavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
+  /** Override the default element with a custom one to provide unique behavior. Useful for client-side navigation link components in app frameworks. */
   as?: T;
+
+  /** The children of the <TabNav.Item> element. */
   children: ReactNode;
+
+  /** Sets the <TavNav.Item> as the current page and adds `aria-current="page"`. */
   isCurrentPage?: boolean;
 };
 ```
@@ -75,7 +81,7 @@ function AccountTabNav() {
 
 ### Accessibility
 
-- Each `TabNav` must have a unique label. To add the label, add the `aria-label` prop to the `<TabNav>` tag. Omit the term 'navigation'- it is redundant since the role is already defined as 'navigation'.
+- Each `TabNav` should have a unique label. To add the label, add the `aria-label` prop to the `<TabNav>` tag. Omit the term 'navigation'- it is redundant since the role is already defined as 'navigation'.
 - To interact with `TabNav` using the keyboard, use the `tab` key.
 - Each `TabNav` must have a `TabNav.Item` which is the currently selected page. To specify which page is current, add the `isCurrentPage` prop to the respective `<TabNav.Item>`. Doing so will set `aria-current="page"` on that link.
 - `TabNav` uses a `nav` element under the hood with anchor links as discrete tab stops. `TabNav` does not use the W3C ARIA Tabs pattern.
