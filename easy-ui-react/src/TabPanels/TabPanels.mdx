@@ -1,0 +1,14 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { TabPanels } from "./TabPanels";
+import * as TabPanelsStories from "./TabPanels.stories";
+
+<Meta of={TabPanelsStories} />
+
+# TabPanels
+
+`TabPanels` is a set of tabs that let users switch between multiple views within a related context under the same URL.
+
+Tabs organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent unit.
+
+Tabs in a tab panel should not be links that navigate the user to a new URL. If you want tab-like navigation, use `TabNav` instead.

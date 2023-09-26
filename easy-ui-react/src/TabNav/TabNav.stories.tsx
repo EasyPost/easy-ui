@@ -5,7 +5,7 @@ import { TabNav, TabNavProps } from "./TabNav";
 type Story = StoryObj<typeof TabNav>;
 
 const meta: Meta<typeof TabNav> = {
-  title: "Components/TabNav",
+  title: "Components/Tabs/TabNav",
   component: TabNav,
 };
 
