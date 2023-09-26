@@ -20,11 +20,14 @@ export const CustomLink: Story = {
 };
 
 export const Responsive: Story = {
-  render: () => (
-    <div style={{ maxWidth: 360 }}>
-      <CustomLinkTemplate />
-    </div>
-  ),
+  render: CustomLinkTemplate.bind({}),
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: 360 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const tabs = [
@@ -59,7 +62,7 @@ function CustomLinkTemplate(args: Partial<TabNavProps>) {
         <TabNav.Item
           key={location}
           as={FakeClientSideRouterLink}
-          isCurrentPage={page === location ? true : false}
+          isCurrentPage={page === location}
           onClick={() => setPage(location)}
         >
           {label}
