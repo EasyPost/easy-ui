@@ -27,10 +27,17 @@ export const Default: Story = {
           <div style={{ border: "1px solid green" }}>
             <TabPanels.Panels>
               <Item key="FoR">
-                Arma virumque cano, Troiae qui primus ab oris.
+                <div className="test">
+                  Arma virumque cano, Troiae qui primus ab oris.
+                </div>
               </Item>
               <Item key="MaR">Senatus Populusque Romanus.</Item>
-              <Item key="Emp">Alea jacta est.</Item>
+              <Item key="Emp">
+                <>
+                  <div>Alea jacta est.</div>
+                  <div>blah</div>
+                </>
+              </Item>
             </TabPanels.Panels>
           </div>
         </div>

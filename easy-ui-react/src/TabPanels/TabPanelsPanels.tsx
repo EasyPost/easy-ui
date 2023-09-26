@@ -1,11 +1,15 @@
 import { ListCollection } from "@react-stately/list";
 import { Node } from "@react-types/shared";
-import React, { ReactElement, ReactNode, useCallback } from "react";
+import React, {
+  ReactElement,
+  ReactNode,
+  isValidElement,
+  useCallback,
+} from "react";
 import { AriaTabPanelProps, useTabPanel } from "react-aria";
+import { isFragment } from "react-is";
 import { TabListState, useCollection } from "react-stately";
 import { useTabPanels } from "./context";
-
-import styles from "./TabPanelsPanels.module.scss";
 
 type TabPanelsPanelsProps = {
   /**
@@ -53,11 +57,18 @@ export function TabPanelsPanels(props: TabPanelsPanelsProps) {
 }
 
 function TabPanelsPanel({ state, ...props }: TabPanelProps) {
+  const { children } = props;
   const ref = React.useRef(null);
   const { tabPanelProps } = useTabPanel(props, state, ref);
-  return (
-    <div ref={ref} {...tabPanelProps} className={styles.TabPanelsPanel}>
-      {props.children}
+  return children && isValidElement(children) && !isFragment(children) ? (
+    React.cloneElement(children, {
+      ref,
+      ...tabPanelProps,
+      ...(children as ReactElement).props,
+    })
+  ) : (
+    <div ref={ref} {...tabPanelProps}>
+      {children}
     </div>
   );
 }
