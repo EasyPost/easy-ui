@@ -8,7 +8,7 @@ import { useTabPanels } from "./context";
 type TabPanelsTabsProps = AriaLabelingProps & {
   /**
    * The tab items to display. Item keys should match the key of the
-   * corresponding <Item> within the <TabPanels.Panels> element.
+   * corresponding `<Item>` within the `<TabPanels.Panels>` element.
    */
   children: ItemElement<object> | ItemElement<object>[];
 };

@@ -17,7 +17,7 @@ export const SCROLL_PADDING = 32;
 
 type TabsItemProps<T extends ElementType = "span"> = ComponentProps<T> & {
   outerComponent: "span" | "div" | "li";
-  tabRef: MutableRefObject<null>;
+  tabRef?: MutableRefObject<null>;
   as?: T;
   children: ReactNode;
   isSelected?: boolean;

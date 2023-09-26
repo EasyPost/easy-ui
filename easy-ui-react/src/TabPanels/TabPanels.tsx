@@ -7,8 +7,8 @@ import { TabPanelsContext } from "./context";
 
 export type TabPanelsProps = AriaLabelingProps & {
   /**
-   * The children of the <TabPanels> element. Should include <TabPanels.Tabs>
-   * and <TabPanels.Panels> elements.
+   * The children of the `<TabPanels>` element. Should include `<TabPanels.Tabs>`
+   * and `<TabPanels.Panels>` elements.
    */
   children: ReactNode;
 

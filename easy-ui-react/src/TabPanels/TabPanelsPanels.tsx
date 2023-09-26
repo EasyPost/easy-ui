@@ -14,7 +14,7 @@ import { useTabPanels } from "./context";
 type TabPanelsPanelsProps = {
   /**
    * The contents of each tab. Item keys should match the key of the
-   * corresponding <Item> within the <TabPanels.Tabs> element.
+   * corresponding `<Item>` within the `<TabPanels.Tabs>` element.
    */
   children: ReactElement | ReactElement[];
 };

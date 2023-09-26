@@ -19,7 +19,7 @@ export type TabsProps = {
   containerProps: object;
   listComponent: "div" | "ul";
   listProps: object;
-  listRef: MutableRefObject<null>;
+  listRef?: MutableRefObject<null>;
   children: ReactNode;
 };
 
