@@ -5,6 +5,8 @@ import { AriaTabPanelProps, useTabPanel } from "react-aria";
 import { TabListState, useCollection } from "react-stately";
 import { useTabPanels } from "./context";
 
+import styles from "./TabPanelsPanels.module.scss";
+
 type TabPanelsPanelsProps = {
   /**
    * The contents of each tab. Item keys should match the key of the
@@ -54,7 +56,7 @@ function TabPanelsPanel({ state, ...props }: TabPanelProps) {
   const ref = React.useRef(null);
   const { tabPanelProps } = useTabPanel(props, state, ref);
   return (
-    <div {...tabPanelProps} ref={ref}>
+    <div ref={ref} {...tabPanelProps} className={styles.TabPanelsPanel}>
       {props.children}
     </div>
   );

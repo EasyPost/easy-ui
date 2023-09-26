@@ -4,6 +4,8 @@ import { mergeProps, useTab, useTabList } from "react-aria";
 import { TabListState, useTabListState } from "react-stately";
 import { useTabPanels } from "./context";
 
+import styles from "./TabPanelsTabs.module.scss";
+
 type TabPanelsTabsProps = AriaLabelingProps & {
   /**
    * The tab items to display. Item keys should match the key of the
@@ -39,7 +41,7 @@ export function TabPanelsTabs(props: TabPanelsTabsProps) {
   );
 
   return (
-    <div {...tabListProps} ref={ref}>
+    <div ref={ref} {...tabListProps} className={styles.TabPanelsTabs}>
       {[...state.collection].map((item) => (
         <TabPanelsTab key={item.key} item={item} state={state} />
       ))}
