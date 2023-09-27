@@ -10,7 +10,7 @@ export type StepperOrientation = "horizontal" | "vertical";
 
 export type StepperProps = {
   /**
-   * Color scheme that applies to stepper in various states.
+   * Color scheme that applies to steps in various states.
    * @default primary
    */
   color?: StepperColor;
@@ -20,15 +20,91 @@ export type StepperProps = {
    */
   orientation?: StepperOrientation;
   /**
-   * The current step, represented as an index of the sequence.
+   * The active step, represented as an index of the sequence.
    */
   activeStepIndex: number;
   /**
-   * The steps to render, individual Step components.
+   * The steps to render, represented as `<Stepper.Step/ >`.
    */
   children: ReactNode;
 };
 
+/**
+* The `<Stepper />` component is used to indicate progress as the user goes 
+* through a multi-step process.
+*
+* @remarks
+* A common use-case for this component is to guide a user through a large 
+* form where parts of the form can be separated into logical steps.
+*
+* @example
+* _Default:_
+*```tsx
+* import { Stepper } from "@easypost/easy-ui/Stepper";
+*
+* export function Component() {
+*  const steps = ["Step 1", "Step 2", "Step 3", "Step 4"]
+*  const [activeStep, setActiveStep] = useState(0);
+*  const [stepsState, setStepsState] = useState<
+*   { isComplete: boolean; isAccessible: boolean }[]
+*  >([{ isComplete: false, isAccessible: true }]);
+*
+*  const goToStep = (index: number) => () => {
+*     setActiveStep(index);
+*  }
+*
+*  return (
+*   <Stepper activeStepIndex={activeStep}>
+*     {steps.map((step, index) => (
+*       <Stepper.Step
+*         key={step}
+*         stepIndex={index}
+*         onPress={goToStep(index)}
+*         isComplete={stepsState[index]?.isComplete || false}
+*         isAccessible={stepsState[index]?.isAccessible || false}
+*        >
+*         {step}
+*       </Stepper.Step>
+*     ))}
+*   </Stepper>
+*  );
+* }
+```
+*
+* @example
+* _Vertical orientation and inverse color:_
+*```tsx
+* import { Stepper } from "@easypost/easy-ui/Stepper";
+*
+* export function Component() {
+*  const steps = ["Step 1", "Step 2", "Step 3", "Step 4"]
+*  const [activeStep, setActiveStep] = useState(0);
+*  const [stepsState, setStepsState] = useState<
+*   { isComplete: boolean; isAccessible: boolean }[]
+*  >([{ isComplete: false, isAccessible: true }]);
+*
+*  const goToStep = (index: number) => () => {
+*     setActiveStep(index);
+*  }
+*
+*  return (
+*   <Stepper color="inverse" orientation="vertical" activeStepIndex={activeStep}>
+*     {steps.map((step, index) => (
+*       <Stepper.Step
+*         key={step}
+*         stepIndex={index}
+*         onPress={goToStep(index)}
+*         isComplete={stepsState[index]?.isComplete || false}
+*         isAccessible={stepsState[index]?.isAccessible || false}
+*        >
+*         {step}
+*       </Stepper.Step>
+*     ))}
+*   </Stepper>
+*  );
+* }
+```
+ */
 export function Stepper(props: StepperProps) {
   const {
     color = "primary",

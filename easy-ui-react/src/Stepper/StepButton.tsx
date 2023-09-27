@@ -12,11 +12,11 @@ export type StepStatus = "active" | "complete" | "incomplete";
 
 export type StepButtonProps = AriaButtonProps & {
   /**
-   * Applies complete styles to button.
+   * Represents status for each step.
    */
   status: StepStatus;
   /**
-   * Applies active styles to button.
+   * Whether or not button should be disabled.
    */
   isDisabled: boolean;
   /**
@@ -25,6 +25,12 @@ export type StepButtonProps = AriaButtonProps & {
   children: ReactNode;
 };
 
+/**
+ * @privateRemarks
+ * This component serves as the button for individual steps.
+ * For each step, the button is not only the step text content,
+ * but also the associated left-aligned status icon.
+ */
 export function StepButton(props: StepButtonProps) {
   const { status, isDisabled, children, onPress, ...restProps } = props;
   const { color, orientation } = useInternalStepperContext();
@@ -41,12 +47,13 @@ export function StepButton(props: StepButtonProps) {
           styles.StepButton,
           styles[variationName("status", status)],
           styles[variationName("color", color)],
+          styles[variationName("orientation", orientation)],
         )}
       >
         {status === "complete" ? (
           <Icon
             symbol={CheckCircle}
-            size={orientation === "horizontal" ? "md" : "xs"}
+            size={orientation === "horizontal" ? "md" : "sm"}
           />
         ) : (
           <div

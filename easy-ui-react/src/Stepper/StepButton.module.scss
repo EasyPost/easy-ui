@@ -73,6 +73,7 @@
 }
 
 .statusComplete {
+  @include component-token("step-button", "orientation.vertical.margin", -2px);
   color: component-token("step-button", "color.text.complete");
 }
 
@@ -99,6 +100,10 @@
   &:disabled {
     cursor: not-allowed;
   }
+}
+
+.orientationVertical {
+  margin-left: component-token("step-button", "orientation.vertical.margin");
 }
 
 .indicatorHorizontal {

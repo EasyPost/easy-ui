@@ -14,11 +14,16 @@ export type StepProps = AriaButtonProps & {
    */
   stepIndex: number;
   /**
-   * Step index, the ith step in the sequence.
+   * Wheter or not the step is complete; a completed
+   * step is a visual indication and does not make any
+   * assumptions behind the scenes about the state of the
+   * step sequence.
    */
   isComplete: boolean;
   /**
-   * Step index, the ith step in the sequence.
+   * Whether or not the step is accessible; an accessible
+   * step is one that is not active or complete, but can be
+   * reached by the user.
    */
   isAccessible: boolean;
   /**
@@ -27,6 +32,12 @@ export type StepProps = AriaButtonProps & {
   children: ReactNode;
 };
 
+/**
+ * @privateRemarks
+ * This component is what is exposed as `<Stepper.Step />`. It handles
+ * the clickable area of a step and with the exception of the last step,
+ * it renders a separator.
+ */
 export function Step(props: StepProps) {
   const {
     stepIndex,
@@ -55,7 +66,7 @@ export function Step(props: StepProps) {
       </StepButton>
       {!isLastStep &&
         (orientation === "horizontal" ? (
-          <Icon size="xs" symbol={ArrowForwardIos} color="primary" />
+          <Icon size="xs" symbol={ArrowForwardIos} color={color} />
         ) : (
           <span
             className={classNames(
