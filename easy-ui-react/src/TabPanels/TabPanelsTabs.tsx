@@ -21,6 +21,9 @@ type TabPanelsTabProps = {
   state: TabListState<object>;
 };
 
+/**
+ * Represents a container of tabs in a `<TabPanels />`.
+ */
 export function TabPanelsTabs(props: TabPanelsTabsProps) {
   const { tabProps, setTabListState } = useTabPanels();
   const ref = React.useRef(null);
@@ -54,6 +57,9 @@ export function TabPanelsTabs(props: TabPanelsTabsProps) {
   );
 }
 
+/**
+ * Represents a single tab item.
+ */
 function TabPanelsTab({ item, state }: TabPanelsTabProps) {
   const ref = React.useRef(null);
   const { tabProps } = useTab({ key: item.key }, state, ref);

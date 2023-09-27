@@ -27,6 +27,9 @@ type TabPanelProps = AriaTabPanelProps & {
   state: TabListState<object>;
 };
 
+/**
+ * Represents a container of panels in a `<TabPanels />`.
+ */
 export function TabPanelsPanels(props: TabPanelsPanelsProps) {
   const { tabListState } = useTabPanels();
 
@@ -56,6 +59,13 @@ export function TabPanelsPanels(props: TabPanelsPanelsProps) {
   );
 }
 
+/**
+ * Represents a single tab panel.
+ *
+ * @privateRemarks
+ * If a single element is provided, clone the tab panel props onto it; otherwise
+ * create a container element and spread on the tab panel props.
+ */
 function TabPanelsPanel({ state, ...props }: TabPanelProps) {
   const { children } = props;
   const ref = React.useRef(null);
