@@ -1,0 +1,140 @@
+@use "../styles/common" as *;
+
+.containerHorizontal {
+  padding: design-token("space.0") design-token("space.1");
+  @include breakpoint-sm-up {
+    padding: design-token("space.2");
+  }
+}
+
+.containerVertical {
+  padding: 0;
+}
+
+.colorPrimary {
+  @include component-token(
+    "step-button",
+    "color.text.active",
+    theme-token("color.text.action")
+  );
+  @include component-token(
+    "step-button",
+    "color.text.incomplete",
+    theme-token("color.text.gray.resting")
+  );
+  @include component-token(
+    "step-button",
+    "color.text.complete",
+    theme-token("color.text")
+  );
+  @include component-token(
+    "step-button",
+    "active.background.color",
+    theme-token("color.background.primary")
+  );
+  @include component-token(
+    "step-button",
+    "incomplete.border.color",
+    theme-token("color.border.incomplete")
+  );
+}
+
+.colorInverse {
+  @include component-token(
+    "step-button",
+    "color.text.active",
+    theme-token("color.text.inverse")
+  );
+  @include component-token(
+    "step-button",
+    "color.text.incomplete",
+    theme-token("color.text.inverse")
+  );
+  @include component-token(
+    "step-button",
+    "color.text.complete",
+    theme-token("color.text.inverse")
+  );
+  @include component-token(
+    "step-button",
+    "active.background.color",
+    theme-token("color.background")
+  );
+  @include component-token(
+    "step-button",
+    "incomplete.border.color",
+    theme-token("color.border.inverse")
+  );
+}
+
+.statusComplete,
+.statusIncomplete {
+  @include font-style("body1");
+}
+
+.statusComplete {
+  color: component-token("step-button", "color.text.complete");
+}
+
+.statusIncomplete {
+  color: component-token("step-button", "color.text.incomplete");
+}
+
+.statusActive {
+  @include font-style("subtitle1");
+  color: component-token("step-button", "color.text.active");
+}
+
+.StepButton {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  background: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: design-token("space.1");
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.indicatorHorizontal {
+  @include component-token("step-button", "indicator.size", 20px);
+}
+
+.indicatorVertical {
+  @include component-token("step-button", "indicator.size", 16px);
+}
+
+.indicatorActive {
+  background-color: component-token("step-button", "active.background.color");
+}
+
+.indicatorVertical.indicatorActive {
+  margin: design-token("space.0.5") design-token("space.0");
+}
+
+.indicatorIncomplete {
+  border: 1px solid component-token("step-button", "incomplete.border.color");
+  margin: calc(#{design-token("space.0.5")} - 1px) design-token("space.0");
+}
+
+.indicator {
+  height: component-token("step-button", "indicator.size");
+  width: component-token("step-button", "indicator.size");
+  border-radius: 50%;
+}
+
+.textHorizontal {
+  display: none;
+  @include breakpoint-sm-up {
+    display: inline;
+  }
+}
+
+.textVertical {
+  display: inline;
+}
