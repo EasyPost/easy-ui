@@ -21,6 +21,7 @@ type TabsItemProps<T extends ElementType = "span"> = ComponentProps<T> & {
   tabRef?: MutableRefObject<null>;
   children: ReactNode;
   isSelected?: boolean;
+  isDisabled?: boolean;
 };
 
 export function TabsItem<T extends ElementType = "span">(
@@ -32,6 +33,7 @@ export function TabsItem<T extends ElementType = "span">(
     tabRef,
     children,
     isSelected,
+    isDisabled,
     ...elementProps
   } = props;
   const { setIndicatorWidth, setIndicatorPosition } = useTabs();
@@ -52,7 +54,8 @@ export function TabsItem<T extends ElementType = "span">(
   const className = classNames(
     styles.TabsItem,
     isSelected && styles.selected,
-    isHovered && styles.hovered,
+    isHovered && !isDisabled && styles.hovered,
+    isDisabled && styles.disabled,
     isFocusVisible && styles.focusVisible,
   );
 

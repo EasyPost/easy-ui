@@ -7,8 +7,25 @@ import * as TabPanelsStories from "./TabPanels.stories";
 
 # TabPanels
 
-`TabPanels` is a set of tabs that let users switch between multiple views within a related context under the same URL.
+`TabPanels` organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent unit.
 
-Tabs organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent unit.
+`TabPanels` should not be used for links that navigate the user to a new URL. If you want tab-like navigation, use [`TabNav`](/?path=/docs/components-tabs-tabnav--docs) instead.
 
-Tabs in a tab panel should not be links that navigate the user to a new URL. If you want tab-like navigation, use `TabNav` instead.
+`TabPanels` is a compound component consisting of `TabPanels`, `TabPanels.Tabs`, `TabPanels.Panels`, and `TabPanels.Item` for individual tabs and panels. Tabs and panels are associated by the `key`s on their respective `TabPanels.Item`.
+
+```tsx
+<TabPanels aria-label="History of Rome">
+  <TabPanels.Tabs>
+    <TabPanels.Item key="for">Founding of Rome</TabPanels.Item>
+    <TabPanels.Item key="mar">Monarchy and Republic</TabPanels.Item>
+    <TabPanels.Item key="emp">Empire</TabPanels.Item>
+  </TabPanels.Tabs>
+  <TabPanels.Panels>
+    <TabPanels.Item key="for">
+      Arma virumque cano, Troiae qui primus ab oris.
+    </TabPanels.Item>
+    <TabPanels.Item key="mar">Senatus Populusque Romanus.</TabPanels.Item>
+    <TabPanels.Item key="emp">Alea jacta est.</TabPanels.Item>
+  </TabPanels.Panels>
+</TabPanels>
+```

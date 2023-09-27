@@ -58,11 +58,13 @@ function TabPanelsTab({ item, state }: TabPanelsTabProps) {
   const ref = React.useRef(null);
   const { tabProps } = useTab({ key: item.key }, state, ref);
   const isSelected = state.selectedItem === item;
+  const isDisabled = state.disabledKeys.has(item.key) || state.isDisabled;
   return (
     <Tabs.Item
       tabComponent="div"
       tabRef={ref}
       isSelected={isSelected}
+      isDisabled={isDisabled}
       {...tabProps}
     >
       {item.rendered}

@@ -1,6 +1,6 @@
 import { AriaLabelingProps } from "@react-types/shared";
 import React, { Key, ReactNode, useMemo, useState } from "react";
-import { TabListState } from "react-stately";
+import { Item, TabListState } from "react-stately";
 import { TabPanelsPanels } from "./TabPanelsPanels";
 import { TabPanelsTabs } from "./TabPanelsTabs";
 import { TabPanelsContext } from "./context";
@@ -22,6 +22,11 @@ export type TabPanelsProps = AriaLabelingProps & {
    * focused, or otherwise interacted with.
    */
   disabledKeys?: Iterable<Key>;
+
+  /**
+   * Whether the entire tab list is disabled.
+   */
+  isDisabled?: boolean;
 
   /**
    * Whether tabs are activated automatically on focus or manually.
@@ -57,3 +62,4 @@ export function TabPanels(props: TabPanelsProps) {
 
 TabPanels.Tabs = TabPanelsTabs;
 TabPanels.Panels = TabPanelsPanels;
+TabPanels.Item = Item;
