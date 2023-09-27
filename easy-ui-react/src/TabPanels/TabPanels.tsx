@@ -1,6 +1,7 @@
 import { AriaLabelingProps } from "@react-types/shared";
 import React, { Key, ReactNode, useMemo, useState } from "react";
-import { Item, TabListState } from "react-stately";
+import { TabListState } from "react-stately";
+import { TabPanelsItem } from "./TabPanelsItem";
 import { TabPanelsPanels } from "./TabPanelsPanels";
 import { TabPanelsTabs } from "./TabPanelsTabs";
 import { TabPanelsContext } from "./context";
@@ -62,4 +63,4 @@ export function TabPanels(props: TabPanelsProps) {
 
 TabPanels.Tabs = TabPanelsTabs;
 TabPanels.Panels = TabPanelsPanels;
-TabPanels.Item = Item;
+TabPanels.Item = TabPanelsItem;
