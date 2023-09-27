@@ -18,8 +18,8 @@ export function TabNavItem<T extends ElementType = "a">(
   const { as: As = "a", children, isCurrentPage, ...linkProps } = props;
   return (
     <Tabs.Item
-      outerComponent="li"
-      as={As}
+      containerComponent="li"
+      tabComponent={As}
       isSelected={isCurrentPage}
       {...linkProps}
       aria-current={isCurrentPage ? "page" : undefined}

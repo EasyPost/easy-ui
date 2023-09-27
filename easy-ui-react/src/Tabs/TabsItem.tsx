@@ -16,9 +16,9 @@ import styles from "./TabsItem.module.scss";
 export const SCROLL_PADDING = 32;
 
 type TabsItemProps<T extends ElementType = "span"> = ComponentProps<T> & {
-  outerComponent: "span" | "div" | "li";
+  containerComponent: "span" | "div" | "li";
+  tabComponent?: T;
   tabRef?: MutableRefObject<null>;
-  as?: T;
   children: ReactNode;
   isSelected?: boolean;
 };
@@ -27,9 +27,9 @@ export function TabsItem<T extends ElementType = "span">(
   props: TabsItemProps<T>,
 ) {
   const {
-    outerComponent: OuterComponent = "div",
+    containerComponent: ContainerComponent = "div",
+    tabComponent: TabComponent = "span",
     tabRef,
-    as: As = "span",
     children,
     isSelected,
     ...elementProps
@@ -57,8 +57,8 @@ export function TabsItem<T extends ElementType = "span">(
   );
 
   return (
-    <OuterComponent className={className}>
-      <As
+    <ContainerComponent className={className}>
+      <TabComponent
         ref={tabRef}
         {...mergeProps(hoverProps, focusProps, elementProps as object)}
         className={styles.tab}
@@ -66,7 +66,7 @@ export function TabsItem<T extends ElementType = "span">(
         <span ref={ref} className={styles.text}>
           {children}
         </span>
-      </As>
-    </OuterComponent>
+      </TabComponent>
+    </ContainerComponent>
   );
 }

@@ -59,7 +59,12 @@ function TabPanelsTab({ item, state }: TabPanelsTabProps) {
   const { tabProps } = useTab({ key: item.key }, state, ref);
   const isSelected = state.selectedItem === item;
   return (
-    <Tabs.Item as="div" tabRef={ref} isSelected={isSelected} {...tabProps}>
+    <Tabs.Item
+      tabComponent="div"
+      tabRef={ref}
+      isSelected={isSelected}
+      {...tabProps}
+    >
       {item.rendered}
     </Tabs.Item>
   );
