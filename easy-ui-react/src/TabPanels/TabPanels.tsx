@@ -47,6 +47,28 @@ export type TabPanelsProps = AriaLabelingProps & {
   selectedKey?: Key | null;
 };
 
+/**
+ * `TabPanels` is a list of tabs that let users switch between multiple views
+ * within a related context under the same URL.
+ *
+ * @remarks
+ * Tabs in a tab panel should not be links that navigate the user to a new URL.
+ * If you want tab-like navigation, use `TabNav` instead.
+ *
+ * @example
+ * <TabPanels aria-label="History of Ancient Rome">
+ *   <TabPanels.Tabs>
+ *     <Item key="one">Founding of Rome</Item>
+ *     <Item key="two">Monarchy and Republic</Item>
+ *     <Item key="three">Empire</Item>
+ *   </TabPanels.Tabs>
+ *   <TabPanels.Panels>
+ *     <Item key="one">Arma virumque cano, Troiae qui primus ab oris.</Item>
+ *     <Item key="two">Senatus Populusque Romanus.</Item>
+ *     <Item key="three">Alea jacta est.</Item>
+ *   </TabPanels.Panels>
+ * </TabPanels>
+ */
 export function TabPanels(props: TabPanelsProps) {
   const [tabListState, setTabListState] = useState<TabListState<object> | null>(
     null,
@@ -61,6 +83,18 @@ export function TabPanels(props: TabPanelsProps) {
   );
 }
 
+/**
+ * Represents a container of tabs in a `<TabPanels />`.
+ */
 TabPanels.Tabs = TabPanelsTabs;
+
+/**
+ * Represents a container of panels in a `<TabPanels />`.
+ */
 TabPanels.Panels = TabPanelsPanels;
+
+/**
+ * Represents an item in a `<TabPanels.Panels />` or
+ * `<TabPanels.Tabs />` container.
+ */
 TabPanels.Item = TabPanelsItem;
