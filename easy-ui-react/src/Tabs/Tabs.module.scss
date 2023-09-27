@@ -68,12 +68,14 @@
   left: 0;
   bottom: 0;
   height: component-token("tab-nav", "indicator-height");
+  width: 1px;
 
   background: component-token("tab-nav", "current-page-color");
-  transform: translateX(#{component-token("tab-nav", "indicator-position")});
-  width: component-token("tab-nav", "indicator-width");
+  transform: translateX(#{component-token("tab-nav", "indicator-position")})
+    scaleX(#{component-token("tab-nav", "indicator-width")});
+  transform-origin: left;
 
-  transition-property: transform, width;
-  transition-duration: 0.2s;
+  transition-property: transform;
+  transition-duration: 0.25s;
   transition-timing-function: ease-in-out;
 }

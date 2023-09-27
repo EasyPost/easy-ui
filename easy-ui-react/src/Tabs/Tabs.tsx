@@ -58,7 +58,7 @@ export function Tabs(props: TabsProps) {
   useScrollbar({ navRef, containerRef });
 
   const style = {
-    ...getComponentToken("tab-nav", "indicator-width", `${indicatorWidth}px`),
+    ...getComponentToken("tab-nav", "indicator-width", String(indicatorWidth)),
     ...getComponentToken(
       "tab-nav",
       "indicator-position",
