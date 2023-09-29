@@ -1,0 +1,44 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta } from "@storybook/blocks";
+import * as StepperStories from "./Stepper.stories";
+import { Stepper } from "./Stepper";
+
+<Meta of={StepperStories} />
+
+# Stepper
+
+A `<Stepper />` component is used to indicate progress as the user goes through a multi-step process. It can be used to guide a user through a
+large form where parts of the form can be separated into logical steps. Each step is represented as `<Stepper.Step />`.
+
+## Horizontal Primary
+
+Use the `Show code` tab below for a relatively detailed example for how the `<Stepper />` can be used; note that state can be handled as the
+consumer wishes and the code sample is **not** necessarily production ready.
+
+<Canvas of={StepperStories.HorizontalStepper} />
+
+## Vertical Primary
+
+A vertical orientation can be achieved by setting `orientation="vertical"` on the `<Stepper />`.
+
+<Canvas of={StepperStories.VerticalStepper} />
+
+## Horizontal Inverse
+
+A `<Stepper />` with inverted colors can be achieved by setting `color="inverse"`.
+
+<Canvas of={StepperStories.HorizontalInverseStepper} />
+
+## Vertical Inverse
+
+<Canvas of={StepperStories.VerticalInverseStepper} />
+
+## Properties
+
+### Stepper
+
+<ArgTypes of={Stepper} />
+
+### Stepper.Step
+
+<ArgTypes of={Stepper.Step} />
