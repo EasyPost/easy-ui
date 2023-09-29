@@ -37,7 +37,10 @@ export function StepButton(props: StepButtonProps) {
 
   return (
     <div
-      className={classNames(styles[variationName("container", orientation)])}
+      className={classNames(
+        styles.container,
+        styles[variationName("container", orientation)],
+      )}
     >
       <UnstyledButton
         {...restProps}

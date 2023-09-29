@@ -3,7 +3,7 @@
 .separatorPrimary {
   @include component-token(
     "step",
-    "color.separator",
+    "color-separator",
     theme-token("color.separator.primary")
   );
 }
@@ -11,7 +11,7 @@
 .separatorInverse {
   @include component-token(
     "step",
-    "color.separator",
+    "color-separator",
     theme-token("color.separator.inverse")
   );
 }
@@ -21,6 +21,6 @@
   height: design-token("space.3");
   border-left-width: design-token("shape.border_width.1");
   border-left-style: solid;
-  border-color: component-token("step", "color.separator");
+  border-color: component-token("step", "color-separator");
   margin-left: design-token("space.1");
 }
