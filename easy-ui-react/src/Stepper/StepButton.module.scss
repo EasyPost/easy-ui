@@ -73,11 +73,6 @@
   );
 }
 
-.statusComplete,
-.statusIncomplete {
-  @include font-style("body1");
-}
-
 .statusComplete {
   @include component-token("step-button", "orientation-vertical-margin", -2px);
   color: component-token("step-button", "color-complete");
@@ -88,11 +83,11 @@
 }
 
 .statusActive {
-  @include font-style("subtitle1");
   color: component-token("step-button", "color-active");
 }
 
 .StepButton {
+  @include font-style("subtitle1");
   padding: 0;
   border: 0;
   margin: 0;
@@ -110,6 +105,10 @@
 
 .orientationVertical {
   margin-left: component-token("step-button", "orientation-margin");
+}
+
+.indicatorContainer {
+  padding: design-token("space.0.25");
 }
 
 .indicatorHorizontal {
@@ -130,7 +129,6 @@
 
 .indicatorIncomplete {
   border: 1px solid component-token("step-button", "incomplete-border");
-  margin: calc(#{design-token("space.0.5")} - 1px) design-token("space.0");
 }
 
 .indicator {
