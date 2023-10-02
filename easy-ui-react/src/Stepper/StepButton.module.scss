@@ -74,7 +74,6 @@
 }
 
 .statusComplete {
-  @include component-token("step-button", "orientation-vertical-margin", -2px);
   color: component-token("step-button", "color-complete");
 }
 
@@ -104,7 +103,7 @@
 }
 
 .orientationVertical {
-  margin-left: component-token("step-button", "orientation-margin");
+  margin-left: calc(-1 * #{design-token("space.0.25")});
 }
 
 .indicatorContainer {
