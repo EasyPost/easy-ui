@@ -24,11 +24,12 @@ export type TabsProps = {
 };
 
 /**
- * Do not use this component directly.
- *
  * `Tabs` is the underlying implementation to the presentation of tabs in
  * `TabNav` and `TabPanels`. The specifics of each implementation is handled
  * by the respective component.
+ *
+ * @private
+ * @ignore
  */
 export function Tabs(props: TabsProps) {
   const {
