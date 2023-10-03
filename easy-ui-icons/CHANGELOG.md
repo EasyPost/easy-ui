@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.11
+
+### Patch Changes
+
+- dd897ea: Adds MoreVert600 Icon
+
 ## 1.0.0-alpha.10
 
 ### Minor Changes
