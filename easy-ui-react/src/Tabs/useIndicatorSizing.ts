@@ -1,6 +1,6 @@
 import { useResizeObserver } from "@react-aria/utils";
 import { MutableRefObject, useCallback, useEffect } from "react";
-import type { TabsContextType } from "./context";
+import { TabsContextType } from "./context";
 import { getSharedMeasurementsForTabNavItem } from "./util";
 
 /**
