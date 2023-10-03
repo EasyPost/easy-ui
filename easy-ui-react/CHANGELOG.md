@@ -1,5 +1,19 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.15
+
+### Minor Changes
+
+- 3456e91: Create `<Stepper />` component
+- aaaea52: Create `<TabNav />` component
+
+### Patch Changes
+
+- Updated dependencies [3456e91]
+- Updated dependencies [dd897ea]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.6
+  - @easypost/easy-ui-icons@1.0.0-alpha.11
+
 ## 1.0.0-alpha.14
 
 ### Minor Changes

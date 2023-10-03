@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.6
+
+### Minor Changes
+
+- 3456e91: Create `<Stepper />` component
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes
