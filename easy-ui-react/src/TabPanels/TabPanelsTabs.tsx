@@ -35,9 +35,13 @@ export function TabPanelsTabs(props: TabPanelsTabsProps) {
     () => {
       setTabListState(state);
     },
-    // state is too comprehensive of a dependency in and of itself. only change
-    // when specific requirements are met
+    // we don't want to listen to all state changes, only the specific ones
+    // listed below since only those are relevant for updating the main
+    // tab list state.
+    //
+    // see the reference implementation for React Spectrum:
     // https://github.com/adobe/react-spectrum/blob/main/packages/%40react-spectrum/tabs/src/Tabs.tsx#L273
+    //
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state.disabledKeys, state.selectedItem, state.selectedKey, props.children],
   );
