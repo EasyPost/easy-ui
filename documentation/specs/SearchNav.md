@@ -17,9 +17,9 @@ A `SearchNav` is a navigation bar focused on handling dense information interact
 
 ## Design
 
-`SearchNav` will be made up of sub-component containers. At the top level, the `SearchNav` serves as the container for the logo, dropdown, search input, and CTAs. The logo and dropdown will be grouped into a `SearchNav.LogoOptions` container. The search input will be wrapped by a `SearchNav.Search` container. The CTAs will be wrapped by a `SearchNav.CTAGroup` container.
+`SearchNav` will be made up of sub-component containers. At the top level, the `SearchNav` serves as the container for the logo, dropdown, search input, and CTAs. The logo and dropdown will be grouped into a `SearchNav.LogoGroup` container. The search input will be wrapped by a `SearchNav.Search` container. The CTAs will be wrapped by a `SearchNav.CTAGroup` container.
 
-`SearchNav.LogoOptions` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, and `SearchNav.Select`. `SearchNav.Select` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
+`SearchNav.LogoGroup` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, and `SearchNav.Select`. `SearchNav.Select` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
 
 `SearchNav.CTAGroup` will render individual CTAs via `SearchNav.CTAItem`, which will make use of Easy UI's `UnstyledButton` component.
 
@@ -30,15 +30,15 @@ A `SearchNav` is a navigation bar focused on handling dense information interact
 ```ts
 type SearchNavProps = {
   /**
-   * The children of the <SearchNav> element. Should render `<SearchNav.LogoOptions>`,
+   * The children of the <SearchNav> element. Should render `<SearchNav.LogoGroup>`,
    * `<SearchNav.Search>`, and `<SearchNav.CTAGroup>`
    */
   children: ReactNode;
 };
 
-type LogoOptionsProps = {
+type LogoGroupProps = {
   /**
-   * The children of the <SearchNav.LogoOptions> element. Should render `<SearchNav.Logo>`
+   * The children of the <SearchNav.LogoGroup> element. Should render `<SearchNav.Logo>`
    * and `<SearchNav.Select>`
    */
   children: ReactNode;
@@ -121,7 +121,7 @@ function App() {
 
   return (
     <SearchNav>
-      <SearchNav.LogoOptions>
+      <SearchNav.LogoGroup>
         <SearchNav.Logo>
           <a href="/">
             <img src="img-src-path" />
@@ -135,7 +135,7 @@ function App() {
           <SearchNav.SelectOption key="V1.1">V1.1</SearchNav.SelectOption>
           <SearchNav.SelectOption key="V1.2">V1.2</SearchNav.SelectOption>
         </SearchNav.Select>
-      </SearchNav.LogoOptions>
+      </SearchNav.LogoGroup>
       <SearchNav.Search>
         <SearchComponent>
       </SearchNav.Search>
