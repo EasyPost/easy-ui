@@ -46,6 +46,11 @@ type TabPanels = AriaLabelingProps & {
   disabledKeys?: Iterable<Key>;
 
   /**
+   * Whether the entire tab list is disabled.
+   */
+  isDisabled?: boolean;
+
+  /**
    * Whether tabs are activated automatically on focus or manually.
    *
    * @default "automatic"
@@ -69,7 +74,7 @@ type TabPanelsTabs = {
    * corresponding <Item> within the <TabPanels.Panels> element.
    */
   children: ReactNode;
-}
+};
 
 type TabPanelsPanels = {
   /**
@@ -77,7 +82,7 @@ type TabPanelsPanels = {
    * corresponding <Item> within the <TabPanels.Tabs> element.
    */
   children: ReactNode;
-}
+};
 ```
 
 ### Example Usage
@@ -134,7 +139,9 @@ function CustomLayoutTabPanels() {
         </div>
         <div>
           <TabPanels.Panels>
-            <Item key="one">Arma virumque cano, Troiae qui primus ab oris.</Item>
+            <Item key="one">
+              Arma virumque cano, Troiae qui primus ab oris.
+            </Item>
             <Item key="two">Senatus Populusque Romanus.</Item>
             <Item key="three">Alea jacta est.</Item>
           </TabPanels.Panels>
@@ -156,7 +163,6 @@ function CustomLayoutTabPanels() {
 - While an `aria-label` is not explicitly required for a tab list, `TabPanels` should be labeled using an `aria-label` in the absence of an ancestor [landmark](https://www.w3.org/WAI/GL/wiki/Using_ARIA_landmarks_to_identify_regions_of_a_page). This will prevent screen readers from announcing non-focused tabs, allowing for a more focused experience.
 - If the currently focused tab is disabled, the tab panel does not open.
 - `useTabsList` from React Aria provides the heavy lifting for accessibility, conforming to the [W3C ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
-
 
 ## Dependencies
 

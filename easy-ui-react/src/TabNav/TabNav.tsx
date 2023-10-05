@@ -1,13 +1,7 @@
 import { AriaLabelingProps } from "@react-types/shared";
-import React, { ReactNode, useMemo, useRef, useState } from "react";
-import { useEdgeInterceptors } from "../DataGrid/useEdgeInterceptors";
-import { getComponentToken } from "../utilities/css";
-import { Edge } from "./Edge";
+import React, { ReactNode } from "react";
+import { Tabs } from "../Tabs";
 import { TabNavItem } from "./TabNavItem";
-import { TabNavContext } from "./context";
-import { useScrollbar } from "./useScrollbar";
-
-import styles from "./TabNav.module.scss";
 
 export type TabNavProps = AriaLabelingProps & {
   /** The children of the `<TabNav>` element. Should include `<TabNav.Item>` elements. */
@@ -33,54 +27,15 @@ export type TabNavProps = AriaLabelingProps & {
  */
 export function TabNav(props: TabNavProps) {
   const { children, ...labelingProps } = props;
-
-  const navRef = useRef(null);
-  const containerRef = useRef(null);
-
-  const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
-  const [indicatorPosition, setIndicatorPosition] = useState<number>(0);
-
-  const [
-    renderInterceptors,
-    { isLeftEdgeUnderScroll, isRightEdgeUnderScroll },
-  ] = useEdgeInterceptors(navRef);
-
-  const context = useMemo(() => {
-    return { setIndicatorWidth, setIndicatorPosition };
-  }, []);
-
-  useScrollbar({ navRef, containerRef });
-
-  const style = {
-    ...getComponentToken("tab-nav", "indicator-width", `${indicatorWidth}px`),
-    ...getComponentToken(
-      "tab-nav",
-      "indicator-position",
-      `${indicatorPosition}px`,
-    ),
-  };
-
   return (
-    <TabNavContext.Provider value={context}>
-      <div className={styles.TabNav} ref={containerRef}>
-        <nav
-          {...labelingProps}
-          ref={navRef}
-          className={styles.nav}
-          style={style}
-        >
-          <div className={styles.listContainer}>
-            <ul role="list" className={styles.list}>
-              {children}
-            </ul>
-            {renderInterceptors()}
-          </div>
-          {indicatorWidth !== 0 ? <div className={styles.indicator} /> : null}
-        </nav>
-        <Edge side="left" isUnderScroll={isLeftEdgeUnderScroll} />
-        <Edge side="right" isUnderScroll={isRightEdgeUnderScroll} />
-      </div>
-    </TabNavContext.Provider>
+    <Tabs
+      containerComponent="nav"
+      containerProps={labelingProps}
+      listComponent="ul"
+      listProps={{ role: "list" }}
+    >
+      {children}
+    </Tabs>
   );
 }
 

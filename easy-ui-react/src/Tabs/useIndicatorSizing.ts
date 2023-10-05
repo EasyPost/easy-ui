@@ -1,6 +1,6 @@
 import { useResizeObserver } from "@react-aria/utils";
 import { MutableRefObject, useCallback, useEffect } from "react";
-import { TabNavContextType } from "./context";
+import { TabsContextType } from "./context";
 import { getSharedMeasurementsForTabNavItem } from "./util";
 
 /**
@@ -8,23 +8,23 @@ import { getSharedMeasurementsForTabNavItem } from "./util";
  * of the currently selected tab.
  */
 export function useIndicatorSizing({
-  isCurrentPage,
+  isSelected,
   itemRef,
   setIndicatorPosition,
   setIndicatorWidth,
-}: TabNavContextType & {
-  isCurrentPage: boolean;
+}: TabsContextType & {
+  isSelected: boolean;
   itemRef: MutableRefObject<HTMLElement | null>;
 }) {
   const handleSizing = useCallback(() => {
-    if (isCurrentPage && itemRef.current) {
+    if (isSelected && itemRef.current) {
       const $item = itemRef.current;
       const { itemWidth, itemPosition } =
         getSharedMeasurementsForTabNavItem($item);
       setIndicatorWidth(itemWidth);
       setIndicatorPosition(itemPosition);
     }
-  }, [isCurrentPage, itemRef, setIndicatorPosition, setIndicatorWidth]);
+  }, [isSelected, itemRef, setIndicatorPosition, setIndicatorWidth]);
 
   useEffect(() => {
     handleSizing();

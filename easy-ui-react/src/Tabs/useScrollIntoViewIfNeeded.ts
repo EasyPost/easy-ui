@@ -9,14 +9,14 @@ export const SCROLL_PADDING = 24;
  * line of sight.
  */
 export function useScrollIntoViewIfNeeded({
-  isCurrentPage,
+  isSelected,
   itemRef,
 }: {
-  isCurrentPage: boolean;
+  isSelected: boolean;
   itemRef: MutableRefObject<HTMLElement | null>;
 }) {
   const handleScroll = useCallback(() => {
-    if (isCurrentPage && itemRef.current) {
+    if (isSelected && itemRef.current) {
       const $item = itemRef.current;
       const { $nav, navRect, itemPosition, itemWidth, navScrollLeft } =
         getSharedMeasurementsForTabNavItem($item);
@@ -39,7 +39,7 @@ export function useScrollIntoViewIfNeeded({
         $nav.scrollTo({ left: itemPosition - SCROLL_PADDING });
       }
     }
-  }, [isCurrentPage, itemRef]);
+  }, [isSelected, itemRef]);
 
   useEffect(() => {
     handleScroll();

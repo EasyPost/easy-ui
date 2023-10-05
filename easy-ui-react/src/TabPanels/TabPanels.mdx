@@ -1,0 +1,103 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { TabPanels } from "./TabPanels";
+import * as TabPanelsStories from "./TabPanels.stories";
+
+<Meta of={TabPanelsStories} />
+
+# TabPanels
+
+`TabPanels` organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent unit.
+
+<Canvas of={TabPanelsStories.Default} />
+
+`TabPanels` should not be used for links that navigate the user to a new URL. If you want tab-like navigation, use [`TabNav`](/?path=/docs/components-tabs-tabnav--docs) instead.
+
+`TabPanels` is a compound component consisting of `TabPanels`, `TabPanels.Tabs`, `TabPanels.Panels`, and `TabPanels.Item` for individual tabs and panels. Tabs and panels are associated by the `key`s on their respective `TabPanels.Item`.
+
+```tsx
+<TabPanels aria-label="History of Rome">
+  <TabPanels.Tabs>
+    <TabPanels.Item key="for">Founding of Rome</TabPanels.Item>
+    <TabPanels.Item key="mar">Monarchy and Republic</TabPanels.Item>
+    <TabPanels.Item key="emp">Empire</TabPanels.Item>
+  </TabPanels.Tabs>
+  <TabPanels.Panels>
+    <TabPanels.Item key="for">
+      Arma virumque cano, Troiae qui primus ab oris.
+    </TabPanels.Item>
+    <TabPanels.Item key="mar">Senatus Populusque Romanus.</TabPanels.Item>
+    <TabPanels.Item key="emp">Alea jacta est.</TabPanels.Item>
+  </TabPanels.Panels>
+</TabPanels>
+```
+
+## Controlled
+
+`TabPanels` can be controlled using the `selectedKey` and `onSelectionChange` props.
+
+<Canvas of={TabPanelsStories.Controlled} />
+
+<Controls of={TabPanelsStories.Controlled} />
+
+## Default Selection
+
+`TabPanels` can have a tab selected by default using `defaultSelectedKey`.
+
+<Canvas of={TabPanelsStories.DefaultSelectedKey} />
+
+<Controls of={TabPanelsStories.DefaultSelectedKey} />
+
+## Disabled List
+
+`TabPanels` can be disabled entirely using `isDisabled`.
+
+<Canvas of={TabPanelsStories.DisabledList} />
+
+<Controls of={TabPanelsStories.DisabledList} />
+
+## Disabled Items
+
+`TabPanels` can have individually disabled items using `disabledKeys`.
+
+<Canvas of={TabPanelsStories.DisabledItems} />
+
+## Manual Keyboard Activation
+
+By default, tabs in `TabPanels` are automatically activated when the user moves across them with the `Left` or `Right` keyboard arrows. This behavior can be altered to require the user to press `Enter` or `Space` to activate a tab. Set `keyboardActivation` to `manual` for this behavior.
+
+This is a good idea to enable if the tab requires an asynchronous process on load.
+
+<Canvas of={TabPanelsStories.ManualKeyboardActivation} />
+
+<Controls of={TabPanelsStories.ManualKeyboardActivation} />
+
+## Responsive
+
+`TabPanels` scrolls horizontally when it's wider than the width of its container.
+
+<Canvas of={TabPanelsStories.Responsive} />
+
+## Custom Layout
+
+`TabPanels.Tabs` and `TabPanels.Panels` are not required to be the immediate children of `TabPanels`. If you need additional structure in-between, `TabPanels` supports this.
+
+<Canvas of={TabPanelsStories.CustomLayout} />
+
+## Properties
+
+### TabPanels
+
+<ArgTypes of={TabPanels} />
+
+### TabPanels.Tabs
+
+<ArgTypes of={TabPanels.Tabs} />
+
+### TabPanels.Panels
+
+<ArgTypes of={TabPanels.Panels} />
+
+### TabPanels.Item
+
+<ArgTypes of={TabPanels.Item} />
