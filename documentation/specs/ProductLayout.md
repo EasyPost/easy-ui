@@ -12,13 +12,13 @@
 
 ## Design
 
-`ProductLayout` will be a compound component consisting of `ProductLayout`, `ProductLayout.Sidebar`, `ProductLayout.Header`, `ProductLayout.Content`, and `ProductLayout.TabbedContent`.
+`ProductLayout` will be a compound component consisting of `ProductLayout`, `ProductLayout.Sidebar`, `ProductLayout.Header`, and either `ProductLayout.Content` or `ProductLayout.TabbedContent`.
 
 `ProductLayout` will use "slots" to render subcomponents into the appropriate nested HTML element. See an example `useSlots` reference [implementation](https://github.com/primer/react/blob/main/src/hooks/useSlots.ts#L16). This pattern allows the component surface area to map cleanly to the consumer concerns without having to know about the inner HTML tree.
 
-`ProductLayout` will be concerned with the presentational page structure and ensuring it folds properly across breakpoints. This includes managing the positioning of the sidebar panel as it changes from desktop to mobile. It won't include any business logic of its own.
+`ProductLayout` will be concerned with the presentational page structure and ensuring it folds properly across breakpoints. This includes managing the positioning of the sidebar panel as it changes from desktop to mobile. It won't include the actual navigation component nor any business logic of its own.
 
-`ProductLayout` can render either an empty content section using `ProductLayout.Content`, or a tabbed content section using `ProductLayout.TabbedContent`.
+`ProductLayout` can render either an empty content section using `ProductLayout.Content`, or a tabbed content section using `ProductLayout.TabbedContent`. A tabbed content section utilizes the `TabNav` component to provide accessible navigation across subpages. Tabbed content is expected to navigate users to different URLs, either through the pathname or through query params.
 
 `ProductLayout.Header` accepts a title, a primary CTA, and a secondary CTA. Both CTAs are optional. A help menu is always rendered to the left of the CTAs. On mobile, the primary CTA, or the help menu if no primary CTA is specified, is shown in the top-right bar. CTAs are specific button variants, so customization of the CTA buttons themselves are intentionally limited.
 
@@ -57,7 +57,7 @@ type ProductLayoutTabbedContentProps = AriaLabelingProps & {
 
 ### Example Usage
 
-_Basic content:_
+_Simple content:_
 
 ```tsx
 import { ProductLayout } from "@easypost/easy-ui/ProductLayout";
