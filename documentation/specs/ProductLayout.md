@@ -16,11 +16,11 @@
 
 `ProductLayout` will use "slots" to render subcomponents into the appropriate nested HTML element. See an example `useSlots` reference [implementation](https://github.com/primer/react/blob/main/src/hooks/useSlots.ts#L16). This pattern allows the component surface area to map cleanly to the consumer concerns without having to know about the inner HTML tree.
 
-`ProductLayout` will be concerned with the presentational page structure and ensuring it folds properly across breakpoints. This includes managing the positioning of the sidebar panel as it changes from desktop to mobile. It won't include the actual navigation component nor any business logic of its own.
+`ProductLayout` will be concerned with the presentational page structure and ensuring it folds properly across breakpoints. This includes managing the positioning of the sidebar panel as it changes from desktop to mobile. It also includes the rendering of the help menu. It won't include the actual navigation component, nor the items for the help menu (as those can be context dependent), nor any business logic of its own. `ProductLayout` is intended to be wrapped by an app-specific layout that includes app-specific business logic and configuration.
 
 `ProductLayout` can render either an empty content section using `ProductLayout.Content`, or a tabbed content section using `ProductLayout.TabbedContent`. A tabbed content section utilizes the `TabNav` component to provide accessible navigation across subpages. Tabbed content is expected to navigate users to different URLs, either through the pathname or through query params.
 
-`ProductLayout.Header` accepts a title, a primary CTA, and a secondary CTA. Both CTAs are optional. A help menu is always rendered to the left of the CTAs. On mobile, the primary CTA, or the help menu if no primary CTA is specified, is shown in the top-right bar. CTAs are specific button variants, so customization of the CTA buttons themselves are intentionally limited.
+`ProductLayout.Header` accepts a title, help menu items, a primary CTA, and a secondary CTA. Both CTAs are optional. A help menu is always rendered to the left of the CTAs. On mobile, only a single action is shown in the top-right bar. It will either be one of the primary CTA, secondary CTA, or help menu, depending on what's specified by the consumer. CTAs are specific button variants, so customization of the CTA buttons themselves are intentionally limited.
 
 ### API
 
@@ -35,6 +35,7 @@ type ProductLayoutSidebarProps = {
 
 type ProductLayoutHeaderProps = {
   title: ReactNode;
+  helpMenuItems: MenuItemProps[];
   primaryAction?: ProductLayoutHeaderActionProps;
   secondaryAction?: ProductLayoutHeaderActionProps;
 };
@@ -70,6 +71,17 @@ function App() {
       </ProductLayout.Sidebar>
       <ProductLayout.Header
         title="Page title"
+        helpMenuItems={[
+          <Menu.Item href="https://www.easypost.com/docs/api">
+            Documentation
+          </Menu.Item>,
+          <Menu.Item href="https://support.easypost.com/hc/en-us">
+            Support
+          </Menu.Item>,
+          <Menu.Item href="https://www.easypost.com/getting-started">
+            Guides
+          </Menu.Item>,
+        ]}
         primaryAction={{
           content: "CTA 1",
           onAction: () => {},
@@ -98,7 +110,20 @@ function App() {
       <ProductLayout.Sidebar>
         <ProductNav />
       </ProductLayout.Sidebar>
-      <ProductLayout.Header title="Page title" />
+      <ProductLayout.Header
+        title="Page title"
+        helpMenuItems={[
+          <Menu.Item href="https://www.easypost.com/docs/api">
+            Documentation
+          </Menu.Item>,
+          <Menu.Item href="https://support.easypost.com/hc/en-us">
+            Support
+          </Menu.Item>,
+          <Menu.Item href="https://www.easypost.com/getting-started">
+            Guides
+          </Menu.Item>,
+        ]}
+      />
       <ProductLayout.TabbedContent
         tabs={[
           <TabNav.Item key="1" href="/billing" isCurrentPage>
