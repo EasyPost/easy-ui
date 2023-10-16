@@ -1,0 +1,106 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.ProductLayout {
+  @include component-token("product-shell", "sidebar-width", 216px);
+  display: flex;
+}
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
+  width: component-token("product-shell", "sidebar-width");
+  height: 100vh;
+  order: 2;
+  z-index: 2;
+  transform: translateX(-100%);
+
+  @include breakpoint-md-up {
+    position: sticky;
+    order: 1;
+    z-index: auto;
+    transform: translateX(0);
+  }
+}
+
+.body {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 20px;
+  width: 100%;
+  order: 1;
+  z-index: 1;
+
+  @include breakpoint-md-up {
+    width: calc(100% - #{component-token("product-shell", "sidebar-width")});
+    order: 2;
+    z-index: auto;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  @include breakpoint-md-up {
+    align-items: center;
+  }
+}
+
+.logoBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.logoMenu {
+  display: inline-flex;
+  gap: 12px;
+
+  @include breakpoint-md-up {
+    display: none;
+  }
+}
+
+.logoMenuBtn {
+  @include unstyled.button;
+}
+
+.headerActions {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+
+  > *:not(:last-child) {
+    display: none !important;
+  }
+
+  @include breakpoint-md-up {
+    > *:not(:last-child) {
+      display: inline-flex !important;
+    }
+  }
+}
+
+.headerDivider {
+  width: 1px;
+  background: hsla(220, 30%, 65%, 1);
+}
+
+.nestedContent {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 4px;
+  padding: 24px;
+  padding-top: 12px;
+}
+
+.focused {
+  margin: 16px 32px;
+}
