@@ -78,15 +78,12 @@ function App() {
           // etc
         ]}
         renderBackArrow={(props) => {
+          // pass props that represent any unique design constraints
+          // in this case, they are `BackArrowIcon` as `children`
           return (
-            <button
-              // spread props that represent any unique design constraints
-              // in this case, they are `BackArrowIcon` as `children`
-              {...props}
-              onClick={() => {
-                // change state to previous app state to go back
-              }}
-            />
+            <Link href="/account/settings" passHref>
+              <a>{props.children}</a>
+            </Link>
           );
         }}
         renderLogo={() => <EasyPostLogo />}
@@ -122,15 +119,12 @@ function App() {
           // etc
         ]}
         renderBackArrow={(props) => {
+          // pass props that represent any unique design constraints
+          // in this case, they are `BackArrowIcon` as `children`
           return (
-            <button
-              // spread props that represent any unique design constraints
-              // in this case, they are `BackArrowIcon` as `children`
-              {...props}
-              onClick={() => {
-                // change state to previous app state to go back
-              }}
-            />
+            <Link href="/account/settings" passHref>
+              <a>{props.children}</a>
+            </Link>
           );
         }}
         renderLogo={() => <EasyPostLogo />}
@@ -144,7 +138,7 @@ function App() {
 }
 ```
 
-_Wizard content:_
+_Wizard content and with back "button":_
 
 ```tsx
 import { FocusedProductLayout } from "@easypost/easy-ui/ProductLayout";
@@ -160,10 +154,11 @@ function App() {
           // etc
         ]}
         renderBackArrow={(props) => {
+          // spread props that represent any unique design constraints
+          // in this case, they are `BackArrowIcon` as `children`
+          // note that usually this should be a `Link`
           return (
             <button
-              // spread props that represent any unique design constraints
-              // in this case, they are `BackArrowIcon` as `children`
               {...props}
               onClick={() => {
                 // change state to previous app state to go back
