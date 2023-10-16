@@ -1,0 +1,52 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.ProductLayoutHeader {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  @include breakpoint-md-up {
+    align-items: center;
+  }
+}
+
+.logoBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.logoMenu {
+  display: inline-flex;
+  gap: 12px;
+
+  @include breakpoint-md-up {
+    display: none;
+  }
+}
+
+.logoMenuBtn {
+  @include unstyled.button;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+
+  > *:not(:last-child) {
+    display: none !important;
+  }
+
+  @include breakpoint-md-up {
+    > *:not(:last-child) {
+      display: inline-flex !important;
+    }
+  }
+}
+
+.divider {
+  width: 1px;
+  background: hsla(220, 30%, 65%, 1);
+}

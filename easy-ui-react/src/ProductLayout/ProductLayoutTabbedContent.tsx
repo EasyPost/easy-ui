@@ -2,7 +2,7 @@ import { AriaLabelingProps } from "@react-types/shared";
 import React, { ReactElement, ReactNode } from "react";
 import { TabNav } from "../TabNav";
 
-import styles from "./ProductLayout.module.scss";
+import styles from "./ProductLayoutTabbedContent.module.scss";
 
 export type ProductLayoutTabbedContentProps = AriaLabelingProps & {
   children: ReactNode;
@@ -14,11 +14,11 @@ export function ProductLayoutTabbedContent(
 ) {
   const { children, tabs, ...tabNavProps } = props;
   return (
-    <div className={styles.nestedContent}>
-      <div className={styles.nestedContentTabs}>
+    <div className={styles.ProductLayoutTabbedContent}>
+      <div>
         <TabNav {...tabNavProps}>{tabs}</TabNav>
       </div>
-      <main className={styles.nestedContentMain}>{children}</main>
+      <main>{children}</main>
     </div>
   );
 }

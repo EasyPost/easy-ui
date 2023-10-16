@@ -1,0 +1,21 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.ProductLayoutSidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
+  width: component-token("product-shell", "sidebar-width");
+  height: 100vh;
+  order: 2;
+  z-index: 2;
+  transform: translateX(-100%);
+
+  @include breakpoint-md-up {
+    position: sticky;
+    order: 1;
+    z-index: auto;
+    transform: translateX(0);
+  }
+}

@@ -5,7 +5,7 @@ import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { HelpButton } from "./HelpButton";
 
-import styles from "./ProductLayout.module.scss";
+import styles from "./ProductLayoutHeader.module.scss";
 
 export type ProductLayoutHeaderProps = {
   title: ReactNode;
@@ -23,7 +23,7 @@ export type ProductLayoutHeaderActionProps = {
 export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
   const { title, primaryAction, secondaryAction } = props;
   return (
-    <header className={styles.header}>
+    <header className={styles.ProductLayoutHeader}>
       <div className={styles.logoBox}>
         <div className={styles.logoMenu}>
           <button className={styles.logoMenuBtn}>
@@ -46,7 +46,7 @@ export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
           {title}
         </Text>
       </div>
-      <div className={styles.headerActions}>
+      <div className={styles.actions}>
         <HelpButton />
         {(primaryAction || secondaryAction) && <Divider />}
         {secondaryAction && (
@@ -73,5 +73,5 @@ export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
 }
 
 function Divider() {
-  return <div className={styles.headerDivider} />;
+  return <div className={styles.divider} />;
 }
