@@ -22,7 +22,7 @@
 
 `FocusedProductLayout.WizardContent` utilizes the `Stepper` component to provide accessible step visualization across a defined number of wizard steps. It also includes buttons below the primary content area for navigating between steps.
 
-`FocusedProductLayout` accepts a `renderSidePanel` render prop to optionally render an inverse background side panel within the main content area.
+`FocusedProductLayout` accepts a `renderSidePanel` render prop to optionally render an inverse background side panel within the main content area. The side panel can be positioned to be at the `start` or `end` of the main content area. It defaults to the `end`.
 
 `FocusedProductLayout.Header` accepts a title, help menu items, and [render props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop) for a back button and a logo. Utilizing render props allows for the rendering of each item to remain flexibile while passing in any unique design constraint. `renderBackArrow`, for instance, can support the back button being a true `button` or a framework-specific `Link` component.
 
@@ -32,6 +32,7 @@
 export type FocusedProductLayoutProps = {
   children: ReactNode;
   renderSidePanel?: () => ReactNode;
+  sidePanelPosition?: "start" | "end";
 };
 
 export type FocusedProductLayoutContentProps = {
