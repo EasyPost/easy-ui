@@ -20,7 +20,7 @@
 
 `FocusedProductLayout` can render either an empty content section using `FocusedProductLayout.Content`, or a wizard content section using `FocusedProductLayout.WizardContent`.
 
-`FocusedProductLayout.WizardContent` utilizes the `Stepper` component to provide accessible navigation across a defined number of wizard steps.
+`FocusedProductLayout.WizardContent` utilizes the `Stepper` component to provide accessible step visualization across a defined number of wizard steps. It also includes buttons below the primary content area for navigating between steps.
 
 `FocusedProductLayout` accepts a `renderSidePanel` render prop to optionally render an inverse background side panel within the main content area.
 
