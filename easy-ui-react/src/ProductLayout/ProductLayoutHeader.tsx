@@ -1,7 +1,7 @@
 import MenuIcon from "@easypost/easy-ui-icons/Menu";
 import { CollectionChildren } from "@react-types/shared";
 import React, { ReactNode } from "react";
-import { Button } from "../Button";
+import { Button, ButtonProps } from "../Button";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { HelpMenu } from "./HelpMenu";
@@ -50,7 +50,7 @@ function MobileHeader(props: ProductLayoutHeaderProps) {
           {renderLogo()}
         </div>
         <div className={styles.mobileActions}>
-          <Actions {...props} />
+          <Actions buttonSize="sm" {...props} />
         </div>
       </div>
       <div className={styles.mobileTitle}>
@@ -76,14 +76,22 @@ function DesktopHeader(props: ProductLayoutHeaderProps) {
   );
 }
 
-function Actions(props: ProductLayoutHeaderProps) {
-  const { helpMenuItems, primaryAction, secondaryAction } = props;
+function Actions(
+  props: { buttonSize?: ButtonProps["size"] } & ProductLayoutHeaderProps,
+) {
+  const {
+    buttonSize = "md",
+    helpMenuItems,
+    primaryAction,
+    secondaryAction,
+  } = props;
   return (
     <>
       <HelpMenu items={helpMenuItems} />
       {(primaryAction || secondaryAction) && <Divider />}
       {secondaryAction && (
         <Button
+          size={buttonSize}
           variant="outlined"
           onPress={secondaryAction.onAction}
           isDisabled={secondaryAction.isDisabled}
@@ -93,6 +101,7 @@ function Actions(props: ProductLayoutHeaderProps) {
       )}
       {primaryAction && (
         <Button
+          size={buttonSize}
           onPress={primaryAction.onAction}
           isDisabled={primaryAction.isDisabled}
         >
