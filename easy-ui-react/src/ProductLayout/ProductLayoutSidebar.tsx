@@ -5,6 +5,9 @@ import { useProductLayout } from "./context";
 import styles from "./ProductLayoutSidebar.module.scss";
 
 export type ProductLayoutSidebarProps = {
+  /**
+   * The content to render in the sidebar.
+   */
   children: ReactNode;
 };
 

@@ -11,10 +11,29 @@ import { classNames } from "../utilities/css";
 import styles from "./ProductLayoutHeader.module.scss";
 
 export type ProductLayoutHeaderProps = {
+  /**
+   * List of help menu items to render. Should be an array of `<Menu.Item />`s.
+   */
   helpMenuItems: CollectionChildren<object>;
+
+  /**
+   * Primary call to action for the header.
+   */
   primaryAction?: ProductLayoutHeaderActionProps;
+
+  /**
+   * Logo to render in the header on mobile.
+   */
   renderLogo: () => ReactNode;
+
+  /**
+   * Secondary call to action for the header.
+   */
   secondaryAction?: ProductLayoutHeaderActionProps;
+
+  /**
+   * Page title.
+   */
   title: ReactNode;
 };
 
