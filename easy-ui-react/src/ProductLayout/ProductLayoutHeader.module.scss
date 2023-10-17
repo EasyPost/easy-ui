@@ -2,40 +2,26 @@
 @use "../styles/unstyled";
 @use "mixins" as ProductLayout;
 
-.ProductLayoutHeader {
-  display: flex;
-  align-items: flex-start;
+.divider {
+  align-self: stretch;
+  width: 1px;
+  background: hsla(220, 30%, 65%, 1);
+}
+
+.ProductLayoutHeaderDesktop {
+  display: none;
+  align-items: center;
   flex-wrap: wrap;
-
   @include ProductLayout.breakpoint-layout-up {
-    align-items: center;
+    display: flex;
   }
 }
 
-.logoBox {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.logoMenu {
-  display: inline-flex;
-  gap: 12px;
-
-  @include ProductLayout.breakpoint-layout-up {
-    display: none;
-  }
-}
-
-.logoMenuBtn {
-  @include unstyled.button;
-}
-
-.actions {
+.desktopActions {
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-left: auto;
 
   > *:not(:last-child) {
     display: none;
@@ -48,8 +34,43 @@
   }
 }
 
-.divider {
-  align-self: stretch;
-  width: 1px;
-  background: hsla(220, 30%, 65%, 1);
+.ProductLayoutHeaderMobile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @include ProductLayout.breakpoint-layout-up {
+    display: none;
+  }
+}
+
+.mobileTopBar {
+  display: flex;
+}
+
+.mobileLogoMenu {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobileLogoMenuBtn {
+  @include unstyled.button;
+}
+
+.mobileActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  > *:not(:last-child) {
+    display: none;
+  }
+
+  @include ProductLayout.breakpoint-layout-up {
+    > *:not(:last-child) {
+      display: inline-flex;
+    }
+  }
 }
