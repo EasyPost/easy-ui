@@ -1,4 +1,3 @@
-import noop from "lodash/noop";
 import omit from "lodash/omit";
 import React, {
   ComponentPropsWithoutRef,
@@ -116,7 +115,7 @@ function LinkMenuItemContainer({
 }: ContainerProps) {
   return (
     <li role="none">
-      <Component ref={itemRef} {...props} onPointerUp={noop} onKeyDown={noop} />
+      <Component ref={itemRef} {...props} />
     </li>
   );
 }
