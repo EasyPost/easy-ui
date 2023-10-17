@@ -34,10 +34,11 @@ type ProductLayoutSidebarProps = {
 };
 
 type ProductLayoutHeaderProps = {
-  title: ReactNode;
   helpMenuItems: MenuItemProps[];
   primaryAction?: ProductLayoutHeaderActionProps;
+  renderLogo: () => ReactNode;
   secondaryAction?: ProductLayoutHeaderActionProps;
+  title: ReactNode;
 };
 
 type ProductLayoutHeaderActionProps = {
