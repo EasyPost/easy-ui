@@ -54,3 +54,66 @@ import * as ProductLayoutStories from "./ProductLayout.stories";
   }
 />
 ```
+
+## Nested Content with Tabs
+
+`ProductLayout` can contain nested content using the `ProductLayout.TabbedContent` component.
+
+`ProductLayout.TabbedContent` uses a `TabNav` component under the hood. Tab items are expected to be links to subpages.
+
+Tabs can be supplied to `ProductLayout.TabbedContent` through the `tabs` prop.
+
+```tsx
+<ProductLayout
+  sidebar={/* ... */}
+  header={/* ... */}
+  content={
+    <ProductLayout.TabbedContent
+      tabs={[
+        <TabNav.Item
+          key="1"
+          as={FakeClientSideRouterLink}
+          isCurrentPage={page === "1"}
+          onClick={() => setPage("1")}
+        >
+          Tab 1
+        </TabNav.Item>,
+        <TabNav.Item
+          key="2"
+          as={FakeClientSideRouterLink}
+          isCurrentPage={page === "2"}
+          onClick={() => setPage("2")}
+        >
+          Tab 2
+        </TabNav.Item>,
+      ]}
+    >
+      <div>Tab content</div>
+    </ProductLayout.TabbedContent>
+  }
+/>
+```
+
+<Canvas of={ProductLayoutStories.TabbedContent} />
+
+## Properties
+
+### ProductLayout
+
+<ArgTypes of={ProductLayout} />
+
+### ProductLayout.Sidebar
+
+<ArgTypes of={ProductLayout.Sidebar} />
+
+### ProductLayout.Header
+
+<ArgTypes of={ProductLayout.Header} />
+
+### ProductLayout.Content
+
+<ArgTypes of={ProductLayout.Content} />
+
+### ProductLayout.TabbedContent
+
+<ArgTypes of={ProductLayout.TabbedContent} />
