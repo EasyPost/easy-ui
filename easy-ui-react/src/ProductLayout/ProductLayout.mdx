@@ -6,3 +6,51 @@ import * as ProductLayoutStories from "./ProductLayout.stories";
 <Meta of={ProductLayoutStories} />
 
 # ProductLayout
+
+`ProductLayout` defines the header, sidebar, and main areas of a product page.
+
+<Canvas of={ProductLayoutStories.EmptyContent} />
+
+`ProductLayout` is a compound component consisting of `ProductLayout`, `ProductLayout.Sidebar`, `ProductLayout.Header`, and either `ProductLayout.Content` or `ProductLayout.TabbedContent`.
+
+`ProductLayout` contains slots as props for the `sidebar`, `header`, and `content` areas.
+
+```tsx
+<ProductLayout
+  sidebar={
+    <ProductLayout.Sidebar>
+      <ProductNav />
+    </ProductLayout.Sidebar>
+  }
+  header={
+    <ProductLayout.Header
+      title="Page title"
+      helpMenuItems={[
+        <Menu.Item
+          key="1"
+          href="https://www.easypost.com/docs/api"
+          target="_blank"
+          rel="noopener"
+        >
+          Documentation
+        </Menu.Item>,
+      ]}
+      primaryAction={{
+        content: "CTA 1",
+        onAction: () => {},
+      }}
+      secondaryAction={{
+        content: "CTA 2",
+        isDisabled: true,
+        onAction: () => {},
+      }}
+      renderLogo={() => <Logo />}
+    />
+  }
+  content={
+    <ProductLayout.Content>
+      <div>Content</div>
+    </ProductLayout.Content>
+  }
+/>
+```

@@ -38,6 +38,8 @@
   @include component-token("tab-nav", "edge-shadow-opacity", 0.4);
 
   position: relative;
+  border-bottom: design-token("shape.border_width.1") solid
+    component-token("tab-nav", "border-color");
 }
 
 .nav {
@@ -59,8 +61,6 @@
   // offset with the border size to ensure the nav height is not off by one
   padding-bottom: calc(#{design-token("space.1")} - 1px);
   background: component-token("tab-nav", "background-color");
-  border-bottom: design-token("shape.border_width.1") solid
-    component-token("tab-nav", "border-color");
 }
 
 .indicator {

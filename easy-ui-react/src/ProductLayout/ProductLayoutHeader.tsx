@@ -6,9 +6,9 @@ import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { HelpMenu } from "./HelpMenu";
 import { useProductLayout } from "./context";
+import { classNames } from "../utilities/css";
 
 import styles from "./ProductLayoutHeader.module.scss";
-import { classNames } from "../utilities/css";
 
 export type ProductLayoutHeaderProps = {
   helpMenuItems: CollectionChildren<object>;
