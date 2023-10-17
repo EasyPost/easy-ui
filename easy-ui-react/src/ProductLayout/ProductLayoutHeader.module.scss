@@ -1,12 +1,13 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "mixins" as ProductLayout;
 
 .ProductLayoutHeader {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
 
-  @include breakpoint-md-up {
+  @include ProductLayout.breakpoint-layout-up {
     align-items: center;
   }
 }
@@ -21,7 +22,7 @@
   display: inline-flex;
   gap: 12px;
 
-  @include breakpoint-md-up {
+  @include ProductLayout.breakpoint-layout-up {
     display: none;
   }
 }
@@ -40,7 +41,7 @@
     display: none;
   }
 
-  @include breakpoint-md-up {
+  @include ProductLayout.breakpoint-layout-up {
     > *:not(:last-child) {
       display: inline-flex;
     }

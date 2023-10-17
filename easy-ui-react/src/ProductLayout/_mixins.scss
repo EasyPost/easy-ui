@@ -1,0 +1,7 @@
+@use "../styles/common" as *;
+
+@mixin breakpoint-layout-up {
+  @include breakpoint-lg-up {
+    @content;
+  }
+}

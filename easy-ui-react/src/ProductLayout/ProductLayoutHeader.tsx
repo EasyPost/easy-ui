@@ -7,6 +7,7 @@ import { Text } from "../Text";
 import { HelpMenu } from "./HelpMenu";
 
 import styles from "./ProductLayoutHeader.module.scss";
+import { useProductLayout } from "./context";
 
 export type ProductLayoutHeaderProps = {
   helpMenuItems: CollectionChildren<object>;
@@ -25,11 +26,17 @@ export type ProductLayoutHeaderActionProps = {
 export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
   const { helpMenuItems, primaryAction, renderLogo, secondaryAction, title } =
     props;
+  const { setIsMobileSidebarOpen } = useProductLayout();
   return (
     <header className={styles.ProductLayoutHeader}>
       <div className={styles.logoBox}>
         <div className={styles.logoMenu}>
-          <button className={styles.logoMenuBtn}>
+          <button
+            className={styles.logoMenuBtn}
+            onClick={() => {
+              setIsMobileSidebarOpen(true);
+            }}
+          >
             <Icon symbol={MenuIcon} />
           </button>
           {renderLogo()}

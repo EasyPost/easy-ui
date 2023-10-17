@@ -1,5 +1,6 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "mixins" as ProductLayout;
 
 .ProductLayoutSidebar {
   position: absolute;
@@ -12,10 +13,14 @@
   z-index: 2;
   transform: translateX(-100%);
 
-  @include breakpoint-md-up {
+  @include ProductLayout.breakpoint-layout-up {
     position: sticky;
     order: 1;
     z-index: auto;
     transform: translateX(0);
   }
+}
+
+.open {
+  transform: translateX(0);
 }
