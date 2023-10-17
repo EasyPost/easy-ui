@@ -43,8 +43,8 @@ export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
         {(primaryAction || secondaryAction) && <Divider />}
         {secondaryAction && (
           <Button
+            variant="outlined"
             onPress={secondaryAction.onAction}
-            color="neutral"
             isDisabled={secondaryAction.isDisabled}
           >
             {secondaryAction.content}
@@ -53,7 +53,6 @@ export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
         {primaryAction && (
           <Button
             onPress={primaryAction.onAction}
-            color="primary"
             isDisabled={primaryAction.isDisabled}
           >
             {primaryAction.content}

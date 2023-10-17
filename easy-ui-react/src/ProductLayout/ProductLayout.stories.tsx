@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 import startCase from "lodash/startCase";
 import React, { ComponentProps, useState } from "react";
 import { Menu } from "../Menu";
@@ -31,17 +32,17 @@ export const EmptyContent: Story = {
       }
       header={
         <ProductLayout.Header
-          title={<>Page title</>}
+          title={<>Account Settings</>}
           helpMenuItems={helpMenuItems()}
           primaryAction={{
-            content: "CTA 2",
-            onAction: () => {},
+            content: "Buy a Label",
+            onAction: action("buy a label"),
           }}
           secondaryAction={{
-            content: "CTA 1",
-            onAction: () => {},
+            content: "Buy a Label with CSV",
+            onAction: action("buy a label with csv"),
           }}
-          renderLogo={() => <Logo />}
+          renderLogo={() => <LogoMark />}
         />
       }
       content={
@@ -66,17 +67,17 @@ export const TabbedContent: Story = {
         }
         header={
           <ProductLayout.Header
-            title={<>Page title</>}
+            title={<>Account Settings</>}
             helpMenuItems={helpMenuItems()}
             primaryAction={{
-              content: "CTA 2",
-              onAction: () => {},
+              content: "Buy a Label",
+              onAction: action("buy a label"),
             }}
             secondaryAction={{
-              content: "CTA 1",
-              onAction: () => {},
+              content: "Buy a Label with CSV",
+              onAction: action("buy a label with csv"),
             }}
-            renderLogo={() => <Logo />}
+            renderLogo={() => <LogoMark />}
           />
         }
         content={
@@ -192,7 +193,7 @@ function FakeClientSideRouterLink(props: ComponentProps<"button">) {
   return <button {...props} />;
 }
 
-function Logo() {
+function LogoMark() {
   return (
     <svg
       width="22"

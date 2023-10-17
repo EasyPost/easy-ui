@@ -37,12 +37,12 @@
   margin-left: auto;
 
   > *:not(:last-child) {
-    display: none !important;
+    display: none;
   }
 
   @include breakpoint-md-up {
     > *:not(:last-child) {
-      display: inline-flex !important;
+      display: inline-flex;
     }
   }
 }
