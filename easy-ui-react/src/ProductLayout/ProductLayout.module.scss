@@ -11,7 +11,7 @@
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: 16px;
   gap: 20px;
   width: 100%;
   order: 1;
@@ -21,5 +21,6 @@
     width: calc(100% - #{component-token("product-shell", "sidebar-width")});
     order: 2;
     z-index: auto;
+    padding: 24px;
   }
 }

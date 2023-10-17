@@ -1,6 +1,6 @@
 import MenuIcon from "@easypost/easy-ui-icons/Menu";
 import { CollectionChildren } from "@react-types/shared";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { Button, ButtonProps } from "../Button";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
@@ -8,6 +8,7 @@ import { HelpMenu } from "./HelpMenu";
 import { useProductLayout } from "./context";
 
 import styles from "./ProductLayoutHeader.module.scss";
+import { classNames } from "../utilities/css";
 
 export type ProductLayoutHeaderProps = {
   helpMenuItems: CollectionChildren<object>;
@@ -49,7 +50,7 @@ function MobileHeader(props: ProductLayoutHeaderProps) {
           </button>
           {renderLogo()}
         </div>
-        <div className={styles.mobileActions}>
+        <div className={styles.actions}>
           <Actions buttonSize="sm" {...props} />
         </div>
       </div>
@@ -69,7 +70,7 @@ function DesktopHeader(props: ProductLayoutHeaderProps) {
       <Text as="h2" variant="heading4">
         {title}
       </Text>
-      <div className={styles.desktopActions}>
+      <div className={styles.actions}>
         <Actions {...props} />
       </div>
     </div>
@@ -85,11 +86,12 @@ function Actions(
     primaryAction,
     secondaryAction,
   } = props;
-  return (
-    <>
-      <HelpMenu items={helpMenuItems} />
-      {(primaryAction || secondaryAction) && <Divider />}
-      {secondaryAction && (
+
+  const actions = useMemo(() => {
+    return [
+      <HelpMenu key="help-menu" items={helpMenuItems} />,
+      (primaryAction || secondaryAction) && <Divider />,
+      secondaryAction && (
         <Button
           size={buttonSize}
           variant="outlined"
@@ -98,8 +100,8 @@ function Actions(
         >
           {secondaryAction.content}
         </Button>
-      )}
-      {primaryAction && (
+      ),
+      primaryAction && (
         <Button
           size={buttonSize}
           onPress={primaryAction.onAction}
@@ -107,9 +109,36 @@ function Actions(
         >
           {primaryAction.content}
         </Button>
-      )}
-    </>
+      ),
+    ].filter((a) => Boolean(a));
+  }, [buttonSize, helpMenuItems, primaryAction, secondaryAction]);
+
+  return actions.map((action, i) => (
+    <Action
+      key={String(i)}
+      isStretched={i === 1}
+      isShownOnMobile={i === actions.length - 1}
+    >
+      {action}
+    </Action>
+  ));
+}
+
+function Action({
+  isShownOnMobile,
+  isStretched,
+  children,
+}: {
+  isShownOnMobile: boolean;
+  isStretched: boolean;
+  children: ReactNode;
+}) {
+  const className = classNames(
+    styles.action,
+    isShownOnMobile && styles.actionShownOnMobile,
+    isStretched && styles.actionStretched,
   );
+  return <span className={className}>{children}</span>;
 }
 
 function Divider() {

@@ -3,34 +3,40 @@
 @use "mixins" as ProductLayout;
 
 .divider {
-  align-self: stretch;
   width: 1px;
-  background: hsla(220, 30%, 65%, 1);
+  background: design-token("color.gray.400");
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.actionStretched {
+  align-self: stretch;
+}
+
+.action:not(.actionShownOnMobile) {
+  display: none;
+
+  @include ProductLayout.breakpoint-layout-up {
+    display: inline-flex;
+  }
+}
+
+.actionShownOnMobile {
+  display: inline-flex;
 }
 
 .ProductLayoutHeaderDesktop {
   display: none;
   align-items: center;
   flex-wrap: wrap;
+
   @include ProductLayout.breakpoint-layout-up {
     display: flex;
-  }
-}
-
-.desktopActions {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-
-  > *:not(:last-child) {
-    display: none;
-  }
-
-  @include ProductLayout.breakpoint-layout-up {
-    > *:not(:last-child) {
-      display: inline-flex;
-    }
   }
 }
 
@@ -57,21 +63,4 @@
 
 .mobileLogoMenuBtn {
   @include unstyled.button;
-}
-
-.mobileActions {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-
-  > *:not(:last-child) {
-    display: none;
-  }
-
-  @include ProductLayout.breakpoint-layout-up {
-    > *:not(:last-child) {
-      display: inline-flex;
-    }
-  }
 }
