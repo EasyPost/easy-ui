@@ -1,0 +1,13 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arrow {
+  display: inline-flex;
+  margin: -4px;
+}

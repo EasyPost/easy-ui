@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React, { ComponentProps, useState } from "react";
 import startCase from "lodash/startCase";
+import React, { ComponentProps, useState } from "react";
+import { Menu } from "../Menu";
 import { TabNav } from "../TabNav";
 import { ProductLayout } from "./ProductLayout";
 
@@ -31,7 +32,7 @@ export const EmptyContent: Story = {
       header={
         <ProductLayout.Header
           title={<>Page title</>}
-          helpMenuItems={[]}
+          helpMenuItems={helpMenuItems()}
           primaryAction={{
             content: "CTA 2",
             onAction: () => {},
@@ -66,7 +67,7 @@ export const TabbedContent: Story = {
         header={
           <ProductLayout.Header
             title={<>Page title</>}
-            helpMenuItems={[]}
+            helpMenuItems={helpMenuItems()}
             primaryAction={{
               content: "CTA 2",
               onAction: () => {},
@@ -124,6 +125,35 @@ export const TabbedContent: Story = {
     );
   },
 };
+
+function helpMenuItems() {
+  return [
+    <Menu.Item
+      key="1"
+      href="https://www.easypost.com/docs/api"
+      target="_blank"
+      rel="noopener"
+    >
+      Documentation
+    </Menu.Item>,
+    <Menu.Item
+      key="2"
+      href="https://support.easypost.com/hc/en-us"
+      target="_blank"
+      rel="noopener"
+    >
+      Support
+    </Menu.Item>,
+    <Menu.Item
+      key="3"
+      href="https://www.easypost.com/getting-started"
+      target="_blank"
+      rel="noopener"
+    >
+      Guides
+    </Menu.Item>,
+  ];
+}
 
 function FakeNav() {
   return (

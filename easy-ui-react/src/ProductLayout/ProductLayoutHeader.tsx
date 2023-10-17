@@ -1,14 +1,15 @@
 import MenuIcon from "@easypost/easy-ui-icons/Menu";
+import { CollectionChildren } from "@react-types/shared";
 import React, { ReactNode } from "react";
 import { Button } from "../Button";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
-import { HelpButton } from "./HelpButton";
+import { HelpMenu } from "./HelpMenu";
 
 import styles from "./ProductLayoutHeader.module.scss";
 
 export type ProductLayoutHeaderProps = {
-  helpMenuItems: ReactNode[];
+  helpMenuItems: CollectionChildren<object>;
   primaryAction?: ProductLayoutHeaderActionProps;
   renderLogo: () => ReactNode;
   secondaryAction?: ProductLayoutHeaderActionProps;
@@ -22,7 +23,8 @@ export type ProductLayoutHeaderActionProps = {
 };
 
 export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
-  const { primaryAction, renderLogo, secondaryAction, title } = props;
+  const { helpMenuItems, primaryAction, renderLogo, secondaryAction, title } =
+    props;
   return (
     <header className={styles.ProductLayoutHeader}>
       <div className={styles.logoBox}>
@@ -37,7 +39,7 @@ export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
         </Text>
       </div>
       <div className={styles.actions}>
-        <HelpButton />
+        <HelpMenu items={helpMenuItems} />
         {(primaryAction || secondaryAction) && <Divider />}
         {secondaryAction && (
           <Button

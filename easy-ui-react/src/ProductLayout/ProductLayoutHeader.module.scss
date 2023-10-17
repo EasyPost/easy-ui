@@ -32,6 +32,7 @@
 
 .actions {
   display: flex;
+  align-items: center;
   gap: 16px;
   margin-left: auto;
 
@@ -47,6 +48,7 @@
 }
 
 .divider {
+  align-self: stretch;
   width: 1px;
   background: hsla(220, 30%, 65%, 1);
 }
