@@ -50,7 +50,7 @@
     "@babel/core": "^7.23.2",
     "@changesets/cli": "^2.26.2",
     "@storybook/addon-a11y": "^7.4.6",
-    "@storybook/addon-essentials": "^7.4.6",
+    "@storybook/addon-essentials": "^7.5.0",
     "@storybook/addon-mdx-gfm": "^7.4.6",
     "@storybook/blocks": "^7.4.6",
     "@storybook/manager-api": "^7.4.6",
