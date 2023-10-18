@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.16
+
+### Minor Changes
+
+- ed0e488: Create `<TabPanels />` component
+
 ## 1.0.0-alpha.15
 
 ### Minor Changes
