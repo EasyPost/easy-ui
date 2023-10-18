@@ -47,7 +47,7 @@ export const EmptyContent: Story = {
       }
       content={
         <ProductLayout.Content>
-          <div></div>
+          <div style={{ height: 400 }}></div>
         </ProductLayout.Content>
       }
     />
@@ -117,7 +117,7 @@ export const TabbedContent: Story = {
               </TabNav.Item>,
             ]}
           >
-            <div style={{ marginTop: 24, padding: "0 16px" }}>
+            <div style={{ marginTop: 24, padding: "0 16px", height: 400 }}>
               {startCase(page)}
             </div>
           </ProductLayout.TabbedContent>
@@ -162,8 +162,10 @@ function FakeNav() {
       style={{
         display: "flex",
         flexDirection: "column",
+        gap: 20,
         height: "100%",
         padding: 24,
+        overflow: "auto",
       }}
     >
       <div
@@ -181,7 +183,9 @@ function FakeNav() {
           <div style={{ height: 24, width: 130, background: "#eee" }} />
         </div>
       </div>
-      <div style={{ height: 18, width: 128, background: "#eee" }} />
+      <div
+        style={{ flex: "0 0 auto", height: 18, width: 128, background: "#eee" }}
+      />
     </div>
   );
 }

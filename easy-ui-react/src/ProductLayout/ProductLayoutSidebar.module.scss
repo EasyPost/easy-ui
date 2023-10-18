@@ -11,16 +11,22 @@
   height: 100vh;
   order: 2;
   z-index: 2;
+  opacity: 0;
+  pointer-events: none;
   transform: translateX(-100%);
 
   @include ProductLayout.breakpoint-layout-up {
     position: sticky;
     order: 1;
     z-index: auto;
+    opacity: 1;
+    pointer-events: auto;
     transform: translateX(0);
   }
 }
 
 .open {
+  opacity: 1;
+  pointer-events: auto;
   transform: translateX(0);
 }
