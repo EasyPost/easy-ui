@@ -2,11 +2,12 @@ import MenuIcon from "@easypost/easy-ui-icons/Menu";
 import { CollectionChildren } from "@react-types/shared";
 import React, { ReactNode, useMemo } from "react";
 import { Button, ButtonProps } from "../Button";
+import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
+import { classNames } from "../utilities/css";
 import { HelpMenu } from "./HelpMenu";
 import { useProductLayout } from "./context";
-import { classNames } from "../utilities/css";
 
 import styles from "./ProductLayoutHeader.module.scss";
 
@@ -54,19 +55,17 @@ export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
 
 function MobileHeader(props: ProductLayoutHeaderProps) {
   const { renderLogo, title } = props;
-  const { setIsMobileSidebarOpen } = useProductLayout();
+  const { sidebarTriggerProps } = useProductLayout();
   return (
     <div className={styles.ProductLayoutHeaderMobile}>
       <div className={styles.mobileTopBar}>
         <div className={styles.mobileLogoMenu}>
-          <button
+          <UnstyledPressButton
             className={styles.mobileLogoMenuBtn}
-            onClick={() => {
-              setIsMobileSidebarOpen(true);
-            }}
+            {...sidebarTriggerProps}
           >
             <Icon symbol={MenuIcon} />
-          </button>
+          </UnstyledPressButton>
           {renderLogo()}
         </div>
         <div className={styles.actions}>

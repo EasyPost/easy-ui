@@ -4,20 +4,28 @@
 
 .ProductLayoutSidebar {
   position: absolute;
-  top: 0;
-  left: 0;
   background: white;
   width: component-token("product-shell", "sidebar-width");
-  height: 100vh;
+  height: calc(100vh - 48px - 24px);
+  top: calc(16px + 24px + 16px);
+  left: 16px;
   order: 2;
   z-index: 2;
   opacity: 0;
   pointer-events: none;
   transform: translateX(-100%);
+  outline: none;
+  border-radius: 4px;
+  box-shadow: 0px 4px 4px 0px #00000040;
 
   @include ProductLayout.breakpoint-layout-up {
     position: sticky;
+    top: 0;
+    left: 0;
     order: 1;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
     z-index: auto;
     opacity: 1;
     pointer-events: auto;
@@ -25,8 +33,45 @@
   }
 }
 
+.dialog {
+  @include ProductLayout.breakpoint-layout-up {
+    display: none;
+  }
+}
+
+.notDialog {
+  display: none;
+  @include ProductLayout.breakpoint-layout-up {
+    display: block;
+  }
+}
+
 .open {
   opacity: 1;
   pointer-events: auto;
   transform: translateX(0);
+}
+
+.overlay {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  &::before {
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    background: theme-token("color.background.underlay");
+    opacity: 0.15;
+  }
+
+  @include ProductLayout.breakpoint-layout-up {
+    display: none;
+  }
 }

@@ -1,11 +1,13 @@
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode, useMemo } from "react";
+import { useOverlayTrigger } from "react-aria";
+import { useOverlayTriggerState } from "react-stately";
 import { ProductLayoutContent } from "./ProductLayoutContent";
 import { ProductLayoutHeader } from "./ProductLayoutHeader";
 import { ProductLayoutSidebar } from "./ProductLayoutSidebar";
 import { ProductLayoutTabbedContent } from "./ProductLayoutTabbedContent";
+import { ProductLayoutContext } from "./context";
 
 import styles from "./ProductLayout.module.scss";
-import { ProductLayoutContext } from "./context";
 
 export type ProductLayoutProps = {
   /**
@@ -30,10 +32,21 @@ export type ProductLayoutProps = {
 
 export function ProductLayout(props: ProductLayoutProps) {
   const { sidebar, header, content } = props;
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  const state = useOverlayTriggerState({});
+  const { triggerProps, overlayProps } = useOverlayTrigger(
+    { type: "dialog" },
+    state,
+  );
+
   const context = useMemo(() => {
-    return { isMobileSidebarOpen, setIsMobileSidebarOpen };
-  }, [isMobileSidebarOpen]);
+    return {
+      sidebarTriggerState: state,
+      sidebarTriggerProps: triggerProps,
+      sidebarOverlayProps: overlayProps,
+    };
+  }, [state, triggerProps, overlayProps]);
+
   return (
     <ProductLayoutContext.Provider value={context}>
       <div className={styles.ProductLayout}>

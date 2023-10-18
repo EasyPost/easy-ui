@@ -1,8 +1,12 @@
-import { Dispatch, SetStateAction, createContext, useContext } from "react";
+import { DOMProps } from "@react-types/shared";
+import { createContext, useContext } from "react";
+import { AriaButtonProps } from "react-aria";
+import { OverlayTriggerState } from "react-stately";
 
 export type ProductLayoutContextType = {
-  isMobileSidebarOpen: boolean;
-  setIsMobileSidebarOpen: Dispatch<SetStateAction<boolean>>;
+  sidebarTriggerState: OverlayTriggerState;
+  sidebarTriggerProps: AriaButtonProps;
+  sidebarOverlayProps: DOMProps;
 };
 
 export const ProductLayoutContext =
