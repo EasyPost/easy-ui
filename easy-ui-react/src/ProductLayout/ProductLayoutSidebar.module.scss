@@ -33,19 +33,6 @@
   }
 }
 
-.dialog {
-  @include ProductLayout.breakpoint-layout-up {
-    display: none;
-  }
-}
-
-.notDialog {
-  display: none;
-  @include ProductLayout.breakpoint-layout-up {
-    display: block;
-  }
-}
-
 .open {
   opacity: 1;
   pointer-events: auto;
@@ -69,9 +56,5 @@
     position: absolute;
     background: theme-token("color.background.underlay");
     opacity: 0.15;
-  }
-
-  @include ProductLayout.breakpoint-layout-up {
-    display: none;
   }
 }

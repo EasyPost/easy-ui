@@ -1,6 +1,7 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback } from "react";
 import { Overlay, useDialog, useModalOverlay } from "react-aria";
 import { classNames } from "../utilities/css";
+import { ScreenSizeSwitcher } from "./ScreenSizeSwitcher";
 import { useProductLayout } from "./context";
 
 import styles from "./ProductLayoutSidebar.module.scss";
@@ -15,22 +16,39 @@ export type ProductLayoutSidebarProps = {
 export function ProductLayoutSidebar(props: ProductLayoutSidebarProps) {
   const { children } = props;
   const { sidebarTriggerState } = useProductLayout();
+
+  const handleScreenSizeChange = useCallback(
+    (isLargeScreen: boolean) => {
+      if (isLargeScreen) {
+        sidebarTriggerState.close();
+      }
+    },
+    [sidebarTriggerState],
+  );
+
   const className = classNames(
     styles.ProductLayoutSidebar,
-    styles.notDialog,
     sidebarTriggerState.isOpen && styles.open,
   );
+
   return (
-    <>
-      {sidebarTriggerState.isOpen && (
-        <SidebarAsDialogOverlay>
-          <SidebarAsDialog>{children}</SidebarAsDialog>
-        </SidebarAsDialogOverlay>
+    <ScreenSizeSwitcher
+      onChange={handleScreenSizeChange}
+      renderOnLargeScreen={() => (
+        <div role="region" aria-label="Sidebar" className={className}>
+          {children}
+        </div>
       )}
-      <div role="region" aria-label="Sidebar" className={className}>
-        {children}
-      </div>
-    </>
+      renderOnSmallScreen={() => (
+        <>
+          {sidebarTriggerState.isOpen && (
+            <SidebarAsDialogOverlay>
+              <SidebarAsDialog>{children}</SidebarAsDialog>
+            </SidebarAsDialogOverlay>
+          )}
+        </>
+      )}
+    />
   );
 }
 
@@ -43,11 +61,7 @@ function SidebarAsDialog(props: ProductLayoutSidebarProps) {
     ref,
   );
 
-  const className = classNames(
-    styles.ProductLayoutSidebar,
-    styles.open,
-    styles.dialog,
-  );
+  const className = classNames(styles.ProductLayoutSidebar, styles.open);
 
   return (
     <div {...dialogProps} ref={ref} className={className}>

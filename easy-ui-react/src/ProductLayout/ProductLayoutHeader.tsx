@@ -7,6 +7,7 @@ import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
 import { HelpMenu } from "./HelpMenu";
+import { ScreenSizeSwitcher } from "./ScreenSizeSwitcher";
 import { useProductLayout } from "./context";
 
 import styles from "./ProductLayoutHeader.module.scss";
@@ -47,8 +48,10 @@ export type ProductLayoutHeaderActionProps = {
 export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
   return (
     <header>
-      <MobileHeader {...props} />
-      <DesktopHeader {...props} />
+      <ScreenSizeSwitcher
+        renderOnLargeScreen={() => <DesktopHeader {...props} />}
+        renderOnSmallScreen={() => <MobileHeader {...props} />}
+      />
     </header>
   );
 }

@@ -31,23 +31,15 @@
 }
 
 .ProductLayoutHeaderDesktop {
-  display: none;
+  display: flex;
   align-items: center;
   flex-wrap: wrap;
-
-  @include ProductLayout.breakpoint-layout-up {
-    display: flex;
-  }
 }
 
 .ProductLayoutHeaderMobile {
   display: flex;
   flex-direction: column;
   gap: 12px;
-
-  @include ProductLayout.breakpoint-layout-up {
-    display: none;
-  }
 }
 
 .mobileTopBar {
