@@ -6,7 +6,6 @@ import {
   useListBox,
   usePopover,
 } from "react-aria";
-
 import { useInternalSelectContext } from "./SelectContext";
 import { SelectOptionContent } from "./SelectOption";
 import styles from "./Select.module.scss";
@@ -18,7 +17,9 @@ import {
   Y_PADDING_INSIDE_OVERLAY,
   OVERLAY_OFFSET,
   OVERLAY_PADDING_FROM_CONTAINER,
+  DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
 } from "../Menu/utilities";
+import { useScrollbar } from "../utilities/useScrollbar";
 import { SelectSectionContent } from "./SelectSection";
 
 export function SelectOverlay() {
@@ -40,7 +41,10 @@ function SelectOverlayContent() {
   const { popoverProps, underlayProps } = usePopover(
     {
       containerPadding: OVERLAY_PADDING_FROM_CONTAINER,
-      maxHeight: ITEM_HEIGHT * Infinity + Y_PADDING_INSIDE_OVERLAY * 2 + 2,
+      maxHeight:
+        ITEM_HEIGHT * DEFAULT_MAX_ITEMS_UNTIL_SCROLL +
+        Y_PADDING_INSIDE_OVERLAY * 2 +
+        2,
       offset: OVERLAY_OFFSET,
       placement: DEFAULT_PLACEMENT,
       popoverRef,
@@ -55,6 +59,8 @@ function SelectOverlayContent() {
     selectState,
     listBoxRef,
   );
+
+  useScrollbar(listBoxRef, "ezui-os-theme-overlay");
 
   const style = {
     ...popoverProps.style,
@@ -75,7 +81,7 @@ function SelectOverlayContent() {
           ref={listBoxRef}
           className={styles.listbox}
           data-width={DEFAULT_WIDTH}
-          data-max-items-until-scroll={Infinity}
+          data-max-items-until-scroll={DEFAULT_MAX_ITEMS_UNTIL_SCROLL}
           data-overlayscrollbars-initialize
         >
           <ul className={styles.listboxList}>

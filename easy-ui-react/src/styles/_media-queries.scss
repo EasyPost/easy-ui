@@ -11,3 +11,9 @@
     @content;
   }
 }
+
+@mixin breakpoint-lg-up {
+  @media (min-width: #{$ezui-breakpoint-lg}) {
+    @content;
+  }
+}

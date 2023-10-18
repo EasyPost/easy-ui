@@ -65,3 +65,11 @@ export function filterChildrenByDisplayName(
     return elementType.displayName === displayName;
   });
 }
+
+export function getDisplayNameFromReactNode(component: ReactNode) {
+  const componentAsElement = component as ReactElement;
+  if (isValidElement(componentAsElement)) {
+    const componentType = componentAsElement.type as NamedExoticComponent;
+    return componentType.displayName;
+  }
+}

@@ -19,16 +19,30 @@ A `SearchNav` is a navigation bar focused on handling dense information interact
 
 `SearchNav` will be made up of sub-component containers. At the top level, the `SearchNav` serves as the container for the logo, dropdown, search input, and CTAs. The logo and dropdown will be grouped into a `SearchNav.LogoGroup` container. The search input will be wrapped by a `SearchNav.Search` container. The CTAs will be wrapped by a `SearchNav.CTAGroup` container.
 
-`SearchNav.LogoGroup` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, and `SearchNav.Select`. `SearchNav.Select` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
+`SearchNav.LogoGroup` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, and `SearchNav.Selector`. `SearchNav.Selector` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
 
 `SearchNav.CTAGroup` will render individual CTAs via `SearchNav.CTAItem`, which will make use of Easy UI's `UnstyledButton` component.
 
-`SearchNav` will also need to handle a unique configuration for smaller devices. Although it won't be exposed to consumers directly,this will be accomplished via a `SearchNavMobile` component, which will be responsible for rendering a clickable hamburger and search icon. The hamburger icon will effectively be a trigger to render a menu comprised of `SearchNav.Select` and the CTAs in `SearchNav.CTAGroup`. The clickable search icon will render the contents of `SearchNav.Search` and a right aligned close button.
+`SearchNav` will also need to handle a unique configuration for smaller devices. Although it won't be exposed to consumers directly,this will be accomplished via a `SearchNavMobile` component, which will be responsible for rendering a clickable hamburger and search icon. The hamburger icon will effectively be a trigger to render a menu comprised of `SearchNav.Selector` and the CTAs in `SearchNav.CTAGroup`. The clickable search icon will render the contents of `SearchNav.Search` and a right aligned close button.
 
 ### API
 
 ```ts
-type SearchNavProps = {
+export type SearchNavOverlayMenuProps<T> = Omit<
+  MenuOverlayProps<T>,
+  "children" | "maxItemsUntilScroll" | "placement" | "width"
+>;
+
+export type SearchNavProps<T> = {
+  /**
+   * Overlay props that apply to condensed menu configurations. Note that
+   * the keys defined in <SearchNav> will be preserved.
+   */
+  menuOverlayProps?: SearchNavOverlayMenuProps<T>;
+  /**
+   * Symbol for collapsed CTA menu, symbol SVG source from @easypost/easy-ui-icons.
+   */
+  ctaMenuSymbol?: IconSymbol;
   /**
    * The children of the <SearchNav> element. Should render `<SearchNav.LogoGroup>`,
    * `<SearchNav.Search>`, and `<SearchNav.CTAGroup>`
@@ -39,7 +53,7 @@ type SearchNavProps = {
 type LogoGroupProps = {
   /**
    * The children of the <SearchNav.LogoGroup> element. Should render `<SearchNav.Logo>`
-   * and `<SearchNav.Select>`
+   * and `<SearchNav.Selector>`
    */
   children: ReactNode;
 };
@@ -52,54 +66,40 @@ type LogoProps = {
   children: ReactNode;
 };
 
-type SelectProps<T> = AriaSelectProps<T> & {
-  /**
-   * Method that is called when the open state of the select changes.
-   */
-  onOpenChange?: (isOpen: boolean) => void;
-  /**
-   * Sets the open state of the select field.
-   * @default false
-   */
-  isOpen?: boolean;
-  /**
-   * The currently selected key in the collection (controlled).
-   */
-  selectedKey?: Key | null;
-  /**
-   * The initial selected key in the collection (uncontrolled).
-   */
-  defaultSelectedKey?: Key;
-  /**
-   * Handler that is called when the selection changes.
-   */
-  onSelectionChange?: (key: Key) => void;
-  /**
-   * The contents of the collection.
-   */
-  children: CollectionChildren<T>;
-  /**
-   * The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with.
-   */
-  disabledKeys?: Iterable<Key>;
-};
+export type SelectorProps<T> = AriaSelectProps<T> &
+  BaseSelectProps<T> & {
+    /**
+     * Hidden label that applies to expanded <SearchNav.Select> and will
+     * become aria-label to apply to <Menu.Section> when <SearchNav>
+     * collapses.
+     */
+    label: string;
+  };
 
-type CTAGroupProps = {
+export type CTAGroupProps = {
   /**
    * The children of the <SearchNav.CTAGroup> element. Should include <SearchNav.CTAItem> elements.
    */
   children: ReactNode;
 };
 
-type CTAItem = AriaButtonProps & {
+export type CTAItemProps = AriaButtonProps<"button"> & {
   /**
    * Icon symbol SVG source from @easypost/easy-ui-icons.
    */
   symbol?: IconSymbol;
   /**
-   * Contents of CTA
+   * Text content to display.
    */
-  children?: ReactNode;
+  label: string;
+  /**
+   * Hides label on desktop.
+   */
+  hideLabelOnDesktop?: boolean;
+  /**
+   * Key to link to <Menu.Item />
+   */
+  key: Key;
 };
 ```
 
@@ -110,43 +110,49 @@ _Basic usage:_
 ```tsx
 import { SearchComponent } from "library";
 import { SearchNav } from "@easypost/easy-ui/SearchNav";
-import Radar from "@easypost/easy-ui-icons/Radar";
+import Campaign from "@easypost/easy-ui-icons/Campaign";
 import Help from "@easypost/easy-ui-icons/Help";
-import Info from "@easypost/easy-ui-icons/Info";
+import Brightness5 from "@easypost/easy-ui-icons/Brightness5";
+import React from "react";
 
 function App() {
   const [selectedOption, setSelectedOption] = React.useState("V1.0");
 
-  const handlePress = () => {};
-
   return (
-    <SearchNav>
+    <SearchNav
+      menuOverlayProps={{
+        onAction: (key) => {},
+        disabledKeys: ["V99.99"],
+      }}
+    >
       <SearchNav.LogoGroup>
         <SearchNav.Logo>
-          <a href="/">
-            <img src="img-src-path" />
-          </a>
+          <img alt="some logo" />
         </SearchNav.Logo>
-        <SearchNav.Select
-          aria-label="doc version"
+        <SearchNav.Selector
+          label="docs version"
+          defaultSelectedKey="V1.0"
+          disabledKeys={["V99.99"]}
           selectedKey={selectedOption}
-          onSelectionChange={(selected) => setSelectedOption(selected)}>
-          <SearchNav.SelectOption key="V1.0">V1.0</SearchNav.SelectOption>
-          <SearchNav.SelectOption key="V1.1">V1.1</SearchNav.SelectOption>
-          <SearchNav.SelectOption key="V1.2">V1.2</SearchNav.SelectOption>
-        </SearchNav.Select>
+          onSelectionChange={(selected) => setSelectedOption(selected)}
+        >
+          <SearchNav.Option key="V1.0">V1.0</SearchNav.Option>
+          <SearchNav.Option key="V1.1">V1.1</SearchNav.Option>
+          <SearchNav.Option key="V99.99">V99.99</SearchNav.Option>
+        </SearchNav.Selector>
       </SearchNav.LogoGroup>
       <SearchNav.Search>
-        <SearchComponent>
+        <SearchComponent />
       </SearchNav.Search>
       <SearchNav.CTAGroup>
-        <SearchNav.CTAItem symbol={Radar} href="https://www.easypoststatus.com/">
-          Status
-        </SearchNav.CTAItem>
-        <SearchNav.CTAItem symbol={Help} href="https://support.easypost.com/hc/en-us">
-          Support
-        </SearchNav.CTAItem>
-        <SearchNav.CTAItem symbol={Info} onPress={() => handlePress()} />
+        <SearchNav.CTAItem symbol={Campaign} key="Campaign" label="Optional" />
+        <SearchNav.CTAItem symbol={Help} key="Help" label="Optional" />
+        <SearchNav.CTAItem
+          symbol={Brightness5}
+          key="Brightness"
+          label="Toggle theme"
+          hideLabelOnDesktop
+        />
       </SearchNav.CTAGroup>
     </SearchNav>
   );

@@ -1,0 +1,52 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.condensed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  @include breakpoint-md-up {
+    display: none;
+  }
+}
+
+.btn {
+  @include component-token(
+    "condensed-search-nav",
+    "menu-color",
+    theme-token("color.text.engaged")
+  );
+  @include component-token(
+    "condensed-search-nav",
+    "menu-open-color",
+    theme-token("color.text.action")
+  );
+  @include component-token(
+    "condensed-search-nav",
+    "search-color",
+    theme-token("color.text")
+  );
+  @include unstyled.button;
+}
+
+.menuBtn {
+  color: component-token("condensed-search-nav", "menu-color");
+}
+
+.menuOpen {
+  color: component-token("condensed-search-nav", "menu-open-color");
+}
+
+.searchBtn {
+  color: component-token("condensed-search-nav", "search-color");
+}
+
+.condensedSearch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: design-token("space.1");
+}

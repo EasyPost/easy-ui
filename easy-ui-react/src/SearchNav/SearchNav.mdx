@@ -1,0 +1,47 @@
+import React from "react";
+import { Canvas, Meta } from "@storybook/blocks";
+import * as SearchNavStories from "./SearchNav.stories";
+
+<Meta of={SearchNavStories} />
+
+# SearchNav
+
+A `SearchNav` is a navigation bar focused on handling dense information interactions.
+
+The `SearchNav.LogoGroup` and `SearchNav.Logo` components are required.
+
+On screen sizes between `640px` and `1024px`, `SearchNav.CTAGroup`, if applicable, collapses into a menu
+where each `SearchNav.CTAItem` is transposed onto `Menu.Item`. The `key` provided is directly forwarded.
+
+On screen sizes smaller than `640px`, `SearchNav.CTAGroup` and `SearchNav.Select`, if applicable, collapse into
+a single menu where `SearchNav.CTAItem` and `SearchNav.Option` are respectively transposed onto `Menu.Item`.
+
+The `menuOverlayProps` prop can be used to control menu interactions. Note, on screen sizes greater than `640px`,
+`menuOverlayProps` has no bearing on `SearchNav.Select` since the data representation only collapses at screen sizes
+less than `640px`.
+
+## Simple
+
+<Canvas of={SearchNavStories.Simple} />
+
+## Selector
+
+`SearchNav.Selector` can be controlled with `onSelectionChange`.
+
+<Canvas of={SearchNavStories.Selector} />
+
+## CTA
+
+Each `CTA.Item` is implemented as a button and hence, can accept `onPress` and `href`.
+
+<Canvas of={SearchNavStories.CTA} />
+
+## Search
+
+`SearchNav.Search` is unopinionated with respect to the search input itself.
+
+<Canvas of={SearchNavStories.Search} />
+
+## Full Bar
+
+<Canvas of={SearchNavStories.FullBar} />

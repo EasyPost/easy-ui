@@ -9,23 +9,26 @@ import { SelectSection } from "./SelectSection";
 import { SelectOverlay } from "./SelectOverlay";
 import { useTriggerWidth } from "../Menu/useTriggerWidth";
 
+export type BaseSelectProps<T> = {
+  /** Method that is called when the open state of the select field changes. */
+  onOpenChange?: (isOpen: boolean) => void;
+  /** Sets the open state of the select field. */
+  isOpen?: boolean;
+  /** The currently selected key in the collection (controlled). */
+  selectedKey?: Key | null;
+  /** The initial selected key in the collection (uncontrolled). */
+  defaultSelectedKey?: Key;
+  /** Handler that is called when the selection changes. */
+  onSelectionChange?: (key: Key) => void;
+  /** The contents of the collection. */
+  children: CollectionChildren<T>;
+  /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
+  disabledKeys?: Iterable<Key>;
+};
+
 export type SelectProps<T> = AriaSelectProps<T> &
-  BaseSelectFieldProps & {
-    /** Method that is called when the open state of the select field changes. */
-    onOpenChange?: (isOpen: boolean) => void;
-    /** Sets the open state of the select field. */
-    isOpen?: boolean;
-    /** The currently selected key in the collection (controlled). */
-    selectedKey?: Key | null;
-    /** The initial selected key in the collection (uncontrolled). */
-    defaultSelectedKey?: Key;
-    /** Handler that is called when the selection changes. */
-    onSelectionChange?: (key: Key) => void;
-    /** The contents of the collection. */
-    children: CollectionChildren<T>;
-    /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
-    disabledKeys?: Iterable<Key>;
-  };
+  BaseSelectFieldProps &
+  BaseSelectProps<T>;
 
 /**
  * The `<Select />` component allows users to select a value from a set of options.

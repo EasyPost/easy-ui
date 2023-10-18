@@ -1,0 +1,10 @@
+@use "../styles/common" as *;
+
+.search {
+  @include component-token("search", "max-width", 768px);
+  max-width: component-token("search", "max-width");
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  width: 100%;
+}

@@ -1,0 +1,27 @@
+@use "../styles/common" as *;
+
+.separator {
+  @include component-token(
+    "separator",
+    "separator-logo",
+    theme-token("color.separator.neutral")
+  );
+  @include component-token(
+    "separator",
+    "separator-cta",
+    theme-token("color.separator.primary")
+  );
+  width: design-token("space.0");
+  height: design-token("space.3");
+  border-left-width: design-token("shape.border_width.1");
+  border-left-style: solid;
+  margin: 0 design-token("space.2");
+}
+
+.groupLogo {
+  border-color: component-token("separator", "separator-logo");
+}
+
+.groupCta {
+  border-color: component-token("separator", "separator-cta");
+}
