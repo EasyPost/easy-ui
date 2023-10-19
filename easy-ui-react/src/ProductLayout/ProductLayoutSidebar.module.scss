@@ -6,7 +6,7 @@
   position: absolute;
   background: white;
   width: component-token("product-shell", "sidebar-width");
-  height: calc(100vh - 48px - 24px);
+  height: calc(100svh - 48px - 24px);
   top: calc(16px + 24px + 16px);
   left: 16px;
   order: 2;
