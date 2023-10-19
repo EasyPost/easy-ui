@@ -1,7 +1,10 @@
+import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
+import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React, { Key } from "react";
 import { useAsyncList } from "react-stately";
+import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import {
   PlaceholderBox,
@@ -199,6 +202,23 @@ export const WithCustomRendering: Story = {
             }}
           >
             {String(cell)}
+          </span>
+        );
+      }
+      return <span style={{ whiteSpace: "nowrap" }}>{String(cell)}</span>;
+    },
+  },
+};
+
+export const WithIcons: Story = {
+  render: Template.bind({}),
+  args: {
+    "aria-label": "Example data grid with icons",
+    renderRowCell(cell, columnKey) {
+      if (columnKey === "status") {
+        return (
+          <span style={{ color: cell === "Inactive" ? "red" : "green" }}>
+            <Icon symbol={cell === "Inactive" ? ErrorIcon : CheckCircleIcon} />
           </span>
         );
       }
