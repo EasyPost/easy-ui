@@ -1,5 +1,6 @@
 import React from "react";
-import { Canvas, Meta } from "@storybook/blocks";
+import { Canvas, ArgTypes, Meta } from "@storybook/blocks";
+import { SearchNav } from "./SearchNav";
 import * as SearchNavStories from "./SearchNav.stories";
 
 <Meta of={SearchNavStories} />
@@ -45,3 +46,67 @@ Each `CTA.Item` is implemented as a button and hence, can accept `onPress` and `
 ## Full Bar
 
 <Canvas of={SearchNavStories.FullBar} />
+
+## Properties
+
+### SearchNav
+
+<ArgTypes of={SearchNav} />
+
+```ts
+export type SearchNavOverlayMenuProps<T> = {
+  /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
+  disabledKeys?: Iterable<Key>;
+  /** Handler that is called when an item is selected. */
+  onAction?: (key: Key) => void;
+  /** Handler that is called when the menu should close after selecting an item. */
+  onClose?: () => void;
+};
+```
+
+### SearchNav.LogoGroup
+
+<ArgTypes of={SearchNav.LogoGroup} />
+
+### SearchNav.Logo
+
+<ArgTypes of={SearchNav.Logo} />
+
+### SearchNav.Search
+
+<ArgTypes of={SearchNav.Search} />
+
+### SearchNav.CTAGroup
+
+<ArgTypes of={SearchNav.CTAGroup} />
+
+### SearchNav.CTAItem
+
+<ArgTypes of={SearchNav.CTAItem} />
+
+### SearchNav.Selector
+
+```ts
+export type SelectorProps<T> = {
+  /**
+   * Hidden label that applies to expanded <SearchNav.Select> and will
+   * become aria-label to apply to <Menu.Section> when <SearchNav>
+   * collapses.
+   */
+  label: string;
+  /** Method that is called when the open state of the select field changes. */
+  onOpenChange?: (isOpen: boolean) => void;
+  /** Sets the open state of the select field. */
+  isOpen?: boolean;
+  /** The currently selected key in the collection (controlled). */
+  selectedKey?: Key | null;
+  /** The initial selected key in the collection (uncontrolled). */
+  defaultSelectedKey?: Key;
+  /** Handler that is called when the selection changes. */
+  onSelectionChange?: (key: Key) => void;
+  /** The contents of the collection. */
+  children: CollectionChildren<T>;
+  /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
+  disabledKeys?: Iterable<Key>;
+};
+```

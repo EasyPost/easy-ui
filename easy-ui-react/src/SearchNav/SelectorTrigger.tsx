@@ -9,7 +9,7 @@ import { classNames } from "../utilities/css";
 
 import styles from "./SelectorTrigger.module.scss";
 
-export type SelectTriggerProps = {
+export type SelectorTriggerProps = {
   /**
    * Field value props.
    */
@@ -20,7 +20,7 @@ export type SelectTriggerProps = {
   label: string;
 };
 
-export function SelectorTrigger(props: SelectTriggerProps) {
+export function SelectorTrigger(props: SelectorTriggerProps) {
   const { valueProps, label } = props;
   const { triggerProps, triggerRef, selectState } = useInternalSelectContext();
 

@@ -20,16 +20,6 @@ export function LogoGroup(props: LogoGroupProps) {
     return flattenChildren(children);
   }, [children]);
 
-  if (items.length === 0) {
-    throw new Error("SearchNav.LogoGroup must contain SearchNav.Logo");
-  }
-
-  if (items.length > 2) {
-    throw new Error(
-      "SearchNav.LogoGroup can at most render SearchNav.Logo and SearcNav.Select",
-    );
-  }
-
   const logo = items[0];
   const select = items.length === 2 ? items[1] : null;
 

@@ -19,6 +19,7 @@ export type CTAItemProps = AriaButtonProps<"button"> & {
   label: string;
   /**
    * Hides label on desktop.
+   * @default false
    */
   hideLabelOnDesktop?: boolean;
   /**
@@ -32,9 +33,8 @@ export function CTAItem(props: CTAItemProps) {
 
   return (
     <UnstyledButton {...restProps} className={classNames(styles.cta)}>
-      {hideLabelOnDesktop && <Text visuallyHidden>{label}</Text>}
       {symbol && <Icon symbol={symbol} />}
-      {!hideLabelOnDesktop && label}
+      {hideLabelOnDesktop ? <Text visuallyHidden>{label}</Text> : label}
     </UnstyledButton>
   );
 }

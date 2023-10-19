@@ -200,4 +200,3 @@ export const FullBar: Story = {
     ),
   },
 };
-0;

@@ -8,10 +8,7 @@
   align-items: center;
   gap: design-token("space.1");
   color: component-token("cta", "color");
+  text-decoration: none;
   @include font-style("subtitle1");
   cursor: pointer;
-
-  &:link {
-    text-decoration: none;
-  }
 }
