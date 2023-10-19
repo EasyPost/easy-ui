@@ -1,11 +1,18 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "mixins" as ProductLayout;
 
 .ProductLayoutTabbedContent {
   display: flex;
   flex-direction: column;
   background: white;
-  border-radius: 4px;
-  padding: 24px;
+  padding: 16px;
   padding-top: 12px;
+  margin: 0 -16px;
+
+  @include ProductLayout.breakpoint-layout-up {
+    margin: 0;
+    border-radius: 4px;
+    padding: 24px;
+  }
 }

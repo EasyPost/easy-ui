@@ -117,7 +117,7 @@ export const TabbedContent: Story = {
               </TabNav.Item>,
             ]}
           >
-            <div style={{ marginTop: 24, padding: "0 16px", height: 400 }}>
+            <div style={{ marginTop: 24, padding: "0 16px" }}>
               {startCase(page)}
             </div>
           </ProductLayout.TabbedContent>
