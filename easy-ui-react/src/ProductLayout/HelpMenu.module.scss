@@ -4,11 +4,11 @@
 .button {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: design-token("space.0.5");
   color: design-token("color.blue.800");
 }
 
 .arrow {
   display: inline-flex;
-  margin: -4px;
+  margin: calc(#{design-token("space.0.5")} * -1);
 }
