@@ -10,6 +10,7 @@ import { classNames } from "../utilities/css";
 import { useInternalSearchNavContext } from "./context";
 
 import styles from "./CondensedSearchNav.module.scss";
+import { getFlattenedKey } from "../utilities/react";
 
 /**
  * @privateRemarks
@@ -53,10 +54,8 @@ export function CondensedSearchNav() {
               <Menu.Section aria-label={selectLabel}>
                 {selectChildren?.map((item) => {
                   const itemEle = item as ReactElement;
-                  const keyAsString = itemEle.key as string;
-                  const originalKey = keyAsString.substring(2);
                   return (
-                    <Menu.Item key={originalKey || itemEle.key}>
+                    <Menu.Item key={getFlattenedKey(itemEle.key)}>
                       {itemEle.props.children}
                     </Menu.Item>
                   );
@@ -65,11 +64,9 @@ export function CondensedSearchNav() {
               <Menu.Section aria-label="Nav actions">
                 {ctaGroupChildren?.map((item) => {
                   const itemEle = item as ReactElement;
-                  const keyAsString = itemEle.key as string;
-                  const originalKey = keyAsString.substring(2);
                   return (
                     <Menu.Item
-                      key={originalKey || itemEle.key}
+                      key={getFlattenedKey(itemEle.key)}
                       href={itemEle.props.href}
                       target={itemEle.props.target}
                     >

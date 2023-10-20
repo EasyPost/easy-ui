@@ -7,7 +7,7 @@ import { Icon } from "../Icon";
 import { UnstyledButton } from "../UnstyledButton";
 import { useInternalSearchNavContext } from "./context";
 import { classNames } from "../utilities/css";
-import { flattenChildren } from "../utilities/react";
+import { flattenChildren, getFlattenedKey } from "../utilities/react";
 
 import styles from "./CTAGroup.module.scss";
 
@@ -54,11 +54,9 @@ export function CTAGroup(props: CTAGroupProps) {
             <Menu.Section aria-label="Nav actions">
               {items.map((item) => {
                 const itemEle = item as ReactElement;
-                const keyAsString = itemEle.key as string;
-                const originalKey = keyAsString?.substring(2);
                 return (
                   <Menu.Item
-                    key={originalKey || itemEle.key}
+                    key={getFlattenedKey(itemEle.key)}
                     href={itemEle.props.href}
                     target={itemEle.props.target}
                   >
