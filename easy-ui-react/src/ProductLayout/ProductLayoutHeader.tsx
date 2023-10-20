@@ -116,6 +116,7 @@ function Actions(
         <Button
           size={buttonSize}
           variant="outlined"
+          color="support"
           onPress={secondaryAction.onAction}
           isDisabled={secondaryAction.isDisabled}
         >
