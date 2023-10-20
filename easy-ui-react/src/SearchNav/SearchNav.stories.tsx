@@ -55,7 +55,7 @@ export const Selector: Story = {
             <EasyPostFullLogo />
           </SearchNav.Logo>
           <SearchNav.Selector
-            label="docs version"
+            aria-label="docs version"
             defaultSelectedKey="V1.0"
             selectedKey="V1.0"
             disabledKeys={["V99.99"]}
@@ -81,7 +81,7 @@ export const CTA: Story = {
             <EasyPostFullLogo />
           </SearchNav.Logo>
           <SearchNav.Selector
-            label="docs version"
+            aria-label="docs version"
             defaultSelectedKey="V1.0"
             selectedKey="V1.0"
             disabledKeys={["V99.99"]}
@@ -128,7 +128,7 @@ export const Search: Story = {
             <EasyPostFullLogo />
           </SearchNav.Logo>
           <SearchNav.Selector
-            label="docs version"
+            aria-label="docs version"
             defaultSelectedKey="V1.0"
             selectedKey="V1.0"
             disabledKeys={["V99.99"]}
@@ -159,7 +159,7 @@ export const FullBar: Story = {
             <EasyPostFullLogo />
           </SearchNav.Logo>
           <SearchNav.Selector
-            label="docs version"
+            aria-label="docs version"
             defaultSelectedKey="V1.0"
             selectedKey="V1.0"
             disabledKeys={["V99.99"]}

@@ -39,4 +39,4 @@ export function CTAItem(props: CTAItemProps) {
   );
 }
 
-CTAItem.displayName = "CTAItem";
+CTAItem.displayName = "SearchNav.CTAItem";

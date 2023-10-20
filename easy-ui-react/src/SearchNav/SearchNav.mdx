@@ -51,9 +51,24 @@ Each `CTA.Item` is implemented as a button and hence, can accept `onPress` and `
 
 ### SearchNav
 
-<ArgTypes of={SearchNav} />
-
 ```ts
+export type SearchNavProps<T> = {
+  /**
+   * Overlay props that apply to condensed menu configurations. Note that
+   * the keys defined in <SearchNav> will be preserved.
+   */
+  menuOverlayProps?: SearchNavOverlayMenuProps<T>;
+  /**
+   * Symbol for collapsed CTA menu, symbol SVG source from @easypost/easy-ui-icons.
+   */
+  ctaMenuSymbol?: IconSymbol;
+  /**
+   * The children of the <SearchNav> element. Should render `<SearchNav.LogoGroup>`,
+   * `<SearchNav.Search>`, and `<SearchNav.CTAGroup>`
+   */
+  children: ReactNode;
+};
+
 export type SearchNavOverlayMenuProps<T> = {
   /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
   disabledKeys?: Iterable<Key>;

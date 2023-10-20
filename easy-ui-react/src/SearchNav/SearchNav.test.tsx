@@ -12,12 +12,6 @@ describe("<SearchNav />", () => {
   let restoreGetComputedStyle: () => void;
 
   beforeEach(() => {
-    // odd, displayName isn't being respected
-    SearchNav.LogoGroup.displayName = "SearchNav.LogoGroup";
-    SearchNav.Logo.displayName = "SearchNav.Logo";
-    SearchNav.CTAGroup.displayName = "SearchNav.CTAGroup";
-    SearchNav.Selector.displayName = "SearchNav.Selector";
-    SearchNav.Search.displayName = "SearchNav.Search";
     restoreGetComputedStyle = mockGetComputedStyle();
     vi.useFakeTimers();
   });
@@ -80,7 +74,7 @@ function getSearchNav({ selectorProps = {} }) {
           <img alt="some logo" />
         </SearchNav.Logo>
         <SearchNav.Selector
-          label="docs version"
+          aria-label="docs version"
           defaultSelectedKey="V1.0"
           {...selectorProps}
         >

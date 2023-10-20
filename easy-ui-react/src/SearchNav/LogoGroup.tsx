@@ -36,4 +36,4 @@ export function LogoGroup(props: LogoGroupProps) {
   );
 }
 
-LogoGroup.displayName = "LogoGroup";
+LogoGroup.displayName = "SearchNav.LogoGroup";

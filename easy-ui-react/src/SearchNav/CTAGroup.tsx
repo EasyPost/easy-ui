@@ -74,4 +74,4 @@ export function CTAGroup(props: CTAGroupProps) {
   );
 }
 
-CTAGroup.displayName = "CTAGroup";
+CTAGroup.displayName = "SearchNav.CTAGroup";

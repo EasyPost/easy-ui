@@ -100,7 +100,7 @@ export type SearchNavProps<T> = {
 * }
 ```
  */
-export function SearchNav<T extends object>(props: SearchNavProps<T>) {
+export function SearchNav<T>(props: SearchNavProps<T>) {
   const { menuOverlayProps, ctaMenuSymbol, children } = props;
 
   const context = useMemo(() => {
@@ -127,7 +127,8 @@ export function SearchNav<T extends object>(props: SearchNavProps<T>) {
       getDisplayNameFromReactNode(logoGroupChildren[1]) === "SearchNav.Selector"
     ) {
       const selectElement = logoGroupChildren[1] as ReactElement;
-      selectLabel = selectElement.props.label;
+      const { "aria-label": label } = selectElement.props;
+      selectLabel = label;
       selectChildren = flattenChildren(selectElement.props.children);
     }
 
@@ -188,8 +189,6 @@ export function SearchNav<T extends object>(props: SearchNavProps<T>) {
     </InternalSearchNavContext.Provider>
   );
 }
-
-SearchNav.displayName = "SearchNav";
 
 /**
  * Represents <SearchNav.LogoGroup />`.

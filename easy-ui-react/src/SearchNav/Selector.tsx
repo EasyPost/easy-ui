@@ -14,13 +14,13 @@ export type SelectorProps<T> = AriaSelectProps<T> &
      * become aria-label to apply to <Menu.Section> when <SearchNav>
      * collapses.
      */
-    label: string;
+    "aria-label": string;
   };
 
 export function Selector<T extends object>(props: SelectorProps<T>) {
   const triggerRef = React.useRef(null);
   const selectState = useSelectState(props);
-  const { label } = props;
+  const { "aria-label": label } = props;
 
   const {
     valueProps,
@@ -48,4 +48,4 @@ export function Selector<T extends object>(props: SelectorProps<T>) {
   );
 }
 
-Selector.displayName = "Selector";
+Selector.displayName = "SearchNav.Selector";

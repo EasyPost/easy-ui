@@ -16,4 +16,4 @@ export function Search(props: SearchProps) {
   return <div className={classNames(styles.search)}>{children}</div>;
 }
 
-Search.displayName = "Search";
+Search.displayName = "SearchNav.Search";

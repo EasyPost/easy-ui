@@ -17,4 +17,4 @@ export function Logo(props: LogoProps) {
   return <div className={classNames(styles.logo)}>{children}</div>;
 }
 
-Logo.displayName = "Logo";
+Logo.displayName = "SearchNav.Logo";
