@@ -10,9 +10,8 @@ import { SelectorTrigger } from "./SelectorTrigger";
 export type SelectorProps<T> = AriaSelectProps<T> &
   BaseSelectProps<T> & {
     /**
-     * Hidden label that applies to expanded <SearchNav.Select> and will
-     * become aria-label to apply to <Menu.Section> when <SearchNav>
-     * collapses.
+     * aria-label that applies to expanded <SearchNav.Select> and
+     * to <Menu.Section> when <SearchNav> collapses.
      */
     "aria-label": string;
   };
