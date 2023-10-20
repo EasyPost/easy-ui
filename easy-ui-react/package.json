@@ -31,7 +31,7 @@
   "dependencies": {
     "@easypost/easy-ui-icons": "1.0.0-alpha.11",
     "@easypost/easy-ui-tokens": "1.0.0-alpha.6",
-    "@react-aria/toast": "^3.0.0-beta.5",
+    "@react-aria/toast": "^3.0.0-beta.6",
     "@react-aria/utils": "^3.21.0",
     "@react-stately/toast": "^3.0.0-beta.1",
     "@react-types/shared": "^3.20.0",
