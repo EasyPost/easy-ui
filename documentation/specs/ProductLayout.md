@@ -33,8 +33,9 @@ type ProductLayoutSidebarProps = {
 
 type ProductLayoutHeaderProps = {
   helpMenuItems: MenuItemProps[];
+  onHelpMenuAction?: (key: Key) => void;
   primaryAction?: ProductLayoutHeaderActionProps;
-  renderLogo: () => ReactNode;
+  renderSmallScreenLogo: () => ReactNode;
   secondaryAction?: ProductLayoutHeaderActionProps;
   title: ReactNode;
 };

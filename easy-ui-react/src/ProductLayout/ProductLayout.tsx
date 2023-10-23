@@ -44,7 +44,7 @@ export type ProductLayoutProps = {
  *   }
  *   header={
  *     <ProductLayout.Header
- *       renderLogo={() => <EasyPostLogoMark />}
+ *       renderSmallScreenLogo={() => <EasyPostLogoMark />}
  *       title="Page title"
  *       helpMenuItems={[
  *         <Menu.Item

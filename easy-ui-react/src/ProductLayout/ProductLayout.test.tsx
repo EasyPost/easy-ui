@@ -176,7 +176,7 @@ function createProductLayout(
             content: "CTA 2",
             onAction: onSecondaryAction,
           }}
-          renderLogo={() => <div data-logo-mark />}
+          renderSmallScreenLogo={() => <div data-logo-mark />}
         />
       }
       content={content}

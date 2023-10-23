@@ -29,9 +29,9 @@ export type ProductLayoutHeaderProps = {
   primaryAction?: ProductLayoutHeaderActionProps;
 
   /**
-   * Logo to render in the header on mobile.
+   * Logo to render in the header on small screens.
    */
-  renderLogo: () => ReactNode;
+  renderSmallScreenLogo: () => ReactNode;
 
   /**
    * Secondary call to action for the header.
@@ -73,8 +73,13 @@ export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
 }
 
 function SmallScreenHeader(props: ProductLayoutHeaderProps) {
-  const { helpMenuItems, onHelpMenuAction, primaryAction, renderLogo, title } =
-    props;
+  const {
+    helpMenuItems,
+    onHelpMenuAction,
+    primaryAction,
+    renderSmallScreenLogo,
+    title,
+  } = props;
   const { sidebarTriggerProps } = useProductLayout();
   return (
     <div className={classNames(styles.ProductLayoutHeader, styles.smallScreen)}>
@@ -86,7 +91,7 @@ function SmallScreenHeader(props: ProductLayoutHeaderProps) {
           >
             <Icon symbol={MenuIcon} />
           </UnstyledPressButton>
-          {renderLogo()}
+          {renderSmallScreenLogo()}
         </div>
         <div className={styles.actions}>
           {primaryAction ? (

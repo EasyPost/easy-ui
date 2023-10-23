@@ -47,7 +47,7 @@ export const EmptyContent: Story = {
             content: "Buy a Label with CSV",
             onAction: action("buy a label with csv"),
           }}
-          renderLogo={() => <EasyPostLogoMark />}
+          renderSmallScreenLogo={() => <EasyPostLogoMark />}
         />
       }
       content={
@@ -82,7 +82,7 @@ export const TabbedContent: Story = {
               content: "Buy a Label with CSV",
               onAction: action("buy a label with csv"),
             }}
-            renderLogo={() => <EasyPostLogoMark />}
+            renderSmallScreenLogo={() => <EasyPostLogoMark />}
           />
         }
         content={
