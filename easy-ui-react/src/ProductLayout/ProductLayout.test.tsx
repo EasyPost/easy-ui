@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
 import React, { ReactNode } from "react";
 import { vi } from "vitest";
+import { Menu } from "../Menu";
+import { TabNav } from "../TabNav";
 import {
   mockGetComputedStyle,
   mockIntersectionObserver,
@@ -8,8 +10,6 @@ import {
   render,
 } from "../utilities/test";
 import { ProductLayout } from "./ProductLayout";
-import { Menu } from "../Menu";
-import { TabNav } from "../TabNav";
 
 describe("<ProductLayout />", () => {
   let restoreGetComputedStyle: () => void;
@@ -117,27 +117,19 @@ describe("<ProductLayout />", () => {
   it("should render a mobile product layout", async () => {
     restoreMatchMedia = mockMatchMedia({ getMatches: () => false });
 
-    const handlePrimaryAction = vi.fn();
-    const handleSecondaryAction = vi.fn();
-    const handleHelpMenuAction = vi.fn();
-
-    render(
-      createProductLayout({
-        onHelpMenuAction: handleHelpMenuAction,
-        onPrimaryAction: handlePrimaryAction,
-        onSecondaryAction: handleSecondaryAction,
-      }),
-    );
+    render(createProductLayout());
 
     expect(screen.getByText("Content")).toBeInTheDocument();
     expect(screen.getByRole("main")).toBeInTheDocument();
     expect(screen.getByRole("banner")).toBeInTheDocument();
     expect(
-      screen.queryByRole("region", { name: "Sidebar" }),
-    ).not.toBeInTheDocument();
-    expect(
       screen.getByRole("heading", { name: "Account Settings" }),
     ).toBeInTheDocument();
+
+    // shouldn't render a sidebar or secondary CTA
+    expect(
+      screen.queryByRole("region", { name: "Sidebar" }),
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "CTA 2" }),
     ).not.toBeInTheDocument();
@@ -146,12 +138,14 @@ describe("<ProductLayout />", () => {
   });
 });
 
-function createProductLayout(props: {
-  content?: ReactNode;
-  onHelpMenuAction?: () => void;
-  onPrimaryAction?: () => void;
-  onSecondaryAction?: () => void;
-}) {
+function createProductLayout(
+  props: {
+    content?: ReactNode;
+    onHelpMenuAction?: () => void;
+    onPrimaryAction?: () => void;
+    onSecondaryAction?: () => void;
+  } = {},
+) {
   const {
     content = (
       <ProductLayout.Content>
