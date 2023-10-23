@@ -11,7 +11,7 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: design-token("space.2");
 }
 
 .actionStretched {
@@ -35,7 +35,7 @@
 .ProductLayoutHeaderMobile {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: design-token("space.1.5");
 }
 
 .mobileTopBar {
@@ -46,7 +46,7 @@
 .mobileLogoMenu {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: design-token("space.1.5");
 }
 
 .mobileLogoMenuBtn {

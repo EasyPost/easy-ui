@@ -73,7 +73,7 @@ function SidebarAsDialog(props: ProductLayoutSidebarProps) {
 
 function SidebarAsDialogOverlay(props: { children: ReactNode }) {
   const { children } = props;
-  const { layoutRef, sidebarTriggerState } = useProductLayout();
+  const { layoutContainerRef, sidebarTriggerState } = useProductLayout();
   const ref = React.useRef(null);
   const { modalProps, underlayProps } = useModalOverlay(
     { isDismissable: true, isKeyboardDismissDisabled: false },
@@ -81,9 +81,7 @@ function SidebarAsDialogOverlay(props: { children: ReactNode }) {
     ref,
   );
   return (
-    <Overlay
-      portalContainer={layoutRef.current ? layoutRef.current : undefined}
-    >
+    <Overlay portalContainer={layoutContainerRef.current ?? undefined}>
       <div className={styles.overlay} {...underlayProps}>
         <div ref={ref} {...modalProps}>
           {children}

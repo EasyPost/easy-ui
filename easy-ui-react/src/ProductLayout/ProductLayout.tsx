@@ -32,27 +32,23 @@ export type ProductLayoutProps = {
 
 export function ProductLayout(props: ProductLayoutProps) {
   const { sidebar, header, content } = props;
-
-  const layoutRef = useRef<HTMLDivElement | null>(null);
-
+  const layoutContainerRef = useRef<HTMLDivElement | null>(null);
   const state = useOverlayTriggerState({});
   const { triggerProps, overlayProps } = useOverlayTrigger(
     { type: "dialog" },
     state,
   );
-
   const context = useMemo(() => {
     return {
-      layoutRef,
+      layoutContainerRef,
       sidebarTriggerState: state,
       sidebarTriggerProps: triggerProps,
       sidebarOverlayProps: overlayProps,
     };
   }, [state, triggerProps, overlayProps]);
-
   return (
     <ProductLayoutContext.Provider value={context}>
-      <div className={styles.ProductLayout} ref={layoutRef}>
+      <div className={styles.ProductLayout} ref={layoutContainerRef}>
         {sidebar}
         <div className={styles.body}>
           {header}

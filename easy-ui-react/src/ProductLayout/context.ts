@@ -4,7 +4,7 @@ import { AriaButtonProps } from "react-aria";
 import { OverlayTriggerState } from "react-stately";
 
 export type ProductLayoutContextType = {
-  layoutRef: MutableRefObject<HTMLDivElement | null>;
+  layoutContainerRef: MutableRefObject<HTMLDivElement | null>;
   sidebarTriggerState: OverlayTriggerState;
   sidebarTriggerProps: AriaButtonProps;
   sidebarOverlayProps: DOMProps;
