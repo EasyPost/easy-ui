@@ -50,13 +50,13 @@ function SmallScreenSidebar(props: ProductLayoutSidebarProps) {
   const { children } = props;
   const { sidebarTriggerState } = useProductLayout();
   return sidebarTriggerState.isOpen ? (
-    <SidebarAsDialogOverlay>
-      <SidebarAsDialog>{children}</SidebarAsDialog>
-    </SidebarAsDialogOverlay>
+    <DialogSidebarOverlay>
+      <DialogSidebar>{children}</DialogSidebar>
+    </DialogSidebarOverlay>
   ) : null;
 }
 
-function SidebarAsDialog(props: ProductLayoutSidebarProps) {
+function DialogSidebar(props: ProductLayoutSidebarProps) {
   const { children } = props;
   const ref = React.useRef(null);
   const { dialogProps } = useDialog(
@@ -71,7 +71,7 @@ function SidebarAsDialog(props: ProductLayoutSidebarProps) {
   );
 }
 
-function SidebarAsDialogOverlay(props: { children: ReactNode }) {
+function DialogSidebarOverlay(props: { children: ReactNode }) {
   const { children } = props;
   const { layoutContainerRef, sidebarTriggerState } = useProductLayout();
   const ref = React.useRef(null);

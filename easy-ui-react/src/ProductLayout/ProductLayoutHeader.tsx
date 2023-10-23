@@ -1,15 +1,15 @@
 import MenuIcon from "@easypost/easy-ui-icons/Menu";
 import { CollectionChildren } from "@react-types/shared";
-import React, { Key, ReactNode, useMemo } from "react";
-import { Button, ButtonProps } from "../Button";
+import React, { Key, ReactNode } from "react";
+import { Button } from "../Button";
 import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
-import { classNames } from "../utilities/css";
 import { HelpMenu } from "./HelpMenu";
 import { ScreenSizeSwitcher } from "./ScreenSizeSwitcher";
 import { useProductLayout } from "./context";
 
+import { classNames } from "../utilities/css";
 import styles from "./ProductLayoutHeader.module.scss";
 
 export type ProductLayoutHeaderProps = {
@@ -45,8 +45,19 @@ export type ProductLayoutHeaderProps = {
 };
 
 export type ProductLayoutHeaderActionProps = {
+  /**
+   * Content text to render for the header action.
+   */
   content: string;
+
+  /**
+   * Action to invoke for the header action.
+   */
   onAction: () => void;
+
+  /**
+   * Whether or not the header action is disabled.
+   */
   isDisabled?: boolean;
 };
 
@@ -54,18 +65,19 @@ export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
   return (
     <header>
       <ScreenSizeSwitcher
-        renderOnLargeScreen={() => <DesktopHeader {...props} />}
-        renderOnSmallScreen={() => <MobileHeader {...props} />}
+        renderOnLargeScreen={() => <LargeScreenHeader {...props} />}
+        renderOnSmallScreen={() => <SmallScreenHeader {...props} />}
       />
     </header>
   );
 }
 
-function MobileHeader(props: ProductLayoutHeaderProps) {
-  const { renderLogo, title } = props;
+function SmallScreenHeader(props: ProductLayoutHeaderProps) {
+  const { helpMenuItems, onHelpMenuAction, primaryAction, renderLogo, title } =
+    props;
   const { sidebarTriggerProps } = useProductLayout();
   return (
-    <div className={styles.ProductLayoutHeaderMobile}>
+    <div className={classNames(styles.ProductLayoutHeader, styles.smallScreen)}>
       <div className={styles.mobileTopBar}>
         <div className={styles.mobileLogoMenu}>
           <UnstyledPressButton
@@ -77,7 +89,17 @@ function MobileHeader(props: ProductLayoutHeaderProps) {
           {renderLogo()}
         </div>
         <div className={styles.actions}>
-          <MobileActions buttonSize="sm" {...props} />
+          {primaryAction ? (
+            <Button
+              size="sm"
+              onPress={primaryAction.onAction}
+              isDisabled={primaryAction.isDisabled}
+            >
+              {primaryAction.content}
+            </Button>
+          ) : (
+            <HelpMenu items={helpMenuItems} onAction={onHelpMenuAction} />
+          )}
         </div>
       </div>
       <div className={styles.mobileTitle}>
@@ -89,126 +111,45 @@ function MobileHeader(props: ProductLayoutHeaderProps) {
   );
 }
 
-function DesktopHeader(props: ProductLayoutHeaderProps) {
-  const { title } = props;
+function LargeScreenHeader(props: ProductLayoutHeaderProps) {
+  const {
+    helpMenuItems,
+    onHelpMenuAction,
+    primaryAction,
+    secondaryAction,
+    title,
+  } = props;
   return (
-    <div className={styles.ProductLayoutHeaderDesktop}>
+    <div className={classNames(styles.ProductLayoutHeader, styles.largeScreen)}>
       <Text as="h2" variant="heading4">
         {title}
       </Text>
       <div className={styles.actions}>
-        <DesktopActions {...props} />
+        <HelpMenu items={helpMenuItems} onAction={onHelpMenuAction} />
+        {(primaryAction || secondaryAction) && <ActionDivider />}
+        {secondaryAction && (
+          <Button
+            variant="outlined"
+            color="support"
+            onPress={secondaryAction.onAction}
+            isDisabled={secondaryAction.isDisabled}
+          >
+            {secondaryAction.content}
+          </Button>
+        )}
+        {primaryAction && (
+          <Button
+            onPress={primaryAction.onAction}
+            isDisabled={primaryAction.isDisabled}
+          >
+            {primaryAction.content}
+          </Button>
+        )}
       </div>
     </div>
   );
 }
 
-function MobileActions(
-  props: { buttonSize?: ButtonProps["size"] } & ProductLayoutHeaderProps,
-) {
-  const {
-    buttonSize = "md",
-    helpMenuItems,
-    onHelpMenuAction,
-    primaryAction,
-  } = props;
-
-  const actions = useMemo(() => {
-    return [
-      primaryAction ? (
-        <Button
-          size={buttonSize}
-          onPress={primaryAction.onAction}
-          isDisabled={primaryAction.isDisabled}
-        >
-          {primaryAction.content}
-        </Button>
-      ) : (
-        <HelpMenu
-          key="help-menu"
-          items={helpMenuItems}
-          onAction={onHelpMenuAction}
-        />
-      ),
-    ];
-  }, [buttonSize, helpMenuItems, primaryAction, onHelpMenuAction]);
-
-  return actions.map((action, i) => (
-    <Action key={String(i)} isStretched={i === 1}>
-      {action}
-    </Action>
-  ));
-}
-
-function DesktopActions(
-  props: { buttonSize?: ButtonProps["size"] } & ProductLayoutHeaderProps,
-) {
-  const {
-    buttonSize = "md",
-    helpMenuItems,
-    onHelpMenuAction,
-    primaryAction,
-    secondaryAction,
-  } = props;
-
-  const actions = useMemo(() => {
-    return [
-      <HelpMenu
-        key="help-menu"
-        items={helpMenuItems}
-        onAction={onHelpMenuAction}
-      />,
-      (primaryAction || secondaryAction) && <Divider />,
-      secondaryAction && (
-        <Button
-          size={buttonSize}
-          variant="outlined"
-          color="support"
-          onPress={secondaryAction.onAction}
-          isDisabled={secondaryAction.isDisabled}
-        >
-          {secondaryAction.content}
-        </Button>
-      ),
-      primaryAction && (
-        <Button
-          size={buttonSize}
-          onPress={primaryAction.onAction}
-          isDisabled={primaryAction.isDisabled}
-        >
-          {primaryAction.content}
-        </Button>
-      ),
-    ].filter((a) => Boolean(a));
-  }, [
-    buttonSize,
-    helpMenuItems,
-    primaryAction,
-    secondaryAction,
-    onHelpMenuAction,
-  ]);
-
-  return actions.map((action, i) => (
-    <Action key={String(i)} isStretched={i === 1}>
-      {action}
-    </Action>
-  ));
-}
-
-function Action({
-  isStretched,
-  children,
-}: {
-  isStretched: boolean;
-  children: ReactNode;
-}) {
-  const className = classNames(
-    styles.action,
-    isStretched && styles.actionStretched,
-  );
-  return <span className={className}>{children}</span>;
-}
-
-function Divider() {
+function ActionDivider() {
   return <div className={styles.divider} />;
 }

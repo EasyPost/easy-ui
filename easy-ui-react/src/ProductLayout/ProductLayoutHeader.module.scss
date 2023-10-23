@@ -2,38 +2,16 @@
 @use "../styles/unstyled";
 @use "mixins" as ProductLayout;
 
-.divider {
-  width: 1px;
-  background: design-token("color.gray.400");
-}
-
-.actions {
-  margin-left: auto;
+.ProductLayoutHeader {
   display: flex;
-  align-items: center;
-  gap: design-token("space.2");
 }
 
-.actionStretched {
-  align-self: stretch;
-}
-
-.action {
-  display: inline-flex;
-}
-
-.actionShownOnMobile {
-  display: inline-flex;
-}
-
-.ProductLayoutHeaderDesktop {
-  display: flex;
+.largeScreen {
   align-items: center;
   flex-wrap: wrap;
 }
 
-.ProductLayoutHeaderMobile {
-  display: flex;
+.smallScreen {
   flex-direction: column;
   gap: design-token("space.1.5");
 }
@@ -51,4 +29,17 @@
 
 .mobileLogoMenuBtn {
   @include unstyled.button;
+}
+
+.divider {
+  align-self: stretch;
+  width: 1px;
+  background: design-token("color.gray.400");
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: design-token("space.2");
 }
