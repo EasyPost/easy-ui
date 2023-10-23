@@ -78,10 +78,10 @@ function SmallScreenHeader(props: ProductLayoutHeaderProps) {
   const { sidebarTriggerProps } = useProductLayout();
   return (
     <div className={classNames(styles.ProductLayoutHeader, styles.smallScreen)}>
-      <div className={styles.mobileTopBar}>
-        <div className={styles.mobileLogoMenu}>
+      <div className={styles.smallScreenTopBar}>
+        <div className={styles.logoMenu}>
           <UnstyledPressButton
-            className={styles.mobileLogoMenuBtn}
+            className={styles.logoMenuBtn}
             {...sidebarTriggerProps}
           >
             <Icon symbol={MenuIcon} />

@@ -16,18 +16,18 @@
   gap: design-token("space.1.5");
 }
 
-.mobileTopBar {
+.smallScreenTopBar {
   display: flex;
   align-items: center;
 }
 
-.mobileLogoMenu {
+.logoMenu {
   display: inline-flex;
   align-items: center;
   gap: design-token("space.1.5");
 }
 
-.mobileLogoMenuBtn {
+.logoMenuBtn {
   @include unstyled.button;
 }
 
