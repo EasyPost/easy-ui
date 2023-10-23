@@ -1,0 +1,14 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.cta {
+  @include unstyled.button;
+  @include component-token("cta", "color", theme-token("color.text"));
+  display: flex;
+  align-items: center;
+  gap: design-token("space.1");
+  color: component-token("cta", "color");
+  text-decoration: none;
+  @include font-style("subtitle1");
+  cursor: pointer;
+}

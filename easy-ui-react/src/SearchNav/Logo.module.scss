@@ -1,0 +1,6 @@
+@use "../styles/common" as *;
+
+.logo {
+  @include component-token("logo", "max-height", 24px);
+  max-height: component-token("logo", "max-height");
+}

@@ -40,11 +40,13 @@ export function MenuSectionContent<T>({
     "aria-label": section["aria-label"],
   });
   const { separatorProps } = useSeparator({ elementType: "li" });
+
   return (
     <>
-      {section.key !== state.collection.getFirstKey() && (
-        <li {...separatorProps} className={styles.separator} />
-      )}
+      {section.key !== state.collection.getFirstKey() &&
+        section.props.children && (
+          <li {...separatorProps} className={styles.separator} />
+        )}
       <li {...itemProps}>
         {section.hasChildNodes && (
           <ul {...groupProps} className={styles.sectionList}>
