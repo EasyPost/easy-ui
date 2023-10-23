@@ -23,9 +23,7 @@ export function ProductLayoutTabbedContent(
   const { children, tabs, ...tabNavProps } = props;
   return (
     <div className={styles.ProductLayoutTabbedContent}>
-      <div>
-        <TabNav {...tabNavProps}>{tabs}</TabNav>
-      </div>
+      <TabNav {...tabNavProps}>{tabs}</TabNav>
       <main>{children}</main>
     </div>
   );

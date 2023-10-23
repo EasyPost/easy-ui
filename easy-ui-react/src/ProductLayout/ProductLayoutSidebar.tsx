@@ -14,9 +14,7 @@ export type ProductLayoutSidebarProps = {
 };
 
 export function ProductLayoutSidebar(props: ProductLayoutSidebarProps) {
-  const { children } = props;
   const { sidebarTriggerState } = useProductLayout();
-
   const handleScreenSizeChange = useCallback(
     (isLargeScreen: boolean) => {
       if (isLargeScreen) {
@@ -25,44 +23,47 @@ export function ProductLayoutSidebar(props: ProductLayoutSidebarProps) {
     },
     [sidebarTriggerState],
   );
-
-  const className = classNames(
-    styles.ProductLayoutSidebar,
-    sidebarTriggerState.isOpen && styles.open,
-  );
-
   return (
     <ScreenSizeSwitcher
       onChange={handleScreenSizeChange}
-      renderOnLargeScreen={() => (
-        <div role="region" aria-label="Sidebar" className={className}>
-          {children}
-        </div>
-      )}
-      renderOnSmallScreen={() => (
-        <>
-          {sidebarTriggerState.isOpen && (
-            <SidebarAsDialogOverlay>
-              <SidebarAsDialog>{children}</SidebarAsDialog>
-            </SidebarAsDialogOverlay>
-          )}
-        </>
-      )}
+      renderOnLargeScreen={() => <LargeScreenSidebar {...props} />}
+      renderOnSmallScreen={() => <SmallScreenSidebar {...props} />}
     />
   );
 }
 
+function LargeScreenSidebar(props: ProductLayoutSidebarProps) {
+  const { children } = props;
+  const { sidebarTriggerState } = useProductLayout();
+  const className = classNames(
+    styles.ProductLayoutSidebar,
+    sidebarTriggerState.isOpen && styles.open,
+  );
+  return (
+    <div role="region" aria-label="Sidebar" className={className}>
+      {children}
+    </div>
+  );
+}
+
+function SmallScreenSidebar(props: ProductLayoutSidebarProps) {
+  const { children } = props;
+  const { sidebarTriggerState } = useProductLayout();
+  return sidebarTriggerState.isOpen ? (
+    <SidebarAsDialogOverlay>
+      <SidebarAsDialog>{children}</SidebarAsDialog>
+    </SidebarAsDialogOverlay>
+  ) : null;
+}
+
 function SidebarAsDialog(props: ProductLayoutSidebarProps) {
   const { children } = props;
-
   const ref = React.useRef(null);
   const { dialogProps } = useDialog(
     { role: "dialog", "aria-label": "Sidebar" },
     ref,
   );
-
   const className = classNames(styles.ProductLayoutSidebar, styles.open);
-
   return (
     <div {...dialogProps} ref={ref} className={className}>
       {children}
@@ -72,16 +73,13 @@ function SidebarAsDialog(props: ProductLayoutSidebarProps) {
 
 function SidebarAsDialogOverlay(props: { children: ReactNode }) {
   const { children } = props;
-
   const { layoutRef, sidebarTriggerState } = useProductLayout();
-
   const ref = React.useRef(null);
   const { modalProps, underlayProps } = useModalOverlay(
     { isDismissable: true, isKeyboardDismissDisabled: false },
     sidebarTriggerState,
     ref,
   );
-
   return (
     <Overlay
       portalContainer={layoutRef.current ? layoutRef.current : undefined}

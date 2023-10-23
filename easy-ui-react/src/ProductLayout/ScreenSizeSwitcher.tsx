@@ -1,9 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import tokens from "@easypost/easy-ui-tokens/js/tokens";
+import { productLayoutMediaQuery } from "./constants";
 
 import styles from "./ScreenSizeSwitcher.module.scss";
-
-export const productLayoutMediaQuery = `(min-width: ${tokens["breakpoint.lg"]})`;
 
 export type ScreenSizeSwitcherProps = {
   onChange?: (isDesktop: boolean) => void;

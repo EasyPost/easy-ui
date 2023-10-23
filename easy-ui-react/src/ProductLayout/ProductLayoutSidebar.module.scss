@@ -4,19 +4,19 @@
 
 .ProductLayoutSidebar {
   position: absolute;
-  background: white;
+  background: design-token("color.gray.000");
   width: component-token("product-shell", "sidebar-width");
-  height: calc(100svh - 48px - 24px);
-  top: calc(16px + 24px + 16px);
-  left: 16px;
+  height: calc(100svh - #{design-token("space.10")});
+  top: design-token("space.7");
+  left: design-token("space.2");
   order: 2;
   z-index: 2;
   opacity: 0;
   pointer-events: none;
   transform: translateX(-100%);
   outline: none;
-  border-radius: 4px;
-  box-shadow: 0px 4px 4px 0px #00000040;
+  border-radius: design-token("space.0.5");
+  box-shadow: design-token("shadow.overlay");
 
   @include ProductLayout.breakpoint-large-screen {
     position: sticky;
@@ -41,7 +41,7 @@
 
 .overlay {
   position: absolute;
-  z-index: 100;
+  z-index: design-token("z-index.modal");
   top: 0;
   left: 0;
   bottom: 0;

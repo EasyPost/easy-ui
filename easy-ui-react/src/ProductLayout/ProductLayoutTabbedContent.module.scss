@@ -6,19 +6,19 @@
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  background: white;
-  padding: 16px;
-  padding-top: 12px;
-  margin: 0 -16px;
-  margin-bottom: -16px;
+  background: design-token("color.gray.000");
+  padding: design-token("space.2");
+  padding-top: design-token("space.1.5");
+  margin: 0 calc(#{design-token("space.2")} * -1);
+  margin-bottom: calc(#{design-token("space.2")} * -1);
 
   @include ProductLayout.breakpoint-large-screen {
     margin: 0;
-    margin-bottom: -24px;
-    border-radius: 4px;
+    margin-bottom: calc(#{design-token("space.3")} * -1);
+    border-radius: design-token("shape.border_radius.md");
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    padding: 24px;
-    padding-top: 12px;
+    padding: design-token("space.3");
+    padding-top: design-token("space.1.5");
   }
 }
