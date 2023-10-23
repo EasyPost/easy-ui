@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from "react";
+import React, { ReactNode, useMemo, useRef } from "react";
 import { useOverlayTrigger } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { ProductLayoutContent } from "./ProductLayoutContent";
@@ -33,6 +33,8 @@ export type ProductLayoutProps = {
 export function ProductLayout(props: ProductLayoutProps) {
   const { sidebar, header, content } = props;
 
+  const layoutRef = useRef<HTMLDivElement | null>(null);
+
   const state = useOverlayTriggerState({});
   const { triggerProps, overlayProps } = useOverlayTrigger(
     { type: "dialog" },
@@ -41,6 +43,7 @@ export function ProductLayout(props: ProductLayoutProps) {
 
   const context = useMemo(() => {
     return {
+      layoutRef,
       sidebarTriggerState: state,
       sidebarTriggerProps: triggerProps,
       sidebarOverlayProps: overlayProps,
@@ -49,7 +52,7 @@ export function ProductLayout(props: ProductLayoutProps) {
 
   return (
     <ProductLayoutContext.Provider value={context}>
-      <div className={styles.ProductLayout}>
+      <div className={styles.ProductLayout} ref={layoutRef}>
         {sidebar}
         <div className={styles.body}>
           {header}

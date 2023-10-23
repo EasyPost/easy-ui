@@ -1,9 +1,10 @@
 import { DOMProps } from "@react-types/shared";
-import { createContext, useContext } from "react";
+import { MutableRefObject, createContext, useContext } from "react";
 import { AriaButtonProps } from "react-aria";
 import { OverlayTriggerState } from "react-stately";
 
 export type ProductLayoutContextType = {
+  layoutRef: MutableRefObject<HTMLDivElement | null>;
   sidebarTriggerState: OverlayTriggerState;
   sidebarTriggerProps: AriaButtonProps;
   sidebarOverlayProps: DOMProps;

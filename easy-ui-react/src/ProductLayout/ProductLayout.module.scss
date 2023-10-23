@@ -5,6 +5,7 @@
 .ProductLayout {
   @include component-token("product-shell", "sidebar-width", 216px);
   display: flex;
+  position: relative;
 }
 
 .body {
