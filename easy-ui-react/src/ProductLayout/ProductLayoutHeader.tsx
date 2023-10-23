@@ -5,11 +5,11 @@ import { Button } from "../Button";
 import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
+import { classNames } from "../utilities/css";
 import { HelpMenu } from "./HelpMenu";
 import { ScreenSizeSwitcher } from "./ScreenSizeSwitcher";
 import { useProductLayout } from "./context";
 
-import { classNames } from "../utilities/css";
 import styles from "./ProductLayoutHeader.module.scss";
 
 export type ProductLayoutHeaderProps = {
@@ -90,6 +90,7 @@ function SmallScreenHeader(props: ProductLayoutHeaderProps) {
             {...sidebarTriggerProps}
           >
             <Icon symbol={MenuIcon} />
+            <Text visuallyHidden>Menu</Text>
           </UnstyledPressButton>
           {renderSmallScreenLogo()}
         </div>
