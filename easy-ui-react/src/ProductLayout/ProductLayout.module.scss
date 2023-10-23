@@ -12,8 +12,8 @@
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  gap: 16px;
+  padding: design-token("space.2");
+  gap: design-token("space.2");
   width: 100%;
   order: 1;
   z-index: 1;
@@ -23,7 +23,7 @@
     width: calc(100% - #{component-token("product-shell", "sidebar-width")});
     order: 2;
     z-index: auto;
-    padding: 24px;
-    gap: 20px;
+    padding: design-token("space.3");
+    gap: design-token("space.3");
   }
 }
