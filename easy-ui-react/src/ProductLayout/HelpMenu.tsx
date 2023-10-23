@@ -1,7 +1,7 @@
 import ArrowDropDownIcon from "@easypost/easy-ui-icons/ArrowDropDown";
 import SupportIcon from "@easypost/easy-ui-icons/Support";
 import { CollectionChildren } from "@react-types/shared";
-import React from "react";
+import React, { Key } from "react";
 import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
@@ -11,10 +11,11 @@ import styles from "./HelpMenu.module.scss";
 
 export type HelpMenuProps = {
   items: CollectionChildren<object>;
+  onAction?: (key: Key) => void;
 };
 
 export function HelpMenu(props: HelpMenuProps) {
-  const { items } = props;
+  const { items, onAction } = props;
   return (
     <Menu>
       <Menu.Trigger>
@@ -28,7 +29,9 @@ export function HelpMenu(props: HelpMenuProps) {
           </span>
         </UnstyledPressButton>
       </Menu.Trigger>
-      <Menu.Overlay placement="bottom right">{items}</Menu.Overlay>
+      <Menu.Overlay onAction={onAction} placement="bottom right">
+        {items}
+      </Menu.Overlay>
     </Menu>
   );
 }

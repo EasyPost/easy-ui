@@ -1,6 +1,6 @@
 import MenuIcon from "@easypost/easy-ui-icons/Menu";
 import { CollectionChildren } from "@react-types/shared";
-import React, { ReactNode, useMemo } from "react";
+import React, { Key, ReactNode, useMemo } from "react";
 import { Button, ButtonProps } from "../Button";
 import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { Icon } from "../Icon";
@@ -17,6 +17,11 @@ export type ProductLayoutHeaderProps = {
    * List of help menu items to render. Should be an array of `<Menu.Item />`s.
    */
   helpMenuItems: CollectionChildren<object>;
+
+  /**
+   * Handler that is called when a help menu item is selected.
+   */
+  onHelpMenuAction?: (key: Key) => void;
 
   /**
    * Primary call to action for the header.
@@ -72,7 +77,7 @@ function MobileHeader(props: ProductLayoutHeaderProps) {
           {renderLogo()}
         </div>
         <div className={styles.actions}>
-          <Actions buttonSize="sm" {...props} />
+          <MobileActions buttonSize="sm" {...props} />
         </div>
       </div>
       <div className={styles.mobileTitle}>
@@ -92,25 +97,67 @@ function DesktopHeader(props: ProductLayoutHeaderProps) {
         {title}
       </Text>
       <div className={styles.actions}>
-        <Actions {...props} />
+        <DesktopActions {...props} />
       </div>
     </div>
   );
 }
 
-function Actions(
+function MobileActions(
   props: { buttonSize?: ButtonProps["size"] } & ProductLayoutHeaderProps,
 ) {
   const {
     buttonSize = "md",
     helpMenuItems,
+    onHelpMenuAction,
+    primaryAction,
+  } = props;
+
+  const actions = useMemo(() => {
+    return [
+      primaryAction ? (
+        <Button
+          size={buttonSize}
+          onPress={primaryAction.onAction}
+          isDisabled={primaryAction.isDisabled}
+        >
+          {primaryAction.content}
+        </Button>
+      ) : (
+        <HelpMenu
+          key="help-menu"
+          items={helpMenuItems}
+          onAction={onHelpMenuAction}
+        />
+      ),
+    ];
+  }, [buttonSize, helpMenuItems, primaryAction, onHelpMenuAction]);
+
+  return actions.map((action, i) => (
+    <Action key={String(i)} isStretched={i === 1}>
+      {action}
+    </Action>
+  ));
+}
+
+function DesktopActions(
+  props: { buttonSize?: ButtonProps["size"] } & ProductLayoutHeaderProps,
+) {
+  const {
+    buttonSize = "md",
+    helpMenuItems,
+    onHelpMenuAction,
     primaryAction,
     secondaryAction,
   } = props;
 
   const actions = useMemo(() => {
     return [
-      <HelpMenu key="help-menu" items={helpMenuItems} />,
+      <HelpMenu
+        key="help-menu"
+        items={helpMenuItems}
+        onAction={onHelpMenuAction}
+      />,
       (primaryAction || secondaryAction) && <Divider />,
       secondaryAction && (
         <Button
@@ -133,31 +180,30 @@ function Actions(
         </Button>
       ),
     ].filter((a) => Boolean(a));
-  }, [buttonSize, helpMenuItems, primaryAction, secondaryAction]);
+  }, [
+    buttonSize,
+    helpMenuItems,
+    primaryAction,
+    secondaryAction,
+    onHelpMenuAction,
+  ]);
 
   return actions.map((action, i) => (
-    <Action
-      key={String(i)}
-      isStretched={i === 1}
-      isShownOnMobile={i === actions.length - 1}
-    >
+    <Action key={String(i)} isStretched={i === 1}>
       {action}
     </Action>
   ));
 }
 
 function Action({
-  isShownOnMobile,
   isStretched,
   children,
 }: {
-  isShownOnMobile: boolean;
   isStretched: boolean;
   children: ReactNode;
 }) {
   const className = classNames(
     styles.action,
-    isShownOnMobile && styles.actionShownOnMobile,
     isStretched && styles.actionStretched,
   );
   return <span className={className}>{children}</span>;

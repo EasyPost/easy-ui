@@ -12,7 +12,7 @@
   margin: 0 -16px;
   margin-bottom: -16px;
 
-  @include ProductLayout.breakpoint-layout-up {
+  @include ProductLayout.breakpoint-large-screen {
     margin: 0;
     margin-bottom: -24px;
     border-radius: 4px;

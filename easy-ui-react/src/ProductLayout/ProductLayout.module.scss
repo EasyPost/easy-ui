@@ -19,7 +19,7 @@
   z-index: 1;
   min-height: 100svh;
 
-  @include ProductLayout.breakpoint-layout-up {
+  @include ProductLayout.breakpoint-large-screen {
     width: calc(100% - #{component-token("product-shell", "sidebar-width")});
     order: 2;
     z-index: auto;

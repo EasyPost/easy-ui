@@ -1,6 +1,6 @@
 @use "../styles/common" as *;
 
-@mixin breakpoint-layout-up {
+@mixin breakpoint-large-screen {
   @include breakpoint-lg-up {
     @content;
   }

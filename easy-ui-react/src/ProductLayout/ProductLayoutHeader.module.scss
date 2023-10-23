@@ -18,12 +18,8 @@
   align-self: stretch;
 }
 
-.action:not(.actionShownOnMobile) {
-  display: none;
-
-  @include ProductLayout.breakpoint-layout-up {
-    display: inline-flex;
-  }
+.action {
+  display: inline-flex;
 }
 
 .actionShownOnMobile {

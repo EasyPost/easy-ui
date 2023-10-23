@@ -18,7 +18,7 @@
   border-radius: 4px;
   box-shadow: 0px 4px 4px 0px #00000040;
 
-  @include ProductLayout.breakpoint-layout-up {
+  @include ProductLayout.breakpoint-large-screen {
     position: sticky;
     top: 0;
     left: 0;
