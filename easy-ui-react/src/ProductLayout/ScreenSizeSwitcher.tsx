@@ -14,8 +14,9 @@ export type ScreenSizeSwitcherProps = {
  * layout is on a small screen or large screen.
  *
  * It does this by rendering both component trees until the media query is able
- * to resolve on the client. And until the client resolves, CSS is used to
- * remove the appropriate tree from the user agent (using display: none).
+ * to resolve on the client. And until the client resolves, media queries
+ * through CSS are used to remove the appropriate tree from the user
+ * agent (using display: none).
  *
  * @private
  * @ignore
@@ -44,16 +45,12 @@ export function ScreenSizeSwitcher(props: ScreenSizeSwitcherProps) {
     };
   }, [onChange]);
 
-  const isSmallScreenShowing =
-    isLargeScreen === null || isLargeScreen === false;
-  const isLargeScreenShowing = isLargeScreen === null || isLargeScreen === true;
-
   return (
     <>
-      {isLargeScreenShowing && (
+      {(isLargeScreen === null || isLargeScreen === true) && (
         <div className={styles.largeScreen}>{renderOnLargeScreen()}</div>
       )}
-      {isSmallScreenShowing && (
+      {(isLargeScreen === null || isLargeScreen === false) && (
         <div className={styles.smallScreen}>{renderOnSmallScreen()}</div>
       )}
     </>

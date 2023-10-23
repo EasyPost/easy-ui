@@ -30,6 +30,50 @@ export type ProductLayoutProps = {
   header: ReactNode;
 };
 
+/**
+ * `ProductLayout` defines the header, sidebar, and main areas of a
+ * product page.
+ *
+ * @example
+ * ```tsx
+ * <ProductLayout
+ *   sidebar={
+ *     <ProductLayout.Sidebar>
+ *       <div />
+ *     </ProductLayout.Sidebar>
+ *   }
+ *   header={
+ *     <ProductLayout.Header
+ *       renderLogo={() => <EasyPostLogoMark />}
+ *       title="Page title"
+ *       helpMenuItems={[
+ *         <Menu.Item
+ *           key="1"
+ *           href="https://www.easypost.com/docs/api"
+ *           target="_blank"
+ *           rel="noopener"
+ *         >
+ *           Documentation
+ *         </Menu.Item>
+ *       ]}
+ *       primaryAction={{
+ *         content: "CTA 1",
+ *         onAction: () => {},
+ *       }}
+ *       secondaryAction={{
+ *         content: "CTA 2",
+ *         onAction: () => {},
+ *       }}
+ *     />
+ *   }
+ *   content={
+ *     <ProductLayout.Content>
+ *       <div>Content</div>
+ *     </ProductLayout.Content>
+ *   }
+ * />
+ * ```
+ */
 export function ProductLayout(props: ProductLayoutProps) {
   const { sidebar, header, content } = props;
   const layoutContainerRef = useRef<HTMLDivElement | null>(null);
@@ -59,7 +103,22 @@ export function ProductLayout(props: ProductLayoutProps) {
   );
 }
 
+/**
+ * Represents the sidebar in a `<ProductLayout />`.
+ */
 ProductLayout.Sidebar = ProductLayoutSidebar;
+
+/**
+ * Represents the header in a `<ProductLayout />`.
+ */
 ProductLayout.Header = ProductLayoutHeader;
+
+/**
+ * Represents an empty content section in a `<ProductLayout />`.
+ */
 ProductLayout.Content = ProductLayoutContent;
+
+/**
+ * Represents a nested content section in a `<ProductLayout />`.
+ */
 ProductLayout.TabbedContent = ProductLayoutTabbedContent;
