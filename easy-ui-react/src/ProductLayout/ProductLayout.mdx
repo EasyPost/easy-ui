@@ -15,11 +15,13 @@ import * as ProductLayoutStories from "./ProductLayout.stories";
 
 `ProductLayout` contains slots as props for the `sidebar`, `header`, and `content` areas.
 
+_Example structure_:
+
 ```tsx
 <ProductLayout
   sidebar={
     <ProductLayout.Sidebar>
-      <ProductNav />
+      <>{/* Product sidebar nav */}</>
     </ProductLayout.Sidebar>
   }
   header={
@@ -35,6 +37,8 @@ import * as ProductLayoutStories from "./ProductLayout.stories";
           Documentation
         </Menu.Item>,
       ]}
+      // Optionally accept a menu handler for menu items that are not links
+      onHelpMenuAction={(key) => {}}
       primaryAction={{
         content: "CTA 1",
         onAction: () => {},
@@ -49,7 +53,7 @@ import * as ProductLayoutStories from "./ProductLayout.stories";
   }
   content={
     <ProductLayout.Content>
-      <div>Content</div>
+      <>{/* Content */}</>
     </ProductLayout.Content>
   }
 />
@@ -61,7 +65,7 @@ import * as ProductLayoutStories from "./ProductLayout.stories";
 
 `ProductLayout.TabbedContent` uses a `TabNav` component under the hood. Tab items are expected to be links to subpages.
 
-Tabs can be supplied to `ProductLayout.TabbedContent` through the `tabs` prop.
+Tabs can be supplied to `ProductLayout.TabbedContent` through the `tabs` prop. `ProductLayout.TabbedContent` accepts an `aria-label` property to label the navigation.
 
 ```tsx
 <ProductLayout
@@ -69,6 +73,7 @@ Tabs can be supplied to `ProductLayout.TabbedContent` through the `tabs` prop.
   header={/* ... */}
   content={
     <ProductLayout.TabbedContent
+      aria-label="Account Settings"
       tabs={[
         <TabNav.Item
           key="1"
