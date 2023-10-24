@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect } from "react";
 import { productLayoutMediaQuery } from "./constants";
 
-import styles from "./ScreenSizeSwitcher.module.scss";
+import styles from "./ScreenSizeRenderer.module.scss";
 
-export type ScreenSizeSwitcherProps = {
+export type ScreenSizeRendererProps = {
   onChange?: (isDesktop: boolean) => void;
   renderOnLargeScreen: () => ReactNode;
   renderOnSmallScreen: () => ReactNode;
@@ -22,7 +22,7 @@ export type ScreenSizeSwitcherProps = {
  * @private
  * @ignore
  */
-export function ScreenSizeSwitcher(props: ScreenSizeSwitcherProps) {
+export function ScreenSizeRenderer(props: ScreenSizeRendererProps) {
   const {
     onChange = () => {},
     renderOnLargeScreen,

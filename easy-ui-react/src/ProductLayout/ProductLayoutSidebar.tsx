@@ -1,7 +1,7 @@
 import React, { ReactNode, useCallback } from "react";
 import { Overlay, useDialog, useModalOverlay } from "react-aria";
 import { classNames } from "../utilities/css";
-import { ScreenSizeSwitcher } from "./ScreenSizeSwitcher";
+import { ScreenSizeRenderer } from "./ScreenSizeRenderer";
 import { useProductLayout } from "./context";
 
 import styles from "./ProductLayoutSidebar.module.scss";
@@ -24,7 +24,7 @@ export function ProductLayoutSidebar(props: ProductLayoutSidebarProps) {
     [sidebarTriggerState],
   );
   return (
-    <ScreenSizeSwitcher
+    <ScreenSizeRenderer
       onChange={handleScreenSizeChange}
       renderOnLargeScreen={() => <LargeScreenSidebar {...props} />}
       renderOnSmallScreen={() => <SmallScreenSidebar {...props} />}
