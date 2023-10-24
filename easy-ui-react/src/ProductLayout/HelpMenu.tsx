@@ -1,11 +1,11 @@
 import ArrowDropDownIcon from "@easypost/easy-ui-icons/ArrowDropDown";
 import SupportIcon from "@easypost/easy-ui-icons/Support";
 import React from "react";
-import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { Text } from "../Text";
+import { UnstyledButton } from "../UnstyledButton";
 
 import styles from "./HelpMenu.module.scss";
 
@@ -19,15 +19,15 @@ export function HelpMenu(props: HelpMenuProps) {
   return (
     <Menu>
       <Menu.Trigger>
-        <UnstyledPressButton>
-          <span className={styles.button}>
+        <UnstyledButton className={styles.button}>
+          <span className={styles.buttonContent}>
             <Icon symbol={SupportIcon} />
             <Text variant="subtitle1">Help</Text>
             <span className={styles.arrow}>
               <Icon symbol={ArrowDropDownIcon} />
             </span>
           </span>
-        </UnstyledPressButton>
+        </UnstyledButton>
       </Menu.Trigger>
       <Menu.Overlay onAction={onAction} placement="bottom right">
         {items}

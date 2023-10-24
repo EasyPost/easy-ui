@@ -2,6 +2,12 @@
 @use "../styles/unstyled";
 
 .button {
+  @include unstyled.button;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.buttonContent {
   display: inline-flex;
   align-items: center;
   gap: design-token("space.0.5");

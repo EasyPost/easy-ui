@@ -29,6 +29,8 @@
 
 .logoMenuBtn {
   @include unstyled.button;
+  display: inline-flex;
+  cursor: pointer;
 }
 
 .divider {

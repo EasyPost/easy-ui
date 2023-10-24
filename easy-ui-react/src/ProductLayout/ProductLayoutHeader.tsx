@@ -2,9 +2,9 @@ import MenuIcon from "@easypost/easy-ui-icons/Menu";
 import { CollectionChildren } from "@react-types/shared";
 import React, { Key, ReactNode } from "react";
 import { Button } from "../Button";
-import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
+import { UnstyledButton } from "../UnstyledButton";
 import { classNames } from "../utilities/css";
 import { HelpMenu } from "./HelpMenu";
 import { ScreenSizeSwitcher } from "./ScreenSizeSwitcher";
@@ -85,13 +85,13 @@ function SmallScreenHeader(props: ProductLayoutHeaderProps) {
     <div className={classNames(styles.ProductLayoutHeader, styles.smallScreen)}>
       <div className={styles.smallScreenTopBar}>
         <div className={styles.logoMenu}>
-          <UnstyledPressButton
+          <UnstyledButton
             className={styles.logoMenuBtn}
             {...sidebarTriggerProps}
           >
             <Icon symbol={MenuIcon} />
             <Text visuallyHidden>Menu</Text>
-          </UnstyledPressButton>
+          </UnstyledButton>
           {renderSmallScreenLogo()}
         </div>
         <div className={styles.actions}>
