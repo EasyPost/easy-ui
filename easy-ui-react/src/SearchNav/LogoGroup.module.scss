@@ -1,0 +1,7 @@
+@use "../styles/common" as *;
+
+.logoGroup {
+  display: flex;
+  align-items: center;
+  margin-right: design-token("space.3");
+}

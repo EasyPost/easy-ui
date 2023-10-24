@@ -1,0 +1,35 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.ctaGroup {
+  @include component-token("cta-group", "max-height", 24px);
+  @include component-token(
+    "cta-group",
+    "menu-color",
+    theme-token("color.text")
+  );
+  grid-column-start: 3;
+  align-items: center;
+  margin-left: design-token("space.3");
+  max-height: component-token("cta-group", "max-height");
+  justify-content: flex-end;
+}
+
+.ctaGroupMenu {
+  display: flex;
+  @include breakpoint-lg-up {
+    display: none;
+  }
+}
+
+.ctaGroupExpanded {
+  display: none;
+  @include breakpoint-lg-up {
+    display: flex;
+  }
+}
+
+.menuBtn {
+  @include unstyled.button;
+  color: component-token("cta-group", "menu-color");
+}

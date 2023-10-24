@@ -1,5 +1,6 @@
 import {
   Children,
+  Key,
   NamedExoticComponent,
   ReactElement,
   ReactNode,
@@ -64,4 +65,32 @@ export function filterChildrenByDisplayName(
     const elementType = e.type as NamedExoticComponent;
     return elementType.displayName === displayName;
   });
+}
+
+export function getDisplayNameFromReactNode(component: ReactNode) {
+  const componentAsElement = component as ReactElement;
+  if (isValidElement(componentAsElement)) {
+    const componentType = componentAsElement.type as NamedExoticComponent;
+    return componentType.displayName;
+  }
+}
+
+/**
+ * When Children.toArray is called, keys of the child are modified
+ * in a predictable way. This function returns the original key
+ * of the child.
+ */
+export function getFlattenedKey(
+  key: Key | null,
+  level: number = 2,
+  defaultKey: string | Key = "",
+): string | Key {
+  if (key) {
+    const keyAsString = key.toString();
+    if (keyAsString) {
+      const originalKey = keyAsString.substring(level);
+      return originalKey;
+    }
+  }
+  return defaultKey;
 }
