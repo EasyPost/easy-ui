@@ -18,7 +18,7 @@ const meta: Meta<typeof ProductLayout> = {
   component: ProductLayout,
   decorators: [
     (Story) => (
-      <div className="story-with-product-layout">
+      <div className="full-screen-story product-layout-story">
         <Story />
       </div>
     ),
