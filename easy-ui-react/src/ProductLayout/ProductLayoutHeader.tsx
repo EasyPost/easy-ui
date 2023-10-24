@@ -108,11 +108,9 @@ function SmallScreenHeader(props: ProductLayoutHeaderProps) {
           )}
         </div>
       </div>
-      <div className={styles.mobileTitle}>
-        <Text as="h2" variant="heading4">
-          {title}
-        </Text>
-      </div>
+      <Text as="h2" variant="heading4">
+        {title}
+      </Text>
     </div>
   );
 }
