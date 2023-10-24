@@ -1,8 +1,8 @@
 import MenuIcon from "@easypost/easy-ui-icons/Menu";
-import { CollectionChildren } from "@react-types/shared";
-import React, { Key, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Button } from "../Button";
 import { Icon } from "../Icon";
+import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 import { classNames } from "../utilities/css";
@@ -16,12 +16,12 @@ export type ProductLayoutHeaderProps = {
   /**
    * List of help menu items to render. Should be an array of `<Menu.Item />`s.
    */
-  helpMenuItems: CollectionChildren<object>;
+  helpMenuItems: MenuOverlayProps<object>["children"];
 
   /**
    * Handler that is called when a help menu item is selected.
    */
-  onHelpMenuAction?: (key: Key) => void;
+  onHelpMenuAction?: MenuOverlayProps<object>["onAction"];
 
   /**
    * Primary call to action for the header.
