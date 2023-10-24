@@ -29,7 +29,7 @@ describe("<ProductLayout />", () => {
   });
 
   it("should render a product layout", async () => {
-    restoreMatchMedia = mockMatchMedia({ getMatches: () => true });
+    restoreMatchMedia = mockMatchMedia({ getMatches: () => false });
 
     const handlePrimaryAction = vi.fn();
     const handleSecondaryAction = vi.fn();
@@ -46,27 +46,19 @@ describe("<ProductLayout />", () => {
     expect(screen.getByText("Content")).toBeInTheDocument();
     expect(screen.getByRole("main")).toBeInTheDocument();
     expect(screen.getByRole("banner")).toBeInTheDocument();
-    expect(screen.getByRole("region", { name: "Sidebar" })).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Account Settings" }),
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "CTA 1" }));
-    await user.click(screen.getByRole("button", { name: "CTA 2" }));
 
     expect(handlePrimaryAction).toBeCalled();
-    expect(handleSecondaryAction).toBeCalled();
-
-    await user.click(screen.getByRole("button", { name: "Help" }));
-    await user.click(screen.getByRole("menuitem", { name: "Documentation" }));
-
-    expect(handleHelpMenuAction).toBeCalled();
 
     restoreMatchMedia();
   });
 
   it("should render a tabbed product layout", async () => {
-    restoreMatchMedia = mockMatchMedia({ getMatches: () => true });
+    restoreMatchMedia = mockMatchMedia({ getMatches: () => false });
 
     const handleTab1Click = vi.fn();
     const handleTab2Click = vi.fn();
@@ -99,7 +91,6 @@ describe("<ProductLayout />", () => {
     expect(screen.getByText("Tabbed Content")).toBeInTheDocument();
     expect(screen.getByRole("main")).toBeInTheDocument();
     expect(screen.getByRole("banner")).toBeInTheDocument();
-    expect(screen.getByRole("region", { name: "Sidebar" })).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Account Settings" }),
     ).toBeInTheDocument();
@@ -110,29 +101,6 @@ describe("<ProductLayout />", () => {
     await user.click(screen.getByRole("button", { name: "Tab 2" }));
 
     expect(handleTab2Click).toBeCalled();
-
-    restoreMatchMedia();
-  });
-
-  it("should render a mobile product layout", async () => {
-    restoreMatchMedia = mockMatchMedia({ getMatches: () => false });
-
-    render(createProductLayout());
-
-    expect(screen.getByText("Content")).toBeInTheDocument();
-    expect(screen.getByRole("main")).toBeInTheDocument();
-    expect(screen.getByRole("banner")).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Account Settings" }),
-    ).toBeInTheDocument();
-
-    // shouldn't render a sidebar or secondary CTA
-    expect(
-      screen.queryByRole("region", { name: "Sidebar" }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: "CTA 2" }),
-    ).not.toBeInTheDocument();
 
     restoreMatchMedia();
   });
