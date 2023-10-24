@@ -1,17 +1,17 @@
 import ArrowDropDownIcon from "@easypost/easy-ui-icons/ArrowDropDown";
 import SupportIcon from "@easypost/easy-ui-icons/Support";
-import { CollectionChildren } from "@react-types/shared";
-import React, { Key } from "react";
+import React from "react";
 import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
+import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { Text } from "../Text";
 
 import styles from "./HelpMenu.module.scss";
 
 export type HelpMenuProps = {
-  items: CollectionChildren<object>;
-  onAction?: (key: Key) => void;
+  items: MenuOverlayProps<object>["children"];
+  onAction?: MenuOverlayProps<object>["onAction"];
 };
 
 export function HelpMenu(props: HelpMenuProps) {
