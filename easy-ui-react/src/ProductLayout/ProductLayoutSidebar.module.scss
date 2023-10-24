@@ -4,29 +4,31 @@
 
 .ProductLayoutSidebar {
   position: absolute;
-  background: design-token("color.gray.000");
-  width: component-token("product-shell", "sidebar-width");
-  height: calc(100svh - #{design-token("space.10")});
   top: design-token("space.7");
   left: design-token("space.2");
+  width: component-token("product-shell", "sidebar-width");
+  height: calc(100svh - #{design-token("space.10")});
   order: 2;
   z-index: 2;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(-100%);
-  outline: none;
+
+  background: design-token("color.gray.000");
   border-radius: design-token("space.0.5");
   box-shadow: design-token("shadow.overlay");
+  opacity: 0;
+  outline: none;
+  pointer-events: none;
+  transform: translateX(-100%);
 
   @include ProductLayout.breakpoint-large-screen {
     position: sticky;
     top: 0;
     left: 0;
-    order: 1;
     height: 100vh;
+    order: 1;
+    z-index: auto;
+
     border-radius: 0;
     box-shadow: none;
-    z-index: auto;
     opacity: 1;
     pointer-events: auto;
     transform: translateX(0);
