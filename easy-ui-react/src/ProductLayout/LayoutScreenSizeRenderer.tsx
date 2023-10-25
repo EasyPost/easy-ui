@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect } from "react";
 import { productLayoutMediaQuery } from "./constants";
 
-import styles from "./ScreenSizeRenderer.module.scss";
+import styles from "./LayoutScreenSizeRenderer.module.scss";
 
-export type ScreenSizeRendererProps = {
+export type LayoutScreenSizeRendererProps = {
   onChange?: (isDesktop: boolean) => void;
   renderOnLargeScreen: () => ReactNode;
   renderOnSmallScreen: () => ReactNode;
@@ -22,7 +22,7 @@ export type ScreenSizeRendererProps = {
  * @private
  * @ignore
  */
-export function ScreenSizeRenderer(props: ScreenSizeRendererProps) {
+export function LayoutScreenSizeRenderer(props: LayoutScreenSizeRendererProps) {
   const {
     onChange = () => {},
     renderOnLargeScreen,

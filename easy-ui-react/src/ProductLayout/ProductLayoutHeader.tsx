@@ -7,7 +7,7 @@ import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 import { classNames } from "../utilities/css";
 import { HelpMenu } from "./HelpMenu";
-import { ScreenSizeRenderer } from "./ScreenSizeRenderer";
+import { LayoutScreenSizeRenderer } from "./LayoutScreenSizeRenderer";
 import { useProductLayout } from "./context";
 
 import styles from "./ProductLayoutHeader.module.scss";
@@ -64,7 +64,7 @@ export type ProductLayoutHeaderActionProps = {
 export function ProductLayoutHeader(props: ProductLayoutHeaderProps) {
   return (
     <header>
-      <ScreenSizeRenderer
+      <LayoutScreenSizeRenderer
         renderOnLargeScreen={() => <LargeScreenHeader {...props} />}
         renderOnSmallScreen={() => <SmallScreenHeader {...props} />}
       />
