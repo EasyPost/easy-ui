@@ -59,13 +59,15 @@ export function StepButton(props: StepButtonProps) {
             size={orientation === "horizontal" ? "md" : "sm"}
           />
         ) : (
-          <div
-            className={classNames(
-              styles.indicator,
-              styles[variationName("indicator", orientation)],
-              styles[variationName("indicator", status)],
-            )}
-          />
+          <div className={classNames(styles.indicatorContainer)}>
+            <div
+              className={classNames(
+                styles.indicator,
+                styles[variationName("indicator", orientation)],
+                styles[variationName("indicator", status)],
+              )}
+            />
+          </div>
         )}
         <span
           className={classNames(styles[variationName("text", orientation)])}
