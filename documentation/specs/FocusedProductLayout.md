@@ -14,8 +14,6 @@
 
 `FocusedProductLayout` will be a compound component consisting of `FocusedProductLayout`, `FocusedProductLayout.Header`, and either `FocusedProductLayout.Content` or `FocusedProductLayout.WizardContent`.
 
-`FocusedProductLayout` will use "slots" to render subcomponents into the appropriate nested HTML element. See an example `useSlots` reference [implementation](https://github.com/primer/react/blob/main/src/hooks/useSlots.ts#L16). This pattern allows the component surface area to map cleanly to the consumer concerns without having to know about the inner HTML tree.
-
 `FocusedProductLayout` will be concerned with the presentational page structure and ensuring it folds properly across breakpoints. This includes rendering of the help menu. It won't include the items for the help menu (as those can be context dependent), nor any business logic of its own. `FocusedProductLayout` is intended to be wrapped by an app-specific layout that includes app-specific business logic and configuration.
 
 `FocusedProductLayout` can render either an empty content section using `FocusedProductLayout.Content`, or a wizard content section using `FocusedProductLayout.WizardContent`.
