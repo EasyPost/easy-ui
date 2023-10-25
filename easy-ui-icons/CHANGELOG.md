@@ -1,5 +1,12 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.12
+
+### Minor Changes
+
+- a0c07d3: Add ArrowForward Icon
+- a20b940: Add SearchNav component, tokens, and icons
+
 ## 1.0.0-alpha.11
 
 ### Patch Changes

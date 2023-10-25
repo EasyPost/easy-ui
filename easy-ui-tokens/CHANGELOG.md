@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- a20b940: Add SearchNav component, tokens, and icons
+
 ## 1.0.0-alpha.6
 
 ### Minor Changes

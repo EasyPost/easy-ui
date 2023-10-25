@@ -1,5 +1,18 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.17
+
+### Minor Changes
+
+- a20b940: Add SearchNav component, tokens, and icons
+
+### Patch Changes
+
+- Updated dependencies [a0c07d3]
+- Updated dependencies [a20b940]
+  - @easypost/easy-ui-icons@1.0.0-alpha.12
+  - @easypost/easy-ui-tokens@1.0.0-alpha.7
+
 ## 1.0.0-alpha.16
 
 ### Minor Changes
