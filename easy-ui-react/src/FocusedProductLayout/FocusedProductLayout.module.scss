@@ -1,0 +1,26 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.FocusedProductLayout {
+  padding: design-token("space.2") design-token("space.4");
+  padding-bottom: 0;
+}
+
+.container {
+  display: flex;
+  background: white;
+  min-height: calc(100svh - #{design-token("space.2")});
+  border-top-right-radius: design-token("shape.border_radius.xl");
+  border-top-left-radius: design-token("shape.border_radius.xl");
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  padding: design-token("space.3") design-token("space.5");
+}
+
+.sidePanel {
+  background: hsla(227, 83%, 14%, 1);
+  width: 40%;
+}

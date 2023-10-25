@@ -1,0 +1,22 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.WizardContent {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stepperContainer {
+  padding-bottom: 12px;
+  border-bottom: 1px solid hsla(219, 30%, 83%, 1);
+}
+
+.stepper {
+  margin-left: -16px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+}
