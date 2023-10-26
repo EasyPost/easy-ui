@@ -14,8 +14,6 @@
 
 `ProductLayout` will be a compound component consisting of `ProductLayout`, `ProductLayout.Sidebar`, `ProductLayout.Header`, and either `ProductLayout.Content` or `ProductLayout.TabbedContent`.
 
-`ProductLayout` will use "slots" to render subcomponents into the appropriate nested HTML element. See an example `useSlots` reference [implementation](https://github.com/primer/react/blob/main/src/hooks/useSlots.ts#L16). This pattern allows the component surface area to map cleanly to the consumer concerns without having to know about the inner HTML tree.
-
 `ProductLayout` will be concerned with the presentational page structure and ensuring it folds properly across breakpoints. This includes managing the positioning of the sidebar panel as it changes from desktop to mobile. It also includes the rendering of the help menu. It won't include the actual navigation component, nor the items for the help menu (as those can be context dependent), nor any business logic of its own. `ProductLayout` is intended to be wrapped by an app-specific layout that includes app-specific business logic and configuration.
 
 `ProductLayout` can render either an empty content section using `ProductLayout.Content`, or a tabbed content section using `ProductLayout.TabbedContent`. A tabbed content section utilizes the `TabNav` component to provide accessible navigation across subpages. Tabbed content is expected to navigate users to different URLs, either through the pathname or through query params.
@@ -34,10 +32,12 @@ type ProductLayoutSidebarProps = {
 };
 
 type ProductLayoutHeaderProps = {
-  title: ReactNode;
   helpMenuItems: MenuItemProps[];
+  onHelpMenuAction?: (key: Key) => void;
   primaryAction?: ProductLayoutHeaderActionProps;
+  renderSmallScreenLogo: () => ReactNode;
   secondaryAction?: ProductLayoutHeaderActionProps;
+  title: ReactNode;
 };
 
 type ProductLayoutHeaderActionProps = {

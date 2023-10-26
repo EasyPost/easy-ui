@@ -1,0 +1,47 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+@use "mixins" as ProductLayout;
+
+.ProductLayoutHeader {
+  display: flex;
+}
+
+.largeScreen {
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.smallScreen {
+  flex-direction: column;
+  gap: design-token("space.1.5");
+}
+
+.smallScreenTopBar {
+  display: flex;
+  align-items: center;
+}
+
+.logoMenu {
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1.5");
+}
+
+.logoMenuBtn {
+  @include unstyled.button;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.divider {
+  align-self: stretch;
+  width: 1px;
+  background: design-token("color.gray.400");
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: design-token("space.2");
+}

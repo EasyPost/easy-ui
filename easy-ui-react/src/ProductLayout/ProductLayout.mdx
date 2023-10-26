@@ -1,0 +1,126 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { ProductLayout } from "./ProductLayout";
+import * as ProductLayoutStories from "./ProductLayout.stories";
+
+<Meta of={ProductLayoutStories} />
+
+# ProductLayout
+
+`ProductLayout` defines the header, sidebar, and main areas of a product page.
+
+<Canvas of={ProductLayoutStories.EmptyContent} />
+
+`ProductLayout` is a compound component consisting of `ProductLayout`, `ProductLayout.Sidebar`, `ProductLayout.Header`, and either `ProductLayout.Content` or `ProductLayout.TabbedContent`.
+
+`ProductLayout` manages the accessibility attributes for the different parts of the layout, including defining the `main` area of the page as well as appropriate roles for the sidebar and header.
+
+`ProductLayout` contains slots as props for the `sidebar`, `header`, and `content` areas.
+
+_Example structure_:
+
+```tsx
+<ProductLayout
+  sidebar={
+    <ProductLayout.Sidebar>
+      <>{/* Product sidebar nav */}</>
+    </ProductLayout.Sidebar>
+  }
+  header={
+    <ProductLayout.Header
+      title="Page title"
+      helpMenuItems={[
+        <Menu.Item
+          key="1"
+          href="https://www.easypost.com/docs/api"
+          target="_blank"
+          rel="noopener"
+        >
+          Documentation
+        </Menu.Item>,
+      ]}
+      // Optionally accept a menu handler for menu items that are not links
+      onHelpMenuAction={(key) => {}}
+      primaryAction={{
+        content: "CTA 1",
+        onAction: () => {},
+      }}
+      secondaryAction={{
+        content: "CTA 2",
+        isDisabled: true,
+        onAction: () => {},
+      }}
+      renderSmallScreenLogo={() => <Logo />}
+    />
+  }
+  content={
+    <ProductLayout.Content>
+      <>{/* Content */}</>
+    </ProductLayout.Content>
+  }
+/>
+```
+
+## Nested Content with Tabs
+
+`ProductLayout` can contain nested content using the `ProductLayout.TabbedContent` component.
+
+`ProductLayout.TabbedContent` uses a `TabNav` component under the hood. Tab items are expected to be links to subpages.
+
+Tabs can be supplied to `ProductLayout.TabbedContent` through the `tabs` prop. `ProductLayout.TabbedContent` accepts an `aria-label` property to label the navigation.
+
+```tsx
+<ProductLayout
+  sidebar={/* ... */}
+  header={/* ... */}
+  content={
+    <ProductLayout.TabbedContent
+      aria-label="Account Settings"
+      tabs={[
+        <TabNav.Item
+          key="1"
+          as={FakeClientSideRouterLink}
+          isCurrentPage={page === "1"}
+          onClick={() => setPage("1")}
+        >
+          Tab 1
+        </TabNav.Item>,
+        <TabNav.Item
+          key="2"
+          as={FakeClientSideRouterLink}
+          isCurrentPage={page === "2"}
+          onClick={() => setPage("2")}
+        >
+          Tab 2
+        </TabNav.Item>,
+      ]}
+    >
+      <div>Tab content</div>
+    </ProductLayout.TabbedContent>
+  }
+/>
+```
+
+<Canvas of={ProductLayoutStories.TabbedContent} />
+
+## Properties
+
+### ProductLayout
+
+<ArgTypes of={ProductLayout} />
+
+### ProductLayout.Sidebar
+
+<ArgTypes of={ProductLayout.Sidebar} />
+
+### ProductLayout.Header
+
+<ArgTypes of={ProductLayout.Header} />
+
+### ProductLayout.Content
+
+<ArgTypes of={ProductLayout.Content} />
+
+### ProductLayout.TabbedContent
+
+<ArgTypes of={ProductLayout.TabbedContent} />

@@ -1,0 +1,20 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.button {
+  @include unstyled.button;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.buttonContent {
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.0.5");
+  color: design-token("color.blue.800");
+}
+
+.arrow {
+  display: inline-flex;
+  margin: calc(#{design-token("space.0.5")} * -1);
+}

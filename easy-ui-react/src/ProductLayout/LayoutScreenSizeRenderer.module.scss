@@ -1,0 +1,17 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+@use "mixins" as ProductLayout;
+
+.largeScreen {
+  display: none;
+  @include ProductLayout.breakpoint-large-screen {
+    display: block;
+  }
+}
+
+.smallScreen {
+  display: block;
+  @include ProductLayout.breakpoint-large-screen {
+    display: none;
+  }
+}

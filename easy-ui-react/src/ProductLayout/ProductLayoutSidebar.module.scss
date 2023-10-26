@@ -1,0 +1,69 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+@use "mixins" as ProductLayout;
+
+.ProductLayoutSidebar {
+  position: absolute;
+  top: design-token("space.8");
+  left: design-token("space.2");
+  width: calc(100% - #{design-token("space.4")});
+  height: auto;
+  max-height: calc(100svh - #{design-token("space.10")});
+  order: 2;
+  z-index: 2;
+
+  background: design-token("color.gray.000");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.gray.300");
+  border-radius: design-token("space.0.5");
+  box-shadow: design-token("shadow.overlay");
+  opacity: 0;
+  outline: none;
+  overflow: auto;
+  pointer-events: none;
+  transform: translateX(-100%);
+
+  @include ProductLayout.breakpoint-large-screen {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: component-token("product-shell", "sidebar-width");
+    height: 100vh;
+    max-height: none;
+    order: 1;
+    z-index: auto;
+
+    border-radius: 0;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+}
+
+.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.overlay {
+  position: absolute;
+  z-index: design-token("z-index.modal");
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  &::before {
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    background: theme-token("color.background.underlay");
+    opacity: 0.05;
+  }
+}
