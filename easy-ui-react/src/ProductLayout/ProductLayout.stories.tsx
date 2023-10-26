@@ -14,7 +14,7 @@ import { ProductLayout } from "./ProductLayout";
 type Story = StoryObj<typeof ProductLayout>;
 
 const meta: Meta<typeof ProductLayout> = {
-  title: "Components/ProductLayout",
+  title: "Components/ProductLayout/ProductLayout",
   component: ProductLayout,
   decorators: [
     (Story) => (

@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { classNames, variationName } from "../utilities/css";
 import { Content } from "./Content";
 import { Header } from "./Header";
 import { SidePanel } from "./SidePanel";
@@ -7,22 +8,26 @@ import { WizardContent } from "./WizardContent";
 import styles from "./FocusedProductLayout.module.scss";
 
 export type FocusedProductLayoutProps = {
-  children: ReactNode;
-  renderSidePanel?: () => ReactNode;
+  content: ReactNode;
+  header: ReactNode;
+  sidePanel?: ReactNode;
+  sidePanelPosition?: "start" | "end";
 };
 
-export function FocusedProductLayout({
-  children,
-  renderSidePanel,
-}: FocusedProductLayoutProps) {
+export function FocusedProductLayout(props: FocusedProductLayoutProps) {
+  const { content, header, sidePanel, sidePanelPosition } = props;
+  const className = classNames(
+    styles.FocusedProductLayout,
+    sidePanelPosition &&
+      styles[variationName("sidePanelPosition", sidePanelPosition)],
+  );
   return (
-    <div className={styles.FocusedProductLayout}>
-      <div className={styles.container}>
-        <div className={styles.content}>{children}</div>
-        {renderSidePanel && (
-          <div className={styles.sidePanel}>{renderSidePanel()}</div>
-        )}
+    <div className={className}>
+      <div className={styles.contentContainer}>
+        {header}
+        {content}
       </div>
+      {sidePanel}
     </div>
   );
 }

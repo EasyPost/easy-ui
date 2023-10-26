@@ -16,20 +16,20 @@ type WizardContentActionProps = {
   isDisabled?: boolean;
 };
 
-export function WizardContent({
-  stepper,
-  previousAction,
-  nextAction,
-  children,
-}: WizardContentProps) {
+export function WizardContent(props: WizardContentProps) {
+  const { stepper, previousAction, nextAction, children } = props;
   return (
     <div className={styles.WizardContent}>
       <div className={styles.stepperContainer}>
         <div className={styles.stepper}>{stepper}</div>
       </div>
-      <div className={styles.main}>{children}</div>
+      <main className={styles.main}>{children}</main>
       <div className={styles.footer}>
-        <Button variant="outlined" onPress={previousAction.onAction}>
+        <Button
+          variant="outlined"
+          color="support"
+          onPress={previousAction.onAction}
+        >
           {previousAction.content}
         </Button>
         <Button onPress={nextAction.onAction}>{nextAction.content}</Button>

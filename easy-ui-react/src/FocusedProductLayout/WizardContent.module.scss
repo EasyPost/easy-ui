@@ -2,18 +2,24 @@
 @use "../styles/unstyled";
 
 .WizardContent {
+  flex: 1 0 auto;
   margin-top: 12px;
   display: flex;
   flex-direction: column;
 }
 
 .stepperContainer {
+  flex: 0 0 auto;
   padding-bottom: 12px;
   border-bottom: 1px solid hsla(219, 30%, 83%, 1);
 }
 
 .stepper {
   margin-left: -16px;
+}
+
+.main {
+  flex: 1 0 auto;
 }
 
 .footer {

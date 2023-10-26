@@ -1,0 +1,13 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.SidePanel {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: component-token(
+    "focused-product-layout-side-panel",
+    "flex-basis"
+  );
+  background: design-token("color.blue.800");
+  order: component-token("focused-product-layout", "side-panel-order");
+}

@@ -2,9 +2,10 @@
 @use "../styles/unstyled";
 
 .Header {
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: design-token("space.3");
 }
 
 .logoRow {
@@ -17,8 +18,11 @@
 .titleBoxWithArrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: design-token("space.1");
+
+  a,
   button {
     @include unstyled.button;
+    @include unstyled.link;
   }
 }

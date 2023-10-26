@@ -5,5 +5,5 @@ export type ContentProps = {
 };
 
 export function Content({ children }: ContentProps) {
-  return <>{children}</>;
+  return <main>{children}</main>;
 }

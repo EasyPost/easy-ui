@@ -2,6 +2,7 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import React, { ReactNode } from "react";
 import { Icon } from "../Icon";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
+import { HelpMenu } from "../ProductLayout/HelpMenu";
 import { Text } from "../Text";
 
 import styles from "./Header.module.scss";
@@ -14,12 +15,19 @@ export type HeaderProps = {
   title: ReactNode;
 };
 
-export function Header({ renderLogo, renderBackArrow, title }: HeaderProps) {
+export function Header(props: HeaderProps) {
+  const {
+    helpMenuItems,
+    onHelpMenuAction,
+    renderBackArrow,
+    renderLogo,
+    title,
+  } = props;
   return (
     <div className={styles.Header}>
       <div className={styles.logoRow}>
         {renderLogo()}
-        {/* <FakeHelpButton /> */}
+        <HelpMenu items={helpMenuItems} onAction={onHelpMenuAction} />
       </div>
       <header className={styles.titleRow}>
         <div className={styles.titleBoxWithArrow}>

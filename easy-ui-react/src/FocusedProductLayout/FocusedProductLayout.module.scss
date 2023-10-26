@@ -1,26 +1,36 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "mixins" as FocusedProductLayout;
 
 .FocusedProductLayout {
-  padding: design-token("space.2") design-token("space.4");
-  padding-bottom: 0;
-}
+  @include component-token("focused-product-layout", "content-order", 1);
+  @include component-token("focused-product-layout", "side-panel-order", 2);
 
-.container {
+  margin: design-token("space.2") design-token("space.4");
+  margin-bottom: 0;
   display: flex;
-  background: white;
+  flex-direction: column;
   min-height: calc(100svh - #{design-token("space.2")});
+  overflow: hidden;
+
+  background: design-token("color.gray.000");
   border-top-right-radius: design-token("shape.border_radius.xl");
   border-top-left-radius: design-token("shape.border_radius.xl");
-  overflow: hidden;
+
+  @include FocusedProductLayout.breakpoint-large-screen {
+    flex-direction: row;
+  }
 }
 
-.content {
-  flex: 1;
+.contentContainer {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
   padding: design-token("space.3") design-token("space.5");
+  order: component-token("focused-product-layout", "content-order");
 }
 
-.sidePanel {
-  background: hsla(227, 83%, 14%, 1);
-  width: 40%;
+.sidePanelPositionStart {
+  @include component-token("focused-product-layout", "content-order", 2);
+  @include component-token("focused-product-layout", "side-panel-order", 1);
 }
