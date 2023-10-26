@@ -62,3 +62,24 @@ export function mockIntersectionObserver() {
 export function installScrollToMock() {
   Element.prototype.scrollTo = () => {};
 }
+
+export function mockMatchMedia({
+  getMatches,
+}: {
+  getMatches: (query: string) => boolean;
+}) {
+  const originalMatchMedia = window.matchMedia;
+  window.matchMedia = vi.fn().mockImplementation((query) => ({
+    matches: getMatches(query),
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+  return () => {
+    window.matchMedia = originalMatchMedia;
+  };
+}
