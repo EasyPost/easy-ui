@@ -85,6 +85,10 @@
   &:disabled {
     cursor: not-allowed;
   }
+
+  .focusVisible {
+    @include native-focus-ring;
+  }
 }
 
 .statusComplete {

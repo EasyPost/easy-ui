@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import CheckCircle from "@easypost/easy-ui-icons/CheckCircle";
-import { AriaButtonProps } from "react-aria";
+import { AriaButtonProps, useFocusRing, mergeProps } from "react-aria";
 import { useInternalStepperContext } from "./StepperContext";
 import { UnstyledButton } from "../UnstyledButton";
 import { classNames, variationName } from "../utilities/css";
@@ -34,6 +34,7 @@ export type StepButtonProps = AriaButtonProps & {
 export function StepButton(props: StepButtonProps) {
   const { status, isDisabled, children, onPress, ...restProps } = props;
   const { color, orientation } = useInternalStepperContext();
+  const { isFocusVisible, focusProps } = useFocusRing();
 
   return (
     <div
@@ -43,7 +44,7 @@ export function StepButton(props: StepButtonProps) {
       )}
     >
       <UnstyledButton
-        {...restProps}
+        {...mergeProps(focusProps, restProps)}
         onPress={onPress}
         isDisabled={isDisabled}
         className={classNames(
@@ -51,6 +52,7 @@ export function StepButton(props: StepButtonProps) {
           styles[variationName("status", status)],
           styles[variationName("color", color)],
           styles[variationName("orientation", orientation)],
+          isFocusVisible && styles.focusVisible,
         )}
       >
         {status === "complete" ? (
