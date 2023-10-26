@@ -80,15 +80,16 @@
   display: flex;
   align-items: center;
   gap: design-token("space.1");
+  outline: none;
   cursor: pointer;
 
   &:disabled {
     cursor: not-allowed;
   }
+}
 
-  .focusVisible {
-    @include native-focus-ring;
-  }
+.focusVisible {
+  @include native-focus-ring;
 }
 
 .statusComplete {
