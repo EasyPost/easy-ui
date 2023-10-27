@@ -1,4 +1,5 @@
 @use "../styles/common" as *;
+@use "../styles/unstyled";
 
 .containerHorizontal {
   @include component-token("step-button", "max-height", 56px);
@@ -73,13 +74,25 @@
   );
 }
 
-.statusComplete,
-.statusIncomplete {
-  @include font-style("body1");
+.StepButton {
+  @include font-style("subtitle1");
+  @include unstyled.button;
+  display: flex;
+  align-items: center;
+  gap: design-token("space.1");
+  outline: none;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.focusVisible {
+  @include native-focus-ring;
 }
 
 .statusComplete {
-  @include component-token("step-button", "orientation-vertical-margin", -2px);
   color: component-token("step-button", "color-complete");
 }
 
@@ -88,28 +101,11 @@
 }
 
 .statusActive {
-  @include font-style("subtitle1");
   color: component-token("step-button", "color-active");
 }
 
-.StepButton {
-  padding: 0;
-  border: 0;
-  margin: 0;
-  background: none;
-  outline: none;
-  display: flex;
-  align-items: center;
-  gap: design-token("space.1");
-  cursor: pointer;
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-}
-
 .orientationVertical {
-  margin-left: component-token("step-button", "orientation-margin");
+  margin-left: calc(-1 * #{design-token("space.0.25")});
 }
 
 .indicatorHorizontal {
@@ -118,6 +114,10 @@
 
 .indicatorVertical {
   @include component-token("step-button", "indicator-size", 16px);
+}
+
+.indicatorContainer {
+  padding: design-token("space.0.25");
 }
 
 .indicatorActive {
@@ -130,7 +130,6 @@
 
 .indicatorIncomplete {
   border: 1px solid component-token("step-button", "incomplete-border");
-  margin: calc(#{design-token("space.0.5")} - 1px) design-token("space.0");
 }
 
 .indicator {
