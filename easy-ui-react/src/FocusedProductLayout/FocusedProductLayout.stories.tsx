@@ -59,12 +59,24 @@ export const Default: Story = {
   render: Template.bind({}),
 };
 
+export const BackArrowAsLink: Story = {
+  render: Template.bind({}),
+  args: {
+    renderBackArrow: (props) => (
+      <a
+        href="/?path=/story/components-productlayout-focusedproductlayout--default"
+        {...props}
+      />
+    ),
+  },
+};
+
 export const WithSidePanel: Story = {
   render: Template.bind({}),
   args: {
     sidePanel: (
       <FocusedProductLayout.SidePanel>
-        <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        <PlaceholderBox width="250px">250px wide content</PlaceholderBox>
       </FocusedProductLayout.SidePanel>
     ),
   },
@@ -75,19 +87,19 @@ export const WithSidePanelAtStart: Story = {
   args: {
     sidePanel: (
       <FocusedProductLayout.SidePanel>
-        <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        <PlaceholderBox width="250px">250px wide content</PlaceholderBox>
       </FocusedProductLayout.SidePanel>
     ),
     sidePanelPosition: "start",
   },
 };
 
-export const WithSidePanelWidth: Story = {
+export const WithSidePanelCustomWidth: Story = {
   render: Template.bind({}),
   args: {
     sidePanel: (
       <FocusedProductLayout.SidePanel width="50%">
-        <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        <PlaceholderBox width="100%">Fluid content</PlaceholderBox>
       </FocusedProductLayout.SidePanel>
     ),
   },

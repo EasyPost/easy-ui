@@ -20,16 +20,8 @@ export type FocusedProductLayoutProps = {
 };
 
 export function FocusedProductLayout(props: FocusedProductLayoutProps) {
-  const {
-    content,
-    helpMenuItems,
-    onHelpMenuAction,
-    renderBackArrow,
-    renderLogo,
-    sidePanel,
-    sidePanelPosition,
-    title,
-  } = props;
+  const { content, sidePanel, sidePanelPosition, title, ...headerProps } =
+    props;
   const className = classNames(
     styles.FocusedProductLayout,
     sidePanelPosition &&
@@ -38,21 +30,10 @@ export function FocusedProductLayout(props: FocusedProductLayoutProps) {
   return (
     <div className={className}>
       <div className={styles.topBar}>
-        <HeaderAtTopOfPage
-          helpMenuItems={helpMenuItems}
-          onHelpMenuAction={onHelpMenuAction}
-          renderBackArrow={renderBackArrow}
-          renderLogo={renderLogo}
-        />
+        <HeaderAtTopOfPage {...headerProps} />
       </div>
       <div className={styles.contentContainer}>
-        <HeaderInContentArea
-          helpMenuItems={helpMenuItems}
-          onHelpMenuAction={onHelpMenuAction}
-          renderBackArrow={renderBackArrow}
-          renderLogo={renderLogo}
-          title={title}
-        />
+        <HeaderInContentArea {...headerProps} title={title} />
         {content}
       </div>
       {sidePanel}
