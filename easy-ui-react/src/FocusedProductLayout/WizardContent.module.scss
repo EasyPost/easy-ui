@@ -11,12 +11,17 @@
 .stepperContainer {
   flex: 0 0 auto;
   padding-bottom: design-token("space.1");
-  border-bottom: design-token("shape.border_width.1") solid
-    design-token("color.gray.200");
+  @include breakpoint-sm-up {
+    border-bottom: design-token("shape.border_width.1") solid
+      design-token("color.gray.200");
+  }
 }
 
 .stepper {
-  margin-left: calc(#{design-token("space.2")} * -1);
+  margin-left: -10px;
+  @include breakpoint-sm-up {
+    margin-left: calc(#{design-token("space.2")} * -1);
+  }
 }
 
 .main {
