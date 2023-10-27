@@ -153,7 +153,7 @@ export const WithSidePanelWidth: Story = {
       }
       sidePanel={
         <FocusedProductLayout.SidePanel width="50%">
-          <div style={{ padding: "24px 44px" }}>
+          <div style={{ padding: "24px 40px" }}>
             <PlaceholderBox width="100%">Space for content</PlaceholderBox>
           </div>
         </FocusedProductLayout.SidePanel>

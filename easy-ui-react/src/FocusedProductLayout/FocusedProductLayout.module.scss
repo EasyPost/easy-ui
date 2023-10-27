@@ -26,8 +26,12 @@
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  padding: design-token("space.3") design-token("space.5");
+  padding: design-token("space.3");
   order: component-token("focused-product-layout", "content-order");
+
+  @include FocusedProductLayout.breakpoint-large-screen {
+    padding: design-token("space.3") design-token("space.5");
+  }
 }
 
 .sidePanelPositionStart {

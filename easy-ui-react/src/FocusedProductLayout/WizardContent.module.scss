@@ -3,19 +3,20 @@
 
 .WizardContent {
   flex: 1 0 auto;
-  margin-top: 12px;
+  margin-top: design-token("space.1.5");
   display: flex;
   flex-direction: column;
 }
 
 .stepperContainer {
   flex: 0 0 auto;
-  padding-bottom: 12px;
-  border-bottom: 1px solid hsla(219, 30%, 83%, 1);
+  padding-bottom: design-token("space.1.5");
+  border-bottom: design-token("shape.border_width.1") solid
+    design-token("color.gray.200");
 }
 
 .stepper {
-  margin-left: -16px;
+  margin-left: calc(#{design-token("space.2")} * -1);
 }
 
 .main {
