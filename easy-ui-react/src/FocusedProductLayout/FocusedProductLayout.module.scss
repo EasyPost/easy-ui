@@ -8,12 +8,13 @@
 
   display: flex;
   flex-direction: column;
-  min-height: calc(100svh - #{design-token("space.2")});
+  min-height: 100svh;
   overflow: hidden;
 
   @include ProductLayout.breakpoint-large-screen {
     margin: design-token("space.2") design-token("space.4");
     margin-bottom: 0;
+    min-height: calc(100svh - #{design-token("space.2")});
     flex-direction: row;
     border-top-right-radius: design-token("shape.border_radius.xl");
     border-top-left-radius: design-token("shape.border_radius.xl");
