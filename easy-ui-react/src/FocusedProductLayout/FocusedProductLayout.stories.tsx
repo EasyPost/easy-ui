@@ -74,7 +74,7 @@ export const WithSidePanel: Story = {
   },
 };
 
-export const WithSidePanelAtStart: Story = {
+export const WithSidePanelOnLeft: Story = {
   render: Template.bind({}),
   args: {
     sidePanel: (
