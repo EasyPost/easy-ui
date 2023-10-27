@@ -39,7 +39,7 @@ const meta: Meta<typeof FocusedProductLayout> = {
     content: (
       <FocusedProductLayout.Content>
         <div style={{ marginTop: 24 }}>
-          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+          <PlaceholderBox width="100%">Content</PlaceholderBox>
         </div>
       </FocusedProductLayout.Content>
     ),
@@ -99,7 +99,7 @@ export const WithSidePanelCustomWidth: Story = {
   args: {
     sidePanel: (
       <FocusedProductLayout.SidePanel width="50%">
-        <PlaceholderBox width="100%">Fluid content</PlaceholderBox>
+        <PlaceholderBox width="100%">50% wide content</PlaceholderBox>
       </FocusedProductLayout.SidePanel>
     ),
   },

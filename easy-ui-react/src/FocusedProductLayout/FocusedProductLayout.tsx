@@ -2,21 +2,25 @@ import React, { ReactNode } from "react";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { classNames, variationName } from "../utilities/css";
 import { Content } from "./Content";
-import { HeaderAtTopOfPage, HeaderInContentArea } from "./Header";
+import { HeaderAtTopOfPage } from "./HeaderAtTopOfPage";
+import { HeaderInContentArea } from "./HeaderInContentArea";
 import { SidePanel } from "./SidePanel";
 import { WizardContent } from "./WizardContent";
 
 import styles from "./FocusedProductLayout.module.scss";
 
-export type FocusedProductLayoutProps = {
-  content: ReactNode;
+export type HeaderProps = {
   helpMenuItems: MenuOverlayProps<object>["children"];
   onHelpMenuAction?: MenuOverlayProps<object>["onAction"];
   renderBackArrow: (props: { children: ReactNode }) => ReactNode;
   renderLogo: () => ReactNode;
+  title: ReactNode;
+};
+
+export type FocusedProductLayoutProps = HeaderProps & {
+  content: ReactNode;
   sidePanel?: ReactNode;
   sidePanelPosition?: "start" | "end";
-  title: ReactNode;
 };
 
 export function FocusedProductLayout(props: FocusedProductLayoutProps) {
