@@ -30,5 +30,11 @@
 
 .footer {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: design-token("space.1");
+
+  @include breakpoint-sm-up {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
