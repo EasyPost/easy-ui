@@ -30,7 +30,7 @@
 
 .footer {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: design-token("space.1");
 
   @include breakpoint-sm-up {
