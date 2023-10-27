@@ -1,5 +1,6 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "../ProductLayout/mixins" as ProductLayout;
 
 .SidePanel {
   flex-grow: 0;
@@ -10,4 +11,9 @@
   );
   background: design-token("color.blue.800");
   order: component-token("focused-product-layout", "side-panel-order");
+  padding: design-token("space.3");
+
+  @include ProductLayout.breakpoint-large-screen {
+    padding: design-token("space.3") design-token("space.5");
+  }
 }

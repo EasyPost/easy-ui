@@ -1,7 +1,8 @@
 import React, { ReactNode } from "react";
+import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { classNames, variationName } from "../utilities/css";
 import { Content } from "./Content";
-import { Header } from "./Header";
+import { HeaderAtTopOfPage, HeaderInContentArea } from "./Header";
 import { SidePanel } from "./SidePanel";
 import { WizardContent } from "./WizardContent";
 
@@ -9,13 +10,26 @@ import styles from "./FocusedProductLayout.module.scss";
 
 export type FocusedProductLayoutProps = {
   content: ReactNode;
-  header: ReactNode;
+  helpMenuItems: MenuOverlayProps<object>["children"];
+  onHelpMenuAction?: MenuOverlayProps<object>["onAction"];
+  renderBackArrow: (props: { children: ReactNode }) => ReactNode;
+  renderLogo: () => ReactNode;
   sidePanel?: ReactNode;
   sidePanelPosition?: "start" | "end";
+  title: ReactNode;
 };
 
 export function FocusedProductLayout(props: FocusedProductLayoutProps) {
-  const { content, header, sidePanel, sidePanelPosition } = props;
+  const {
+    content,
+    helpMenuItems,
+    onHelpMenuAction,
+    renderBackArrow,
+    renderLogo,
+    sidePanel,
+    sidePanelPosition,
+    title,
+  } = props;
   const className = classNames(
     styles.FocusedProductLayout,
     sidePanelPosition &&
@@ -23,8 +37,22 @@ export function FocusedProductLayout(props: FocusedProductLayoutProps) {
   );
   return (
     <div className={className}>
+      <div className={styles.topBar}>
+        <HeaderAtTopOfPage
+          helpMenuItems={helpMenuItems}
+          onHelpMenuAction={onHelpMenuAction}
+          renderBackArrow={renderBackArrow}
+          renderLogo={renderLogo}
+        />
+      </div>
       <div className={styles.contentContainer}>
-        {header}
+        <HeaderInContentArea
+          helpMenuItems={helpMenuItems}
+          onHelpMenuAction={onHelpMenuAction}
+          renderBackArrow={renderBackArrow}
+          renderLogo={renderLogo}
+          title={title}
+        />
         {content}
       </div>
       {sidePanel}
@@ -32,7 +60,6 @@ export function FocusedProductLayout(props: FocusedProductLayoutProps) {
   );
 }
 
-FocusedProductLayout.Header = Header;
 FocusedProductLayout.SidePanel = SidePanel;
 FocusedProductLayout.Content = Content;
 FocusedProductLayout.WizardContent = WizardContent;

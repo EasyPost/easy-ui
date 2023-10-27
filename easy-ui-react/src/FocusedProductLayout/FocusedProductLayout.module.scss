@@ -1,6 +1,6 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
-@use "mixins" as FocusedProductLayout;
+@use "../ProductLayout/mixins" as ProductLayout;
 
 .FocusedProductLayout {
   @include component-token("focused-product-layout", "content-order", 1);
@@ -11,14 +11,19 @@
   min-height: calc(100svh - #{design-token("space.2")});
   overflow: hidden;
 
-  background: design-token("color.gray.000");
-
-  @include FocusedProductLayout.breakpoint-large-screen {
+  @include ProductLayout.breakpoint-large-screen {
     margin: design-token("space.2") design-token("space.4");
     margin-bottom: 0;
     flex-direction: row;
     border-top-right-radius: design-token("shape.border_radius.xl");
     border-top-left-radius: design-token("shape.border_radius.xl");
+  }
+}
+
+.topBar {
+  display: block;
+  @include ProductLayout.breakpoint-large-screen {
+    display: none;
   }
 }
 
@@ -28,8 +33,9 @@
   flex-direction: column;
   padding: design-token("space.3");
   order: component-token("focused-product-layout", "content-order");
+  background: design-token("color.gray.000");
 
-  @include FocusedProductLayout.breakpoint-large-screen {
+  @include ProductLayout.breakpoint-large-screen {
     padding: design-token("space.3") design-token("space.5");
   }
 }

@@ -1,5 +1,6 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "../ProductLayout/mixins" as ProductLayout;
 
 .Header {
   flex: 0 0 auto;
@@ -15,14 +16,45 @@
   justify-content: space-between;
 }
 
+.logoArrowBox {
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1.5");
+}
+
 .titleBoxWithArrow {
   display: inline-flex;
   align-items: center;
   gap: design-token("space.1");
+}
 
+.backArrowBox {
+  display: inline-flex;
+  margin-left: -4px;
   a,
   button {
     @include unstyled.button;
     @include unstyled.link;
+    display: inline-flex;
+    cursor: pointer;
+  }
+}
+
+.atTopOfPage {
+  padding: design-token("space.3");
+}
+
+.inContentArea {
+  .logoRow {
+    display: none;
+    @include ProductLayout.breakpoint-large-screen {
+      display: flex;
+    }
+  }
+  .backArrowBox {
+    display: none;
+    @include ProductLayout.breakpoint-large-screen {
+      display: inline-flex;
+    }
   }
 }

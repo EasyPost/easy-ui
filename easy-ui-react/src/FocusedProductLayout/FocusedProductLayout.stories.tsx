@@ -24,30 +24,26 @@ export default meta;
 export const Default: Story = {
   render: () => (
     <FocusedProductLayout
-      header={
-        <FocusedProductLayout.Header
-          helpMenuItems={[
-            <Menu.Item key="1" href="https://easypost.com" target="_blank">
-              Documentation
-            </Menu.Item>,
-          ]}
-          renderBackArrow={(props) => {
-            return (
-              <button
-                {...props}
-                onClick={() => {
-                  window.alert("test");
-                }}
-              />
-            );
-          }}
-          renderLogo={() => <EasyPostFullLogo />}
-          title="H3"
-        />
-      }
+      helpMenuItems={[
+        <Menu.Item key="1" href="https://easypost.com" target="_blank">
+          Documentation
+        </Menu.Item>,
+      ]}
+      renderBackArrow={(props) => {
+        return (
+          <button
+            {...props}
+            onClick={() => {
+              window.alert("test");
+            }}
+          />
+        );
+      }}
+      renderLogo={() => <EasyPostFullLogo />}
+      title="Page Title"
       content={
         <FocusedProductLayout.Content>
-          <div style={{ padding: "24px 0" }}>
+          <div style={{ marginTop: 24 }}>
             <PlaceholderBox width="100%">Space for content</PlaceholderBox>
           </div>
         </FocusedProductLayout.Content>
@@ -59,32 +55,26 @@ export const Default: Story = {
 export const WithSidePanel: Story = {
   render: () => (
     <FocusedProductLayout
-      header={
-        <FocusedProductLayout.Header
-          helpMenuItems={[
-            <Menu.Item key="1" href="https://easypost.com" target="_blank">
-              Documentation
-            </Menu.Item>,
-          ]}
-          renderBackArrow={(props) => {
-            return <button {...props} />;
-          }}
-          renderLogo={() => <EasyPostFullLogo />}
-          title="H3"
-        />
-      }
+      helpMenuItems={[
+        <Menu.Item key="1" href="https://easypost.com" target="_blank">
+          Documentation
+        </Menu.Item>,
+      ]}
+      renderBackArrow={(props) => {
+        return <button {...props} />;
+      }}
+      renderLogo={() => <EasyPostFullLogo />}
+      title="Page Title"
       content={
         <FocusedProductLayout.Content>
-          <div style={{ padding: "24px 0" }}>
+          <div style={{ marginTop: 24 }}>
             <PlaceholderBox width="100%">Space for content</PlaceholderBox>
           </div>
         </FocusedProductLayout.Content>
       }
       sidePanel={
         <FocusedProductLayout.SidePanel>
-          <div style={{ padding: "24px 44px" }}>
-            <PlaceholderBox width="100%">Space for content</PlaceholderBox>
-          </div>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
         </FocusedProductLayout.SidePanel>
       }
     />
@@ -94,32 +84,26 @@ export const WithSidePanel: Story = {
 export const WithSidePanelAtStart: Story = {
   render: () => (
     <FocusedProductLayout
-      header={
-        <FocusedProductLayout.Header
-          helpMenuItems={[
-            <Menu.Item key="1" href="https://easypost.com" target="_blank">
-              Documentation
-            </Menu.Item>,
-          ]}
-          renderBackArrow={(props) => {
-            return <button {...props} />;
-          }}
-          renderLogo={() => <EasyPostFullLogo />}
-          title="H3"
-        />
-      }
+      helpMenuItems={[
+        <Menu.Item key="1" href="https://easypost.com" target="_blank">
+          Documentation
+        </Menu.Item>,
+      ]}
+      renderBackArrow={(props) => {
+        return <button {...props} />;
+      }}
+      renderLogo={() => <EasyPostFullLogo />}
+      title="Page Title"
       content={
         <FocusedProductLayout.Content>
-          <div style={{ padding: "24px 0" }}>
+          <div style={{ marginTop: 24 }}>
             <PlaceholderBox width="100%">Space for content</PlaceholderBox>
           </div>
         </FocusedProductLayout.Content>
       }
       sidePanel={
         <FocusedProductLayout.SidePanel>
-          <div style={{ padding: "24px 44px" }}>
-            <PlaceholderBox width="100%">Space for content</PlaceholderBox>
-          </div>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
         </FocusedProductLayout.SidePanel>
       }
       sidePanelPosition="start"
@@ -130,32 +114,26 @@ export const WithSidePanelAtStart: Story = {
 export const WithSidePanelWidth: Story = {
   render: () => (
     <FocusedProductLayout
-      header={
-        <FocusedProductLayout.Header
-          helpMenuItems={[
-            <Menu.Item key="1" href="https://easypost.com" target="_blank">
-              Documentation
-            </Menu.Item>,
-          ]}
-          renderBackArrow={(props) => {
-            return <button {...props} />;
-          }}
-          renderLogo={() => <EasyPostFullLogo />}
-          title="H3"
-        />
-      }
+      helpMenuItems={[
+        <Menu.Item key="1" href="https://easypost.com" target="_blank">
+          Documentation
+        </Menu.Item>,
+      ]}
+      renderBackArrow={(props) => {
+        return <button {...props} />;
+      }}
+      renderLogo={() => <EasyPostFullLogo />}
+      title="Page Title"
       content={
         <FocusedProductLayout.Content>
-          <div style={{ padding: "24px 0" }}>
+          <div style={{ marginTop: 24 }}>
             <PlaceholderBox width="100%">Space for content</PlaceholderBox>
           </div>
         </FocusedProductLayout.Content>
       }
       sidePanel={
         <FocusedProductLayout.SidePanel width="50%">
-          <div style={{ padding: "24px 40px" }}>
-            <PlaceholderBox width="100%">Space for content</PlaceholderBox>
-          </div>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
         </FocusedProductLayout.SidePanel>
       }
       sidePanelPosition="start"
@@ -166,20 +144,16 @@ export const WithSidePanelWidth: Story = {
 export const Wizard: Story = {
   render: () => (
     <FocusedProductLayout
-      header={
-        <FocusedProductLayout.Header
-          helpMenuItems={[
-            <Menu.Item key="1" href="https://easypost.com" target="_blank">
-              Documentation
-            </Menu.Item>,
-          ]}
-          renderBackArrow={(props) => {
-            return <button {...props} />;
-          }}
-          renderLogo={() => <EasyPostFullLogo />}
-          title="H3"
-        />
-      }
+      helpMenuItems={[
+        <Menu.Item key="1" href="https://easypost.com" target="_blank">
+          Documentation
+        </Menu.Item>,
+      ]}
+      renderBackArrow={(props) => {
+        return <button {...props} />;
+      }}
+      renderLogo={() => <EasyPostFullLogo />}
+      title="Page Title"
       content={
         <FocusedProductLayout.WizardContent
           stepper={
@@ -210,7 +184,7 @@ export const Wizard: Story = {
             },
           }}
         >
-          <div style={{ padding: "24px 0" }}>
+          <div style={{ marginTop: 24 }}>
             <PlaceholderBox width="100%">Space for content</PlaceholderBox>
           </div>
         </FocusedProductLayout.WizardContent>
