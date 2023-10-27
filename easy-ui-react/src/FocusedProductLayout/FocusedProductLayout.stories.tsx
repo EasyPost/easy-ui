@@ -1,9 +1,12 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { Menu } from "../Menu";
 import { Stepper } from "../Stepper";
-import { EasyPostFullLogo, PlaceholderBox } from "../utilities/storybook";
+import {
+  EasyPostFullLogo,
+  PlaceholderBox,
+  helpMenuItems,
+} from "../utilities/storybook";
 import {
   FocusedProductLayout,
   FocusedProductLayoutProps,
@@ -19,21 +22,10 @@ const meta: Meta<typeof FocusedProductLayout> = {
   title: "Components/ProductLayout/FocusedProductLayout",
   component: FocusedProductLayout,
   args: {
-    helpMenuItems: [
-      <Menu.Item key="1" href="https://easypost.com" target="_blank">
-        Documentation
-      </Menu.Item>,
-    ],
-    renderBackArrow: (props) => {
-      return (
-        <button
-          {...props}
-          onClick={() => {
-            window.alert("test");
-          }}
-        />
-      );
-    },
+    helpMenuItems: helpMenuItems(),
+    renderBackArrow: (props) => (
+      <button {...props} onClick={action("backArrow.onClick pressed")} />
+    ),
     renderLogo: () => <EasyPostFullLogo />,
     title: "Page Title",
     content: (
