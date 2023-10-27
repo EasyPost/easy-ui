@@ -1,9 +1,8 @@
-import React, { ReactNode, useMemo } from "react";
+import React, { ReactNode } from "react";
 import { Separator } from "./Separator";
-import { flattenChildren } from "../utilities/react";
 import { classNames } from "../utilities/css";
-
 import styles from "./LogoGroup.module.scss";
+import { useInternalSearchNavContext } from "./context";
 
 export type LogoGroupProps = {
   /**
@@ -13,23 +12,23 @@ export type LogoGroupProps = {
   children: ReactNode;
 };
 
-export function LogoGroup(props: LogoGroupProps) {
-  const { children } = props;
-
-  const items = useMemo(() => {
-    return flattenChildren(children);
-  }, [children]);
-
-  const logo = items[0];
-  const select = items.length === 2 ? items[1] : null;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function LogoGroup(_props: LogoGroupProps) {
+  const { logo, emphasizedText, selector } = useInternalSearchNavContext();
 
   return (
     <div className={classNames(styles.logoGroup)}>
       {logo}
-      {select && (
+      {emphasizedText && (
         <>
           <Separator group="logo" />
-          {select}
+          {emphasizedText}
+        </>
+      )}
+      {selector && (
+        <>
+          <Separator group="logo" />
+          {selector}
         </>
       )}
     </div>

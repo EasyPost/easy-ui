@@ -93,19 +93,19 @@ export const CTA: Story = {
           </SearchNav.Selector>
         </SearchNav.LogoGroup>
         <SearchNav.CTAGroup>
-          <SearchNav.CTAItem
+          <SearchNav.SecondaryCTAItem
             symbol={Campaign}
             key="Campaign"
             label="Optional"
             onPress={action("pressed")}
           />
-          <SearchNav.CTAItem
+          <SearchNav.SecondaryCTAItem
             symbol={Help}
             key="Help"
             label="Optional"
             onPress={action("pressed")}
           />
-          <SearchNav.CTAItem
+          <SearchNav.SecondaryCTAItem
             symbol={Brightness5}
             key="Brightness"
             label="Toggle theme"
@@ -158,6 +158,7 @@ export const FullBar: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
+          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
           <SearchNav.Selector
             aria-label="docs version"
             defaultSelectedKey="V1.0"
@@ -176,24 +177,28 @@ export const FullBar: Story = {
           </PlaceholderBox>
         </SearchNav.Search>
         <SearchNav.CTAGroup>
-          <SearchNav.CTAItem
+          <SearchNav.SecondaryCTAItem
             symbol={Campaign}
             key="Campaign"
             label="Optional"
             onPress={action("pressed")}
           />
-          <SearchNav.CTAItem
+          <SearchNav.SecondaryCTAItem
             symbol={Help}
             key="Help"
             label="Optional"
             onPress={action("pressed")}
           />
-          <SearchNav.CTAItem
+          <SearchNav.SecondaryCTAItem
             symbol={Brightness5}
             key="Brightness"
             label="Toggle theme"
             onPress={action("pressed")}
             hideLabelOnDesktop
+          />
+          <SearchNav.PrimaryCTAItem
+            label="Button"
+            onPress={action("pressed")}
           />
         </SearchNav.CTAGroup>
       </>

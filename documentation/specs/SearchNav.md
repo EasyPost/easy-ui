@@ -21,7 +21,7 @@ A `SearchNav` is a navigation bar focused on handling dense information interact
 
 `SearchNav.LogoGroup` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, and `SearchNav.Selector`. `SearchNav.Selector` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
 
-`SearchNav.CTAGroup` will render individual CTAs via `SearchNav.CTAItem`, which will make use of Easy UI's `UnstyledButton` component.
+`SearchNav.CTAGroup` will render individual CTAs via `SearchNav.SecondaryCTAItem`, which will make use of Easy UI's `UnstyledButton` component.
 
 `SearchNav` will also need to handle a unique configuration for smaller devices. Although it won't be exposed to consumers directly,this will be accomplished via a `SearchNavMobile` component, which will be responsible for rendering a clickable hamburger and search icon. The hamburger icon will effectively be a trigger to render a menu comprised of `SearchNav.Selector` and the CTAs in `SearchNav.CTAGroup`. The clickable search icon will render the contents of `SearchNav.Search` and a right aligned close button.
 
@@ -78,12 +78,12 @@ export type SelectorProps<T> = AriaSelectProps<T> &
 
 export type CTAGroupProps = {
   /**
-   * The children of the <SearchNav.CTAGroup> element. Should include <SearchNav.CTAItem> elements.
+   * The children of the <SearchNav.CTAGroup> element. Should include <SearchNav.SecondaryCTAItem> elements.
    */
   children: ReactNode;
 };
 
-export type CTAItemProps = AriaButtonProps<"button"> & {
+export type SecondaryCTAItemProps = AriaButtonProps<"button"> & {
   /**
    * Icon symbol SVG source from @easypost/easy-ui-icons.
    */
@@ -145,9 +145,13 @@ function App() {
         <SearchComponent />
       </SearchNav.Search>
       <SearchNav.CTAGroup>
-        <SearchNav.CTAItem symbol={Campaign} key="Campaign" label="Optional" />
-        <SearchNav.CTAItem symbol={Help} key="Help" label="Optional" />
-        <SearchNav.CTAItem
+        <SearchNav.SecondaryCTAItem
+          symbol={Campaign}
+          key="Campaign"
+          label="Optional"
+        />
+        <SearchNav.SecondaryCTAItem symbol={Help} key="Help" label="Optional" />
+        <SearchNav.SecondaryCTAItem
           symbol={Brightness5}
           key="Brightness"
           label="Toggle theme"

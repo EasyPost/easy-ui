@@ -3,12 +3,15 @@ import { SearchNavOverlayMenuProps } from "./SearchNav";
 import { IconSymbol } from "../types";
 
 type InternalSearchNavContextType = {
-  selectChildren?: ReactNode[];
-  ctaGroupChildren?: ReactNode[];
-  searchNode?: ReactNode;
-  onlyLogoGroup: boolean;
+  logo: ReactNode;
+  emphasizedText?: ReactNode;
+  selector?: ReactNode;
+  selectorChildren?: ReactNode[];
+  primaryCTAItem?: ReactNode;
+  secondaryCTAItems?: ReactNode[];
+  search?: ReactNode;
   menuOverlayProps?: SearchNavOverlayMenuProps<object>;
-  selectLabel?: string;
+  selectorLabel?: string;
   ctaMenuSymbol?: IconSymbol;
 };
 

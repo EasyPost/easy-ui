@@ -26,9 +26,31 @@ describe("<SearchNav />", () => {
     expect(screen.getByRole("navigation")).toBeInTheDocument();
   });
 
-  it("should support rendering Search.Logo", () => {
+  it("should throw an error when SearchNav.LogoGroup is missing", () => {
+    expect(() => render(getSearchNavWithoutLogoGroup())).toThrow(
+      "SearchNav must contain SearchNav.LogoGroup.",
+    );
+  });
+
+  it("should support rendering SearchNav.Logo", () => {
     render(getSearchNav({}));
     expect(screen.getByAltText("some logo")).toBeInTheDocument();
+  });
+
+  it("should throw an error when SearchNav.Logo is missing", () => {
+    expect(() => render(getSearchNavWithoutLogo())).toThrow(
+      "SearchNav.LogoGroup must contain SearchNav.Logo.",
+    );
+  });
+
+  it("should support rendering Search.EmphasizedText with appropriate styles", () => {
+    render(getSearchNav({}));
+    const emphasizedText = screen.getByText("DOCS");
+    expect(emphasizedText).toBeInTheDocument();
+    expect(emphasizedText).toHaveAttribute(
+      "class",
+      expect.stringContaining("subtitle1"),
+    );
   });
 
   it("should support SearchNav.Selector being controlled", async () => {
@@ -64,7 +86,51 @@ describe("<SearchNav />", () => {
     expect(menuBtn).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByRole("menu")).toBeInTheDocument();
   });
+
+  it("should support rendering SearchNav.PrimaryCTAItem", () => {
+    render(getSearchNav({}));
+    expect(screen.getByRole("button", { name: "Sign up" })).toBeInTheDocument();
+  });
+
+  it("should throw an error when more than one SearchNav.PrimaryCTAItem is provided", () => {
+    expect(() => render(getSearchNavWithMultiplePrimaryCTAItems())).toThrow(
+      "SearchNav.CTAGroup can support at most one SearchNav.PrimaryCTAItem.",
+    );
+  });
 });
+
+function getSearchNavWithMultiplePrimaryCTAItems() {
+  return (
+    <SearchNav>
+      <SearchNav.LogoGroup>
+        <SearchNav.Logo>
+          <img alt="some logo" />
+        </SearchNav.Logo>
+      </SearchNav.LogoGroup>
+      <SearchNav.CTAGroup>
+        <SearchNav.SecondaryCTAItem
+          symbol={Campaign}
+          key="Campaign"
+          label="Optional"
+        />
+        <SearchNav.PrimaryCTAItem label="Sign up" />
+        <SearchNav.PrimaryCTAItem label="example" />
+      </SearchNav.CTAGroup>
+    </SearchNav>
+  );
+}
+
+function getSearchNavWithoutLogoGroup() {
+  return <SearchNav>example</SearchNav>;
+}
+
+function getSearchNavWithoutLogo() {
+  return (
+    <SearchNav>
+      <SearchNav.LogoGroup>example</SearchNav.LogoGroup>
+    </SearchNav>
+  );
+}
 
 function getSearchNav({ selectorProps = {} }) {
   return (
@@ -73,6 +139,7 @@ function getSearchNav({ selectorProps = {} }) {
         <SearchNav.Logo>
           <img alt="some logo" />
         </SearchNav.Logo>
+        <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
         <SearchNav.Selector
           aria-label="docs version"
           defaultSelectedKey="V1.0"
@@ -87,14 +154,19 @@ function getSearchNav({ selectorProps = {} }) {
         <input type="search" aria-label="search" />
       </SearchNav.Search>
       <SearchNav.CTAGroup>
-        <SearchNav.CTAItem symbol={Campaign} key="Campaign" label="Optional" />
-        <SearchNav.CTAItem symbol={Help} key="Help" label="Optional" />
-        <SearchNav.CTAItem
+        <SearchNav.SecondaryCTAItem
+          symbol={Campaign}
+          key="Campaign"
+          label="Optional"
+        />
+        <SearchNav.SecondaryCTAItem symbol={Help} key="Help" label="Optional" />
+        <SearchNav.SecondaryCTAItem
           symbol={Brightness5}
           key="Brightness"
           label="Toggle theme"
           hideLabelOnDesktop
         />
+        <SearchNav.PrimaryCTAItem label="Sign up" />
       </SearchNav.CTAGroup>
     </SearchNav>
   );

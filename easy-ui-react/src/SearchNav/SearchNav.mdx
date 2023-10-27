@@ -12,10 +12,10 @@ A `SearchNav` is a navigation bar focused on handling dense information interact
 The `SearchNav.LogoGroup` and `SearchNav.Logo` components are required.
 
 On screen sizes between `640px` and `1024px`, `SearchNav.CTAGroup`, if applicable, collapses into a menu
-where each `SearchNav.CTAItem` is transposed onto `Menu.Item`. The `key` provided is directly forwarded.
+where each `SearchNav.SecondaryCTAItem` is transposed onto `Menu.Item`. The `key` provided is directly forwarded.
 
 On screen sizes smaller than `640px`, `SearchNav.CTAGroup` and `SearchNav.Select`, if applicable, collapse into
-a single menu where `SearchNav.CTAItem` and `SearchNav.Option` are respectively transposed onto `Menu.Item`.
+a single menu where `SearchNav.SecondaryCTAItem` and `SearchNav.Option` are respectively transposed onto `Menu.Item`.
 
 The `menuOverlayProps` prop can be used to control menu interactions. Note, on screen sizes greater than `640px`,
 `menuOverlayProps` has no bearing on `SearchNav.Select` since the data representation only collapses at screen sizes
@@ -95,9 +95,9 @@ export type SearchNavOverlayMenuProps<T> = {
 
 <ArgTypes of={SearchNav.CTAGroup} />
 
-### SearchNav.CTAItem
+### SearchNav.SecondaryCTAItem
 
-<ArgTypes of={SearchNav.CTAItem} />
+<ArgTypes of={SearchNav.SecondaryCTAItem} />
 
 ### SearchNav.Selector
 
