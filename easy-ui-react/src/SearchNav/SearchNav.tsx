@@ -73,6 +73,7 @@ export type SearchNavProps<T> = {
 *        <SearchNav.Logo>
 *          <img alt="some logo" />
 *        </SearchNav.Logo>
+*        <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
 *        <SearchNav.Selector
 *          label="docs version"
 *          defaultSelectedKey="V1.0"
@@ -96,6 +97,9 @@ export type SearchNavProps<T> = {
 *          key="Brightness"
 *          label="Toggle theme"
 *          hideLabelOnDesktop
+*        />
+*        <SearchNav.PrimaryCTAItem
+*          label="Sign up"
 *        />
 *      </SearchNav.CTAGroup>
 *    </SearchNav>

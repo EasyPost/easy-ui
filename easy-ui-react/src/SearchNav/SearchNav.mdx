@@ -25,17 +25,27 @@ less than `640px`.
 
 <Canvas of={SearchNavStories.Simple} />
 
+## Emphasized Text
+
+<Canvas of={SearchNavStories.EmphasizedText} />
+
 ## Selector
 
 `SearchNav.Selector` can be controlled with `onSelectionChange`.
 
 <Canvas of={SearchNavStories.Selector} />
 
-## CTA
+## Secondary CTAs
 
-Each `CTA.Item` is implemented as a button and hence, can accept `onPress` and `href`.
+`SearchNav.CTAGroup` can render multiple `SearchNav.SecondaryCTAItem` components
 
-<Canvas of={SearchNavStories.CTA} />
+<Canvas of={SearchNavStories.SecondaryCTA} />
+
+## Primary CTA
+
+`SearchNav.CTAGroup` can render at **most** one `SearchNav.PrimaryCTAItem` component
+
+<Canvas of={SearchNavStories.PrimaryCTA} />
 
 ## Search
 
@@ -87,6 +97,10 @@ export type SearchNavOverlayMenuProps<T> = {
 
 <ArgTypes of={SearchNav.Logo} />
 
+### SearchNav.EmphasizedText
+
+<ArgTypes of={SearchNav.EmphasizedText} />
+
 ### SearchNav.Search
 
 <ArgTypes of={SearchNav.Search} />
@@ -94,6 +108,10 @@ export type SearchNavOverlayMenuProps<T> = {
 ### SearchNav.CTAGroup
 
 <ArgTypes of={SearchNav.CTAGroup} />
+
+### SearchNav.PrimaryCTAItem
+
+<ArgTypes of={SearchNav.PrimaryCTAItem} />
 
 ### SearchNav.SecondaryCTAItem
 
@@ -104,11 +122,10 @@ export type SearchNavOverlayMenuProps<T> = {
 ```ts
 export type SelectorProps<T> = {
   /**
-   * Hidden label that applies to expanded <SearchNav.Select> and will
-   * become aria-label to apply to <Menu.Section> when <SearchNav>
-   * collapses.
+   * aria-label that applies to expanded <SearchNav.Select> and
+   * to <Menu.Section> when <SearchNav> collapses.
    */
-  label: string;
+  "aria-label": string;
   /** Method that is called when the open state of the select field changes. */
   onOpenChange?: (isOpen: boolean) => void;
   /** Sets the open state of the select field. */

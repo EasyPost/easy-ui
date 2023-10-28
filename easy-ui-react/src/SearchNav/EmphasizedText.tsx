@@ -3,7 +3,7 @@ import { Text } from "../Text";
 
 export type EmphasizedTextProps = {
   /**
-   * Text content to display.
+   * Emphasized text content to display.
    */
   children: ReactNode;
 };

@@ -26,6 +26,11 @@ const Template = (args: SearchNavProps<object>) => {
 const meta: Meta<typeof SearchNav> = {
   title: "Components/SearchNav",
   component: SearchNav,
+  parameters: {
+    controls: {
+      include: [],
+    },
+  },
 };
 
 export default meta;
@@ -45,6 +50,22 @@ export const Simple: Story = {
   },
 };
 
+export const EmphasizedText: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <>
+        <SearchNav.LogoGroup>
+          <SearchNav.Logo>
+            <EasyPostFullLogo />
+          </SearchNav.Logo>
+          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+        </SearchNav.LogoGroup>
+      </>
+    ),
+  },
+};
+
 export const Selector: Story = {
   render: Template.bind({}),
   args: {
@@ -54,6 +75,7 @@ export const Selector: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
+          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
           <SearchNav.Selector
             aria-label="docs version"
             defaultSelectedKey="V1.0"
@@ -71,7 +93,7 @@ export const Selector: Story = {
   },
 };
 
-export const CTA: Story = {
+export const SecondaryCTA: Story = {
   render: Template.bind({}),
   args: {
     children: (
@@ -80,6 +102,7 @@ export const CTA: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
+          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
           <SearchNav.Selector
             aria-label="docs version"
             defaultSelectedKey="V1.0"
@@ -118,7 +141,7 @@ export const CTA: Story = {
   },
 };
 
-export const Search: Story = {
+export const PrimaryCTA: Story = {
   render: Template.bind({}),
   args: {
     children: (
@@ -127,6 +150,7 @@ export const Search: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
+          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
           <SearchNav.Selector
             aria-label="docs version"
             defaultSelectedKey="V1.0"
@@ -139,11 +163,59 @@ export const Search: Story = {
             <SearchNav.Option key="V99.99">V99.99</SearchNav.Option>
           </SearchNav.Selector>
         </SearchNav.LogoGroup>
+        <SearchNav.CTAGroup>
+          <SearchNav.SecondaryCTAItem
+            symbol={Campaign}
+            key="Campaign"
+            label="Optional"
+            onPress={action("pressed")}
+          />
+          <SearchNav.SecondaryCTAItem
+            symbol={Help}
+            key="Help"
+            label="Optional"
+            onPress={action("pressed")}
+          />
+          <SearchNav.SecondaryCTAItem
+            symbol={Brightness5}
+            key="Brightness"
+            label="Toggle theme"
+            onPress={action("pressed")}
+            hideLabelOnDesktop
+          />
+          <SearchNav.PrimaryCTAItem label="Sign up" />
+        </SearchNav.CTAGroup>
+      </>
+    ),
+  },
+};
+
+export const Search: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <>
+        <SearchNav.LogoGroup>
+          <SearchNav.Logo>
+            <EasyPostFullLogo />
+          </SearchNav.Logo>
+          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+        </SearchNav.LogoGroup>
         <SearchNav.Search>
           <PlaceholderBox width="100%" height={36}>
             Search Bar
           </PlaceholderBox>
         </SearchNav.Search>
+        <SearchNav.CTAGroup>
+          <SearchNav.SecondaryCTAItem
+            symbol={Brightness5}
+            key="Brightness"
+            label="Toggle theme"
+            onPress={action("pressed")}
+            hideLabelOnDesktop
+          />
+          <SearchNav.PrimaryCTAItem label="Sign up" />
+        </SearchNav.CTAGroup>
       </>
     ),
   },
@@ -197,7 +269,7 @@ export const FullBar: Story = {
             hideLabelOnDesktop
           />
           <SearchNav.PrimaryCTAItem
-            label="Button"
+            label="Sign up"
             onPress={action("pressed")}
           />
         </SearchNav.CTAGroup>
