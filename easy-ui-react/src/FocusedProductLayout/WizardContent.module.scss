@@ -1,5 +1,6 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "../Stepper/mixins" as Stepper;
 
 .WizardContent {
   flex: 1 0 auto;
@@ -11,7 +12,8 @@
 .stepperContainer {
   flex: 0 0 auto;
   padding-bottom: design-token("space.1");
-  @include breakpoint-sm-up {
+
+  @include Stepper.breakpoint-fold-up {
     border-bottom: design-token("shape.border_width.1") solid
       design-token("color.gray.200");
   }
@@ -19,7 +21,8 @@
 
 .stepper {
   margin-left: -10px;
-  @include breakpoint-sm-up {
+
+  @include Stepper.breakpoint-fold-up {
     margin-left: calc(#{design-token("space.2")} * -1);
   }
 }
@@ -33,7 +36,7 @@
   flex-direction: column-reverse;
   gap: design-token("space.1");
 
-  @include breakpoint-sm-up {
+  @include Stepper.breakpoint-fold-up {
     flex-direction: row;
     justify-content: space-between;
   }

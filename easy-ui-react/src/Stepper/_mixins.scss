@@ -1,0 +1,7 @@
+@use "../styles/common" as *;
+
+@mixin breakpoint-fold-up {
+  @include breakpoint-md-up {
+    @content;
+  }
+}
