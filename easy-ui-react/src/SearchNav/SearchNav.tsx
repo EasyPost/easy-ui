@@ -1,10 +1,6 @@
-import React, { ReactElement, ReactNode, useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { classNames } from "../utilities/css";
-import {
-  flattenChildren,
-  filterChildrenByDisplayName,
-  getDisplayNameFromReactNode,
-} from "../utilities/react";
+import { flattenChildren } from "../utilities/react";
 import styles from "./SearchNav.module.scss";
 import { LogoGroup } from "./LogoGroup";
 import { Search } from "./Search";
@@ -18,7 +14,13 @@ import { SelectOption } from "../Select/SelectOption";
 import { InternalSearchNavContext } from "./context";
 import { IconSymbol } from "../types";
 import { PrimaryCTAItem } from "./PrimaryCTAItem";
-import { EmphasizedText } from "./EmphasizedText";
+import { Title } from "./Title";
+import {
+  getSearchChildren,
+  getCTAGroupChildren,
+  getLogoGroupChildren,
+  getSelectorLabel,
+} from "./utilities";
 
 export type SearchNavOverlayMenuProps<T> = Omit<
   MenuOverlayProps<T>,
@@ -73,7 +75,7 @@ export type SearchNavProps<T> = {
 *        <SearchNav.Logo>
 *          <img alt="some logo" />
 *        </SearchNav.Logo>
-*        <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+*        <SearchNav.Title>Docs</SearchNav.Title>
 *        <SearchNav.Selector
 *          label="docs version"
 *          defaultSelectedKey="V1.0"
@@ -111,98 +113,35 @@ export function SearchNav<T>(props: SearchNavProps<T>) {
   const { menuOverlayProps, ctaMenuSymbol, children } = props;
 
   const { onlyLogoGroup, context } = useMemo(() => {
+    // To support the various configurations on smaller screens,
+    // we extract data and nodes from the components provided
+    // by consumers and use context to share them efficiently.
     const topLevelChildren = flattenChildren(children);
 
-    const logoGroupDisplayName = getDisplayNameFromReactNode(
+    const { logo, title, selector, selectorChildren } = getLogoGroupChildren(
       topLevelChildren[0],
     );
+    const selectorLabel = getSelectorLabel(selector);
 
-    if (logoGroupDisplayName !== "SearchNav.LogoGroup") {
-      throw new Error("SearchNav must contain SearchNav.LogoGroup.");
-    }
-    const logoGroupElement = topLevelChildren[0] as ReactElement;
-    const logoGroupChildren = flattenChildren(logoGroupElement.props.children);
-    const logoDisplayName = getDisplayNameFromReactNode(logoGroupChildren[0]);
-    if (logoDisplayName !== "SearchNav.Logo") {
-      throw new Error("SearchNav.LogoGroup must contain SearchNav.Logo.");
-    }
-    const logo = logoGroupChildren[0];
+    const search =
+      topLevelChildren.length > 1
+        ? getSearchChildren(topLevelChildren[1])
+        : undefined;
 
-    let emphasizedText;
-    if (
-      logoGroupChildren.length > 1 &&
-      getDisplayNameFromReactNode(logoGroupChildren[1]) ===
-        "SearchNav.EmphasizedText"
-    ) {
-      emphasizedText = logoGroupChildren[1];
-    }
+    const { secondaryCTAItems, primaryCTAItem } = getCTAGroupChildren(
+      topLevelChildren[topLevelChildren.length - 1],
+    );
 
-    let selector;
-    let selectorChildren;
-    let selectorLabel = "";
-    if (
-      logoGroupChildren.length > 1 &&
-      getDisplayNameFromReactNode(
-        logoGroupChildren[logoGroupChildren.length - 1],
-      ) === "SearchNav.Selector"
-    ) {
-      selector = logoGroupChildren[logoGroupChildren.length - 1];
-      const selectorElem = selector as ReactElement;
-      const { "aria-label": label } = selectorElem.props;
-      selectorLabel = label;
-      selectorChildren = flattenChildren(selectorElem.props.children);
-    }
-
-    let search;
-    if (
-      topLevelChildren.length > 1 &&
-      getDisplayNameFromReactNode(topLevelChildren[1]) === "SearchNav.Search"
-    ) {
-      const searchChildren = flattenChildren(topLevelChildren[1]);
-      if (searchChildren.length === 1) {
-        search = searchChildren[0];
-      }
-    }
-
-    let secondaryCTAItems;
-    let primaryCTAItem;
-    let hasCtaGroup = false;
-    if (
-      topLevelChildren.length > 1 &&
-      getDisplayNameFromReactNode(
-        topLevelChildren[topLevelChildren.length - 1],
-      ) === "SearchNav.CTAGroup"
-    ) {
-      const ctaGroupElement = topLevelChildren[
-        topLevelChildren.length - 1
-      ] as ReactElement;
-      hasCtaGroup = true;
-      secondaryCTAItems = filterChildrenByDisplayName(
-        ctaGroupElement.props.children,
-        "SearchNav.SecondaryCTAItem",
-      );
-      const primaryCTAItemArr = filterChildrenByDisplayName(
-        ctaGroupElement.props.children,
-        "SearchNav.PrimaryCTAItem",
-      );
-
-      if (primaryCTAItemArr.length > 1) {
-        throw new Error(
-          "SearchNav.CTAGroup can support at most one SearchNav.PrimaryCTAItem.",
-        );
-      }
-      if (primaryCTAItemArr.length !== 0) {
-        primaryCTAItem = primaryCTAItemArr[0];
-      }
-    }
-
-    const onlyLogoGroup = !hasCtaGroup && search === undefined;
+    const onlyLogoGroup =
+      secondaryCTAItems === undefined &&
+      primaryCTAItem === undefined &&
+      search === undefined;
 
     return {
       onlyLogoGroup,
       context: {
         logo,
-        emphasizedText,
+        title,
         selector,
         selectorChildren,
         secondaryCTAItems,
@@ -250,12 +189,12 @@ SearchNav.LogoGroup = LogoGroup;
 SearchNav.Logo = Logo;
 
 /**
- * Represents <SearchNav.EmphasizedText />`.
+ * Represents <SearchNav.Title />`.
  *
  * @remarks
  * Renders emphasized text.
  */
-SearchNav.EmphasizedText = EmphasizedText;
+SearchNav.Title = Title;
 
 /**
  * Represents <SearchNav.Selector />`.

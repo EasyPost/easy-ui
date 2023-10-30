@@ -19,7 +19,7 @@ A `SearchNav` is a navigation bar focused on handling dense information interact
 
 `SearchNav` will be made up of sub-component containers. At the top level, the `SearchNav` serves as the container for the logo, dropdown, search input, and CTAs. The logo and dropdown will be grouped into a `SearchNav.LogoGroup` container. The search input will be wrapped by a `SearchNav.Search` container. The CTAs will be wrapped by a `SearchNav.CTAGroup` container.
 
-`SearchNav.LogoGroup` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, `SearchNav.EmphasizedText`, and `SearchNav.Selector`. `SearchNav.Selector` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
+`SearchNav.LogoGroup` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, `SearchNav.Title`, and `SearchNav.Selector`. `SearchNav.Selector` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
 
 `SearchNav.CTAGroup` will render a primary CTA, `SearchNav.PrimaryCTAItem`, and a secondary CTA, `SearchNav.SecondaryCTAItem`; both will make use of Easy UI's `UnstyledButton` component.
 

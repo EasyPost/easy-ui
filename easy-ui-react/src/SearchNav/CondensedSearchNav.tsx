@@ -16,8 +16,8 @@ import { getFlattenedKey } from "../utilities/react";
 /**
  * @privateRemarks
  * Renders a left aligned menu button and right aligned search button.
- * The menu options come from `SearchNav.Selector` and `SearchNav.CTAGroup`.
- * On small screens, this effectively replaces `SearchNav`.
+ * The menu options come from `<SearchNav.Selector>` and `<SearchNav.CTAGroup>`.
+ * On small screens, this effectively replaces `<SearchNav>`.
  */
 export function CondensedSearchNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

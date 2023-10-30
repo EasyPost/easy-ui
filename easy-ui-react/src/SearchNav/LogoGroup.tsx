@@ -12,17 +12,25 @@ export type LogoGroupProps = {
   children: ReactNode;
 };
 
+/**
+ *
+ * @privateRemarks
+ * This component doesn't directly use children and instead
+ * reads the nodes it renders from context. This is so we can
+ * efficiently share the same data across various configurations.
+ *
+ */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function LogoGroup(_props: LogoGroupProps) {
-  const { logo, emphasizedText, selector } = useInternalSearchNavContext();
+  const { logo, title, selector } = useInternalSearchNavContext();
 
   return (
     <div className={classNames(styles.logoGroup)}>
       {logo}
-      {emphasizedText && (
+      {title && (
         <>
           <Separator group="logo" />
-          {emphasizedText}
+          {title}
         </>
       )}
       {selector && (

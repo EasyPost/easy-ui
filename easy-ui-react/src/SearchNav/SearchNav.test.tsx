@@ -43,9 +43,9 @@ describe("<SearchNav />", () => {
     );
   });
 
-  it("should support rendering Search.EmphasizedText with appropriate styles", () => {
+  it("should support rendering Search.Title with appropriate styles", () => {
     render(getSearchNav({}));
-    const emphasizedText = screen.getByText("DOCS");
+    const emphasizedText = screen.getByText("Docs");
     expect(emphasizedText).toBeInTheDocument();
     expect(emphasizedText).toHaveAttribute(
       "class",
@@ -139,7 +139,7 @@ function getSearchNav({ selectorProps = {} }) {
         <SearchNav.Logo>
           <img alt="some logo" />
         </SearchNav.Logo>
-        <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+        <SearchNav.Title>Docs</SearchNav.Title>
         <SearchNav.Selector
           aria-label="docs version"
           defaultSelectedKey="V1.0"

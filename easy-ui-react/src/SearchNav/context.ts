@@ -4,7 +4,7 @@ import { IconSymbol } from "../types";
 
 type InternalSearchNavContextType = {
   logo: ReactNode;
-  emphasizedText?: ReactNode;
+  title?: ReactNode;
   selector?: ReactNode;
   selectorChildren?: ReactNode[];
   primaryCTAItem?: ReactNode;

@@ -19,6 +19,14 @@ export type CTAGroupProps = {
   children: ReactNode;
 };
 
+/**
+ *
+ * @privateRemarks
+ * This component doesn't directly use children and instead
+ * reads the nodes it renders from context. This is so we can
+ * efficiently share the same data across various configurations.
+ *
+ */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function CTAGroup(_props: CTAGroupProps) {
   const { menuOverlayProps, ctaMenuSymbol, primaryCTAItem, secondaryCTAItems } =

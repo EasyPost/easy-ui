@@ -50,7 +50,7 @@ export const Simple: Story = {
   },
 };
 
-export const EmphasizedText: Story = {
+export const Title: Story = {
   render: Template.bind({}),
   args: {
     children: (
@@ -59,7 +59,7 @@ export const EmphasizedText: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
-          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+          <SearchNav.Title>Docs</SearchNav.Title>
         </SearchNav.LogoGroup>
       </>
     ),
@@ -75,7 +75,7 @@ export const Selector: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
-          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+          <SearchNav.Title>Docs</SearchNav.Title>
           <SearchNav.Selector
             aria-label="docs version"
             defaultSelectedKey="V1.0"
@@ -102,7 +102,7 @@ export const SecondaryCTA: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
-          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+          <SearchNav.Title>Docs</SearchNav.Title>
           <SearchNav.Selector
             aria-label="docs version"
             defaultSelectedKey="V1.0"
@@ -150,7 +150,7 @@ export const PrimaryCTA: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
-          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+          <SearchNav.Title>Docs</SearchNav.Title>
           <SearchNav.Selector
             aria-label="docs version"
             defaultSelectedKey="V1.0"
@@ -199,11 +199,11 @@ export const Search: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
-          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+          <SearchNav.Title>Docs</SearchNav.Title>
         </SearchNav.LogoGroup>
         <SearchNav.Search>
           <PlaceholderBox width="100%" height={36}>
-            Search Bar
+            Search
           </PlaceholderBox>
         </SearchNav.Search>
         <SearchNav.CTAGroup>
@@ -230,7 +230,7 @@ export const FullBar: Story = {
           <SearchNav.Logo>
             <EasyPostFullLogo />
           </SearchNav.Logo>
-          <SearchNav.EmphasizedText>DOCS</SearchNav.EmphasizedText>
+          <SearchNav.Title>Docs</SearchNav.Title>
           <SearchNav.Selector
             aria-label="docs version"
             defaultSelectedKey="V1.0"
@@ -245,7 +245,7 @@ export const FullBar: Story = {
         </SearchNav.LogoGroup>
         <SearchNav.Search>
           <PlaceholderBox width="100%" height={36}>
-            Search Bar
+            Search
           </PlaceholderBox>
         </SearchNav.Search>
         <SearchNav.CTAGroup>
