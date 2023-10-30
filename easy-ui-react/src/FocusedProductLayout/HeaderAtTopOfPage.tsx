@@ -7,6 +7,13 @@ import type { HeaderProps } from "./FocusedProductLayout";
 
 import styles from "./Header.module.scss";
 
+/**
+ * Header to render at the top of the page. Above the main content. Only
+ * visible on small screens.
+ *
+ * @private
+ * @ignore
+ */
 export function HeaderAtTopOfPage(props: Omit<HeaderProps, "title">) {
   const { helpMenuItems, onHelpMenuAction, renderBackArrow, renderLogo } =
     props;

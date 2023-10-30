@@ -8,6 +8,13 @@ import type { HeaderProps } from "./FocusedProductLayout";
 
 import styles from "./Header.module.scss";
 
+/**
+ * Header to render in the main content area. Most of this is rendered only
+ * on large screens.
+ *
+ * @private
+ * @ignore
+ */
 export function HeaderInContentArea(props: HeaderProps) {
   const {
     helpMenuItems,

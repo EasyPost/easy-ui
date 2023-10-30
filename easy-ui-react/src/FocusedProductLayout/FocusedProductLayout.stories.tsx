@@ -100,21 +100,18 @@ export const WizardContent: Story = {
   args: {
     content: (
       <FocusedProductLayout.WizardContent
-        stepper={
-          <Stepper activeStepIndex={1}>
-            {["Step 1", "Step 2", "Step 3", "Step 4"].map((step, index) => (
-              <Stepper.Step
-                key={step}
-                stepIndex={index}
-                onPress={() => {}}
-                isComplete={index < 1}
-                isAccessible={false}
-              >
-                {step}
-              </Stepper.Step>
-            ))}
-          </Stepper>
-        }
+        activeStepIndex={1}
+        steps={["Step 1", "Step 2", "Step 3", "Step 4"].map((step, index) => (
+          <Stepper.Step
+            key={step}
+            stepIndex={index}
+            onPress={() => {}}
+            isComplete={index < 1}
+            isAccessible={false}
+          >
+            {step}
+          </Stepper.Step>
+        ))}
         previousAction={{
           content: "Back",
           onAction: action("previousAction.onAction pressed"),
