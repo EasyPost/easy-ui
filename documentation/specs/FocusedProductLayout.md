@@ -12,7 +12,7 @@
 
 ## Design
 
-`FocusedProductLayout` will be a compound component consisting of `FocusedProductLayout`, `FocusedProductLayout.Header`, and either `FocusedProductLayout.Content` or `FocusedProductLayout.WizardContent`.
+`FocusedProductLayout` will be a compound component consisting of `FocusedProductLayout`, either `FocusedProductLayout.Content` or `FocusedProductLayout.WizardContent`, and optionally a `FocusedProductLayout.SidePanel`.
 
 `FocusedProductLayout` will be concerned with the presentational page structure and ensuring it folds properly across breakpoints. This includes rendering of the help menu. It won't include the items for the help menu (as those can be context dependent), nor any business logic of its own. `FocusedProductLayout` is intended to be wrapped by an app-specific layout that includes app-specific business logic and configuration.
 
@@ -20,41 +20,43 @@
 
 `FocusedProductLayout.WizardContent` utilizes the `Stepper` component to provide accessible step visualization across a defined number of wizard steps. It also includes buttons below the primary content area for navigating between steps.
 
-`FocusedProductLayout` accepts a `renderSidePanel` render prop to optionally render an inverse background side panel within the main content area. The side panel can be positioned to be at the `start` or `end` of the main content area. It defaults to the `end`.
+`FocusedProductLayout` accepts a `sidePanel` prop to optionally render an inverse background side panel within the main content area. The side panel can be positioned to be at the `start` or `end` of the main content area. It defaults to the `end`.
 
 `FocusedProductLayout.Header` accepts a title, help menu items, and [render props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop) for a back button and a logo. Utilizing render props allows for the rendering of each item to remain flexibile while passing in any unique design constraint. `renderBackArrow`, for instance, can support the back button being a true `button` or a framework-specific `Link` component.
 
 ### API
 
 ```ts
-export type FocusedProductLayoutProps = {
-  children: ReactNode;
-  renderSidePanel?: () => ReactNode;
-  sidePanelPosition?: "start" | "end";
-};
-
-export type FocusedProductLayoutContentProps = {
-  children: ReactNode;
-};
-
-export type FocusedProductLayoutWizardContentProps = {
-  children: ReactNode;
-  nextAction: FocusedProductLayoutWizardContentActionProps;
-  previousAction: FocusedProductLayoutWizardContentActionProps;
-  stepper: ReactNode;
-};
-
-type FocusedProductLayoutWizardContentActionProps = {
-  content: string;
-  onAction: () => void;
-  isDisabled?: boolean;
-};
-
-export type FocusedProductLayoutHeaderProps = {
-  helpMenuItems: ReactNode[];
+export type HeaderProps = {
+  helpMenuItems: MenuOverlayProps<object>["children"];
+  onHelpMenuAction?: MenuOverlayProps<object>["onAction"];
   renderBackArrow: (props: { children: ReactNode }) => ReactNode;
   renderLogo: () => ReactNode;
   title: ReactNode;
+};
+
+export type FocusedProductLayoutProps = HeaderProps & {
+  content: ReactNode;
+  sidePanel?: ReactNode;
+  sidePanelPosition?: "start" | "end";
+};
+
+export type ContentProps = {
+  children: ReactNode;
+};
+
+export type WizardContentProps = {
+  activeStepIndex: StepperProps["activeStepIndex"];
+  children: ReactNode;
+  nextAction: WizardContentActionProps;
+  previousAction: WizardContentActionProps;
+  steps: StepperProps["children"];
+};
+
+type WizardContentActionProps = {
+  content: string;
+  onAction: () => void;
+  isDisabled?: boolean;
 };
 ```
 
@@ -67,30 +69,30 @@ import { FocusedProductLayout } from "@easypost/easy-ui/ProductLayout";
 
 function App() {
   return (
-    <FocusedProductLayout>
-      <FocusedProductLayout.Header
-        helpMenuItems={[
-          <Menu.Item key="1" href="https://easypost.com" target="_blank">
-            Documentation
-          </Menu.Item>,
-          // etc
-        ]}
-        renderBackArrow={(props) => {
-          // pass props that represent any unique design constraints
-          // in this case, they are `BackArrowIcon` as `children`
-          return (
-            <Link href="/account/settings" passHref>
-              <a>{props.children}</a>
-            </Link>
-          );
-        }}
-        renderLogo={() => <EasyPostLogo />}
-        title="Page title"
-      />
-      <FocusedProductLayout.Content>
-        <div>Content</div>
-      </FocusedProductLayout.Content>
-    </FocusedProductLayout>
+    <FocusedProductLayout
+      helpMenuItems={[
+        <Menu.Item key="1" href="https://easypost.com" target="_blank">
+          Documentation
+        </Menu.Item>,
+        // etc
+      ]}
+      renderBackArrow={(props) => {
+        // pass props that represent any unique design constraints
+        // in this case, they are `BackArrowIcon` as `children`
+        return (
+          <Link href="/account/settings" passHref>
+            <a>{props.children}</a>
+          </Link>
+        );
+      }}
+      renderLogo={() => <EasyPostLogo />}
+      title="Page title"
+      content={
+        <FocusedProductLayout.Content>
+          <div>Content</div>
+        </FocusedProductLayout.Content>
+      }
+    />
   );
 }
 ```
@@ -103,35 +105,34 @@ import { FocusedProductLayout } from "@easypost/easy-ui/ProductLayout";
 function App() {
   return (
     <FocusedProductLayout
-      renderSidePanel={() => (
+      helpMenuItems={[
+        <Menu.Item key="1" href="https://easypost.com" target="_blank">
+          Documentation
+        </Menu.Item>,
+        // etc
+      ]}
+      renderBackArrow={(props) => {
+        // pass props that represent any unique design constraints
+        // in this case, they are `BackArrowIcon` as `children`
+        return (
+          <Link href="/account/settings" passHref>
+            <a>{props.children}</a>
+          </Link>
+        );
+      }}
+      renderLogo={() => <EasyPostLogo />}
+      title="Page title"
+      content={
+        <FocusedProductLayout.Content>
+          <div>Content</div>
+        </FocusedProductLayout.Content>
+      }
+      sidePanel={
         <FocusedProductLayout.SidePanel>
           <div>Content</div>
         </FocusedProductLayout.SidePanel>
-      )}
-    >
-      <FocusedProductLayout.Header
-        helpMenuItems={[
-          <Menu.Item key="1" href="https://easypost.com" target="_blank">
-            Documentation
-          </Menu.Item>,
-          // etc
-        ]}
-        renderBackArrow={(props) => {
-          // pass props that represent any unique design constraints
-          // in this case, they are `BackArrowIcon` as `children`
-          return (
-            <Link href="/account/settings" passHref>
-              <a>{props.children}</a>
-            </Link>
-          );
-        }}
-        renderLogo={() => <EasyPostLogo />}
-        title="Page title"
-      />
-      <FocusedProductLayout.Content>
-        <div>Content</div>
-      </FocusedProductLayout.Content>
-    </FocusedProductLayout>
+      }
+    />
   );
 }
 ```
@@ -143,62 +144,59 @@ import { FocusedProductLayout } from "@easypost/easy-ui/ProductLayout";
 
 function App() {
   return (
-    <FocusedProductLayout>
-      <FocusedProductLayout.Header
-        helpMenuItems={[
-          <Menu.Item key="1" href="https://easypost.com" target="_blank">
-            Documentation
-          </Menu.Item>,
-          // etc
-        ]}
-        renderBackArrow={(props) => {
-          // spread props that represent any unique design constraints
-          // in this case, they are `BackArrowIcon` as `children`
-          // note that usually this should be a `Link`
-          return (
-            <button
-              {...props}
-              onClick={() => {
-                // change state to previous app state to go back
-              }}
-            />
-          );
-        }}
-        renderLogo={() => <EasyPostLogo />}
-        title="Page title"
-      />
-      <FocusedProductLayout.WizardContent
-        stepper={
-          <Stepper activeStepIndex={activeStep}>
-            {["Step 1", "Step 2", "Step 3", "Step 4"].map((step, index) => (
-              <Stepper.Step
-                key={step}
-                stepIndex={index}
-                onPress={() => {}}
-                isComplete={false}
-                isAccessible={false}
-              >
-                {step}
-              </Stepper.Step>
-            ))}
-          </Stepper>
-        }
-        previousAction={{
-          content: "Back",
-          onAction: () => {
-            // change stepper state
-          },
-        }}
-        nextAction={{
-          content: "Next",
-          onAction: () => {
-            // change stepper state
-          },
-        }}
-      >
-        <div>Content</div>
-      </FocusedProductLayout.WizardContent>
-    </FocusedProductLayout>
+    <FocusedProductLayout
+      helpMenuItems={[
+        <Menu.Item key="1" href="https://easypost.com" target="_blank">
+          Documentation
+        </Menu.Item>,
+        // etc
+      ]}
+      renderBackArrow={(props) => {
+        // spread props that represent any unique design constraints
+        // in this case, they are `BackArrowIcon` as `children`
+        // note that usually this should be a `Link`
+        return (
+          <button
+            {...props}
+            onClick={() => {
+              // change state to previous app state to go back
+            }}
+          />
+        );
+      }}
+      renderLogo={() => <EasyPostLogo />}
+      title="Page title"
+      content={
+        <FocusedProductLayout.WizardContent
+          activeStepIndex={activeStep}
+          steps={["Step 1", "Step 2", "Step 3", "Step 4"].map((step, index) => (
+            <Stepper.Step
+              key={step}
+              stepIndex={index}
+              onPress={() => {}}
+              isComplete={false}
+              isAccessible={false}
+            >
+              {step}
+            </Stepper.Step>
+          ))}
+          previousAction={{
+            content: "Back",
+            onAction: () => {
+              // change stepper state
+            },
+          }}
+          nextAction={{
+            content: "Next",
+            onAction: () => {
+              // change stepper state
+            },
+          }}
+        >
+          <div>Content</div>
+        </FocusedProductLayout.WizardContent>
+      }
+    />
   );
 }
 ```
