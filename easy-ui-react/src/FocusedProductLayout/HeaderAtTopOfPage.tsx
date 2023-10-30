@@ -1,8 +1,7 @@
-import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import React from "react";
-import { Icon } from "../Icon";
 import { HelpMenu } from "../ProductLayout/HelpMenu";
 import { classNames } from "../utilities/css";
+import { BackArrow } from "./BackArrow";
 import type { HeaderProps } from "./FocusedProductLayout";
 
 import styles from "./Header.module.scss";
@@ -22,7 +21,7 @@ export function HeaderAtTopOfPage(props: Omit<HeaderProps, "title">) {
       <div className={styles.logoRow}>
         <span className={styles.logoArrowBox}>
           <span className={styles.backArrowBox}>
-            {renderBackArrow({ children: <Icon symbol={ArrowBackIcon} /> })}
+            <BackArrow renderBackArrow={renderBackArrow} />
           </span>
           {renderLogo()}
         </span>

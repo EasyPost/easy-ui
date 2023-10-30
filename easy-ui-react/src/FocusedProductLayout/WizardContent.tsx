@@ -62,7 +62,10 @@ export function WizardContent(props: WizardContentProps) {
   return (
     <div className={styles.WizardContent}>
       <div className={styles.stepperContainer}>
-        <div className={styles.stepper}>
+        <div
+          className={styles.stepper}
+          data-testid="focused-product-layout-wizard-content-stepper"
+        >
           <Stepper activeStepIndex={activeStepIndex}>{steps}</Stepper>
         </div>
       </div>

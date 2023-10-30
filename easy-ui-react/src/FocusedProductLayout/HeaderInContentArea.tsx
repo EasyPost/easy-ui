@@ -1,9 +1,8 @@
-import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import React from "react";
-import { Icon } from "../Icon";
 import { HelpMenu } from "../ProductLayout/HelpMenu";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
+import { BackArrow } from "./BackArrow";
 import type { HeaderProps } from "./FocusedProductLayout";
 
 import styles from "./Header.module.scss";
@@ -32,7 +31,7 @@ export function HeaderInContentArea(props: HeaderProps) {
       <header className={styles.titleRow}>
         <div className={styles.titleBoxWithArrow}>
           <span className={styles.backArrowBox}>
-            {renderBackArrow({ children: <Icon symbol={ArrowBackIcon} /> })}
+            <BackArrow renderBackArrow={renderBackArrow} />
           </span>
           <Text as="h2" variant="heading3">
             {title}

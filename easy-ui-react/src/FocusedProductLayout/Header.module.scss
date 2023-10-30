@@ -30,15 +30,6 @@
 
 .backArrowBox {
   display: inline-flex;
-  margin-left: calc(#{design-token("space.0.5")} * -1);
-
-  a,
-  button {
-    @include unstyled.button;
-    @include unstyled.link;
-    display: inline-flex;
-    cursor: pointer;
-  }
 }
 
 .atTopOfPage {
