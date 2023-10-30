@@ -2,7 +2,7 @@
 
 ## Overview
 
-`FocusedProductLayout` defines the main content areas for a product page in a focused state.
+`FocusedProductLayout` defines the areas of a product page in a focused state.
 
 ### Prior Art
 

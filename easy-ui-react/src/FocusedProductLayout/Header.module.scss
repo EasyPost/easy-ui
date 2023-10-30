@@ -30,7 +30,8 @@
 
 .backArrowBox {
   display: inline-flex;
-  margin-left: -4px;
+  margin-left: calc(#{design-token("space.0.5")} * -1);
+
   a,
   button {
     @include unstyled.button;

@@ -36,6 +36,11 @@ const meta: Meta<typeof FocusedProductLayout> = {
       </FocusedProductLayout.Content>
     ),
   },
+  parameters: {
+    controls: {
+      include: ["title"],
+    },
+  },
   decorators: [
     (Story) => (
       <div className="full-screen-story product-layout-story">
@@ -47,20 +52,8 @@ const meta: Meta<typeof FocusedProductLayout> = {
 
 export default meta;
 
-export const Default: Story = {
+export const EmptyContent: Story = {
   render: Template.bind({}),
-};
-
-export const BackArrowAsLink: Story = {
-  render: Template.bind({}),
-  args: {
-    renderBackArrow: (props) => (
-      <a
-        href="/?path=/story/components-productlayout-focusedproductlayout--default"
-        {...props}
-      />
-    ),
-  },
 };
 
 export const WithSidePanel: Story = {
@@ -74,7 +67,7 @@ export const WithSidePanel: Story = {
   },
 };
 
-export const WithSidePanelOnLeft: Story = {
+export const WithSidePanelAtStart: Story = {
   render: Template.bind({}),
   args: {
     sidePanel: (
@@ -84,9 +77,14 @@ export const WithSidePanelOnLeft: Story = {
     ),
     sidePanelPosition: "start",
   },
+  parameters: {
+    controls: {
+      include: ["title", "sidePanelPosition"],
+    },
+  },
 };
 
-export const WithSidePanelCustomWidth: Story = {
+export const WithSidePanelWidth: Story = {
   render: Template.bind({}),
   args: {
     sidePanel: (
@@ -97,7 +95,7 @@ export const WithSidePanelCustomWidth: Story = {
   },
 };
 
-export const Wizard: Story = {
+export const WizardContent: Story = {
   render: Template.bind({}),
   args: {
     content: (
@@ -130,6 +128,18 @@ export const Wizard: Story = {
           <PlaceholderBox width="100%">Space for content</PlaceholderBox>
         </div>
       </FocusedProductLayout.WizardContent>
+    ),
+  },
+};
+
+export const BackArrowAsLink: Story = {
+  render: Template.bind({}),
+  args: {
+    renderBackArrow: (props) => (
+      <a
+        href="/?path=/story/components-productlayout-focusedproductlayout--default"
+        {...props}
+      />
     ),
   },
 };
