@@ -9,6 +9,10 @@
   flex-direction: column;
 }
 
+.main {
+  flex: 1 0 auto;
+}
+
 .stepperContainer {
   flex: 0 0 auto;
   padding-bottom: design-token("space.1");
@@ -25,10 +29,6 @@
   @include Stepper.breakpoint-fold-up {
     margin-left: calc(#{design-token("space.2")} * -1);
   }
-}
-
-.main {
-  flex: 1 0 auto;
 }
 
 .footer {
