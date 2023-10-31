@@ -1,5 +1,4 @@
 @use "../styles/common" as *;
-@use "../styles/unstyled";
 
 .ctaGroup {
   @include component-token("cta-group", "max-height", 24px);
@@ -30,6 +29,5 @@
 }
 
 .menuBtn {
-  @include unstyled.button;
   color: component-token("cta-group", "menu-color");
 }

@@ -1,5 +1,4 @@
 @use "../styles/common" as *;
-@use "../styles/unstyled";
 
 .containerHorizontal {
   @include component-token("step-button", "max-height", 56px);
@@ -76,7 +75,6 @@
 
 .StepButton {
   @include font-style("subtitle1");
-  @include unstyled.button;
   display: flex;
   align-items: center;
   gap: design-token("space.1");

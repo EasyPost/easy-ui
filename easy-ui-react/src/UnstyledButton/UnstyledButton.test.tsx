@@ -49,4 +49,14 @@ describe("<UnstyledButton />", () => {
     render(<UnstyledButton isDisabled />);
     expect(screen.getByRole("button")).toBeDisabled();
   });
+
+  it("should apply the default class", () => {
+    render(
+      <UnstyledButton className="colorPrimary_123">Button</UnstyledButton>,
+    );
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("UnstyledButton"),
+    );
+  });
 });

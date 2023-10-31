@@ -1,6 +1,0 @@
-@use "../styles/common" as *;
-@use "../styles/unstyled";
-
-.button {
-  @include unstyled.button;
-}
