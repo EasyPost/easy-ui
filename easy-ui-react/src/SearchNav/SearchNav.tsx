@@ -1,21 +1,26 @@
-import React, { ReactElement, ReactNode, useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { classNames } from "../utilities/css";
-import {
-  flattenChildren,
-  getDisplayNameFromReactNode,
-} from "../utilities/react";
+import { flattenChildren } from "../utilities/react";
 import styles from "./SearchNav.module.scss";
 import { LogoGroup } from "./LogoGroup";
 import { Search } from "./Search";
 import { CTAGroup } from "./CTAGroup";
 import { Logo } from "./Logo";
-import { CTAItem } from "./CTAItem";
+import { SecondaryCTAItem } from "./SecondaryCTAItem";
 import { Selector } from "./Selector";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { CondensedSearchNav } from "./CondensedSearchNav";
 import { SelectOption } from "../Select/SelectOption";
 import { InternalSearchNavContext } from "./context";
 import { IconSymbol } from "../types";
+import { PrimaryCTAItem } from "./PrimaryCTAItem";
+import { Title } from "./Title";
+import {
+  getSearchChildren,
+  getCTAGroupChildren,
+  getLogoGroupChildren,
+  getSelectorLabel,
+} from "./utilities";
 
 export type SearchNavOverlayMenuProps<T> = Omit<
   MenuOverlayProps<T>,
@@ -70,6 +75,7 @@ export type SearchNavProps<T> = {
 *        <SearchNav.Logo>
 *          <img alt="some logo" />
 *        </SearchNav.Logo>
+*        <SearchNav.Title>Docs</SearchNav.Title>
 *        <SearchNav.Selector
 *          label="docs version"
 *          defaultSelectedKey="V1.0"
@@ -86,13 +92,16 @@ export type SearchNavProps<T> = {
 *        <SearchComponent />
 *      </SearchNav.Search>
 *      <SearchNav.CTAGroup>
-*        <SearchNav.CTAItem symbol={Campaign} key="Campaign" label="Optional" />
-*        <SearchNav.CTAItem symbol={Help} key="Help" label="Optional" />
-*        <SearchNav.CTAItem
+*        <SearchNav.SecondaryCTAItem symbol={Campaign} key="Campaign" label="Optional" />
+*        <SearchNav.SecondaryCTAItem symbol={Help} key="Help" label="Optional" />
+*        <SearchNav.SecondaryCTAItem
 *          symbol={Brightness5}
 *          key="Brightness"
 *          label="Toggle theme"
 *          hideLabelOnDesktop
+*        />
+*        <SearchNav.PrimaryCTAItem
+*          label="Sign up"
 *        />
 *      </SearchNav.CTAGroup>
 *    </SearchNav>
@@ -103,75 +112,47 @@ export type SearchNavProps<T> = {
 export function SearchNav<T>(props: SearchNavProps<T>) {
   const { menuOverlayProps, ctaMenuSymbol, children } = props;
 
-  const context = useMemo(() => {
+  const { onlyLogoGroup, context } = useMemo(() => {
+    // To support the various configurations on smaller screens,
+    // we extract data and nodes from the components provided
+    // by consumers and use context to share them efficiently.
     const topLevelChildren = flattenChildren(children);
 
-    const logoGroupDisplayName = getDisplayNameFromReactNode(
+    const { logo, title, selector, selectorChildren } = getLogoGroupChildren(
       topLevelChildren[0],
     );
+    const selectorLabel = getSelectorLabel(selector);
 
-    if (logoGroupDisplayName !== "SearchNav.LogoGroup") {
-      throw new Error("SearchNav must contain SearchNav.LogoGroup.");
-    }
-    const logoGroupElement = topLevelChildren[0] as ReactElement;
-    const logoGroupChildren = flattenChildren(logoGroupElement.props.children);
-    const logoDisplayName = getDisplayNameFromReactNode(logoGroupChildren[0]);
-    if (logoDisplayName !== "SearchNav.Logo") {
-      throw new Error("SearchNav.LogoGroup must contain SearchNav.Logo.");
-    }
+    const search =
+      topLevelChildren.length > 1
+        ? getSearchChildren(topLevelChildren[1])
+        : undefined;
 
-    let selectChildren;
-    let selectLabel = "";
-    if (
-      logoGroupChildren.length === 2 &&
-      getDisplayNameFromReactNode(logoGroupChildren[1]) === "SearchNav.Selector"
-    ) {
-      const selectElement = logoGroupChildren[1] as ReactElement;
-      const { "aria-label": label } = selectElement.props;
-      selectLabel = label;
-      selectChildren = flattenChildren(selectElement.props.children);
-    }
+    const { secondaryCTAItems, primaryCTAItem } = getCTAGroupChildren(
+      topLevelChildren[topLevelChildren.length - 1],
+    );
 
-    let searchNode;
-    if (
-      topLevelChildren.length > 1 &&
-      getDisplayNameFromReactNode(topLevelChildren[1]) === "SearchNav.Search"
-    ) {
-      const searchChildren = flattenChildren(topLevelChildren[1]);
-      if (searchChildren.length === 1) {
-        searchNode = searchChildren[0];
-      }
-    }
-
-    let ctaGroupChildren;
-    let hasCtaGroup = false;
-    if (
-      topLevelChildren.length > 1 &&
-      getDisplayNameFromReactNode(
-        topLevelChildren[topLevelChildren.length - 1],
-      ) === "SearchNav.CTAGroup"
-    ) {
-      const ctaGroupElement = topLevelChildren[
-        topLevelChildren.length - 1
-      ] as ReactElement;
-      hasCtaGroup = true;
-      ctaGroupChildren = flattenChildren(ctaGroupElement.props.children);
-    }
-
-    const onlyLogoGroup = !hasCtaGroup && searchNode === undefined;
+    const onlyLogoGroup =
+      secondaryCTAItems === undefined &&
+      primaryCTAItem === undefined &&
+      search === undefined;
 
     return {
-      selectChildren,
-      ctaGroupChildren,
-      searchNode,
       onlyLogoGroup,
-      menuOverlayProps,
-      selectLabel,
-      ctaMenuSymbol,
+      context: {
+        logo,
+        title,
+        selector,
+        selectorChildren,
+        secondaryCTAItems,
+        primaryCTAItem,
+        search,
+        menuOverlayProps,
+        selectorLabel,
+        ctaMenuSymbol,
+      },
     };
   }, [children, menuOverlayProps, ctaMenuSymbol]);
-
-  const { onlyLogoGroup } = context;
 
   return (
     <InternalSearchNavContext.Provider value={context}>
@@ -208,28 +189,12 @@ SearchNav.LogoGroup = LogoGroup;
 SearchNav.Logo = Logo;
 
 /**
- * Represents <SearchNav.Search />`.
+ * Represents <SearchNav.Title />`.
  *
  * @remarks
- * Should be used as a wrapper for a custom search input.
+ * Renders emphasized text.
  */
-SearchNav.Search = Search;
-
-/**
- * Represents <SearchNav.CTAGroup />`.
- *
- * @remarks
- * Should be used as a wrapper for `<SearchNav.CTAItem />`
- */
-SearchNav.CTAGroup = CTAGroup;
-
-/**
- * Represents <SearchNav.CTAItem />`.
- *
- * @remarks
- * Renders individual CTAs as buttons.
- */
-SearchNav.CTAItem = CTAItem;
+SearchNav.Title = Title;
 
 /**
  * Represents <SearchNav.Selector />`.
@@ -247,3 +212,35 @@ SearchNav.Selector = Selector;
  * Renders options for the selector.
  */
 SearchNav.Option = SelectOption;
+
+/**
+ * Represents <SearchNav.Search />`.
+ *
+ * @remarks
+ * Should be used as a wrapper for a custom search input.
+ */
+SearchNav.Search = Search;
+
+/**
+ * Represents <SearchNav.CTAGroup />`.
+ *
+ * @remarks
+ * Should be used as a wrapper for `<SearchNav.SecondaryCTAItem />`
+ */
+SearchNav.CTAGroup = CTAGroup;
+
+/**
+ * Represents <SearchNav.PrimaryCTAItem />`.
+ *
+ * @remarks
+ * Renders individual CTAs as buttons.
+ */
+SearchNav.PrimaryCTAItem = PrimaryCTAItem;
+
+/**
+ * Represents <SearchNav.SecondaryCTAItem />`.
+ *
+ * @remarks
+ * Renders individual CTAs as buttons.
+ */
+SearchNav.SecondaryCTAItem = SecondaryCTAItem;

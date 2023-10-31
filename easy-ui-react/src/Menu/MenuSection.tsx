@@ -44,7 +44,7 @@ export function MenuSectionContent<T>({
   return (
     <>
       {section.key !== state.collection.getFirstKey() &&
-        section.props.children && (
+        section.nextKey !== state.collection.getLastKey() && (
           <li {...separatorProps} className={styles.separator} />
         )}
       <li {...itemProps}>
