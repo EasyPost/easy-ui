@@ -127,14 +127,16 @@ export function FocusedProductLayout(props: FocusedProductLayoutProps) {
   );
   return (
     <div className={className}>
-      <div className={styles.topBar}>
-        <HeaderAtTopOfPage {...headerProps} />
+      <div className={styles.innerContainer}>
+        <div className={styles.topBar}>
+          <HeaderAtTopOfPage {...headerProps} />
+        </div>
+        <div className={styles.contentContainer}>
+          <HeaderInContentArea {...headerProps} title={title} />
+          {content}
+        </div>
+        {sidePanel}
       </div>
-      <div className={styles.contentContainer}>
-        <HeaderInContentArea {...headerProps} title={title} />
-        {content}
-      </div>
-      {sidePanel}
     </div>
   );
 }
