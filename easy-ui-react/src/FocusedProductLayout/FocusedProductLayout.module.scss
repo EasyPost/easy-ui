@@ -23,6 +23,7 @@
 
 .topBar {
   display: block;
+
   @include ProductLayout.breakpoint-large-screen {
     display: none;
   }
