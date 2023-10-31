@@ -4,6 +4,8 @@ import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { classNames } from "../utilities/css";
 import { omitReactAriaSpecificProps } from "../Button/utilities";
 
+import styles from "./UnstyledButton.module.scss";
+
 export type UnstyledButtonProps = AriaButtonProps<"button"> & {
   /* Classname to apply styles to button */
   className?: string;
@@ -52,7 +54,7 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
         {...mergeProps(omitReactAriaSpecificProps(restProps), elementProps)}
         disabled={isDisabled}
         ref={mergeRefs(ref, inRef)}
-        className={classNames(className)}
+        className={classNames(styles.UnstyledButton, className)}
       >
         {children}
       </As>

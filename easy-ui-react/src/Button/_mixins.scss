@@ -18,7 +18,6 @@
 }
 
 @mixin variantFilled {
-  border: 0;
   background-color: component-token("button", "resting.color");
   color: component-token("button", "filled.font.color");
 
