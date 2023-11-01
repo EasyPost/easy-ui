@@ -54,7 +54,6 @@
   border: design-token("shape.border_width.1") solid
     component-token("inputfield", "color.border.resting");
   border-left: none;
-  margin: 0;
   padding: calc(
     #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
   );
