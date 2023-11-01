@@ -1,5 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
+import { Item } from "react-stately";
+import { EasyPostFullLogo } from "../utilities/storybook";
 import { VerticalNav } from "./VerticalNav";
 
 type Story = StoryObj<typeof VerticalNav>;
@@ -26,8 +28,29 @@ export default meta;
 
 export const Default: Story = {
   render: () => (
-    <VerticalNav>
-      <div>test</div>
+    <VerticalNav renderLogo={() => <EasyPostFullLogo />}>
+      <VerticalNav.Nav>
+        <VerticalNav.NavItem textValue="item 1" label="Item 1">
+          <VerticalNav.Subnav>
+            <Item textValue="subitem 1">
+              <div>Subitem 1</div>
+            </Item>
+            <Item textValue="subitem 2">
+              <div>Subitem 2</div>
+            </Item>
+            <Item textValue="subitem 3">
+              <div>Subitem 3</div>
+            </Item>
+          </VerticalNav.Subnav>
+        </VerticalNav.NavItem>
+        <VerticalNav.NavItem textValue="item 2" label="item 2">
+          <VerticalNav.Subnav>
+            <Item textValue="L1-Test">
+              <div style={{ color: "red" }}>test</div>
+            </Item>
+          </VerticalNav.Subnav>
+        </VerticalNav.NavItem>
+      </VerticalNav.Nav>
     </VerticalNav>
   ),
 };

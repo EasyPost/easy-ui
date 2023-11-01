@@ -1,6 +1,39 @@
 @use "../styles/common" as *;
 
 .VerticalNav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
   height: 100%;
+  padding: 24px;
+  padding-top: 16px;
+  overflow: auto;
+
   border: 1px solid red;
+}
+
+.logo {
+  width: 100%;
+  max-width: 165px;
+
+  svg,
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subnav {
+  padding-left: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
