@@ -1,0 +1,35 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+@use "../ProductLayout/mixins" as ProductLayout;
+
+.HeaderInContentArea {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.3");
+}
+
+.logoBar {
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  @include ProductLayout.breakpoint-large-screen {
+    display: flex;
+  }
+}
+
+.titleBox {
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1");
+}
+
+.backArrowBox {
+  display: none;
+
+  @include ProductLayout.breakpoint-large-screen {
+    display: inline-flex;
+  }
+}

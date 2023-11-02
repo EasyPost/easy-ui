@@ -1,0 +1,56 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+@use "../ProductLayout/mixins" as ProductLayout;
+
+.FocusedProductLayout {
+  @include component-token("focused-product-layout", "content-order", 1);
+  @include component-token("focused-product-layout", "side-panel-order", 2);
+
+  display: flex;
+  flex-direction: column;
+
+  @include ProductLayout.breakpoint-large-screen {
+    padding: design-token("space.2") design-token("space.4");
+    padding-bottom: 0;
+  }
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  overflow: hidden;
+
+  @include ProductLayout.breakpoint-large-screen {
+    min-height: calc(100svh - #{design-token("space.2")});
+    flex-direction: row;
+    border-top-right-radius: design-token("shape.border_radius.xl");
+    border-top-left-radius: design-token("shape.border_radius.xl");
+  }
+}
+
+.topBar {
+  display: block;
+
+  @include ProductLayout.breakpoint-large-screen {
+    display: none;
+  }
+}
+
+.contentContainer {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: design-token("space.3");
+  order: component-token("focused-product-layout", "content-order");
+  background: design-token("color.gray.000");
+
+  @include ProductLayout.breakpoint-large-screen {
+    padding: design-token("space.3") design-token("space.5");
+  }
+}
+
+.sidePanelPositionStart {
+  @include component-token("focused-product-layout", "content-order", 2);
+  @include component-token("focused-product-layout", "side-panel-order", 1);
+}

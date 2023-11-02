@@ -1,0 +1,190 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { FocusedProductLayout } from "./FocusedProductLayout";
+import * as FocusedProductLayoutStories from "./FocusedProductLayout.stories";
+
+<Meta of={FocusedProductLayoutStories} />
+
+# FocusedProductLayout
+
+`FocusedProductLayout` defines the areas of a product page in a focused state.
+
+<Canvas of={FocusedProductLayoutStories.EmptyContent} />
+
+`FocusedProductLayout` is a compound component consisting of `FocusedProductLayout`, either `FocusedProductLayout.Content` or `FocusedProductLayout.WizardContent`, and optionally `FocusedProductLayout.SidePanel`.
+
+`FocusedProductLayout` manages the accessibility attributes for the different parts of the layout, including defining the `main` area of the page as well as appropriate roles for the side panel and header.
+
+`FocusedProductLayout` contains slots as props for the `content` and `sidePanel`.
+
+The logo and back arrow in the header are controlled through the `renderLogo` and `renderBackArrow` render props.
+
+_Example structure_:
+
+```tsx
+<FocusedProductLayout
+  helpMenuItems={[
+    <Menu.Item
+      key="1"
+      href="https://www.easypost.com/docs/api"
+      target="_blank"
+      rel="noopener"
+    >
+      Documentation
+    </Menu.Item>,
+  ]}
+  // Optionally accept a menu handler for menu items that are not links
+  onHelpMenuAction={(key) => {}}
+  renderBackArrow={(props) => (
+    <button {...props} onClick={action("backArrow.onClick pressed")} />
+  )}
+  renderLogo={() => <EasyPostFullLogo />}
+  title="Page Title"
+  sidePanel={
+    <FocusedProductLayout.SidePanel>
+      <>{/* Side panel content */}</>
+    </FocusedProductLayout.SidePanel>
+  }
+  content={
+    <FocusedProductLayout.Content>
+      <>{/* Content */}</>
+    </FocusedProductLayout.Content>
+  }
+/>
+```
+
+## With Side panel
+
+`FocusedProductLayout` can optionally render a side panel next to the main content.
+
+Use the `sidePanel` prop and the `FocusedProductLayout.SidePanel` component to render a side panel.
+
+Side panels are rendered as an `<aside />`.
+
+```tsx
+<FocusedProductLayout
+  {/* other focused product layout props... */}
+  // optionally specify a position
+  sidePanelPosition="end"
+  sidePanel={
+    <FocusedProductLayout.SidePanel
+      // optionally specify a sidebar width
+      width="50%"
+    >
+      <>{/* Side panel content */}</>
+    </FocusedProductLayout.SidePanel>
+  }
+/>
+```
+
+<Canvas of={FocusedProductLayoutStories.WithSidePanel} />
+
+### Side panel position
+
+A side panel can be positioned to be at the start (left) or the end (right) of the main content. Use the `sidePanelPosition` prop on `FocusedProductLayout` to specify the position.
+
+<Canvas of={FocusedProductLayoutStories.WithSidePanelAtStart} />
+
+### Side panel width
+
+By default, a side panel will expand to the size of its content.
+
+A custom width can be specified with the `width` prop on `FocusedProductLayout.SidePanel`. It accepts any valid `flex-basis` value.
+
+<Canvas of={FocusedProductLayoutStories.WithSidePanelWidth} />
+
+## Wizard
+
+`FocusedProductLayout` can contain a wizard as its content. Use the `FocusedProductLayout.WizardContent` component to provide this content.
+
+`FocusedProductLayout.WizardContent` uses a `Stepper` component under the hood.
+
+Steps can be supplied to `FocusedProductLayout.WizardContent` through the `steps` prop as well as the active step index with the `activeStepIndex` prop.
+
+```tsx
+<FocusedProductLayout
+  {/* other focused product layout props... */}
+  content={
+    <FocusedProductLayout.WizardContent
+      activeStepIndex={1}
+      steps={["Step 1", "Step 2", "Step 3", "Step 4"].map((step, index) => (
+        <Stepper.Step
+          key={step}
+          stepIndex={index}
+          onPress={() => {}}
+          isComplete={index < 1}
+          isAccessible={false}
+        >
+          {step}
+        </Stepper.Step>
+      ))}
+      previousAction={{
+        content: "Back",
+        onAction: () => {
+          // handle stepper regression
+        }
+      }}
+      nextAction={{
+        content: "Next",
+        onAction: () => {
+          // handle stepper progression
+        }
+      }}
+    >
+      <>{/* Page content */}</>
+    </FocusedProductLayout.WizardContent>
+  }
+/>
+```
+
+<Canvas of={FocusedProductLayoutStories.WizardContent} />
+
+## Back functionality
+
+While `FocusedProductLayout` controls the rendering of the back arrow, it doesn't provide any functionality for it since this is dependent on the consuming application.
+
+Instead, it provides the `renderBackArrow` render prop to allow customization of its behavior. `renderBackArrow` is provided `props` to spread onto the element being rendered in its function. This will ensure the icon is rendered correctly.
+
+To render the back arrow as a link:
+
+```tsx
+<FocusedProductLayout
+  renderBackArrow={(props) => <a href="/account/settings" {...props} />}
+/>
+```
+
+To render the back arrow as a client-side link:
+
+```tsx
+import Link from "next/link";
+
+<FocusedProductLayout
+  renderBackArrow={(props) => <Link href="/account/settings" {...props} />}
+/>;
+```
+
+To render the back arrow as a button:
+
+```tsx
+<FocusedProductLayout
+  renderBackArrow={(props) => <button onClick={() => {}} {...props} />}
+/>
+```
+
+## Properties
+
+### FocusedProductLayout
+
+<ArgTypes of={FocusedProductLayout} />
+
+### FocusedProductLayout.SidePanel
+
+<ArgTypes of={FocusedProductLayout.SidePanel} />
+
+### FocusedProductLayout.Content
+
+<ArgTypes of={FocusedProductLayout.Content} />
+
+### FocusedProductLayout.WizardContent
+
+<ArgTypes of={FocusedProductLayout.WizardContent} />
