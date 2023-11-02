@@ -66,3 +66,19 @@
 .numeric {
   font-variant-numeric: tabular-nums lining-nums;
 }
+
+.transformNone {
+  text-transform: none;
+}
+
+.transformCapitalize {
+  text-transform: capitalize;
+}
+
+.transformUppercase {
+  text-transform: uppercase;
+}
+
+.transformLowercase {
+  text-transform: lowercase;
+}

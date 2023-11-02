@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, Fragment, ReactElement } from "react";
+import React, { ReactNode, Fragment, ReactElement } from "react";
 import Help from "@easypost/easy-ui-icons/Help";
 import { Separator } from "./Separator";
 import { Menu } from "../Menu";
@@ -7,31 +7,37 @@ import { Icon } from "../Icon";
 import { UnstyledButton } from "../UnstyledButton";
 import { useInternalSearchNavContext } from "./context";
 import { classNames } from "../utilities/css";
-import { flattenChildren, getFlattenedKey } from "../utilities/react";
+import { getFlattenedKey } from "../utilities/react";
 
 import styles from "./CTAGroup.module.scss";
 
 export type CTAGroupProps = {
   /**
-   * The children of the <SearchNav.CTAGroup> element. Should include <SearchNav.CTAItem> elements.
+   * The children of the <SearchNav.CTAGroup> element. Should include <SearchNav.SecondaryCTAItem>
+   * elements and <SearchNav.PrimaryCTAItem>
    */
   children: ReactNode;
 };
 
-export function CTAGroup(props: CTAGroupProps) {
-  const { children } = props;
-  const { menuOverlayProps, ctaMenuSymbol } = useInternalSearchNavContext();
+/**
+ *
+ * @privateRemarks
+ * This component doesn't directly use children and instead
+ * reads the nodes it renders from context. This is so we can
+ * efficiently share the same data across various configurations.
+ *
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function CTAGroup(_props: CTAGroupProps) {
+  const { menuOverlayProps, ctaMenuSymbol, primaryCTAItem, secondaryCTAItems } =
+    useInternalSearchNavContext();
 
-  const items = useMemo(() => {
-    return flattenChildren(children);
-  }, [children]);
-
-  const totalItems = items.length;
+  const totalItems = secondaryCTAItems?.length || 0;
 
   return (
     <>
       <div className={classNames(styles.ctaGroup, styles.ctaGroupExpanded)}>
-        {items.map((item, index) => {
+        {secondaryCTAItems?.map((item, index) => {
           const isLastChild = index === totalItems - 1;
           const itemEle = item as ReactElement;
           return (
@@ -41,6 +47,12 @@ export function CTAGroup(props: CTAGroupProps) {
             </Fragment>
           );
         })}
+        {primaryCTAItem && (
+          <>
+            <Separator group="cta" />
+            {primaryCTAItem}
+          </>
+        )}
       </div>
       <div className={classNames(styles.ctaGroup, styles.ctaGroupMenu)}>
         <Menu>
@@ -52,7 +64,7 @@ export function CTAGroup(props: CTAGroupProps) {
           </Menu.Trigger>
           <Menu.Overlay placement="bottom right" {...menuOverlayProps}>
             <Menu.Section aria-label="Nav actions">
-              {items.map((item) => {
+              {secondaryCTAItems?.map((item) => {
                 const itemEle = item as ReactElement;
                 return (
                   <Menu.Item
@@ -67,6 +79,12 @@ export function CTAGroup(props: CTAGroupProps) {
             </Menu.Section>
           </Menu.Overlay>
         </Menu>
+        {primaryCTAItem && (
+          <>
+            <Separator group="cta" />
+            {primaryCTAItem}
+          </>
+        )}
       </div>
     </>
   );

@@ -1,22 +1,18 @@
 import React, { Key } from "react";
-import { AriaButtonProps } from "react-aria";
 import { UnstyledButton } from "../UnstyledButton";
+import { CTAItemProps } from "./PrimaryCTAItem";
 import { IconSymbol } from "../types";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 import { classNames } from "../utilities/css";
 
-import styles from "./CTAItem.module.scss";
+import styles from "./SecondaryCTAItem.module.scss";
 
-export type CTAItemProps = AriaButtonProps<"button"> & {
+export type SecondaryCTAItemProps = CTAItemProps & {
   /**
    * Icon symbol SVG source from @easypost/easy-ui-icons.
    */
   symbol?: IconSymbol;
-  /**
-   * Text content to display.
-   */
-  label: string;
   /**
    * Hides label on desktop.
    * @default false
@@ -28,7 +24,7 @@ export type CTAItemProps = AriaButtonProps<"button"> & {
   key: Key;
 };
 
-export function CTAItem(props: CTAItemProps) {
+export function SecondaryCTAItem(props: SecondaryCTAItemProps) {
   const { symbol, label, hideLabelOnDesktop = false, ...restProps } = props;
 
   return (
@@ -39,4 +35,4 @@ export function CTAItem(props: CTAItemProps) {
   );
 }
 
-CTAItem.displayName = "SearchNav.CTAItem";
+SecondaryCTAItem.displayName = "SearchNav.SecondaryCTAItem";

@@ -1,5 +1,4 @@
 @use "../styles/common" as *;
-@use "../styles/unstyled";
 @use "./mixins" as Stepper;
 
 .containerHorizontal {
@@ -77,7 +76,6 @@
 
 .StepButton {
   @include font-style("subtitle1");
-  @include unstyled.button;
   display: flex;
   align-items: center;
   gap: design-token("space.1");

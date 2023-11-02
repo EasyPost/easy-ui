@@ -87,4 +87,12 @@ describe("<Text />", () => {
       expect.stringContaining("visuallyHidden"),
     );
   });
+
+  it("should transform text", () => {
+    render(<Text transform="uppercase">Here is some text</Text>);
+    expect(screen.getByText("Here is some text")).toHaveAttribute(
+      "class",
+      expect.stringContaining("transformUppercase"),
+    );
+  });
 });

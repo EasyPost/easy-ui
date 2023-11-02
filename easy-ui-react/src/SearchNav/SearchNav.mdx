@@ -12,10 +12,10 @@ A `SearchNav` is a navigation bar focused on handling dense information interact
 The `SearchNav.LogoGroup` and `SearchNav.Logo` components are required.
 
 On screen sizes between `640px` and `1024px`, `SearchNav.CTAGroup`, if applicable, collapses into a menu
-where each `SearchNav.CTAItem` is transposed onto `Menu.Item`. The `key` provided is directly forwarded.
+where each `SearchNav.SecondaryCTAItem` is transposed onto `Menu.Item`. The `key` provided is directly forwarded.
 
 On screen sizes smaller than `640px`, `SearchNav.CTAGroup` and `SearchNav.Select`, if applicable, collapse into
-a single menu where `SearchNav.CTAItem` and `SearchNav.Option` are respectively transposed onto `Menu.Item`.
+a single menu where `SearchNav.SecondaryCTAItem` and `SearchNav.Option` are respectively transposed onto `Menu.Item`.
 
 The `menuOverlayProps` prop can be used to control menu interactions. Note, on screen sizes greater than `640px`,
 `menuOverlayProps` has no bearing on `SearchNav.Select` since the data representation only collapses at screen sizes
@@ -25,17 +25,27 @@ less than `640px`.
 
 <Canvas of={SearchNavStories.Simple} />
 
+## Title
+
+<Canvas of={SearchNavStories.Title} />
+
 ## Selector
 
 `SearchNav.Selector` can be controlled with `onSelectionChange`.
 
 <Canvas of={SearchNavStories.Selector} />
 
-## CTA
+## Secondary CTAs
 
-Each `CTA.Item` is implemented as a button and hence, can accept `onPress` and `href`.
+`SearchNav.CTAGroup` can render multiple `SearchNav.SecondaryCTAItem` components
 
-<Canvas of={SearchNavStories.CTA} />
+<Canvas of={SearchNavStories.SecondaryCTA} />
+
+## Primary CTA
+
+`SearchNav.CTAGroup` can render at **most** one `SearchNav.PrimaryCTAItem` component
+
+<Canvas of={SearchNavStories.PrimaryCTA} />
 
 ## Search
 
@@ -87,6 +97,10 @@ export type SearchNavOverlayMenuProps<T> = {
 
 <ArgTypes of={SearchNav.Logo} />
 
+### SearchNav.Title
+
+<ArgTypes of={SearchNav.Title} />
+
 ### SearchNav.Search
 
 <ArgTypes of={SearchNav.Search} />
@@ -95,20 +109,23 @@ export type SearchNavOverlayMenuProps<T> = {
 
 <ArgTypes of={SearchNav.CTAGroup} />
 
-### SearchNav.CTAItem
+### SearchNav.PrimaryCTAItem
 
-<ArgTypes of={SearchNav.CTAItem} />
+<ArgTypes of={SearchNav.PrimaryCTAItem} />
+
+### SearchNav.SecondaryCTAItem
+
+<ArgTypes of={SearchNav.SecondaryCTAItem} />
 
 ### SearchNav.Selector
 
 ```ts
 export type SelectorProps<T> = {
   /**
-   * Hidden label that applies to expanded <SearchNav.Select> and will
-   * become aria-label to apply to <Menu.Section> when <SearchNav>
-   * collapses.
+   * aria-label that applies to expanded <SearchNav.Select> and
+   * to <Menu.Section> when <SearchNav> collapses.
    */
-  label: string;
+  "aria-label": string;
   /** Method that is called when the open state of the select field changes. */
   onOpenChange?: (isOpen: boolean) => void;
   /** Sets the open state of the select field. */

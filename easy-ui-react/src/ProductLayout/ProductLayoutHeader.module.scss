@@ -1,5 +1,4 @@
 @use "../styles/common" as *;
-@use "../styles/unstyled";
 @use "mixins" as ProductLayout;
 
 .ProductLayoutHeader {
@@ -28,7 +27,6 @@
 }
 
 .logoMenuBtn {
-  @include unstyled.button;
   display: inline-flex;
   cursor: pointer;
 }

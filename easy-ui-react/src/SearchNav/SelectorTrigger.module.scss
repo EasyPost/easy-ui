@@ -1,5 +1,4 @@
 @use "../styles/common" as *;
-@use "../styles/unstyled";
 
 .triggerBtn {
   @include component-token(
@@ -7,7 +6,6 @@
     "color",
     theme-token("color.selector")
   );
-  @include unstyled.button;
   @include font-style("subtitle1");
   display: flex;
   align-items: center;

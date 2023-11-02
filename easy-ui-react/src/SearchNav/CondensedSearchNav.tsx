@@ -3,6 +3,7 @@ import Close from "@easypost/easy-ui-icons/Close";
 import MenuSymbol from "@easypost/easy-ui-icons/Menu";
 import Search from "@easypost/easy-ui-icons/Search";
 import { Menu } from "../Menu";
+import { HorizontalStack } from "../HorizontalStack";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 import { Icon } from "../Icon";
@@ -15,23 +16,24 @@ import { getFlattenedKey } from "../utilities/react";
 /**
  * @privateRemarks
  * Renders a left aligned menu button and right aligned search button.
- * The menu options come from `SearchNav.Selector` and `SearchNav.CTAGroup`.
- * On small screens, this effectively replaces `SearchNav`.
+ * The menu options come from `<SearchNav.Selector>` and `<SearchNav.CTAGroup>`.
+ * On small screens, this effectively replaces `<SearchNav>`.
  */
 export function CondensedSearchNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const {
-    searchNode,
-    selectChildren,
-    ctaGroupChildren,
-    selectLabel,
+    search,
+    selectorChildren,
+    secondaryCTAItems,
+    primaryCTAItem,
+    selectorLabel,
     menuOverlayProps,
   } = useInternalSearchNavContext();
 
-  const hasMenuToShow = !!selectChildren || !!ctaGroupChildren;
-  const hasSearchToShow = searchNode !== null;
+  const hasMenuToShow = !!selectorChildren || !!secondaryCTAItems;
+  const hasSearchToShow = !!search;
 
   return (
     <div className={classNames(styles.condensed)}>
@@ -51,8 +53,8 @@ export function CondensedSearchNav() {
               </UnstyledButton>
             </Menu.Trigger>
             <Menu.Overlay placement="bottom left" {...menuOverlayProps}>
-              <Menu.Section aria-label={selectLabel}>
-                {selectChildren?.map((item) => {
+              <Menu.Section aria-label={selectorLabel}>
+                {selectorChildren?.map((item) => {
                   const itemEle = item as ReactElement;
                   return (
                     <Menu.Item key={getFlattenedKey(itemEle.key)}>
@@ -62,7 +64,7 @@ export function CondensedSearchNav() {
                 })}
               </Menu.Section>
               <Menu.Section aria-label="Nav actions">
-                {ctaGroupChildren?.map((item) => {
+                {secondaryCTAItems?.map((item) => {
                   const itemEle = item as ReactElement;
                   return (
                     <Menu.Item
@@ -77,20 +79,25 @@ export function CondensedSearchNav() {
               </Menu.Section>
             </Menu.Overlay>
           </Menu>
-          {searchNode && (
-            <UnstyledButton
-              className={classNames(styles.btn, styles.searchBtn)}
-              onPress={() => setIsSearchOpen((prev) => !prev)}
-            >
-              <Icon symbol={Search} />
-              <Text visuallyHidden>search</Text>
-            </UnstyledButton>
+          {(search || primaryCTAItem) && (
+            <HorizontalStack gap="2">
+              {search && (
+                <UnstyledButton
+                  className={classNames(styles.btn, styles.searchBtn)}
+                  onPress={() => setIsSearchOpen((prev) => !prev)}
+                >
+                  <Icon symbol={Search} />
+                  <Text visuallyHidden>search</Text>
+                </UnstyledButton>
+              )}
+              {primaryCTAItem}
+            </HorizontalStack>
           )}
         </>
       ) : (
         hasSearchToShow && (
           <div className={classNames(styles.condensedSearch)}>
-            {searchNode}
+            {search}
             <UnstyledButton
               className={classNames(styles.btn)}
               onPress={() => setIsSearchOpen((prev) => !prev)}

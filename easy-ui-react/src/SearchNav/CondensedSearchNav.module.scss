@@ -1,5 +1,4 @@
 @use "../styles/common" as *;
-@use "../styles/unstyled";
 
 .condensed {
   display: flex;
@@ -28,7 +27,6 @@
     "search-color",
     theme-token("color.text")
   );
-  @include unstyled.button;
 }
 
 .menuBtn {

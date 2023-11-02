@@ -1,6 +1,10 @@
 import React, { ReactNode } from "react";
 import { ThemeTokenNamespace, DesignTokenNamespace } from "../types";
-import { classNames, getComponentThemeToken } from "../utilities/css";
+import {
+  classNames,
+  getComponentThemeToken,
+  variationName,
+} from "../utilities/css";
 
 import styles from "./Text.module.scss";
 
@@ -18,6 +22,7 @@ export type TextAs =
 export type TextColor = ThemeTokenNamespace<"color.text">;
 export type TextVariant = DesignTokenNamespace<"font.style", "family">;
 export type TextWeight = "normal" | "medium" | "semibold" | "bold";
+export type TextTransform = "none" | "capitalize" | "uppercase" | "lowercase";
 
 export type TextProps = {
   /** Adjusts horizontal alignment of text */
@@ -32,6 +37,8 @@ export type TextProps = {
   color?: TextColor;
   /** HTML id attribute */
   id?: string;
+  /** Transform text */
+  transform?: TextTransform;
   /** Truncate text overflow with ellipsis */
   truncate?: boolean;
   /** Adjusts the style of text that's rendered */
@@ -90,6 +97,7 @@ export function Text({
   children,
   color,
   id,
+  transform = "none",
   truncate = false,
   variant,
   visuallyHidden = false,
@@ -104,6 +112,7 @@ export function Text({
     breakWord && styles.break,
     truncate && styles.truncate,
     visuallyHidden && styles.visuallyHidden,
+    transform && styles[variationName("transform", transform)],
   );
 
   const style = {

@@ -19,9 +19,9 @@ A `SearchNav` is a navigation bar focused on handling dense information interact
 
 `SearchNav` will be made up of sub-component containers. At the top level, the `SearchNav` serves as the container for the logo, dropdown, search input, and CTAs. The logo and dropdown will be grouped into a `SearchNav.LogoGroup` container. The search input will be wrapped by a `SearchNav.Search` container. The CTAs will be wrapped by a `SearchNav.CTAGroup` container.
 
-`SearchNav.LogoGroup` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, and `SearchNav.Selector`. `SearchNav.Selector` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
+`SearchNav.LogoGroup` will be comprised of `SearchNav.Logo`, a minimal wrapper for the consumer provided logo, `SearchNav.Title`, and `SearchNav.Selector`. `SearchNav.Selector` will be built using React Aria's `useSelect`, `useListBox`, `usePopover`, `useOption` and `HiddenSelect`. To help manage state, it will also rely on React Stately's `useSelectState`.
 
-`SearchNav.CTAGroup` will render individual CTAs via `SearchNav.CTAItem`, which will make use of Easy UI's `UnstyledButton` component.
+`SearchNav.CTAGroup` will render a primary CTA, `SearchNav.PrimaryCTAItem`, and a secondary CTA, `SearchNav.SecondaryCTAItem`; both will make use of Easy UI's `UnstyledButton` component.
 
 `SearchNav` will also need to handle a unique configuration for smaller devices. Although it won't be exposed to consumers directly,this will be accomplished via a `SearchNavMobile` component, which will be responsible for rendering a clickable hamburger and search icon. The hamburger icon will effectively be a trigger to render a menu comprised of `SearchNav.Selector` and the CTAs in `SearchNav.CTAGroup`. The clickable search icon will render the contents of `SearchNav.Search` and a right aligned close button.
 
@@ -78,22 +78,29 @@ export type SelectorProps<T> = AriaSelectProps<T> &
 
 export type CTAGroupProps = {
   /**
-   * The children of the <SearchNav.CTAGroup> element. Should include <SearchNav.CTAItem> elements.
+   * The children of the <SearchNav.CTAGroup> element. Should include <SearchNav.SecondaryCTAItem>
+   * elements and <SearchNav.PrimaryCTAItem>
    */
   children: ReactNode;
 };
 
 export type CTAItemProps = AriaButtonProps<"button"> & {
   /**
+   * Text content to display.
+   */
+  label: string;
+};
+
+export type PrimaryCTAItemProps = CTAItemProps;
+
+export type SecondaryCTAItemProps = CTAItemProps & {
+  /**
    * Icon symbol SVG source from @easypost/easy-ui-icons.
    */
   symbol?: IconSymbol;
   /**
-   * Text content to display.
-   */
-  label: string;
-  /**
    * Hides label on desktop.
+   * @default false
    */
   hideLabelOnDesktop?: boolean;
   /**
@@ -145,9 +152,13 @@ function App() {
         <SearchComponent />
       </SearchNav.Search>
       <SearchNav.CTAGroup>
-        <SearchNav.CTAItem symbol={Campaign} key="Campaign" label="Optional" />
-        <SearchNav.CTAItem symbol={Help} key="Help" label="Optional" />
-        <SearchNav.CTAItem
+        <SearchNav.SecondaryCTAItem
+          symbol={Campaign}
+          key="Campaign"
+          label="Optional"
+        />
+        <SearchNav.SecondaryCTAItem symbol={Help} key="Help" label="Optional" />
+        <SearchNav.SecondaryCTAItem
           symbol={Brightness5}
           key="Brightness"
           label="Toggle theme"

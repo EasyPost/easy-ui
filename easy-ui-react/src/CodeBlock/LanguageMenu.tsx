@@ -10,8 +10,6 @@ import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 
-import styles from "./LanguageMenu.module.scss";
-
 export type LanguageMenuProps = {
   /**
    * List of languages.
@@ -41,7 +39,7 @@ export function LanguageMenu(props: LanguageMenuProps) {
   return (
     <Menu>
       <Menu.Trigger>
-        <UnstyledButton className={styles.button}>
+        <UnstyledButton>
           <HorizontalStack blockAlign="center" gap="1" wrap={false}>
             <Text variant="body1">
               {friendlySnippetLanguageNames[language]}
