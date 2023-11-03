@@ -9,8 +9,6 @@
   padding: 24px;
   padding-top: 16px;
   overflow: auto;
-
-  border: 1px solid red;
 }
 
 .logo {
@@ -30,10 +28,71 @@
   gap: 16px;
 }
 
-.subnav {
-  padding-left: 12px;
-
+.navItem {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+  color: design-token("color.blue.700");
+}
+
+.navItemSelected {
+  color: design-token("color.blue.500");
+}
+
+.navItemLabelRow {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.subnav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subnavItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: design-token("color.blue.800");
+}
+
+.subnavItemList {
+  margin-bottom: 8px;
+}
+
+.subnavItemDot {
+  position: absolute;
+  top: 6px;
+  right: calc(100% + 8px);
+  width: 4px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 100%;
+  opacity: 0;
+}
+
+.subnavItemDotVisible {
+  opacity: 1;
+}
+
+.subnavItemSelected {
+}
+
+.subnavItemSelectedFirstLevel {
+  color: design-token("color.blue.700");
+}
+
+.subnavItemSelectedNextLevel {
+  color: design-token("color.blue.500");
+}
+
+.firstLevel {
+  padding-left: 32px;
+}
+
+.nextLevel {
+  padding-left: 12px;
 }
