@@ -1,0 +1,17 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.HeaderAtTopOfPage {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: design-token("space.3");
+}
+
+.logoBox {
+  display: inline-flex;
+  align-items: center;
+  gap: design-token("space.1.5");
+}

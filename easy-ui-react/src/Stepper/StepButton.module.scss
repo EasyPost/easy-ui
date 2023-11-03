@@ -1,10 +1,10 @@
 @use "../styles/common" as *;
-@use "../styles/unstyled";
+@use "./mixins" as Stepper;
 
 .containerHorizontal {
   @include component-token("step-button", "max-height", 56px);
   padding: design-token("space.0") design-token("space.1");
-  @include breakpoint-sm-up {
+  @include Stepper.breakpoint-fold-up {
     padding: design-token("space.2");
   }
 }
@@ -76,7 +76,6 @@
 
 .StepButton {
   @include font-style("subtitle1");
-  @include unstyled.button;
   display: flex;
   align-items: center;
   gap: design-token("space.1");
@@ -140,7 +139,7 @@
 
 .textHorizontal {
   display: none;
-  @include breakpoint-sm-up {
+  @include Stepper.breakpoint-fold-up {
     display: inline;
   }
 }
