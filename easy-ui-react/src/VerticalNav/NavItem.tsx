@@ -1,11 +1,12 @@
-import { ComponentProps, ElementType } from "react";
+import { ComponentProps, ElementType, ReactNode } from "react";
 import { Item } from "react-stately";
 import { IconSymbol } from "../types";
 
 export type NavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
   as?: T;
   label: string;
-  iconSymbol: IconSymbol;
+  iconSymbol?: IconSymbol;
+  children?: ReactNode;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,7 +22,7 @@ const originalGetCollectionNode = (
     ) => void;
   }
 ).getCollectionNode;
-function getCollectionNode(props: NavItemProps, context: object) {
+export function getCollectionNode(props: NavItemProps, context: object) {
   return originalGetCollectionNode(
     { ...props, textValue: props.label },
     context,

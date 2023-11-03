@@ -1,0 +1,100 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.DenseVerticalNav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  height: 100%;
+  padding: 24px;
+  padding-top: 16px;
+  overflow: auto;
+}
+
+.logo {
+  width: 100%;
+  max-width: 165px;
+
+  svg,
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: design-token("color.blue.700");
+}
+
+.navItemHovered {
+  color: design-token("color.gray.900");
+}
+
+.navItemSelected {
+  color: design-token("color.blue.500");
+}
+
+.navItemLabel {
+  @include unstyled.button;
+  @include unstyled.link;
+
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+
+  color: inherit;
+  cursor: pointer;
+}
+
+.subnav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 32px;
+}
+
+.subnavItem {
+  @include unstyled.button;
+  @include unstyled.link;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  color: design-token("color.blue.800");
+  cursor: pointer;
+}
+
+.subnavItemList {
+  margin-bottom: 8px;
+}
+
+.subnavItemDot {
+  position: absolute;
+  top: 6px;
+  right: calc(100% + 8px);
+  width: 4px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 100%;
+  opacity: 0;
+}
+
+.subnavItemDotVisible {
+  opacity: 1;
+}
+
+.subnavItemSelected {
+  color: design-token("color.blue.500");
+}

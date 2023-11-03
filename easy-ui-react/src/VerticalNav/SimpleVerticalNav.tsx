@@ -5,7 +5,7 @@ import { TreeProps, TreeState, useTreeState } from "react-stately";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
-import { NavItem } from "./Item";
+import { NavItem } from "./NavItem";
 
 import styles from "./SimpleVerticalNav.module.scss";
 
