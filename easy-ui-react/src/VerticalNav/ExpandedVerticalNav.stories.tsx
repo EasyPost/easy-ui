@@ -1,6 +1,7 @@
 import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
 import MenuBookIcon from "@easypost/easy-ui-icons/MenuBook";
 import { Meta, StoryObj } from "@storybook/react";
+import uniq from "lodash/uniq";
 import React, { Key, useCallback, useState } from "react";
 import {
   EasyPostFullLogo,
@@ -20,11 +21,11 @@ export default meta;
 export const Default: Story = {
   render: () => {
     /* eslint-disable react-hooks/rules-of-hooks */
-    const [page, setPage] = useState("");
+    const [page, setPage] = useState("1");
     const [expandedKeys, setExpandedKeys] = useState<Key[]>([]);
     const commitPage = useCallback((newPage: string) => {
       setPage(newPage);
-      // setExpandedKeys((prev) => uniq([...prev, newPage.substring(0, 1)]));
+      setExpandedKeys((prev) => uniq([...prev, newPage.substring(0, 1)]));
     }, []);
     /* eslint-enable react-hooks/rules-of-hooks */
     return (
@@ -39,9 +40,8 @@ export const Default: Story = {
           <ExpandedVerticalNav
             renderLogo={() => <EasyPostFullLogo />}
             selectedKeys={[page.substring(0, 1)]}
-            expandedKeys={[...expandedKeys, page.substring(0, 1)]}
+            expandedKeys={expandedKeys}
             onExpandedChange={(keys) => {
-              console.log("on expanded change", keys);
               setExpandedKeys([...keys]);
             }}
           >
@@ -51,47 +51,15 @@ export const Default: Story = {
               label="Item 1"
               as={FakeClientSideRouterLink}
               onClick={() => commitPage("1")}
-            >
-              <ExpandedVerticalNav.Subnav selectedKeys={[page.substring(0, 3)]}>
-                <ExpandedVerticalNav.SubnavItem
-                  key="1/a"
-                  label="Subitem a"
-                  as={FakeClientSideRouterLink}
-                  onClick={() => commitPage("1/a")}
-                />
-                <ExpandedVerticalNav.SubnavItem
-                  key="1/b"
-                  label="Subitem b"
-                  as={FakeClientSideRouterLink}
-                  onClick={() => commitPage("1/b")}
-                >
-                  <ExpandedVerticalNav.Subnav
-                    selectedKeys={[page.substring(0, 5)]}
-                  >
-                    <ExpandedVerticalNav.SubnavItem
-                      key="1/b/1"
-                      label="Grandsubitem 1"
-                      as={FakeClientSideRouterLink}
-                      onClick={() => commitPage("1/b/1")}
-                    />
-                    <ExpandedVerticalNav.SubnavItem
-                      key="1/b/2"
-                      label="Grandsubitem 2"
-                      as={FakeClientSideRouterLink}
-                      onClick={() => commitPage("1/b/2")}
-                    />
-                  </ExpandedVerticalNav.Subnav>
-                </ExpandedVerticalNav.SubnavItem>
-              </ExpandedVerticalNav.Subnav>
-            </ExpandedVerticalNav.NavItem>
+            />
             <ExpandedVerticalNav.NavItem
               key="2"
-              iconSymbol={LocalShippingIcon}
+              iconSymbol={MenuBookIcon}
               label="Item 2"
               as={FakeClientSideRouterLink}
               onClick={() => commitPage("2")}
             >
-              <ExpandedVerticalNav.Subnav selectedKeys={[page]}>
+              <ExpandedVerticalNav.Subnav selectedKeys={[page.substring(0, 3)]}>
                 <ExpandedVerticalNav.SubnavItem
                   key="2/a"
                   label="Subitem a"
@@ -103,26 +71,65 @@ export const Default: Story = {
                   label="Subitem b"
                   as={FakeClientSideRouterLink}
                   onClick={() => commitPage("2/b")}
-                />
+                >
+                  <ExpandedVerticalNav.Subnav
+                    selectedKeys={[page.substring(0, 5)]}
+                  >
+                    <ExpandedVerticalNav.SubnavItem
+                      key="2/b/1"
+                      label="Grandsubitem 1"
+                      as={FakeClientSideRouterLink}
+                      onClick={() => commitPage("2/b/1")}
+                    />
+                    <ExpandedVerticalNav.SubnavItem
+                      key="2/b/2"
+                      label="Grandsubitem 2"
+                      as={FakeClientSideRouterLink}
+                      onClick={() => commitPage("2/b/2")}
+                    />
+                  </ExpandedVerticalNav.Subnav>
+                </ExpandedVerticalNav.SubnavItem>
               </ExpandedVerticalNav.Subnav>
             </ExpandedVerticalNav.NavItem>
             <ExpandedVerticalNav.NavItem
               key="3"
-              iconSymbol={MenuBookIcon}
+              iconSymbol={LocalShippingIcon}
               label="Item 3"
               as={FakeClientSideRouterLink}
               onClick={() => commitPage("3")}
-            />
+            >
+              <ExpandedVerticalNav.Subnav selectedKeys={[page]}>
+                <ExpandedVerticalNav.SubnavItem
+                  key="3/a"
+                  label="Subitem a"
+                  as={FakeClientSideRouterLink}
+                  onClick={() => commitPage("3/a")}
+                />
+                <ExpandedVerticalNav.SubnavItem
+                  key="3/b"
+                  label="Subitem b"
+                  as={FakeClientSideRouterLink}
+                  onClick={() => commitPage("3/b")}
+                />
+              </ExpandedVerticalNav.Subnav>
+            </ExpandedVerticalNav.NavItem>
             <ExpandedVerticalNav.NavItem
               key="4"
-              iconSymbol={LocalShippingIcon}
+              iconSymbol={MenuBookIcon}
               label="Item 4"
               as={FakeClientSideRouterLink}
               onClick={() => commitPage("4")}
             />
+            <ExpandedVerticalNav.NavItem
+              key="5"
+              iconSymbol={LocalShippingIcon}
+              label="Item 5"
+              as={FakeClientSideRouterLink}
+              onClick={() => commitPage("5")}
+            />
           </ExpandedVerticalNav>
         </div>
-        <div style={{ padding: 48 }}>Page {page}</div>
+        <div style={{ padding: 48 }}>{page ? <>Page {page}</> : null}</div>
       </div>
     );
   },
