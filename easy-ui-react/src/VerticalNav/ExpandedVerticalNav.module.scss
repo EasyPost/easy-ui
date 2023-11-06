@@ -117,12 +117,12 @@
   opacity: 1;
 }
 
-[data-subnav-level="1"] > .subnavItemSelected > .subnavItemLink {
+.subnavItemSelected:has(.subnavItemSelected) > .subnavItemLink {
   font-weight: 500;
   color: design-token("color.blue.700");
 }
 
-[data-subnav-level="2"] > .subnavItemSelected > .subnavItemLink {
+.subnavItemSelected:not(:has(.subnavItemSelected)) > .subnavItemLink {
   font-weight: 400;
   color: design-token("color.blue.500");
 }
