@@ -1,5 +1,6 @@
+import ArrowForwardIcon from "@easypost/easy-ui-icons/ArrowForwardIos";
 import { AriaLabelingProps, Node } from "@react-types/shared";
-import React, { ReactNode } from "react";
+import React, { ReactNode, createContext, useContext, useMemo } from "react";
 import { mergeProps, useHover } from "react-aria";
 import {
   ListProps,
@@ -8,15 +9,16 @@ import {
   useListState,
   useTreeState,
 } from "react-stately";
-import ArrowForwardIcon from "@easypost/easy-ui-icons/ArrowForward";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
+import { UnstyledButton } from "../UnstyledButton";
 import { classNames } from "../utilities/css";
 import { NavItem } from "./NavItem";
 import { SubnavItem } from "./SubnavItem";
 
 import styles from "./ExpandedVerticalNav.module.scss";
-import { UnstyledButton } from "../UnstyledButton";
+
+const SubnavLevelContext = createContext<number>(0);
 
 export type ExpandedVerticalNavProps = TreeProps<object> &
   AriaLabelingProps & {
@@ -27,7 +29,11 @@ export type ExpandedVerticalNavProps = TreeProps<object> &
 export function ExpandedVerticalNav(props: ExpandedVerticalNavProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { renderLogo } = props;
-  const state = useTreeState({ ...props, selectionMode: "single" });
+  const state = useTreeState({
+    ...props,
+    selectionMode: "single",
+  });
+
   return (
     <nav className={styles.ExpandedVerticalNav}>
       {renderLogo && <div className={styles.logo}>{renderLogo()}</div>}
@@ -85,15 +91,18 @@ function ExpandedVerticalNavItemContent({
             <Text variant="subtitle2">{label}</Text>
           </div>
         </As>
-        <UnstyledButton
-          onPress={() => {
-            state.toggleKey(item.key);
-          }}
-        >
-          <Icon symbol={ArrowForwardIcon} size="xs" />
-        </UnstyledButton>
+        {item.props.children && (
+          <UnstyledButton
+            className={styles.navItemExpandBtn}
+            onPress={() => {
+              state.toggleKey(item.key);
+            }}
+          >
+            <Icon symbol={ArrowForwardIcon} size="2xs" />
+          </UnstyledButton>
+        )}
       </div>
-      {item.props.children && isSelected && <div>{item.rendered}</div>}
+      {item.props.children && isExpanded && <div>{item.rendered}</div>}
     </div>
   );
 }
@@ -101,35 +110,49 @@ function ExpandedVerticalNavItemContent({
 export type ExpandedVerticalNavSubnavProps = ListProps<object>;
 
 function ExpandedVerticalNavSubnav(props: ExpandedVerticalNavSubnavProps) {
+  const levelContext = useContext(SubnavLevelContext);
+  const level = useMemo(() => {
+    return levelContext + 1;
+  }, [levelContext]);
   const state = useListState({ ...props, selectionMode: "single" });
   const className = classNames(styles.subnav);
   return (
-    <div className={className}>
-      {[...state.collection].map((item, i) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { as: As = "a", label, textValue, ...linkProps } = item.props;
-        const isSelected = state.selectionManager.isSelected(item.key);
-        const className = classNames(
-          styles.subnavItem,
-          isSelected && styles.subnavItemSelected,
-        );
-        const dotClassName = classNames(
-          styles.subnavItemDot,
-          isSelected && styles.subnavItemDotVisible,
-        );
-        return (
-          <As
-            key={String(i)}
-            className={className}
-            aria-current={isSelected ? "page" : undefined}
-            {...mergeProps(linkProps)}
-          >
-            <span className={dotClassName} />
-            <Text variant={"body2"}>{label}</Text>
-          </As>
-        );
-      })}
-    </div>
+    <SubnavLevelContext.Provider value={level}>
+      <div className={className} data-subnav-level={level}>
+        {[...state.collection].map((item, i) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { as: As = "a", label, textValue, ...linkProps } = item.props;
+          const isSelected = state.selectionManager.isSelected(item.key);
+          console.log("is selected", item.key, isSelected);
+          const className = classNames(
+            styles.subnavItem,
+            isSelected && styles.subnavItemSelected,
+          );
+          const dotClassName = classNames(
+            styles.subnavItemDot,
+            isSelected && styles.subnavItemDotVisible,
+          );
+          return (
+            <div key={String(i)} className={className}>
+              <As
+                className={styles.subnavItemLink}
+                aria-current={isSelected ? "page" : undefined}
+                {...mergeProps(linkProps)}
+              >
+                {level > 1 && <span className={dotClassName} />}
+                <Text
+                  variant={"body2"}
+                  weight={isSelected && level === 1 ? "medium" : "normal"}
+                >
+                  {label}
+                </Text>
+              </As>
+              {item.props.children && <div>{item.rendered}</div>}
+            </div>
+          );
+        })}
+      </div>
+    </SubnavLevelContext.Provider>
   );
 }
 
