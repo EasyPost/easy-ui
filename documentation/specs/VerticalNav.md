@@ -12,11 +12,13 @@
 
 ## Design
 
-`VerticalNav` will be a compound component consisting of `VerticalNav`, `VerticalNav.Item`, and `VerticalNav.Subnav`.
-
-A vertical list of links with expandable top-level items can be rendered with an `ExpandableVerticalNav`.
+`VerticalNav` will be a compound component consisting of `VerticalNav`, `VerticalNav.Item`, and `VerticalNav.Subnav`. A vertical list of links with expandable top-level items can be rendered with an `ExpandableVerticalNav`.
 
 `VerticalNav` uses React Stately's `useListState` hook behind the scenes. This not only handles managing the selection of items but provides consistency with other Easy UI component APIs. `ExpandableVerticalNav` uses React Stately's `useTreeState` hook to support expansion.
+
+`VerticalNav` can optionally render a logo at the top of the navigation with the `renderLogo` render prop. `VerticalNav` can optionally render a banner at the top of the navigation with the `renderBanner` render prop.
+
+`VerticalNav` supports rendering a supplementary action at the bottom of the navigation container using the `supplementaryAction` prop. `supplementaryAction` accepts a `text` prop for the action text, along with a `render` prop for supplying the action's underlying element. This pattern allows the behavior of the action to be controlled by the consumer (e.g. link or button) while preserving the action's content design requirements within `VerticalNav`.
 
 `VerticalNav.Item` controls rendering individual links within a list. It contains props for the link's `label`, `icon`, and optionally a `children` prop to render nested subnavigation.
 
@@ -31,7 +33,12 @@ The API is flexible for limiting surface area and accommodating potential future
 ```ts
 type BaseVerticalNavProps = AriaLabelingProps & {
   children: ReactNode;
+  renderBanner?: () => ReactNode;
   renderLogo?: () => ReactNode;
+  supplementaryAction?: {
+    text: string;
+    render: (props: { children: ReactNode }) => ReactNode;
+  };
 };
 
 export type VerticalNavProps = BaseVerticalNavProps & ListProps<object>;
@@ -142,6 +149,72 @@ function Sidebar() {
       <VerticalNav.Item key="2" as={Link} href="/2" icon={Symbol} label="2" />
       <VerticalNav.Item key="3" as={Link} href="/4" icon={Symbol} label="4" />
       <VerticalNav.Item key="4" as={Link} href="/3" icon={Symbol} label="3" />
+    </VerticalNav>
+  );
+}
+```
+
+_Rendering a logo:_
+
+```tsx
+import { VerticalNav } from "@easypost/easy-ui/VerticalNav";
+
+function Sidebar() {
+  return (
+    <VerticalNav
+      aria-label="Sidebar"
+      selectedKeys={["1"]}
+      renderLogo={() => <EasyPostLogo />}
+    >
+      <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
+      <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2" />
+      <VerticalNav.Item key="3" href="/item-3" icon={Symbol} label="Item 3" />
+      <VerticalNav.Item key="4" href="/item-4" icon={Symbol} label="Item 4" />
+    </VerticalNav>
+  );
+}
+```
+
+_Rendering a banner:_
+
+```tsx
+import { VerticalNav } from "@easypost/easy-ui/VerticalNav";
+
+function Sidebar() {
+  return (
+    <VerticalNav
+      aria-label="Sidebar"
+      renderBanner={() => <NavBanner />}
+      selectedKeys={["1"]}
+    >
+      <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
+      <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2" />
+      <VerticalNav.Item key="3" href="/item-3" icon={Symbol} label="Item 3" />
+      <VerticalNav.Item key="4" href="/item-4" icon={Symbol} label="Item 4" />
+    </VerticalNav>
+  );
+}
+```
+
+_Rendering a supplementary action:_
+
+```tsx
+import { VerticalNav } from "@easypost/easy-ui/VerticalNav";
+
+function Sidebar() {
+  return (
+    <VerticalNav
+      aria-label="Sidebar"
+      supplementaryAction={{
+        text: "Action Text",
+        render: (props) => <button {...props} />,
+      }}
+      selectedKeys={["1"]}
+    >
+      <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
+      <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2" />
+      <VerticalNav.Item key="3" href="/item-3" icon={Symbol} label="Item 3" />
+      <VerticalNav.Item key="4" href="/item-4" icon={Symbol} label="Item 4" />
     </VerticalNav>
   );
 }
