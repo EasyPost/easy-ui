@@ -24,9 +24,9 @@
 
 `VerticalNav.Item` is a polymorphic component. By default, it renders as an anchor element—`<a>`—but it can be rendered as a custom element using the `as` prop. e.g. `<VerticalNav.Item as={NextLink} href="/account/settings" />`.
 
-Selection and expansion is controlled by the consumer through the API provided by React Stately's `useListState` and `useTreeState` hooks—`selectedKeys`, `expandedKeys`, and `onExpandedChange`. Note that while the React Stately API accepts an array of `selectedKeys`, the `selectionMode` is set to `single`, so only one key is read.
+Selection and expansion is controlled by the consumer through the API provided by React Stately's `useListState` and `useTreeState` hooks—`selectedKey`, `expandedKeys`, and `onExpandedChange`.
 
-The API is flexible for limiting surface area and accommodating potential future use cases. Current constraints will be enforced at runtime to meet design requirements—e.g. limiting the levels of sub navigation.
+The component API is flexible by design. Constraints will be enforced at runtime to meet certain design requirements—e.g. limiting the levels of sub navigation.
 
 ### API
 
@@ -66,7 +66,7 @@ import { VerticalNav } from "@easypost/easy-ui/VerticalNav";
 
 function Sidebar() {
   return (
-    <VerticalNav aria-label="Sidebar" selectedKeys={["1"]}>
+    <VerticalNav aria-label="Sidebar" selectedKey="1">
       <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
       <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2" />
       <VerticalNav.Item key="3" href="/item-3" icon={Symbol} label="Item 3" />
@@ -83,10 +83,10 @@ import { VerticalNav } from "@easypost/easy-ui/VerticalNav";
 
 function Sidebar() {
   return (
-    <VerticalNav aria-label="Sidebar" selectedKeys={["1"]}>
+    <VerticalNav aria-label="Sidebar" selectedKey="1">
       <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
       <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2">
-        <VerticalNav.Subnav selectedKeys={["2a"]}>
+        <VerticalNav.Subnav selectedKey="2a">
           <VerticalNav.Item key="2a" href="/subitem-1" label="Subitem 1" />
           <VerticalNav.Item key="2b" href="/subitem-2" label="Subitem 2" />
         </VerticalNav.Subnav>
@@ -111,7 +111,7 @@ function Sidebar() {
   return (
     <ExpandableVerticalNav
       aria-label="Sidebar"
-      selectedKeys={["1"]}
+      selectedKey="1"
       expandedKeys={expandedKeys}
       onExpandedChange={(keys) => {
         setExpandedKeys(keys);
@@ -119,9 +119,9 @@ function Sidebar() {
     >
       <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
       <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2">
-        <VerticalNav.Subnav selectedKeys={["2a"]}>
+        <VerticalNav.Subnav selectedKey="2a">
           <VerticalNav.Item key="2a" href="/subitem-1" label="Subitem 1">
-            <VerticalNav.Subnav selectedKeys={["2a1"]}>
+            <VerticalNav.Subnav selectedKey="2a1">
               <VerticalNav.Item key="2a1" href="/subitem-1a" label="Item 1" />
               <VerticalNav.Item key="2a2" href="/subitem-1b" label="Item 2" />
             </VerticalNav.Subnav>
@@ -144,7 +144,7 @@ import { VerticalNav } from "@easypost/easy-ui/VerticalNav";
 
 function Sidebar() {
   return (
-    <VerticalNav aria-label="Sidebar" selectedKeys={["1"]}>
+    <VerticalNav aria-label="Sidebar" selectedKey="1">
       <VerticalNav.Item key="1" as={Link} href="/1" icon={Symbol} label="1" />
       <VerticalNav.Item key="2" as={Link} href="/2" icon={Symbol} label="2" />
       <VerticalNav.Item key="3" as={Link} href="/4" icon={Symbol} label="4" />
@@ -163,7 +163,7 @@ function Sidebar() {
   return (
     <VerticalNav
       aria-label="Sidebar"
-      selectedKeys={["1"]}
+      selectedKey="1"
       renderLogo={() => <EasyPostLogo />}
     >
       <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
@@ -185,7 +185,7 @@ function Sidebar() {
     <VerticalNav
       aria-label="Sidebar"
       renderBanner={() => <NavBanner />}
-      selectedKeys={["1"]}
+      selectedKey="1"
     >
       <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
       <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2" />
@@ -209,7 +209,7 @@ function Sidebar() {
         text: "Action Text",
         render: (props) => <button {...props} />,
       }}
-      selectedKeys={["1"]}
+      selectedKey="1"
     >
       <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
       <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2" />
