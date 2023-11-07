@@ -41,10 +41,15 @@ type BaseVerticalNavProps = AriaLabelingProps & {
   };
 };
 
-export type VerticalNavProps = BaseVerticalNavProps & ListProps<object>;
+export type VerticalNavProps = BaseVerticalNavProps & {
+  selectedKey: Key;
+};
 
-export type ExpandableVerticalNavProps = BaseVerticalNavProps &
-  TreeProps<object>;
+export type ExpandableVerticalNavProps = BaseVerticalNavProps & {
+  selectedKey: Key;
+  expandedKeys: Key[];
+  onExpandedChange: (keys: Key[]) => void;
+};
 
 export type VerticalNavItemProps<T extends ElementType = "a"> =
   ComponentProps<T> & {
