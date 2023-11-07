@@ -19,9 +19,9 @@
 
 `VerticalNav` can optionally render a logo at the top of the navigation with the `renderLogo` render prop. `VerticalNav` can optionally render a banner at the top of the navigation with the `renderBanner` render prop.
 
-`VerticalNav` supports rendering a supplementary action at the bottom of the navigation container using the `supplementaryAction` prop. `supplementaryAction` accepts a `text` prop for the action text, along with a `render` prop for supplying the action's underlying element. This pattern allows the behavior of the action to be controlled by the consumer (e.g. link or button) while preserving the action's content design requirements within `VerticalNav`.
+`VerticalNav` supports rendering a supplementary action at the bottom of the navigation container using the `supplementaryAction` prop and the `VerticalNav.SupplementaryAction` component. `VerticalNav.SupplementaryAction` is a polymorphic component allowing for a custom element (e.g. button or link).
 
-`VerticalNav.Item` controls rendering individual links within a list. It contains props for the link's `label`, `icon`, and optionally a `children` prop to render nested subnavigation.
+`VerticalNav.Item` controls rendering individual links within a list. It contains props for the link's `label`, `icon`, and optionally a `children` prop to render nested subnavigation. Subnavigation within a `VerticalNav.Item` should use the `VerticalNav.Subnav` component.
 
 `VerticalNav.Item` is a polymorphic component. By default, it renders as an anchor element—`<a>`—but it can be rendered as a custom element using the `as` prop. e.g. `<VerticalNav.Item as={NextLink} href="/account/settings" />`.
 
@@ -36,10 +36,7 @@ type BaseVerticalNavProps = AriaLabelingProps & {
   children: ReactNode;
   renderBanner?: () => ReactNode;
   renderLogo?: () => ReactNode;
-  supplementaryAction?: {
-    text: string;
-    render: (props: { children: ReactNode }) => ReactNode;
-  };
+  supplementaryAction?: ReactNode;
 };
 
 type VerticalNavProps = BaseVerticalNavProps & {
@@ -62,6 +59,12 @@ type VerticalNavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
 type VerticalNavSubnavProps = {
   selectedKey?: Key;
 };
+
+type VerticalNavSupplementaryAction<T extends ElementType = "button"> =
+  ComponentProps<T> & {
+    as?: T;
+    children: ReactNode;
+  };
 ```
 
 ### Example Usage
@@ -212,11 +215,12 @@ function Sidebar() {
   return (
     <VerticalNav
       aria-label="Sidebar"
-      supplementaryAction={{
-        text: "Action Text",
-        render: (props) => <button {...props} />,
-      }}
       selectedKey="1"
+      supplementaryAction={
+        <VerticalNav.SupplementaryAction onClick={() => {}}>
+          Optional Bottom
+        </VerticalNav.SupplementaryAction>
+      }
     >
       <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
       <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2" />
