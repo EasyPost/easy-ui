@@ -7,6 +7,7 @@
 ### Prior Art
 
 - [Primer `<NavList />`](https://primer.style/components/nav-list)
+- [Paste `<SidebarNavigation />`](https://paste.twilio.design/components/sidebar-navigation)
 
 ---
 
