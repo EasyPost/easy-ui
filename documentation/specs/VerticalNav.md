@@ -41,25 +41,26 @@ type BaseVerticalNavProps = AriaLabelingProps & {
   };
 };
 
-export type VerticalNavProps = BaseVerticalNavProps & {
-  selectedKey: Key;
+type VerticalNavProps = BaseVerticalNavProps & {
+  selectedKey?: Key;
 };
 
-export type ExpandableVerticalNavProps = BaseVerticalNavProps & {
-  selectedKey: Key;
-  expandedKeys: Key[];
-  onExpandedChange: (keys: Key[]) => void;
+type ExpandableVerticalNavProps = BaseVerticalNavProps & {
+  selectedKey?: Key;
+  expandedKeys?: Key[];
+  onExpandedChange?: (keys: Key[]) => void;
 };
 
-export type VerticalNavItemProps<T extends ElementType = "a"> =
-  ComponentProps<T> & {
-    as?: T;
-    label: string;
-    icon?: IconSymbol;
-    children?: ReactNode;
-  };
+type VerticalNavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
+  as?: T;
+  label: string;
+  icon?: IconSymbol;
+  children?: ReactNode;
+};
 
-export type VerticalNavSubnavProps = ListProps<object>;
+type VerticalNavSubnavProps = {
+  selectedKey?: Key;
+};
 ```
 
 ### Example Usage
@@ -231,5 +232,6 @@ function Sidebar() {
 
 ### Accessibility
 
+- `VerticalNav` will be rendered as a `nav` element.
 - `VerticalNav` items are links and should avoid being buttons or other clickable elements.
 - `VerticalNav` should be labeled with `aria-label`.
