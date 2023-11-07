@@ -19,7 +19,7 @@
 
 `VerticalNav` can optionally render a logo at the top of the navigation with the `renderLogo` render prop. `VerticalNav` can optionally render a banner at the top of the navigation with the `renderBanner` render prop.
 
-`VerticalNav` supports rendering a supplementary action at the bottom of the navigation container using the `supplementaryAction` prop and the `VerticalNav.SupplementaryAction` component. `VerticalNav.SupplementaryAction` is a polymorphic component allowing for a custom element (e.g. button or link).
+`VerticalNav` supports rendering a supplementary action at the bottom of the navigation container using the `supplementaryAction` prop and the `VerticalNav.SupplementaryAction` component. `VerticalNav.SupplementaryAction` is a polymorphic component allowing for a custom element through `as`.
 
 `VerticalNav.Item` controls rendering individual links within a list. It contains props for the link's `label`, `icon`, and optionally a `children` prop to render nested subnavigation. Subnavigation within a `VerticalNav.Item` should use the `VerticalNav.Subnav` component.
 
@@ -238,5 +238,5 @@ function Sidebar() {
 ### Accessibility
 
 - `VerticalNav` will be rendered as a `nav` element.
-- `VerticalNav` items are links and should avoid being buttons or other clickable elements.
 - `VerticalNav` should be labeled with `aria-label`.
+- `VerticalNav.Item`s are links and should avoid being buttons or other clickable elements.
