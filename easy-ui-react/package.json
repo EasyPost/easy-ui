@@ -55,7 +55,7 @@
     "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/react-is": "^18.2.4",
-    "@types/react-syntax-highlighter": "^15.5.9",
+    "@types/react-syntax-highlighter": "^15.5.10",
     "@vitejs/plugin-react": "^4.1.1",
     "glob": "^10.2.5",
     "jsdom": "^22.1.0",
