@@ -40,7 +40,7 @@
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.3.0",
     "overlayscrollbars-react": "^0.5.3",
-    "react-aria": "^3.29.1",
+    "react-aria": "^3.30.0",
     "react-is": "^18.2.0",
     "react-stately": "^3.28.0",
     "react-syntax-highlighter": "^15.5.0",
