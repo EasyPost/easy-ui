@@ -326,13 +326,9 @@ function ConsumerForm() {
 ### Accessibility
 
 - `FormLayout.Section` is rendered as a `fieldset`. `FormLayout.Title` is rendered as a `legend` within a `FormLayout.Section`.
-- `FormLayout` doesn't concern itself with the `<form />` itself. Responsibility for the `<form />` is left to the consumer.
-- Parent `<form />`s should label themselves using `aria-labelledby` and passing the respective `id` to the `FormLayout.Title`.
-- Forms should be ordered sequentially.
+- `<form />`s should label themselves using `aria-labelledby` and passing the respective `id` to the `FormLayout.Title`.
 - Prefer using only a single form per viewing context.
 - Provide accessible and clear titles and helper text.
 - When grouping related form elements, use `FormLayout.Section`, which renders an HTML fieldset. Use a `FormLayout.Title` to provide a legend to the fieldset.
 - Consider breaking long forms into smaller sections or pages, as they can place more cognitive load on the user.
-- Follow best practices for accessibility for each component used within the Form.
 - Prefer a single column layout when possible, as it can be more difficult for users with limited vision to scan from right to left if a multi-column layout is used.
-- There are no special keyboard interactions for the `FormLayout` component. The user should be able to tab through the form elements in the natural tab order.
