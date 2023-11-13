@@ -1,5 +1,12 @@
 import ArrowForwardIosIcon from "@easypost/easy-ui-icons/ArrowForwardIos";
-import React, { ComponentProps, ElementType, ReactNode } from "react";
+import { DOMRef } from "@react-types/shared";
+import React, {
+  ComponentProps,
+  ElementType,
+  ReactElement,
+  ReactNode,
+  forwardRef,
+} from "react";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 
@@ -11,12 +18,23 @@ export type SupplementaryActionProps<T extends ElementType = "button"> =
     children: ReactNode;
   };
 
-export function SupplementaryAction(props: SupplementaryActionProps) {
-  const { as: As = "button", children, ...elementProps } = props;
-  return (
-    <As className={styles.supplementaryAction} {...elementProps}>
-      <Text variant="subtitle2">{children}</Text>
-      <Icon symbol={ArrowForwardIosIcon} size="xs" />
-    </As>
-  );
-}
+type SupplementaryActionWithForwardRef = {
+  <T extends ElementType = "button">(
+    props: SupplementaryActionProps<T> & { ref?: DOMRef },
+  ): ReactElement;
+  displayName?: string;
+};
+
+export const SupplementaryAction = forwardRef<null, SupplementaryActionProps>(
+  (props, ref) => {
+    const { as: As = "button", children, ...elementProps } = props;
+    return (
+      <As ref={ref} className={styles.supplementaryAction} {...elementProps}>
+        <Text variant="subtitle2">{children}</Text>
+        <Icon symbol={ArrowForwardIosIcon} size="xs" />
+      </As>
+    );
+  },
+) as SupplementaryActionWithForwardRef;
+
+SupplementaryAction.displayName = "SupplementaryAction";

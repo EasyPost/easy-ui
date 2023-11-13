@@ -12,6 +12,8 @@ import {
 import { ExpandableVerticalNav, VerticalNav } from "./VerticalNav";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
+import { Menu } from "../Menu";
+import { UnstyledButton } from "../UnstyledButton";
 
 type Story = StoryObj<typeof VerticalNav>;
 
@@ -308,11 +310,21 @@ export const SupplementaryAction: Story = {
           aria-label="Sidebar"
           renderLogo={() => <EPLogo />}
           supplementaryAction={
-            <VerticalNav.SupplementaryAction
-              onClick={action("supplementary action clicked")}
-            >
-              Optional Bottom
-            </VerticalNav.SupplementaryAction>
+            <Menu>
+              <Menu.Trigger>
+                <VerticalNav.SupplementaryAction as={UnstyledButton}>
+                  Optional Bottom
+                </VerticalNav.SupplementaryAction>
+              </Menu.Trigger>
+              <Menu.Overlay
+                onAction={action("Selected")}
+                placement="left bottom"
+              >
+                <Menu.Item key="copy">Copy</Menu.Item>
+                <Menu.Item key="cut">Cut</Menu.Item>
+                <Menu.Item key="paste">Paste</Menu.Item>
+              </Menu.Overlay>
+            </Menu>
           }
           selectedKeys={[page.substring(0, 1)]}
         >
