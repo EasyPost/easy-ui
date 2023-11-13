@@ -32,6 +32,7 @@ export function Subnav(props: SubnavProps) {
           );
           const dotClassName = classNames(
             styles.subnavItemDot,
+            type === "list" && styles.subnavItemDotCozy,
             isSelected && styles.subnavItemDotVisible,
           );
           return (

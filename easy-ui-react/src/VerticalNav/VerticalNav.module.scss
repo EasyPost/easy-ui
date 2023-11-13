@@ -109,12 +109,16 @@
 .subnavItemDot {
   position: absolute;
   top: 6px;
-  right: calc(100% + 4px);
+  right: calc(100% + 8px);
   width: 4px;
   height: 4px;
   background-color: currentColor;
   border-radius: 100%;
   opacity: 0;
+}
+
+.subnavItemDotCozy {
+  right: calc(100% + 4px);
 }
 
 .subnavItemDotVisible {
