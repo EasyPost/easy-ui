@@ -1,5 +1,6 @@
 import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
 import MenuBookIcon from "@easypost/easy-ui-icons/MenuBook";
+import AwardStarIcon from "@easypost/easy-ui-icons/AwardStar";
 import { Meta, StoryObj } from "@storybook/react";
 import uniq from "lodash/uniq";
 import React, { Key, ReactNode, useCallback, useState } from "react";
@@ -8,6 +9,8 @@ import {
   FakeClientSideRouterLink as FakeLink,
 } from "../utilities/storybook";
 import { ExpandableVerticalNav, VerticalNav } from "./VerticalNav";
+import { Icon } from "../Icon";
+import { Text } from "../Text";
 
 type Story = StoryObj<typeof VerticalNav>;
 
@@ -17,6 +20,57 @@ const meta: Meta<typeof VerticalNav> = {
 };
 
 export default meta;
+
+export const Banner: Story = {
+  render: () => (
+    <FakePage>
+      {({ page, setPage }) => (
+        <VerticalNav
+          aria-label="Sidebar"
+          renderLogo={() => <EPLogo />}
+          renderBanner={() => <FakeBanner />}
+          selectedKeys={[page.substring(0, 1)]}
+        >
+          <VerticalNav.Item
+            key="1"
+            iconSymbol={MenuBookIcon}
+            label="Item 1"
+            as={FakeLink}
+            onClick={() => setPage("1")}
+          />
+          <VerticalNav.Item
+            key="2"
+            iconSymbol={MenuBookIcon}
+            label="Item 2"
+            as={FakeLink}
+            onClick={() => setPage("2")}
+          />
+          <VerticalNav.Item
+            key="3"
+            iconSymbol={LocalShippingIcon}
+            label="Item 3"
+            as={FakeLink}
+            onClick={() => setPage("3")}
+          />
+          <VerticalNav.Item
+            key="4"
+            iconSymbol={MenuBookIcon}
+            label="Item 4"
+            as={FakeLink}
+            onClick={() => setPage("4")}
+          />
+          <VerticalNav.Item
+            key="5"
+            iconSymbol={LocalShippingIcon}
+            label="Item 5"
+            as={FakeLink}
+            onClick={() => setPage("5")}
+          />
+        </VerticalNav>
+      )}
+    </FakePage>
+  ),
+};
 
 export const Simple: Story = {
   render: () => (
@@ -280,6 +334,27 @@ function FakePage({ children }: FakePageProps) {
       <div style={{ padding: 48 }}>
         {page ? <>Selected item: {page}</> : null}
       </div>
+    </div>
+  );
+}
+
+function FakeBanner() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        height: 48,
+        background: "hsl(274, 84%, 58%)",
+        color: "white",
+        borderBottomLeftRadius: 6,
+        borderBottomRightRadius: 6,
+      }}
+    >
+      <Icon symbol={AwardStarIcon} />
+      <Text variant="subtitle1">Pro Trial</Text>
     </div>
   );
 }

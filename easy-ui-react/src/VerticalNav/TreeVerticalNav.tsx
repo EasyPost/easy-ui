@@ -10,14 +10,12 @@ import styles from "./VerticalNav.module.scss";
 export type TreeVerticalNavProps = BaseVerticalNavProps & TreeProps<object>;
 
 export function TreeVerticalNav(props: TreeVerticalNavProps) {
-  const { renderLogo } = props;
-  const state = useTreeState({
-    ...props,
-    selectionMode: "single",
-  });
+  const { renderBanner, renderLogo } = props;
+  const state = useTreeState({ ...props, selectionMode: "single" });
   return (
     <VerticalNavTypeContext.Provider value="tree">
       <nav className={classNames(styles.VerticalNav, styles.tree)}>
+        {renderBanner && <div className={styles.banner}>{renderBanner()}</div>}
         {renderLogo && <div className={styles.logo}>{renderLogo()}</div>}
         <div className={styles.nav}>
           {[...state.collection].map((item) => (

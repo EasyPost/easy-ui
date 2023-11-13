@@ -1,32 +1,38 @@
 import { ComponentProps, ElementType, ReactNode } from "react";
-import { Item } from "react-stately";
+import { Item as ReactStatelyItem } from "react-stately";
 import { IconSymbol } from "../types";
 
-export type NavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
+export type ItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
   as?: T;
   label: string;
   iconSymbol?: IconSymbol;
   children?: ReactNode;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function NavItem<T extends ElementType = "a">(_props: NavItemProps<T>) {
+type ReactStatelyItemInterface = {
+  getCollectionNode: (
+    props: ItemProps & { textValue: string },
+    context: object,
+  ) => Generator;
+};
+
+/**
+ * This is a wrapper around React Stately's Item to be able to control the
+ * properties and behavior of the items in our VerticalNav and
+ * VerticalNav.Subnav lists.
+ */
+export function Item<T extends ElementType = "a">(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _props: ItemProps<T>,
+) {
   return null;
 }
 
 const originalGetCollectionNode = (
-  Item as unknown as {
-    getCollectionNode: (
-      props: NavItemProps & { textValue: string },
-      context: object,
-    ) => void;
-  }
+  ReactStatelyItem as unknown as ReactStatelyItemInterface
 ).getCollectionNode;
-export function getCollectionNode(props: NavItemProps, context: object) {
-  return originalGetCollectionNode(
-    { ...props, textValue: props.label },
-    context,
-  );
-}
 
-Object.assign(NavItem, Item, { getCollectionNode });
+const getCollectionNode = (props: ItemProps, context: object) =>
+  originalGetCollectionNode({ ...props, textValue: props.label }, context);
+
+Object.assign(Item, ReactStatelyItem, { getCollectionNode });
