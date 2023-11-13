@@ -1,20 +1,28 @@
 import { Node } from "@react-types/shared";
-import React from "react";
+import React, { ReactNode } from "react";
 import { mergeProps, useHover } from "react-aria";
-import { ListState } from "react-stately";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
 
 import styles from "./VerticalNav.module.scss";
 
-export type ListVerticalNavItemProps = {
-  state: ListState<object>;
+type NavItemProps = {
+  className?: string;
+  expansionSlot?: ReactNode;
+  isChildrenVisible: boolean;
   item: Node<object>;
+  isSelected: boolean;
 };
 
-export function ListVerticalNavItem(props: ListVerticalNavItemProps) {
-  const { item, state } = props;
+export function NavItem(props: NavItemProps) {
+  const {
+    className: classNameFromParent,
+    expansionSlot,
+    item,
+    isSelected,
+    isChildrenVisible,
+  } = props;
   const {
     as: As = "a",
     label,
@@ -23,32 +31,26 @@ export function ListVerticalNavItem(props: ListVerticalNavItemProps) {
     textValue,
     ...linkProps
   } = item.props;
-  const isSelected = state.selectionManager.isSelected(item.key);
   const { hoverProps, isHovered } = useHover({});
   const className = classNames(
     styles.navItem,
-    isSelected && styles.navItemListSelected,
     isHovered && styles.navItemHovered,
+    classNameFromParent,
   );
   return (
     <div className={className}>
       <div className={styles.navItemLabelWrap}>
         <As
           className={styles.navItemLabel}
-          aria-current={isSelected ? "page" : undefined}
+          aria-current={isSelected ? "true" : undefined}
           {...mergeProps(hoverProps, linkProps)}
         >
-          {iconSymbol && (
-            <div>
-              <Icon symbol={iconSymbol} />
-            </div>
-          )}
-          <div>
-            <Text variant="subtitle2">{label}</Text>
-          </div>
+          {iconSymbol && <Icon symbol={iconSymbol} />}
+          <Text variant="subtitle2">{label}</Text>
         </As>
+        {expansionSlot}
       </div>
-      {item.props.children && isSelected && <div>{item.rendered}</div>}
+      {item.props.children && isChildrenVisible && item.rendered}
     </div>
   );
 }

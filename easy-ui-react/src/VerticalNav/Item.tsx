@@ -20,6 +20,9 @@ type ReactStatelyItemInterface = {
  * This is a wrapper around React Stately's Item to be able to control the
  * properties and behavior of the items in our VerticalNav and
  * VerticalNav.Subnav lists.
+ *
+ * We map our Item's label prop to the underlying textValue prop to silence
+ * warnings about Aria's accessibility paradigm.
  */
 export function Item<T extends ElementType = "a">(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
