@@ -14,16 +14,25 @@ export function TreeVerticalNav(props: TreeVerticalNavProps) {
     renderBanner,
     renderLogo,
     supplementaryAction,
-    children,
-    ...labelingProps
+    ["aria-label"]: ariaLabel,
+    ["aria-labelledby"]: ariaLabelledBy,
+    ["aria-describedby"]: ariaDescribedBy,
+    ["aria-details"]: ariaDetails,
+    ...treeProps
   } = props;
-  const state = useTreeState({ children, selectionMode: "single" });
+  const state = useTreeState({ ...treeProps, selectionMode: "single" });
   return (
     <VerticalNavTypeContext.Provider value="tree">
       <div className={classNames(styles.VerticalNav, styles.tree)}>
         {renderBanner && <div className={styles.banner}>{renderBanner()}</div>}
         {renderLogo && <div className={styles.logo}>{renderLogo()}</div>}
-        <nav className={styles.nav} {...labelingProps}>
+        <nav
+          className={styles.nav}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
+          aria-describedby={ariaDescribedBy}
+          aria-details={ariaDetails}
+        >
           {[...state.collection].map((item) => (
             <TreeVerticalNavItem key={item.key} state={state} item={item} />
           ))}

@@ -14,16 +14,25 @@ export function ListVerticalNav(props: ListVerticalNavProps) {
     renderBanner,
     renderLogo,
     supplementaryAction,
-    children,
-    ...labelingProps
+    ["aria-label"]: ariaLabel,
+    ["aria-labelledby"]: ariaLabelledBy,
+    ["aria-describedby"]: ariaDescribedBy,
+    ["aria-details"]: ariaDetails,
+    ...listProps
   } = props;
-  const state = useListState({ children, selectionMode: "single" });
+  const state = useListState({ ...listProps, selectionMode: "single" });
   return (
     <VerticalNavTypeContext.Provider value="list">
       <div className={classNames(styles.VerticalNav, styles.list)}>
         {renderBanner && <div className={styles.banner}>{renderBanner()}</div>}
         {renderLogo && <div className={styles.logo}>{renderLogo()}</div>}
-        <nav className={styles.nav} {...labelingProps}>
+        <nav
+          className={styles.nav}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
+          aria-describedby={ariaDescribedBy}
+          aria-details={ariaDetails}
+        >
           {[...state.collection].map((item) => (
             <ListVerticalNavItem key={item.key} state={state} item={item} />
           ))}
