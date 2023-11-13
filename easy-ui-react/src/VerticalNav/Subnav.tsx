@@ -3,6 +3,7 @@ import { mergeProps } from "react-aria";
 import { ListProps, useListState } from "react-stately";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
+import { useVerticalNavType } from "./context";
 
 import styles from "./VerticalNav.module.scss";
 
@@ -11,6 +12,7 @@ const SubnavLevelContext = createContext<number>(0);
 export type SubnavProps = ListProps<object>;
 
 export function Subnav(props: SubnavProps) {
+  const type = useVerticalNavType();
   const levelContext = useContext(SubnavLevelContext);
   const level = useMemo(() => {
     return levelContext + 1;
@@ -39,7 +41,9 @@ export function Subnav(props: SubnavProps) {
                 aria-current={isSelected ? "page" : undefined}
                 {...mergeProps(linkProps)}
               >
-                {level > 1 && <span className={dotClassName} />}
+                {(type === "list" || level > 1) && (
+                  <span className={dotClassName} />
+                )}
                 <Text
                   variant={"body2"}
                   weight={isSelected && level === 1 ? "medium" : "normal"}

@@ -270,17 +270,16 @@ function FakePage({ children }: FakePageProps) {
     setExpandedKeys,
   } as FakePageChildrenArgs;
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      <div
-        style={{
-          width: 215,
-          height: "calc(100svh - 2rem)",
-          background: "#f1f1f1",
-        }}
-      >
+    <div
+      className="full-screen-story product-layout-story"
+      style={{ display: "flex", flexDirection: "row" }}
+    >
+      <div style={{ width: 215, height: "100svh", background: "#fff" }}>
         {children(childrenArgs)}
       </div>
-      <div style={{ padding: 48 }}>{page ? <>Page {page}</> : null}</div>
+      <div style={{ padding: 48 }}>
+        {page ? <>Selected item: {page}</> : null}
+      </div>
     </div>
   );
 }

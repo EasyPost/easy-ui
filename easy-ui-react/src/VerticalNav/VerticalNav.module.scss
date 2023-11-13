@@ -40,8 +40,12 @@
   color: design-token("color.gray.900");
 }
 
-.navItemSelected {
+.navItemTreeSelected {
   color: design-token("color.blue.600");
+}
+
+.navItemListSelected {
+  color: design-token("color.blue.500");
 }
 
 .navItemExpandBtn {
@@ -105,7 +109,7 @@
 .subnavItemDot {
   position: absolute;
   top: 6px;
-  right: calc(100% + 8px);
+  right: calc(100% + 4px);
   width: 4px;
   height: 4px;
   background-color: currentColor;

@@ -30,7 +30,7 @@ export function TreeVerticalNavItem(props: TreeVerticalNavItemProps) {
   const { hoverProps, isHovered } = useHover({});
   const className = classNames(
     styles.navItem,
-    isSelected && styles.navItemSelected,
+    isSelected && styles.navItemTreeSelected,
     isExpanded && styles.navItemExpanded,
     isHovered && styles.navItemHovered,
   );

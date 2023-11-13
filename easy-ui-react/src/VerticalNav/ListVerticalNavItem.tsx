@@ -27,7 +27,7 @@ export function ListVerticalNavItem(props: ListVerticalNavItemProps) {
   const { hoverProps, isHovered } = useHover({});
   const className = classNames(
     styles.navItem,
-    isSelected && styles.navItemSelected,
+    isSelected && styles.navItemListSelected,
     isHovered && styles.navItemHovered,
   );
   return (
