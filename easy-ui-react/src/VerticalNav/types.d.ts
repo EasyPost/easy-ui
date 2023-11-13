@@ -5,4 +5,5 @@ export type BaseVerticalNavProps = AriaLabelingProps & {
   children: ReactNode;
   renderLogo?: () => ReactNode;
   renderBanner?: () => ReactNode;
+  supplementaryAction?: ReactNode;
 };

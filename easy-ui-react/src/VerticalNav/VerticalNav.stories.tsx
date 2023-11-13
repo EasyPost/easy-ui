@@ -2,6 +2,7 @@ import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
 import MenuBookIcon from "@easypost/easy-ui-icons/MenuBook";
 import AwardStarIcon from "@easypost/easy-ui-icons/AwardStar";
 import { Meta, StoryObj } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 import uniq from "lodash/uniq";
 import React, { Key, ReactNode, useCallback, useState } from "react";
 import {
@@ -20,57 +21,6 @@ const meta: Meta<typeof VerticalNav> = {
 };
 
 export default meta;
-
-export const Banner: Story = {
-  render: () => (
-    <FakePage>
-      {({ page, setPage }) => (
-        <VerticalNav
-          aria-label="Sidebar"
-          renderLogo={() => <EPLogo />}
-          renderBanner={() => <FakeBanner />}
-          selectedKeys={[page.substring(0, 1)]}
-        >
-          <VerticalNav.Item
-            key="1"
-            iconSymbol={MenuBookIcon}
-            label="Item 1"
-            as={FakeLink}
-            onClick={() => setPage("1")}
-          />
-          <VerticalNav.Item
-            key="2"
-            iconSymbol={MenuBookIcon}
-            label="Item 2"
-            as={FakeLink}
-            onClick={() => setPage("2")}
-          />
-          <VerticalNav.Item
-            key="3"
-            iconSymbol={LocalShippingIcon}
-            label="Item 3"
-            as={FakeLink}
-            onClick={() => setPage("3")}
-          />
-          <VerticalNav.Item
-            key="4"
-            iconSymbol={MenuBookIcon}
-            label="Item 4"
-            as={FakeLink}
-            onClick={() => setPage("4")}
-          />
-          <VerticalNav.Item
-            key="5"
-            iconSymbol={LocalShippingIcon}
-            label="Item 5"
-            as={FakeLink}
-            onClick={() => setPage("5")}
-          />
-        </VerticalNav>
-      )}
-    </FakePage>
-  ),
-};
 
 export const Simple: Story = {
   render: () => (
@@ -294,6 +244,114 @@ export const Expandable: Story = {
             onClick={() => setPage("5")}
           />
         </ExpandableVerticalNav>
+      )}
+    </FakePage>
+  ),
+};
+
+export const Banner: Story = {
+  render: () => (
+    <FakePage>
+      {({ page, setPage }) => (
+        <VerticalNav
+          aria-label="Sidebar"
+          renderLogo={() => <EPLogo />}
+          renderBanner={() => <FakeBanner />}
+          selectedKeys={[page.substring(0, 1)]}
+        >
+          <VerticalNav.Item
+            key="1"
+            iconSymbol={MenuBookIcon}
+            label="Item 1"
+            as={FakeLink}
+            onClick={() => setPage("1")}
+          />
+          <VerticalNav.Item
+            key="2"
+            iconSymbol={MenuBookIcon}
+            label="Item 2"
+            as={FakeLink}
+            onClick={() => setPage("2")}
+          />
+          <VerticalNav.Item
+            key="3"
+            iconSymbol={LocalShippingIcon}
+            label="Item 3"
+            as={FakeLink}
+            onClick={() => setPage("3")}
+          />
+          <VerticalNav.Item
+            key="4"
+            iconSymbol={MenuBookIcon}
+            label="Item 4"
+            as={FakeLink}
+            onClick={() => setPage("4")}
+          />
+          <VerticalNav.Item
+            key="5"
+            iconSymbol={LocalShippingIcon}
+            label="Item 5"
+            as={FakeLink}
+            onClick={() => setPage("5")}
+          />
+        </VerticalNav>
+      )}
+    </FakePage>
+  ),
+};
+
+export const SupplementaryAction: Story = {
+  render: () => (
+    <FakePage>
+      {({ page, setPage }) => (
+        <VerticalNav
+          aria-label="Sidebar"
+          renderLogo={() => <EPLogo />}
+          supplementaryAction={
+            <VerticalNav.SupplementaryAction
+              onClick={action("supplementary action clicked")}
+            >
+              Optional Bottom
+            </VerticalNav.SupplementaryAction>
+          }
+          selectedKeys={[page.substring(0, 1)]}
+        >
+          <VerticalNav.Item
+            key="1"
+            iconSymbol={MenuBookIcon}
+            label="Item 1"
+            as={FakeLink}
+            onClick={() => setPage("1")}
+          />
+          <VerticalNav.Item
+            key="2"
+            iconSymbol={MenuBookIcon}
+            label="Item 2"
+            as={FakeLink}
+            onClick={() => setPage("2")}
+          />
+          <VerticalNav.Item
+            key="3"
+            iconSymbol={LocalShippingIcon}
+            label="Item 3"
+            as={FakeLink}
+            onClick={() => setPage("3")}
+          />
+          <VerticalNav.Item
+            key="4"
+            iconSymbol={MenuBookIcon}
+            label="Item 4"
+            as={FakeLink}
+            onClick={() => setPage("4")}
+          />
+          <VerticalNav.Item
+            key="5"
+            iconSymbol={LocalShippingIcon}
+            label="Item 5"
+            as={FakeLink}
+            onClick={() => setPage("5")}
+          />
+        </VerticalNav>
       )}
     </FakePage>
   ),

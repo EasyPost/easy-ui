@@ -1,7 +1,8 @@
 import React from "react";
-import { ListVerticalNav, ListVerticalNavProps } from "./ListVerticalNav";
 import { Item } from "./Item";
+import { ListVerticalNav, ListVerticalNavProps } from "./ListVerticalNav";
 import { Subnav } from "./Subnav";
+import { SupplementaryAction } from "./SupplementaryAction";
 import { TreeVerticalNav } from "./TreeVerticalNav";
 
 export function VerticalNav(props: ListVerticalNavProps) {
@@ -10,5 +11,6 @@ export function VerticalNav(props: ListVerticalNavProps) {
 
 VerticalNav.Item = Item;
 VerticalNav.Subnav = Subnav;
+VerticalNav.SupplementaryAction = SupplementaryAction;
 
 export { TreeVerticalNav as ExpandableVerticalNav };

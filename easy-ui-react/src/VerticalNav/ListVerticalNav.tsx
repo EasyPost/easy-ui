@@ -10,19 +10,30 @@ import styles from "./VerticalNav.module.scss";
 export type ListVerticalNavProps = BaseVerticalNavProps & ListProps<object>;
 
 export function ListVerticalNav(props: ListVerticalNavProps) {
-  const { renderBanner, renderLogo } = props;
-  const state = useListState({ ...props, selectionMode: "single" });
+  const {
+    renderBanner,
+    renderLogo,
+    supplementaryAction,
+    children,
+    ...labelingProps
+  } = props;
+  const state = useListState({ children, selectionMode: "single" });
   return (
     <VerticalNavTypeContext.Provider value="list">
-      <nav className={classNames(styles.VerticalNav, styles.list)}>
+      <div className={classNames(styles.VerticalNav, styles.list)}>
         {renderBanner && <div className={styles.banner}>{renderBanner()}</div>}
         {renderLogo && <div className={styles.logo}>{renderLogo()}</div>}
-        <div className={styles.nav}>
+        <nav className={styles.nav} {...labelingProps}>
           {[...state.collection].map((item) => (
             <ListVerticalNavItem key={item.key} state={state} item={item} />
           ))}
-        </div>
-      </nav>
+        </nav>
+        {supplementaryAction && (
+          <div className={styles.supplementaryActionContainer}>
+            {supplementaryAction}
+          </div>
+        )}
+      </div>
     </VerticalNavTypeContext.Provider>
   );
 }
