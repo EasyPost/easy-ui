@@ -9,7 +9,7 @@ import { NavItem } from "./NavItem";
 import { VerticalNavTypeContext } from "./context";
 import type { BaseVerticalNavProps } from "./types";
 
-import styles from "./NavItem.module.scss";
+import navItemStyles from "./NavItem.module.scss";
 
 export type TreeVerticalNavProps = BaseVerticalNavProps & TreeProps<object>;
 
@@ -22,8 +22,8 @@ export function TreeVerticalNav(props: TreeVerticalNavProps) {
           const isSelected = state.selectionManager.isSelected(item.key);
           const isExpanded = state.expandedKeys.has(item.key);
           const className = classNames(
-            isSelected && styles.treeSelected,
-            isExpanded && styles.expanded,
+            isSelected && navItemStyles.treeSelected,
+            isExpanded && navItemStyles.expanded,
           );
           return (
             <NavItem
@@ -35,7 +35,7 @@ export function TreeVerticalNav(props: TreeVerticalNavProps) {
               expansionSlot={
                 item.props.children && (
                   <UnstyledButton
-                    className={styles.expandBtn}
+                    className={navItemStyles.expandBtn}
                     onPress={() => {
                       state.toggleKey(item.key);
                     }}
