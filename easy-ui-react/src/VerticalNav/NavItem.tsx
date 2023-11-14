@@ -11,26 +11,26 @@ type NavItemProps = {
   className?: string;
   expansionSlot?: ReactNode;
   isChildrenVisible: boolean;
-  item: Node<object>;
-  isSelected: boolean;
   isExpanded?: boolean;
+  isSelected: boolean;
+  item: Node<object>;
 };
 
 export function NavItem(props: NavItemProps) {
   const {
     className: classNameFromParent,
     expansionSlot,
-    item,
-    isSelected,
-    isExpanded,
     isChildrenVisible,
+    isExpanded,
+    isSelected,
+    item,
   } = props;
   const {
     as: As = "a",
-    label,
+    children,
     iconSymbol,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    textValue,
+    label,
+    textValue: _textValue,
     ...linkProps
   } = item.props;
   const { hoverProps, isHovered } = useHover({});
@@ -41,9 +41,9 @@ export function NavItem(props: NavItemProps) {
   );
   return (
     <div className={className}>
-      <div className={styles.labelWrap}>
+      <div className={styles.linkContainer}>
         <As
-          className={styles.label}
+          className={styles.link}
           aria-current={isSelected ? "true" : undefined}
           aria-expanded={isExpanded ? "true" : undefined}
           {...mergeProps(hoverProps, linkProps)}
@@ -53,7 +53,7 @@ export function NavItem(props: NavItemProps) {
         </As>
         {expansionSlot}
       </div>
-      {item.props.children && isChildrenVisible && item.rendered}
+      {children && isChildrenVisible && <>{item.rendered}</>}
     </div>
   );
 }

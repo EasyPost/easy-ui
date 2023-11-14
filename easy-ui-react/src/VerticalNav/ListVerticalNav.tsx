@@ -1,6 +1,6 @@
 import React from "react";
 import { ListProps, ListState, Node, useListState } from "react-stately";
-import { classNames } from "../utilities/css";
+import { classNames, variationName } from "../utilities/css";
 import { Container } from "./Container";
 import { NavItem } from "./NavItem";
 import { VerticalNavTypeContext } from "./context";
@@ -34,7 +34,9 @@ function ListNavItem({ item, state }: ListNavItemProps) {
     <NavItem
       key={item.key}
       item={item}
-      className={classNames(isSelected && navItemStyles.listSelected)}
+      className={classNames(
+        isSelected && navItemStyles[variationName("selected", "list")],
+      )}
       isChildrenVisible={isSelected}
       isSelected={isSelected}
     />

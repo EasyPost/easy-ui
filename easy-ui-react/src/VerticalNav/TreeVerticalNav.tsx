@@ -1,6 +1,6 @@
 import React from "react";
 import { Node, TreeProps, TreeState, useTreeState } from "react-stately";
-import { classNames } from "../utilities/css";
+import { classNames, variationName } from "../utilities/css";
 import { Container } from "./Container";
 import { ExpandButton } from "./ExpandButton";
 import { NavItem } from "./NavItem";
@@ -35,7 +35,9 @@ function TreeNavItem({ item, state }: TreeNavItemProps) {
   return (
     <NavItem
       item={item}
-      className={classNames(isSelected && navItemStyles.treeSelected)}
+      className={classNames(
+        isSelected && navItemStyles[variationName("selected", "tree")],
+      )}
       isChildrenVisible={isExpanded}
       isSelected={isSelected}
       isExpanded={isExpanded}

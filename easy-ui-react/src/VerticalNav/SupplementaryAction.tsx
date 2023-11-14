@@ -18,13 +18,6 @@ export type SupplementaryActionProps<T extends ElementType = "button"> =
     children: ReactNode;
   };
 
-type SupplementaryActionWithForwardRef = {
-  <T extends ElementType = "button">(
-    props: SupplementaryActionProps<T> & { ref?: DOMRef },
-  ): ReactElement;
-  displayName?: string;
-};
-
 export const SupplementaryAction = forwardRef<
   HTMLButtonElement,
   SupplementaryActionProps
@@ -36,6 +29,11 @@ export const SupplementaryAction = forwardRef<
       <Icon symbol={ArrowForwardIosIcon} size="xs" />
     </As>
   );
-}) as SupplementaryActionWithForwardRef;
+}) as {
+  <T extends ElementType = "button">(
+    props: SupplementaryActionProps<T> & { ref?: DOMRef },
+  ): ReactElement;
+  displayName?: string;
+};
 
 SupplementaryAction.displayName = "SupplementaryAction";

@@ -12,29 +12,21 @@
   color: theme-token("color.neutral.900");
 }
 
-.treeSelected {
+.selectedTree {
   color: theme-token("color.primary.600");
 }
 
-.listSelected {
+.selectedList {
   color: theme-token("color.primary.500");
 }
 
-.expandBtn {
-  cursor: pointer;
-}
-
-.expandBtnExpanded {
-  transform: rotate(90deg);
-}
-
-.labelWrap {
+.linkContainer {
   display: flex;
   flex-direction: row;
   gap: design-token("space.1");
 }
 
-.label {
+.link {
   @include unstyled.button;
   @include unstyled.link;
 
