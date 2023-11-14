@@ -18,7 +18,7 @@ describe("<VerticalNav />", () => {
         aria-label="Sidebar"
         renderLogo={() => <div data-testid="logo" />}
         renderBanner={() => <div data-testid="banner" />}
-        selectedKeys={["1"]}
+        selectedKey={"1"}
       >
         <VerticalNav.Item key="1" label="Item 1" href="/1" />
         <VerticalNav.Item key="2" label="Item 2" href="/2" />
@@ -78,10 +78,10 @@ describe("<VerticalNav />", () => {
 
   it("should render a dense nav", () => {
     render(
-      <VerticalNav aria-label="Sidebar" selectedKeys={["2"]}>
+      <VerticalNav aria-label="Sidebar" selectedKey={"2"}>
         <VerticalNav.Item key="1" label="Item 1" href="/1" />
         <VerticalNav.Item key="2" label="Item 2" href="/2">
-          <VerticalNav.Subnav selectedKeys={["2/a"]}>
+          <VerticalNav.Subnav selectedKey={"2/a"}>
             <VerticalNav.Item key="2/a" label="Item 2/a" href="/2/a" />
             <VerticalNav.Item key="2/b" label="Item 2/b" href="/2/b" />
             <VerticalNav.Item key="2/c" label="Item 2/c" href="/2/c" />
@@ -109,16 +109,16 @@ describe("<VerticalNav />", () => {
     const { user } = render(
       <ExpandableVerticalNav
         aria-label="Sidebar"
-        selectedKeys={["2"]}
+        selectedKey="2"
         expandedKeys={["2"]}
         onExpandedChange={handleExpandedChange}
       >
         <VerticalNav.Item key="1" label="Item 1" href="/1" />
         <VerticalNav.Item key="2" label="Item 2" href="/2">
-          <VerticalNav.Subnav selectedKeys={["2/b"]}>
+          <VerticalNav.Subnav selectedKey={"2/b"}>
             <VerticalNav.Item key="2/a" label="Item 2/a" href="/2/a" />
             <VerticalNav.Item key="2/b" label="Item 2/b" href="/2/b">
-              <VerticalNav.Subnav selectedKeys={["2/b/1"]}>
+              <VerticalNav.Subnav selectedKey={"2/b/1"}>
                 <VerticalNav.Item
                   key="2/b/1"
                   label="Item 2/b/1"

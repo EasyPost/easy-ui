@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Key } from "react";
 import { Node, TreeProps, TreeState, useTreeState } from "react-stately";
 import { classNames, variationName } from "../utilities/css";
 import { Container } from "./Container";
@@ -9,10 +9,20 @@ import type { BaseVerticalNavProps } from "./types";
 
 import navItemStyles from "./NavItem.module.scss";
 
-export type TreeVerticalNavProps = BaseVerticalNavProps & TreeProps<object>;
+export type TreeVerticalNavProps = BaseVerticalNavProps & {
+  children?: TreeProps<object>["children"];
+  expandedKeys?: TreeProps<object>["expandedKeys"];
+  onExpandedChange?: TreeProps<object>["onExpandedChange"];
+  selectedKey?: Key;
+};
 
 export function TreeVerticalNav(props: TreeVerticalNavProps) {
-  const state = useTreeState({ ...props, selectionMode: "single" });
+  const { selectedKey, ...treeStateProps } = props;
+  const state = useTreeState({
+    ...treeStateProps,
+    selectedKeys: selectedKey ? [selectedKey] : [],
+    selectionMode: "single",
+  });
   return (
     <VerticalNavTypeContext.Provider value="tree">
       <Container {...props}>

@@ -31,7 +31,7 @@ export const Simple: Story = {
         <VerticalNav
           aria-label="Sidebar"
           renderLogo={() => <EPLogo />}
-          selectedKeys={[page.substring(0, 1)]}
+          selectedKey={page.substring(0, 1)}
         >
           <VerticalNav.Item
             key="1"
@@ -80,7 +80,7 @@ export const Dense: Story = {
       {({ page, setPage }) => (
         <VerticalNav
           renderLogo={() => <EPLogo />}
-          selectedKeys={[page.substring(0, 1)]}
+          selectedKey={page.substring(0, 1)}
         >
           <VerticalNav.Item
             key="1"
@@ -96,7 +96,7 @@ export const Dense: Story = {
             as={FakeLink}
             onClick={() => setPage("2")}
           >
-            <VerticalNav.Subnav selectedKeys={[page.substring(0, 3)]}>
+            <VerticalNav.Subnav selectedKey={page.substring(0, 3)}>
               <VerticalNav.Item
                 key="2/a"
                 label="Subitem a"
@@ -118,7 +118,7 @@ export const Dense: Story = {
             as={FakeLink}
             onClick={() => setPage("3")}
           >
-            <VerticalNav.Subnav selectedKeys={[page]}>
+            <VerticalNav.Subnav selectedKey={page}>
               <VerticalNav.Item
                 key="3/a"
                 label="Subitem a"
@@ -158,7 +158,7 @@ export const Expandable: Story = {
     <FakePage>
       {({ page, setPage, expandedKeys, setExpandedKeys }) => (
         <ExpandableVerticalNav
-          selectedKeys={[page.substring(0, 1)]}
+          selectedKey={page.substring(0, 1)}
           expandedKeys={expandedKeys}
           onExpandedChange={(keys) => {
             setExpandedKeys([...keys]);
@@ -178,7 +178,7 @@ export const Expandable: Story = {
             as={FakeLink}
             onClick={() => setPage("2")}
           >
-            <VerticalNav.Subnav selectedKeys={[page.substring(0, 3)]}>
+            <VerticalNav.Subnav selectedKey={page.substring(0, 3)}>
               <VerticalNav.Item
                 key="2/a"
                 label="Subitem a"
@@ -191,7 +191,7 @@ export const Expandable: Story = {
                 as={FakeLink}
                 onClick={() => setPage("2/b")}
               >
-                <VerticalNav.Subnav selectedKeys={[page.substring(0, 5)]}>
+                <VerticalNav.Subnav selectedKey={page}>
                   <VerticalNav.Item
                     key="2/b/1"
                     label="Grandsubitem 1"
@@ -215,7 +215,7 @@ export const Expandable: Story = {
             as={FakeLink}
             onClick={() => setPage("3")}
           >
-            <VerticalNav.Subnav selectedKeys={[page]}>
+            <VerticalNav.Subnav selectedKey={page}>
               <VerticalNav.Item
                 key="3/a"
                 label="Subitem a"
@@ -258,7 +258,7 @@ export const Banner: Story = {
           aria-label="Sidebar"
           renderLogo={() => <EPLogo />}
           renderBanner={() => <FakeBanner />}
-          selectedKeys={[page.substring(0, 1)]}
+          selectedKey={page.substring(0, 1)}
         >
           <VerticalNav.Item
             key="1"
@@ -325,7 +325,7 @@ export const SupplementaryAction: Story = {
               </Menu.Overlay>
             </Menu>
           }
-          selectedKeys={[page.substring(0, 1)]}
+          selectedKey={page.substring(0, 1)}
         >
           <VerticalNav.Item
             key="1"

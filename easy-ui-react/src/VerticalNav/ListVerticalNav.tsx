@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Key } from "react";
 import { ListProps, ListState, Node, useListState } from "react-stately";
 import { classNames, variationName } from "../utilities/css";
 import { Container } from "./Container";
@@ -8,10 +8,18 @@ import type { BaseVerticalNavProps } from "./types";
 
 import navItemStyles from "./NavItem.module.scss";
 
-export type ListVerticalNavProps = BaseVerticalNavProps & ListProps<object>;
+export type ListVerticalNavProps = BaseVerticalNavProps & {
+  selectedKey?: Key;
+  children?: ListProps<object>["children"];
+};
 
 export function ListVerticalNav(props: ListVerticalNavProps) {
-  const state = useListState({ ...props, selectionMode: "single" });
+  const { selectedKey, ...listStateProps } = props;
+  const state = useListState({
+    ...listStateProps,
+    selectedKeys: selectedKey ? [selectedKey] : [],
+    selectionMode: "single",
+  });
   return (
     <VerticalNavTypeContext.Provider value="list">
       <Container {...props}>
