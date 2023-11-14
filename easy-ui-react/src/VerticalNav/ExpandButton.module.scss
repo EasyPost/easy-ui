@@ -1,0 +1,10 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.ExpandButton {
+  cursor: pointer;
+}
+
+.expanded {
+  transform: rotate(90deg);
+}

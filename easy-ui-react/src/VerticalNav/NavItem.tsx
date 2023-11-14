@@ -13,6 +13,7 @@ type NavItemProps = {
   isChildrenVisible: boolean;
   item: Node<object>;
   isSelected: boolean;
+  isExpanded?: boolean;
 };
 
 export function NavItem(props: NavItemProps) {
@@ -21,6 +22,7 @@ export function NavItem(props: NavItemProps) {
     expansionSlot,
     item,
     isSelected,
+    isExpanded,
     isChildrenVisible,
   } = props;
   const {
@@ -43,6 +45,7 @@ export function NavItem(props: NavItemProps) {
         <As
           className={styles.label}
           aria-current={isSelected ? "true" : undefined}
+          aria-expanded={isExpanded ? "true" : undefined}
           {...mergeProps(hoverProps, linkProps)}
         >
           {iconSymbol && <Icon symbol={iconSymbol} />}

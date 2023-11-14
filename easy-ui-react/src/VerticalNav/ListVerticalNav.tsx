@@ -1,5 +1,5 @@
 import React from "react";
-import { ListProps, useListState } from "react-stately";
+import { ListProps, ListState, Node, useListState } from "react-stately";
 import { classNames } from "../utilities/css";
 import { Container } from "./Container";
 import { NavItem } from "./NavItem";
@@ -15,19 +15,28 @@ export function ListVerticalNav(props: ListVerticalNavProps) {
   return (
     <VerticalNavTypeContext.Provider value="list">
       <Container {...props}>
-        {[...state.collection].map((item) => {
-          const isSelected = state.selectionManager.isSelected(item.key);
-          return (
-            <NavItem
-              key={item.key}
-              item={item}
-              className={classNames(isSelected && navItemStyles.listSelected)}
-              isChildrenVisible={isSelected}
-              isSelected={isSelected}
-            />
-          );
-        })}
+        {[...state.collection].map((item) => (
+          <ListNavItem key={item.key} item={item} state={state} />
+        ))}
       </Container>
     </VerticalNavTypeContext.Provider>
+  );
+}
+
+type ListNavItemProps = {
+  item: Node<object>;
+  state: ListState<object>;
+};
+
+function ListNavItem({ item, state }: ListNavItemProps) {
+  const isSelected = state.selectionManager.isSelected(item.key);
+  return (
+    <NavItem
+      key={item.key}
+      item={item}
+      className={classNames(isSelected && navItemStyles.listSelected)}
+      isChildrenVisible={isSelected}
+      isSelected={isSelected}
+    />
   );
 }

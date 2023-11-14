@@ -1,10 +1,8 @@
-import ArrowForwardIcon from "@easypost/easy-ui-icons/ArrowForwardIos";
 import React from "react";
-import { TreeProps, useTreeState } from "react-stately";
-import { Icon } from "../Icon";
-import { UnstyledButton } from "../UnstyledButton";
+import { Node, TreeProps, TreeState, useTreeState } from "react-stately";
 import { classNames } from "../utilities/css";
 import { Container } from "./Container";
+import { ExpandButton } from "./ExpandButton";
 import { NavItem } from "./NavItem";
 import { VerticalNavTypeContext } from "./context";
 import type { BaseVerticalNavProps } from "./types";
@@ -18,36 +16,39 @@ export function TreeVerticalNav(props: TreeVerticalNavProps) {
   return (
     <VerticalNavTypeContext.Provider value="tree">
       <Container {...props}>
-        {[...state.collection].map((item) => {
-          const isSelected = state.selectionManager.isSelected(item.key);
-          const isExpanded = state.expandedKeys.has(item.key);
-          const className = classNames(
-            isSelected && navItemStyles.treeSelected,
-            isExpanded && navItemStyles.expanded,
-          );
-          return (
-            <NavItem
-              key={item.key}
-              item={item}
-              className={className}
-              isChildrenVisible={isExpanded}
-              isSelected={isSelected}
-              expansionSlot={
-                item.props.children && (
-                  <UnstyledButton
-                    className={navItemStyles.expandBtn}
-                    onPress={() => {
-                      state.toggleKey(item.key);
-                    }}
-                  >
-                    <Icon symbol={ArrowForwardIcon} size="2xs" />
-                  </UnstyledButton>
-                )
-              }
-            />
-          );
-        })}
+        {[...state.collection].map((item) => (
+          <TreeNavItem key={item.key} item={item} state={state} />
+        ))}
       </Container>
     </VerticalNavTypeContext.Provider>
+  );
+}
+
+type TreeNavItemProps = {
+  item: Node<object>;
+  state: TreeState<object>;
+};
+
+function TreeNavItem({ item, state }: TreeNavItemProps) {
+  const isSelected = state.selectionManager.isSelected(item.key);
+  const isExpanded = state.expandedKeys.has(item.key);
+  return (
+    <NavItem
+      item={item}
+      className={classNames(isSelected && navItemStyles.treeSelected)}
+      isChildrenVisible={isExpanded}
+      isSelected={isSelected}
+      isExpanded={isExpanded}
+      expansionSlot={
+        item.props.children && (
+          <ExpandButton
+            isExpanded={isExpanded}
+            onPress={() => {
+              state.toggleKey(item.key);
+            }}
+          />
+        )
+      }
+    />
   );
 }
