@@ -14,7 +14,7 @@
   position: relative;
   display: flex;
 
-  color: design-token("color.blue.800");
+  color: theme-token("color.primary.800");
   cursor: pointer;
 }
 
@@ -40,10 +40,10 @@
 
 .selected:has(.selected) > .link {
   font-weight: 500;
-  color: design-token("color.blue.700");
+  color: theme-token("color.primary.700");
 }
 
 .selected:not(:has(.selected)) > .link {
   font-weight: 400;
-  color: design-token("color.blue.500");
+  color: theme-token("color.primary.500");
 }

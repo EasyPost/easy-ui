@@ -5,19 +5,19 @@
   display: flex;
   flex-direction: column;
   gap: design-token("space.1");
-  color: design-token("color.blue.700");
+  color: theme-token("color.primary.700");
 }
 
 .hovered {
-  color: design-token("color.gray.900");
+  color: theme-token("color.neutral.900");
 }
 
 .treeSelected {
-  color: design-token("color.blue.600");
+  color: theme-token("color.primary.600");
 }
 
 .listSelected {
-  color: design-token("color.blue.500");
+  color: theme-token("color.primary.500");
 }
 
 .expandBtn {
