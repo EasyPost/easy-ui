@@ -24,8 +24,8 @@ export type Namespace<
     ? _X
     : never
   : Set extends `${NeedlePrefix}${infer _X}${string & NeedleSuffix}`
-  ? _X
-  : never;
+    ? _X
+    : never;
 
 /**
  * Returns types narrowed for the specified namespace and suffix in

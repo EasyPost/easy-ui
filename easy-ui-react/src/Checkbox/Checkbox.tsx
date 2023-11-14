@@ -151,8 +151,8 @@ export function Checkbox(props: CheckboxProps) {
   const textColor = isDisabled
     ? "disabled"
     : validationState === "invalid"
-    ? "danger"
-    : "primary";
+      ? "danger"
+      : "primary";
 
   if (size === "lg" && isNested) {
     console.warn("isNested is incompatible with lg Checkbox");
