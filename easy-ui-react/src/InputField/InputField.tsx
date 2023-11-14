@@ -31,10 +31,9 @@ export type InputFieldProps = AriaTextFieldProps & {
    */
   type?: InputType;
   /**
-   * Visually hides the label, but keeps it accessible.
-   * @default false
+   * Accessibility label for input field.
    */
-  isLabelVisuallyHidden?: boolean;
+  "aria-label"?: string;
   /**
    * Whether the input is disabled.
    * @default false
@@ -72,7 +71,7 @@ export type InputFieldProps = AriaTextFieldProps & {
    */
   isMultiline?: boolean;
   /** The content to display as the label. */
-  label: ReactNode;
+  label?: ReactNode;
   /** Error text that appears below input. */
   errorText?: ReactNode;
   /** Helper text that appears below input. */
@@ -102,7 +101,6 @@ export function InputField(props: InputFieldProps) {
     isMultiline = false,
     type = "text",
     size = "md",
-    isLabelVisuallyHidden = false,
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
@@ -170,15 +168,16 @@ export function InputField(props: InputFieldProps) {
 
   return (
     <div className={classNames(styles.root)}>
-      <Label
-        isLabelVisuallyHidden={isLabelVisuallyHidden}
-        fieldSize={adjustedSize}
-        hasError={hasError}
-        isLabelEmphasized={isLabelEmphasized}
-        {...labelProps}
-      >
-        {label}
-      </Label>
+      {label && (
+        <Label
+          fieldSize={adjustedSize}
+          hasError={hasError}
+          isLabelEmphasized={isLabelEmphasized}
+          {...labelProps}
+        >
+          {label}
+        </Label>
+      )}
       <div className={styles.inputIconContainer}>
         {hasStartIcon && (
           <InputIcon

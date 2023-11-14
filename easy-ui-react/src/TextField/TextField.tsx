@@ -17,7 +17,8 @@ export type TextFieldProps = Omit<InputFieldProps, "isMultiline" | "rows">;
  * When `errorText` is supplied with `validationState="invalid"`, `helperText` is overriden.
  *
  * Labels should be included on all text fields as they describe the purpose of the form control.
- * In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
+ * In situations when you may want the label to be visually hidden, omit the label and provide an
+ * `aria-label`.
  *
  * @example
  * _Email with autoFocus:_
@@ -73,8 +74,7 @@ export type TextFieldProps = Omit<InputFieldProps, "isMultiline" | "rows">;
  *    <>
  *      <TextField
  *        type="search"
- *        label="Search for carriers" // visually hidden but still accessible via isLabelVisuallyHidden prop
- *        isLabelVisuallyHidden
+ *        aria-label="Search for carriers"
  *        iconAtStart={SearchIcon}
  *        value={searchedValue}
  *        onChange={(inputValue) => setSearchedValue(inputValue)} // value is returned automatically via react-aria
@@ -112,7 +112,6 @@ export function TextField(props: TextFieldProps) {
   const {
     type = "text",
     size = "md",
-    isLabelVisuallyHidden = false,
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
@@ -124,7 +123,6 @@ export function TextField(props: TextFieldProps) {
     <InputField
       type={type}
       size={size}
-      isLabelVisuallyHidden={isLabelVisuallyHidden}
       isDisabled={isDisabled}
       isRequired={isRequired}
       validationState={validationState}

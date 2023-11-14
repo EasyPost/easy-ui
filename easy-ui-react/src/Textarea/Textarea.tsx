@@ -21,7 +21,8 @@ export type TextareaProps = Omit<
  * Use this component when you want to allow users to enter a sizeable amount of free-form text.
  *
  * Labels should always be included as they describe the purpose of the textarea.
- * In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
+ * In situations when you may want the label to be visually hidden, omit the label and provide an
+ * `aria-label`.
  *
  * @example
  * _Description with helper text:_
@@ -54,8 +55,7 @@ export type TextareaProps = Omit<
  *  return (
  *    <>
  *      <Textarea
- *        label="Label" // visually hidden but still accessible via isLabelVisuallyHidden prop
- *        isLabelVisuallyHidden
+ *        aria-label="Label"
  *        value={description}
  *        onChange={(inputValue) => setDescription(inputValue)} // value is returned automatically via react-aria
  *        placeholder="Enter free-form text"
@@ -92,7 +92,6 @@ export type TextareaProps = Omit<
 export function Textarea(props: TextareaProps) {
   const {
     size = "md",
-    isLabelVisuallyHidden = false,
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
@@ -105,7 +104,6 @@ export function Textarea(props: TextareaProps) {
     <InputField
       isMultiline
       size={size}
-      isLabelVisuallyHidden={isLabelVisuallyHidden}
       isDisabled={isDisabled}
       isRequired={isRequired}
       validationState={validationState}

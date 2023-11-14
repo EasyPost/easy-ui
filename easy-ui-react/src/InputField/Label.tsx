@@ -6,11 +6,6 @@ import { classNames } from "../utilities/css";
 
 export type LabelProps = {
   /**
-   * Visually hides the label, but keeps it accessible.
-   * @default false
-   */
-  isLabelVisuallyHidden?: boolean;
-  /**
    * Label text displays with emphasis.
    * @default false
    */
@@ -37,7 +32,6 @@ export type LabelProps = {
  */
 export function Label(props: LabelProps) {
   const {
-    isLabelVisuallyHidden = false,
     isLabelEmphasized = false,
     fieldSize = "md",
     hasError = false,
@@ -53,19 +47,8 @@ export function Label(props: LabelProps) {
   const as = isLabelEmphasized ? "strong" : "span";
   const color = hasError ? "danger" : undefined;
   return (
-    <label
-      {...labelProps}
-      className={classNames(
-        styles.label,
-        isLabelVisuallyHidden && styles.labelHidden,
-      )}
-    >
-      <Text
-        variant={textVariant}
-        as={as}
-        color={color}
-        visuallyHidden={isLabelVisuallyHidden}
-      >
+    <label {...labelProps} className={classNames(styles.label)}>
+      <Text variant={textVariant} as={as} color={color}>
         {children}
       </Text>
     </label>

@@ -92,7 +92,6 @@ export type SelectProps<T> = AriaSelectProps<T> &
  */
 export function Select<T extends object>(props: SelectProps<T>) {
   const {
-    isLabelVisuallyHidden,
     isDisabled,
     validationState,
     isLabelEmphasized,
@@ -131,7 +130,6 @@ export function Select<T extends object>(props: SelectProps<T>) {
   return (
     <InternalSelectContext.Provider value={context}>
       <SelectField
-        isLabelVisuallyHidden={isLabelVisuallyHidden}
         isDisabled={isDisabled}
         validationState={validationState}
         isLabelEmphasized={isLabelEmphasized}
