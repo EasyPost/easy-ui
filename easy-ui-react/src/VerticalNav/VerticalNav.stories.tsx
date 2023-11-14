@@ -158,7 +158,6 @@ export const Expandable: Story = {
     <FakePage>
       {({ page, setPage, expandedKeys, setExpandedKeys }) => (
         <ExpandableVerticalNav
-          renderLogo={() => <EPLogo />}
           selectedKeys={[page.substring(0, 1)]}
           expandedKeys={expandedKeys}
           onExpandedChange={(keys) => {

@@ -1,6 +1,7 @@
 import ArrowForwardIcon from "@easypost/easy-ui-icons/ArrowForwardIos";
 import React from "react";
 import { Icon } from "../Icon";
+import { Text } from "../Text";
 import { UnstyledButton, UnstyledButtonProps } from "../UnstyledButton";
 import { classNames } from "../utilities/css";
 
@@ -17,6 +18,7 @@ export function ExpandButton({ isExpanded, ...props }: ExpandButtonProps) {
       {...props}
     >
       <Icon symbol={ArrowForwardIcon} size="2xs" />
+      <Text visuallyHidden>Expand</Text>
     </UnstyledButton>
   );
 }
