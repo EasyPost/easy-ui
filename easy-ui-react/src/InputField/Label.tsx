@@ -48,8 +48,8 @@ export function Label(props: LabelProps) {
   const textVariant = isLabelEmphasized
     ? "subtitle1"
     : fieldSize === "sm"
-    ? "body2"
-    : "body1";
+      ? "body2"
+      : "body1";
   const as = isLabelEmphasized ? "strong" : "span";
   const color = hasError ? "danger" : undefined;
   return (
