@@ -10,7 +10,7 @@ import React, {
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 
-import styles from "./VerticalNav.module.scss";
+import styles from "./SupplementaryAction.module.scss";
 
 export type SupplementaryActionProps<T extends ElementType = "button"> =
   ComponentProps<T> & {
@@ -25,16 +25,17 @@ type SupplementaryActionWithForwardRef = {
   displayName?: string;
 };
 
-export const SupplementaryAction = forwardRef<null, SupplementaryActionProps>(
-  (props, ref) => {
-    const { as: As = "button", children, ...elementProps } = props;
-    return (
-      <As ref={ref} className={styles.supplementaryAction} {...elementProps}>
-        <Text variant="subtitle2">{children}</Text>
-        <Icon symbol={ArrowForwardIosIcon} size="xs" />
-      </As>
-    );
-  },
-) as SupplementaryActionWithForwardRef;
+export const SupplementaryAction = forwardRef<
+  HTMLButtonElement,
+  SupplementaryActionProps
+>((props, ref) => {
+  const { as: As = "button", children, ...elementProps } = props;
+  return (
+    <As ref={ref} className={styles.SupplementaryAction} {...elementProps}>
+      <Text variant="subtitle2">{children}</Text>
+      <Icon symbol={ArrowForwardIosIcon} size="xs" />
+    </As>
+  );
+}) as SupplementaryActionWithForwardRef;
 
 SupplementaryAction.displayName = "SupplementaryAction";

@@ -5,7 +5,7 @@ import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
 
-import styles from "./VerticalNav.module.scss";
+import styles from "./NavItem.module.scss";
 
 type NavItemProps = {
   className?: string;
@@ -33,15 +33,15 @@ export function NavItem(props: NavItemProps) {
   } = item.props;
   const { hoverProps, isHovered } = useHover({});
   const className = classNames(
-    styles.navItem,
-    isHovered && styles.navItemHovered,
+    styles.NavItem,
+    isHovered && styles.hovered,
     classNameFromParent,
   );
   return (
     <div className={className}>
-      <div className={styles.navItemLabelWrap}>
+      <div className={styles.labelWrap}>
         <As
-          className={styles.navItemLabel}
+          className={styles.label}
           aria-current={isSelected ? "true" : undefined}
           {...mergeProps(hoverProps, linkProps)}
         >

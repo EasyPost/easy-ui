@@ -2,7 +2,7 @@ import React, { createContext, useContext, useMemo } from "react";
 import { ListProps, useListState } from "react-stately";
 import { SubnavItem } from "./SubnavItem";
 
-import styles from "./VerticalNav.module.scss";
+import styles from "./Subnav.module.scss";
 
 const SubnavLevelContext = createContext<number>(0);
 
@@ -14,7 +14,7 @@ export function Subnav(props: SubnavProps) {
   const state = useListState({ ...props, selectionMode: "single" });
   return (
     <SubnavLevelContext.Provider value={level}>
-      <div className={styles.subnav}>
+      <div className={styles.Subnav}>
         {[...state.collection].map((item, i) => (
           <SubnavItem key={String(i)} level={level} state={state} item={item} />
         ))}

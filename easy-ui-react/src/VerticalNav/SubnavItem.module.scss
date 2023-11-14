@@ -1,0 +1,49 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.SubnavItem {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+}
+
+.link {
+  @include unstyled.button;
+  @include unstyled.link;
+
+  position: relative;
+  display: flex;
+
+  color: design-token("color.blue.800");
+  cursor: pointer;
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(100% + #{design-token("space.1")});
+  width: design-token("space.0.5");
+  height: design-token("space.0.5");
+  background-color: currentColor;
+  border-radius: 100%;
+  opacity: 0;
+}
+
+.dotCozy {
+  right: calc(100% + #{design-token("space.0.5")});
+}
+
+.dotVisible {
+  opacity: 1;
+}
+
+.selected:has(.selected) > .link {
+  font-weight: 500;
+  color: design-token("color.blue.700");
+}
+
+.selected:not(:has(.selected)) > .link {
+  font-weight: 400;
+  color: design-token("color.blue.500");
+}

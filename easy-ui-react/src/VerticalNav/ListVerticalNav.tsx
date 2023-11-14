@@ -6,7 +6,7 @@ import { NavItem } from "./NavItem";
 import { VerticalNavTypeContext } from "./context";
 import type { BaseVerticalNavProps } from "./types";
 
-import styles from "./VerticalNav.module.scss";
+import styles from "./NavItem.module.scss";
 
 export type ListVerticalNavProps = BaseVerticalNavProps & ListProps<object>;
 
@@ -21,7 +21,7 @@ export function ListVerticalNav(props: ListVerticalNavProps) {
             <NavItem
               key={item.key}
               item={item}
-              className={classNames(isSelected && styles.navItemListSelected)}
+              className={classNames(isSelected && styles.listSelected)}
               isChildrenVisible={isSelected}
               isSelected={isSelected}
             />

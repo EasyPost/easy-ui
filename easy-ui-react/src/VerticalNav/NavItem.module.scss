@@ -1,0 +1,48 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.NavItem {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+  color: design-token("color.blue.700");
+}
+
+.hovered {
+  color: design-token("color.gray.900");
+}
+
+.treeSelected {
+  color: design-token("color.blue.600");
+}
+
+.listSelected {
+  color: design-token("color.blue.500");
+}
+
+.expandBtn {
+  cursor: pointer;
+}
+
+.expanded .expandBtn {
+  transform: rotate(90deg);
+}
+
+.labelWrap {
+  display: flex;
+  flex-direction: row;
+  gap: design-token("space.1");
+}
+
+.label {
+  @include unstyled.button;
+  @include unstyled.link;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: design-token("space.1");
+
+  color: inherit;
+  cursor: pointer;
+}

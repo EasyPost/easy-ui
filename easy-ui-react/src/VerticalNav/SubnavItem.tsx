@@ -5,7 +5,7 @@ import { Text } from "../Text";
 import { classNames } from "../utilities/css";
 import { useVerticalNavType } from "./context";
 
-import styles from "./VerticalNav.module.scss";
+import styles from "./SubnavItem.module.scss";
 
 export type SubnavItemProps = {
   level: number;
@@ -19,18 +19,18 @@ export function SubnavItem({ level, state, item }: SubnavItemProps) {
   const { as: As = "a", label, textValue, ...linkProps } = item.props;
   const isSelected = state.selectionManager.isSelected(item.key);
   const className = classNames(
-    styles.subnavItem,
-    isSelected && styles.subnavItemSelected,
+    styles.SubnavItem,
+    isSelected && styles.selected,
   );
   const dotClassName = classNames(
-    styles.subnavItemDot,
-    type === "list" && styles.subnavItemDotCozy,
-    isSelected && styles.subnavItemDotVisible,
+    styles.dot,
+    type === "list" && styles.dotCozy,
+    isSelected && styles.dotVisible,
   );
   return (
     <div className={className}>
       <As
-        className={styles.subnavItemLink}
+        className={styles.link}
         aria-current={isSelected ? "true" : undefined}
         {...mergeProps(linkProps)}
       >

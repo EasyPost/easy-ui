@@ -1,7 +1,7 @@
 import React from "react";
 import type { BaseVerticalNavProps } from "./types";
 
-import styles from "./VerticalNav.module.scss";
+import styles from "./Container.module.scss";
 
 export function Container(props: BaseVerticalNavProps) {
   const {
@@ -15,7 +15,7 @@ export function Container(props: BaseVerticalNavProps) {
     children,
   } = props;
   return (
-    <div className={styles.container}>
+    <div className={styles.Container}>
       {renderBanner && <div className={styles.banner}>{renderBanner()}</div>}
       {renderLogo && <div className={styles.logo}>{renderLogo()}</div>}
       <nav

@@ -1,0 +1,14 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.Subnav {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+  padding-left: design-token("space.4");
+
+  // decrease padding for nested subnavigation
+  .Subnav {
+    padding-left: design-token("space.1.5");
+  }
+}

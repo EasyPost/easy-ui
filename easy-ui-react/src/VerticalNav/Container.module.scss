@@ -1,0 +1,41 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.Container {
+  @include component-token("vertical-nav", "logo-max-width", 164px);
+
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.2");
+  height: 100%;
+  padding: design-token("space.3");
+  padding-top: design-token("space.2");
+  overflow: auto;
+}
+
+.banner {
+  margin-top: calc(#{design-token("space.2")} * -1);
+}
+
+.logo {
+  width: 100%;
+  max-width: component-token("vertical-nav", "logo-max-width");
+
+  svg,
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.nav {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.2");
+}
+
+.supplementaryActionContainer {
+  flex: 0 0 auto;
+}
