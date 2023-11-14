@@ -167,7 +167,7 @@ function Style({ isRoot }: { isRoot: boolean }) {
         }
       }`
       : resolvedColorScheme === "inverted"
-      ? `${selector} {
+        ? `${selector} {
         ${renderThemeVariables(themeCreator({ colorScheme: "dark" }))}
       }
       @media (prefers-color-scheme: dark) {
@@ -175,7 +175,7 @@ function Style({ isRoot }: { isRoot: boolean }) {
           ${renderThemeVariables(themeCreator({ colorScheme: "light" }))}
         }
       }`
-      : `${selector} {
+        : `${selector} {
         ${renderThemeVariables(
           themeCreator({ colorScheme: resolvedColorScheme }),
         )}

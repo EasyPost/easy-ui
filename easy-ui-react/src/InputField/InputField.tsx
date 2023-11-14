@@ -167,8 +167,8 @@ export function InputField(props: InputFieldProps) {
     Component === "textarea"
       ? undefined
       : isTypeAdjustedForPasswordVisibility
-      ? "text"
-      : type;
+        ? "text"
+        : type;
 
   return (
     <div className={classNames(styles.root)}>
