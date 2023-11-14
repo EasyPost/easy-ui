@@ -3,6 +3,7 @@ import { mergeProps } from "react-aria";
 import { ListState, Node } from "react-stately";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
+import { SubnavItemDot } from "./SubnavItemDot";
 import { useVerticalNavType } from "./context";
 
 import styles from "./SubnavItem.module.scss";
@@ -22,11 +23,6 @@ export function SubnavItem({ level, state, item }: SubnavItemProps) {
     styles.SubnavItem,
     isSelected && styles.selected,
   );
-  const dotClassName = classNames(
-    styles.dot,
-    type === "list" && styles.dotCozy,
-    isSelected && styles.dotVisible,
-  );
   return (
     <div className={className}>
       <As
@@ -34,7 +30,9 @@ export function SubnavItem({ level, state, item }: SubnavItemProps) {
         aria-current={isSelected ? "true" : undefined}
         {...mergeProps(linkProps)}
       >
-        {(type === "list" || level > 1) && <span className={dotClassName} />}
+        {(type === "list" || level > 1) && (
+          <SubnavItemDot isCozy={type === "list"} isVisible={isSelected} />
+        )}
         <Text
           variant={"body2"}
           weight={isSelected && level === 1 ? "medium" : "normal"}
