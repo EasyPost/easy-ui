@@ -8,6 +8,7 @@ import { SelectOption } from "./SelectOption";
 import { SelectSection } from "./SelectSection";
 import { SelectOverlay } from "./SelectOverlay";
 import { useTriggerWidth } from "../Menu/useTriggerWidth";
+import { logWarningForMissingAriaLabel } from "../InputField/utilities";
 
 export type BaseSelectProps<T> = {
   /** Method that is called when the open state of the select field changes. */
@@ -96,6 +97,7 @@ export function Select<T extends object>(props: SelectProps<T>) {
     validationState,
     isLabelEmphasized,
     size = "md",
+    "aria-label": ariaLabel,
     label,
     errorText,
     helperText,
@@ -105,6 +107,8 @@ export function Select<T extends object>(props: SelectProps<T>) {
 
   const triggerRef = React.useRef(null);
   const selectState = useSelectState(props);
+
+  logWarningForMissingAriaLabel(label, ariaLabel);
 
   const {
     labelProps,

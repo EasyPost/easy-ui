@@ -11,6 +11,7 @@ import { useInputField } from "./useInputField";
 import styles from "./InputField.module.scss";
 import {
   getElementType,
+  logWarningForMissingAriaLabel,
   logWarningsForInvalidPropConfiguration,
 } from "./utilities";
 
@@ -106,6 +107,7 @@ export function InputField(props: InputFieldProps) {
     validationState = "valid",
     isLabelEmphasized = false,
     autoFocus = false,
+    "aria-label": ariaLabel,
     label,
     errorText,
     helperText,
@@ -134,6 +136,8 @@ export function InputField(props: InputFieldProps) {
     smallSizeTextarea,
     definedIconsWithTextarea,
   );
+
+  logWarningForMissingAriaLabel(label, ariaLabel);
 
   const isPassword = type === "password";
   const hasError = validationState === "invalid";
