@@ -9,26 +9,25 @@ export type ItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
   as?: T;
 
   /**
-   * Text label of the navigation item.
+   * Nested subnavigation for the navigation item.
    */
-  label: string;
+  children?: ReactNode;
 
   /**
    * Icon symbol of the navigation item.
    */
-  iconSymbol?: IconSymbol;
+  icon?: IconSymbol;
 
   /**
-   * Nested subnavigation for the navigation item.
+   * Label shown on the navigation item.
    */
-  children?: ReactNode;
+  label: string;
 };
 
+export type ItemPropsForStately = ItemProps & { textValue: string };
+
 type ReactStatelyItemInterface = {
-  getCollectionNode: (
-    props: ItemProps & { textValue: string },
-    context: object,
-  ) => Generator;
+  getCollectionNode: (props: ItemPropsForStately, context: object) => Generator;
 };
 
 /**

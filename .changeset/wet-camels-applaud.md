@@ -2,4 +2,4 @@
 "@easypost/easy-ui-icons": minor
 ---
 
-feat: add AwardStar icon
+feat: add AwardStar, HomeWork, LocalPostOffice, Redeem, Timline icons

@@ -4,6 +4,7 @@ import { mergeProps, useHover } from "react-aria";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
+import { ItemPropsForStately } from "./Item";
 
 import styles from "./NavItem.module.scss";
 
@@ -13,7 +14,7 @@ type NavItemProps = {
   isChildrenVisible: boolean;
   isExpanded?: boolean;
   isSelected: boolean;
-  item: Node<object>;
+  item: Omit<Node<object>, "props"> & { props: ItemPropsForStately };
 };
 
 export function NavItem(props: NavItemProps) {
@@ -28,7 +29,7 @@ export function NavItem(props: NavItemProps) {
   const {
     as: As = "a",
     children,
-    iconSymbol,
+    icon,
     label,
     textValue: _textValue,
     ...linkProps
@@ -48,7 +49,7 @@ export function NavItem(props: NavItemProps) {
           aria-expanded={isExpanded ? "true" : undefined}
           {...mergeProps(hoverProps, linkProps)}
         >
-          {iconSymbol && <Icon symbol={iconSymbol} />}
+          {icon && <Icon symbol={icon} />}
           <Text variant="subtitle2">{label}</Text>
         </As>
         {expansionSlot}

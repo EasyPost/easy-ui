@@ -3,13 +3,14 @@ import { mergeProps } from "react-aria";
 import { ListState, Node } from "react-stately";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
+import { ItemPropsForStately } from "./Item";
 import { SubnavItemDot } from "./SubnavItemDot";
 import { useVerticalNavType } from "./context";
 
 import styles from "./SubnavItem.module.scss";
 
 export type SubnavItemProps = {
-  item: Node<object>;
+  item: Omit<Node<object>, "props"> & { props: ItemPropsForStately };
   level: number;
   state: ListState<object>;
 };
@@ -20,6 +21,7 @@ export function SubnavItem(props: SubnavItemProps) {
   const {
     as: As = "a",
     label,
+    icon,
     textValue: _textValue,
     ...linkProps
   } = item.props;
@@ -28,6 +30,9 @@ export function SubnavItem(props: SubnavItemProps) {
     styles.SubnavItem,
     isSelected && styles.selected,
   );
+  if (icon) {
+    throw new Error("icon is unsupported on <Subnav.Item />s");
+  }
   return (
     <div className={className}>
       <As
