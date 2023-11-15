@@ -15,10 +15,9 @@ export type ValidationState = "valid" | "invalid";
 
 export type BaseSelectFieldProps = {
   /**
-   * Visually hides the label, but keeps it accessible.
-   * @default false
+   * Accessibility label for select field.
    */
-  isLabelVisuallyHidden?: boolean;
+  "aria-label"?: string;
   /**
    * Whether the select field is disabled.
    * @default false
@@ -46,7 +45,7 @@ export type BaseSelectFieldProps = {
    */
   size?: SelectFieldSize;
   /** The content to display as the label. */
-  label: ReactNode;
+  label?: ReactNode;
   /** Error text that appears below select field. */
   errorText?: ReactNode;
   /** Helper text that appears below select field. */
@@ -72,7 +71,6 @@ type SelectFieldProps = BaseSelectFieldProps & SelectFieldAttributeProps;
 
 export function SelectField(props: SelectFieldProps) {
   const {
-    isLabelVisuallyHidden = false,
     isDisabled = false,
     validationState = "valid",
     isLabelEmphasized = false,
@@ -97,15 +95,16 @@ export function SelectField(props: SelectFieldProps) {
 
   return (
     <div className={classNames(styles.fieldRoot)}>
-      <Label
-        isLabelVisuallyHidden={isLabelVisuallyHidden}
-        fieldSize={size}
-        hasError={hasError}
-        isLabelEmphasized={isLabelEmphasized}
-        {...labelProps}
-      >
-        {label}
-      </Label>
+      {label && (
+        <Label
+          fieldSize={size}
+          hasError={hasError}
+          isLabelEmphasized={isLabelEmphasized}
+          {...labelProps}
+        >
+          {label}
+        </Label>
+      )}
       <HiddenSelect
         isDisabled={isDisabled}
         state={selectState}

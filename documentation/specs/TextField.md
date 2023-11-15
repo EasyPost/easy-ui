@@ -15,7 +15,6 @@ The `TextField` component allows users to input text on a single line and provid
 - Setting the `size` property also sets size for iconAtStart and iconAtEnd: The size values map to Easy UI's token sizes for icons.
 - When `errorText` is supplied with `validationState="invalid"`, `helperText` is overriden.
 - Underlying input type can be set to `text`, `email`, `password`, `tel`, or `search`.
-- `isLabelVisuallyHidden` property can be used to visually hide the label.
 
 ### Risks and Challenges
 
@@ -49,10 +48,9 @@ export type InputFieldProps = AriaTextFieldProps & {
    */
   type?: InputType;
   /**
-   * Visually hides the label, but keeps it accessible.
-   * @default false
+   * Accessibility label for input field.
    */
-  isLabelVisuallyHidden?: boolean;
+  "aria-label"?: string;
   /**
    * Whether the input is disabled.
    * @default false
@@ -121,7 +119,6 @@ export function TextField(props: TextFieldProps) {
   const {
     type = "text",
     size = "md",
-    isLabelVisuallyHidden = false,
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
@@ -141,7 +138,6 @@ export function TextField(props: TextFieldProps) {
     <InputField
       type={type}
       size={size}
-      isLabelVisuallyHidden={isLabelVisuallyHidden}
       isDisabled={isDisabled}
       isRequired={isRequired}
       validationState={validationState}
@@ -219,8 +215,7 @@ export function Component() {
     <>
       <TextField
         type="search"
-        label="Search for carriers" // visually hidden but still accessible via isLabelVisuallyHidden prop
-        isLabelVisuallyHidden
+        aria-label="Search for carriers"
         iconAtStart={AnIcon}
         value={searchedValue}
         onChange={(inputValue) => setSearchedValue(inputValue)} // value is returned automatically via react-aria
@@ -283,7 +278,7 @@ export function Component() {
 
 Accessibility
 
-- Labels should be included on all text fields as they describe the purpose of the form control. In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
+- Labels should be included on all text fields as they describe the purpose of the form control. In situations when you may want the label to be visually hidden, provide a label via the `aria-label` prop.
 - Do not use `placeholder` text as a replacement for labels. It can be used to provide an example to users, but will disappear from the field when a user enters text. It's also not broadly supported by assistive technologies and won't display in older browsers.
 
 ## Dependencies

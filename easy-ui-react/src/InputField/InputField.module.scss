@@ -13,10 +13,6 @@
   margin-bottom: design-token("space.1");
 }
 
-.labelHidden {
-  margin-bottom: 0;
-}
-
 .input {
   @include Input.input;
 }

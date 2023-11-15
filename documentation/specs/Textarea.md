@@ -12,7 +12,6 @@ The `Textarea` component allows users to input text on multiple lines.
 
 - Users can adjust height, but not width.
 - When `errorText` is supplied with `validationState="invalid"`, `helperText` is overriden.
-- `isLabelVisuallyHidden` property can be used to visually hide the label.
 
 ### Risks and Challenges
 
@@ -44,10 +43,9 @@ export type InputFieldProps = AriaTextFieldProps & {
    */
   type?: InputType;
   /**
-   * Visually hides the label, but keeps it accessible.
-   * @default false
+   * Accessibility label for input field.
    */
-  isLabelVisuallyHidden?: boolean;
+  "aria-label"?: string;
   /**
    * Whether the input is disabled.
    * @default false
@@ -124,7 +122,6 @@ The bulk of the `Textarea` component behavior will be handled by an internal `In
 export function Textarea(props: TextareaProps) {
   const {
     size = "md",
-    isLabelVisuallyHidden = false,
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
@@ -142,7 +139,6 @@ export function Textarea(props: TextareaProps) {
     <InputField
       isMultiline
       size={size}
-      isLabelVisuallyHidden={isLabelVisuallyHidden}
       isDisabled={isDisabled}
       isRequired={isRequired}
       validationState={validationState}
@@ -194,8 +190,7 @@ export function Component() {
   return (
     <>
       <Textarea
-        label="Label" // visually hidden but still accessible via isLabelVisuallyHidden prop
-        isLabelVisuallyHidden
+        aria-label="Label"
         value={description}
         onChange={(inputValue) => setDescription(inputValue)} // value is returned automatically via react-aria
         placeholder="Enter free-form text"
@@ -237,7 +232,7 @@ export function Component() {
 
 Accessibility
 
-- Labels should be included on all text area fields as they describe the purpose of any associated form control. In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
+- Labels should be included on all text area fields as they describe the purpose of any associated form control. In situations when you may want the label to be visually hidden, provide a label via the `aria-label` prop.
 - Do not use `placeholder` text as a replacement for labels. It can be used to provide an example to users, but will disappear from the field when a user enters text. It's also not broadly supported by assistive technologies and won't display in older browsers.
 
 ## Dependencies

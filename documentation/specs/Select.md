@@ -12,7 +12,6 @@ The `Select` component allows users to select a value from a set of options. Tho
 
 - Setting the `size` property also sets size for iconAtStart: The size values map to Easy UI's token sizes for icons.
 - When `errorText` is supplied with `validationState="invalid"`, `helperText` is overriden.
-- `isLabelVisuallyHidden` property can be used to visually hide the label.
 - Supports disabled state.
 
 ### Risks and Challenges
@@ -59,10 +58,9 @@ export type SelectProps<T> = AriaSelectProps<T> &
 
 export type BaseSelectFieldProps = {
   /**
-   * Visually hides the label, but keeps it accessible.
-   * @default false
+   * Accessibility label for select field.
    */
-  isLabelVisuallyHidden?: boolean;
+  "aria-label"?: string;
   /**
    * Whether the select field is disabled.
    * @default false
@@ -219,7 +217,7 @@ export function Component() {
 
 Accessibility
 
-- Labels should be included on all select fields as they describe the purpose of any associated form control. In situations when you may want the label to be visually hidden, use the `isLabelVisuallyHidden` prop.
+- Labels should be included on all select fields as they describe the purpose of any associated form control. In situations when you may want the label to be visually hidden, provide a label via the `aria-label` prop.
 - The dropdown has an ARIA role of `listbox`.
 
 ## Dependencies

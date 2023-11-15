@@ -11,6 +11,7 @@ import { useInputField } from "./useInputField";
 import styles from "./InputField.module.scss";
 import {
   getElementType,
+  logWarningForMissingAriaLabel,
   logWarningsForInvalidPropConfiguration,
 } from "./utilities";
 
@@ -31,10 +32,9 @@ export type InputFieldProps = AriaTextFieldProps & {
    */
   type?: InputType;
   /**
-   * Visually hides the label, but keeps it accessible.
-   * @default false
+   * Accessibility label for input field.
    */
-  isLabelVisuallyHidden?: boolean;
+  "aria-label"?: string;
   /**
    * Whether the input is disabled.
    * @default false
@@ -72,7 +72,7 @@ export type InputFieldProps = AriaTextFieldProps & {
    */
   isMultiline?: boolean;
   /** The content to display as the label. */
-  label: ReactNode;
+  label?: ReactNode;
   /** Error text that appears below input. */
   errorText?: ReactNode;
   /** Helper text that appears below input. */
@@ -102,12 +102,12 @@ export function InputField(props: InputFieldProps) {
     isMultiline = false,
     type = "text",
     size = "md",
-    isLabelVisuallyHidden = false,
     isDisabled = false,
     isRequired = false,
     validationState = "valid",
     isLabelEmphasized = false,
     autoFocus = false,
+    "aria-label": ariaLabel,
     label,
     errorText,
     helperText,
@@ -136,6 +136,8 @@ export function InputField(props: InputFieldProps) {
     smallSizeTextarea,
     definedIconsWithTextarea,
   );
+
+  logWarningForMissingAriaLabel(label, ariaLabel);
 
   const isPassword = type === "password";
   const hasError = validationState === "invalid";
@@ -170,15 +172,16 @@ export function InputField(props: InputFieldProps) {
 
   return (
     <div className={classNames(styles.root)}>
-      <Label
-        isLabelVisuallyHidden={isLabelVisuallyHidden}
-        fieldSize={adjustedSize}
-        hasError={hasError}
-        isLabelEmphasized={isLabelEmphasized}
-        {...labelProps}
-      >
-        {label}
-      </Label>
+      {label && (
+        <Label
+          fieldSize={adjustedSize}
+          hasError={hasError}
+          isLabelEmphasized={isLabelEmphasized}
+          {...labelProps}
+        >
+          {label}
+        </Label>
+      )}
       <div className={styles.inputIconContainer}>
         {hasStartIcon && (
           <InputIcon

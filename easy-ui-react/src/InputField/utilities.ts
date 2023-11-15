@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { InputSize } from "./InputField";
 
 /** Small fields need xs icon */
@@ -25,6 +26,15 @@ export function logWarningsForInvalidPropConfiguration(
 
   if (definedIconsWithTextarea) {
     console.warn("Cannot define `textarea` with `iconAtEnd` or `iconAtStart`");
+  }
+}
+
+export function logWarningForMissingAriaLabel(
+  label: ReactNode,
+  ariaLabel: string | undefined,
+) {
+  if (!label && !ariaLabel) {
+    console.warn("An aria-label must be provided if omitting `label`");
   }
 }
 

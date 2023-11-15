@@ -124,8 +124,7 @@ export const Error: Story = {
 export const VisuallyHiddenLabel: Story = {
   render: Template.bind({}),
   args: {
-    label: "Label",
-    isLabelVisuallyHidden: true,
+    "aria-label": "Label",
   },
 };
 
@@ -189,7 +188,6 @@ export const Controls: Story = {
     type: "text",
     size: "md",
     label: "Label",
-    isLabelVisuallyHidden: false,
     isDisabled: false,
     isRequired: false,
     validationState: "valid",
