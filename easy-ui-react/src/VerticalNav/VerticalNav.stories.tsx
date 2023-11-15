@@ -126,9 +126,7 @@ export const WithinACard: TreeStory = {
     renderLogo: undefined,
     selectedKey: "2",
     supplementaryAction: (
-      <div
-        style={{ borderTop: "1px solid hsla(221, 30%, 74%, 1)", paddingTop: 8 }}
-      >
+      <div style={{ borderTop: "1px solid #A9B6D1", paddingTop: 8 }}>
         <VerticalNav.SupplementaryAction as={UnstyledButton}>
           Optional Action
         </VerticalNav.SupplementaryAction>
@@ -201,20 +199,19 @@ function FakeSidebarDecorator(Story: ComponentType) {
 function FakeCardDecorator(Story: ComponentType) {
   return (
     <div className="full-screen-story product-layout-story">
-      <div
-        style={{
-          position: "absolute",
-          left: 24,
-          top: 24,
-          flex: "0 0 auto",
-          width: 340,
-          background: "#fff",
-          borderRadius: 4,
-          border: "1px solid hsla(221, 30%, 74%, 1)",
-          boxShadow: "0px 4px 8px 0px hsla(220, 30%, 65%, 0.25)",
-        }}
-      >
-        <Story />
+      <div style={{ padding: 24, minHeight: "100svh" }}>
+        <div
+          style={{
+            flex: "0 0 auto",
+            width: 340,
+            background: "#fff",
+            borderRadius: 4,
+            border: "1px solid hsla(221, 30%, 74%, 1)",
+            boxShadow: "0px 4px 8px 0px hsla(220, 30%, 65%, 0.25)",
+          }}
+        >
+          <Story />
+        </div>
       </div>
     </div>
   );
