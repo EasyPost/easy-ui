@@ -1,6 +1,7 @@
 import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
 import MenuBookIcon from "@easypost/easy-ui-icons/MenuBook";
 import AwardStarIcon from "@easypost/easy-ui-icons/AwardStar";
+import MenuIcon from "@easypost/easy-ui-icons/Menu";
 import { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import uniq from "lodash/uniq";
@@ -26,7 +27,7 @@ export default meta;
 
 export const Simple: Story = {
   render: () => (
-    <FakePage>
+    <FakeSidebarPage>
       {({ page, setPage }) => (
         <VerticalNav
           aria-label="Sidebar"
@@ -70,13 +71,13 @@ export const Simple: Story = {
           />
         </VerticalNav>
       )}
-    </FakePage>
+    </FakeSidebarPage>
   ),
 };
 
 export const Dense: Story = {
   render: () => (
-    <FakePage>
+    <FakeSidebarPage>
       {({ page, setPage }) => (
         <VerticalNav
           renderLogo={() => <EPLogo />}
@@ -149,13 +150,13 @@ export const Dense: Story = {
           />
         </VerticalNav>
       )}
-    </FakePage>
+    </FakeSidebarPage>
   ),
 };
 
 export const Expandable: Story = {
   render: () => (
-    <FakePage>
+    <FakeSidebarPage>
       {({ page, setPage, expandedKeys, setExpandedKeys }) => (
         <ExpandableVerticalNav
           selectedKey={page.substring(0, 1)}
@@ -246,13 +247,13 @@ export const Expandable: Story = {
           />
         </ExpandableVerticalNav>
       )}
-    </FakePage>
+    </FakeSidebarPage>
   ),
 };
 
 export const Banner: Story = {
   render: () => (
-    <FakePage>
+    <FakeSidebarPage>
       {({ page, setPage }) => (
         <VerticalNav
           aria-label="Sidebar"
@@ -297,13 +298,13 @@ export const Banner: Story = {
           />
         </VerticalNav>
       )}
-    </FakePage>
+    </FakeSidebarPage>
   ),
 };
 
 export const SupplementaryAction: Story = {
   render: () => (
-    <FakePage>
+    <FakeSidebarPage>
       {({ page, setPage }) => (
         <VerticalNav
           aria-label="Sidebar"
@@ -364,7 +365,105 @@ export const SupplementaryAction: Story = {
           />
         </VerticalNav>
       )}
-    </FakePage>
+    </FakeSidebarPage>
+  ),
+};
+
+export const InsideCard: Story = {
+  render: () => (
+    <FakeMenuPage>
+      {({ page, setPage, expandedKeys, setExpandedKeys }) => (
+        <ExpandableVerticalNav
+          selectedKey={page.substring(0, 1)}
+          expandedKeys={expandedKeys}
+          onExpandedChange={(keys) => {
+            setExpandedKeys([...keys]);
+          }}
+          supplementaryAction={<CustomSupplementaryAction />}
+        >
+          <VerticalNav.Item
+            key="1"
+            iconSymbol={MenuBookIcon}
+            label="Item 1"
+            as={FakeLink}
+            onClick={() => setPage("1")}
+          />
+          <VerticalNav.Item
+            key="2"
+            iconSymbol={MenuBookIcon}
+            label="Item 2"
+            as={FakeLink}
+            onClick={() => setPage("2")}
+          >
+            <VerticalNav.Subnav selectedKey={page.substring(0, 3)}>
+              <VerticalNav.Item
+                key="2/a"
+                label="Subitem a"
+                as={FakeLink}
+                onClick={() => setPage("2/a")}
+              />
+              <VerticalNav.Item
+                key="2/b"
+                label="Subitem b"
+                as={FakeLink}
+                onClick={() => setPage("2/b")}
+              >
+                <VerticalNav.Subnav selectedKey={page}>
+                  <VerticalNav.Item
+                    key="2/b/1"
+                    label="Grandsubitem 1"
+                    as={FakeLink}
+                    onClick={() => setPage("2/b/1")}
+                  />
+                  <VerticalNav.Item
+                    key="2/b/2"
+                    label="Grandsubitem 2"
+                    as={FakeLink}
+                    onClick={() => setPage("2/b/2")}
+                  />
+                </VerticalNav.Subnav>
+              </VerticalNav.Item>
+            </VerticalNav.Subnav>
+          </VerticalNav.Item>
+          <VerticalNav.Item
+            key="3"
+            iconSymbol={LocalShippingIcon}
+            label="Item 3"
+            as={FakeLink}
+            onClick={() => setPage("3")}
+          >
+            <VerticalNav.Subnav selectedKey={page}>
+              <VerticalNav.Item
+                key="3/a"
+                label="Subitem a"
+                as={FakeLink}
+                onClick={() => setPage("3/a")}
+              />
+              <VerticalNav.Item
+                key="3/b"
+                label="Subitem b"
+                as={FakeLink}
+                onClick={() => setPage("3/b")}
+              />
+            </VerticalNav.Subnav>
+          </VerticalNav.Item>
+          <VerticalNav.Item
+            key="4"
+            iconSymbol={MenuBookIcon}
+            label="Item 4"
+            as={FakeLink}
+            onClick={() => setPage("4")}
+          />
+          <VerticalNav.Item
+            key="5"
+            iconSymbol={LocalShippingIcon}
+            label="Item 5"
+            as={FakeLink}
+            onClick={() => setPage("5")}
+          />
+        </ExpandableVerticalNav>
+      )}
+    </FakeMenuPage>
   ),
 };
 
@@ -395,15 +494,93 @@ function FakePage({ children }: FakePageProps) {
   return (
     <div
       className="full-screen-story product-layout-story"
-      style={{ display: "flex", flexDirection: "row" }}
+      style={{ display: "flex", flexDirection: "column" }}
     >
-      <div style={{ width: 215, height: "100svh", background: "#fff" }}>
-        {children(childrenArgs)}
-      </div>
-      <div style={{ padding: 48 }}>
-        {page ? <>Selected item: {page}</> : null}
-      </div>
+      {children(childrenArgs)}
     </div>
+  );
+}
+
+function FakeSidebarPage({
+  children,
+}: {
+  children: (args: FakePageChildrenArgs) => ReactNode;
+}) {
+  return (
+    <FakePage>
+      {(childrenArgs) => (
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <div
+            style={{
+              flex: "0 0 auto",
+              width: 215,
+              height: "100svh",
+              background: "#fff",
+            }}
+          >
+            {children(childrenArgs)}
+          </div>
+          <div style={{ padding: 48 }}>
+            {childrenArgs.page ? <>Selected item: {childrenArgs.page}</> : null}
+          </div>
+        </div>
+      )}
+    </FakePage>
+  );
+}
+
+function FakeMenuPage({
+  children,
+}: {
+  children: (args: FakePageChildrenArgs) => ReactNode;
+}) {
+  return (
+    <FakePage>
+      {(childrenArgs) => (
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div
+            style={{
+              flex: "0 0 auto",
+              background: "#fff",
+              borderBottom: "1px solid #ddd",
+              padding: "16px 12px",
+            }}
+          >
+            <Icon symbol={MenuIcon} />
+          </div>
+          <div
+            style={{
+              padding: 48,
+              height: "calc(100svh - 60px)",
+              textAlign: "right",
+            }}
+          >
+            {childrenArgs.page ? <>Selected item: {childrenArgs.page}</> : null}
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 66,
+              left: 12,
+              width: "100%",
+              maxWidth: 340,
+              background: "white",
+              borderRadius: 4,
+              border: "1px solid hsla(221, 30%, 74%, 1)",
+              boxShadow: "0px 4px 8px 0px hsla(220, 30%, 65%, 0.25)",
+            }}
+          >
+            {children(childrenArgs)}
+          </div>
+        </div>
+      )}
+    </FakePage>
   );
 }
 
@@ -424,6 +601,26 @@ function FakeBanner() {
     >
       <Icon symbol={AwardStarIcon} />
       <Text variant="subtitle1">Pro Trial</Text>
+    </div>
+  );
+}
+
+function CustomSupplementaryAction() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "start",
+        borderTop: "1px solid hsla(221, 30%, 74%, 1)",
+        paddingTop: 8,
+      }}
+    >
+      <UnstyledButton>
+        <span style={{ cursor: "pointer" }}>
+          <Text variant="subtitle2">Optional Bottom</Text>
+        </span>
+      </UnstyledButton>
     </div>
   );
 }
