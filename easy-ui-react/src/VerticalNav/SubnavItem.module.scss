@@ -19,11 +19,11 @@
 }
 
 .selected:has(.selected) > .link {
-  font-weight: 500;
+  font-weight: design-token("font.weight.medium");
   color: theme-token("color.primary.700");
 }
 
 .selected:not(:has(.selected)) > .link {
-  font-weight: 400;
+  font-weight: design-token("font.weight.normal");
   color: theme-token("color.primary.500");
 }
