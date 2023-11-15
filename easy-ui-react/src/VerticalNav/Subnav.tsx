@@ -5,12 +5,22 @@ import { SubnavItem } from "./SubnavItem";
 import styles from "./Subnav.module.scss";
 
 export type SubnavProps = {
+  /**
+   * The currently selected key in the navigation list.
+   */
   selectedKey?: Key;
+
+  /**
+   * List of navigation items within the subnavigation.
+   */
   children?: ListProps<object>["children"];
 };
 
 const SubnavLevelContext = createContext<number>(0);
 
+/**
+ * Represents a nested navigation within a navigation item.
+ */
 export function Subnav(props: SubnavProps) {
   const { selectedKey, ...listStateProps } = props;
   const levelContext = useContext(SubnavLevelContext);

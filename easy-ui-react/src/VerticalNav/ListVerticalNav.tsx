@@ -9,10 +9,30 @@ import type { BaseVerticalNavProps } from "./types";
 import navItemStyles from "./NavItem.module.scss";
 
 export type ListVerticalNavProps = BaseVerticalNavProps & {
-  selectedKey?: Key;
+  /**
+   * List of navigation items to render within the navigation.
+   */
   children?: ListProps<object>["children"];
+
+  /**
+   * The currently selected key in the navigation list.
+   */
+  selectedKey?: Key;
 };
 
+/**
+ * A vertical list of navigation links.
+ *
+ * @example
+ * ```tsx
+ * <VerticalNav aria-label="Sidebar" selectedKey="1">
+ *   <VerticalNav.Item key="1" href="/item-1" icon={Symbol} label="Item 1" />
+ *   <VerticalNav.Item key="2" href="/item-2" icon={Symbol} label="Item 2" />
+ *   <VerticalNav.Item key="3" href="/item-3" icon={Symbol} label="Item 3" />
+ *   <VerticalNav.Item key="4" href="/item-4" icon={Symbol} label="Item 4" />
+ * </VerticalNav>
+ * ```
+ */
 export function ListVerticalNav(props: ListVerticalNavProps) {
   const { selectedKey, ...listStateProps } = props;
   const state = useListState({

@@ -3,9 +3,24 @@ import { Item as ReactStatelyItem } from "react-stately";
 import { IconSymbol } from "../types";
 
 export type ItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
+  /**
+   * Custom element to render the item as.
+   */
   as?: T;
+
+  /**
+   * Text label of the navigation item.
+   */
   label: string;
+
+  /**
+   * Icon symbol of the navigation item.
+   */
   iconSymbol?: IconSymbol;
+
+  /**
+   * Nested subnavigation for the navigation item.
+   */
   children?: ReactNode;
 };
 
@@ -17,6 +32,9 @@ type ReactStatelyItemInterface = {
 };
 
 /**
+ * Represents a link in a navigation list.
+ *
+ * @privateRemarks
  * This is a wrapper around React Stately's Item to be able to control the
  * properties and behavior of the items in our VerticalNav and
  * VerticalNav.Subnav lists.
