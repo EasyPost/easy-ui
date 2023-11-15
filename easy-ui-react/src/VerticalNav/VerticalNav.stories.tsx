@@ -1,5 +1,9 @@
 import AwardStarIcon from "@easypost/easy-ui-icons/AwardStar";
 import MenuBookIcon from "@easypost/easy-ui-icons/MenuBook";
+import LocalPostOfficeIcon from "@easypost/easy-ui-icons/LocalPostOffice";
+import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
+import RedeemIcon from "@easypost/easy-ui-icons/Redeem";
+import HomeWorkIcon from "@easypost/easy-ui-icons/HomeWork";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React, { ComponentType } from "react";
@@ -30,10 +34,20 @@ const meta: Meta<typeof VerticalNav> = {
     ["aria-label"]: "Sidebar",
     children: [
       <VerticalNav.Item key="1" icon={MenuBookIcon} label="Item 1" href="#" />,
-      <VerticalNav.Item key="2" icon={MenuBookIcon} label="Item 2" href="#" />,
-      <VerticalNav.Item key="3" icon={MenuBookIcon} label="Item 3" href="#" />,
-      <VerticalNav.Item key="4" icon={MenuBookIcon} label="Item 4" href="#" />,
-      <VerticalNav.Item key="5" icon={MenuBookIcon} label="Item 5" href="#" />,
+      <VerticalNav.Item
+        key="2"
+        icon={LocalPostOfficeIcon}
+        label="Item 2"
+        href="#"
+      />,
+      <VerticalNav.Item
+        key="3"
+        icon={LocalShippingIcon}
+        label="Item 3"
+        href="#"
+      />,
+      <VerticalNav.Item key="4" icon={RedeemIcon} label="Item 4" href="#" />,
+      <VerticalNav.Item key="5" icon={HomeWorkIcon} label="Item 5" href="#" />,
     ],
     renderLogo: () => <EasyPostFullLogo />,
     selectedKey: "1",
@@ -64,16 +78,26 @@ export const Nested: ListStory = {
   args: {
     children: [
       <VerticalNav.Item key="1" icon={MenuBookIcon} label="Item 1" href="#" />,
-      <VerticalNav.Item key="2" icon={MenuBookIcon} label="Item 2" href="#">
+      <VerticalNav.Item
+        key="2"
+        icon={LocalPostOfficeIcon}
+        label="Item 2"
+        href="#"
+      >
         <VerticalNav.Subnav selectedKey="1">
           <VerticalNav.Item key="1" label="Item 1" href="#" />
           <VerticalNav.Item key="2" label="Item 2" href="#" />
           <VerticalNav.Item key="3" label="Item 3" href="#" />
         </VerticalNav.Subnav>
       </VerticalNav.Item>,
-      <VerticalNav.Item key="3" icon={MenuBookIcon} label="Item 3" href="#" />,
-      <VerticalNav.Item key="4" icon={MenuBookIcon} label="Item 4" href="#" />,
-      <VerticalNav.Item key="5" icon={MenuBookIcon} label="Item 5" href="#" />,
+      <VerticalNav.Item
+        key="3"
+        icon={LocalShippingIcon}
+        label="Item 3"
+        href="#"
+      />,
+      <VerticalNav.Item key="4" icon={RedeemIcon} label="Item 4" href="#" />,
+      <VerticalNav.Item key="5" icon={HomeWorkIcon} label="Item 5" href="#" />,
     ],
     selectedKey: "2",
   },
@@ -139,7 +163,12 @@ export const WithinACard: TreeStory = {
 function getExpandableChildren() {
   return [
     <VerticalNav.Item key="1" icon={MenuBookIcon} label="Item 1" href="#" />,
-    <VerticalNav.Item key="2" icon={MenuBookIcon} label="Item 2" href="#">
+    <VerticalNav.Item
+      key="2"
+      icon={LocalPostOfficeIcon}
+      label="Item 2"
+      href="#"
+    >
       <VerticalNav.Subnav selectedKey="2">
         <VerticalNav.Item key="1" label="Item 1" href="#" />
         <VerticalNav.Item key="2" label="Item 2" href="#">
@@ -152,9 +181,14 @@ function getExpandableChildren() {
         <VerticalNav.Item key="3" label="Item 3" href="#" />
       </VerticalNav.Subnav>
     </VerticalNav.Item>,
-    <VerticalNav.Item key="3" icon={MenuBookIcon} label="Item 3" href="#" />,
-    <VerticalNav.Item key="4" icon={MenuBookIcon} label="Item 4" href="#" />,
-    <VerticalNav.Item key="5" icon={MenuBookIcon} label="Item 5" href="#" />,
+    <VerticalNav.Item
+      key="3"
+      icon={LocalShippingIcon}
+      label="Item 3"
+      href="#"
+    />,
+    <VerticalNav.Item key="4" icon={RedeemIcon} label="Item 4" href="#" />,
+    <VerticalNav.Item key="5" icon={HomeWorkIcon} label="Item 5" href="#" />,
   ];
 }
 
