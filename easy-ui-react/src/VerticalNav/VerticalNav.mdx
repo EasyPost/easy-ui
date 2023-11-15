@@ -1,0 +1,150 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { VerticalNav, ExpandableVerticalNav } from "./VerticalNav";
+import * as VerticalNavStories from "./VerticalNav.stories";
+
+<Meta of={VerticalNavStories} />
+
+# VerticalNav
+
+`VerticalNav` renders a vertical list of navigation links.
+
+<Canvas of={VerticalNavStories.Simple} />
+
+`VerticalNav` is a compound component consisting of either `VerticalNav` or `ExpandableVerticalNav`, `VerticalNav.Item`, `VerticalNav.Subnav`, and `VerticalNav.SupplementaryAction`.
+
+`VerticalNav` manages the accessibility for various parts of the navigation, including rendering within a `<nav />` element and assigning `aria-current`/`aria-expanded` attributes to navigation items.
+
+`VerticalNav` selection states are controlled with the `selectedKey` prop on `VerticalNav` and `VerticalNav.Subnav`.
+
+`ExpandableVerticalNav` expansion states are controlled with the `defaultExpandedKeys`, `expandedKeys` and `onExpandedChange` props.
+
+_Example structure_:
+
+```tsx
+<VerticalNav aria-label="Sidebar" selectedKey="2">
+  <VerticalNav.Item key="1" icon={Symbol} label="Item 1" href="#" />
+  <VerticalNav.Item key="2" icon={Symbol} label="Item 2" href="#" />
+  <VerticalNav.Item key="3" icon={Symbol} label="Item 3" href="#" />
+  <VerticalNav.Item key="4" icon={Symbol} label="Item 4" href="#" />
+  <VerticalNav.Item key="5" icon={Symbol} label="Item 5" href="#" />
+</VerticalNav>
+```
+
+## Nested navigation
+
+`VerticalNav` can contain nested navigation by using a `VerticalNav.Subnav` within a `VerticalNav.Item`.
+
+_Example structure_:
+
+```tsx
+<VerticalNav aria-label="Sidebar" selectedKey="2">
+  <VerticalNav.Item key="1" icon={Symbol} label="Item 1" href="#" />
+  <VerticalNav.Item key="2" icon={Symbol} label="Item 2" href="#">
+    <VerticalNav.Subnav selectedKey="1">
+      <VerticalNav.Item key="1" label="Item 1" href="#" />
+      <VerticalNav.Item key="2" label="Item 2" href="#" />
+    </VerticalNav.Subnav>
+  </VerticalNav.Item>
+</VerticalNav>
+```
+
+<Canvas of={VerticalNavStories.Nested} />
+
+## Expandable navigation
+
+`ExpandableVerticalNav` can be used to create a list of links that are expandable at the root.
+
+_Example structure_:
+
+```tsx
+<ExpandableVerticalNav aria-label="Sidebar" selectedKey="2">
+  <VerticalNav.Item key="1" icon={Symbol} label="Item 1" href="#" />
+  <VerticalNav.Item key="2" icon={Symbol} label="Item 2" href="#">
+    <VerticalNav.Subnav selectedKey="2">
+      <VerticalNav.Item key="1" label="Item 1" href="#" />
+      <VerticalNav.Item key="2" label="Item 2" href="#">
+        <VerticalNav.Subnav selectedKey="1">
+          <VerticalNav.Item key="1" label="Item 1" href="#" />
+          <VerticalNav.Item key="2" label="Item 2" href="#" />
+        </VerticalNav.Subnav>
+      </VerticalNav.Item>
+      <VerticalNav.Item key="3" label="Item 3" href="#" />
+    </VerticalNav.Subnav>
+  </VerticalNav.Item>
+</ExpandableVerticalNav>
+```
+
+<Canvas of={VerticalNavStories.Expandable} />
+
+## With supplementary action
+
+`VerticalNav` can be rendered with an additional action at the bottom using the `supplementaryAction` prop.
+
+_Example structure_:
+
+```tsx
+<VerticalNav
+  aria-label="Sidebar"
+  supplementaryAction={
+    <Menu>
+      <Menu.Trigger>
+        <VerticalNav.SupplementaryAction as={UnstyledButton}>
+          Optional Action
+        </VerticalNav.SupplementaryAction>
+      </Menu.Trigger>
+      <Menu.Overlay onAction={action("Selected")} placement="left bottom">
+        <Menu.Item key="copy">Copy</Menu.Item>
+        <Menu.Item key="cut">Cut</Menu.Item>
+        <Menu.Item key="paste">Paste</Menu.Item>
+      </Menu.Overlay>
+    </Menu>
+  }
+>
+  {/* items */}
+</VerticalNav>
+```
+
+<Canvas of={VerticalNavStories.WithSupplementaryAction} />
+
+## With banner
+
+`VerticalNav` can be rendered with a banner using the `renderBanner` prop.
+
+_Example structure_:
+
+```tsx
+<VerticalNav aria-label="Sidebar" renderBanner={() => <div data-banner />}>
+  {/* items */}
+</VerticalNav>
+```
+
+<Canvas of={VerticalNavStories.WithBanner} />
+
+## Customizing the container
+
+`VerticalNav` can be rendered in any appropriate container and it should respect the constraints of that container.
+
+<Canvas of={VerticalNavStories.WithinACard} />
+
+## Properties
+
+### VerticalNav
+
+<ArgTypes of={VerticalNav} />
+
+### ExpandableVerticalNav
+
+<ArgTypes of={ExpandableVerticalNav} />
+
+### VerticalNav.Item
+
+<ArgTypes of={VerticalNav.Item} />
+
+### VerticalNav.Subnav
+
+<ArgTypes of={VerticalNav.Subnav} />
+
+### VerticalNav.SupplementaryAction
+
+<ArgTypes of={VerticalNav.SupplementaryAction} />

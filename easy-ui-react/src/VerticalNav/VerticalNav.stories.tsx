@@ -58,7 +58,7 @@ export const Simple: ListStory = {
   decorators: [FakeSidebarDecorator],
 };
 
-export const Dense: ListStory = {
+export const Nested: ListStory = {
   render: ListTemplate.bind({}),
   decorators: [FakeSidebarDecorator],
   args: {
