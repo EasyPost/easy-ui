@@ -14,7 +14,7 @@ type NavItemProps = {
   isChildrenVisible: boolean;
   isExpanded?: boolean;
   isSelected: boolean;
-  item: Omit<Node<object>, "props"> & { props: ItemPropsForStately };
+  item: Node<object>;
 };
 
 export function NavItem(props: NavItemProps) {
@@ -33,7 +33,7 @@ export function NavItem(props: NavItemProps) {
     label,
     textValue: _textValue,
     ...linkProps
-  } = item.props;
+  } = item.props as ItemPropsForStately;
   const { hoverProps, isHovered } = useHover({});
   const className = classNames(
     styles.NavItem,

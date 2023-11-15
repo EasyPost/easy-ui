@@ -10,7 +10,7 @@ import { useVerticalNavType } from "./context";
 import styles from "./SubnavItem.module.scss";
 
 export type SubnavItemProps = {
-  item: Omit<Node<object>, "props"> & { props: ItemPropsForStately };
+  item: Node<object>;
   level: number;
   state: ListState<object>;
 };
@@ -24,7 +24,7 @@ export function SubnavItem(props: SubnavItemProps) {
     icon,
     textValue: _textValue,
     ...linkProps
-  } = item.props;
+  } = item.props as ItemPropsForStately;
   const isSelected = state.selectionManager.isSelected(item.key);
   const className = classNames(
     styles.SubnavItem,
