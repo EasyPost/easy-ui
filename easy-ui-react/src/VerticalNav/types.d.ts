@@ -3,6 +3,11 @@ import { ReactNode } from "react";
 
 export type BaseVerticalNavProps = AriaLabelingProps & {
   /**
+   * List of navigation items to render within the navigation.
+   */
+  children: ReactNode;
+
+  /**
    * Logo to render at the top of the navigation.
    */
   renderLogo?: () => ReactNode;
