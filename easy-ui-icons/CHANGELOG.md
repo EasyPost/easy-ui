@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.13
+
+### Minor Changes
+
+- 37325e5: Create `<ProductLayout />` component
+
 ## 1.0.0-alpha.12
 
 ### Minor Changes

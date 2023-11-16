@@ -1,5 +1,12 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.8
+
+### Minor Changes
+
+- 5de6ddf: Create `<FocusedProductLayout />` component
+- dc52dff: feat: add new color token aliases
+
 ## 1.0.0-alpha.7
 
 ### Minor Changes
