@@ -11,15 +11,15 @@ import * as VerticalNavStories from "./VerticalNav.stories";
 
 <Canvas of={VerticalNavStories.Simple} />
 
-`VerticalNav` is a compound component consisting of either `VerticalNav` or `ExpandableVerticalNav`, `VerticalNav.Item`, `VerticalNav.Subnav`, and `VerticalNav.SupplementaryAction`.
+`VerticalNav` is a compound component consisting of either `VerticalNav` or `ExpandableVerticalNav`, `VerticalNav.Item`, `VerticalNav.Subnav`, and optionally `VerticalNav.SupplementaryAction`.
 
-`VerticalNav` manages the accessibility for various parts of the navigation, including rendering within a `<nav />` element and assigning `aria-current`/`aria-expanded` attributes to navigation items.
+`VerticalNav` manages the accessibility for the navigation, including rendering within a `<nav />` element and assigning `aria-current`/`aria-expanded` attributes to appropriate navigation items. `VerticalNav` should be labeled with the `aria-label` prop.
 
-`VerticalNav` selection states are controlled with the `selectedKey` prop on `VerticalNav` and `VerticalNav.Subnav`.
+Selection state is entirely controlled by the consumer through the `selectedKey` prop. This prop can be set on both `VerticalNav` and `VerticalNav.Subnav`.
 
-`ExpandableVerticalNav` expansion states are controlled with the `defaultExpandedKeys`, `expandedKeys` and `onExpandedChange` props.
+Expansion states on `ExpandableVerticalNav` are controlled with the `defaultExpandedKeys`, `expandedKeys` and `onExpandedChange` props.
 
-_Example structure_:
+_Example simple structure_:
 
 ```tsx
 <VerticalNav aria-label="Sidebar" selectedKey="2">
@@ -58,7 +58,14 @@ _Example structure_:
 _Example structure_:
 
 ```tsx
-<ExpandableVerticalNav aria-label="Sidebar" selectedKey="2">
+<ExpandableVerticalNav
+  aria-label="Sidebar"
+  selectedKey="2"
+  expandedKeys={["2"]}
+  onExpandedChange={(keys) => {
+    setExpandedKeys(keys);
+  }}
+>
   <VerticalNav.Item key="1" icon={Symbol} label="Item 1" href="#" />
   <VerticalNav.Item key="2" icon={Symbol} label="Item 2" href="#">
     <VerticalNav.Subnav selectedKey="2">
@@ -80,6 +87,10 @@ _Example structure_:
 ## With supplementary action
 
 `VerticalNav` can be rendered with an additional action at the bottom using the `supplementaryAction` prop.
+
+`VerticalNav.SupplementaryAction` renders the action with default styles and supports custom elements through the `as` prop.
+
+While `VerticalNav.SupplementaryAction` is the recommended styling for the `supplementaryAction` prop, any element can be rendered within the slot.
 
 _Example structure_:
 
@@ -123,9 +134,21 @@ _Example structure_:
 
 ## Customizing the container
 
-`VerticalNav` can be rendered in any appropriate container and it should respect the constraints of that container.
+`VerticalNav` can be rendered in a container and it will respect its constraints.
 
 <Canvas of={VerticalNavStories.WithinACard} />
+
+## Polymorphic items
+
+`VerticalNav.Item` are polymorphic items. For example, they can support client-side links:
+
+_Example polymorphic items_:
+
+```tsx
+import Link from "next/link";
+
+<VerticalNav.Item key="1" as={Link} href="/1" label="Item 1" />;
+```
 
 ## Properties
 

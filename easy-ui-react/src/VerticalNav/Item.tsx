@@ -14,7 +14,8 @@ export type ItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
   children?: ReactNode;
 
   /**
-   * Icon symbol of the navigation item.
+   * Icon symbol of the navigation item. This is only applicable on top-level
+   * navigation items.
    */
   icon?: IconSymbol;
 
