@@ -1,5 +1,25 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.18
+
+### Minor Changes
+
+- b3cc8a2: feat: support traditional aria labelling for TextField, Textarea, and Select
+- e9cfa62: fix Stepper: Stepper should have a single font style and support a visible outline
+- 5de6ddf: Create `<FocusedProductLayout />` component
+- 0cfafc2: feat(SearchNav): support PrimaryCTAItem and Title components
+- 37325e5: Create `<ProductLayout />` component
+- a3ef1e0: feat: support base styles for internal UnstyledButton component
+- dc52dff: feat: add new color token aliases
+
+### Patch Changes
+
+- Updated dependencies [5de6ddf]
+- Updated dependencies [37325e5]
+- Updated dependencies [dc52dff]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.8
+  - @easypost/easy-ui-icons@1.0.0-alpha.13
+
 ## 1.0.0-alpha.17
 
 ### Minor Changes
