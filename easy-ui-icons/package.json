@@ -19,7 +19,7 @@
     "dev": "vite build --config ./vite.config.ts --watch"
   },
   "devDependencies": {
-    "@material-symbols/svg-300": "^0.14.0",
+    "@material-symbols/svg-300": "^0.14.1",
     "@material-symbols/svg-400": "^0.14.1",
     "@material-symbols/svg-600": "^0.14.1",
     "@svgr/cli": "^8.1.0",
