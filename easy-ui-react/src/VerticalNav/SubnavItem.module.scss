@@ -1,0 +1,29 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.SubnavItem {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+}
+
+.link {
+  @include unstyled.button;
+  @include unstyled.link;
+
+  position: relative;
+  display: flex;
+
+  color: theme-token("color.primary.800");
+  cursor: pointer;
+}
+
+.selected:has(.selected) > .link {
+  font-weight: design-token("font.weight.medium");
+  color: theme-token("color.primary.700");
+}
+
+.selected:not(:has(.selected)) > .link {
+  font-weight: design-token("font.weight.normal");
+  color: theme-token("color.primary.500");
+}

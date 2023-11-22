@@ -45,6 +45,7 @@ type VerticalNavProps = BaseVerticalNavProps & {
 
 type ExpandableVerticalNavProps = BaseVerticalNavProps & {
   selectedKey?: Key;
+  defaultExpandedKeys?: Key[];
   expandedKeys?: Key[];
   onExpandedChange?: (keys: Key[]) => void;
 };

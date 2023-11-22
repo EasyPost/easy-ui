@@ -1,0 +1,21 @@
+@use "../styles/common" as *;
+
+.SubnavItemDot {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(100% + #{design-token("space.1")});
+  width: design-token("space.0.5");
+  height: design-token("space.0.5");
+  background-color: currentColor;
+  border-radius: 100%;
+  opacity: 0;
+}
+
+.cozy {
+  right: calc(100% + #{design-token("space.0.5")});
+}
+
+.visible {
+  opacity: 1;
+}

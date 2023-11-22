@@ -1,0 +1,13 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.SupplementaryAction {
+  @include unstyled.button;
+  @include unstyled.link;
+
+  display: inline-flex;
+  align-items: center;
+  text-align: left;
+  gap: design-token("space.0.5");
+  cursor: pointer;
+}

@@ -1,0 +1,40 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.NavItem {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+  color: theme-token("color.primary.700");
+}
+
+.hovered {
+  color: theme-token("color.neutral.900");
+}
+
+.selectedTree {
+  color: theme-token("color.primary.600");
+}
+
+.selectedList {
+  color: theme-token("color.primary.500");
+}
+
+.linkContainer {
+  display: flex;
+  flex-direction: row;
+  gap: design-token("space.1");
+}
+
+.link {
+  @include unstyled.button;
+  @include unstyled.link;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: design-token("space.1");
+
+  color: inherit;
+  cursor: pointer;
+}
