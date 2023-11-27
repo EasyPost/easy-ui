@@ -58,7 +58,7 @@
     "@types/react-syntax-highlighter": "^15.5.10",
     "@vitejs/plugin-react": "^4.2.0",
     "glob": "^10.2.5",
-    "jsdom": "^22.1.0",
+    "jsdom": "^23.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.69.5",
