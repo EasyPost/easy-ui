@@ -1,0 +1,7 @@
+@use "../styles/common" as *;
+
+.Header {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+}
