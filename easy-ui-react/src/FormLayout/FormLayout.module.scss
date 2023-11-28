@@ -1,0 +1,29 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+@use "../ProductLayout/mixins" as ProductLayout;
+
+.FormLayout {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.3");
+  padding: design-token("space.3");
+  color: theme-token("color.primary.800");
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+}
+
+.FormLayoutColumns {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.FormLayoutSection {
+  @include unstyled.fieldset;
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.2");
+}

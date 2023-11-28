@@ -18,3 +18,9 @@
   margin: 0;
   padding: 0;
 }
+
+@mixin fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
