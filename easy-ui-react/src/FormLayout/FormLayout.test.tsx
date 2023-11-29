@@ -1,46 +1,49 @@
-import { Meta, StoryObj } from "@storybook/react";
-import React, { FormEvent } from "react";
-import { TextField } from "../TextField";
-import { FormLayout } from "./FormLayout";
-import { HorizontalStack } from "../HorizontalStack";
+import { screen } from "@testing-library/react";
+import React from "react";
+import { vi } from "vitest";
 import { Button } from "../Button";
+import { HorizontalStack } from "../HorizontalStack";
+import { TextField } from "../TextField";
+import {
+  mockGetComputedStyle,
+  mockIntersectionObserver,
+  render,
+} from "../utilities/test";
+import { FormLayout } from "./FormLayout";
 
-type Story = StoryObj<typeof FormLayout>;
+describe("<FormLayout />", () => {
+  let restoreGetComputedStyle: () => void;
+  let restoreIntersectionObserver: () => void;
 
-const meta: Meta<typeof FormLayout> = {
-  title: "Components/FormLayout",
-  component: FormLayout,
-};
+  beforeEach(() => {
+    vi.useFakeTimers();
+    restoreIntersectionObserver = mockIntersectionObserver();
+    restoreGetComputedStyle = mockGetComputedStyle();
+  });
 
-export default meta;
+  afterEach(() => {
+    restoreGetComputedStyle();
+    restoreIntersectionObserver();
+    vi.useRealTimers();
+  });
 
-export const Default: Story = {
-  render: () => (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        maxWidth: 720,
-        border: "1px solid #ddd",
-      }}
-    >
-      <FormLayout
-        as="form"
-        onSubmit={(e: FormEvent) => {
-          e.preventDefault();
-          window.alert("here");
-        }}
-        aria-labelledby="form-id"
-      >
+  it("should render a form layout", async () => {
+    const handleSubmit = vi.fn((e) => {
+      e.preventDefault();
+    });
+
+    const { user } = render(
+      <FormLayout as="form" onSubmit={handleSubmit} aria-labelledby="form-id">
         <FormLayout.Header>
-          <FormLayout.Title id="form-id">Form Title</FormLayout.Title>
-          <FormLayout.HelperText>Info Text</FormLayout.HelperText>
+          <FormLayout.Title as="h2" id="form-id">
+            Form Title
+          </FormLayout.Title>
+          <FormLayout.HelperText>Info Text 0</FormLayout.HelperText>
         </FormLayout.Header>
         <FormLayout.Section>
           <FormLayout.Header>
-            <FormLayout.Title as="h3">Section Title 1</FormLayout.Title>
-            <FormLayout.HelperText>Info Text</FormLayout.HelperText>
+            <FormLayout.Title>Section Title 1</FormLayout.Title>
+            <FormLayout.HelperText>Info Text 1</FormLayout.HelperText>
           </FormLayout.Header>
           <FormLayout.Grid columns={2}>
             <TextField
@@ -75,17 +78,10 @@ export const Default: Story = {
           </FormLayout.Grid>
         </FormLayout.Section>
         <FormLayout.Section>
-          <HorizontalStack gap="2" align="space-between" blockAlign="center">
-            <FormLayout.Header>
-              <FormLayout.Title>Section Title 2</FormLayout.Title>
-              <FormLayout.HelperText>Info Text</FormLayout.HelperText>
-            </FormLayout.Header>
-            <span>
-              <Button size="sm" variant="outlined" color="support">
-                Action
-              </Button>
-            </span>
-          </HorizontalStack>
+          <FormLayout.Header>
+            <FormLayout.Title>Section Title 2</FormLayout.Title>
+            <FormLayout.HelperText>Info Text 2</FormLayout.HelperText>
+          </FormLayout.Header>
           <FormLayout.Grid columns={2}>
             <TextField
               label="Input 1"
@@ -122,7 +118,7 @@ export const Default: Story = {
           <FormLayout.Section>
             <FormLayout.Header>
               <FormLayout.Title>Section Title 3</FormLayout.Title>
-              <FormLayout.HelperText>Info Text</FormLayout.HelperText>
+              <FormLayout.HelperText>Info Text 3</FormLayout.HelperText>
             </FormLayout.Header>
             <TextField
               label="Input 6"
@@ -133,7 +129,7 @@ export const Default: Story = {
           <FormLayout.Section>
             <FormLayout.Header>
               <FormLayout.Title>Section Title 4</FormLayout.Title>
-              <FormLayout.HelperText>Info Text</FormLayout.HelperText>
+              <FormLayout.HelperText>Info Text 4</FormLayout.HelperText>
             </FormLayout.Header>
             <TextField
               label="Input 7"
@@ -145,7 +141,18 @@ export const Default: Story = {
         <HorizontalStack>
           <Button type="submit">Submit</Button>
         </HorizontalStack>
-      </FormLayout>
-    </div>
-  ),
-};
+      </FormLayout>,
+    );
+
+    expect(screen.getByRole("form")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Form Title" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("group", { name: "Section Title 1" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Submit" }));
+    expect(handleSubmit).toHaveBeenCalled();
+  });
+});

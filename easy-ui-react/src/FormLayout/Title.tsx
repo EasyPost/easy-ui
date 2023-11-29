@@ -10,18 +10,32 @@ export type TitleProps = {
 };
 
 export function Title(props: TitleProps) {
-  const sectionContext = useContext(WithinSectionContext);
+  const Component = useContext(WithinSectionContext)
+    ? TitleWithinSection
+    : TitleWithinForm;
+  return <Component {...props} />;
+}
+
+Title.displayName = "FormLayout.Title";
+
+function TitleWithinForm(props: TitleProps) {
   const { as = "span", children, ...restProps } = props;
+  return (
+    <Text {...restProps} as={as} variant="heading3">
+      {children}
+    </Text>
+  );
+}
 
-  if (sectionContext && props.as) {
-    throw new Error(`"as" is not a valid prop on a Title within a Section.`);
-  }
-
+function TitleWithinSection(props: TitleProps) {
+  const { as = "span", children, ...restProps } = props;
   return (
     <Text
       {...restProps}
-      as={sectionContext ? "legend" : as}
-      variant={sectionContext ? "heading5" : "heading3"}
+      as={as}
+      variant="heading5"
+      aria-hidden="true"
+      role="presentation"
     >
       {children}
     </Text>

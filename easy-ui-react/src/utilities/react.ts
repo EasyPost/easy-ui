@@ -94,3 +94,62 @@ export function getFlattenedKey(
   }
   return defaultKey;
 }
+
+const hasChildren = (
+  element: ReactNode,
+): element is ReactElement<{ children: ReactNode | ReactNode[] }> =>
+  isValidElement<{ children?: ReactNode[] }>(element) &&
+  Boolean(element.props.children);
+
+const hasComplexChildren = (
+  element: ReactNode,
+): element is ReactElement<{ children: ReactNode | ReactNode[] }> =>
+  isValidElement(element) &&
+  hasChildren(element) &&
+  Children.toArray(element.props.children).reduce(
+    (response: boolean, child: ReactNode): boolean =>
+      response || isValidElement(child),
+    false,
+  );
+
+export const deepFind = (
+  children: ReactNode | ReactNode[],
+  deepFindFn: (
+    child: ReactNode,
+    index?: number,
+    children?: ReactNode[],
+  ) => boolean,
+): ReactNode | undefined => {
+  // eslint-disable-next-line @typescript-eslint/init-declarations
+  let found;
+
+  Children.toArray(children).find(
+    (child: ReactNode, index: number, findChildren: ReactNode[]) => {
+      if (deepFindFn(child, index, findChildren)) {
+        found = child;
+        return true;
+      }
+
+      if (isValidElement(child) && hasComplexChildren(child)) {
+        // Find inside the child that has children
+        found = deepFind(child.props.children, deepFindFn);
+        return typeof found !== "undefined";
+      }
+
+      return false;
+    },
+  );
+
+  return found;
+};
+
+export function deepFindChildWithDisplayName(
+  children: ReactNode | ReactNode[],
+  displayName: string,
+) {
+  return deepFind(children, (child) => {
+    return isValidElement(child) && child.type
+      ? (child.type as NamedExoticComponent).displayName === displayName
+      : false;
+  });
+}
