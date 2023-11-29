@@ -144,6 +144,8 @@ describe("<FormLayout />", () => {
       </FormLayout>,
     );
 
+    // most things are presentational, so we want to just validate that they're
+    // rendered on the screen correctly
     expect(screen.getByRole("form")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Form Title" }),
@@ -151,6 +153,7 @@ describe("<FormLayout />", () => {
     expect(
       screen.getByRole("group", { name: "Section Title 1" }),
     ).toBeInTheDocument();
+    expect(screen.getAllByRole("textbox").length).toBe(12);
 
     await user.click(screen.getByRole("button", { name: "Submit" }));
     expect(handleSubmit).toHaveBeenCalled();

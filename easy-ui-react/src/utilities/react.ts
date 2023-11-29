@@ -95,31 +95,45 @@ export function getFlattenedKey(
   return defaultKey;
 }
 
-const hasChildren = (
+function hasChildren(
   element: ReactNode,
-): element is ReactElement<{ children: ReactNode | ReactNode[] }> =>
-  isValidElement<{ children?: ReactNode[] }>(element) &&
-  Boolean(element.props.children);
-
-const hasComplexChildren = (
-  element: ReactNode,
-): element is ReactElement<{ children: ReactNode | ReactNode[] }> =>
-  isValidElement(element) &&
-  hasChildren(element) &&
-  Children.toArray(element.props.children).reduce(
-    (response: boolean, child: ReactNode): boolean =>
-      response || isValidElement(child),
-    false,
+): element is ReactElement<{ children: ReactNode | ReactNode[] }> {
+  return (
+    isValidElement<{ children?: ReactNode[] }>(element) &&
+    Boolean(element.props.children)
   );
+}
 
-export const deepFind = (
+function hasComplexChildren(
+  element: ReactNode,
+): element is ReactElement<{ children: ReactNode | ReactNode[] }> {
+  return (
+    isValidElement(element) &&
+    hasChildren(element) &&
+    Children.toArray(element.props.children).reduce(
+      (response: boolean, child: ReactNode): boolean =>
+        response || isValidElement(child),
+      false,
+    )
+  );
+}
+
+/**
+ * Recursively searches a React tree finding the first that meets the specified
+ * comparator function.
+ *
+ * @param children Tree of children to search
+ * @param deepFindFn Comparator function to test each child against
+ * @returns The first child that meets the criteria of the comparator function
+ */
+export function deepFind(
   children: ReactNode | ReactNode[],
   deepFindFn: (
     child: ReactNode,
     index?: number,
     children?: ReactNode[],
   ) => boolean,
-): ReactNode | undefined => {
+): ReactNode | undefined {
   // eslint-disable-next-line @typescript-eslint/init-declarations
   let found;
 
@@ -141,15 +155,4 @@ export const deepFind = (
   );
 
   return found;
-};
-
-export function deepFindChildWithDisplayName(
-  children: ReactNode | ReactNode[],
-  displayName: string,
-) {
-  return deepFind(children, (child) => {
-    return isValidElement(child) && child.type
-      ? (child.type as NamedExoticComponent).displayName === displayName
-      : false;
-  });
 }

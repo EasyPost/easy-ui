@@ -45,7 +45,7 @@ Section.displayName = "FormLayout.Section";
 function findSectionTitleInChildren(children: ReactNode) {
   // look for the first `FormLayout.Title` or `FormLayout.Section` element.
   // if we encounter a Section before a Title we know the outer Section
-  // doesn't have a title
+  // doesn't have a title (or it's wildly [and incorrectly] out of order)
   const firstTitleOrSection = deepFind(children, (child) => {
     if (!isValidElement(child)) {
       return false;
