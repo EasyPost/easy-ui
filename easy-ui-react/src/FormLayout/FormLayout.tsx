@@ -8,11 +8,10 @@ import { Title } from "./Title";
 
 import styles from "./FormLayout.module.scss";
 
-export type FormLayoutProps<T extends ElementType = "div"> =
-  ComponentProps<T> & {
-    as?: T;
-    children: ReactNode;
-  };
+export type FormLayoutProps<T extends ElementType> = ComponentProps<T> & {
+  as?: T;
+  children: ReactNode;
+};
 
 export function FormLayout<T extends ElementType = "div">(
   props: FormLayoutProps<T>,
