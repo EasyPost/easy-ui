@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- 753bd93: feat: add 2xs icon size
+
 ## 1.0.0-alpha.8
 
 ### Minor Changes
