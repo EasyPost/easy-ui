@@ -12,6 +12,9 @@ import { WithinSectionContext } from "./context";
 import styles from "./Section.module.scss";
 
 export type SectionProps = {
+  /**
+   * Content of the form section.
+   */
   children: ReactNode;
 };
 

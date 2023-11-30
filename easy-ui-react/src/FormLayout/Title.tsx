@@ -4,8 +4,21 @@ import { Heading } from "../types";
 import { WithinSectionContext } from "./context";
 
 export type TitleProps = {
+  /**
+   * Id of the HTML element.
+   */
   id?: string;
+
+  /**
+   * Custom heading tag to provide as the underlying HTML element.
+   *
+   * @default span
+   */
   as?: Heading;
+
+  /**
+   * Content of the title text.
+   */
   children: ReactNode;
 };
 
