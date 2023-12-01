@@ -1,5 +1,19 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.19
+
+### Minor Changes
+
+- 753bd93: feat: create `<VerticalNav />` component
+
+### Patch Changes
+
+- Updated dependencies [753bd93]
+- Updated dependencies [eb30926]
+- Updated dependencies [753bd93]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.9
+  - @easypost/easy-ui-icons@1.0.0-alpha.14
+
 ## 1.0.0-alpha.18
 
 ### Minor Changes
