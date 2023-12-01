@@ -4,26 +4,15 @@ import { vi } from "vitest";
 import { Button } from "../Button";
 import { HorizontalStack } from "../HorizontalStack";
 import { TextField } from "../TextField";
-import {
-  mockGetComputedStyle,
-  mockIntersectionObserver,
-  render,
-} from "../utilities/test";
+import { render } from "../utilities/test";
 import { FormLayout } from "./FormLayout";
 
 describe("<FormLayout />", () => {
-  let restoreGetComputedStyle: () => void;
-  let restoreIntersectionObserver: () => void;
-
   beforeEach(() => {
     vi.useFakeTimers();
-    restoreIntersectionObserver = mockIntersectionObserver();
-    restoreGetComputedStyle = mockGetComputedStyle();
   });
 
   afterEach(() => {
-    restoreGetComputedStyle();
-    restoreIntersectionObserver();
     vi.useRealTimers();
   });
 
@@ -144,8 +133,8 @@ describe("<FormLayout />", () => {
       </FormLayout>,
     );
 
-    // most things are presentational, so we want to just validate that they're
-    // rendered on the screen correctly
+    // most things are presentational, so we want to just validate that elements
+    // are rendered on the screen correctly
     expect(screen.getByRole("form")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Form Title" }),
