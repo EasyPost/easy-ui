@@ -1,5 +1,12 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.14
+
+### Minor Changes
+
+- eb30926: Adds the Download and Receipt icons
+- 753bd93: feat: add AwardStar, HomeWork, LocalPostOffice, Redeem, Timline icons
+
 ## 1.0.0-alpha.13
 
 ### Minor Changes
