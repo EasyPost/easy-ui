@@ -7,9 +7,14 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 import VitePluginReactRemoveAttributes from "vite-plugin-react-remove-attributes";
 import { cleanPkgJsonForDist } from "../scripts/copyDistFiles.mjs";
 
+const { default: removeReactAttributes } =
+  VitePluginReactRemoveAttributes as unknown as {
+    default: typeof VitePluginReactRemoveAttributes;
+  };
+
 export default defineConfig({
   plugins: [
-    VitePluginReactRemoveAttributes({
+    removeReactAttributes({
       attributes: ["data-testid"],
     }),
     react({ jsxRuntime: "classic" }),

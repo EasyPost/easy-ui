@@ -14,9 +14,9 @@
     "directory": "dist"
   },
   "scripts": {
-    "build": "vite build --config ./vite.config.ts",
+    "build": "vite build",
     "clean": "rm -rf .turbo dist node_modules",
-    "dev": "vite build --config ./vite.config.ts --watch"
+    "dev": "vite build --watch"
   },
   "devDependencies": {
     "@material-symbols/svg-300": "^0.14.1",
