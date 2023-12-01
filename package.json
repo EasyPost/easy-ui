@@ -52,7 +52,7 @@
     "@storybook/addon-a11y": "^7.5.3",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-mdx-gfm": "^7.5.3",
-    "@storybook/blocks": "^7.5.3",
+    "@storybook/blocks": "^7.6.2",
     "@storybook/manager-api": "^7.5.3",
     "@storybook/react": "^7.5.3",
     "@storybook/react-vite": "^7.5.3",
