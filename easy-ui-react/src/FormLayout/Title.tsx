@@ -23,34 +23,20 @@ export type TitleProps = {
 };
 
 export function Title(props: TitleProps) {
-  const Component = useContext(WithinSectionContext)
-    ? TitleWithinSection
-    : TitleWithinForm;
-  return <Component {...props} />;
+  const { as = "span", children, ...restProps } = props;
+  const withinSection = useContext(WithinSectionContext);
+  const textProps = withinSection
+    ? ({
+        variant: "heading5",
+        "aria-hidden": true,
+        role: "presentation",
+      } as const)
+    : ({ variant: "heading3" } as const);
+  return (
+    <Text as={as} {...restProps} {...textProps}>
+      {children}
+    </Text>
+  );
 }
 
 Title.displayName = "FormLayout.Title";
-
-function TitleWithinForm(props: TitleProps) {
-  const { as = "span", children, ...restProps } = props;
-  return (
-    <Text {...restProps} as={as} variant="heading3">
-      {children}
-    </Text>
-  );
-}
-
-function TitleWithinSection(props: TitleProps) {
-  const { as = "span", children, ...restProps } = props;
-  return (
-    <Text
-      {...restProps}
-      as={as}
-      variant="heading5"
-      aria-hidden="true"
-      role="presentation"
-    >
-      {children}
-    </Text>
-  );
-}
