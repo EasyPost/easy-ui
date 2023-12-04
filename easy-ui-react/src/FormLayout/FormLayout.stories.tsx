@@ -1,10 +1,12 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import React, { FormEvent } from "react";
+import React, { ComponentProps, FormEvent } from "react";
 import { Button } from "../Button";
 import { HorizontalStack } from "../HorizontalStack";
 import { TextField } from "../TextField";
 import { FormLayout } from "./FormLayout";
+import { Textarea } from "../Textarea";
+import { TabPanels } from "../TabPanels";
 
 type Story = StoryObj<typeof FormLayout>;
 
@@ -296,3 +298,62 @@ export const SectionAction: Story = {
     </FormLayout>
   ),
 };
+
+export const WithTabs: Story = {
+  render: () => (
+    <FormLayout>
+      <FormLayout.Header>
+        <FormLayout.Title>Claim Submission</FormLayout.Title>
+        <FormLayout.HelperText>
+          Some text about why we are doing this would be nice here
+        </FormLayout.HelperText>
+      </FormLayout.Header>
+      <FormLayout.Section>
+        <TabPanels>
+          <FormLayout.Header>
+            <FormLayout.Title as="h3">Claim Type</FormLayout.Title>
+          </FormLayout.Header>
+          <TabPanels.Tabs>
+            <TabPanels.Item key="tracking-number">
+              By Tracking Number
+            </TabPanels.Item>
+            <TabPanels.Item key="insurance-id">By Insurance ID</TabPanels.Item>
+          </TabPanels.Tabs>
+          <TabPanels.Panels>
+            <TabPanels.Item key="tracking-number">
+              <TextField
+                label="EasyPost Tracking Number"
+                placeholder="Enter Tracking Number"
+              />
+            </TabPanels.Item>
+            <TabPanels.Item key="insurance-id">
+              <TextField
+                label="EasyPost Insurance ID"
+                placeholder="Enter Insurance ID"
+              />
+            </TabPanels.Item>
+          </TabPanels.Panels>
+        </TabPanels>
+      </FormLayout.Section>
+      <Divider />
+      <FormLayout.Section>
+        <FormLayout.Header>
+          <FormLayout.Title as="h3">Claim Info</FormLayout.Title>
+        </FormLayout.Header>
+        <TextField label="Name*" placeholder="Full Name" />
+        <Textarea
+          label="Description of Item(s)*"
+          placeholder="Add additional details"
+          rows={4}
+        />
+        <TextField label="Package Recipient" placeholder="Full Name" />
+      </FormLayout.Section>
+    </FormLayout>
+  ),
+};
+
+function Divider(props: ComponentProps<"div">) {
+  return (
+    <div style={{ height: 0, borderBottom: "1px solid #C6CFE0" }} {...props} />
+  );
+}

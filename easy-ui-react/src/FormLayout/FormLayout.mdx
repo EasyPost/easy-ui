@@ -45,11 +45,17 @@ Consider adding a `<button type="submit" />` in these cases to provide users wit
 
 <Canvas of={FormLayoutStories.AsAForm} />
 
-## Section with action
+## Custom markup
 
-`FormLayout`s can be composed with arbitrary markup. For example, wrap a `FormLayout.Section` header with a `HorizontalStack` to provide an action for that section.
+`FormLayout`s can be composed with arbitrary markup.
+
+For example, wrap a `FormLayout.Section` header with a `HorizontalStack` to provide an action for that section.
 
 <Canvas of={FormLayoutStories.SectionAction} />
+
+Or, wrap a `FormLayout.Section`'s content with a `TabsPanel`.
+
+<Canvas of={FormLayoutStories.WithTabs} />
 
 ## Properties
 
