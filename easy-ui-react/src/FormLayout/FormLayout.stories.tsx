@@ -156,7 +156,7 @@ export const Nesting: Story = {
           placeholder="Placeholder text"
           helperText="Helper text"
         />
-        <FormLayout.Grid columns={2}>
+        <FormLayout.Grid columns={{ xs: 1, md: 2 }}>
           <FormLayout.Section>
             <FormLayout.Header>
               <FormLayout.Title>Section Title 2</FormLayout.Title>
@@ -190,7 +190,7 @@ export const Nesting: Story = {
               placeholder="Placeholder text"
               helperText="Helper text"
             />
-            <FormLayout.Grid columns={2}>
+            <FormLayout.Grid columns={{ xs: 1, md: 2 }}>
               <TextField
                 label="Input 6"
                 placeholder="Placeholder text"
