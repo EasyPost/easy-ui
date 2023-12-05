@@ -178,6 +178,38 @@ describe("<DataGrid />", () => {
       direction: "ascending",
     });
   });
+
+  it("should find row expansion and kebab menu cells", async () => {
+    render(
+      createDataGrid({
+        renderExpandedRow: (rowKey: Key) => <div>Row {rowKey} content</div>,
+        rowActions: () => [
+          {
+            type: "menu",
+            renderMenuOverlay: () => (
+              <Menu.Overlay>
+                <Menu.Item>Action 1</Menu.Item>
+              </Menu.Overlay>
+            ),
+          },
+        ],
+      }),
+    );
+
+    const row = getRow(1);
+    const cells = [...row.children];
+    const first = cells[0];
+    const last = cells[cells.length - 1];
+
+    expect(first).toHaveAttribute(
+      "class",
+      expect.stringContaining("firstWithActions"),
+    );
+    expect(last).toHaveAttribute(
+      "class",
+      expect.stringContaining("lastWithActions"),
+    );
+  });
 });
 
 const columns = [

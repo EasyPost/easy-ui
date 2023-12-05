@@ -33,7 +33,7 @@ export function Cell({ cell, state }: CellProps) {
   const hasLeftShadow =
     hasActionsAtEnd &&
     table.isRightEdgeUnderScroll &&
-    cell.index === state.collection.size - 1;
+    cell.index === state.collection.columnCount - 1;
 
   const className = classNames(
     styles.Cell,
@@ -44,12 +44,12 @@ export function Cell({ cell, state }: CellProps) {
     cell.index === 0 && styles.first,
     hasActionsAtStart && cell.index === 0 && styles.firstWithActions,
     hasActionsAtStart && cell.index === 1 && styles.secondWithActions,
-    cell.index === state.collection.size - 1 && styles.last,
+    cell.index === state.collection.columnCount - 1 && styles.last,
     hasActionsAtEnd &&
-      cell.index === state.collection.size - 1 &&
+      cell.index === state.collection.columnCount - 1 &&
       styles.lastWithActions,
     hasActionsAtEnd &&
-      cell.index === state.collection.size - 2 &&
+      cell.index === state.collection.columnCount - 2 &&
       styles.secondToLastWithActions,
   );
 
