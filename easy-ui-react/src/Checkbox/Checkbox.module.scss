@@ -19,7 +19,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.border.boldest")
+    theme-token("color.neutral.500")
   );
 }
 
@@ -88,7 +88,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.border.danger")
+    theme-token("color.negative.500")
   );
 }
 
@@ -96,7 +96,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.border.disabled.subtler")
+    theme-token("color.neutral.200")
   );
 }
 
@@ -105,12 +105,12 @@
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.background.primary")
+    theme-token("color.primary.500")
   );
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.background.primary")
+    theme-token("color.primary.500")
   );
 }
 
@@ -119,7 +119,7 @@
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.border.danger")
+    theme-token("color.negative.500")
   );
 }
 
@@ -128,12 +128,12 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.background.disabled.bolder")
+    theme-token("color.neutral.400")
   );
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.background.disabled.bolder")
+    theme-token("color.neutral.400")
   );
 }
 
@@ -141,7 +141,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.background.primary.subtler")
+    theme-token("color.primary.400")
   );
 }
 
@@ -150,7 +150,7 @@
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.background.primary.subtler")
+    theme-token("color.primary.400")
   );
 }
 
@@ -158,7 +158,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.border.danger.bolder")
+    theme-token("color.negative.600")
   );
 }
 
@@ -167,6 +167,6 @@
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.border.danger.bolder")
+    theme-token("color.negative.600")
   );
 }

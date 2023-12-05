@@ -32,7 +32,7 @@
 
 // prettier-ignore
 .variantPrimary {
-  @include component-token("badge", "primary.color.background", theme-token("color.background.primary.bold"));
+  @include component-token("badge", "primary.color.background", theme-token("color.primary.600"));
   @include component-token("badge", "primary.color.text", theme-token("color.text.primary.inverse.bold"));
   @include component-token("badge", "secondary.color.background", theme-token("color.background.primary.subtle"));
   @include component-token("badge", "secondary.color.text", theme-token("color.text.primary.inverse.subtle"));
@@ -40,25 +40,25 @@
 
 // prettier-ignore
 .variantSecondary {
-  @include component-token("badge", "primary.color.background", theme-token("color.background.secondary.bold"));
+  @include component-token("badge", "primary.color.background", theme-token("color.secondary.600"));
   @include component-token("badge", "primary.color.text", theme-token("color.text.secondary.inverse.bold"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.background.secondary.subtle"));
+  @include component-token("badge", "secondary.color.background", theme-token("color.secondary.100"));
   @include component-token("badge", "secondary.color.text", theme-token("color.text.secondary.inverse.subtle"));
 }
 
 // prettier-ignore
 .variantBlack {
-  @include component-token("badge", "primary.color.background", theme-token("color.background.black.bold"));
+  @include component-token("badge", "primary.color.background", theme-token("color.neutral.800"));
   @include component-token("badge", "primary.color.text", theme-token("color.text.black.inverse.bold"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.background.black.subtle"));
+  @include component-token("badge", "secondary.color.background", theme-token("color.neutral.050"));
   @include component-token("badge", "secondary.color.text", theme-token("color.text.black.inverse.subtle"));
 }
 
 // prettier-ignore
 .variantInverse {
-  @include component-token("badge", "primary.color.background", theme-token("color.background.inverse.bold"));
+  @include component-token("badge", "primary.color.background", theme-token("color.neutral.100"));
   @include component-token("badge", "primary.color.text", theme-token("color.text.inverse.inverse.bold"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.background.inverse.subtle"));
+  @include component-token("badge", "secondary.color.background", theme-token("color.neutral.050"));
   @include component-token("badge", "secondary.color.text", theme-token("color.text.inverse.inverse.subtle"));
 }
 
@@ -66,30 +66,30 @@
 .variantGray {
   @include component-token("badge", "primary.color.background", theme-token("color.background.gray.bold"));
   @include component-token("badge", "primary.color.text", theme-token("color.text.gray.inverse.bold"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.background.gray.subtle"));
+  @include component-token("badge", "secondary.color.background", theme-token("color.neutral.050"));
   @include component-token("badge", "secondary.color.text", theme-token("color.text.gray.inverse.subtle"));
 }
 
 // prettier-ignore
 .variantSuccess {
-  @include component-token("badge", "primary.color.background", theme-token("color.background.success.bold"));
+  @include component-token("badge", "primary.color.background", theme-token("color.positive.600"));
   @include component-token("badge", "primary.color.text", theme-token("color.text.success.inverse.bold"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.background.success.subtle"));
+  @include component-token("badge", "secondary.color.background", theme-token("color.positive.100"));
   @include component-token("badge", "secondary.color.text", theme-token("color.text.success.inverse.subtle"));
 }
 
 // prettier-ignore
 .variantWarning {
-  @include component-token("badge", "primary.color.background", theme-token("color.background.warning.bold"));
+  @include component-token("badge", "primary.color.background", theme-token("color.warning.500"));
   @include component-token("badge", "primary.color.text", theme-token("color.text.warning.inverse.bold"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.background.warning.subtle"));
+  @include component-token("badge", "secondary.color.background", theme-token("color.warning.300"));
   @include component-token("badge", "secondary.color.text", theme-token("color.text.warning.inverse.subtle"));
 }
 
 // prettier-ignore
 .variantDanger {
-  @include component-token("badge", "primary.color.background", theme-token("color.background.danger.bold"));
+  @include component-token("badge", "primary.color.background", theme-token("color.negative.600"));
   @include component-token("badge", "primary.color.text", theme-token("color.text.danger.inverse.bold"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.background.danger.subtle"));
+  @include component-token("badge", "secondary.color.background", theme-token("color.negative.100"));
   @include component-token("badge", "secondary.color.text", theme-token("color.text.danger.inverse.subtle"));
 }

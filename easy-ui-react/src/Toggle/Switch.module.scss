@@ -4,7 +4,7 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.background.gray")
+    theme-token("color.neutral.100")
   );
   @include component-token(
     "switch",
@@ -33,7 +33,7 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.background.gray.hovered")
+    theme-token("color.neutral.200")
   );
 }
 
@@ -41,7 +41,7 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.background.primary")
+    theme-token("color.primary.500")
   );
   @include component-token(
     "switch",
@@ -54,7 +54,7 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.background.primary.hovered")
+    theme-token("color.primary.600")
   );
 }
 
@@ -62,7 +62,7 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.background.disabled.subtler")
+    theme-token("color.neutral.050")
   );
   @include component-token(
     "switch",

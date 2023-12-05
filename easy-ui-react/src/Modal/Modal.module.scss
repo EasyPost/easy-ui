@@ -12,7 +12,7 @@
   &::before {
     content: "";
     position: absolute;
-    background: theme-token("color.background.underlay");
+    background: theme-token("color.primary.800");
     opacity: design-token("opacity.underlay");
   }
 }

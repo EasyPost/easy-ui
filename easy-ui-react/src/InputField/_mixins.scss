@@ -49,27 +49,27 @@
   @include component-token(
     "inputfield",
     "color.border.resting",
-    theme-token("color.border.resting")
+    theme-token("color.neutral.200")
   );
   @include component-token(
     "inputfield",
     "color.border.engaged",
-    theme-token("color.border.engaged")
+    theme-token("color.neutral.500")
   );
   @include component-token(
     "inputfield",
     "color.border.danger",
-    theme-token("color.border.danger")
+    theme-token("color.negative.500")
   );
   @include component-token(
     "inputfield",
     "color.background",
-    theme-token("color.background")
+    theme-token("color.neutral.000")
   );
   @include component-token(
     "inputfield",
     "color.background.disabled",
-    theme-token("color.background.disabled.subtle")
+    theme-token("color.neutral.100")
   );
   @include component-token("inputfield", "max-height-sm", 32px);
   @include component-token(

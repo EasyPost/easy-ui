@@ -37,12 +37,12 @@
   @include component-token(
     "step-button",
     "active-background",
-    theme-token("color.background.primary")
+    theme-token("color.primary.500")
   );
   @include component-token(
     "step-button",
     "incomplete-border",
-    theme-token("color.border.incomplete")
+    theme-token("color.neutral.500")
   );
 }
 
@@ -65,12 +65,12 @@
   @include component-token(
     "step-button",
     "active-background",
-    theme-token("color.background")
+    theme-token("color.neutral.000")
   );
   @include component-token(
     "step-button",
     "incomplete-border",
-    theme-token("color.border.inverse")
+    theme-token("color.neutral.000")
   );
 }
 

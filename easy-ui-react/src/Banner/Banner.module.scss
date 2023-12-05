@@ -9,7 +9,7 @@
   @include component-token(
     "banner",
     "color.background",
-    theme-token("color.background.success")
+    theme-token("color.positive.500")
   );
 }
 
@@ -26,7 +26,7 @@
   @include component-token(
     "banner",
     "color.background",
-    theme-token("color.background.primary")
+    theme-token("color.primary.500")
   );
 }
 
@@ -34,7 +34,7 @@
   @include component-token(
     "banner",
     "color.background",
-    theme-token("color.background.neutral")
+    theme-token("color.primary.800")
   );
 }
 

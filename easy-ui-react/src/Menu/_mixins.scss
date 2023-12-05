@@ -24,7 +24,11 @@
   );
   @include component-token("menu", "shadow", theme-token("shadow.overlay"));
   @include component-token("menu", "padding.x", design-token("space.2"));
-  @include component-token("menu", "color.border", theme-token("color.border"));
+  @include component-token(
+    "menu",
+    "color.border",
+    theme-token("color.neutral.300")
+  );
 
   @include responsive-prop("menu", "width", width);
 
