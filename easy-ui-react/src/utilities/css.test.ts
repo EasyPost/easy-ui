@@ -56,11 +56,11 @@ describe("getComponentDesignToken", () => {
     ).toMatchObject({
       "--ezui-c-stack-space": "var(--ezui-space-4)",
     });
-    it("sanitizes falsy values", () => {
-      expect(
-        getComponentDesignToken("stack", "space", "space", undefined),
-      ).toEqual({});
-    });
+  });
+  it("sanitizes falsy values", () => {
+    expect(
+      getComponentDesignToken("stack", "space", "space", undefined),
+    ).toEqual({});
   });
 });
 
