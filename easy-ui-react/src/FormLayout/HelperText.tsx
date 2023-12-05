@@ -14,6 +14,10 @@ export type HelperTextProps = {
 };
 
 export function HelperText(props: HelperTextProps) {
-  const { children } = props;
-  return <Text variant="body1">{children}</Text>;
+  const { id, children } = props;
+  return (
+    <Text id={id} variant="body1">
+      {children}
+    </Text>
+  );
 }
