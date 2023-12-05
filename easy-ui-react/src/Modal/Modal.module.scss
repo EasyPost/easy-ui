@@ -51,7 +51,7 @@
   max-width: component-token("modal", "max-width");
   width: component-token("modal", "width");
   overflow: hidden;
-  background: theme-token("color.surface.overlay");
+  background: theme-token("color.neutral.000");
   border-radius: design-token("shape.border_radius.lg");
   box-shadow: design-token("shadow.modal");
   pointer-events: auto;

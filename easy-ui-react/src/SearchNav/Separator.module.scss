@@ -4,12 +4,12 @@
   @include component-token(
     "separator",
     "separator-logo",
-    theme-token("color.separator.neutral")
+    theme-token("color.neutral.500")
   );
   @include component-token(
     "separator",
     "separator-cta",
-    theme-token("color.separator.primary")
+    theme-token("color.primary.800")
   );
   width: design-token("space.0");
   height: design-token("space.3");
