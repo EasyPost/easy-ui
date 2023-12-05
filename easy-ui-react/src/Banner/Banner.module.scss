@@ -1,11 +1,7 @@
 @use "../styles/common" as *;
 
 .colorSuccess {
-  @include component-token(
-    "banner",
-    "color",
-    theme-token("color.text.success.inverse")
-  );
+  @include component-token("banner", "color", theme-token("color.primary.800"));
   @include component-token(
     "banner",
     "color.background",
@@ -15,11 +11,7 @@
 
 .colorPrimary,
 .colorNeutral {
-  @include component-token(
-    "banner",
-    "color",
-    theme-token("color.text.inverse")
-  );
+  @include component-token("banner", "color", theme-token("color.neutral.000"));
 }
 
 .colorPrimary {

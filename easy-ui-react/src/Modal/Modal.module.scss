@@ -62,7 +62,7 @@
   margin: 0;
   padding: design-token("space.5");
   padding-bottom: design-token("space.2");
-  color: theme-token("color.text.primary");
+  color: theme-token("color.primary.800");
   &.stuck {
     box-shadow: design-token("shadow.stuck-from-top");
   }

@@ -9,7 +9,7 @@
   @include component-token(
     "card-header",
     "color",
-    theme-token("color.text.primary")
+    theme-token("color.primary.800")
   );
   border: design-token("shape.border_width.1") solid
     theme-token("color.neutral.400");
@@ -41,7 +41,7 @@
   @include component-token(
     "card-header",
     "color",
-    theme-token("color.text.inverse")
+    theme-token("color.neutral.000")
   );
 }
 

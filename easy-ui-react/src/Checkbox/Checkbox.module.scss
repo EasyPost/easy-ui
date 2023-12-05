@@ -13,7 +13,7 @@
   @include component-token(
     "checkbox",
     "color.check",
-    theme-token("color.text.primary.inverse")
+    theme-token("color.neutral.000")
   );
   @include component-token("checkbox", "color.background", transparent);
   @include component-token(

@@ -9,7 +9,7 @@
   @include component-token(
     "switch",
     "color.thumb",
-    theme-token("color.text.primary")
+    theme-token("color.primary.800")
   );
   @include component-token("switch", "border_radius", 99px);
 
@@ -46,7 +46,7 @@
   @include component-token(
     "switch",
     "color.thumb",
-    theme-token("color.text.primary.inverse.bold")
+    theme-token("color.neutral.000")
   );
 }
 
@@ -67,6 +67,6 @@
   @include component-token(
     "switch",
     "color.thumb",
-    theme-token("color.text.disabled")
+    theme-token("color.neutral.300")
   );
 }

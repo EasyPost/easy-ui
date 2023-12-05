@@ -14,37 +14,37 @@
   @include component-token(
     "inputfield",
     "color.text.resting",
-    theme-token("color.text")
+    theme-token("color.primary.800")
   );
   @include component-token(
     "inputfield",
     "color.text.gray.resting",
-    theme-token("color.text.gray.resting")
+    theme-token("color.neutral.500")
   );
   @include component-token(
     "inputfield",
     "color.text.subdued",
-    theme-token("color.text.subdued")
+    theme-token("color.neutral.600")
   );
   @include component-token(
     "inputfield",
     "color.text.gray.bold",
-    theme-token("color.text.gray.bold")
+    theme-token("color.neutral.800")
   );
   @include component-token(
     "inputfield",
     "color.text.disabled",
-    theme-token("color.text.disabled")
+    theme-token("color.neutral.300")
   );
   @include component-token(
     "inputfield",
     "color.text.engaged",
-    theme-token("color.text.engaged")
+    theme-token("color.neutral.900")
   );
   @include component-token(
     "inputfield",
     "color.text.danger",
-    theme-token("color.text.danger")
+    theme-token("color.negative.600")
   );
   @include component-token(
     "inputfield",

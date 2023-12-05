@@ -22,17 +22,17 @@
   @include component-token(
     "step-button",
     "color-active",
-    theme-token("color.text.action")
+    theme-token("color.primary.500")
   );
   @include component-token(
     "step-button",
     "color-incomplete",
-    theme-token("color.text.gray.resting")
+    theme-token("color.neutral.500")
   );
   @include component-token(
     "step-button",
     "color-complete",
-    theme-token("color.text")
+    theme-token("color.primary.800")
   );
   @include component-token(
     "step-button",
@@ -50,17 +50,17 @@
   @include component-token(
     "step-button",
     "color-active",
-    theme-token("color.text.inverse")
+    theme-token("color.neutral.000")
   );
   @include component-token(
     "step-button",
     "color-incomplete",
-    theme-token("color.text.inverse")
+    theme-token("color.neutral.000")
   );
   @include component-token(
     "step-button",
     "color-complete",
-    theme-token("color.text.inverse")
+    theme-token("color.neutral.000")
   );
   @include component-token(
     "step-button",
