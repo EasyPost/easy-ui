@@ -34,7 +34,7 @@
 .variantPrimary {
   @include component-token("badge", "primary.color.background", theme-token("color.primary.600"));
   @include component-token("badge", "primary.color.text", theme-token("color.neutral.000"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.background.primary.subtle"));
+  @include component-token("badge", "secondary.color.background", theme-token("color.primary.100"));
   @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
 }
 
@@ -64,7 +64,7 @@
 
 // prettier-ignore
 .variantGray {
-  @include component-token("badge", "primary.color.background", theme-token("color.background.gray.bold"));
+  @include component-token("badge", "primary.color.background", theme-token("color.neutral.600"));
   @include component-token("badge", "primary.color.text", theme-token("color.neutral.000"));
   @include component-token("badge", "secondary.color.background", theme-token("color.neutral.050"));
   @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
