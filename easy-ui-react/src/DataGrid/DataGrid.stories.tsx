@@ -227,6 +227,30 @@ export const WithIcons: Story = {
   },
 };
 
+export const WithRowExpansionAndKebabMenu: Story = {
+  render: Template.bind({}),
+  args: {
+    "aria-label": "Example data grid with row expansion and kebab menu",
+    rows,
+    renderExpandedRow: (rowKey: Key) => (
+      <PlaceholderBox width="100%" height="140px">
+        Space for row {rowKey} content
+      </PlaceholderBox>
+    ),
+    rowActions: () => [
+      {
+        type: "menu",
+        renderMenuOverlay: () => (
+          <Menu.Overlay onAction={action("Menu item clicked!")}>
+            <Menu.Item>Action 1</Menu.Item>
+            <Menu.Item>Action 2</Menu.Item>
+          </Menu.Overlay>
+        ),
+      },
+    ],
+  },
+};
+
 function WithSortTemplate(args: Partial<DataGridProps>) {
   // https://react-spectrum.adobe.com/react-stately/useAsyncList.html
   const list = useAsyncList({

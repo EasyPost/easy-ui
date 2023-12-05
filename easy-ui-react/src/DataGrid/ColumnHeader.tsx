@@ -38,7 +38,7 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
   const hasLeftShadow =
     hasActionsAtEnd &&
     table.isRightEdgeUnderScroll &&
-    column.index === state.collection.size - 1;
+    column.index === state.collection.columnCount - 1;
 
   const className = classNames(
     styles.ColumnHeader,
@@ -50,12 +50,12 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
     column.index === 0 && styles.first,
     hasActionsAtStart && column.index === 0 && styles.firstWithActions,
     hasActionsAtStart && column.index === 1 && styles.secondWithActions,
-    column.index === state.collection.size - 1 && styles.last,
+    column.index === state.collection.columnCount - 1 && styles.last,
     hasActionsAtEnd &&
-      column.index === state.collection.size - 1 &&
+      column.index === state.collection.columnCount - 1 &&
       styles.lastWithActions,
     hasActionsAtEnd &&
-      column.index === state.collection.size - 2 &&
+      column.index === state.collection.columnCount - 2 &&
       styles.secondToLastWithActions,
   );
 
