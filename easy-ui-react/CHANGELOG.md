@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.20
+
+### Patch Changes
+
+- 474e931: fix(DataGrid): track action columns correctly
+
 ## 1.0.0-alpha.19
 
 ### Minor Changes
