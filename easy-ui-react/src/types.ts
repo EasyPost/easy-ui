@@ -7,6 +7,8 @@ export type DesignTokenAliases = keyof DesignTokens;
 
 export type Falsy = boolean | undefined | null | 0;
 
+export type Heading = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
 /**
  * Tells TypeScript to not try to infer a generic type argument. This is useful
  * for allowing component prop definitions to be optionally extended with an

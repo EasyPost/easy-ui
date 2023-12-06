@@ -1,0 +1,9 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.Section {
+  @include unstyled.fieldset;
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.2");
+}

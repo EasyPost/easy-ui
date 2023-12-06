@@ -42,6 +42,7 @@ type FormLayoutTitleProps = {
 };
 
 type FormLayoutHelperTextProps = {
+  id?: string;
   children: ReactNode;
 };
 

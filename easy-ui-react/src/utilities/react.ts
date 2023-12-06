@@ -94,3 +94,65 @@ export function getFlattenedKey(
   }
   return defaultKey;
 }
+
+function hasChildren(
+  element: ReactNode,
+): element is ReactElement<{ children: ReactNode | ReactNode[] }> {
+  return (
+    isValidElement<{ children?: ReactNode[] }>(element) &&
+    Boolean(element.props.children)
+  );
+}
+
+function hasComplexChildren(
+  element: ReactNode,
+): element is ReactElement<{ children: ReactNode | ReactNode[] }> {
+  return (
+    isValidElement(element) &&
+    hasChildren(element) &&
+    Children.toArray(element.props.children).reduce(
+      (response: boolean, child: ReactNode): boolean =>
+        response || isValidElement(child),
+      false,
+    )
+  );
+}
+
+/**
+ * Recursively searches a React tree finding the first that meets the specified
+ * comparator function.
+ *
+ * @param children Tree of children to search
+ * @param deepFindFn Comparator function to test each child against
+ * @returns The first child that meets the criteria of the comparator function
+ */
+export function deepFind(
+  children: ReactNode | ReactNode[],
+  deepFindFn: (
+    child: ReactNode,
+    index?: number,
+    children?: ReactNode[],
+  ) => boolean,
+): ReactNode | undefined {
+  // eslint-disable-next-line @typescript-eslint/init-declarations
+  let found;
+
+  Children.toArray(children).find(
+    (child: ReactNode, index: number, findChildren: ReactNode[]) => {
+      if (deepFindFn(child, index, findChildren)) {
+        found = child;
+        return true;
+      }
+
+      if (isValidElement(child) && hasComplexChildren(child)) {
+        // Find inside the child that has children
+        found = deepFind(child.props.children, deepFindFn);
+        return typeof found !== "undefined";
+      }
+
+      return false;
+    },
+  );
+
+  return found;
+}

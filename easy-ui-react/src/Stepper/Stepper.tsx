@@ -30,11 +30,11 @@ export type StepperProps = {
 };
 
 /**
-* The `<Stepper />` component is used to indicate progress as the user goes 
+* The `<Stepper />` component is used to indicate progress as the user goes
 * through a multi-step process.
 *
 * @remarks
-* A common use-case for this component is to guide a user through a large 
+* A common use-case for this component is to guide a user through a large
 * form where parts of the form can be separated into logical steps.
 *
 * @example
@@ -116,6 +116,9 @@ export function Stepper(props: StepperProps) {
   const totalSteps = Children.toArray(children).filter(Boolean).length;
   const isVertical = orientation === "vertical";
   const Component = isVertical ? VerticalStack : HorizontalStack;
+  const alignProp = isVertical
+    ? ({ inlineAlign: "start" } as const)
+    : ({ blockAlign: "center" } as const);
 
   const context = useMemo(() => {
     return {
@@ -129,7 +132,7 @@ export function Stepper(props: StepperProps) {
   return (
     <InternalStepperContext.Provider value={context}>
       <Component
-        blockAlign="center"
+        {...alignProp}
         gap={isVertical ? "0.5" : undefined}
         data-testid="root"
       >

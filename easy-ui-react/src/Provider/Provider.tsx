@@ -20,7 +20,7 @@ export interface ProviderProps {
  * Easy UI's Provider
  *
  * @remarks
- * The provider should be rendered at the root of an application. It can accept props to configure the theme, 
+ * The provider should be rendered at the root of an application. It can accept props to configure the theme,
  * color scheme, and notification placement.
  *
  * @example

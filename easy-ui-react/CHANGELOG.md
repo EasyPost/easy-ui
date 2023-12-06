@@ -1,5 +1,15 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.21
+
+### Minor Changes
+
+- 8178ef1: feat: add `<FormLayout />` component
+
+### Patch Changes
+
+- 5d3ad6c: fix(Stepper): use correct alignment prop on Stack component
+
 ## 1.0.0-alpha.20
 
 ### Patch Changes
