@@ -1,0 +1,9 @@
+@use "../styles/common" as *;
+
+.FormLayout {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.3");
+  padding: design-token("space.3");
+  color: theme-token("color.primary.800");
+}

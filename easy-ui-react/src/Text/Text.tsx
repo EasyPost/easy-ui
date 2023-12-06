@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { HTMLAttributes, ReactNode } from "react";
 import { ThemeTokenNamespace, DesignTokenNamespace } from "../types";
 import {
   classNames,
@@ -37,6 +37,8 @@ export type TextProps = {
   color?: TextColor;
   /** HTML id attribute */
   id?: string;
+  /** HTML role attribute */
+  role?: HTMLAttributes<"span">["role"];
   /** Transform text */
   transform?: TextTransform;
   /** Truncate text overflow with ellipsis */

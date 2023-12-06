@@ -1,0 +1,80 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { FormLayout } from "./FormLayout";
+import * as FormLayoutStories from "./FormLayout.stories";
+
+<Meta of={FormLayoutStories} />
+
+# FormLayout
+
+`FormLayout` arranges a layout of form elements with preset spacing.
+
+<Canvas of={FormLayoutStories.Basic} />
+
+Use `FormLayout.Header`, `FormLayout.Tile` and `FormLayout.HelperText` to render a header with title and helper text for the closest `FormLayout` and `FormLayout.Section`.
+
+## Sections
+
+`FormLayout` can be divided into logical sections. Each section is rendered as a `fieldset` with its title as a `legend`.
+
+Use `FormLayout.Section` to introduce a new section to the form.
+
+<Canvas of={FormLayoutStories.Sections} />
+
+## Columns
+
+`FormLayout` and `FormLayout.Section` can be divided into grids using the `FormLayout.Grid` component. Use the `columns` prop to specify the columns configuration.
+
+This is a wrapper around `HorizontalGrid`, so the same rules apply as that component, except with specific spacing built in.
+
+<Canvas of={FormLayoutStories.Columns} />
+
+## Nesting
+
+`FormLayout` can contain any number of levels of `FormLayout.Section`s and `FormLayout.Grid`s to produce complex layouts.
+
+Use with caution as too much nesting can cause users to become disoriented.
+
+<Canvas of={FormLayoutStories.Nesting} />
+
+## As a form element
+
+By default, `FormLayout` renders as a `div` to not presuppose a consumer's surrounding structure. The underlying element can be controlled with the `as` prop. For example, a `FormLayout` can be a `form` by providing `as="form"`.
+
+Consider adding a `<button type="submit" />` in these cases to provide users with the affordance to submit the form with the keyboard.
+
+<Canvas of={FormLayoutStories.AsAForm} />
+
+## Custom markup
+
+`FormLayout`s can be composed with arbitrary markup.
+
+For example, wrap a `FormLayout.Section` header with a `HorizontalStack` to provide an action for that section.
+
+<Canvas of={FormLayoutStories.SectionAction} />
+
+Or, wrap a `FormLayout.Section`'s content with a `TabsPanel`.
+
+<Canvas of={FormLayoutStories.WithTabs} />
+
+## Properties
+
+### FormLayout
+
+<ArgTypes of={FormLayout} />
+
+### FormLayout.Header
+
+<ArgTypes of={FormLayout.Header} />
+
+### FormLayout.Title
+
+<ArgTypes of={FormLayout.Title} />
+
+### FormLayout.HelperText
+
+<ArgTypes of={FormLayout.HelperText} />
+
+### FormLayout.Grid
+
+<ArgTypes of={FormLayout.Grid} />
