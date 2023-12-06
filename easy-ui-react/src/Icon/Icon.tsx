@@ -1,19 +1,16 @@
 import React from "react";
+import { DesignTokenNamespace, IconSymbol } from "../types";
 import {
-  IconSymbol,
-  ThemeTokenNamespace,
-  DesignTokenNamespace,
-} from "../types";
-import {
-  getResponsiveDesignToken,
-  getComponentThemeToken,
   ResponsiveProp,
+  ThemeColors,
+  getComponentThemeToken,
+  getResponsiveDesignToken,
 } from "../utilities/css";
 
 import styles from "./Icon.module.scss";
 
 export type IconSize = DesignTokenNamespace<"size.icon">;
-export type IconColor = ThemeTokenNamespace<"color.text">;
+export type IconColor = ThemeColors;
 
 export type IconProps = {
   /** Icon symbol SVG source from @easypost/easy-ui-icons */

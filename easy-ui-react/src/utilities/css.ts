@@ -1,8 +1,27 @@
 import React from "react";
-import type { Falsy, DesignTokenNamespace } from "../types";
+import type {
+  DesignTokenNamespace,
+  Falsy,
+  ThemeTokenNamespace,
+} from "../types";
 
 export type BreakpointsAlias = DesignTokenNamespace<"breakpoint">;
 export type ResponsiveProp<T> = T | { [Breakpoint in BreakpointsAlias]?: T };
+
+const newColorGroups = [
+  /primary\.[\d]{3}/,
+  /secondary\.[\d]{3}/,
+  /positive\.[\d]{3}/,
+  /negative\.[\d]{3}/,
+  /warning\.[\d]{3}/,
+  /neutral\.[\d]{3}/,
+];
+
+// support new and legacy colors for now
+// TODO: remove "color.text" once it's no longer used
+export type ThemeColors =
+  | ThemeTokenNamespace<"color">
+  | ThemeTokenNamespace<"color.text">;
 
 export function classNames(...classes: (string | Falsy)[]) {
   return classes.filter(Boolean).join(" ");
@@ -53,9 +72,21 @@ export function getComponentDesignToken(
 export function getComponentThemeToken(
   componentName: string,
   componentProp: string,
-  tokenSubgroup: string,
+  proposedTokenSubgroup: string,
   token?: string,
 ) {
+  const tokenSubgroup =
+    proposedTokenSubgroup.startsWith("color") &&
+    newColorGroups.some((cg) => (token ? cg.test(token) : false))
+      ? "color"
+      : proposedTokenSubgroup;
+
+  if (token && tokenSubgroup === "color.text") {
+    console.warn(
+      `${token} is a deprecated Easy UI color token. Update ${componentName}.${componentProp} to the new color scheme.`,
+    );
+  }
+
   return getComponentToken(
     componentName,
     componentProp,

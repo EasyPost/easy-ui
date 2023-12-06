@@ -95,7 +95,7 @@ export function Toggle(props: ToggleProps) {
   const isSelected = state.isSelected;
 
   const className = classNames(styles.Toggle, !children && styles.standalone);
-  const textColor = isDisabled ? "disabled" : "primary";
+  const textColor = isDisabled ? "neutral.300" : "primary.800";
 
   const RootComponent = children ? "label" : "span";
   const rootProps = children ? hoverProps : {};

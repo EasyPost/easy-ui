@@ -8,6 +8,11 @@ import { Icon } from "../Icon";
 
 import styles from "./Step.module.scss";
 
+const iconColor = {
+  primary: "primary.800",
+  inverse: "neutral.000",
+} as const;
+
 export type StepProps = AriaButtonProps & {
   /**
    * Step index, the ith step in the sequence.
@@ -66,7 +71,7 @@ export function Step(props: StepProps) {
       </StepButton>
       {!isLastStep &&
         (orientation === "horizontal" ? (
-          <Icon size="xs" symbol={ArrowForwardIos} color={color} />
+          <Icon size="xs" symbol={ArrowForwardIos} color={iconColor[color]} />
         ) : (
           <span
             className={classNames(

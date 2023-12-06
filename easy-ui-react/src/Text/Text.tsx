@@ -1,6 +1,7 @@
 import React, { HTMLAttributes, ReactNode } from "react";
-import { ThemeTokenNamespace, DesignTokenNamespace } from "../types";
+import { DesignTokenNamespace } from "../types";
 import {
+  ThemeColors,
   classNames,
   getComponentThemeToken,
   variationName,
@@ -19,7 +20,7 @@ export type TextAs =
   | "p"
   | "span"
   | "strong";
-export type TextColor = ThemeTokenNamespace<"color.text">;
+export type TextColor = ThemeColors;
 export type TextVariant = DesignTokenNamespace<"font.style", "family">;
 export type TextWeight = "normal" | "medium" | "semibold" | "bold";
 export type TextTransform = "none" | "capitalize" | "uppercase" | "lowercase";

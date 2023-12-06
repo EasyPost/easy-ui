@@ -45,7 +45,7 @@ export function Label(props: LabelProps) {
       ? "body2"
       : "body1";
   const as = isLabelEmphasized ? "strong" : "span";
-  const color = hasError ? "danger" : undefined;
+  const color = hasError ? "negative.600" : undefined;
   return (
     <label {...labelProps} className={classNames(styles.label)}>
       <Text variant={textVariant} as={as} color={color}>

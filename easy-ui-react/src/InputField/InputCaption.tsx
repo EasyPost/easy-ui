@@ -22,7 +22,7 @@ export function InputCaption(props: InputCaptionProps) {
     <div {...captionTextProps} className={styles.caption}>
       <Text
         variant="caption"
-        color={variant === "helper" ? "subdued" : "danger"}
+        color={variant === "helper" ? "neutral.600" : "negative.600"}
       >
         {children}
       </Text>

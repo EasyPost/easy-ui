@@ -50,7 +50,7 @@ function RadioGroupContainer(props: RadioGroupProps) {
           <Text
             as="legend"
             variant="subtitle1"
-            color="gray.bold"
+            color="neutral.800"
             {...labelProps}
           >
             {label}

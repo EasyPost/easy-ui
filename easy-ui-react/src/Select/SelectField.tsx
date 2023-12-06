@@ -121,7 +121,7 @@ export function SelectField(props: SelectFieldProps) {
         {selectState.selectedItem ? (
           selectState.selectedItem.rendered
         ) : (
-          <Text color="subdued">{placeholder}</Text>
+          <Text color="neutral.600">{placeholder}</Text>
         )}
       </SelectTrigger>
       {(showErrorText || showHelperText) && (

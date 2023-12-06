@@ -67,15 +67,15 @@ describe("getComponentDesignToken", () => {
 describe("getComponentThemeToken", () => {
   it("takes a string and returns the custom token", () => {
     expect(
-      getComponentThemeToken("icon", "color", "color.text", "disabled"),
+      getComponentThemeToken("icon", "color", "color", "primary.800"),
     ).toMatchObject({
-      "--ezui-c-icon-color": "var(--ezui-t-color-text-disabled)",
+      "--ezui-c-icon-color": "var(--ezui-t-color-primary-800)",
     });
   });
   it("sanitizes falsy values", () => {
-    expect(
-      getComponentThemeToken("icon", "color", "color.text", undefined),
-    ).toEqual({});
+    expect(getComponentThemeToken("icon", "color", "color", undefined)).toEqual(
+      {},
+    );
   });
 });
 

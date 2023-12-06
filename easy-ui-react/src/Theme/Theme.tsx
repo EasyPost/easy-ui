@@ -248,7 +248,7 @@ function getThemeFromTokens(prefix: string) {
  * Return the list of theme tokens for the pattern provided.
  *
  * @example
- * const textColors = getThemeTokenAliases("color.text.{alias}");
+ * const textColors = getThemeTokenAliases("color.{alias}");
  * -> ["disabled", "success", etc]
  */
 export function getThemeTokenAliases(pattern: string) {
