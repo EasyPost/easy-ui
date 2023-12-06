@@ -5,7 +5,11 @@ import Help from "@easypost/easy-ui-icons/Help";
 import Brightness5 from "@easypost/easy-ui-icons/Brightness5";
 import React from "react";
 import { vi } from "vitest";
-import { mockGetComputedStyle, render } from "../utilities/test";
+import {
+  mockGetComputedStyle,
+  render,
+  silenceConsoleError,
+} from "../utilities/test";
 import { SearchNav } from "./SearchNav";
 
 describe("<SearchNav />", () => {
@@ -27,9 +31,11 @@ describe("<SearchNav />", () => {
   });
 
   it("should throw an error when SearchNav.LogoGroup is missing", () => {
+    const restoreConsoleError = silenceConsoleError();
     expect(() => render(getSearchNavWithoutLogoGroup())).toThrow(
       "SearchNav must contain SearchNav.LogoGroup.",
     );
+    restoreConsoleError();
   });
 
   it("should support rendering SearchNav.Logo", () => {
@@ -38,9 +44,11 @@ describe("<SearchNav />", () => {
   });
 
   it("should throw an error when SearchNav.Logo is missing", () => {
+    const restoreConsoleError = silenceConsoleError();
     expect(() => render(getSearchNavWithoutLogo())).toThrow(
       "SearchNav.LogoGroup must contain SearchNav.Logo.",
     );
+    restoreConsoleError();
   });
 
   it("should support rendering Search.Title with appropriate styles", () => {
@@ -93,9 +101,11 @@ describe("<SearchNav />", () => {
   });
 
   it("should throw an error when more than one SearchNav.PrimaryCTAItem is provided", () => {
+    const restoreConsoleError = silenceConsoleError();
     expect(() => render(getSearchNavWithMultiplePrimaryCTAItems())).toThrow(
       "SearchNav.CTAGroup can support at most one SearchNav.PrimaryCTAItem.",
     );
+    restoreConsoleError();
   });
 });
 

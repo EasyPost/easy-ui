@@ -83,3 +83,10 @@ export function mockMatchMedia({
     window.matchMedia = originalMatchMedia;
   };
 }
+
+export function silenceConsoleError() {
+  const mock = vi.spyOn(console, "error").mockImplementation(() => vi.fn());
+  return () => {
+    mock.mockRestore();
+  };
+}
