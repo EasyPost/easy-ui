@@ -28,6 +28,17 @@ const preview: Preview = {
         opacity: 0.25,
       },
     },
+    options: {
+      storySort: {
+        order: [
+          "Getting Started",
+          "Changelog",
+          "Contributing",
+          "Primitives",
+          "Components",
+        ],
+      },
+    },
   },
   decorators: [
     (Story, context) => {

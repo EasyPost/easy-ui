@@ -15,7 +15,7 @@ type Story = StoryObj<typeof Icon>;
 const Template = (args: IconProps) => <Icon {...args} />;
 
 const meta: Meta<typeof Icon> = {
-  title: "Components/Icon",
+  title: "Primitives/Icon",
   argTypes: {
     // TODO: Figure out how to include all icons from our icons project
     symbol: createLabelledOptionsControl({

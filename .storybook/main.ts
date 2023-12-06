@@ -19,7 +19,6 @@ const config: StorybookConfig = {
   },
   staticDirs: ["./public"],
   stories: [
-    "../easy-ui-react/src/GettingStarted.mdx",
     "../easy-ui-react/src/**/*.mdx",
     "../easy-ui-react/src/**/*.stories.tsx",
   ],

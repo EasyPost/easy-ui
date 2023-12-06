@@ -32,7 +32,7 @@ const getSnippets = () => (
 );
 
 const meta: Meta<typeof CodeBlock> = {
-  title: "Components/CodeBlock",
+  title: "Components/Code/CodeBlock",
   component: CodeBlock,
   args: {
     children: (

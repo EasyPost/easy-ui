@@ -1,6 +1,6 @@
 # Easy UI
 
-Easy UI is a component library designed to help developers create the best experience for shippers who use EasyPost.
+[Easy UI](https://github.com/EasyPost/easy-ui) is a component library designed to help developers create the best experience for shippers who use EasyPost.
 
 ## Installation
 
@@ -73,10 +73,8 @@ import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 ```js
 ReactDOM.render(
   <EasyUIProvider>
-    <div>
-      {/* More to come */}
-    </div>
-  </AppProvider>,
+    <div>{/* More to come */}</div>
+  </EasyUIProvider>,
   document.querySelector("#app"),
 );
 ```
