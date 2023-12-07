@@ -12,7 +12,7 @@
 /// Helper for referencing theme tokens consistently in CSS modules.
 ///
 /// To use a theme token:
-/// color: theme-token("color.text");
+/// color: theme-token("color.primary.800");
 @function theme-token($tokenName) {
   $cleanedName: string.clean-name($tokenName);
   @return var(--ezui-t-#{$cleanedName});

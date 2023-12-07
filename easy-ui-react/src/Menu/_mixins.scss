@@ -9,22 +9,30 @@
   @include component-token(
     "menu",
     "color.background",
-    theme-token("color.surface.overlay")
+    theme-token("color.neutral.000")
   );
-  @include component-token("menu", "color.text", theme-token("color.text"));
+  @include component-token(
+    "menu",
+    "color.text",
+    theme-token("color.primary.800")
+  );
   @include component-token(
     "menu",
     "color.text.disabled",
-    theme-token("color.text.disabled")
+    theme-token("color.neutral.300")
   );
   @include component-token(
     "menu",
     "color.background.hovered",
-    theme-token("color.surface.overlay.hovered")
+    theme-token("color.neutral.050")
   );
   @include component-token("menu", "shadow", theme-token("shadow.overlay"));
   @include component-token("menu", "padding.x", design-token("space.2"));
-  @include component-token("menu", "color.border", theme-token("color.border"));
+  @include component-token(
+    "menu",
+    "color.border",
+    theme-token("color.neutral.300")
+  );
 
   @include responsive-prop("menu", "width", width);
 

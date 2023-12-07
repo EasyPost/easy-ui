@@ -1,32 +1,24 @@
 @use "../styles/common" as *;
 
 .colorSuccess {
-  @include component-token(
-    "banner",
-    "color",
-    theme-token("color.text.success.inverse")
-  );
+  @include component-token("banner", "color", theme-token("color.primary.800"));
   @include component-token(
     "banner",
     "color.background",
-    theme-token("color.background.success")
+    theme-token("color.positive.500")
   );
 }
 
 .colorPrimary,
 .colorNeutral {
-  @include component-token(
-    "banner",
-    "color",
-    theme-token("color.text.inverse")
-  );
+  @include component-token("banner", "color", theme-token("color.neutral.000"));
 }
 
 .colorPrimary {
   @include component-token(
     "banner",
     "color.background",
-    theme-token("color.background.primary")
+    theme-token("color.primary.500")
   );
 }
 
@@ -34,7 +26,7 @@
   @include component-token(
     "banner",
     "color.background",
-    theme-token("color.background.neutral")
+    theme-token("color.primary.800")
   );
 }
 

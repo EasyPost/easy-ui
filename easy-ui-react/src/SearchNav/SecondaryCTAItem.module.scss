@@ -1,7 +1,7 @@
 @use "../styles/common" as *;
 
 .cta {
-  @include component-token("cta", "color", theme-token("color.text"));
+  @include component-token("cta", "color", theme-token("color.primary.800"));
   display: flex;
   align-items: center;
   gap: design-token("space.1");
