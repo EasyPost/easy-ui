@@ -1,6 +1,6 @@
-# Easy UI React
+# Easy UI
 
-Easy UI React is a component library designed to help developers create the best experience for shippers who use EasyPost.
+[Easy UI](https://github.com/EasyPost/easy-ui) is a component library designed to help developers create the best experience for shippers who use EasyPost.
 
 ## Installation
 
@@ -20,8 +20,9 @@ npm install @easypost/easy-ui --save
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/poppins/poppins-v20-latin-400.woff2") format("woff2"), url("/fonts/poppins/poppins-v20-latin-400.woff")
-      format("woff");
+  src:
+    url("/fonts/poppins/poppins-v20-latin-400.woff2") format("woff2"),
+    url("/fonts/poppins/poppins-v20-latin-400.woff") format("woff");
 }
 
 @font-face {
@@ -29,8 +30,9 @@ npm install @easypost/easy-ui --save
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/poppins/poppins-v20-latin-500.woff2") format("woff2"), url("/fonts/poppins/poppins-v20-latin-500.woff")
-      format("woff");
+  src:
+    url("/fonts/poppins/poppins-v20-latin-500.woff2") format("woff2"),
+    url("/fonts/poppins/poppins-v20-latin-500.woff") format("woff");
 }
 
 @font-face {
@@ -38,8 +40,9 @@ npm install @easypost/easy-ui --save
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/poppins/poppins-v20-latin-600.woff2") format("woff2"), url("/fonts/poppins/poppins-v20-latin-600.woff")
-      format("woff");
+  src:
+    url("/fonts/poppins/poppins-v20-latin-600.woff2") format("woff2"),
+    url("/fonts/poppins/poppins-v20-latin-600.woff") format("woff");
 }
 
 @font-face {
@@ -47,8 +50,9 @@ npm install @easypost/easy-ui --save
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/poppins/poppins-v20-latin-700.woff2") format("woff2"), url("/fonts/poppins/poppins-v20-latin-700.woff")
-      format("woff");
+  src:
+    url("/fonts/poppins/poppins-v20-latin-700.woff2") format("woff2"),
+    url("/fonts/poppins/poppins-v20-latin-700.woff") format("woff");
 }
 ```
 
@@ -69,10 +73,8 @@ import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
 ```js
 ReactDOM.render(
   <EasyUIProvider>
-    <div>
-      {/* More to come */}
-    </div>
-  </AppProvider>,
+    <div>{/* More to come */}</div>
+  </EasyUIProvider>,
   document.querySelector("#app"),
 );
 ```
