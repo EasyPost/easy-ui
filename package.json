@@ -53,7 +53,7 @@
     "@storybook/addon-essentials": "^7.6.3",
     "@storybook/addon-mdx-gfm": "^7.6.3",
     "@storybook/blocks": "^7.6.3",
-    "@storybook/manager-api": "^7.6.3",
+    "@storybook/manager-api": "^7.6.4",
     "@storybook/react": "^7.6.3",
     "@storybook/react-vite": "^7.6.3",
     "@storybook/testing-library": "^0.2.2",
