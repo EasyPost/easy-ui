@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.23
+
+### Patch Changes
+
+- 8fbfe3a: fix(Checkbox,Toggle): forward refs
+
 ## 1.0.0-alpha.22
 
 ### Minor Changes
