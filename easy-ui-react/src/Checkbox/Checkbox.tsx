@@ -1,6 +1,7 @@
 import CheckIcon from "@easypost/easy-ui-icons/Check600";
 import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
-import React, { ReactNode } from "react";
+import { mergeRefs } from "@react-aria/utils";
+import React, { ReactNode, forwardRef } from "react";
 import { mergeProps, useCheckbox, useFocusRing, useHover } from "react-aria";
 import { ValidationState, useToggleState } from "react-stately";
 import { Icon } from "../Icon";
@@ -111,7 +112,7 @@ export type CheckboxProps = {
  * </Checkbox>
  * ```
  */
-export function Checkbox(props: CheckboxProps) {
+export const Checkbox = forwardRef<null, CheckboxProps>((props, outsideRef) => {
   const {
     children,
     errorText,
@@ -121,6 +122,12 @@ export function Checkbox(props: CheckboxProps) {
     isNested,
     size = DEFAULT_SIZE,
     validationState,
+    defaultSelected: _defaultSelected,
+    isSelected: _isSelected,
+    name: _name,
+    onChange: _onChange,
+    value: _value,
+    ...restProps
   } = props;
 
   const ref = React.useRef(null);
@@ -161,13 +168,17 @@ export function Checkbox(props: CheckboxProps) {
   const RootComponent = children ? "label" : "span";
   const rootProps = children ? hoverProps : {};
   const inputProps = children
-    ? mergeProps(inputPropsFromAria, focusProps)
-    : mergeProps(inputPropsFromAria, focusProps, hoverProps);
+    ? mergeProps(restProps, inputPropsFromAria, focusProps)
+    : mergeProps(restProps, inputPropsFromAria, focusProps, hoverProps);
 
   return (
     <span className={className} data-testid="root">
       <RootComponent className={styles.label} {...rootProps}>
-        <input {...inputProps} className={styles.input} ref={ref} />
+        <input
+          {...inputProps}
+          className={styles.input}
+          ref={mergeRefs(ref, outsideRef)}
+        />
         <span className={styles.box}>
           {(isIndeterminate || isSelected) && (
             <span className={styles.check}>
@@ -192,4 +203,6 @@ export function Checkbox(props: CheckboxProps) {
       )}
     </span>
   );
-}
+});
+
+Checkbox.displayName = "Checkbox";

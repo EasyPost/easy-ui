@@ -7,6 +7,7 @@ import {
   overlayPlacements,
 } from "../utilities/storybook";
 import { Tooltip, TooltipProps } from "./Tooltip";
+import { Checkbox } from "../Checkbox";
 
 type Story = StoryObj<typeof Tooltip>;
 
@@ -99,6 +100,13 @@ export const ButtonTrigger: Story = {
   render: Template.bind({}),
   args: {
     children: <Button>Hover or focus me</Button>,
+  },
+};
+
+export const CheckboxTrigger: Story = {
+  render: Template.bind({}),
+  args: {
+    children: <Checkbox>Hover or focus me</Checkbox>,
   },
 };
 
