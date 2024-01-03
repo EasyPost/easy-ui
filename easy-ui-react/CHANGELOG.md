@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.22
+
+### Minor Changes
+
+- a98c59b: feat: use new color tokens in component CSS
+
+### Patch Changes
+
+- Updated dependencies [74890b5]
+  - @easypost/easy-ui-icons@1.0.0-alpha.15
+
 ## 1.0.0-alpha.21
 
 ### Minor Changes
