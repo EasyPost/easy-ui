@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.15
+
+### Minor Changes
+
+- 74890b5: Adds eco icon
+
 ## 1.0.0-alpha.14
 
 ### Minor Changes
