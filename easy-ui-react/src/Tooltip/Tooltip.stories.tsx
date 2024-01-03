@@ -2,6 +2,8 @@ import { Meta, StoryObj } from "@storybook/react";
 import { startCase } from "lodash";
 import React from "react";
 import { Button } from "../Button";
+import { Checkbox } from "../Checkbox";
+import { Toggle } from "../Toggle";
 import {
   OverlayLayoutDecorator,
   overlayPlacements,
@@ -99,6 +101,20 @@ export const ButtonTrigger: Story = {
   render: Template.bind({}),
   args: {
     children: <Button>Hover or focus me</Button>,
+  },
+};
+
+export const CheckboxTrigger: Story = {
+  render: Template.bind({}),
+  args: {
+    children: <Checkbox>Hover or focus me</Checkbox>,
+  },
+};
+
+export const ToggleTrigger: Story = {
+  render: Template.bind({}),
+  args: {
+    children: <Toggle>Hover or focus me</Toggle>,
   },
 };
 
