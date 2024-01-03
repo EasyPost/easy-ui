@@ -112,97 +112,102 @@ export type CheckboxProps = {
  * </Checkbox>
  * ```
  */
-export const Checkbox = forwardRef<null, CheckboxProps>((props, outsideRef) => {
-  const {
-    children,
-    errorText,
-    isDisabled,
-    isIndeterminate,
-    isReadOnly,
-    isNested,
-    size = DEFAULT_SIZE,
-    validationState,
-    defaultSelected: _defaultSelected,
-    isSelected: _isSelected,
-    name: _name,
-    onChange: _onChange,
-    value: _value,
-    ...restProps
-  } = props;
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+  (props, outsideRef) => {
+    const {
+      children,
+      errorText,
+      isDisabled,
+      isIndeterminate,
+      isReadOnly,
+      isNested,
+      size = DEFAULT_SIZE,
+      validationState,
+      defaultSelected: _defaultSelected,
+      isSelected: _isSelected,
+      name: _name,
+      onChange: _onChange,
+      value: _value,
+      ...restProps
+    } = props;
 
-  const ref = React.useRef(null);
+    const ref = React.useRef(null);
 
-  const state = useToggleState(props);
-  const { inputProps: inputPropsFromAria } = useCheckbox(props, state, ref);
-  const { isFocusVisible, focusProps } = useFocusRing();
-  const { isHovered, hoverProps } = useHover(props);
+    const state = useToggleState(props);
+    const { inputProps: inputPropsFromAria } = useCheckbox(props, state, ref);
+    const { isFocusVisible, focusProps } = useFocusRing();
+    const { isHovered, hoverProps } = useHover(props);
 
-  const isSelected = state.isSelected && !isIndeterminate;
+    const isSelected = state.isSelected && !isIndeterminate;
 
-  const className = classNames(
-    styles.Checkbox,
-    isIndeterminate && styles.indeterminate,
-    isSelected && styles.selected,
-    isDisabled && styles.disabled,
-    isReadOnly && styles.readOnly,
-    isNested && styles.nested,
-    isFocusVisible && styles.focusVisible,
-    isHovered && styles.hovered,
-    styles[variationName("size", size)],
-    validationState === "invalid" && styles.invalid,
-    !children && styles.standalone,
-  );
+    const className = classNames(
+      styles.Checkbox,
+      isIndeterminate && styles.indeterminate,
+      isSelected && styles.selected,
+      isDisabled && styles.disabled,
+      isReadOnly && styles.readOnly,
+      isNested && styles.nested,
+      isFocusVisible && styles.focusVisible,
+      isHovered && styles.hovered,
+      styles[variationName("size", size)],
+      validationState === "invalid" && styles.invalid,
+      !children && styles.standalone,
+    );
 
-  const textVariant =
-    size === "lg" ? "subtitle1" : isNested ? "body2" : "body1";
-  const textColor = isDisabled
-    ? "disabled"
-    : validationState === "invalid"
-      ? "danger"
-      : "primary";
+    const textVariant =
+      size === "lg" ? "subtitle1" : isNested ? "body2" : "body1";
+    const textColor = isDisabled
+      ? "disabled"
+      : validationState === "invalid"
+        ? "danger"
+        : "primary";
 
-  if (size === "lg" && isNested) {
-    console.warn("isNested is incompatible with lg Checkbox");
-  }
+    if (size === "lg" && isNested) {
+      console.warn("isNested is incompatible with lg Checkbox");
+    }
 
-  const RootComponent = children ? "label" : "span";
-  const rootProps = children ? hoverProps : {};
-  const inputProps = children
-    ? mergeProps(restProps, inputPropsFromAria, focusProps)
-    : mergeProps(restProps, inputPropsFromAria, focusProps, hoverProps);
+    const RootComponent = children ? "label" : "span";
+    const rootProps = children ? hoverProps : {};
+    const inputProps = children
+      ? mergeProps(restProps, inputPropsFromAria, focusProps)
+      : mergeProps(restProps, inputPropsFromAria, focusProps, hoverProps);
 
-  return (
-    <span className={className} data-testid="root">
-      <RootComponent className={styles.label} {...rootProps}>
-        <input
-          {...inputProps}
-          className={styles.input}
-          ref={mergeRefs(ref, outsideRef)}
-        />
-        <span className={styles.box}>
-          {(isIndeterminate || isSelected) && (
-            <span className={styles.check}>
-              {isIndeterminate ? (
-                <Icon symbol={RemoveIcon} size={size === "lg" ? "md" : "xs"} />
-              ) : (
-                <Icon symbol={CheckIcon} size={size === "lg" ? "md" : "xs"} />
-              )}
+    return (
+      <span className={className} data-testid="root">
+        <RootComponent className={styles.label} {...rootProps}>
+          <input
+            {...inputProps}
+            className={styles.input}
+            ref={mergeRefs(ref, outsideRef)}
+          />
+          <span className={styles.box}>
+            {(isIndeterminate || isSelected) && (
+              <span className={styles.check}>
+                {isIndeterminate ? (
+                  <Icon
+                    symbol={RemoveIcon}
+                    size={size === "lg" ? "md" : "xs"}
+                  />
+                ) : (
+                  <Icon symbol={CheckIcon} size={size === "lg" ? "md" : "xs"} />
+                )}
+              </span>
+            )}
+          </span>
+          {children && (
+            <span className={styles.text}>
+              <Text variant={textVariant} color={textColor}>
+                {children}
+              </Text>
             </span>
           )}
-        </span>
-        {children && (
-          <span className={styles.text}>
-            <Text variant={textVariant} color={textColor}>
-              {children}
-            </Text>
-          </span>
+        </RootComponent>
+        {validationState === "invalid" && errorText && (
+          <SelectorErrorTooltip content={errorText} />
         )}
-      </RootComponent>
-      {validationState === "invalid" && errorText && (
-        <SelectorErrorTooltip content={errorText} />
-      )}
-    </span>
-  );
-});
+      </span>
+    );
+  },
+);
 
 Checkbox.displayName = "Checkbox";

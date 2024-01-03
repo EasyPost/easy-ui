@@ -1,5 +1,6 @@
+import { mergeRefs } from "@react-aria/utils";
 import { AriaLabelingProps } from "@react-types/shared";
-import React, { ReactNode } from "react";
+import React, { ReactNode, forwardRef } from "react";
 import { mergeProps, useFocusRing, useHover, useSwitch } from "react-aria";
 import { useToggleState } from "react-stately";
 import { Text } from "../Text";
@@ -84,41 +85,59 @@ export type ToggleProps = AriaLabelingProps & {
  * <Toggle isDisabled>Toggle item</Toggle>
  * ```
  */
-export function Toggle(props: ToggleProps) {
-  const { children, isDisabled } = props;
+export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
+  (props, externalRef) => {
+    const {
+      children,
+      isDisabled,
+      defaultSelected: _defaultSelected,
+      isReadOnly: _isReadOnly,
+      isSelected: _isSelected,
+      name: _name,
+      onChange: _onChange,
+      value: _value,
+      ...restProps
+    } = props;
 
-  const ref = React.useRef(null);
-  const state = useToggleState(props);
-  const { inputProps: inputPropsFromSwitch } = useSwitch(props, state, ref);
-  const { isFocusVisible, focusProps } = useFocusRing();
-  const { isHovered, hoverProps } = useHover(props);
-  const isSelected = state.isSelected;
+    const ref = React.useRef(null);
+    const state = useToggleState(props);
+    const { inputProps: inputPropsFromSwitch } = useSwitch(props, state, ref);
+    const { isFocusVisible, focusProps } = useFocusRing();
+    const { isHovered, hoverProps } = useHover(props);
+    const isSelected = state.isSelected;
 
-  const className = classNames(styles.Toggle, !children && styles.standalone);
-  const textColor = isDisabled ? "disabled" : "primary";
+    const className = classNames(styles.Toggle, !children && styles.standalone);
+    const textColor = isDisabled ? "disabled" : "primary";
 
-  const RootComponent = children ? "label" : "span";
-  const rootProps = children ? hoverProps : {};
-  const inputProps = children
-    ? mergeProps(inputPropsFromSwitch, focusProps)
-    : mergeProps(inputPropsFromSwitch, focusProps, hoverProps);
+    const RootComponent = children ? "label" : "span";
+    const rootProps = children ? hoverProps : {};
+    const inputProps = children
+      ? mergeProps(restProps, inputPropsFromSwitch, focusProps)
+      : mergeProps(restProps, inputPropsFromSwitch, focusProps, hoverProps);
 
-  return (
-    <RootComponent {...rootProps} className={className}>
-      <input {...inputProps} className={styles.input} ref={ref} />
-      <Switch
-        isDisabled={isDisabled}
-        isFocusVisible={isFocusVisible}
-        isHovered={isHovered}
-        isSelected={isSelected}
-      />
-      {children && (
-        <span className={styles.text}>
-          <Text variant="body1" color={textColor}>
-            {children}
-          </Text>
-        </span>
-      )}
-    </RootComponent>
-  );
-}
+    return (
+      <RootComponent {...rootProps} className={className}>
+        <input
+          {...inputProps}
+          className={styles.input}
+          ref={mergeRefs(ref, externalRef)}
+        />
+        <Switch
+          isDisabled={isDisabled}
+          isFocusVisible={isFocusVisible}
+          isHovered={isHovered}
+          isSelected={isSelected}
+        />
+        {children && (
+          <span className={styles.text}>
+            <Text variant="body1" color={textColor}>
+              {children}
+            </Text>
+          </span>
+        )}
+      </RootComponent>
+    );
+  },
+);
+
+Toggle.displayName = "Toggle";
