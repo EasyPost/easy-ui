@@ -42,7 +42,7 @@
     "overlayscrollbars-react": "^0.5.3",
     "react-aria": "^3.30.0",
     "react-is": "^18.2.0",
-    "react-stately": "^3.28.0",
+    "react-stately": "^3.29.0",
     "react-syntax-highlighter": "^15.5.0",
     "use-clipboard-copy": "^0.2.0"
   },
