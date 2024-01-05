@@ -216,7 +216,7 @@ function getThemeInstanceVariables(theme: Theme) {
   return Object.fromEntries(
     Object.entries(theme).map(([key, value]) => {
       const property = tokenSafeKebabCase(key);
-      return [`--ezui-t-${property}`, value];
+      return [`--ezui-theme-${property}`, value];
     }),
   );
 }

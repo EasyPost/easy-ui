@@ -19,7 +19,7 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Child"))).toMatchObject({
-      "--ezui-t-color-text": "black",
+      "--ezui-theme-color-text": "black",
     });
   });
 
@@ -30,7 +30,7 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Child"))).toMatchObject({
-      "--ezui-t-color-text": "white",
+      "--ezui-theme-color-text": "white",
     });
   });
 
@@ -44,10 +44,10 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Outer"))).toMatchObject({
-      "--ezui-t-color-text": "black",
+      "--ezui-theme-color-text": "black",
     });
     expect(getThemeForElement(screen.getByText("Inner"))).toMatchObject({
-      "--ezui-t-color-text": "white",
+      "--ezui-theme-color-text": "white",
     });
   });
 
@@ -61,10 +61,10 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Outer"))).toMatchObject({
-      "--ezui-t-color-text": "red",
+      "--ezui-theme-color-text": "red",
     });
     expect(getThemeForElement(screen.getByText("Inner"))).toMatchObject({
-      "--ezui-t-color-text": "green",
+      "--ezui-theme-color-text": "green",
     });
   });
 
@@ -81,13 +81,13 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Outer"))).toMatchObject({
-      "--ezui-t-color-text": "black",
+      "--ezui-theme-color-text": "black",
     });
     expect(getThemeForElement(screen.getByText("Middle"))).toMatchObject({
-      "--ezui-t-color-text": "white",
+      "--ezui-theme-color-text": "white",
     });
     expect(getThemeForElement(screen.getByText("Inner"))).toMatchObject({
-      "--ezui-t-color-text": "black",
+      "--ezui-theme-color-text": "black",
     });
   });
 
@@ -103,7 +103,7 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Child"))).toMatchObject({
-      "--ezui-t-color-text": "red",
+      "--ezui-theme-color-text": "red",
     });
   });
 
@@ -119,7 +119,7 @@ describe("<ThemeProvider />", () => {
       </ThemeProvider>,
     );
     expect(getThemeForElement(screen.getByText("Child"))).toMatchObject({
-      "--ezui-t-color-text": "white",
+      "--ezui-theme-color-text": "white",
     });
   });
 });
