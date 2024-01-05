@@ -196,12 +196,12 @@ const theme = createTheme(() => ({
 
 The names of the CSS variables are the same as in the theme configuration. Each variable holds the backing primitive of the most immediate theme and color scheme context.
 
-Note the `--ezui-t` prefix to differentiate theme-aware CSS variables from static design tokens.
+Note the `--ezui-theme` prefix to differentiate theme-aware CSS variables from static design tokens.
 
 ```css
 .Button {
-  color: var(--ezui-t-color-text);
-  background: var(--ezui-t-color-background);
+  color: var(--ezui-theme-color-text);
+  background: var(--ezui-theme-color-background);
 }
 ```
 
