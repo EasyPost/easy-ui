@@ -60,7 +60,7 @@ export function getComponentThemeToken(
     componentName,
     componentProp,
     token
-      ? `var(--ezui-t-${tokenSafeKebabCase(tokenSubgroup)}-${tokenSafeKebabCase(
+      ? `var(--ezui-${tokenSafeKebabCase(tokenSubgroup)}-${tokenSafeKebabCase(
           token,
         )})`
       : undefined,

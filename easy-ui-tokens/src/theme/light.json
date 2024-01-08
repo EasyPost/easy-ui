@@ -1,5 +1,5 @@
 {
-  "theme.base": {
+  "theme.light": {
     "color.background": { "value": "{color.gray.000}" },
     "color.background.black.bold": { "value": "{color.gray.800}" },
     "color.background.black.subtle": { "value": "{color.gray.050}" },
@@ -167,9 +167,6 @@
     "color.neutral.100": { "value": "{color.gray.100}" },
     "color.neutral.050": { "value": "{color.gray.050}" },
     "color.neutral.000": { "value": "{color.gray.000}" },
-    "font.family": { "value": "{font.family.sans}" },
-    "shadow.button": { "value": "{shadow.button}" },
-    "shadow.overlay": { "value": "{shadow.overlay}" },
-    "shadow.overlay.subdued": { "value": "{shadow.overlay_subdued}" }
+    "font.family": { "value": "{font.family.sans}" }
   }
 }

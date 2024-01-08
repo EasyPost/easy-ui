@@ -8,7 +8,7 @@
   cursor: pointer;
 
   &:focus {
-    box-shadow: theme-token("shadow.button");
+    box-shadow: design-token("shadow.button");
     outline: none;
   }
 
