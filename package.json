@@ -47,7 +47,7 @@
     "test:watch:react": "npm run test:watch --workspace @easypost/easy-ui"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.6",
+    "@babel/core": "^7.23.7",
     "@changesets/cli": "^2.27.1",
     "@storybook/addon-a11y": "^7.6.7",
     "@storybook/addon-essentials": "^7.6.7",
@@ -65,10 +65,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook": "^7.6.7",
-    "stylelint": "^16.0.2",
-    "turbo": "^1.11.2",
+    "stylelint": "^16.1.0",
+    "turbo": "^1.11.3",
     "typescript": "^5.3.3",
-    "vite": "^5.0.10",
-    "vitest": "^1.1.1"
+    "vite": "^5.0.11",
+    "vitest": "^1.1.3"
   }
 }
