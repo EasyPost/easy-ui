@@ -16,7 +16,7 @@ export type Theme = {
 export type ColorScheme = "light" | "dark" | "system" | "inverted";
 
 export const defaultTheme = createTheme(() => {
-  return getThemeFromTokens("theme.base");
+  return getThemeFromTokens("theme.light");
 });
 
 const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
@@ -216,7 +216,7 @@ function getThemeInstanceVariables(theme: Theme) {
   return Object.fromEntries(
     Object.entries(theme).map(([key, value]) => {
       const property = tokenSafeKebabCase(key);
-      return [`--ezui-theme-${property}`, value];
+      return [`--ezui-${property}`, value];
     }),
   );
 }
@@ -252,5 +252,5 @@ function getThemeFromTokens(prefix: string) {
  * -> ["disabled", "success", etc]
  */
 export function getThemeTokenAliases(pattern: string) {
-  return getTokenAliases(getThemeFromTokens("theme.base"), pattern);
+  return getTokenAliases(getThemeFromTokens("theme.light"), pattern);
 }

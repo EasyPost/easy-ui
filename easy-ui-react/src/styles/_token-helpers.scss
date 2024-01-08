@@ -15,7 +15,7 @@
 /// color: theme-token("color.primary.800");
 @function theme-token($tokenName) {
   $cleanedName: string.clean-name($tokenName);
-  @return var(--ezui-theme-#{$cleanedName});
+  @return var(--ezui-#{$cleanedName});
 }
 
 /// Helpers for referencing tokens in components in a structured way. Supports

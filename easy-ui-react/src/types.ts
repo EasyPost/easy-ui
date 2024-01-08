@@ -48,7 +48,7 @@ export type DesignTokenNamespace<
       `.${string & NeedleSuffix}`
     >;
 
-export type ThemeTokenAliases = DesignTokenNamespace<"theme.base">;
+export type ThemeTokenAliases = DesignTokenNamespace<"theme.light">;
 
 export type ThemeTokenNamespace<Needle extends string> = Namespace<
   ThemeTokenAliases,

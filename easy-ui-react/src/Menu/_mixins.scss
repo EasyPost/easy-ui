@@ -26,7 +26,7 @@
     "color.background.hovered",
     theme-token("color.neutral.050")
   );
-  @include component-token("menu", "shadow", theme-token("shadow.overlay"));
+  @include component-token("menu", "shadow", design-token("shadow.overlay"));
   @include component-token("menu", "padding.x", design-token("space.2"));
   @include component-token(
     "menu",

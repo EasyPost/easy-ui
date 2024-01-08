@@ -20,7 +20,7 @@
   @include component-token(
     "tooltip",
     "shadow",
-    theme-token("shadow.overlay.subdued")
+    design-token("shadow.overlay_subdued")
   );
   @include component-token("tooltip", "max-width", 232px);
 

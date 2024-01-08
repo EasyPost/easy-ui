@@ -69,7 +69,7 @@ describe("getComponentThemeToken", () => {
     expect(
       getComponentThemeToken("icon", "color", "color.text", "disabled"),
     ).toMatchObject({
-      "--ezui-c-icon-color": "var(--ezui-theme-color-text-disabled)",
+      "--ezui-c-icon-color": "var(--ezui-color-text-disabled)",
     });
   });
   it("sanitizes falsy values", () => {

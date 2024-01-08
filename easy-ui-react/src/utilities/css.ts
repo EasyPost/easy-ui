@@ -60,9 +60,9 @@ export function getComponentThemeToken(
     componentName,
     componentProp,
     token
-      ? `var(--ezui-theme-${tokenSafeKebabCase(
-          tokenSubgroup,
-        )}-${tokenSafeKebabCase(token)})`
+      ? `var(--ezui-${tokenSafeKebabCase(tokenSubgroup)}-${tokenSafeKebabCase(
+          token,
+        )})`
       : undefined,
   );
 }
