@@ -110,8 +110,8 @@ function CardArea({ background, children, padding = "2" }: CardAreaProps) {
     ...getComponentThemeToken(
       "card-area",
       "background",
-      "color.surface.card",
-      background,
+      "color",
+      getBackgroundToken(background),
     ),
     ...getResponsiveDesignToken("card-area", "padding", "space", padding),
   } as React.CSSProperties;
@@ -120,6 +120,17 @@ function CardArea({ background, children, padding = "2" }: CardAreaProps) {
       {children}
     </div>
   );
+}
+
+function getBackgroundToken(background: CardAreaProps["background"]) {
+  const tokens = {
+    primary: "neutral.000",
+    secondary: "neutral.050",
+  };
+  if (background && tokens.hasOwnProperty(background)) {
+    return tokens[background as keyof typeof tokens];
+  }
+  return background;
 }
 
 /**

@@ -55,6 +55,8 @@ export type ThemeTokenNamespace<Needle extends string> = Namespace<
   `${Needle}.`
 >;
 
+export type ThemeColorAliases = ThemeTokenNamespace<"color">;
+
 type IconSymbolProps = React.SVGProps<SVGSVGElement> & {
   title?: string;
   titleId?: string;

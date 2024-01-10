@@ -1,6 +1,7 @@
 import React, { HTMLAttributes, ReactNode } from "react";
-import { ThemeTokenNamespace, DesignTokenNamespace } from "../types";
+import { DesignTokenNamespace, ThemeColorAliases } from "../types";
 import {
+  backwardsCompatibleColorToken,
   classNames,
   getComponentThemeToken,
   variationName,
@@ -19,7 +20,16 @@ export type TextAs =
   | "p"
   | "span"
   | "strong";
-export type TextColor = ThemeTokenNamespace<"color.text">;
+export type TextColor =
+  | ThemeColorAliases
+  | "action"
+  | "danger"
+  | "disabled"
+  | "gray.bold"
+  | "gray.resting"
+  | "inverse"
+  | "primary"
+  | "subdued";
 export type TextVariant = DesignTokenNamespace<"font.style", "family">;
 export type TextWeight = "normal" | "medium" | "semibold" | "bold";
 export type TextTransform = "none" | "capitalize" | "uppercase" | "lowercase";
@@ -71,7 +81,7 @@ export type TextProps = {
  * @example
  * Working with alignment and color:
  * ```tsx
- * <Text variant="body1" alignment="center" color="blue-500">
+ * <Text variant="body1" alignment="center" color="primary.800">
  *   Standard body text rendered as a span, centered, and colored blue 500
  * </Text>
  * ```
@@ -118,7 +128,12 @@ export function Text({
   );
 
   const style = {
-    ...getComponentThemeToken("text", "color", "color.text", color),
+    ...getComponentThemeToken(
+      "text",
+      "color",
+      "color",
+      backwardsCompatibleColorToken(color),
+    ),
   } as React.CSSProperties;
 
   return (

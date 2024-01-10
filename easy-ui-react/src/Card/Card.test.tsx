@@ -75,12 +75,7 @@ describe("<Card />", () => {
   it("should render custom background", () => {
     render(<Card background="primary">Content</Card>);
     expect(screen.getByTestId("area")).toHaveStyle(
-      getComponentThemeToken(
-        "card-area",
-        "background",
-        "color.surface.card",
-        "primary",
-      ),
+      getComponentThemeToken("card-area", "background", "color", "neutral.000"),
     );
   });
 
@@ -105,12 +100,7 @@ describe("<Card />", () => {
       expect.stringContaining("variantOutlined"),
     );
     expect(screen.getByTestId("area")).toHaveStyle(
-      getComponentThemeToken(
-        "card-area",
-        "background",
-        "color.surface.card",
-        "secondary",
-      ),
+      getComponentThemeToken("card-area", "background", "color", "neutral.050"),
     );
   });
 });

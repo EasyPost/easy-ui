@@ -25,10 +25,10 @@ describe("<Icon />", () => {
   });
 
   it("should apply specified color", () => {
-    render(<Icon symbol={CheckCircleIcon} color="disabled" />);
+    render(<Icon symbol={CheckCircleIcon} color="neutral.300" />);
     const $svg = screen.getByRole("img", { hidden: true });
     expect($svg.closest("span")).toHaveStyle(
-      getComponentThemeToken("icon", "color", "color.text", "disabled"),
+      getComponentThemeToken("icon", "color", "color", "neutral.300"),
     );
   });
 
