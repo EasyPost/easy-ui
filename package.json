@@ -51,7 +51,7 @@
     "@changesets/cli": "^2.27.1",
     "@storybook/addon-a11y": "^7.6.7",
     "@storybook/addon-essentials": "^7.6.7",
-    "@storybook/addon-mdx-gfm": "^7.6.7",
+    "@storybook/addon-mdx-gfm": "^7.6.8",
     "@storybook/blocks": "^7.6.7",
     "@storybook/manager-api": "^7.6.7",
     "@storybook/react": "^7.6.7",
