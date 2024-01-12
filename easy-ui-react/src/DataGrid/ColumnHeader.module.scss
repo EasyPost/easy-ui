@@ -45,6 +45,11 @@
   z-index: component-token("data-grid", "column-stuck-z-index");
 }
 
+.firstWithActions,
+.secondWithActions {
+  min-width: 44px;
+}
+
 .last {
   padding-right: design-token("space.5");
 }
