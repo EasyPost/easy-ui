@@ -23,6 +23,7 @@ export default defineConfig({
         { src: "package.json", dest: ".", transform: cleanPkgJsonForDist },
         { src: "README.md", dest: "." },
         { src: "CHANGELOG.md", dest: "." },
+        { src: "src/styles", dest: "." },
       ],
     }),
   ],
