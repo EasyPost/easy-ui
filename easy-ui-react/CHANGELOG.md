@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.24
+
+### Patch Changes
+
+- ca064bf: fix: update css var theme token prefix
+- 5d92013: fix(DataGrid): close column gap in some edge cases"
+
 ## 1.0.0-alpha.23
 
 ### Patch Changes
