@@ -35,6 +35,7 @@
 
 .firstWithActions {
   left: 0;
+  min-width: 44px;
   padding-left: design-token("space.2");
   padding-right: design-token("space.1.5");
 }
@@ -43,11 +44,6 @@
   padding-left: 0;
   left: 44px;
   z-index: component-token("data-grid", "column-stuck-z-index");
-}
-
-.firstWithActions,
-.secondWithActions {
-  min-width: 44px;
 }
 
 .last {
