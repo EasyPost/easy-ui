@@ -35,13 +35,14 @@
 
 .firstWithActions {
   left: 0;
+  min-width: component-token("data-grid", "action-cell-width");
   padding-left: design-token("space.2");
   padding-right: design-token("space.1.5");
 }
 
 .secondWithActions {
   padding-left: 0;
-  left: 44px;
+  left: component-token("data-grid", "action-cell-width");
   z-index: component-token("data-grid", "column-stuck-z-index");
 }
 
