@@ -39,7 +39,7 @@
 .secondWithActions {
   padding-left: 0;
   position: sticky;
-  left: 44px;
+  left: component-token("data-grid", "action-cell-width");
   z-index: component-token("data-grid", "cell-stuck-z-index");
 }
 
