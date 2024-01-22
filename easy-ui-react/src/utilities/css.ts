@@ -160,3 +160,23 @@ export function tokenSafeKebabCase(str: string) {
     .replace(/[\s_\.]+/g, "-")
     .toLowerCase();
 }
+
+// TODO: Remove these once they're removed from the consumers
+export function backwardsCompatibleColorToken(token?: string) {
+  const oldTokens = {
+    primary: "primary.800",
+    subdued: "neutral.600",
+    danger: "negative.600",
+    action: "primary.500",
+    disabled: "neutral.300",
+    inverse: "neutral.000",
+    "gray.bold": "neutral.800",
+    "gray.resting": "neutral.500",
+    "code.selector": "positive.700",
+    "primary-inverse": "neutral.000",
+  };
+  if (token && oldTokens.hasOwnProperty(token)) {
+    return oldTokens[token as keyof typeof oldTokens];
+  }
+  return token;
+}

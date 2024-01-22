@@ -27,7 +27,7 @@ export function createFontStyleTokensControl() {
 }
 
 export function createColorTokensControl() {
-  return getThemeTokensControl("color.text.{alias}");
+  return getThemeTokensControl("color.{alias}");
 }
 
 export function getDesignTokensControl(pattern: string) {

@@ -14,7 +14,12 @@ const meta: Meta<typeof Text> = {
   title: "Primitives/Text",
   argTypes: {
     variant: createFontStyleTokensControl(),
-    color: createColorTokensControl(),
+    color: {
+      ...createColorTokensControl(),
+      table: {
+        type: { summary: null },
+      },
+    },
   },
   component: Text,
 };

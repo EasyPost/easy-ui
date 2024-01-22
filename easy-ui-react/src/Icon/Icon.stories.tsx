@@ -33,7 +33,12 @@ const meta: Meta<typeof Icon> = {
         lg: "lg",
       },
     }),
-    color: createColorTokensControl(),
+    color: {
+      ...createColorTokensControl(),
+      table: {
+        type: { summary: null },
+      },
+    },
     accessibilityLabel: {
       control: "text",
     },

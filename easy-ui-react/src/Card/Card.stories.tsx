@@ -125,12 +125,12 @@ export const ExampleRadio: Story = {
                 />
                 <Text variant="subtitle1">Bank Account</Text>
               </HorizontalStack>
-              <Text variant="caption" color="action">
+              <Text variant="caption" color="primary.500">
                 Manage
               </Text>
             </HorizontalStack>
             <VerticalStack>
-              <Text variant="caption" color="subdued">
+              <Text variant="caption" color="neutral.600">
                 Bank Arc Transfer Primary
                 <br />
                 Free 2-3 Business Days For Transfers
@@ -175,7 +175,7 @@ export const ExampleTileA: Story = {
           <VerticalStack gap="1.5" inlineAlign="center">
             <Icon symbol={AccountBalanceIcon} size="3xl" />
             <Text variant="subtitle2">Add a Bank Account</Text>
-            <Text variant="caption" color="subdued">
+            <Text variant="caption" color="neutral.600">
               Free 2-3 Business Days For Transfers
             </Text>
           </VerticalStack>
@@ -193,13 +193,13 @@ export const ExampleTileB: Story = {
           <VerticalStack gap="2" inlineAlign="center">
             <VerticalStack gap="1">
               <Text variant="subtitle1">No Subscriptions</Text>
-              <Text variant="caption" color="subdued" alignment="center">
+              <Text variant="caption" color="neutral.600" alignment="center">
                 Sending over 120k packages a year?
                 <br />
                 Learn how EasyPost can optimize your shipping.
               </Text>
             </VerticalStack>
-            <Text variant="small_button" color="action">
+            <Text variant="small_button" color="primary.500">
               Contact Sales
             </Text>
           </VerticalStack>
@@ -215,10 +215,10 @@ export const ExampleTileC: Story = {
       <Card>
         <div style={{ padding: "12px 0" }}>
           <VerticalStack gap="0.5" inlineAlign="center">
-            <Text variant="caption" color="subdued" alignment="center">
+            <Text variant="caption" color="neutral.600" alignment="center">
               No secondary account
             </Text>
-            <Text variant="small_button" color="action">
+            <Text variant="small_button" color="primary.500">
               Add an Account
             </Text>
           </VerticalStack>
@@ -254,7 +254,7 @@ export const ExampleCallout: Story = {
       <Card variant="flagged" status="warning" padding="1">
         <Text variant="subtitle1">
           Based on selected auto-fund settings, you requested a minimum wallet
-          balance of $400. <Text color="action">Learn More</Text>
+          balance of $400. <Text color="primary.500">Learn More</Text>
         </Text>
       </Card>
     </div>

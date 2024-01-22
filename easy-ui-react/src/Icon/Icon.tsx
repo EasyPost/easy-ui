@@ -1,19 +1,25 @@
 import React from "react";
+import { DesignTokenNamespace, IconSymbol, ThemeColorAliases } from "../types";
 import {
-  IconSymbol,
-  ThemeTokenNamespace,
-  DesignTokenNamespace,
-} from "../types";
-import {
-  getResponsiveDesignToken,
-  getComponentThemeToken,
   ResponsiveProp,
+  backwardsCompatibleColorToken,
+  getComponentThemeToken,
+  getResponsiveDesignToken,
 } from "../utilities/css";
 
 import styles from "./Icon.module.scss";
 
 export type IconSize = DesignTokenNamespace<"size.icon">;
-export type IconColor = ThemeTokenNamespace<"color.text">;
+export type IconColor =
+  | ThemeColorAliases
+  | "action"
+  | "code.selector"
+  | "danger"
+  | "disabled"
+  | "gray.resting"
+  | "inverse"
+  | "primary"
+  | "primary-inverse";
 
 export type IconProps = {
   /** Icon symbol SVG source from @easypost/easy-ui-icons */
@@ -63,7 +69,7 @@ export type IconProps = {
  * import AddIcon from "@easypost/easy-ui-icons/Add";
  *
  * export function Component() {
- *  return <Icon symbol={AddIcon} color="success.inverse" size="sm" />;
+ *  return <Icon symbol={AddIcon} color="positive.600" size="sm" />;
  * }
  * ```
  * @example
@@ -84,7 +90,12 @@ export function Icon({
   accessibilityLabel,
 }: IconProps) {
   const style = {
-    ...getComponentThemeToken("icon", "color", "color.text", color),
+    ...getComponentThemeToken(
+      "icon",
+      "color",
+      "color",
+      backwardsCompatibleColorToken(color),
+    ),
     ...getResponsiveDesignToken("icon", "size", "size.icon", size),
   } as React.CSSProperties;
   return (

@@ -58,10 +58,10 @@ export function RadioGroupItem(props: RadioGroupItemProps) {
   );
 
   const textColor = isDisabled
-    ? "disabled"
+    ? "neutral.300"
     : validationState === "invalid"
-      ? "danger"
-      : "primary";
+      ? "negative.600"
+      : "primary.800";
 
   return (
     <div className={className} data-testid="root">

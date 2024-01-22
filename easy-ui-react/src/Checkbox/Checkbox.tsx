@@ -157,10 +157,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const textVariant =
       size === "lg" ? "subtitle1" : isNested ? "body2" : "body1";
     const textColor = isDisabled
-      ? "disabled"
+      ? "neutral.300"
       : validationState === "invalid"
-        ? "danger"
-        : "primary";
+        ? "negative.600"
+        : "primary.800";
 
     if (size === "lg" && isNested) {
       console.warn("isNested is incompatible with lg Checkbox");
