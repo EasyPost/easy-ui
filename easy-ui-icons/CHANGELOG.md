@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.16
+
+### Minor Changes
+
+- d8af955: Adds Barcode, Package2, Schedule, and ThumbUp icons
+
 ## 1.0.0-alpha.15
 
 ### Minor Changes
