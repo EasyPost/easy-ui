@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.10
+
+### Minor Changes
+
+- 58f7eab: feat: remove old theme alias tokens
+
 ## 1.0.0-alpha.9
 
 ### Minor Changes
