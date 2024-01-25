@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.27
+
+### Minor Changes
+
+- c543e98: feat(SearchNav): add condensedBehavior prop
+
 ## 1.0.0-alpha.26
 
 ### Patch Changes
