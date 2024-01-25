@@ -12,16 +12,12 @@
     "border-color",
     theme-token("color.neutral.100")
   );
-  padding: 0 design-token("space.1.5");
+  padding: 0 design-token("space.3");
   height: component-token("search-nav", "height");
   background-color: component-token("search-nav", "background-color");
   border-bottom: 1px solid component-token("search-nav", "border-color");
   display: flex;
   align-items: center;
-
-  @include breakpoint-md-up {
-    padding: 0 design-token("space.3");
-  }
 }
 
 .desktop {
