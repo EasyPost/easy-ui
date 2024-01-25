@@ -1,5 +1,5 @@
 import { createContext, useContext, ReactNode } from "react";
-import { SearchNavOverlayMenuProps } from "./SearchNav";
+import type { SearchNavOverlayMenuProps, SearchNavProps } from "./SearchNav";
 import { IconSymbol } from "../types";
 
 type InternalSearchNavContextType = {
@@ -13,6 +13,7 @@ type InternalSearchNavContextType = {
   menuOverlayProps?: SearchNavOverlayMenuProps<object>;
   selectorLabel?: string;
   ctaMenuSymbol?: IconSymbol;
+  condensedBehavior?: SearchNavProps<object>["condensedBehavior"];
 };
 
 export const InternalSearchNavContext =

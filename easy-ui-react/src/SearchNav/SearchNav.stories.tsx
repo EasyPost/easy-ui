@@ -10,13 +10,14 @@ import { EasyPostFullLogo, PlaceholderBox } from "../utilities/storybook";
 type Story = StoryObj<typeof SearchNav>;
 
 const Template = (args: SearchNavProps<object>) => {
-  const { children } = args;
+  const { children, ...restArgs } = args;
   return (
     <SearchNav
       menuOverlayProps={{
         onAction: action("Menu item"),
         disabledKeys: ["V99.99"],
       }}
+      {...restArgs}
     >
       {children}
     </SearchNav>
@@ -272,6 +273,38 @@ export const FullBar: Story = {
             label="Sign up"
             onPress={action("pressed")}
           />
+        </SearchNav.CTAGroup>
+      </>
+    ),
+  },
+};
+
+export const PreserveLogoWhenCondensed: Story = {
+  render: Template.bind({}),
+  args: {
+    condensedBehavior: "preserve-logo",
+    children: (
+      <>
+        <SearchNav.LogoGroup>
+          <SearchNav.Logo>
+            <EasyPostFullLogo />
+          </SearchNav.Logo>
+          <SearchNav.Title>Docs</SearchNav.Title>
+        </SearchNav.LogoGroup>
+        <SearchNav.Search>
+          <PlaceholderBox width="100%" height={36}>
+            Search
+          </PlaceholderBox>
+        </SearchNav.Search>
+        <SearchNav.CTAGroup>
+          <SearchNav.SecondaryCTAItem
+            symbol={Brightness5}
+            key="Brightness"
+            label="Toggle theme"
+            onPress={action("pressed")}
+            hideLabelOnDesktop
+          />
+          <SearchNav.PrimaryCTAItem label="Login" />
         </SearchNav.CTAGroup>
       </>
     ),

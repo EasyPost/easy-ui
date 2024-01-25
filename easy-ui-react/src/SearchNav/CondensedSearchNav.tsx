@@ -9,6 +9,7 @@ import { UnstyledButton } from "../UnstyledButton";
 import { Icon } from "../Icon";
 import { classNames } from "../utilities/css";
 import { useInternalSearchNavContext } from "./context";
+import { LogoGroup } from "./LogoGroup";
 
 import styles from "./CondensedSearchNav.module.scss";
 import { getFlattenedKey } from "../utilities/react";
@@ -30,55 +31,69 @@ export function CondensedSearchNav() {
     primaryCTAItem,
     selectorLabel,
     menuOverlayProps,
+    condensedBehavior,
   } = useInternalSearchNavContext();
 
   const hasMenuToShow = !!selectorChildren || !!secondaryCTAItems;
-  const hasSearchToShow = !!search;
 
   return (
     <div className={classNames(styles.condensed)}>
-      {!isSearchOpen && hasMenuToShow ? (
+      {isSearchOpen ? (
+        <div className={classNames(styles.condensedSearch)}>
+          {search}
+          <UnstyledButton
+            className={classNames(styles.btn)}
+            onPress={() => setIsSearchOpen((prev) => !prev)}
+          >
+            <Icon symbol={Close} size="xs" />
+          </UnstyledButton>
+        </div>
+      ) : (
         <>
-          <Menu isOpen={isMenuOpen} onOpenChange={setIsMenuOpen}>
-            <Menu.Trigger>
-              <UnstyledButton
-                className={classNames(
-                  styles.btn,
-                  styles.menuBtn,
-                  isMenuOpen && styles.menuOpen,
-                )}
-              >
-                <Icon symbol={MenuSymbol} />
-                <Text visuallyHidden>menu</Text>
-              </UnstyledButton>
-            </Menu.Trigger>
-            <Menu.Overlay placement="bottom left" {...menuOverlayProps}>
-              <Menu.Section aria-label={selectorLabel}>
-                {selectorChildren?.map((item) => {
-                  const itemEle = item as ReactElement;
-                  return (
-                    <Menu.Item key={getFlattenedKey(itemEle.key)}>
-                      {itemEle.props.children}
-                    </Menu.Item>
-                  );
-                })}
-              </Menu.Section>
-              <Menu.Section aria-label="Nav actions">
-                {secondaryCTAItems?.map((item) => {
-                  const itemEle = item as ReactElement;
-                  return (
-                    <Menu.Item
-                      key={getFlattenedKey(itemEle.key)}
-                      href={itemEle.props.href}
-                      target={itemEle.props.target}
-                    >
-                      {itemEle.props.label}
-                    </Menu.Item>
-                  );
-                })}
-              </Menu.Section>
-            </Menu.Overlay>
-          </Menu>
+          {condensedBehavior === "collapse-to-menu" && hasMenuToShow ? (
+            <Menu isOpen={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <Menu.Trigger>
+                <UnstyledButton
+                  className={classNames(
+                    styles.btn,
+                    styles.menuBtn,
+                    isMenuOpen && styles.menuOpen,
+                  )}
+                >
+                  <Icon symbol={MenuSymbol} />
+                  <Text visuallyHidden>menu</Text>
+                </UnstyledButton>
+              </Menu.Trigger>
+              <Menu.Overlay placement="bottom left" {...menuOverlayProps}>
+                <Menu.Section aria-label={selectorLabel}>
+                  {selectorChildren?.map((item) => {
+                    const itemEle = item as ReactElement;
+                    return (
+                      <Menu.Item key={getFlattenedKey(itemEle.key)}>
+                        {itemEle.props.children}
+                      </Menu.Item>
+                    );
+                  })}
+                </Menu.Section>
+                <Menu.Section aria-label="Nav actions">
+                  {secondaryCTAItems?.map((item) => {
+                    const itemEle = item as ReactElement;
+                    return (
+                      <Menu.Item
+                        key={getFlattenedKey(itemEle.key)}
+                        href={itemEle.props.href}
+                        target={itemEle.props.target}
+                      >
+                        {itemEle.props.label}
+                      </Menu.Item>
+                    );
+                  })}
+                </Menu.Section>
+              </Menu.Overlay>
+            </Menu>
+          ) : (
+            <LogoGroup>{null}</LogoGroup>
+          )}
           {(search || primaryCTAItem) && (
             <HorizontalStack gap="2">
               {search && (
@@ -94,18 +109,6 @@ export function CondensedSearchNav() {
             </HorizontalStack>
           )}
         </>
-      ) : (
-        hasSearchToShow && (
-          <div className={classNames(styles.condensedSearch)}>
-            {search}
-            <UnstyledButton
-              className={classNames(styles.btn)}
-              onPress={() => setIsSearchOpen((prev) => !prev)}
-            >
-              <Icon symbol={Close} size="xs" />
-            </UnstyledButton>
-          </div>
-        )
       )}
     </div>
   );

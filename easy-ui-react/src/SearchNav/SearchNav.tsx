@@ -42,6 +42,12 @@ export type SearchNavProps<T> = {
    * `<SearchNav.Search>`, and `<SearchNav.CTAGroup>`
    */
   children: ReactNode;
+  /**
+   * Defines the behavior in which the menu condenses on mobile screens.
+   *
+   * @default collapse-to-menu
+   */
+  condensedBehavior?: "collapse-to-menu" | "preserve-logo";
 };
 
 /**
@@ -49,7 +55,7 @@ export type SearchNavProps<T> = {
  *
  * @remarks
  * Use on a docs page where users can leverage a dropdown, a seach input, and CTAs to find information.
- * `<SearchNav.LogoGroup />` and `<SearchNav.Logo />` are required. 
+ * `<SearchNav.LogoGroup />` and `<SearchNav.Logo />` are required.
  *
  * @example
  * _Full nav bar:_
@@ -110,7 +116,12 @@ export type SearchNavProps<T> = {
 ```
  */
 export function SearchNav<T>(props: SearchNavProps<T>) {
-  const { menuOverlayProps, ctaMenuSymbol, children } = props;
+  const {
+    menuOverlayProps,
+    ctaMenuSymbol,
+    children,
+    condensedBehavior = "collapse-to-menu",
+  } = props;
 
   const { onlyLogoGroup, context } = useMemo(() => {
     // To support the various configurations on smaller screens,
@@ -150,9 +161,10 @@ export function SearchNav<T>(props: SearchNavProps<T>) {
         menuOverlayProps,
         selectorLabel,
         ctaMenuSymbol,
+        condensedBehavior,
       },
     };
-  }, [children, menuOverlayProps, ctaMenuSymbol]);
+  }, [children, menuOverlayProps, ctaMenuSymbol, condensedBehavior]);
 
   return (
     <InternalSearchNavContext.Provider value={context}>
