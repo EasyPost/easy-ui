@@ -82,6 +82,7 @@ export const CustomHeader: StoryObj<typeof CodeBlock.Header> = {
   args: {
     children: "Header",
     color: "primary",
+    hideCopy: false,
   },
   argTypes: {
     children: { control: "text" },
