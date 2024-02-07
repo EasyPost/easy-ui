@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.28
+
+### Minor Changes
+
+- a7220b7: feat(CodeBlock): support hiding copy button
+
 ## 1.0.0-alpha.27
 
 ### Minor Changes
