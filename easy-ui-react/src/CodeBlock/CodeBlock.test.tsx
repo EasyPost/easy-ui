@@ -49,6 +49,19 @@ describe("<CodeBlock />", () => {
     );
   });
 
+  it("should support hiding copy", async () => {
+    render(
+      <CodeBlock language="javascript" onLanguageChange={() => {}}>
+        <CodeBlock.Header hideCopy>Header</CodeBlock.Header>
+        <CodeBlock.Snippet code={`hello javascript`} language="javascript" />
+        <CodeBlock.Snippet code={`hello php`} language="php" />
+      </CodeBlock>,
+    );
+    expect(
+      screen.queryByRole("button", { name: /copy code/i }),
+    ).not.toBeInTheDocument();
+  });
+
   it("should support language change", async () => {
     const handleLanguageChange = vi.fn();
 

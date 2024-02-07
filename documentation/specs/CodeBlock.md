@@ -64,6 +64,13 @@ type CodeBlockHeaderProps = {
    * @default neutral
    */
   color?: "neutral" | "primary" | "secondary";
+
+  /**
+   * Whether or not to hide the copy button.
+   *
+   * @default false
+   */
+  hideCopy?: boolean;
 };
 
 type CodeBlockSnippetProps = CodeSnippetProps;

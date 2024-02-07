@@ -40,12 +40,19 @@ export type CodeBlockHeaderProps = {
    * @default neutral
    */
   color?: "neutral" | "primary" | "secondary";
+
+  /**
+   * Whether or not to hide the copy button.
+   *
+   * @default false
+   */
+  hideCopy?: boolean;
 };
 
 export type CodeBlockSnippetProps = CodeSnippetProps;
 
 function CodeBlockHeader(props: CodeBlockHeaderProps) {
-  const { children, color = "neutral" } = props;
+  const { children, color = "neutral", hideCopy = false } = props;
   const { snippet, languages, language, onLanguageChange } = useCodeBlock();
   const className = classNames(
     styles.header,
@@ -62,16 +69,16 @@ function CodeBlockHeader(props: CodeBlockHeaderProps) {
         <Text variant="subtitle1">{children}</Text>
         <HorizontalStack gap="2" wrap={false}>
           {languages.length > 1 && (
-            <>
-              <LanguageMenu
-                languages={languages}
-                language={language}
-                onChange={onLanguageChange}
-              />
-              <span className={styles.divider} />
-            </>
+            <LanguageMenu
+              languages={languages}
+              language={language}
+              onChange={onLanguageChange}
+            />
           )}
-          <CopyButton text={snippet.props.code} />
+          {languages.length > 1 && !hideCopy && (
+            <span className={styles.divider} />
+          )}
+          {!hideCopy && <CopyButton text={snippet.props.code} />}
         </HorizontalStack>
       </HorizontalStack>
     </div>
