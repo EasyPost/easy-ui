@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.17
+
+### Minor Changes
+
+- a4588c2: Adds Tune icon
+
 ## 1.0.0-alpha.16
 
 ### Minor Changes
