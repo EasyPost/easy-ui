@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.18
+
+### Minor Changes
+
+- 1a0b280: Add Chevron Right weight 400 icon
+
 ## 1.0.0-alpha.17
 
 ### Minor Changes

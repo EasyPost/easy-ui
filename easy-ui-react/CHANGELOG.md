@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.30
+
+### Patch Changes
+
+- Updated dependencies [1a0b280]
+  - @easypost/easy-ui-icons@1.0.0-alpha.18
+
 ## 1.0.0-alpha.29
 
 ### Patch Changes
