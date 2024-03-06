@@ -10,6 +10,23 @@ import python from "react-syntax-highlighter/dist/esm/languages/prism/python";
 import ruby from "react-syntax-highlighter/dist/esm/languages/prism/ruby";
 import shell from "react-syntax-highlighter/dist/esm/languages/prism/shell-session";
 
+declare global {
+  interface Window {
+    Prism: { manual: boolean };
+  }
+}
+
+// react-syntax-highlighter uses refractor which handles the Prism highlighting
+// automatically, so we need to disable Prism from running on page load with
+// the following configuration, otherwise we will run into hydration errors
+//
+// this is fixed in a later version of refractor that isn't supported in
+// react-syntax-highlighter currently
+if (typeof window !== "undefined") {
+  window.Prism = window.Prism || {};
+  window.Prism.manual = true;
+}
+
 export type SnippetLanguage =
   | "csharp"
   | "go"
