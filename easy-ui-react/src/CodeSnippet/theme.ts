@@ -90,6 +90,7 @@ export function buildTheme(
         position: "relative",
         paddingRight: 4,
         WebkitLineClamp: `${config.maxLines}`,
+        overflow: "auto",
       }),
       WebkitBoxOrient: "vertical",
       width: "100%",
