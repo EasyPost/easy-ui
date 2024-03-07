@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.31
+
+### Patch Changes
+
+- 8e72a67: patch(CodeSnippet): disable automatic prism highlighting"
+
 ## 1.0.0-alpha.30
 
 ### Patch Changes
