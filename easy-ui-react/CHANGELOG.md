@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.32
+
+### Patch Changes
+
+- 77d594b: fix(CodeBlock): header title should collapse
+
 ## 1.0.0-alpha.31
 
 ### Patch Changes
