@@ -25,6 +25,11 @@
   color: component-token("card-header", "color");
 }
 
+.headerTitle {
+  flex: 1;
+  @include font-style("subtitle1");
+}
+
 .divider {
   align-self: stretch;
   display: inline-flex;

@@ -2,7 +2,6 @@ import React, { ReactNode, useMemo } from "react";
 import { CodeSnippet, CodeSnippetProps } from "../CodeSnippet";
 import { SnippetLanguage } from "../CodeSnippet/SyntaxHighlighter";
 import { HorizontalStack } from "../HorizontalStack";
-import { Text } from "../Text";
 import { classNames, variationName } from "../utilities/css";
 import { filterChildrenByDisplayName } from "../utilities/react";
 import { CopyButton } from "./CopyButton";
@@ -66,7 +65,7 @@ function CodeBlockHeader(props: CodeBlockHeaderProps) {
         wrap={false}
         blockAlign="start"
       >
-        <Text variant="subtitle1">{children}</Text>
+        <span className={styles.headerTitle}>{children}</span>
         <HorizontalStack gap="2" wrap={false}>
           {languages.length > 1 && (
             <LanguageMenu
