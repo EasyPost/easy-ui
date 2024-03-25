@@ -23,6 +23,7 @@
     design-token("shadow.overlay_subdued")
   );
   @include component-token("tooltip", "max-width", 232px);
+  @include component-token("tooltip", "min-height", 40px);
 
   background: component-token("tooltip", "background");
   border-radius: component-token("tooltip", "border_radius");
@@ -35,6 +36,7 @@
             "container_padding"
           )} * 2)
   );
+  min-height: component-token("tooltip", "min-height");
   padding: design-token("space.1");
   will-change: filter;
 }
