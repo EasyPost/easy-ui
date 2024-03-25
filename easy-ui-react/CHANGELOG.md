@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.33
+
+### Patch Changes
+
+- 20c1f84: fix(CodeBlock): add min height to tooltip
+
 ## 1.0.0-alpha.32
 
 ### Patch Changes
