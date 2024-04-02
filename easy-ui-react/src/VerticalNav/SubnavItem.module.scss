@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.hovered > .link {
+  color: theme-token("color.primary.600");
+}
+
 .selected:has(.selected) > .link {
   font-weight: design-token("font.weight.medium");
   color: theme-token("color.primary.700");

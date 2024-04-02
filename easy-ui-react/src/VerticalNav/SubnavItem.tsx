@@ -1,5 +1,5 @@
 import React from "react";
-import { mergeProps } from "react-aria";
+import { mergeProps, useHover } from "react-aria";
 import { ListState, Node } from "react-stately";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
@@ -26,9 +26,11 @@ export function SubnavItem(props: SubnavItemProps) {
     ...linkProps
   } = item.props as ItemPropsForStately;
   const isSelected = state.selectionManager.isSelected(item.key);
+  const { hoverProps, isHovered } = useHover({});
   const className = classNames(
     styles.SubnavItem,
     isSelected && styles.selected,
+    isHovered && styles.hovered,
   );
   if (icon) {
     throw new Error("icon is unsupported on <Subnav.Item />s");
@@ -38,7 +40,7 @@ export function SubnavItem(props: SubnavItemProps) {
       <As
         className={styles.link}
         aria-current={isSelected ? "true" : undefined}
-        {...mergeProps(linkProps)}
+        {...mergeProps(hoverProps, linkProps)}
       >
         {(type === "list" || level > 1) && (
           <SubnavItemDot isCozy={type === "list"} isVisible={isSelected} />
