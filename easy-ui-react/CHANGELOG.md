@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.34
+
+### Patch Changes
+
+- a591c03: fix(VerticalNav): add hover state to subnav items
+
 ## 1.0.0-alpha.33
 
 ### Patch Changes
