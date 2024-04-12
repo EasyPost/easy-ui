@@ -61,7 +61,7 @@
     "jsdom": "^24.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.74.1",
+    "sass": "^1.75.0",
     "vite-plugin-react-remove-attributes": "^1.0.3",
     "vite-plugin-static-copy": "^1.0.2"
   }
