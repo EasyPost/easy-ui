@@ -18,7 +18,7 @@ type SpaceScale = DesignTokenNamespace<"space">;
 
 export type CardBackground = "primary" | "secondary";
 export type CardVariant = "solid" | "outlined" | "flagged";
-export type CardStatus = "danger" | "warning" | "success";
+export type CardStatus = "danger" | "warning" | "success" | "neutral";
 export type CardPadding = ResponsiveProp<SpaceScale>;
 
 export type CardContainerProps = {

@@ -80,3 +80,11 @@ button.container:not([disabled]) {
     theme-token("color.positive.600")
   );
 }
+
+.statusNeutral {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.neutral.500")
+  );
+}
