@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.19
+
+### Minor Changes
+
+- 4fc95a0: Add package icon
+
 ## 1.0.0-alpha.18
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.35
+
+### Minor Changes
+
+- 1ae5bd2: feat: add neutral status to card component
+
+### Patch Changes
+
+- Updated dependencies [4fc95a0]
+  - @easypost/easy-ui-icons@1.0.0-alpha.19
+
 ## 1.0.0-alpha.34
 
 ### Patch Changes
