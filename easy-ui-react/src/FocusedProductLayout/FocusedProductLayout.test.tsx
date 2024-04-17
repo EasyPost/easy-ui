@@ -7,6 +7,7 @@ import {
   mockGetComputedStyle,
   mockIntersectionObserver,
   render,
+  userClick,
 } from "../utilities/test";
 import {
   FocusedProductLayout,
@@ -50,12 +51,15 @@ describe("<FocusedProductLayout />", () => {
       screen.getByRole("heading", { name: "Account Settings" }),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Back" }));
+    await userClick(user, screen.getByRole("button", { name: "Back" }));
     expect(handleBackArrowClick).toBeCalled();
 
-    await user.click(screen.getByRole("button", { name: "Help" }));
+    await userClick(user, screen.getByRole("button", { name: "Help" }));
     expect(screen.getByRole("menu")).toBeInTheDocument();
-    await user.click(screen.getByRole("menuitem", { name: "Documentation" }));
+    await userClick(
+      user,
+      screen.getByRole("menuitem", { name: "Documentation" }),
+    );
     expect(handleHelpMenuAction).toBeCalled();
   });
 
@@ -106,20 +110,20 @@ describe("<FocusedProductLayout />", () => {
     ).toBeInTheDocument();
     expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Next" }));
+    await userClick(user, screen.getByRole("button", { name: "Next" }));
     expect(handleNextAction).toBeCalled();
 
     const [, stepperBackButton] = screen.getAllByRole("button", {
       name: "Back",
     });
-    await user.click(stepperBackButton);
+    await userClick(user, stepperBackButton);
     expect(handlePreviousAction).toBeCalled();
 
     const stepButtons = getAllByRole(
       screen.getByTestId("focused-product-layout-wizard-content-stepper"),
       "button",
     );
-    await user.click(stepButtons[0]);
+    await userClick(user, stepButtons[0]);
     expect(handleStepPressAction).toBeCalled();
   });
 });

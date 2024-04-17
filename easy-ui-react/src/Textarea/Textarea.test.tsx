@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
-import { render } from "../utilities/test";
+import { render, userType } from "../utilities/test";
 import { Textarea } from "./Textarea";
 
 describe("<Textarea />", () => {
@@ -68,7 +68,7 @@ describe("<Textarea />", () => {
     );
     expect(screen.getByLabelText("label")).toHaveValue("test");
     const textField = screen.getByLabelText("label");
-    await user.type(textField, "value");
+    await userType(user, textField, "value");
     expect(handleChange).toBeCalled();
     expect(screen.getByLabelText("label")).toHaveAttribute(
       "data-custom-attribute",

@@ -5,6 +5,9 @@ import {
   mockGetComputedStyle,
   mockIntersectionObserver,
   render,
+  userClick,
+  userKeyboard,
+  userTab,
 } from "../utilities/test";
 import { TabPanels, TabPanelsProps } from "./TabPanels";
 
@@ -44,7 +47,7 @@ describe("<TabPanels />", () => {
     expect(
       screen.getByRole("tab", { name: "Monarchy and Republic" }),
     ).toHaveAttribute("aria-selected", "true");
-    await user.click(screen.getByRole("tab", { name: "Empire" }));
+    await userClick(user, screen.getByRole("tab", { name: "Empire" }));
     expect(onSelectionChange).toBeCalledWith("emp");
   });
 
@@ -73,11 +76,11 @@ describe("<TabPanels />", () => {
 
   it("should support automatic keyboard activation", async () => {
     const { user } = render(createDefaultTabPanels());
-    await user.tab();
+    await userTab(user);
     let tabs = screen.getAllByRole("tab");
     expect(tabs[0]).toHaveAttribute("aria-selected", "true");
 
-    await user.keyboard("{arrowright}");
+    await userKeyboard(user, "{arrowright}");
     tabs = screen.getAllByRole("tab");
     expect(tabs[1]).toHaveAttribute("aria-selected", "true");
   });
@@ -86,15 +89,15 @@ describe("<TabPanels />", () => {
     const { user } = render(
       createDefaultTabPanels({ keyboardActivation: "manual" }),
     );
-    await user.tab();
+    await userTab(user);
     let tabs = screen.getAllByRole("tab");
     expect(tabs[0]).toHaveAttribute("aria-selected", "true");
 
-    await user.keyboard("{arrowright}");
+    await userKeyboard(user, "{arrowright}");
     tabs = screen.getAllByRole("tab");
     expect(tabs[1]).toHaveAttribute("aria-selected", "false");
 
-    await user.keyboard("{enter}");
+    await userKeyboard(user, "{enter}");
     tabs = screen.getAllByRole("tab");
     expect(tabs[1]).toHaveAttribute("aria-selected", "true");
   });

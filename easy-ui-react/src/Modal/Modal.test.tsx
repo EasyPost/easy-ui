@@ -6,12 +6,14 @@ import {
   mockGetComputedStyle,
   mockIntersectionObserver,
   render,
+  userClick,
+  userKeyboard,
 } from "../utilities/test";
 import { Modal, ModalContainer, ModalProps, useModalTrigger } from "./Modal";
 import { ModalHeaderProps } from "./ModalHeader";
 import { ModalTriggerProps } from "./ModalTrigger";
 
-describe("<Modal />", () => {
+describe.only("<Modal />", () => {
   let restoreGetComputedStyle: () => void;
   let restoreIntersectionObserver: () => void;
 
@@ -37,7 +39,7 @@ describe("<Modal />", () => {
     });
 
     const openButton = screen.getByRole("button", { name: "Open modal" });
-    await user.click(openButton);
+    await userClick(user, openButton);
 
     expect(screen.getByText("Modal content")).toBeInTheDocument();
     expect(screen.getByText("H4 Title")).toBeInTheDocument();
@@ -48,14 +50,14 @@ describe("<Modal />", () => {
     const secondaryActionButton = screen.getByRole("button", {
       name: "Button 2",
     });
-    await user.click(secondaryActionButton);
+    await userClick(user, secondaryActionButton);
 
     expect(mocks.onSecondaryAction).toHaveBeenCalled();
 
     const primaryActionButton = screen.getByRole("button", {
       name: "Button 1",
     });
-    await user.click(primaryActionButton);
+    await userClick(user, primaryActionButton);
 
     expect(mocks.onPrimaryAction).toHaveBeenCalled();
     expect(mocks.onOpenChange).toHaveBeenCalledWith(false);
@@ -64,13 +66,13 @@ describe("<Modal />", () => {
   it("should be dismissable by close button", async () => {
     const [{ user }] = await renderAndOpenModal();
     const closeButton = screen.getByRole("button", { name: "Close modal" });
-    await user.click(closeButton);
+    await userClick(user, closeButton);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("should be dismissable by esc key", async () => {
     const [{ user }] = await renderAndOpenModal();
-    await user.keyboard("{Escape}");
+    await userKeyboard(user, "{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
@@ -79,7 +81,7 @@ describe("<Modal />", () => {
     expect(
       screen.queryByRole("button", { name: "Close modal" }),
     ).not.toBeInTheDocument();
-    await user.keyboard("{Escape}");
+    await userKeyboard(user, "{Escape}");
     expect(screen.queryByRole("dialog")).toBeInTheDocument();
   });
 
@@ -128,7 +130,8 @@ describe("<Modal />", () => {
     );
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 
-    await user.click(
+    await userClick(
+      user,
       screen.getByRole("button", { name: "Modal Action Button" }),
     );
     expect(handleDismiss).toBeCalled();
@@ -204,7 +207,7 @@ async function renderAndOpenModal(args = {}) {
   const response = renderModal(args);
   const [{ user }] = response;
   const openButton = screen.getByRole("button", { name: "Open modal" });
-  await user.click(openButton);
+  await userClick(user, openButton);
   expect(screen.queryByRole("dialog")).toBeInTheDocument();
   return response;
 }

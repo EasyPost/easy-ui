@@ -8,6 +8,7 @@ import {
   mockIntersectionObserver,
   mockMatchMedia,
   render,
+  userClick,
 } from "../utilities/test";
 import { ProductLayout } from "./ProductLayout";
 
@@ -50,7 +51,7 @@ describe("<ProductLayout />", () => {
       screen.getByRole("heading", { name: "Account Settings" }),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "CTA 1" }));
+    await userClick(user, screen.getByRole("button", { name: "CTA 1" }));
 
     expect(handlePrimaryAction).toBeCalled();
 
@@ -98,7 +99,7 @@ describe("<ProductLayout />", () => {
       screen.getByRole("navigation", { name: "Settings" }),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Tab 2" }));
+    await userClick(user, screen.getByRole("button", { name: "Tab 2" }));
 
     expect(handleTab2Click).toBeCalled();
 

@@ -2,7 +2,7 @@ import SearchIcon from "@easypost/easy-ui-icons/Search";
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
-import { render } from "../utilities/test";
+import { render, userType } from "../utilities/test";
 import { TextField } from "./TextField";
 
 describe("<TextField />", () => {
@@ -79,7 +79,7 @@ describe("<TextField />", () => {
     );
     expect(screen.getByLabelText("label")).toHaveValue("test");
     const textField = screen.getByLabelText("label");
-    await user.type(textField, "value");
+    await userType(user, textField, "value");
     expect(handleChange).toBeCalled();
     expect(screen.getByLabelText("label")).toHaveAttribute(
       "data-custom-attribute",

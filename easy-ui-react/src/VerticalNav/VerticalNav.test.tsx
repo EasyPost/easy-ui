@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
 import React from "react";
-import { render } from "../utilities/test";
+import { render, userClick } from "../utilities/test";
 import { ExpandableVerticalNav, VerticalNav } from "./VerticalNav";
 
 describe("<VerticalNav />", () => {
@@ -51,7 +51,7 @@ describe("<VerticalNav />", () => {
     );
     expect(screen.getByLabelText("Sidebar")).toBeInTheDocument();
     expect(screen.getByRole("button")).toBeInTheDocument();
-    await user.click(screen.getByRole("button"));
+    await userClick(user, screen.getByRole("button"));
     expect(handleClick).toBeCalled();
   });
 
@@ -70,7 +70,8 @@ describe("<VerticalNav />", () => {
       </VerticalNav>,
     );
     expect(screen.getByLabelText("Sidebar")).toBeInTheDocument();
-    await user.click(
+    await userClick(
+      user,
       screen.getByRole("button", { name: "Supplementary Action Button" }),
     );
     expect(handleClick).toBeCalled();
@@ -153,7 +154,7 @@ describe("<VerticalNav />", () => {
       "aria-current",
       "true",
     );
-    await user.click(screen.getAllByRole("button", { name: "Expand" })[0]);
+    await userClick(user, screen.getAllByRole("button", { name: "Expand" })[0]);
     expect(handleExpandedChange).toBeCalled();
   });
 });
