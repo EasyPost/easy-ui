@@ -13,7 +13,7 @@ import { Modal, ModalContainer, ModalProps, useModalTrigger } from "./Modal";
 import { ModalHeaderProps } from "./ModalHeader";
 import { ModalTriggerProps } from "./ModalTrigger";
 
-describe.only("<Modal />", () => {
+describe("<Modal />", () => {
   let restoreGetComputedStyle: () => void;
   let restoreIntersectionObserver: () => void;
 
