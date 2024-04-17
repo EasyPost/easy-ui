@@ -1,5 +1,5 @@
-import { render as renderWithTestingLib } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { act, render as renderWithTestingLib } from "@testing-library/react";
+import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ReactElement } from "react";
 import { vi } from "vitest";
 
@@ -89,4 +89,38 @@ export function silenceConsoleError() {
   return () => {
     mock.mockRestore();
   };
+}
+
+export async function userClick(user: UserEvent, element: Element) {
+  await act(async () => {
+    await user.click(element);
+  });
+}
+
+export async function userKeyboard(user: UserEvent, text: string) {
+  await act(async () => {
+    await user.keyboard(text);
+  });
+}
+
+export async function userHover(user: UserEvent, element: Element) {
+  await act(async () => {
+    await user.hover(element);
+  });
+}
+
+export async function userTab(user: UserEvent) {
+  await act(async () => {
+    await user.tab();
+  });
+}
+
+export async function userType(
+  user: UserEvent,
+  element: Element,
+  text: string,
+) {
+  await act(async () => {
+    await user.type(element, text);
+  });
 }

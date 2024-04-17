@@ -13,6 +13,7 @@ import {
   mockGetComputedStyle,
   mockIntersectionObserver,
   render,
+  userClick,
 } from "../utilities/test";
 import { DataGrid } from "./DataGrid";
 import { DataGridProps } from "./types";
@@ -140,10 +141,10 @@ describe("<DataGrid />", () => {
       }),
     );
 
-    await user.click(getByRole(getRow(1), "button", { name: "Actions" }));
+    await userClick(user, getByRole(getRow(1), "button", { name: "Actions" }));
     expect(screen.getByRole("menu")).toBeInTheDocument();
 
-    await user.click(screen.getByRole("menuitem", { name: "Action 1" }));
+    await userClick(user, screen.getByRole("menuitem", { name: "Action 1" }));
     expect(handleMenuAction).toBeCalled();
   });
 
@@ -157,7 +158,7 @@ describe("<DataGrid />", () => {
     );
     expect(getColumn("Name")).toHaveAccessibleDescription("sortable column");
 
-    await user.click(getColumn("Name"));
+    await userClick(user, getColumn("Name"));
     expect(handleSortChange).toBeCalledWith({
       column: "name",
       direction: "ascending",
@@ -172,7 +173,7 @@ describe("<DataGrid />", () => {
     );
     expect(getColumn("Name")).toHaveAttribute("aria-sort", "ascending");
 
-    await user.click(getColumn("Name"));
+    await userClick(user, getColumn("Name"));
     expect(handleSortChange).toBeCalledWith({
       column: "name",
       direction: "ascending",
@@ -277,13 +278,16 @@ function getCheckbox(key: Key) {
 async function selectRow(user: UserEvent, key: Key) {
   const row = getRow(key);
   const select = getByLabelText(row, "Select");
-  await user.click(select);
+  await userClick(user, select);
 }
 
 async function selectAll(user: UserEvent) {
-  await user.click(getByLabelText(getByRole(getHead(), "row"), "Select All"));
+  await userClick(
+    user,
+    getByLabelText(getByRole(getHead(), "row"), "Select All"),
+  );
 }
 
 async function expandRow(user: UserEvent, key: Key) {
-  await user.click(getByRole(getRow(key), "button", { name: "Expand" }));
+  await userClick(user, getByRole(getRow(key), "button", { name: "Expand" }));
 }

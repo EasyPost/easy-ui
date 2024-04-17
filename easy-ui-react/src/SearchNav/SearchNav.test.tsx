@@ -1,14 +1,17 @@
-import { act, screen } from "@testing-library/react";
-import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
+import Brightness5 from "@easypost/easy-ui-icons/Brightness5";
 import Campaign from "@easypost/easy-ui-icons/Campaign";
 import Help from "@easypost/easy-ui-icons/Help";
-import Brightness5 from "@easypost/easy-ui-icons/Brightness5";
+import { screen } from "@testing-library/react";
+import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React from "react";
 import { vi } from "vitest";
 import {
   mockGetComputedStyle,
   render,
   silenceConsoleError,
+  userClick,
+  userKeyboard,
+  userTab,
 } from "../utilities/test";
 import { SearchNav } from "./SearchNav";
 
@@ -183,16 +186,10 @@ function getSearchNav({ selectorProps = {} }) {
 }
 
 async function clickElement(user: UserEvent, el: HTMLElement) {
-  await act(async () => {
-    await user.click(el);
-    vi.runAllTimers();
-  });
+  await userClick(user, el);
 }
 
 async function tabToAndEnterKeySelectTrigger(user: UserEvent) {
-  await act(async () => {
-    await user.tab();
-    await user.keyboard("{enter}");
-    vi.runAllTimers();
-  });
+  await userTab(user);
+  await userKeyboard(user, "{enter}");
 }

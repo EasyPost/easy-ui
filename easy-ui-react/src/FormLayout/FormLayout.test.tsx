@@ -4,7 +4,7 @@ import { vi } from "vitest";
 import { Button } from "../Button";
 import { HorizontalStack } from "../HorizontalStack";
 import { TextField } from "../TextField";
-import { render } from "../utilities/test";
+import { render, userClick } from "../utilities/test";
 import { FormLayout } from "./FormLayout";
 
 describe("<FormLayout />", () => {
@@ -144,7 +144,7 @@ describe("<FormLayout />", () => {
     ).toBeInTheDocument();
     expect(screen.getAllByRole("textbox").length).toBe(12);
 
-    await user.click(screen.getByRole("button", { name: "Submit" }));
+    await userClick(user, screen.getByRole("button", { name: "Submit" }));
     expect(handleSubmit).toHaveBeenCalled();
   });
 });

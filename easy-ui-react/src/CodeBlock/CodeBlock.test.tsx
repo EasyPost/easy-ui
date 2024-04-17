@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
-import { mockGetComputedStyle, render } from "../utilities/test";
+import { mockGetComputedStyle, render, userClick } from "../utilities/test";
 import { CodeBlock } from "./CodeBlock";
 
 describe("<CodeBlock />", () => {
@@ -42,7 +42,7 @@ describe("<CodeBlock />", () => {
     });
 
     const copyBtn = screen.getByRole("button", { name: /copy code/i });
-    await user.click(copyBtn);
+    await userClick(user, copyBtn);
 
     expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
       "hello javascript",
@@ -76,10 +76,10 @@ describe("<CodeBlock />", () => {
     expect(screen.getByText("hello php")).toBeInTheDocument();
 
     const menuBtn = screen.getByRole("button", { name: /php/i });
-    await user.click(menuBtn);
+    await userClick(user, menuBtn);
 
     const itemBtn = screen.getByRole("menuitem", { name: /node.js/i });
-    await user.click(itemBtn);
+    await userClick(user, itemBtn);
 
     expect(handleLanguageChange).toBeCalledWith("javascript");
   });

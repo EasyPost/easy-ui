@@ -3,7 +3,7 @@ import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React from "react";
 import { vi } from "vitest";
 import { hoverOverTooltipTrigger } from "../Tooltip/Tooltip.test";
-import { render } from "../utilities/test";
+import { render, userClick } from "../utilities/test";
 import { Checkbox } from "./Checkbox";
 
 describe("<Checkbox />", () => {
@@ -95,5 +95,5 @@ describe("<Checkbox />", () => {
 });
 
 export async function selectCheckbox(user: UserEvent, el: HTMLElement) {
-  await user.click(el);
+  await userClick(user, el);
 }

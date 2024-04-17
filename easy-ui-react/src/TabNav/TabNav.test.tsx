@@ -5,6 +5,7 @@ import {
   mockGetComputedStyle,
   mockIntersectionObserver,
   render,
+  userClick,
 } from "../utilities/test";
 import { TabNav } from "./TabNav";
 
@@ -63,7 +64,7 @@ describe("<TabNav />", () => {
       </TabNav>,
     );
     expect(screen.getByRole("button", { name: "Tab 1" })).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Tab 1" }));
+    await userClick(user, screen.getByRole("button", { name: "Tab 1" }));
     expect(onClick).toBeCalled();
   });
 });

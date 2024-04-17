@@ -2,7 +2,7 @@ import { act, fireEvent, screen } from "@testing-library/react";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React from "react";
 import { vi } from "vitest";
-import { render } from "../utilities/test";
+import { render, userHover, userTab } from "../utilities/test";
 import { Tooltip } from "./Tooltip";
 
 describe("<Tooltip />", () => {
@@ -98,7 +98,7 @@ export async function hoverOverTooltipTrigger(
 ) {
   fireEvent.mouseMove(document.body);
   await act(async () => {
-    await user.hover(el);
+    await userHover(user, el);
     if (runTimers) {
       vi.runAllTimers();
     }
@@ -107,7 +107,7 @@ export async function hoverOverTooltipTrigger(
 
 async function tabToTooltipTrigger(user: UserEvent, { runTimers = true } = {}) {
   await act(async () => {
-    await user.tab();
+    await userTab(user);
     if (runTimers) {
       vi.runAllTimers();
     }
