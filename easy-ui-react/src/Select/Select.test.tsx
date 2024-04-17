@@ -1,8 +1,14 @@
-import { act, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React from "react";
 import { vi } from "vitest";
-import { mockGetComputedStyle, render } from "../utilities/test";
+import {
+  mockGetComputedStyle,
+  render,
+  userClick,
+  userKeyboard,
+  userTab,
+} from "../utilities/test";
 import { Select } from "./Select";
 
 describe("<Select />", () => {
@@ -114,16 +120,10 @@ function getSelect({
 }
 
 async function clickElement(user: UserEvent, el: HTMLElement) {
-  await act(async () => {
-    await user.click(el);
-    vi.runAllTimers();
-  });
+  await userClick(user, el);
 }
 
 async function tabToAndEnterKeySelectTrigger(user: UserEvent) {
-  await act(async () => {
-    await user.tab();
-    await user.keyboard("{enter}");
-    vi.runAllTimers();
-  });
+  await userTab(user);
+  await userKeyboard(user, "{enter}");
 }

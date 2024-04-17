@@ -1,9 +1,9 @@
-import { act, screen } from "@testing-library/react";
-import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import SearchIcon from "@easypost/easy-ui-icons/Search";
+import { screen } from "@testing-library/react";
+import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import React from "react";
 import { vi } from "vitest";
-import { render } from "../utilities/test";
+import { render, userType } from "../utilities/test";
 import { InputField } from "./InputField";
 
 describe("<InputField />", () => {
@@ -105,8 +105,5 @@ describe("<InputField />", () => {
 });
 
 export async function type(user: UserEvent, el: HTMLElement, phrase: string) {
-  await act(async () => {
-    await user.type(el, phrase);
-    vi.runAllTimers();
-  });
+  await userType(user, el, phrase);
 }

@@ -103,6 +103,12 @@ export async function userKeyboard(user: UserEvent, text: string) {
   });
 }
 
+export async function userHover(user: UserEvent, element: Element) {
+  await act(async () => {
+    await user.hover(element);
+  });
+}
+
 export async function userTab(user: UserEvent) {
   await act(async () => {
     await user.tab();

@@ -9,7 +9,7 @@ import {
   NotificationProvider,
 } from "./Notification";
 import { TOAST_TIMEOUT_DURATION } from "./NotificationQueue";
-import { mockGetComputedStyle, render } from "../utilities/test";
+import { mockGetComputedStyle, render, userClick } from "../utilities/test";
 
 describe("<Notification />", () => {
   let restoreGetComputedStyle: () => void;
@@ -130,10 +130,7 @@ describe("<Notification />", () => {
 });
 
 async function clickNotification(user: UserEvent, el: HTMLElement) {
-  await act(async () => {
-    await user.click(el);
-    vi.runAllTimers();
-  });
+  await userClick(user, el);
 }
 
 function SimulatedNotificationTrigger(props: NotificationProps) {
