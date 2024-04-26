@@ -54,7 +54,7 @@
     "@storybook/addon-mdx-gfm": "^7.6.17",
     "@storybook/blocks": "^7.6.17",
     "@storybook/manager-api": "^7.6.17",
-    "@storybook/react": "^7.6.17",
+    "@storybook/react": "^7.6.18",
     "@storybook/react-vite": "^7.6.17",
     "@storybook/testing-library": "^0.2.2",
     "babel-loader": "^9.1.3",
