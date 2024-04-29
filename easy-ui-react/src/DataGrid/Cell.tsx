@@ -1,6 +1,7 @@
 import { GridNode } from "@react-types/grid";
-import React, { Key, useRef } from "react";
+import React, { useRef } from "react";
 import {
+  Key,
   mergeProps,
   useFocusRing,
   useTableCell,

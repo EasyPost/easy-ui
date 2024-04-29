@@ -1,4 +1,5 @@
-import React, { Key, useCallback, useMemo, useState } from "react";
+import { Key } from "@react-types/shared";
+import React, { useCallback, useMemo, useState } from "react";
 import { Cell, Column, Row, TableBody, TableHeader } from "react-stately";
 import { ActionsCellContent } from "./ActionsCellContent";
 import { ExpandCellContent } from "./ExpandCellContent";

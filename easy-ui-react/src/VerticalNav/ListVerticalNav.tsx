@@ -1,4 +1,5 @@
-import React, { Key } from "react";
+import React from "react";
+import { Key } from "react-aria";
 import { ListProps, ListState, Node, useListState } from "react-stately";
 import { classNames, variationName } from "../utilities/css";
 import { Container } from "./Container";

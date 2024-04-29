@@ -1,5 +1,5 @@
-import { CollectionChildren } from "@react-types/shared";
-import React, { Key } from "react";
+import { CollectionChildren, Key } from "@react-types/shared";
+import React from "react";
 import {
   DismissButton,
   Overlay,

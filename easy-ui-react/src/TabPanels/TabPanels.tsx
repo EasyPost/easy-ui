@@ -1,5 +1,5 @@
-import { AriaLabelingProps } from "@react-types/shared";
-import React, { Key, ReactNode, useMemo, useState } from "react";
+import { AriaLabelingProps, Key } from "@react-types/shared";
+import React, { ReactNode, useMemo, useState } from "react";
 import { TabListState } from "react-stately";
 import { TabPanelsItem } from "./TabPanelsItem";
 import { TabPanelsPanels } from "./TabPanelsPanels";

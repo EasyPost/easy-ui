@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import CalendarMonthIcon from "@easypost/easy-ui-icons/CalendarMonth";
-import React, { Key } from "react";
+import React from "react";
+import { Key } from "react-aria";
 import { InputDecorator } from "../utilities/storybook";
 import { Select, SelectProps } from "./Select";
 
