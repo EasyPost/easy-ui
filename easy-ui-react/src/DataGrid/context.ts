@@ -1,10 +1,5 @@
-import {
-  Dispatch,
-  Key,
-  SetStateAction,
-  createContext,
-  useContext,
-} from "react";
+import { Dispatch, SetStateAction, createContext, useContext } from "react";
+import { Key } from "react-aria";
 import { DataGridProps } from "./types";
 
 type DataGridContextType = {

@@ -1,10 +1,11 @@
 import {
   AriaLabelingProps,
+  Key,
   Selection,
   SelectionMode,
   SortDescriptor,
 } from "@react-types/shared";
-import { Key, ReactNode } from "react";
+import { ReactNode } from "react";
 import { IconSymbol } from "../types";
 
 /** Denote that an object must contain a key. */

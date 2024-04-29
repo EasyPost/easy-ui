@@ -1,4 +1,5 @@
-import React, { Key, createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext, useMemo } from "react";
+import { Key } from "react-aria";
 import { ListProps, useListState } from "react-stately";
 import { SubnavItem } from "./SubnavItem";
 
