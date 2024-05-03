@@ -64,7 +64,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.2.0",
     "storybook": "^7.6.18",
-    "stylelint": "^16.4.0",
+    "stylelint": "^16.5.0",
     "turbo": "^1.13.3",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
