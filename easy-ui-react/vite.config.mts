@@ -45,7 +45,7 @@ export default defineConfig({
       ]),
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "@react-aria/ssr"],
       output: [
         {
           format: "cjs",
