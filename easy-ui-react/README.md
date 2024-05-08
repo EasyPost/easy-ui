@@ -79,6 +79,10 @@ ReactDOM.render(
 );
 ```
 
+### Server Rendering
+
+When server rendering an app that uses Easy UI and React <18, your app must be wrapped with a single instance of React Aria's `SSRProvider`. If an app is using an additional version of React Aria, ensure there's only one version of `@react-aria/ssr` using NPM's `overrides` or Yarn's `resolutions` property.
+
 ## Development
 
 We use Storybook to create a simple, hot-reloading playground for development on these components.
