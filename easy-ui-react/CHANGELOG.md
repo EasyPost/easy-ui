@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.36
+
+### Patch Changes
+
+- 45cfcef: fix: exclude SSRProvider from build
+
 ## 1.0.0-alpha.35
 
 ### Minor Changes
