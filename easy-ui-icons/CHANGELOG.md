@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.20
+
+### Minor Changes
+
+- 1274507: Add verified_user, location_searching, ballot, leaderboard, barcode_reader, storefront, webhook, and handshake icons
+
 ## 1.0.0-alpha.19
 
 ### Minor Changes
