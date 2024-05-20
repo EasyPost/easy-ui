@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.21
+
+### Minor Changes
+
+- 52a1677: Add schema icon
+
 ## 1.0.0-alpha.20
 
 ### Minor Changes
