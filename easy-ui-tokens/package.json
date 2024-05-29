@@ -23,7 +23,7 @@
     "dev": "nodemon --watch src --watch config.js --exec 'npm run build'"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.2",
     "style-dictionary": "^3.9.2"
   }
 }
