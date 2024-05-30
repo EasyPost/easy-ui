@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.6",
-    "@changesets/cli": "^2.27.3",
+    "@changesets/cli": "^2.27.5",
     "@storybook/addon-a11y": "7.6.19",
     "@storybook/addon-essentials": "7.6.19",
     "@storybook/blocks": "7.6.19",
