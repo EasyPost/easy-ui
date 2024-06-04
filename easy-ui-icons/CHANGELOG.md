@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.22
+
+### Minor Changes
+
+- e3e071f: Add settings icon
+
 ## 1.0.0-alpha.21
 
 ### Minor Changes
