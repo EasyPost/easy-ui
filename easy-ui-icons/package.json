@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@material-symbols/svg-300": "^0.19.0",
-    "@material-symbols/svg-400": "^0.19.0",
+    "@material-symbols/svg-400": "^0.20.0",
     "@material-symbols/svg-600": "^0.20.0",
     "@svgr/cli": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
