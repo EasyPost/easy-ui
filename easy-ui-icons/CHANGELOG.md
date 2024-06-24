@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.23
+
+### Minor Changes
+
+- 89c5ba0: Add local_police icon
+
 ## 1.0.0-alpha.22
 
 ### Minor Changes
