@@ -24,6 +24,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.4",
-    "style-dictionary": "^3.9.2"
+    "style-dictionary": "^4.0.0"
   }
 }
