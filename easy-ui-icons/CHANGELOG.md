@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.24
+
+### Minor Changes
+
+- 5b096f9: Add cancel icon
+
 ## 1.0.0-alpha.23
 
 ### Minor Changes
