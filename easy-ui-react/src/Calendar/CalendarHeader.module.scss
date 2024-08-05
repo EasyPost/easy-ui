@@ -1,0 +1,9 @@
+@use "../styles/common" as *;
+
+.CalendarHeader {
+  width: 100%;
+  background-color: design-token("color.primary.800");
+  border-top-left-radius: design-token("shape.border_radius.lg");
+  border-top-right-radius: design-token("shape.border_radius.lg");
+  padding: design-token("space.1");
+}

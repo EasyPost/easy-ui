@@ -1,0 +1,56 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { Calendar } from "./Calendar";
+import * as CalendarStories from "./Calendar.stories";
+
+<Meta of={CalendarStories} />
+
+# Calendar
+
+Calendar display a grid of days and allow users to select a single date.
+
+<Canvas of={CalendarStories.Default}/>
+
+## Default Value
+
+A `<Calendar />` component allows users to set default selected date (uncontrolled).
+
+<Canvas of={CalendarStories.DefaultValue}/>
+
+## Set minimum and maximun value
+
+Set minimum and maximum allowed date that a user may select. Dates outside the minimum and maximum value is disabled.
+
+<Canvas of={CalendarStories.LimitAvailableDates}/>
+
+## Set Date Availability
+
+Callback that is called for each date of the calendar. If it returns true, then the date is unavailable.
+
+<Canvas of={CalendarStories.DatesAvailability}/>
+
+## Disabled Calendar
+
+Use `isDisabled` to disabled the calendar entirely.
+
+<Canvas of={CalendarStories.DisabledCalendar} />
+
+<Controls of={CalendarStories.DisabledCalendar} include={["isDisabled"]} />
+
+## Read-Only Calendar
+
+Use `isReadOnly` to make the calendar immutable.
+
+<Canvas of={CalendarStories.ReadonlyCalendar} />
+
+<Controls of={CalendarStories.ReadonlyCalendar} include={["isReadOnly"]} />
+
+## Controlled Selection
+
+For controlled selection, use `onChange` and `value`. Uncontrolled selection is possible with `defaultValue`. See associated code snippet.
+
+<Canvas of={CalendarStories.ControlledSelection} />
+
+## Properties
+
+<ArgTypes of={Calendar} />

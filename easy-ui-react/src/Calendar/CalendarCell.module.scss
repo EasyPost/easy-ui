@@ -1,0 +1,44 @@
+@use "../styles/common" as *;
+
+.CellContainer {
+  padding: design-token("space.1.5") design-token("space.1");
+}
+
+.CalendarCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  border-radius: design-token("shape.border_radius.lg");
+  &:focus-visible {
+    outline: unset;
+  }
+  span {
+    color: design-token("color.primary.800");
+  }
+
+  &:hover:not(.isUnavailable, .isSelected, .isDisabled) {
+    background-color: design-token("color.primary.100");
+  }
+
+  &.isUnavailable,
+  &.isDisabled {
+    cursor: not-allowed;
+  }
+}
+
+.isSelected {
+  background-color: design-token("color.primary.500");
+  @include native-focus-ring;
+  span {
+    color: design-token("color.neutral.000");
+  }
+}
+
+.isOutsideCurrentMonth {
+  span {
+    color: design-token("color.neutral.300");
+  }
+}
