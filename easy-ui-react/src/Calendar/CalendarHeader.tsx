@@ -34,8 +34,14 @@ export type CalendarHeaderProps = {
 export function CalendarHeader({
   title,
   calendarProps,
-  prevButtonProps,
-  nextButtonProps,
+  prevButtonProps: {
+    onFocusChange: _onFocusChangePrevButton,
+    ...restPrevButtonProps
+  },
+  nextButtonProps: {
+    onFocusChange: _onFocusChangeNextButton,
+    ...restNextButtonProps
+  },
 }: CalendarHeaderProps) {
   return (
     <div className={styles.CalendarHeader}>
@@ -43,13 +49,13 @@ export function CalendarHeader({
         <h2>{calendarProps["aria-label"]}</h2>
       </VisuallyHidden>
       <HorizontalStack align="space-between" blockAlign="center">
-        <UnstyledButton {...prevButtonProps}>
+        <UnstyledButton {...restPrevButtonProps}>
           <Icon symbol={DoubleArrowLeftIcon} color="neutral.000" />
         </UnstyledButton>
         <Text variant="subtitle2" color="neutral.000">
           {title}
         </Text>
-        <UnstyledButton {...nextButtonProps}>
+        <UnstyledButton {...restNextButtonProps}>
           <Icon symbol={DoubleArrowRightIcon} color="neutral.000" />
         </UnstyledButton>
       </HorizontalStack>
