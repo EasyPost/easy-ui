@@ -31,6 +31,7 @@ export type CalendarHeaderProps = {
    */
   nextButtonProps: AriaButtonProps;
 };
+
 export function CalendarHeader({
   title,
   calendarProps,

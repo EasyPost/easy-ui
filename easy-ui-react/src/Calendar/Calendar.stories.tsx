@@ -21,7 +21,7 @@ const meta: Meta<typeof Calendar> = {
   args: {
     isDisabled: false,
     isReadOnly: false,
-    showOutsideDays: false,
+    showDaysOutsideCurrentMonth: false,
   },
   parameters: {
     controls: {
@@ -63,7 +63,7 @@ export const DatesAvailability: Story = {
   render: () => (
     // Date before today is unavailable
     <Calendar
-      showOutsideDays
+      showDaysOutsideCurrentMonth
       isDateUnavailable={(date: DateValue) =>
         today(getLocalTimeZone()).compare(date) > 0
       }
@@ -71,10 +71,10 @@ export const DatesAvailability: Story = {
   ),
 };
 
-export const ShowOutsideDays: Story = {
+export const showDaysOutsideCurrentMonth: Story = {
   render: Template.bind({}),
   args: {
-    showOutsideDays: true,
+    showDaysOutsideCurrentMonth: true,
   },
 };
 

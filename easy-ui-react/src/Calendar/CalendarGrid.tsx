@@ -12,12 +12,12 @@ export type CalendarGridProps = {
   startDate?: CalendarDate;
   endDate?: CalendarDate;
   weekdayStyle?: "narrow" | "short" | "long";
-  showOutsideDays?: boolean;
+  showDaysOutsideCurrentMonth?: boolean;
 };
 
 export function CalendarGrid({ state, ...props }: CalendarGridProps) {
   const { locale } = useLocale();
-  const { showOutsideDays } = props;
+  const { showDaysOutsideCurrentMonth } = props;
   const { gridProps, headerProps, weekDays } = useCalendarGrid(props, state);
 
   const firstDateOfMonth = state.visibleRange.start;
@@ -45,7 +45,8 @@ export function CalendarGrid({ state, ...props }: CalendarGridProps) {
               .getDatesInWeek(weekIndex)
               .map((date: CalendarDate | null, i: number) =>
                 date &&
-                (isSameMonth(firstDateOfMonth, date) || showOutsideDays) ? (
+                (isSameMonth(firstDateOfMonth, date) ||
+                  showDaysOutsideCurrentMonth) ? (
                   <CalendarCell key={i} state={state} date={date} />
                 ) : (
                   <td key={i} />

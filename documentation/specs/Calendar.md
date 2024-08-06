@@ -66,6 +66,19 @@ type CalendarProps = {
    * it returns true, then the date is unavailable.
    */
   isDateUnavailable?: (date: DateValue) => boolean;
+  /**
+   * Whether the current selection is invalid according to application logic.
+   */
+  isInvalid?: boolean;
+  /**
+   * An error message to display when the selected value is invalid.
+   */
+  errorMessage?: ReactNode;
+  /**
+   * Display the days falling into the other months.
+   * @default false
+   */
+  showDaysOutsideCurrentMonth?: boolean;
 };
 ```
 
@@ -147,7 +160,7 @@ _Show date outside current month:_
 import { Calendar } from "@easypost/easy-ui/Calendar";
 
 function Component() {
-  return <Calendar showOutsideDays />;
+  return <Calendar showDaysOutsideCurrentMonth />;
 }
 ```
 

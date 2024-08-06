@@ -32,13 +32,15 @@ export function CalendarCell({ state, date }: CalendarCellProps) {
 
   const handleMonthNavigation = () => {
     if (state.isDisabled) return;
-    if (isNextMonth) {
+    if (isNextMonth && !isUnavailable) {
       state.focusNextPage();
     }
-    if (isPreviousMonth) {
+    if (isPreviousMonth && !isUnavailable) {
       state.focusPreviousPage();
     }
-    state.setValue(date);
+    if (!state.isInvalid(date)) {
+      state.setValue(date);
+    }
   };
   return (
     <td {...cellProps} className={styles.CellContainer}>
@@ -50,6 +52,7 @@ export function CalendarCell({ state, date }: CalendarCellProps) {
           isSelected && styles.isSelected,
           isDisabled && styles.isDisabled,
           isUnavailable && styles.isUnavailable,
+          state.isReadOnly && styles.isReadOnly,
           isOutsideVisibleRange && styles.isOutsideCurrentMonth,
         )}
         onClick={handleMonthNavigation}

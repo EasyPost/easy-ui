@@ -1,7 +1,7 @@
 import React from "react";
 import { vi } from "vitest";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
-import { screen, fireEvent } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { CalendarDate } from "@internationalized/date";
 import { DateValue } from "@react-types/calendar";
 import { render, userClick } from "../utilities/test";
@@ -15,6 +15,7 @@ describe("<Calendar />", () => {
   afterEach(() => {
     vi.useRealTimers();
   });
+
   it("should render calendar", () => {
     render(<Calendar />);
     expect(screen.getByText("13")).toBeInTheDocument();
@@ -30,7 +31,7 @@ describe("<Calendar />", () => {
     );
   });
 
-  it("should has minimum and maximun date that a user may select", () => {
+  it("should have minimum and maximun date that a user may select", () => {
     render(
       <Calendar
         minValue={new CalendarDate(2024, 7, 4)}
@@ -52,7 +53,7 @@ describe("<Calendar />", () => {
       <Calendar
         isDateUnavailable={setDateUnavailable}
         defaultValue={new CalendarDate(2024, 7, 4)}
-        showOutsideDays
+        showDaysOutsideCurrentMonth
       />,
     );
     expect(
@@ -76,16 +77,18 @@ describe("<Calendar />", () => {
     expect(screen.getByRole("grid")).toHaveAttribute("aria-readonly");
   });
 
-  it("should navigate to next and previous month", () => {
-    render(<Calendar defaultValue={new CalendarDate(2024, 7, 4)} />);
+  it("should navigate to next and previous month", async () => {
+    const { user } = render(
+      <Calendar defaultValue={new CalendarDate(2024, 7, 4)} />,
+    );
     expect(
       screen.getByRole("heading", { name: "July 2024" }),
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    await clickElement(user, screen.getByRole("button", { name: "Next" }));
     expect(
       screen.getByRole("heading", { name: "August 2024" }),
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+    await clickElement(user, screen.getByRole("button", { name: "Previous" }));
     expect(
       screen.getByRole("heading", { name: "July 2024" }),
     ).toBeInTheDocument();
@@ -108,7 +111,10 @@ describe("<Calendar />", () => {
 
   it("should show dates outside current month", async () => {
     render(
-      <Calendar showOutsideDays defaultValue={new CalendarDate(2024, 7, 4)} />,
+      <Calendar
+        showDaysOutsideCurrentMonth
+        defaultValue={new CalendarDate(2024, 7, 4)}
+      />,
     );
     expect(
       screen.getByRole("button", { name: "Sunday, June 30, 2024" }),

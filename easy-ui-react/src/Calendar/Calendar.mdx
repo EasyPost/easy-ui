@@ -7,7 +7,7 @@ import * as CalendarStories from "./Calendar.stories";
 
 # Calendar
 
-Calendar display a grid of days and allow users to select a single date.
+Calendar displays a grid of days and allows users to select a single date.
 
 <Canvas of={CalendarStories.Default} />
 
@@ -17,9 +17,9 @@ A `<Calendar />` component allows users to set default selected date (uncontroll
 
 <Canvas of={CalendarStories.DefaultValue} />
 
-## Set minimum and maximun value
+## Set minimum and maximum value
 
-Set minimum and maximum allowed date that a user may select. Dates outside the minimum and maximum value is disabled, and unreachable
+Set minimum and maximum allowed date that a user may select. Dates outside the minimum and maximum value are disabled and unreachable.
 
 <Canvas of={CalendarStories.LimitAvailableDates} />
 
@@ -27,13 +27,16 @@ Set minimum and maximum allowed date that a user may select. Dates outside the m
 
 Display the days falling into the other months.
 
-<Canvas of={CalendarStories.ShowOutsideDays} />
+<Canvas of={CalendarStories.showDaysOutsideCurrentMonth} />
 
-<Controls of={CalendarStories.ShowOutsideDays} include={["showOutsideDays"]} />
+<Controls
+  of={CalendarStories.showDaysOutsideCurrentMonth}
+  include={["showDaysOutsideCurrentMonth"]}
+/>
 
 ## Set Date Availability
 
-Callback that is called for each date of the calendar. If it returns true, then the date is unavailable.
+Callback that is called for each date of the calendar. If it returns `true`, then the date is unavailable.
 
 <Canvas of={CalendarStories.DatesAvailability} />
 
@@ -45,7 +48,7 @@ Use `isDisabled` to disabled the calendar entirely.
 
 <Controls
   of={CalendarStories.DisabledCalendar}
-  include={["isDisabled", "showOutsideDays"]}
+  include={["isDisabled", "showDaysOutsideCurrentMonth"]}
 />
 
 ## Read-Only Calendar
@@ -56,7 +59,7 @@ Use `isReadOnly` to make the calendar immutable.
 
 <Controls
   of={CalendarStories.ReadonlyCalendar}
-  include={["isReadOnly", "showOutsideDays"]}
+  include={["isReadOnly", "showDaysOutsideCurrentMonth"]}
 />
 
 ## Controlled Selection
@@ -67,7 +70,7 @@ For controlled selection, use `onChange` and `value`. Uncontrolled selection is 
 
 ## Invalid Selection
 
-An error message display when the selected value is invalid according to application logic.
+An error message is displayed when the selected value is invalid according to application logic. Select a weekend date to see an invalid selection.
 
 <Canvas of={CalendarStories.InvalidSelection} />
 

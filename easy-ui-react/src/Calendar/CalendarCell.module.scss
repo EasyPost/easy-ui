@@ -5,35 +5,43 @@
 }
 
 .CalendarCell {
+  @include component-token("calendar-cell", "space", design-token("space.4-5"));
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
+  width: component-token("calendar-cell", "space");
+  height: component-token("calendar-cell", "space");
   cursor: pointer;
   border-radius: design-token("shape.border_radius.lg");
-  &:focus-visible {
-    outline: unset;
-  }
   span {
     color: design-token("color.primary.800");
   }
+  :focus-visible {
+    @include native-focus-ring;
+  }
 
-  &:hover:not(.isUnavailable, .isSelected, .isDisabled) {
+  &:hover:not(.isUnavailable, .isSelected, .isDisabled, .isReadOnly) {
+    background-color: design-token("color.primary.100");
+  }
+
+  &.isOutsideCurrentMonth:hover:not(.isUnavailable) {
+    cursor: pointer;
     background-color: design-token("color.primary.100");
   }
 
   &.isOutsideCurrentMonth,
   &.isDisabled {
-    cursor: default;
     span {
       color: design-token("color.neutral.300");
     }
   }
 
+  &.isDisabled {
+    cursor: default;
+  }
+
   &.isSelected {
     background-color: design-token("color.primary.500");
-    @include native-focus-ring;
     span {
       color: design-token("color.neutral.000");
     }

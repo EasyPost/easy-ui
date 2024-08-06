@@ -57,12 +57,16 @@ export type CalendarProps = {
    * Display the days falling into the other months.
    * @default false
    */
-  showOutsideDays?: boolean;
+  showDaysOutsideCurrentMonth?: boolean;
 };
 
 export function Calendar(props: CalendarProps) {
   const { locale } = useLocale();
-  const { showOutsideDays = false, isInvalid, errorMessage } = props;
+  const {
+    showDaysOutsideCurrentMonth = false,
+    isInvalid,
+    errorMessage,
+  } = props;
   const state = useCalendarState({
     ...props,
     locale,
@@ -80,7 +84,10 @@ export function Calendar(props: CalendarProps) {
           prevButtonProps={prevButtonProps}
           nextButtonProps={nextButtonProps}
         />
-        <CalendarGrid state={state} showOutsideDays={showOutsideDays} />
+        <CalendarGrid
+          state={state}
+          showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
+        />
       </div>
       {isInvalid && (
         <Text color="negative.500" variant="caption">
