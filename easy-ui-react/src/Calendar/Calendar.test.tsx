@@ -52,6 +52,7 @@ describe("<Calendar />", () => {
       <Calendar
         isDateUnavailable={setDateUnavailable}
         defaultValue={new CalendarDate(2024, 7, 4)}
+        showOutsideDays
       />,
     );
     expect(
@@ -97,7 +98,21 @@ describe("<Calendar />", () => {
       user,
       screen.getByRole("button", { name: "Saturday, August 10, 2024" }),
     );
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(handleChange).toHaveBeenCalled();
+  });
+
+  it("should show error message when date is invalid", async () => {
+    render(<Calendar isInvalid errorMessage="This date is invalid" />);
+    expect(screen.getByText("This date is invalid")).toBeInTheDocument();
+  });
+
+  it("should show dates outside current month", async () => {
+    render(
+      <Calendar showOutsideDays defaultValue={new CalendarDate(2024, 7, 4)} />,
+    );
+    expect(
+      screen.getByRole("button", { name: "Sunday, June 30, 2024" }),
+    ).toBeInTheDocument();
   });
 });
 

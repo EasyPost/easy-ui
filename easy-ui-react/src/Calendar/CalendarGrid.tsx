@@ -2,7 +2,7 @@ import React from "react";
 import { useCalendarGrid, useLocale } from "react-aria";
 import { getWeeksInMonth } from "@internationalized/date";
 import { CalendarState } from "@react-stately/calendar";
-import { CalendarDate } from "@internationalized/date";
+import { CalendarDate, isSameMonth } from "@internationalized/date";
 import { Text } from "../Text";
 import { CalendarCell } from "./CalendarCell";
 import styles from "./CalendarGrid.module.scss";
@@ -12,14 +12,18 @@ export type CalendarGridProps = {
   startDate?: CalendarDate;
   endDate?: CalendarDate;
   weekdayStyle?: "narrow" | "short" | "long";
+  showOutsideDays?: boolean;
 };
 
 export function CalendarGrid({ state, ...props }: CalendarGridProps) {
   const { locale } = useLocale();
+  const { showOutsideDays } = props;
   const { gridProps, headerProps, weekDays } = useCalendarGrid(props, state);
 
+  const firstDateOfMonth = state.visibleRange.start;
+
   // Get the number of weeks in the month so we can render the proper number of rows.
-  const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale);
+  const weeksInMonth = getWeeksInMonth(firstDateOfMonth, locale);
 
   return (
     <table {...gridProps} className={styles.CalendarGrid}>
@@ -40,7 +44,8 @@ export function CalendarGrid({ state, ...props }: CalendarGridProps) {
             {state
               .getDatesInWeek(weekIndex)
               .map((date: CalendarDate | null, i: number) =>
-                date ? (
+                date &&
+                (isSameMonth(firstDateOfMonth, date) || showOutsideDays) ? (
                   <CalendarCell key={i} state={state} date={date} />
                 ) : (
                   <td key={i} />

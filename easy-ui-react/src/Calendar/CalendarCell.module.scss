@@ -23,22 +23,26 @@
     background-color: design-token("color.primary.100");
   }
 
-  &.isUnavailable,
+  &.isOutsideCurrentMonth,
   &.isDisabled {
+    cursor: default;
+    span {
+      color: design-token("color.neutral.300");
+    }
+  }
+
+  &.isSelected {
+    background-color: design-token("color.primary.500");
+    @include native-focus-ring;
+    span {
+      color: design-token("color.neutral.000");
+    }
+  }
+
+  &.isUnavailable {
     cursor: not-allowed;
-  }
-}
-
-.isSelected {
-  background-color: design-token("color.primary.500");
-  @include native-focus-ring;
-  span {
-    color: design-token("color.neutral.000");
-  }
-}
-
-.isOutsideCurrentMonth {
-  span {
-    color: design-token("color.neutral.300");
+    span {
+      text-decoration: line-through;
+    }
   }
 }

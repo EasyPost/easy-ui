@@ -141,6 +141,16 @@ function Component() {
 }
 ```
 
+_Show date outside current month:_
+
+```tsx
+import { Calendar } from "@easypost/easy-ui/Calendar";
+
+function Component() {
+  return <Calendar showOutsideDays />;
+}
+```
+
 _Controlled selection:_
 
 ```tsx
@@ -148,11 +158,37 @@ import { Calendar } from "@easypost/easy-ui/Calendar";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
 function Component() {
-  const [date, setDate] = React.useState(null);
+  const [date, setDate] = React.useState(today(getLocalTimeZone()));
   const handleChange = (v) => {
     setDate(v);
   };
   return <Calendar value={date} onChange={handleChange} />;
+}
+```
+
+_Invalid selection:_
+
+```tsx
+import { Calendar } from "@easypost/easy-ui/Calendar";
+import { today, getLocalTimeZone, isWeekend } from "@internationalized/date";
+import { useLocale } from "react-aria";
+
+function Component() {
+  const [date, setDate] = React.useState(today(getLocalTimeZone()));
+  const { locale } = useLocale();
+  const handleChange = (v: DateValue) => {
+    setDate(v);
+  };
+  const isInvalid = isWeekend(date, locale);
+
+  return (
+    <Calendar
+      value={date}
+      onChange={handleChange}
+      isInvalid={isInvalid}
+      errorMessage={isInvalid && "Weekend is not available"}
+    />
+  );
 }
 ```
 
@@ -166,6 +202,6 @@ Most accessibility issues will be handled with React Aria.
 
 ### Dependencies
 
-- React Aria's `useCalendar` and `useLocale `.
+- React Aria's `useCalendar`, `useCalendarGrid`, `useCalendarCell` and `useLocale `
 - React Stately's `useCalendarState`
-- `@internationalized/date`- `createCalendar`
+- `@internationalized/date`

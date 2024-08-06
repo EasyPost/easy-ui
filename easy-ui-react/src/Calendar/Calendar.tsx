@@ -1,4 +1,6 @@
-import React from "react";
+import React, { ReactNode } from "react";
+import { Text } from "../Text";
+import { VerticalStack } from "../VerticalStack";
 import { useCalendar, useLocale } from "react-aria";
 import { useCalendarState } from "react-stately";
 import { createCalendar } from "@internationalized/date";
@@ -43,29 +45,49 @@ export type CalendarProps = {
    * it returns true, then the date is unavailable.
    */
   isDateUnavailable?: (date: DateValue) => boolean;
+  /**
+   * Whether the current selection is invalid according to application logic.
+   */
+  isInvalid?: boolean;
+  /**
+   * An error message to display when the selected value is invalid.
+   */
+  errorMessage?: ReactNode;
+  /**
+   * Display the days falling into the other months.
+   * @default false
+   */
+  showOutsideDays?: boolean;
 };
 
 export function Calendar(props: CalendarProps) {
   const { locale } = useLocale();
+  const { showOutsideDays = false, isInvalid, errorMessage } = props;
   const state = useCalendarState({
     ...props,
     locale,
     createCalendar,
   });
-
   const { calendarProps, prevButtonProps, nextButtonProps, title } =
     useCalendar(props, state);
   return (
-    <div {...calendarProps} className={styles.Calendar}>
-      <CalendarHeader
-        title={title}
-        state={state}
-        calendarProps={calendarProps}
-        prevButtonProps={prevButtonProps}
-        nextButtonProps={nextButtonProps}
-      />
-      <CalendarGrid state={state} />
-    </div>
+    <VerticalStack gap="1">
+      <div {...calendarProps} className={styles.Calendar}>
+        <CalendarHeader
+          title={title}
+          state={state}
+          calendarProps={calendarProps}
+          prevButtonProps={prevButtonProps}
+          nextButtonProps={nextButtonProps}
+        />
+        <CalendarGrid state={state} showOutsideDays={showOutsideDays} />
+      </div>
+      {isInvalid && (
+        <Text color="negative.500" variant="caption">
+          {errorMessage}
+        </Text>
+      )}
+    </VerticalStack>
   );
 }
 

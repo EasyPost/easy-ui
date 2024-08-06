@@ -30,13 +30,15 @@ export function CalendarCell({ state, date }: CalendarCellProps) {
   const isNextMonth = date.compare(state.visibleRange.end) > 0;
   const isPreviousMonth = date.compare(state.visibleRange.start) < 0;
 
-  const handleNextPage = () => {
+  const handleMonthNavigation = () => {
+    if (state.isDisabled) return;
     if (isNextMonth) {
       state.focusNextPage();
     }
     if (isPreviousMonth) {
       state.focusPreviousPage();
     }
+    state.setValue(date);
   };
   return (
     <td {...cellProps} className={styles.CellContainer}>
@@ -50,7 +52,7 @@ export function CalendarCell({ state, date }: CalendarCellProps) {
           isUnavailable && styles.isUnavailable,
           isOutsideVisibleRange && styles.isOutsideCurrentMonth,
         )}
-        onClick={handleNextPage}
+        onClick={handleMonthNavigation}
       >
         <Text variant="body1">{formattedDate}</Text>
       </div>

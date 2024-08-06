@@ -1,8 +1,14 @@
 import React from "react";
+import { useLocale } from "react-aria";
 import { DateValue } from "@react-types/calendar";
 import { Meta, StoryObj } from "@storybook/react";
 import { InlineStoryDecorator } from "../utilities/storybook";
-import { today, getLocalTimeZone, CalendarDate } from "@internationalized/date";
+import {
+  today,
+  getLocalTimeZone,
+  CalendarDate,
+  isWeekend,
+} from "@internationalized/date";
 
 import { Calendar, CalendarProps } from "./Calendar";
 
@@ -15,6 +21,7 @@ const meta: Meta<typeof Calendar> = {
   args: {
     isDisabled: false,
     isReadOnly: false,
+    showOutsideDays: false,
   },
   parameters: {
     controls: {
@@ -45,8 +52,9 @@ export const DefaultValue: Story = {
 export const LimitAvailableDates: Story = {
   render: () => (
     <Calendar
-      minValue={today(getLocalTimeZone())}
-      maxValue={today(getLocalTimeZone()).add({ days: 10 })}
+      defaultValue={new CalendarDate(2024, 7, 25)}
+      minValue={new CalendarDate(2024, 7, 24)}
+      maxValue={new CalendarDate(2024, 8, 5)}
     />
   ),
 };
@@ -55,6 +63,7 @@ export const DatesAvailability: Story = {
   render: () => (
     // Date before today is unavailable
     <Calendar
+      showOutsideDays
       isDateUnavailable={(date: DateValue) =>
         today(getLocalTimeZone()).compare(date) > 0
       }
@@ -62,14 +71,45 @@ export const DatesAvailability: Story = {
   ),
 };
 
+export const ShowOutsideDays: Story = {
+  render: Template.bind({}),
+  args: {
+    showOutsideDays: true,
+  },
+};
+
 export const ControlledSelection: Story = {
   render: () => {
-    const [date, setDate] = React.useState<DateValue | null>(null);
+    const [date, setDate] = React.useState<DateValue>(
+      today(getLocalTimeZone()),
+    );
     const handleChange = (v: DateValue) => {
       setDate(v);
     };
 
     return <Calendar value={date} onChange={handleChange} />;
+  },
+};
+
+export const InvalidSelection: Story = {
+  render: () => {
+    const [date, setDate] = React.useState<DateValue>(
+      today(getLocalTimeZone()),
+    );
+    const { locale } = useLocale();
+    const handleChange = (v: DateValue) => {
+      setDate(v);
+    };
+    const isInvalid = isWeekend(date, locale);
+
+    return (
+      <Calendar
+        value={date}
+        onChange={handleChange}
+        isInvalid={isInvalid}
+        errorMessage={isInvalid && "Weekend is not available"}
+      />
+    );
   },
 };
 
