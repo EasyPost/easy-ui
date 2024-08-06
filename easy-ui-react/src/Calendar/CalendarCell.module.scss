@@ -36,7 +36,8 @@
     }
   }
 
-  &.isDisabled, &.isReadOnly {
+  &.isDisabled,
+  &.isReadOnly {
     cursor: default;
   }
 
