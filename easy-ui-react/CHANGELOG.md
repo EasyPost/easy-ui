@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.42
+
+### Minor Changes
+
+- 5eb407a: Create `<Calendar />` component
+
+### Patch Changes
+
+- Updated dependencies [5eb407a]
+  - @easypost/easy-ui-icons@1.0.0-alpha.25
+
 ## 1.0.0-alpha.41
 
 ### Patch Changes
