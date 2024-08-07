@@ -5,18 +5,18 @@
 }
 
 .CalendarCell {
-  @include component-token("calendar-cell", "space", design-token("space.4-5"));
+  @include component-token("calendar-cell", "size", design-token("space.4-5"));
   display: flex;
   justify-content: center;
   align-items: center;
-  width: component-token("calendar-cell", "space");
-  height: component-token("calendar-cell", "space");
+  width: component-token("calendar-cell", "size");
+  height: component-token("calendar-cell", "size");
   cursor: pointer;
   border-radius: design-token("shape.border_radius.lg");
   span {
     color: design-token("color.primary.800");
   }
-  :focus-visible {
+  &:focus-visible {
     @include native-focus-ring;
   }
 

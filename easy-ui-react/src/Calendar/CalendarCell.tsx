@@ -42,6 +42,7 @@ export function CalendarCell({ state, date }: CalendarCellProps) {
       state.setValue(date);
     }
   };
+
   return (
     <td {...cellProps} className={styles.CellContainer}>
       <div
