@@ -1,0 +1,57 @@
+@use "../styles/common" as *;
+
+.CellContainer {
+  padding: design-token("space.1.5") design-token("space.1");
+}
+
+.CalendarCell {
+  @include component-token("calendar-cell", "size", design-token("space.4-5"));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: component-token("calendar-cell", "size");
+  height: component-token("calendar-cell", "size");
+  cursor: pointer;
+  border-radius: design-token("shape.border_radius.lg");
+  span {
+    color: design-token("color.primary.800");
+  }
+  &:focus-visible {
+    @include native-focus-ring;
+  }
+
+  &:hover:not(.isUnavailable, .isSelected, .isDisabled, .isReadOnly) {
+    background-color: design-token("color.primary.100");
+  }
+
+  &.isOutsideCurrentMonth:hover:not(.isUnavailable) {
+    cursor: pointer;
+    background-color: design-token("color.primary.100");
+  }
+
+  &.isOutsideCurrentMonth,
+  &.isDisabled {
+    span {
+      color: design-token("color.neutral.300");
+    }
+  }
+
+  &.isDisabled,
+  &.isReadOnly {
+    cursor: default;
+  }
+
+  &.isSelected {
+    background-color: design-token("color.primary.500");
+    span {
+      color: design-token("color.neutral.000");
+    }
+  }
+
+  &.isUnavailable {
+    cursor: not-allowed;
+    span {
+      text-decoration: line-through;
+    }
+  }
+}

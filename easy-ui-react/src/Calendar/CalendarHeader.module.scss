@@ -1,0 +1,15 @@
+@use "../styles/common" as *;
+
+.CalendarHeader {
+  @include component-token("calendar-header", "padding", 6px);
+  @include component-token("calendar-header", "line-height", 19.5px);
+  @include component-token("calendar-header", "border-radius", 7px);
+  width: 100%;
+  background-color: design-token("color.primary.800");
+  border-top-left-radius: component-token("calendar-header", "border-radius");
+  border-top-right-radius: component-token("calendar-header", "border-radius");
+  padding: component-token("calendar-header", "padding");
+  span {
+    line-height: component-token("calendar-header", "line-height");
+  }
+}

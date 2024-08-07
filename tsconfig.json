@@ -1,6 +1,4 @@
 {
   "files": [],
-  "references": [
-    {"path": "./easy-ui-react"},
-  ]
+  "references": [{ "path": "./easy-ui-react" }]
 }
