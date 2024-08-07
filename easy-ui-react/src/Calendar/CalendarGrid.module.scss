@@ -4,4 +4,7 @@
 }
 .CalendarGridHeader {
   background-color: design-token("color.primary.700");
+  span {
+    vertical-align: middle;
+  }
 }
