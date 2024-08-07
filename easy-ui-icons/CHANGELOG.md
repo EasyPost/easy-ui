@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.25
+
+### Minor Changes
+
+- 5eb407a: Create `<Calendar />` component
+
 ## 1.0.0-alpha.24
 
 ### Minor Changes
