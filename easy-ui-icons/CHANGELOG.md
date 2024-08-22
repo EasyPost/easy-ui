@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.26
+
+### Minor Changes
+
+- 492926a: Add attach money icon
+
 ## 1.0.0-alpha.25
 
 ### Minor Changes

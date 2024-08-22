@@ -10,6 +10,7 @@
     "@easypost/stylelint-easy-ui": "0.0.0"
   },
   "changesets": [
+    "blue-shirts-beam",
     "chilled-meals-whisper",
     "chilly-dolphins-obey",
     "chilly-spies-cheer",
