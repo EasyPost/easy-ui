@@ -36,22 +36,16 @@
 }
 
 .variantOutlined {
+  padding: calc(
+      #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
+    )
+    calc(#{design-token("space.2")} - #{design-token("shape.border_width.1")});
   @include Button.variantOutlined;
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  & {
-    padding: calc(
-        #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
-      )
-      calc(#{design-token("space.2")} - #{design-token("shape.border_width.1")});
-  }
 }
 
 .variantFilled {
+  padding: design-token("space.1.5") design-token("space.2");
   @include Button.variantFilled;
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  & {
-    padding: design-token("space.1.5") design-token("space.2");
-  }
 }
 
 .pipeSeparator {
