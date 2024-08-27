@@ -35,12 +35,18 @@
 
 .variantOutlined {
   @include Button.variantOutlined;
-  padding: calc(
-    #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
-  );
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    padding: calc(
+      #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
+    );
+  }
 }
 
 .variantFilled {
   @include Button.variantFilled;
-  padding: design-token("space.1.5");
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    padding: design-token("space.1.5");
+  }
 }

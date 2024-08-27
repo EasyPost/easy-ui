@@ -12,7 +12,10 @@
 
 .label {
   @include overlay-input;
-  display: inline-flex;
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    display: inline-flex;
+  }
 }
 
 .radioOuter,
@@ -33,8 +36,11 @@
 
   .focusVisible & {
     @include native-focus-ring;
-    // without an offset the outline conflicts with the radio outline
-    outline-offset: 1px;
+    /* stylelint-disable-next-line no-duplicate-selectors */
+    & {
+      // without an offset the outline conflicts with the radio outline
+      outline-offset: 1px;
+    }
   }
 }
 

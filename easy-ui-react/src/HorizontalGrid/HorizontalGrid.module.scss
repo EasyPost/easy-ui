@@ -8,6 +8,9 @@
   );
   @include responsive-prop("horizontal-grid", "gap", "gap");
 
-  display: component-token("horizontal-grid", "display");
-  align-items: component-token("horizontal-grid", "align-items");
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    display: component-token("horizontal-grid", "display");
+    align-items: component-token("horizontal-grid", "align-items");
+  }
 }

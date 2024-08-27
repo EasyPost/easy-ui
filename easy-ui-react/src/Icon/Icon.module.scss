@@ -3,16 +3,21 @@
 .Icon {
   @include component-token("icon", "color", currentColor);
   @include responsive-props("icon", "size") using ($var) {
-    width: $var;
-    height: $var;
+    & {
+      width: $var;
+      height: $var;
+    }
   }
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  max-height: 100%;
-  max-width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+  }
 
   svg {
     fill: component-token("icon", "color");

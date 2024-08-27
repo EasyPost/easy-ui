@@ -3,8 +3,11 @@
 
 .DropdownButton {
   @include Button.base;
-  @include font-style("button");
-  gap: design-token("space.1.5");
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    @include font-style("button");
+    gap: design-token("space.1.5");
+  }
 }
 
 .colorPrimary {
@@ -37,15 +40,21 @@
 
 .variantOutlined {
   @include Button.variantOutlined;
-  padding: calc(
-      #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
-    )
-    calc(#{design-token("space.2")} - #{design-token("shape.border_width.1")});
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    padding: calc(
+        #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
+      )
+      calc(#{design-token("space.2")} - #{design-token("shape.border_width.1")});
+  }
 }
 
 .variantFilled {
   @include Button.variantFilled;
-  padding: design-token("space.1.5") design-token("space.2");
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    padding: design-token("space.1.5") design-token("space.2");
+  }
 }
 
 .pipeSeparator {

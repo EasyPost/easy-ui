@@ -2,9 +2,13 @@
 
 .Toggle {
   @include overlay-input;
-  display: inline-flex;
-  align-items: center;
-  gap: design-token("space.1.5");
+
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  & {
+    display: inline-flex;
+    align-items: center;
+    gap: design-token("space.1.5");
+  }
 }
 
 .text,
