@@ -11,11 +11,8 @@
 }
 
 .label {
+  display: inline-flex;
   @include overlay-input;
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  & {
-    display: inline-flex;
-  }
 }
 
 .radioOuter,
@@ -35,12 +32,9 @@
     component-token("radio-group-item", "color");
 
   .focusVisible & {
+    // without an offset the outline conflicts with the radio outline
+    outline-offset: 1px;
     @include native-focus-ring;
-    /* stylelint-disable-next-line no-duplicate-selectors */
-    & {
-      // without an offset the outline conflicts with the radio outline
-      outline-offset: 1px;
-    }
   }
 }
 

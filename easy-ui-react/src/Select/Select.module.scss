@@ -58,13 +58,9 @@
 }
 
 .selectField {
+  display: flex;
+  align-items: center;
   @include Input.input;
-
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  & {
-    display: flex;
-    align-items: center;
-  }
 
   &:hover {
     @include Input.hovered;

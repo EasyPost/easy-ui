@@ -34,11 +34,8 @@
 }
 
 .variantFilled {
+  padding: design-token("space.1.5") design-token("space.2");
   @include Button.variantFilled;
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  & {
-    padding: design-token("space.1.5") design-token("space.2");
-  }
 }
 
 .variantOutlined {

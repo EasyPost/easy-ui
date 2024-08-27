@@ -23,11 +23,8 @@
 }
 
 .focused {
+  outline-offset: -1px;
   @include native-focus-ring;
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  & {
-    outline-offset: -1px;
-  }
 }
 
 .first {

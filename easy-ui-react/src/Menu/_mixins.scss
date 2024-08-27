@@ -34,18 +34,16 @@
     theme-token("color.neutral.300")
   );
 
-  @include responsive-prop("menu", "width", width);
+  background: component-token("menu", "color.background");
+  border: design-token("shape.border_width.1") solid
+    component-token("menu", "color.border");
+  border-radius: component-token("menu", "border_radius");
+  box-shadow: component-token("menu", "shadow");
+  display: flex;
+  flex-direction: column;
+  min-width: component-token("menu", "min-width");
 
-  & {
-    background: component-token("menu", "color.background");
-    border: design-token("shape.border_width.1") solid
-      component-token("menu", "color.border");
-    border-radius: component-token("menu", "border_radius");
-    box-shadow: component-token("menu", "shadow");
-    display: flex;
-    flex-direction: column;
-    min-width: component-token("menu", "min-width");
-  }
+  @include responsive-prop("menu", "width", width);
 }
 
 @mixin menu {

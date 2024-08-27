@@ -1,18 +1,14 @@
 @use "../styles/common" as *;
 
 .HorizontalStack {
+  display: component-token("horizontal-stack", "display");
+  flex-wrap: component-token("horizontal-stack", "wrap");
+  align-items: component-token("horizontal-stack", "block-align");
+  justify-content: component-token("horizontal-stack", "align");
+
+  // fixes cases where text needs to be truncated inside a horizontal stack
+  // due to the way flexbox behaves with text truncation
+  // https://css-tricks.com/flexbox-truncated-text
+  min-width: 0;
   @include responsive-prop("horizontal-stack", "gap", gap);
-
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  & {
-    display: component-token("horizontal-stack", "display");
-    flex-wrap: component-token("horizontal-stack", "wrap");
-    align-items: component-token("horizontal-stack", "block-align");
-    justify-content: component-token("horizontal-stack", "align");
-
-    // fixes cases where text needs to be truncated inside a horizontal stack
-    // due to the way flexbox behaves with text truncation
-    // https://css-tricks.com/flexbox-truncated-text
-    min-width: 0;
-  }
 }

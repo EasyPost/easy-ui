@@ -2,12 +2,9 @@
 @use "../Button/mixins" as Button;
 
 .DropdownButton {
+  @include font-style("button");
+  gap: design-token("space.1.5");
   @include Button.base;
-  /* stylelint-disable-next-line no-duplicate-selectors */
-  & {
-    @include font-style("button");
-    gap: design-token("space.1.5");
-  }
 }
 
 .colorPrimary {
