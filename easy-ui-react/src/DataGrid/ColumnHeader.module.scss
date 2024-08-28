@@ -23,8 +23,8 @@
 }
 
 .focused {
-  @include native-focus-ring;
   outline-offset: -1px;
+  @include native-focus-ring;
 }
 
 .first {

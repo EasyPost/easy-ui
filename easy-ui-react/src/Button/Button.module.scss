@@ -34,8 +34,8 @@
 }
 
 .variantFilled {
-  @include Button.variantFilled;
   padding: design-token("space.1.5") design-token("space.2");
+  @include Button.variantFilled;
 }
 
 .variantOutlined {

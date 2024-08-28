@@ -34,13 +34,13 @@
 }
 
 .variantOutlined {
-  @include Button.variantOutlined;
   padding: calc(
     #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
   );
+  @include Button.variantOutlined;
 }
 
 .variantFilled {
-  @include Button.variantFilled;
   padding: design-token("space.1.5");
+  @include Button.variantFilled;
 }

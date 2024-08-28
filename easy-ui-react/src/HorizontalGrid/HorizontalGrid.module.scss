@@ -1,13 +1,12 @@
 @use "../styles/common" as *;
 
 .HorizontalGrid {
+  display: component-token("horizontal-grid", "display");
+  align-items: component-token("horizontal-grid", "align-items");
   @include responsive-prop(
     "horizontal-grid",
     "grid-template-columns",
     grid-template-columns
   );
   @include responsive-prop("horizontal-grid", "gap", "gap");
-
-  display: component-token("horizontal-grid", "display");
-  align-items: component-token("horizontal-grid", "align-items");
 }

@@ -2,9 +2,9 @@
 @use "../Button/mixins" as Button;
 
 .DropdownButton {
-  @include Button.base;
   @include font-style("button");
   gap: design-token("space.1.5");
+  @include Button.base;
 }
 
 .colorPrimary {
@@ -36,16 +36,16 @@
 }
 
 .variantOutlined {
-  @include Button.variantOutlined;
   padding: calc(
       #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
     )
     calc(#{design-token("space.2")} - #{design-token("shape.border_width.1")});
+  @include Button.variantOutlined;
 }
 
 .variantFilled {
-  @include Button.variantFilled;
   padding: design-token("space.1.5") design-token("space.2");
+  @include Button.variantFilled;
 }
 
 .pipeSeparator {

@@ -11,8 +11,8 @@
 }
 
 .label {
-  @include overlay-input;
   display: inline-flex;
+  @include overlay-input;
 }
 
 .radioOuter,
@@ -32,9 +32,9 @@
     component-token("radio-group-item", "color");
 
   .focusVisible & {
-    @include native-focus-ring;
     // without an offset the outline conflicts with the radio outline
     outline-offset: 1px;
+    @include native-focus-ring;
   }
 }
 

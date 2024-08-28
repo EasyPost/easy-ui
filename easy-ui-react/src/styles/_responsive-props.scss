@@ -31,7 +31,9 @@
 
   // For each of our breakpoints, initialize an initial value (literally)
   @each $bp-alias in $bp-aliases {
-    --ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp}-#{$bp-alias}: initial;
+    & {
+      --ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp}-#{$bp-alias}: initial;
+    }
   }
 
   // For each of our breakpoints, create a media query block and assign a
@@ -81,6 +83,8 @@
 // Shorthand for applying a CSS variable template to a single CSS prop
 @mixin responsive-prop($componentName, $componentProp, $declarationProp) {
   @include responsive-props($componentName, $componentProp) using ($var) {
-    #{$declarationProp}: $var;
+    & {
+      #{$declarationProp}: $var;
+    }
   }
 }

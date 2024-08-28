@@ -58,9 +58,9 @@
 }
 
 .selectField {
-  @include Input.input;
   display: flex;
   align-items: center;
+  @include Input.input;
 
   &:hover {
     @include Input.hovered;

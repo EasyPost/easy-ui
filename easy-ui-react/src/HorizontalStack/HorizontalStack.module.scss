@@ -1,8 +1,6 @@
 @use "../styles/common" as *;
 
 .HorizontalStack {
-  @include responsive-prop("horizontal-stack", "gap", gap);
-
   display: component-token("horizontal-stack", "display");
   flex-wrap: component-token("horizontal-stack", "wrap");
   align-items: component-token("horizontal-stack", "block-align");
@@ -12,4 +10,5 @@
   // due to the way flexbox behaves with text truncation
   // https://css-tricks.com/flexbox-truncated-text
   min-width: 0;
+  @include responsive-prop("horizontal-stack", "gap", gap);
 }
