@@ -97,10 +97,7 @@ describe("<Calendar />", () => {
   it("should select the tenth day of each month", async () => {
     const handleChange = vi.fn();
     const { user } = render(<Calendar onChange={handleChange} />);
-    await clickElement(
-      user,
-      screen.getByRole("button", { name: "Saturday, August 10, 2024" }),
-    );
+    await clickElement(user, screen.getByRole("button", { name: /10/i }));
     expect(handleChange).toHaveBeenCalled();
   });
 
