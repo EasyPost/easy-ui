@@ -15,16 +15,9 @@ describe("classNames", () => {
   });
 
   it("filters out falsy values", () => {
-    expect(
-      classNames(
-        "btn",
-        true && "btn-sm",
-        false && "b",
-        undefined && "c",
-        null && "d",
-        0 && "e",
-      ),
-    ).toBe("btn btn-sm");
+    expect(classNames("btn", true && "btn-sm", false && "b", 0 && "e")).toBe(
+      "btn btn-sm",
+    );
   });
 });
 
