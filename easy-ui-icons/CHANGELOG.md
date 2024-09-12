@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.27
+
+### Minor Changes
+
+- 7a572f2: Add calendar add on icon
+
 ## 1.0.0-alpha.26
 
 ### Minor Changes

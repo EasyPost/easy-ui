@@ -1,5 +1,14 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.44
+
+### Patch Changes
+
+- b7021d7: fix: SASS deprecations
+- 9a529e6: Fix Calendar component unit test
+- Updated dependencies [7a572f2]
+  - @easypost/easy-ui-icons@1.0.0-alpha.27
+
 ## 1.0.0-alpha.43
 
 ### Patch Changes
