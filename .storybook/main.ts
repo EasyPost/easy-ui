@@ -21,6 +21,18 @@ const config: StorybookConfig = {
     "../easy-ui-react/src/**/*.mdx",
     "../easy-ui-react/src/**/*.stories.tsx",
   ],
+  async viteFinal(config) {
+    const { mergeConfig } = await import("vite");
+    return mergeConfig(config, {
+      css: {
+        preprocessorOptions: {
+          scss: {
+            silenceDeprecations: ["legacy-js-api"],
+          },
+        },
+      },
+    });
+  },
 };
 
 export default config;
