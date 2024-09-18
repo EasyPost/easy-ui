@@ -31,6 +31,11 @@ export default defineConfig({
     modules: {
       globalModulePaths: [/global\.s?css$/],
     },
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: ["legacy-js-api"],
+      },
+    },
   },
   build: {
     emptyOutDir: false,
