@@ -13,7 +13,7 @@ Include any notes, screenshots, or videos that may be helpful for developers rev
 - [ ] TSDoc is written for any component API surface area
 - [ ] Stories accompany any relevant component changes
 - [ ] No accessibility violations are reported
-- [ ] Specs are up to date
+- [ ] Specs are up-to-date
 - [ ] Cross-browser check is performed (Chrome, Safari, Firefox)
 - [ ] Changeset is added
 - [ ] Console is free from errors and warnings
