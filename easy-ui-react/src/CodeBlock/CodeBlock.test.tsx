@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { act, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
 import { mockGetComputedStyle, render, userClick } from "../utilities/test";
@@ -42,7 +42,11 @@ describe("<CodeBlock />", () => {
     });
 
     const copyBtn = screen.getByRole("button", { name: /copy code/i });
-    await userClick(user, copyBtn);
+    await act(async () => {
+      await waitFor(async () => {
+        await user.click(copyBtn);
+      });
+    });
 
     expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
       "hello javascript",
