@@ -71,7 +71,7 @@ export const DatesAvailability: Story = {
   ),
 };
 
-export const showDaysOutsideCurrentMonth: Story = {
+export const ShowDaysOutsideCurrentMonth: Story = {
   render: Template.bind({}),
   args: {
     showDaysOutsideCurrentMonth: true,
