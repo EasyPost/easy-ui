@@ -6,13 +6,18 @@ Include any notes, screenshots, or videos that may be helpful for developers rev
 
 ## ✅ Checklist
 
-- [ ] Visuals are complete and match Figma
-- [ ] Code is complete and in accordance with our style guide
-- [ ] Design and theme tokens are audited for any relevant changes
-- [ ] Unit tests are written and passing
-- [ ] TSDoc is written or updated for any component API surface area
-- [ ] Stories in Storybook accompany any relevant component changes
-- [ ] Ensure no accessibility violations are reported in Storybook
-- [ ] Specs and documentation are up-to-date
+Easy UI has certain UX standards that must be met. In general, non-trivial changes should meet the following criteria:
+
+- [ ] Visuals match Design Specs in Figma
+- [ ] Stories accompany any component changes
+- [ ] Code is in accordance with our style guide
+- [ ] Design tokens are utilized
+- [ ] Unit tests accompany any component changes
+- [ ] TSDoc is written for any API surface area
+- [ ] Specs are up-to-date
+- [ ] Console is free from warnings
+- [ ] No accessibility violations are reported
 - [ ] Cross-browser check is performed (Chrome, Safari, Firefox)
 - [ ] Changeset is added
+
+~Strikethrough~ any items that are not applicable to this pull request.
