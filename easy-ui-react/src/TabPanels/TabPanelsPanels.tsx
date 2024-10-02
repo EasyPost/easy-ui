@@ -46,7 +46,10 @@ export function TabPanelsPanels(props: TabPanelsPanelsProps) {
     return null;
   }
 
-  const selectedItem = collection.getItem(tabListState.selectedKey);
+  const selectedItem =
+    tabListState.selectedKey === null
+      ? null
+      : collection.getItem(tabListState.selectedKey);
 
   return (
     <TabPanelsPanel
