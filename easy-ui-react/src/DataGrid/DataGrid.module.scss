@@ -4,12 +4,12 @@
   @include component-token(
     "data-grid",
     "header-bg",
-    design-token("color.blue.800")
+    design-token("color.primary.700")
   );
   @include component-token(
     "data-grid",
     "header-text",
-    design-token("color.white")
+    design-token("color.neutral.000")
   );
   @include component-token("data-grid", "header-row-height", 48px);
   @include component-token("data-grid", "body-row-height", 56px);
@@ -17,7 +17,7 @@
   @include component-token(
     "data-grid",
     "sort-icon-color",
-    design-token("color.gray.500")
+    design-token("color.neutral.500")
   );
   @include component-token(
     "data-grid",
@@ -27,20 +27,24 @@
   @include component-token(
     "data-grid",
     "border-color",
-    design-token("color.gray.300")
+    design-token("color.neutral.300")
   );
   @include component-token("data-grid", "sticky-shadow-size", 8px);
   @include component-token("data-grid", "sticky-shadow-opacity", 0.5);
   @include component-token(
     "data-grid",
     "sticky-shadow-color",
-    design-token("color.gray.500")
+    design-token("color.neutral.500")
   );
-  @include component-token("data-grid", "cell-bg", design-token("color.white"));
+  @include component-token(
+    "data-grid",
+    "cell-bg",
+    design-token("color.neutral.000")
+  );
   @include component-token(
     "data-grid",
     "cell-text",
-    design-token("color.blue.800")
+    design-token("color.primary.800")
   );
   @include component-token("data-grid", "cell-z-index", 1);
   @include component-token("data-grid", "cell-stuck-z-index", 2);
@@ -88,11 +92,11 @@
   @include component-token(
     "data-grid",
     "header-bg",
-    design-token("color.gray.050")
+    design-token("color.neutral.050")
   );
   @include component-token(
     "data-grid",
     "header-text",
-    design-token("color.blue.800")
+    design-token("color.primary.800")
   );
 }

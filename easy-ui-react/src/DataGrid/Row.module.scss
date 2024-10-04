@@ -8,11 +8,11 @@
   @include component-token(
     "data-grid",
     "cell-bg",
-    design-token("color.gray.050")
+    design-token("color.neutral.025")
   );
   @include component-token(
     "data-grid",
     "cell-text",
-    design-token("color.blue.700")
+    design-token("color.primary.700")
   );
 }
