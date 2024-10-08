@@ -34,7 +34,7 @@ export function SectionCard(props: SectionCardProps) {
 function SectionCardContainer(props: SectionCardContainerProps) {
   const { children, ...cardContainerProps } = props;
   return (
-    <Card.Container variant="outlined" {...cardContainerProps}>
+    <Card.Container as="section" variant="outlined" {...cardContainerProps}>
       <VerticalStack>{children}</VerticalStack>
     </Card.Container>
   );
@@ -59,7 +59,7 @@ function SectionCardHeader(props: SectionCardHeaderProps) {
 }
 
 function SectionCardTitle(props: TextProps) {
-  return <Text variant="heading5" {...props} />;
+  return <Text variant="heading5" as="h2" {...props} />;
 }
 
 function SectionCardArea(props: SectionCardAreaProps) {

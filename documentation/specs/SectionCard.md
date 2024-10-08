@@ -127,7 +127,7 @@ function SectionCard(props: SectionCardProps) {
 function SectionCardContainer(props: SectionCardContainerProps) {
   const { children, ...cardContainerProps } = props;
   return (
-    <Card.Container variant="shadow" {...cardContainerProps}>
+    <Card.Container as="section" variant="shadow" {...cardContainerProps}>
       <VerticalStack>{children}</VerticalStack>
     </Card.Container>
   );
