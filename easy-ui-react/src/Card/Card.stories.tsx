@@ -55,6 +55,13 @@ export const Flagged: Story = {
   },
 };
 
+export const Shadow: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "shadow",
+  },
+};
+
 export const Composition: Story = {
   render: () => (
     <Card.Container variant="outlined">

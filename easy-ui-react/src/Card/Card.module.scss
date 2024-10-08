@@ -41,6 +41,10 @@ button.container:not([disabled]) {
   );
 }
 
+.variantShadow {
+  box-shadow: design-token("shadow.card");
+}
+
 .selected {
   @include component-token(
     "card",

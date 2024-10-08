@@ -72,6 +72,14 @@ describe("<Card />", () => {
     );
   });
 
+  it("should render shadow card", () => {
+    render(<Card variant="shadow">Content</Card>);
+    expect(screen.getByTestId("container")).toHaveAttribute(
+      "class",
+      expect.stringContaining("variantShadow"),
+    );
+  });
+
   it("should render custom background", () => {
     render(<Card background="primary">Content</Card>);
     expect(screen.getByTestId("area")).toHaveStyle(

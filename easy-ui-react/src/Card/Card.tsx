@@ -17,7 +17,7 @@ const DEFAULT_VARIANT = "outlined";
 type SpaceScale = DesignTokenNamespace<"space">;
 
 export type CardBackground = "primary" | "secondary";
-export type CardVariant = "solid" | "outlined" | "flagged";
+export type CardVariant = "solid" | "outlined" | "flagged" | "shadow";
 export type CardStatus = "danger" | "warning" | "success" | "neutral";
 export type CardPadding = ResponsiveProp<SpaceScale>;
 
@@ -157,6 +157,12 @@ function getBackgroundToken(background: CardAreaProps["background"]) {
  * _Flagged:_
  * ```tsx
  * <Card variant="flagged" status="danger">Content</Card>
+ * ```
+ *
+ * @example
+ * _Shadow:_
+ * ```tsx
+ * <Card variant="shadow">Content</Card>
  * ```
  *
  * @example

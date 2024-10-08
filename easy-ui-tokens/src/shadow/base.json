@@ -20,6 +20,9 @@
     },
     "stuck-from-bottom": {
       "value": "0px -4px 4px 0px hsla(221, 30%, 74%, 0.25)"
+    },
+    "card": {
+      "value": "0px 1px 8px 0px hsla(226, 84%, 27%, 0.3)"
     }
   }
 }

@@ -36,7 +36,7 @@ Architecture proposed is to surface a basic `<Card />` component with `variety` 
 
 ```ts
 type CardBackground = "primary" | "secondary";
-type CardVariant = "solid" | "outlined" | "flagged";
+type CardVariant = "solid" | "outlined" | "flagged" | "shadow";
 type CardStatus = "danger" | "warning" | "success";
 
 type CardContainerProps = {
