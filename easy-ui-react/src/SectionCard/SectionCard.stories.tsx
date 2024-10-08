@@ -70,19 +70,17 @@ const rows = [
 export const Default: Story = {
   render: () => (
     <SectionCard>
-      <SectionCard.Header
-        title="Insurance Claims"
-        controls={
-          <div style={{ flex: "1", maxWidth: 400 }}>
-            <TextField
-              size="sm"
-              placeholder="Search claims"
-              iconAtStart={SearchIcon}
-            />
-          </div>
-        }
-        actions={<Button size="sm">File Claim</Button>}
-      />
+      <SectionCard.Header>
+        <SectionCard.Title>Insurance Claims</SectionCard.Title>
+        <div style={{ flex: "1", maxWidth: 400 }}>
+          <TextField
+            size="sm"
+            placeholder="Search claims"
+            iconAtStart={SearchIcon}
+          />
+        </div>
+        <Button size="sm">File Claim</Button>
+      </SectionCard.Header>
       <DataGrid
         columns={columns}
         rows={rows}
@@ -114,20 +112,18 @@ export const WithTabNav: Story = {
           Shipping Settings
         </TabNav.Item>
       </TabNav>
-      <SectionCard.Content>
-        <SectionCard.Header
-          title="Insurance Claims"
-          controls={
-            <div style={{ flex: "1", maxWidth: 400 }}>
-              <TextField
-                size="sm"
-                placeholder="Search claims"
-                iconAtStart={SearchIcon}
-              />
-            </div>
-          }
-          actions={<Button size="sm">File Claim</Button>}
-        />
+      <SectionCard.Area>
+        <SectionCard.Header>
+          <SectionCard.Title>Insurance Claims</SectionCard.Title>
+          <div style={{ flex: "1", maxWidth: 400 }}>
+            <TextField
+              size="sm"
+              placeholder="Search claims"
+              iconAtStart={SearchIcon}
+            />
+          </div>
+          <Button size="sm">File Claim</Button>
+        </SectionCard.Header>
         <DataGrid
           columns={columns}
           rows={rows}
@@ -139,7 +135,7 @@ export const WithTabNav: Story = {
           )}
           aria-label="Example data grid"
         />
-      </SectionCard.Content>
+      </SectionCard.Area>
     </SectionCard.TabsContainer>
   ),
 };
@@ -154,20 +150,18 @@ export const WithTabPanels: Story = {
         </TabPanels.Tabs>
         <TabPanels.Panels>
           <TabPanels.Item key="claims">
-            <SectionCard.Content>
-              <SectionCard.Header
-                title="Insurance Claims"
-                controls={
-                  <div style={{ flex: "1", maxWidth: 400 }}>
-                    <TextField
-                      size="sm"
-                      placeholder="Search claims"
-                      iconAtStart={SearchIcon}
-                    />
-                  </div>
-                }
-                actions={<Button size="sm">File Claim</Button>}
-              />
+            <SectionCard.Area>
+              <SectionCard.Header>
+                <SectionCard.Title>Insurance Claims</SectionCard.Title>
+                <div style={{ flex: "1", maxWidth: 400 }}>
+                  <TextField
+                    size="sm"
+                    placeholder="Search claims"
+                    iconAtStart={SearchIcon}
+                  />
+                </div>
+                <Button size="sm">File Claim</Button>
+              </SectionCard.Header>
               <DataGrid
                 columns={columns}
                 rows={rows}
@@ -181,23 +175,21 @@ export const WithTabPanels: Story = {
                 )}
                 aria-label="Example data grid"
               />
-            </SectionCard.Content>
+            </SectionCard.Area>
           </TabPanels.Item>
           <TabPanels.Item key="coverage">
-            <SectionCard.Content>
-              <SectionCard.Header
-                title="Insurance Coverage"
-                controls={
-                  <div style={{ flex: "1", maxWidth: 400 }}>
-                    <TextField
-                      size="sm"
-                      placeholder="Search coverage"
-                      iconAtStart={SearchIcon}
-                    />
-                  </div>
-                }
-                actions={<Button size="sm">File Claim</Button>}
-              />
+            <SectionCard.Area>
+              <SectionCard.Header>
+                <SectionCard.Title>Insurance Coverage</SectionCard.Title>
+                <div style={{ flex: "1", maxWidth: 400 }}>
+                  <TextField
+                    size="sm"
+                    placeholder="Search coverage"
+                    iconAtStart={SearchIcon}
+                  />
+                </div>
+                <Button size="sm">File Claim</Button>
+              </SectionCard.Header>
               <DataGrid
                 columns={columns}
                 rows={rows}
@@ -211,7 +203,7 @@ export const WithTabPanels: Story = {
                 )}
                 aria-label="Example data grid"
               />
-            </SectionCard.Content>
+            </SectionCard.Area>
           </TabPanels.Item>
         </TabPanels.Panels>
       </TabPanels>

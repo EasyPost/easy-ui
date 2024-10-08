@@ -1,75 +1,78 @@
 import React, { ReactNode } from "react";
-import { Card } from "../Card";
-import { VerticalStack } from "../VerticalStack";
+import { Card, CardAreaProps, CardContainerProps, CardProps } from "../Card";
 import { HorizontalStack } from "../HorizontalStack";
-import { Text } from "../Text";
+import { Text, TextProps } from "../Text";
+import { VerticalStack } from "../VerticalStack";
 
 import styles from "./SectionCard.module.scss";
 
-export type SectionCardProps = {
-  children: ReactNode;
-};
+export type SectionCardProps = CardProps;
 
-export type SectionCardContainerProps = {
-  children: ReactNode;
-};
+export type SectionCardContainerProps = CardContainerProps;
 
-export type SectionCardContentProps = {
-  children: ReactNode;
-};
+export type SectionCardTabsContainerProps = SectionCardContainerProps;
+
+export type SectionCardAreaProps = CardAreaProps;
 
 export type SectionCardHeaderProps = {
-  title?: ReactNode;
-  controls?: ReactNode;
-  actions?: ReactNode;
+  children: ReactNode;
 };
 
+export type SectionCardTitleProps = TextProps;
+
 export function SectionCard(props: SectionCardProps) {
+  const { background, children, padding, ...containerProps } = props;
   return (
-    <SectionCardContainer>
-      <SectionCardContent>{props.children}</SectionCardContent>
+    <SectionCardContainer {...containerProps}>
+      <SectionCardArea background={background} padding={padding}>
+        {children}
+      </SectionCardArea>
     </SectionCardContainer>
   );
 }
 
 function SectionCardContainer(props: SectionCardContainerProps) {
+  const { children, ...cardContainerProps } = props;
   return (
-    <Card.Container>
-      <VerticalStack>{props.children}</VerticalStack>
+    <Card.Container variant="outlined" {...cardContainerProps}>
+      <VerticalStack>{children}</VerticalStack>
     </Card.Container>
   );
 }
 
-function SectionCardTabsContainer(props: SectionCardContainerProps) {
+function SectionCardTabsContainer(props: SectionCardTabsContainerProps) {
+  const { children, ...cardContainerProps } = props;
   return (
-    <Card.Container>
-      <VerticalStack>
-        <div className={styles.tabsContainerSpacer} />
-        {props.children}
-      </VerticalStack>
-    </Card.Container>
+    <SectionCardContainer {...cardContainerProps}>
+      <div className={styles.tabsContainerSpacer} />
+      {children}
+    </SectionCardContainer>
   );
 }
 
 function SectionCardHeader(props: SectionCardHeaderProps) {
   return (
     <HorizontalStack blockAlign="center" align="space-between" gap="2">
-      <Text variant="heading5">{props.title}</Text>
-      {props.controls}
-      {props.actions}
+      {props.children}
     </HorizontalStack>
   );
 }
 
-function SectionCardContent(props: SectionCardContentProps) {
+function SectionCardTitle(props: TextProps) {
+  return <Text variant="heading5" {...props} />;
+}
+
+function SectionCardArea(props: SectionCardAreaProps) {
+  const { children, ...cardAreaProps } = props;
   return (
-    <Card.Area>
-      <VerticalStack gap="2">{props.children}</VerticalStack>
+    <Card.Area {...cardAreaProps}>
+      <VerticalStack gap="2">{children}</VerticalStack>
     </Card.Area>
   );
 }
 
 SectionCard.Container = SectionCardContainer;
 SectionCard.TabsContainer = SectionCardTabsContainer;
-SectionCard.Content = SectionCardContent;
+SectionCard.Area = SectionCardArea;
 SectionCard.Header = SectionCardHeader;
+SectionCard.Title = SectionCardTitle;
