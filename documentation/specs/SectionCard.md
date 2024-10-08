@@ -72,7 +72,7 @@ function Page() {
 }
 ```
 
-Renders a default section with a `Section Title` header:
+Renders (roughly) the following HTML with stack contraints backed in:
 
 ```html
 <section>
