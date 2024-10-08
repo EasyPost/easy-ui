@@ -62,6 +62,12 @@ type CardContainerProps = {
    * @default outlined
    */
   variant?: CardVariant;
+
+  /**
+   * Card shadow level.
+   * @default 1
+   */
+  shadowLevel?: ShadowLevel;
 } & AllHTMLAttributes<ElementType>;
 
 type CardAreaProps = {

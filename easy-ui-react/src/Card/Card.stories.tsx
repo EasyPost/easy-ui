@@ -1,14 +1,18 @@
+import AccountBalanceIcon from "@easypost/easy-ui-icons/AccountBalance";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
-import AccountBalanceIcon from "@easypost/easy-ui-icons/AccountBalance";
 import React, { useState } from "react";
 import { HorizontalGrid } from "../HorizontalGrid";
 import { HorizontalStack } from "../HorizontalStack";
+import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
-import { InlineStoryDecorator, PlaceholderBox } from "../utilities/storybook";
+import {
+  createShadowTokensControl,
+  InlineStoryDecorator,
+  PlaceholderBox,
+} from "../utilities/storybook";
 import { Card, CardProps } from "./Card";
-import { Icon } from "../Icon";
 
 type Story = StoryObj<typeof Card>;
 
@@ -22,6 +26,9 @@ const meta: Meta<typeof Card> = {
   title: "Components/Card",
   component: Card,
   decorators: [InlineStoryDecorator],
+  argTypes: {
+    shadowLevel: createShadowTokensControl(),
+  },
   parameters: {
     controls: {
       include: ["background"],
@@ -59,6 +66,11 @@ export const Shadow: Story = {
   render: Template.bind({}),
   args: {
     variant: "shadow",
+  },
+  parameters: {
+    controls: {
+      include: ["shadowLevel"],
+    },
   },
 };
 

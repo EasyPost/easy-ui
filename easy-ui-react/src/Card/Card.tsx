@@ -1,6 +1,6 @@
 import omit from "lodash/omit";
 import React, { AllHTMLAttributes, ElementType, ReactNode } from "react";
-import { DesignTokenNamespace } from "../types";
+import { DesignTokenNamespace, ShadowLevel } from "../types";
 import {
   ResponsiveProp,
   classNames,
@@ -13,6 +13,7 @@ import styles from "./Card.module.scss";
 
 const DEFAULT_ELEMENT_TYPE = "div";
 const DEFAULT_VARIANT = "outlined";
+const DEFAULT_SHADOW_LEVEL = "1";
 
 type SpaceScale = DesignTokenNamespace<"space">;
 
@@ -44,6 +45,12 @@ export type CardContainerProps = {
    * @default outlined
    */
   variant?: CardVariant;
+
+  /**
+   * Card shadow level.
+   * @default 1
+   */
+  shadowLevel?: ShadowLevel;
 } & AllHTMLAttributes<ElementType>;
 
 export type CardAreaProps = {
@@ -74,6 +81,7 @@ function CardContainer(props: CardContainerProps) {
     isSelected,
     status,
     variant = DEFAULT_VARIANT,
+    shadowLevel = DEFAULT_SHADOW_LEVEL,
     ...restProps
   } = props;
 
@@ -85,6 +93,15 @@ function CardContainer(props: CardContainerProps) {
     variant === "outlined" && isSelected && styles.selected,
   );
 
+  const style = {
+    ...getComponentThemeToken(
+      "card-container",
+      "box-shadow",
+      "shadow.level",
+      shadowLevel,
+    ),
+  };
+
   if (variant !== "flagged" && status) {
     console.warn("status is only applicable for flagged cards");
   }
@@ -93,12 +110,17 @@ function CardContainer(props: CardContainerProps) {
     console.warn("isSelected is only applicable for outlined cards");
   }
 
+  if (variant !== "shadow" && props.shadowLevel) {
+    console.warn("shadowLevel is only applicable for shadow cards");
+  }
+
   return (
     <As
       className={className}
+      style={style}
       data-testid="container"
       disabled={isDisabled}
-      {...omit(restProps, ["className"])}
+      {...omit(restProps, ["className", "style"])}
     >
       {children}
     </As>
