@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.45
+
+### Patch Changes
+
+- Updated dependencies [ed36751]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.11
+
 ## 1.0.0-alpha.44
 
 ### Patch Changes
