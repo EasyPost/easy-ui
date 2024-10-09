@@ -13,12 +13,11 @@ import styles from "./Card.module.scss";
 
 const DEFAULT_ELEMENT_TYPE = "div";
 const DEFAULT_VARIANT = "outlined";
-const DEFAULT_SHADOW_LEVEL = "1";
 
 type SpaceScale = DesignTokenNamespace<"space">;
 
 export type CardBackground = "primary" | "secondary";
-export type CardVariant = "solid" | "outlined" | "flagged" | "shadow";
+export type CardVariant = "solid" | "outlined" | "flagged";
 export type CardStatus = "danger" | "warning" | "success" | "neutral";
 export type CardPadding = ResponsiveProp<SpaceScale>;
 
@@ -47,10 +46,9 @@ export type CardContainerProps = {
   variant?: CardVariant;
 
   /**
-   * Card shadow level.
-   * @default 1
+   * Card shadow.
    */
-  shadowLevel?: ShadowLevel;
+  boxShadow?: ShadowLevel;
 } & AllHTMLAttributes<ElementType>;
 
 export type CardAreaProps = {
@@ -81,7 +79,7 @@ function CardContainer(props: CardContainerProps) {
     isSelected,
     status,
     variant = DEFAULT_VARIANT,
-    shadowLevel = DEFAULT_SHADOW_LEVEL,
+    boxShadow,
     ...restProps
   } = props;
 
@@ -94,12 +92,7 @@ function CardContainer(props: CardContainerProps) {
   );
 
   const style = {
-    ...getComponentThemeToken(
-      "card-container",
-      "box-shadow",
-      "shadow.level",
-      shadowLevel,
-    ),
+    ...getComponentThemeToken("card", "box-shadow", "shadow.level", boxShadow),
   };
 
   if (variant !== "flagged" && status) {
@@ -108,10 +101,6 @@ function CardContainer(props: CardContainerProps) {
 
   if (variant !== "outlined" && isSelected) {
     console.warn("isSelected is only applicable for outlined cards");
-  }
-
-  if (variant !== "shadow" && props.shadowLevel) {
-    console.warn("shadowLevel is only applicable for shadow cards");
   }
 
   return (
@@ -184,7 +173,7 @@ function getBackgroundToken(background: CardAreaProps["background"]) {
  * @example
  * _Shadow:_
  * ```tsx
- * <Card variant="shadow">Content</Card>
+ * <Card boxShadow="1">Content</Card>
  * ```
  *
  * @example

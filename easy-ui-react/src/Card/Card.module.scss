@@ -4,7 +4,9 @@
 .container {
   @include unstyled.button;
   @include unstyled.link;
+  @include component-token("card", "box-shadow", "none");
   border-radius: design-token("shape.border_radius.md");
+  box-shadow: component-token("card", "box-shadow");
   overflow: hidden;
 }
 
@@ -39,10 +41,6 @@ button.container:not([disabled]) {
     "color.border",
     theme-token("color.neutral.400")
   );
-}
-
-.variantShadow {
-  box-shadow: component-token("card-container", "box-shadow");
 }
 
 .selected {

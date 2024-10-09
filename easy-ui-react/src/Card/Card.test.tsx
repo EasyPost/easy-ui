@@ -72,23 +72,10 @@ describe("<Card />", () => {
     );
   });
 
-  it("should render shadow card with level", () => {
-    render(
-      <Card variant="shadow" shadowLevel="2">
-        Content
-      </Card>,
-    );
-    expect(screen.getByTestId("container")).toHaveAttribute(
-      "class",
-      expect.stringContaining("variantShadow"),
-    );
+  it("should render shadow", () => {
+    render(<Card boxShadow="2">Content</Card>);
     expect(screen.getByTestId("container")).toHaveStyle(
-      getComponentThemeToken(
-        "card-container",
-        "box-shadow",
-        "shadow.level",
-        "2",
-      ),
+      getComponentThemeToken("card", "box-shadow", "shadow.level", "2"),
     );
   });
 

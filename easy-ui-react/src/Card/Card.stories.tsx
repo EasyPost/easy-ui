@@ -27,7 +27,7 @@ const meta: Meta<typeof Card> = {
   component: Card,
   decorators: [InlineStoryDecorator],
   argTypes: {
-    shadowLevel: createShadowTokensControl(),
+    boxShadow: createShadowTokensControl(),
   },
   parameters: {
     controls: {
@@ -65,11 +65,12 @@ export const Flagged: Story = {
 export const Shadow: Story = {
   render: Template.bind({}),
   args: {
-    variant: "shadow",
+    variant: "solid",
+    boxShadow: "1",
   },
   parameters: {
     controls: {
-      include: ["shadowLevel"],
+      include: ["variant", "status", "boxShadow"],
     },
   },
 };

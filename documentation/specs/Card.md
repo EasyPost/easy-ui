@@ -36,7 +36,7 @@ Architecture proposed is to surface a basic `<Card />` component with `variety` 
 
 ```ts
 type CardBackground = "primary" | "secondary";
-type CardVariant = "solid" | "outlined" | "flagged" | "shadow";
+type CardVariant = "solid" | "outlined" | "flagged";
 type CardStatus = "danger" | "warning" | "success";
 
 type CardContainerProps = {
@@ -64,10 +64,9 @@ type CardContainerProps = {
   variant?: CardVariant;
 
   /**
-   * Card shadow level.
-   * @default 1
+   * Card shadow.
    */
-  shadowLevel?: ShadowLevel;
+  boxShadow?: ShadowLevel;
 } & AllHTMLAttributes<ElementType>;
 
 type CardAreaProps = {
