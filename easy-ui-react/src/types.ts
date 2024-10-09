@@ -66,3 +66,5 @@ export type IconSymbol = React.FunctionComponent<IconSymbolProps>;
 
 export type SpaceScale = DesignTokenNamespace<"space">;
 export type ResponsiveSpaceScale = ResponsiveProp<SpaceScale>;
+
+export type ShadowLevel = DesignTokenNamespace<"shadow.level">;

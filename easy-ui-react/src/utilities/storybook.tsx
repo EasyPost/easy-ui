@@ -30,6 +30,10 @@ export function createColorTokensControl() {
   return getThemeTokensControl("color.{alias}");
 }
 
+export function createShadowTokensControl() {
+  return getDesignTokensControl("shadow.level.{alias}");
+}
+
 export function getDesignTokensControl(pattern: string) {
   return getTokensControl(getTokenAliases(tokens, pattern));
 }

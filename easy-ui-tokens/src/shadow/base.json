@@ -20,6 +20,15 @@
     },
     "stuck-from-bottom": {
       "value": "0px -4px 4px 0px hsla(221, 30%, 74%, 0.25)"
+    },
+    "level.1": {
+      "value": "0px 1px 8px 0px hsla(226, 28%, 39%, 0.25)"
+    },
+    "level.2": {
+      "value": "0px 1px 10px 0px hsla(226, 28%, 39%, 0.4)"
+    },
+    "level.3": {
+      "value": "0px 1px 12px 0px hsla(226, 28%, 39%, 0.6)"
     }
   }
 }
