@@ -79,10 +79,17 @@ describe("<Card />", () => {
     );
   });
 
-  it("should render custom background", () => {
+  it("should render custom background keyword", () => {
     render(<Card background="primary">Content</Card>);
     expect(screen.getByTestId("area")).toHaveStyle(
       getComponentThemeToken("card-area", "background", "color", "neutral.000"),
+    );
+  });
+
+  it("should render custom background token", () => {
+    render(<Card background="neutral.100">Content</Card>);
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getComponentThemeToken("card-area", "background", "color", "neutral.100"),
     );
   });
 

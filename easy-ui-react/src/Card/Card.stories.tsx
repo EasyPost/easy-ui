@@ -8,6 +8,7 @@ import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
 import {
+  createColorTokensControl,
   createShadowTokensControl,
   InlineStoryDecorator,
   PlaceholderBox,
@@ -27,6 +28,7 @@ const meta: Meta<typeof Card> = {
   component: Card,
   decorators: [InlineStoryDecorator],
   argTypes: {
+    background: createColorTokensControl(),
     boxShadow: createShadowTokensControl(),
   },
   parameters: {

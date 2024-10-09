@@ -1,6 +1,10 @@
 import omit from "lodash/omit";
 import React, { AllHTMLAttributes, ElementType, ReactNode } from "react";
-import { DesignTokenNamespace, ShadowLevel } from "../types";
+import {
+  DesignTokenNamespace,
+  ShadowLevel,
+  ThemeTokenNamespace,
+} from "../types";
 import {
   ResponsiveProp,
   classNames,
@@ -16,7 +20,10 @@ const DEFAULT_VARIANT = "outlined";
 
 type SpaceScale = DesignTokenNamespace<"space">;
 
-export type CardBackground = "primary" | "secondary";
+export type CardBackground =
+  | "primary"
+  | "secondary"
+  | ThemeTokenNamespace<"color">;
 export type CardVariant = "solid" | "outlined" | "flagged";
 export type CardStatus = "danger" | "warning" | "success" | "neutral";
 export type CardPadding = ResponsiveProp<SpaceScale>;
