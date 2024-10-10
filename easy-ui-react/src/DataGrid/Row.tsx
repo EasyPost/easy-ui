@@ -27,6 +27,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
   const isPendingExpanded = item.value
     ? item.value[EXPAND_COLUMN_KEY as keyof typeof item.value] === true
     : false;
+  const rowIndex = item.index;
 
   const ref = useRef(null);
   const { rowProps, isPressed } = useTableRow({ node: item }, state, ref);
@@ -49,8 +50,8 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
   }, [hoverProps]);
 
   const context = useMemo(() => {
-    return { isExpanded, removeHover };
-  }, [isExpanded, removeHover]);
+    return { isExpanded, isFocusVisible, removeHover, index: rowIndex };
+  }, [isExpanded, isFocusVisible, removeHover, rowIndex]);
 
   const className = classNames(
     styles.Row,
@@ -64,7 +65,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
 
   return (
     <DataGridRowContext.Provider value={context}>
-      <div
+      <tr
         ref={ref}
         {...mergeProps(rowProps, focusProps, hoverProps)}
         className={className}
@@ -72,7 +73,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
         data-ezui-data-grid-row="true"
       >
         {children}
-      </div>
+      </tr>
     </DataGridRowContext.Provider>
   );
 }

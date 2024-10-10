@@ -40,7 +40,9 @@ export const useDataGridTable = () => {
 
 type DataGridRowContextType = {
   isExpanded: boolean;
+  isFocusVisible: boolean;
   removeHover: () => void;
+  index?: number;
 };
 
 export const DataGridRowContext = createContext<DataGridRowContextType | null>(

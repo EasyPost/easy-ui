@@ -59,21 +59,28 @@ export function ColumnHeader({ column, state }: ColumnHeaderProps) {
       styles.secondToLastWithActions,
   );
 
+  const contentClassName = classNames(
+    styles.content,
+    column.props.allowsSorting && styles.allowsSorting,
+  );
+
   const ColumnHeaderContentComponent = column.props.isSelectionCell
     ? SelectAllColumnHeaderContent
     : DefaultColumnHeaderContent;
 
   return (
-    <div
+    <td
       ref={ref}
       {...mergeProps(columnHeaderProps, focusProps)}
       className={className}
       data-ezui-data-grid-column-header="true"
     >
-      <ColumnHeaderContentComponent column={column} state={state} />
-      <div data-ezui-data-grid-shadow="bottom" />
-      <div data-ezui-data-grid-shadow="side" />
-    </div>
+      <div className={contentClassName}>
+        <ColumnHeaderContentComponent column={column} state={state} />
+        <div data-ezui-data-grid-shadow="bottom" />
+        <div data-ezui-data-grid-shadow="side" />
+      </div>
+    </td>
   );
 }
 

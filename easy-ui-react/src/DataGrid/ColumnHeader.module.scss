@@ -2,19 +2,20 @@
 @use "mixins" as DataGrid;
 
 .ColumnHeader {
-  @include font-style("subtitle2");
-
-  display: inline-flex;
-  align-items: center;
-  padding: 0 design-token("space.2");
-
   position: sticky;
   top: 0;
   background: component-token("data-grid", "header-bg");
   color: component-token("data-grid", "header-text");
-  height: component-token("data-grid", "header-row-height");
-  z-index: component-token("data-grid", "column-z-index");
   outline: none;
+  padding: 0 design-token("space.2");
+  z-index: component-token("data-grid", "column-z-index");
+}
+
+.content {
+  @include font-style("subtitle1");
+  display: inline-flex;
+  align-items: center;
+  height: component-token("data-grid", "header-row-height");
 }
 
 .allowsSorting {

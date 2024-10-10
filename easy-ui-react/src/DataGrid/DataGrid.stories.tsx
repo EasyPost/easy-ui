@@ -97,7 +97,6 @@ const meta: Meta<typeof DataGrid> = {
   args: {
     headerVariant: "primary",
     selectionMode: "none",
-    templateColumns: "min-content 1fr min-content min-content min-content",
   },
   parameters: {
     controls: {
@@ -170,7 +169,7 @@ export const WithKebabMenu: Story = {
 };
 
 export const WithHeaderVariant: Story = {
-  render: Template.bind({}),
+  render: WithSortTemplate.bind({}),
   args: {
     "aria-label": "Example data grid with header variant",
     headerVariant: "secondary",
@@ -186,6 +185,20 @@ export const WithSort: Story = {
   render: WithSortTemplate.bind({}),
   args: {
     "aria-label": "Example data grid with sort",
+  },
+};
+
+export const WithCustomSize: Story = {
+  render: WithSortTemplate.bind({}),
+  args: {
+    "aria-label": "Example data grid with custom size",
+    selectionMode: "multiple",
+    size: "lg",
+  },
+  parameters: {
+    controls: {
+      include: ["size"],
+    },
   },
 };
 

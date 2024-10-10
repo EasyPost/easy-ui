@@ -40,6 +40,7 @@ export function Cell({ cell, state }: CellProps) {
     styles.Cell,
     isFocusVisible && styles.focused,
     row.isExpanded && styles.expanded,
+    row.isFocusVisible && styles.rowFocused,
     hasRightShadow && styles[variationName("shadow", "right")],
     hasLeftShadow && styles[variationName("shadow", "left")],
     cell.index === 0 && styles.first,
@@ -52,6 +53,8 @@ export function Cell({ cell, state }: CellProps) {
     hasActionsAtEnd &&
       cell.index === state.collection.columnCount - 2 &&
       styles.secondToLastWithActions,
+    row.index === 0 && styles.firstRow,
+    row.index === state.collection.size - 1 && styles.lastRow,
   );
 
   const CellContentComponent = cell.props.isSelectionCell
@@ -59,14 +62,16 @@ export function Cell({ cell, state }: CellProps) {
     : DefaultCellContent;
 
   return (
-    <div
+    <td
       {...mergeProps(gridCellProps, focusProps)}
       ref={ref}
       className={className}
     >
-      <CellContentComponent cell={cell} state={state} />
-      <div data-ezui-data-grid-shadow />
-    </div>
+      <div className={styles.content}>
+        <CellContentComponent cell={cell} state={state} />
+        <div data-ezui-data-grid-shadow />
+      </div>
+    </td>
   );
 }
 
