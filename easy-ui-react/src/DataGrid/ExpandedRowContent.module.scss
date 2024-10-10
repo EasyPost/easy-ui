@@ -7,4 +7,5 @@
   top: component-token("data-grid", "expanded-row-position");
   opacity: component-token("data-grid", "expanded-row-opacity");
   padding: design-token("space.1") design-token("space.5");
+  z-index: component-token("data-grid", "expanded-row-z-index");
 }

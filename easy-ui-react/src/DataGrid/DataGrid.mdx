@@ -44,6 +44,10 @@ const rows = [
   rows={rows}
   renderColumnCell={(column) => <span>{String(column.name)}</span>}
   renderRowCell={(item, columnKey, row) => <span>{String(item)}</span>}
+  // Handler that is called when a user performs an action on the cell
+  onCellAction={(key) => {}}
+  // Handler that is called when a user performs an action on the row
+  onRowAction={(key: Key) => {}}
   // Enable row expansion
   renderExpandedRow={(rowKey: Key) => <div>Expanded row content</div>}
   defaultExpandedKey={1}

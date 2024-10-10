@@ -55,6 +55,7 @@
   @include component-token("data-grid", "cell-stuck-z-index", 2);
   @include component-token("data-grid", "column-z-index", 3);
   @include component-token("data-grid", "column-stuck-z-index", 4);
+  @include component-token("data-grid", "expanded-row-z-index", 5);
   @include component-token("data-grid", "sticky-left-offset", -16px);
   @include component-token("data-grid", "sticky-right-offset", -12px);
   @include component-token("data-grid", "action-cell-width", 44px);
@@ -74,23 +75,11 @@
   /* stylelint-enable scss/operator-no-newline-after */
   overflow: auto;
   position: relative;
+  line-height: 0;
 
   [data-ezui-data-grid-shadow] {
     position: absolute;
   }
-}
-
-.contents {
-  display: contents;
-}
-
-.table {
-  position: relative;
-  min-width: min-content;
-  display: grid;
-  grid-template-rows: auto;
-  grid-template-areas: component-token("data-grid", "template-areas");
-  grid-template-columns: component-token("data-grid", "template-columns");
 }
 
 .sizeSm {
@@ -100,6 +89,18 @@
 
 .sizeLg {
   @include component-token("data-grid", "body-row-height", 80px);
+}
+
+.contents {
+  display: contents;
+}
+
+.table {
+  position: relative;
+  min-width: min-content;
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 .headerSecondary {

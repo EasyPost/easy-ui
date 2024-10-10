@@ -2,27 +2,37 @@
 @use "mixins" as DataGrid;
 
 .Cell {
-  @include font-style("body1");
-
-  display: inline-flex;
-  align-items: center;
-  padding: 0 design-token("space.2");
-
   background: component-token("data-grid", "cell-bg");
   border-bottom: design-token("shape.border_width.1") solid
     component-token("data-grid", "cell-border-color");
   color: component-token("data-grid", "cell-text");
-  height: component-token("data-grid", "body-row-height");
+  padding: 0 design-token("space.2");
   z-index: component-token("data-grid", "cell-z-index");
+  outline: none;
+}
+
+.content {
+  @include font-style("body1");
+  display: inline-flex;
+  align-items: center;
+  height: calc(
+    component-token("data-grid", "body-row-height") - design-token(
+        "shape.border_width.1"
+      )
+  );
 }
 
 .lastRow {
   border-bottom: 0;
 }
 
-.focused {
-  outline-offset: -1px;
-  @include native-focus-ring;
+.focused,
+.rowFocused {
+  @include component-token(
+    "data-grid",
+    "cell-bg",
+    design-token("color.neutral.050")
+  );
 }
 
 .expanded {

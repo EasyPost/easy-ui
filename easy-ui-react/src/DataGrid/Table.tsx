@@ -37,7 +37,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
   } = props;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const tableRef = useRef<HTMLDivElement | null>(null);
+  const tableRef = useRef<HTMLTableElement | null>(null);
   const state = useTableState({
     ...props,
     selectionMode,
@@ -60,9 +60,13 @@ export function Table<C extends Column>(props: TableProps<C>) {
   const hasExpansion = columns.some((c) => c.key === EXPAND_COLUMN_KEY);
   const hasRowActions = columns.some((c) => c.key === ACTIONS_COLUMN_KEY);
 
-  const className = classNames(
-    styles.table,
+  const dataGridClassName = classNames(
+    styles.DataGrid,
     styles[variationName("size", size)],
+  );
+
+  const tableClassName = classNames(
+    styles.table,
     headerVariant && styles[variationName("header", headerVariant)],
     hasSelection && styles.hasSelection,
     hasExpansion && styles.hasExpansion,
@@ -100,9 +104,9 @@ export function Table<C extends Column>(props: TableProps<C>) {
 
   return (
     <DataGridTableContext.Provider value={context}>
-      <div ref={containerRef} className={styles.DataGrid} style={style}>
-        <div {...gridProps} ref={tableRef} className={className}>
-          <RowGroup>
+      <div ref={containerRef} className={dataGridClassName} style={style}>
+        <table {...gridProps} ref={tableRef} className={tableClassName}>
+          <RowGroup as="thead">
             {collection.headerRows.map((headerRow) => (
               <HeaderRow key={headerRow.key} item={headerRow} state={state}>
                 {[...headerRow.childNodes].map((column) => (
@@ -115,7 +119,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
               </HeaderRow>
             ))}
           </RowGroup>
-          <RowGroup>
+          <RowGroup as="tbody">
             {[...collection.body.childNodes].map((row) => (
               <Row
                 key={row.key}
@@ -135,7 +139,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
             </ExpandedRowContent>
           )}
           {renderInterceptors()}
-        </div>
+        </table>
       </div>
     </DataGridTableContext.Provider>
   );
