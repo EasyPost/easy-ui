@@ -18,7 +18,6 @@ import { DataGridTableContext } from "./context";
 import { Column, DataGridProps } from "./types";
 import { useEdgeInterceptors } from "./useEdgeInterceptors";
 import { useExpandedRow } from "./useExpandedRow";
-import { useGridTemplate } from "./useGridTemplate";
 
 import styles from "./DataGrid.module.scss";
 
@@ -33,7 +32,6 @@ export function Table<C extends Column>(props: TableProps<C>) {
     renderExpandedRow = (r) => r,
     selectionMode,
     size = DEFAULT_SIZE,
-    templateColumns,
   } = props;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -46,8 +44,10 @@ export function Table<C extends Column>(props: TableProps<C>) {
   });
   const { gridProps } = useTable(props, state, tableRef);
 
-  const { expandedRow, expandedRowStyle } = useExpandedRow({ tableRef, state });
-  const { gridTemplateStyle } = useGridTemplate({ templateColumns, state });
+  const { expandedRow, expandedRowStyle } = useExpandedRow({
+    containerRef,
+    state,
+  });
   const [
     renderInterceptors,
     { isTopEdgeUnderScroll, isLeftEdgeUnderScroll, isRightEdgeUnderScroll },
@@ -78,7 +78,6 @@ export function Table<C extends Column>(props: TableProps<C>) {
 
   const style = {
     ...getComponentToken("data-grid", "max-rows", String(maxRows)),
-    ...gridTemplateStyle,
     ...expandedRowStyle,
   } as CSSProperties;
 
@@ -133,13 +132,13 @@ export function Table<C extends Column>(props: TableProps<C>) {
               </Row>
             ))}
           </RowGroup>
-          {expandedRow && (
-            <ExpandedRowContent>
-              {renderExpandedRow(expandedRow.key)}
-            </ExpandedRowContent>
-          )}
-          {renderInterceptors()}
         </table>
+        {expandedRow && (
+          <ExpandedRowContent>
+            {renderExpandedRow(expandedRow.key)}
+          </ExpandedRowContent>
+        )}
+        {renderInterceptors()}
       </div>
     </DataGridTableContext.Provider>
   );

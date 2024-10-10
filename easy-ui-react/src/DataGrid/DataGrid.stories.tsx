@@ -97,7 +97,6 @@ const meta: Meta<typeof DataGrid> = {
   args: {
     headerVariant: "primary",
     selectionMode: "none",
-    templateColumns: "min-content 1fr min-content min-content min-content",
   },
   parameters: {
     controls: {

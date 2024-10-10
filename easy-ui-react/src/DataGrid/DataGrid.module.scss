@@ -53,9 +53,9 @@
   );
   @include component-token("data-grid", "cell-z-index", 1);
   @include component-token("data-grid", "cell-stuck-z-index", 2);
-  @include component-token("data-grid", "column-z-index", 3);
-  @include component-token("data-grid", "column-stuck-z-index", 4);
-  @include component-token("data-grid", "expanded-row-z-index", 5);
+  @include component-token("data-grid", "expanded-row-z-index", 3);
+  @include component-token("data-grid", "column-z-index", 4);
+  @include component-token("data-grid", "column-stuck-z-index", 5);
   @include component-token("data-grid", "sticky-left-offset", -16px);
   @include component-token("data-grid", "sticky-right-offset", -12px);
   @include component-token("data-grid", "action-cell-width", 44px);

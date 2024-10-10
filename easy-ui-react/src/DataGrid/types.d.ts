@@ -123,12 +123,4 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
 
   /** The current sorted column and direction. */
   sortDescriptor?: SortDescriptor;
-
-  /**
-   * Define a custom grid-template-columns.
-   * Defaults to taking up an even amount of space.
-   *
-   * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns Template columns MDN reference}
-   */
-  templateColumns?: string;
 };

@@ -48,13 +48,6 @@ describe("<DataGrid />", () => {
     );
   });
 
-  it("should support custom template columns", () => {
-    render(createDataGrid({ templateColumns: "1fr 2fr" }));
-    expect(getContainer()).toHaveStyle(
-      getComponentToken("data-grid", "template-columns", "1fr 2fr"),
-    );
-  });
-
   it("should support a header variant", () => {
     render(createDataGrid({ headerVariant: "secondary" }));
     expect(screen.getByRole("grid")).toHaveAttribute(
@@ -65,7 +58,7 @@ describe("<DataGrid />", () => {
 
   it("should support custom size", () => {
     render(createDataGrid({ size: "lg" }));
-    expect(screen.getByRole("grid")).toHaveAttribute(
+    expect(screen.getByRole("grid").parentElement).toHaveAttribute(
       "class",
       expect.stringContaining("sizeLg"),
     );
