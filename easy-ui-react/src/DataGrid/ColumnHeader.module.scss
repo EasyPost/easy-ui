@@ -2,7 +2,7 @@
 @use "mixins" as DataGrid;
 
 .ColumnHeader {
-  @include font-style("subtitle2");
+  @include font-style("subtitle1");
 
   display: inline-flex;
   align-items: center;

@@ -74,7 +74,7 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
    * Variant of the data grid header to use.
    * @default primary
    */
-  headerVariant?: "primary" | "secondary";
+  headerVariant?: "primary" | "secondary" | "emphasized";
 
   /** Constrains the height of the data grid to a set number of rows. */
   maxRows?: number;

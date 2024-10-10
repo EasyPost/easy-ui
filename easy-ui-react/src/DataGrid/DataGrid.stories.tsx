@@ -170,7 +170,7 @@ export const WithKebabMenu: Story = {
 };
 
 export const WithHeaderVariant: Story = {
-  render: Template.bind({}),
+  render: WithSortTemplate.bind({}),
   args: {
     "aria-label": "Example data grid with header variant",
     headerVariant: "secondary",

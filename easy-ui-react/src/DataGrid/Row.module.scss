@@ -8,11 +8,22 @@
   @include component-token(
     "data-grid",
     "cell-bg",
-    design-token("color.neutral.025")
+    design-token("color.neutral.050")
   );
+}
+
+.selected {
   @include component-token(
     "data-grid",
-    "cell-text",
-    design-token("color.primary.700")
+    "cell-bg",
+    design-token("color.primary.050")
+  );
+}
+
+.selected.hovered {
+  @include component-token(
+    "data-grid",
+    "cell-bg",
+    design-token("color.primary.100")
   );
 }

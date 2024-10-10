@@ -100,3 +100,11 @@
     design-token("color.primary.800")
   );
 }
+
+.headerEmphasized {
+  @include component-token(
+    "data-grid",
+    "header-bg",
+    design-token("color.primary.900")
+  );
+}
