@@ -52,6 +52,8 @@ export function Cell({ cell, state }: CellProps) {
     hasActionsAtEnd &&
       cell.index === state.collection.columnCount - 2 &&
       styles.secondToLastWithActions,
+    row.index === 0 && styles.firstRow,
+    row.index === state.collection.size - 1 && styles.lastRow,
   );
 
   const CellContentComponent = cell.props.isSelectionCell

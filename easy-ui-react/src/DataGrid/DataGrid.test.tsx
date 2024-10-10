@@ -63,6 +63,14 @@ describe("<DataGrid />", () => {
     );
   });
 
+  it("should support custom size", () => {
+    render(createDataGrid({ size: "lg" }));
+    expect(screen.getByRole("grid")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeLg"),
+    );
+  });
+
   it("should support multiple selection", async () => {
     const handleSelectionChange = vi.fn();
     const { user } = render(

@@ -189,6 +189,20 @@ export const WithSort: Story = {
   },
 };
 
+export const WithCustomSize: Story = {
+  render: WithSortTemplate.bind({}),
+  args: {
+    "aria-label": "Example data grid with custom size",
+    selectionMode: "multiple",
+    size: "lg",
+  },
+  parameters: {
+    controls: {
+      include: ["size"],
+    },
+  },
+};
+
 export const WithCustomRendering: Story = {
   render: Template.bind({}),
   args: {

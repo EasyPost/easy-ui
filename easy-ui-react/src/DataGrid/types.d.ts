@@ -115,6 +115,12 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   /** The type of selection that is allowed in the collection. */
   selectionMode?: SelectionMode;
 
+  /**
+   * Visual compactness of the DataGrid.
+   * @default md
+   */
+  size?: "sm" | "md" | "lg";
+
   /** The current sorted column and direction. */
   sortDescriptor?: SortDescriptor;
 

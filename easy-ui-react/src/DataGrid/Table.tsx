@@ -11,6 +11,7 @@ import { RowGroup } from "./RowGroup";
 import {
   ACTIONS_COLUMN_KEY,
   DEFAULT_MAX_ROWS,
+  DEFAULT_SIZE,
   EXPAND_COLUMN_KEY,
 } from "./constants";
 import { DataGridTableContext } from "./context";
@@ -31,6 +32,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
     maxRows = DEFAULT_MAX_ROWS,
     renderExpandedRow = (r) => r,
     selectionMode,
+    size = DEFAULT_SIZE,
     templateColumns,
   } = props;
 
@@ -42,11 +44,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
     selectionBehavior: "toggle",
     showSelectionCheckboxes: selectionMode !== "none",
   });
-  const { gridProps } = useTable(
-    { ...props, focusMode: "cell" },
-    state,
-    tableRef,
-  );
+  const { gridProps } = useTable(props, state, tableRef);
 
   const { expandedRow, expandedRowStyle } = useExpandedRow({ tableRef, state });
   const { gridTemplateStyle } = useGridTemplate({ templateColumns, state });
@@ -64,6 +62,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
 
   const className = classNames(
     styles.table,
+    styles[variationName("size", size)],
     headerVariant && styles[variationName("header", headerVariant)],
     hasSelection && styles.hasSelection,
     hasExpansion && styles.hasExpansion,
