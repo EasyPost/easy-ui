@@ -3,6 +3,8 @@
 .Row {
   vertical-align: top;
   outline: none;
+  user-select: none;
+  cursor: default;
 }
 
 .expanded {
