@@ -91,6 +91,11 @@
   @include component-token("data-grid", "body-row-height", 80px);
 }
 
+.innerContainer {
+  position: relative;
+  min-width: min-content;
+}
+
 .contents {
   display: contents;
 }

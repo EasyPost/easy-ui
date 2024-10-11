@@ -263,6 +263,35 @@ export const WithRowExpansionAndKebabMenu: Story = {
       },
     ],
   },
+  parameters: {
+    controls: {
+      include: ["size", "maxRows"],
+    },
+  },
+};
+
+export const WithSelectionAndSortAndKebabMenu: Story = {
+  render: WithSortTemplate.bind({}),
+  args: {
+    "aria-label": "Example data grid with selection and sort and kebab menu",
+    selectionMode: "multiple",
+    rowActions: () => [
+      {
+        type: "menu",
+        renderMenuOverlay: () => (
+          <Menu.Overlay onAction={action("Menu item clicked!")}>
+            <Menu.Item>Action 1</Menu.Item>
+            <Menu.Item>Action 2</Menu.Item>
+          </Menu.Overlay>
+        ),
+      },
+    ],
+  },
+  parameters: {
+    controls: {
+      include: ["size", "maxRows"],
+    },
+  },
 };
 
 function WithSortTemplate(args: Partial<DataGridProps>) {
