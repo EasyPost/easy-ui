@@ -111,6 +111,7 @@ export const Default: Story = {
   render: Template.bind({}),
   args: {
     "aria-label": "Example data grid",
+    onRowAction: action("Row action!"),
   },
   parameters: {
     controls: {
@@ -142,6 +143,7 @@ export const WithRowExpansion: Story = {
   render: Template.bind({}),
   args: {
     "aria-label": "Example data grid with row expansion",
+    onRowAction: action("Row action!"),
     renderExpandedRow: (rowKey: Key) => (
       <PlaceholderBox width="100%" height="140px">
         Space for row {rowKey} content
@@ -154,6 +156,7 @@ export const WithKebabMenu: Story = {
   render: Template.bind({}),
   args: {
     "aria-label": "Example data grid with kebab menu",
+    onRowAction: action("Row action!"),
     rowActions: () => [
       {
         type: "menu",
@@ -172,6 +175,7 @@ export const WithHeaderVariant: Story = {
   render: WithSortTemplate.bind({}),
   args: {
     "aria-label": "Example data grid with header variant",
+    onRowAction: action("Row action!"),
     headerVariant: "secondary",
   },
   parameters: {
@@ -192,6 +196,7 @@ export const WithCustomSize: Story = {
   render: WithSortTemplate.bind({}),
   args: {
     "aria-label": "Example data grid with custom size",
+    onRowAction: action("Row action!"),
     selectionMode: "multiple",
     size: "lg",
   },
@@ -206,6 +211,7 @@ export const WithCustomRendering: Story = {
   render: Template.bind({}),
   args: {
     "aria-label": "Example data grid with custom rendering",
+    onRowAction: action("Row action!"),
     renderRowCell(cell, columnKey) {
       if (columnKey === "status") {
         return (
@@ -228,6 +234,7 @@ export const WithIcons: Story = {
   render: Template.bind({}),
   args: {
     "aria-label": "Example data grid with icons",
+    onRowAction: action("Row action!"),
     renderRowCell(cell, columnKey) {
       if (columnKey === "status") {
         return (
@@ -246,6 +253,7 @@ export const WithRowExpansionAndKebabMenu: Story = {
   args: {
     "aria-label": "Example data grid with row expansion and kebab menu",
     rows,
+    onRowAction: action("Row action!"),
     renderExpandedRow: (rowKey: Key) => (
       <PlaceholderBox width="100%" height="140px">
         Space for row {rowKey} content
