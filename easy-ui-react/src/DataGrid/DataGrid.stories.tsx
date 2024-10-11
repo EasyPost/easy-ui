@@ -196,7 +196,6 @@ export const WithCustomSize: Story = {
   render: WithSortTemplate.bind({}),
   args: {
     "aria-label": "Example data grid with custom size",
-    onRowAction: action("Row action!"),
     selectionMode: "multiple",
     size: "lg",
   },
