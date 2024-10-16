@@ -1,6 +1,10 @@
 import omit from "lodash/omit";
 import React, { AllHTMLAttributes, ElementType, ReactNode } from "react";
-import { DesignTokenNamespace } from "../types";
+import {
+  DesignTokenNamespace,
+  ShadowLevel,
+  ThemeTokenNamespace,
+} from "../types";
 import {
   ResponsiveProp,
   classNames,
@@ -16,7 +20,10 @@ const DEFAULT_VARIANT = "outlined";
 
 type SpaceScale = DesignTokenNamespace<"space">;
 
-export type CardBackground = "primary" | "secondary";
+export type CardBackground =
+  | "primary"
+  | "secondary"
+  | ThemeTokenNamespace<"color">;
 export type CardVariant = "solid" | "outlined" | "flagged";
 export type CardStatus = "danger" | "warning" | "success" | "neutral";
 export type CardPadding = ResponsiveProp<SpaceScale>;
@@ -44,6 +51,11 @@ export type CardContainerProps = {
    * @default outlined
    */
   variant?: CardVariant;
+
+  /**
+   * Card shadow.
+   */
+  boxShadow?: ShadowLevel;
 } & AllHTMLAttributes<ElementType>;
 
 export type CardAreaProps = {
@@ -74,6 +86,7 @@ function CardContainer(props: CardContainerProps) {
     isSelected,
     status,
     variant = DEFAULT_VARIANT,
+    boxShadow,
     ...restProps
   } = props;
 
@@ -84,6 +97,10 @@ function CardContainer(props: CardContainerProps) {
     variant === "outlined" && isDisabled && styles.disabled,
     variant === "outlined" && isSelected && styles.selected,
   );
+
+  const style = {
+    ...getComponentThemeToken("card", "box-shadow", "shadow.level", boxShadow),
+  };
 
   if (variant !== "flagged" && status) {
     console.warn("status is only applicable for flagged cards");
@@ -96,9 +113,10 @@ function CardContainer(props: CardContainerProps) {
   return (
     <As
       className={className}
+      style={style}
       data-testid="container"
       disabled={isDisabled}
-      {...omit(restProps, ["className"])}
+      {...omit(restProps, ["className", "style"])}
     >
       {children}
     </As>
@@ -157,6 +175,12 @@ function getBackgroundToken(background: CardAreaProps["background"]) {
  * _Flagged:_
  * ```tsx
  * <Card variant="flagged" status="danger">Content</Card>
+ * ```
+ *
+ * @example
+ * _Shadow:_
+ * ```tsx
+ * <Card boxShadow="1">Content</Card>
  * ```
  *
  * @example
