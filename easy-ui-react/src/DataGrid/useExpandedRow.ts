@@ -97,11 +97,7 @@ function getExpandedRowContentRect($container: HTMLElement) {
     .map((r) => r.childNodes[0] as HTMLElement)
     .filter((_, i) => i < expandedIndex)
     .reduce((acc, c) => acc + c.offsetHeight, 0);
-  const y =
-    heightOfPreviousRows +
-    $firstColumnHeader.offsetHeight +
-    $expandedRowCells[0].offsetHeight -
-    $expandedRowContent.offsetHeight;
+  const y = heightOfPreviousRows + $firstColumnHeader.offsetHeight;
   const width =
     $expandedRowCells.reduce((acc, c) => acc + c.offsetWidth, 0) - 1;
   const height = $expandedRowContent.offsetHeight;

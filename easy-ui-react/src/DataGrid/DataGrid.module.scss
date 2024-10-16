@@ -59,6 +59,7 @@
   @include component-token("data-grid", "sticky-left-offset", -16px);
   @include component-token("data-grid", "sticky-right-offset", -12px);
   @include component-token("data-grid", "action-cell-width", 44px);
+  @include component-token("data-grid", "expanded-row-opacity", 0);
 
   border: component-token("data-grid", "border-width") solid
     component-token("data-grid", "border-color");

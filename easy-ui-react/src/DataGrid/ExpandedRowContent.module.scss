@@ -5,7 +5,13 @@
   left: 0;
   right: 0;
   top: component-token("data-grid", "expanded-row-position");
+  margin-top: component-token("data-grid", "body-row-height");
   opacity: component-token("data-grid", "expanded-row-opacity");
   padding: design-token("space.1") design-token("space.5");
+  pointer-events: none;
   z-index: component-token("data-grid", "expanded-row-z-index");
+}
+
+.inner {
+  pointer-events: auto;
 }
