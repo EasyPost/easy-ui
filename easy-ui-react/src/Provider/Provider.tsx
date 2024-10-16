@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
+import { ThemeProvider } from "../Theme";
 import { NotificationPlacement, NotificationProvider } from "../Notification";
 import type { ColorScheme, ThemeCreator } from "../Theme";
-import { ThemeProvider } from "../Theme";
 
 import "../styles/global.scss";
 
