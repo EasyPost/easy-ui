@@ -45,10 +45,6 @@ const preview: Preview = {
       const background = context.globals.backgrounds?.value;
       return (
         <EasyUIProvider
-          navigate={(path, routerOptions) => {
-            console.log("path", path);
-            console.log("routerOptions", routerOptions);
-          }}
           colorScheme={background === "#1c222d" ? "dark" : "light"}
         >
           <Story />

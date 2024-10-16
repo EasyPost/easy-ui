@@ -1,10 +1,7 @@
-import { RouterProvider } from "@react-aria/utils";
-import { Href, RouterOptions } from "@react-types/shared";
 import React, { ReactElement } from "react";
 import { NotificationPlacement, NotificationProvider } from "../Notification";
 import type { ColorScheme, ThemeCreator } from "../Theme";
 import { ThemeProvider } from "../Theme";
-import { Noop } from "../utilities/Noop";
 
 import "../styles/global.scss";
 
@@ -17,8 +14,6 @@ export interface ProviderProps {
   colorScheme?: ColorScheme;
   /** Notification placement props */
   notificationPlacement?: NotificationPlacement;
-  navigate?: (path: Href, routerOptions: RouterOptions | undefined) => void;
-  useHref?: (href: Href) => string;
 }
 
 /**
@@ -74,17 +69,12 @@ export function Provider({
   theme,
   colorScheme,
   notificationPlacement,
-  navigate,
-  useHref,
 }: ProviderProps) {
-  const ThisRouterProvider = navigate ? RouterProvider : Noop;
   return (
-    <ThisRouterProvider navigate={navigate!} useHref={useHref}>
-      <ThemeProvider theme={theme} colorScheme={colorScheme}>
-        <NotificationProvider notificationPlacement={notificationPlacement}>
-          {children}
-        </NotificationProvider>
-      </ThemeProvider>
-    </ThisRouterProvider>
+    <ThemeProvider theme={theme} colorScheme={colorScheme}>
+      <NotificationProvider notificationPlacement={notificationPlacement}>
+        {children}
+      </NotificationProvider>
+    </ThemeProvider>
   );
 }
