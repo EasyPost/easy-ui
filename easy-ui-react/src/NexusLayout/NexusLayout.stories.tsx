@@ -34,8 +34,12 @@ export const EmptyContent: Story = {
   render: () => (
     <NexusLayout>
       <NexusLayout.Header>
-        <NexusLayout.Nav>
-          <NexusLayout.NavLink href="/test" iconSymbol={StorefrontIcon}>
+        <NexusLayout.Nav selectedKey="/1">
+          <NexusLayout.NavLink
+            key="/1"
+            href="/test"
+            iconSymbol={StorefrontIcon}
+          >
             Order Fulfillment
           </NexusLayout.NavLink>
           <NexusLayout.NavLink href="/test" iconSymbol={VerifiedUserIcon}>
@@ -165,6 +169,7 @@ export const MultiPageContent: Story = {
                 <NexusLayout.MultiPageSidebarNavLink
                   href="/"
                   iconSymbol={VerifiedUserIcon}
+                  isSelected
                 >
                   Username and Password
                 </NexusLayout.MultiPageSidebarNavLink>

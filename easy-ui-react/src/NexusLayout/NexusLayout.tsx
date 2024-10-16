@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactNode, useRef } from "react";
+import React, { Key, ReactNode, useId, useRef } from "react";
 import { AriaLinkOptions, useLink } from "react-aria";
 import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { HorizontalStack } from "../HorizontalStack";
@@ -7,15 +7,21 @@ import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { IconSymbol } from "../types";
+import { VerticalStack } from "../VerticalStack";
 
 import styles from "./NexusLayout.module.scss";
-import { VerticalStack } from "../VerticalStack";
 
 export type NexusLayoutProps = {
   children: ReactNode;
 };
 
 export type NexusLayoutNexusContentProps = {
+  children: ReactNode;
+};
+
+export type NexusLayoutNavProps = {
+  "aria-label"?: string;
+  selectedKey?: Key;
   children: ReactNode;
 };
 
@@ -49,6 +55,7 @@ export type NexusLayoutNexusNavLinkProps = {
 
 export type NexusLayoutMultiPageNavProps = {
   title: ReactNode;
+  selectedKey?: Key;
   children: ReactNode;
 };
 
@@ -99,9 +106,13 @@ function NexusLayoutMenuAction(props: MenuAction) {
   );
 }
 
-function NexusLayoutNav(props: NexusLayoutNexusContentProps) {
-  const { children } = props;
-  return <nav className={styles.nexusNav}>{children}</nav>;
+function NexusLayoutNav(props: NexusLayoutNavProps) {
+  const { "aria-label": ariaLabel = "Main", children } = props;
+  return (
+    <nav aria-label={ariaLabel} className={styles.nexusNav}>
+      {children}
+    </nav>
+  );
 }
 
 function NexusLayoutNavLink(props: NexusLayoutNexusNavLinkProps) {
@@ -134,9 +145,12 @@ function NexusLayoutMultiPageSidebar(props: NexusLayoutNexusContentProps) {
 
 function NexusLayoutMultiPageSidebarNav(props: any) {
   const { title, children } = props;
+  const titleId = useId();
   return (
-    <VerticalStack gap="2">
-      <Text variant="heading4">{title}</Text>
+    <VerticalStack gap="2" aria-labelledBy={titleId}>
+      <Text variant="heading4" id={titleId}>
+        {title}
+      </Text>
       {children}
     </VerticalStack>
   );
@@ -191,6 +205,21 @@ function NexusLayoutMultiPageTitle(props: NexusLayoutNexusContentProps) {
   const { children } = props;
   return <Text variant="heading5">{children}</Text>;
 }
+NexusLayout.Header = NexusLayoutHeader;
+NexusLayout.Actions = NexusLayoutActions;
+NexusLayout.MenuAction = NexusLayoutMenuAction;
+NexusLayout.Header = NexusLayoutHeader;
+NexusLayout.Nav = NexusLayoutNav;
+NexusLayout.NavLink = NexusLayoutNavLink;
+NexusLayout.Content = NexusLayoutContent;
+NexusLayout.MultiPageContainer = NexusLayoutMultiPageContainer;
+NexusLayout.MultiPageSidebar = NexusLayoutMultiPageSidebar;
+NexusLayout.MultiPageSidebarNav = NexusLayoutMultiPageSidebarNav;
+NexusLayout.MultiPageSidebarNavSection = NexusLayoutMultiPageSidebarNavSection;
+NexusLayout.MultiPageSidebarNavLink = NexusLayoutMultiPageSidebarNavLink;
+NexusLayout.MultiPageContent = NexusLayoutMultiPageContent;
+NexusLayout.MultiPageHeader = NexusLayoutMultiPageHeader;
+NexusLayout.MultiPageTitle = NexusLayoutMultiPageTitle;
 
 function EasyPostLogo() {
   return (
@@ -216,19 +245,3 @@ function EasyPostLogo() {
     </svg>
   );
 }
-
-NexusLayout.Header = NexusLayoutHeader;
-NexusLayout.Actions = NexusLayoutActions;
-NexusLayout.MenuAction = NexusLayoutMenuAction;
-NexusLayout.Header = NexusLayoutHeader;
-NexusLayout.Nav = NexusLayoutNav;
-NexusLayout.NavLink = NexusLayoutNavLink;
-NexusLayout.Content = NexusLayoutContent;
-NexusLayout.MultiPageContainer = NexusLayoutMultiPageContainer;
-NexusLayout.MultiPageSidebar = NexusLayoutMultiPageSidebar;
-NexusLayout.MultiPageSidebarNav = NexusLayoutMultiPageSidebarNav;
-NexusLayout.MultiPageSidebarNavSection = NexusLayoutMultiPageSidebarNavSection;
-NexusLayout.MultiPageSidebarNavLink = NexusLayoutMultiPageSidebarNavLink;
-NexusLayout.MultiPageContent = NexusLayoutMultiPageContent;
-NexusLayout.MultiPageHeader = NexusLayoutMultiPageHeader;
-NexusLayout.MultiPageTitle = NexusLayoutMultiPageTitle;
