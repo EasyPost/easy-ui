@@ -12,25 +12,36 @@
       }
     },
     "size": {
+      "12.5": { "value": "9px", "attributes": { "unit": "rem" } },
       "25": { "value": "10px", "attributes": { "unit": "rem" } },
+      "37.5": { "value": "11px", "attributes": { "unit": "rem" } },
       "50": { "value": "12px", "attributes": { "unit": "rem" } },
       "75": { "value": "13px", "attributes": { "unit": "rem" } },
       "100": { "value": "15px", "attributes": { "unit": "rem" } },
+      "125": { "value": "16px", "attributes": { "unit": "rem" } },
       "200": { "value": "19px", "attributes": { "unit": "rem" } },
       "300": { "value": "23px", "attributes": { "unit": "rem" } },
       "400": { "value": "33px", "attributes": { "unit": "rem" } },
       "500": { "value": "46px", "attributes": { "unit": "rem" } },
-      "600": { "value": "52px", "attributes": { "unit": "rem" } }
+      "600": { "value": "52px", "attributes": { "unit": "rem" } },
+      "700": { "value": "58px", "attributes": { "unit": "rem" } }
     },
     "line_height": {
+      "0.9375": { "value": "15px", "attributes": { "unit": "rem" } },
       "1": { "value": "16px", "attributes": { "unit": "rem" } },
+      "1.25": { "value": "18px", "attributes": { "unit": "rem" } },
+      "1.5": { "value": "20px", "attributes": { "unit": "rem" } },
+      "1.75": { "value": "22px", "attributes": { "unit": "rem" } },
       "2": { "value": "24px", "attributes": { "unit": "rem" } },
+      "2.5": { "value": "28px", "attributes": { "unit": "rem" } },
       "3": { "value": "32px", "attributes": { "unit": "rem" } },
       "4": { "value": "40px", "attributes": { "unit": "rem" } },
       "5": { "value": "56px", "attributes": { "unit": "rem" } },
-      "6": { "value": "64px", "attributes": { "unit": "rem" } }
+      "6": { "value": "64px", "attributes": { "unit": "rem" } },
+      "7": { "value": "72px", "attributes": { "unit": "rem" } }
     },
     "weight": {
+      "light": { "value": "300" },
       "normal": { "value": "400" },
       "medium": { "value": "500" },
       "semibold": { "value": "600" },
