@@ -101,7 +101,7 @@ export function Icon({
   return (
     <span className={styles.Icon} style={style}>
       <Symbol
-        className={styles.Svg}
+        className={styles.symbol}
         focusable="false"
         role="img"
         title={accessibilityLabel}
