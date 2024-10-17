@@ -14,7 +14,7 @@ type ResponsiveIconSize = {
 type IconColor = TokenNamespace<"color">;
 
 interface Icon {
-  symbol: ReactElement<IconSymbol>;
+  symbol: ReactElement<IconSymbol> | ReactElement<ComponentProps<"img">>;
   size?: IconSize | ResponsiveIconSize;
   color?: IconColor;
   accessibilityLabel?: string;

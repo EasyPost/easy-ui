@@ -15,10 +15,10 @@ import { EXPAND_COLUMN_KEY } from "./constants";
  * and height of the expanded row box to manage its positioning in the grid.
  */
 export function useExpandedRow({
-  tableRef,
+  containerRef,
   state,
 }: {
-  tableRef: MutableRefObject<HTMLDivElement | null>;
+  containerRef: MutableRefObject<HTMLDivElement | null>;
   state: TableState<unknown>;
 }) {
   const [expandedRowRect, setExpandedRowRect] = useState<DOMRect | null>(null);
@@ -30,16 +30,16 @@ export function useExpandedRow({
   });
 
   useLayoutEffect(() => {
-    if (tableRef.current && expandedRow) {
-      setExpandedRowRect(getExpandedRowContentRect(tableRef.current));
+    if (containerRef.current && expandedRow) {
+      setExpandedRowRect(getExpandedRowContentRect(containerRef.current));
     }
-  }, [tableRef, expandedRow]);
+  }, [containerRef, expandedRow]);
 
   useResizeObserver({
-    ref: tableRef,
+    ref: containerRef,
     onResize() {
-      if (tableRef.current && expandedRow) {
-        const rect = getExpandedRowContentRect(tableRef.current);
+      if (containerRef.current && expandedRow) {
+        const rect = getExpandedRowContentRect(containerRef.current);
         if (
           !expandedRowRect ||
           rect.height !== expandedRowRect.height ||
@@ -80,53 +80,50 @@ export function useExpandedRow({
 /**
  * Calculates a DOMRect (bounding client rectangle) for the expanded row
  * content box. This is used to position the expanded row content absolutely
- * within the table.
+ * within the container.
  *
- * @param $table Table element
+ * @param $container Containerlement
  * @param isPending whether or not to compute the pending expanded row or the active one
  * @returns a DOMRect of the expanded row content
  */
-function getExpandedRowContentRect($table: HTMLElement) {
-  const $rows = getDataGridRowEls($table);
-  const $firstColumnHeader = getFirstColumnHeaderEl($table);
-  const $expandedRowContent = getExpandedRowContentEl($table);
-  const $expandedRow = getExpandedRowEl($table);
+function getExpandedRowContentRect($container: HTMLElement) {
+  const $rows = getDataGridRowEls($container);
+  const $firstColumnHeader = getFirstColumnHeaderEl($container);
+  const $expandedRowContent = getExpandedRowContentEl($container);
+  const $expandedRow = getExpandedRowEl($container);
   const expandedIndex = $rows.findIndex((r) => r === $expandedRow);
   const $expandedRowCells = [...$expandedRow.childNodes] as HTMLElement[];
   const heightOfPreviousRows = $rows
     .map((r) => r.childNodes[0] as HTMLElement)
     .filter((_, i) => i < expandedIndex)
     .reduce((acc, c) => acc + c.offsetHeight, 0);
-  const y =
-    heightOfPreviousRows +
-    $firstColumnHeader.offsetHeight +
-    $expandedRowCells[0].offsetHeight;
+  const y = heightOfPreviousRows + $firstColumnHeader.offsetHeight;
   const width =
     $expandedRowCells.reduce((acc, c) => acc + c.offsetWidth, 0) - 1;
   const height = $expandedRowContent.offsetHeight;
   return new DOMRect(0, y, width, height);
 }
 
-function getFirstColumnHeaderEl($table: HTMLElement) {
-  return $table.querySelector(
+function getFirstColumnHeaderEl($container: HTMLElement) {
+  return $container.querySelector(
     `[data-ezui-data-grid-column-header="true"]`,
   ) as HTMLElement;
 }
 
-function getDataGridRowEls($table: HTMLElement) {
+function getDataGridRowEls($container: HTMLElement) {
   return [
-    ...$table.querySelectorAll(`[data-ezui-data-grid-row="true"]`),
+    ...$container.querySelectorAll(`[data-ezui-data-grid-row="true"]`),
   ] as HTMLElement[];
 }
 
-function getExpandedRowContentEl($table: HTMLElement) {
-  return $table.querySelector(
+function getExpandedRowContentEl($container: HTMLElement) {
+  return $container.querySelector(
     `[data-ezui-data-grid-expanded-row-content="active"]`,
   ) as HTMLElement;
 }
 
-function getExpandedRowEl($table: HTMLElement) {
-  return $table.querySelector(
+function getExpandedRowEl($container: HTMLElement) {
+  return $container.querySelector(
     `[data-ezui-data-grid-expanded-row='true']`,
   ) as HTMLElement;
 }

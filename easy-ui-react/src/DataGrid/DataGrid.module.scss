@@ -4,20 +4,20 @@
   @include component-token(
     "data-grid",
     "header-bg",
-    design-token("color.blue.800")
+    design-token("color.primary.700")
   );
   @include component-token(
     "data-grid",
     "header-text",
-    design-token("color.white")
+    design-token("color.neutral.000")
   );
   @include component-token("data-grid", "header-row-height", 48px);
-  @include component-token("data-grid", "body-row-height", 56px);
+  @include component-token("data-grid", "body-row-height", 48px);
   @include component-token("data-grid", "expand-btn-size", 24px);
   @include component-token(
     "data-grid",
     "sort-icon-color",
-    design-token("color.gray.500")
+    design-token("color.neutral.500")
   );
   @include component-token(
     "data-grid",
@@ -27,32 +27,43 @@
   @include component-token(
     "data-grid",
     "border-color",
-    design-token("color.gray.300")
+    design-token("color.neutral.200")
+  );
+  @include component-token(
+    "data-grid",
+    "cell-border-color",
+    design-token("color.neutral.100")
   );
   @include component-token("data-grid", "sticky-shadow-size", 8px);
   @include component-token("data-grid", "sticky-shadow-opacity", 0.5);
   @include component-token(
     "data-grid",
     "sticky-shadow-color",
-    design-token("color.gray.500")
+    design-token("color.neutral.500")
   );
-  @include component-token("data-grid", "cell-bg", design-token("color.white"));
+  @include component-token(
+    "data-grid",
+    "cell-bg",
+    design-token("color.neutral.000")
+  );
   @include component-token(
     "data-grid",
     "cell-text",
-    design-token("color.blue.800")
+    design-token("color.primary.900")
   );
   @include component-token("data-grid", "cell-z-index", 1);
   @include component-token("data-grid", "cell-stuck-z-index", 2);
-  @include component-token("data-grid", "column-z-index", 3);
-  @include component-token("data-grid", "column-stuck-z-index", 4);
+  @include component-token("data-grid", "expanded-row-z-index", 3);
+  @include component-token("data-grid", "column-z-index", 4);
+  @include component-token("data-grid", "column-stuck-z-index", 5);
   @include component-token("data-grid", "sticky-left-offset", -16px);
   @include component-token("data-grid", "sticky-right-offset", -12px);
   @include component-token("data-grid", "action-cell-width", 44px);
+  @include component-token("data-grid", "expanded-row-opacity", 0);
 
   border: component-token("data-grid", "border-width") solid
     component-token("data-grid", "border-color");
-  border-radius: design-token("shape.border_radius.md");
+  border-radius: design-token("shape.border_radius.lg");
   /* stylelint-disable scss/operator-no-newline-after */
   max-height: calc(
     (component-token("data-grid", "border-width") * 2) +
@@ -65,10 +76,25 @@
   /* stylelint-enable scss/operator-no-newline-after */
   overflow: auto;
   position: relative;
+  line-height: 0;
 
   [data-ezui-data-grid-shadow] {
     position: absolute;
   }
+}
+
+.sizeSm {
+  @include component-token("data-grid", "header-row-height", 32px);
+  @include component-token("data-grid", "body-row-height", 32px);
+}
+
+.sizeLg {
+  @include component-token("data-grid", "body-row-height", 80px);
+}
+
+.innerContainer {
+  position: relative;
+  min-width: min-content;
 }
 
 .contents {
@@ -78,21 +104,28 @@
 .table {
   position: relative;
   min-width: min-content;
-  display: grid;
-  grid-template-rows: auto;
-  grid-template-areas: component-token("data-grid", "template-areas");
-  grid-template-columns: component-token("data-grid", "template-columns");
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 .headerSecondary {
   @include component-token(
     "data-grid",
     "header-bg",
-    design-token("color.gray.050")
+    design-token("color.neutral.050")
   );
   @include component-token(
     "data-grid",
     "header-text",
-    design-token("color.blue.800")
+    design-token("color.primary.800")
+  );
+}
+
+.headerEmphasized {
+  @include component-token(
+    "data-grid",
+    "header-bg",
+    design-token("color.primary.900")
   );
 }

@@ -1,8 +1,9 @@
 import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
+import { classNames } from "../utilities/css";
 import { UnstyledPressButton } from "./UnstyledPressButton";
 import { useDataGridRow } from "./context";
 import {
@@ -34,13 +35,21 @@ export function ActionsCellContent({ rowActions }: ActionsCellContentProps) {
 function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
   const { accessibilityLabel = "Actions" } = rowAction;
   const { removeHover } = useDataGridRow();
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleClick = useCallback(() => {
     removeHover();
   }, [removeHover]);
+
+  const handleOpenChange = useCallback((isOpen: boolean) => {
+    setIsOpen(isOpen);
+  }, []);
+
+  const className = classNames(styles.MenuButton, isOpen && styles.open);
   return (
-    <Menu>
+    <Menu isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Menu.Trigger>
-        <UnstyledPressButton onPress={handleClick}>
+        <UnstyledPressButton onPress={handleClick} className={className}>
           <Text visuallyHidden>{accessibilityLabel}</Text>
           <Icon symbol={MoreVertIcon} />
         </UnstyledPressButton>

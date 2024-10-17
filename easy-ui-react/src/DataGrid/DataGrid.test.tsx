@@ -43,15 +43,8 @@ describe("<DataGrid />", () => {
 
   it("should support max rows", () => {
     render(createDataGrid({ maxRows: 8 }));
-    expect(getContainer()).toHaveStyle(
+    expect(getOuterContainer()).toHaveStyle(
       getComponentToken("data-grid", "max-rows", "8"),
-    );
-  });
-
-  it("should support custom template columns", () => {
-    render(createDataGrid({ templateColumns: "1fr 2fr" }));
-    expect(getContainer()).toHaveStyle(
-      getComponentToken("data-grid", "template-columns", "1fr 2fr"),
     );
   });
 
@@ -60,6 +53,14 @@ describe("<DataGrid />", () => {
     expect(screen.getByRole("grid")).toHaveAttribute(
       "class",
       expect.stringContaining("headerSecondary"),
+    );
+  });
+
+  it("should support custom size", () => {
+    render(createDataGrid({ size: "lg" }));
+    expect(getOuterContainer()).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeLg"),
     );
   });
 
@@ -245,7 +246,11 @@ function createDataGrid(props: Partial<DataGridProps> = {}) {
   );
 }
 
-function getContainer() {
+function getOuterContainer() {
+  return getInnerContainer().parentElement as HTMLElement;
+}
+
+function getInnerContainer() {
   return screen.getByRole("grid").parentElement as HTMLElement;
 }
 
