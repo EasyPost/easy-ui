@@ -34,21 +34,17 @@ export const EmptyContent: Story = {
   render: () => (
     <NexusLayout>
       <NexusLayout.Header>
-        <NexusLayout.Nav selectedKey="/1">
-          <NexusLayout.NavLink
-            key="/1"
-            href="/test"
-            iconSymbol={StorefrontIcon}
-          >
+        <NexusLayout.Nav selectedHref="/1">
+          <NexusLayout.NavLink href="/1" iconSymbol={StorefrontIcon}>
             Order Fulfillment
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink href="/test" iconSymbol={VerifiedUserIcon}>
+          <NexusLayout.NavLink href="/2" iconSymbol={VerifiedUserIcon}>
             Post Delivery
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink href="/test" iconSymbol={LocalShippingIcon}>
+          <NexusLayout.NavLink href="/3" iconSymbol={LocalShippingIcon}>
             Shipping
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink href="/test" iconSymbol={TimelineIcon}>
+          <NexusLayout.NavLink href="/4" iconSymbol={TimelineIcon}>
             Analytics
           </NexusLayout.NavLink>
         </NexusLayout.Nav>
@@ -105,17 +101,17 @@ export const MultipageContent: Story = {
   render: () => (
     <NexusLayout>
       <NexusLayout.Header>
-        <NexusLayout.Nav>
-          <NexusLayout.NavLink href="/test" iconSymbol={StorefrontIcon}>
+        <NexusLayout.Nav selectedHref="/1">
+          <NexusLayout.NavLink href="/1" iconSymbol={StorefrontIcon}>
             Order Fulfillment
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink href="/test" iconSymbol={VerifiedUserIcon}>
+          <NexusLayout.NavLink href="/2" iconSymbol={VerifiedUserIcon}>
             Post Delivery
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink href="/test" iconSymbol={LocalShippingIcon}>
+          <NexusLayout.NavLink href="/3" iconSymbol={LocalShippingIcon}>
             Shipping
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink href="/test" iconSymbol={TimelineIcon}>
+          <NexusLayout.NavLink href="/4" iconSymbol={TimelineIcon}>
             Analytics
           </NexusLayout.NavLink>
         </NexusLayout.Nav>
@@ -162,18 +158,21 @@ export const MultipageContent: Story = {
       <NexusLayout.Content>
         <NexusLayout.MultipageContainer>
           <NexusLayout.MultipageSidebar>
-            <NexusLayout.MultipageSidebarNav title={<>Settings</>}>
+            <NexusLayout.MultipageSidebarNav
+              selectedHref="/1"
+              title={<>Settings</>}
+            >
               <NexusLayout.MultipageSidebarNavSection
                 title={<>General Account Settings</>}
               >
                 <NexusLayout.MultipageSidebarNavLink
-                  href="/"
+                  href="/1"
                   iconSymbol={VerifiedUserIcon}
                 >
                   Username and Password
                 </NexusLayout.MultipageSidebarNavLink>
                 <NexusLayout.MultipageSidebarNavLink
-                  href="/"
+                  href="/2"
                   iconSymbol={VerifiedUserIcon}
                 >
                   Username and Password

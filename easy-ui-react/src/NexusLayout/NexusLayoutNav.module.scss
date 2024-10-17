@@ -10,9 +10,18 @@
   gap: design-token("space.0.5");
   padding: design-token("space.1") design-token("space.2");
   text-decoration: none;
+  outline: none;
+}
+
+.focused {
+  @include native-focus-ring;
 }
 
 .hovered {
+  background-color: design-token("color.neutral.100");
+}
+
+.selected {
   background-color: design-token("color.primary.700");
   color: design-token("color.neutral.000");
 }

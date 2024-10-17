@@ -17,8 +17,13 @@ import {
   NexusLayoutMultipageSidebarNav,
   NexusLayoutMultipageSidebarNavLink,
   NexusLayoutMultipageSidebarNavSection,
+  useNexusLayoutMultipageSidebarNav,
 } from "./NexusLayoutMultipageSidebarNav";
-import { NexusLayoutNav, NexusLayoutNavLink } from "./NexusLayoutNav";
+import {
+  NexusLayoutNav,
+  NexusLayoutNavLink,
+  useNexusLayoutNav,
+} from "./NexusLayoutNav";
 
 import styles from "./NexusLayout.module.scss";
 
@@ -184,3 +189,14 @@ NexusLayout.MultipageSidebarNavSection = NexusLayoutMultipageSidebarNavSection;
  * Represents a sidebar nav link in a multipage container for a `<NexusLayout />`.
  */
 NexusLayout.MultipageSidebarNavLink = NexusLayoutMultipageSidebarNavLink;
+
+/**
+ * Helper hook for retrieving nav state. Useful for custom nav links.
+ */
+NexusLayout.useNexusLayoutNav = useNexusLayoutNav;
+
+/**
+ * Helper hook for retrieving multipage sidebar nav state. Useful for custom nav links.
+ */
+NexusLayout.useNexusLayoutMultipageSidebarNav =
+  useNexusLayoutMultipageSidebarNav;

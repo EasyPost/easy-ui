@@ -1,4 +1,4 @@
-import React, { Key, ReactNode, useId, useRef } from "react";
+import React, { ReactNode, useContext, useId, useMemo, useRef } from "react";
 import {
   AriaLinkOptions,
   mergeProps,
@@ -18,8 +18,8 @@ export type NexusLayoutMultipageSidebarNavProps = {
   /** Sidebar nav title. */
   title: ReactNode;
 
-  /** Selected key of sidebar nav link. */
-  selectedKey?: Key;
+  /** Selected href of sidebar nav link. */
+  selectedHref?: AriaLinkOptions["href"];
 
   /** Multipage container children. */
   children: ReactNode;
@@ -41,18 +41,41 @@ export type NexusLayoutMultipageSidebarNavLinkProps = {
   children: ReactNode;
 } & AriaLinkOptions;
 
+export type SidebarNavContextType = {
+  selectedHref?: NexusLayoutMultipageSidebarNavProps["selectedHref"];
+};
+
+const SidebarNavContext = React.createContext<SidebarNavContextType | null>(
+  null,
+);
+
+export const useNexusLayoutMultipageSidebarNav = () => {
+  const context = useContext(SidebarNavContext);
+  if (!context) {
+    throw new Error(
+      "useNexusLayoutMultipageSidebarNav must be used within a NexusLayoutMultipageSidebarNav",
+    );
+  }
+  return context;
+};
+
 export function NexusLayoutMultipageSidebarNav(
   props: NexusLayoutMultipageSidebarNavProps,
 ) {
-  const { title, children } = props;
+  const { selectedHref, title, children } = props;
   const titleId = useId();
+  const context = useMemo(() => {
+    return { selectedHref };
+  }, [selectedHref]);
   return (
-    <VerticalStack as="nav" gap="2" aria-labelledBy={titleId}>
-      <Text as="h2" variant="heading4" id={titleId}>
-        {title}
-      </Text>
-      {children}
-    </VerticalStack>
+    <SidebarNavContext.Provider value={context}>
+      <VerticalStack as="nav" gap="2" aria-labelledby={titleId}>
+        <Text as="h2" variant="heading4" id={titleId}>
+          {title}
+        </Text>
+        {children}
+      </VerticalStack>
+    </SidebarNavContext.Provider>
   );
 }
 
@@ -71,24 +94,31 @@ export function NexusLayoutMultipageSidebarNavSection(
 export function NexusLayoutMultipageSidebarNavLink(
   props: NexusLayoutMultipageSidebarNavLinkProps,
 ) {
-  const { iconSymbol, children } = props;
+  const { href, iconSymbol, children } = props;
+  const { selectedHref } = useNexusLayoutMultipageSidebarNav();
+
   const ref = useRef(null);
   const { linkProps } = useLink(props, ref);
   const { focusProps, isFocusVisible } = useFocusRing(props);
   const { hoverProps, isHovered } = useHover(props);
+  const isSelected = href === selectedHref;
   const className = classNames(
     styles.link,
     isFocusVisible && styles.focused,
     isHovered && styles.hovered,
+    isSelected && styles.selected,
   );
   return (
     <a
       ref={ref}
       className={className}
       {...mergeProps(hoverProps, focusProps, linkProps)}
+      aria-current={isSelected ? "page" : undefined}
     >
       <Icon symbol={iconSymbol} />
-      <Text variant="body2">{children}</Text>
+      <Text variant="body2" weight={isSelected ? "semibold" : undefined}>
+        {children}
+      </Text>
     </a>
   );
 }
