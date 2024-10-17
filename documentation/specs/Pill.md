@@ -62,7 +62,7 @@ _With image:_
 ```tsx
 import { Pill } from "@easypost/easy-ui/Pill";
 
-function Component() {
+function Component({ carrier }) {
   const CarrierImage = () => <Image src={`/${carrier}.png`} />;
   return <Pill icon={CarrierImage}>First Last #12345</Pill>;
 }
