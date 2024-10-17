@@ -5,12 +5,41 @@ import { VerticalStack } from "../VerticalStack";
 
 import styles from "./NexusLayoutMultipage.module.scss";
 
-export function NexusLayoutMultipageContainer(props: { children: ReactNode }) {
+export type NexusLayoutMultipageContainerProps = {
+  /** Multipage container children. */
+  children: ReactNode;
+};
+
+export type NexusLayoutMultipageSidebarProps = {
+  /** Multipage container sidebar children. */
+  children: ReactNode;
+};
+
+export type NexusLayoutMultipageContentProps = {
+  /** Multipage container content children. */
+  children: ReactNode;
+};
+
+export type NexusLayoutMultipageHeaderProps = {
+  /** Multipage container header children. */
+  children: ReactNode;
+};
+
+export type NexusLayoutMultipageTitleProps = {
+  /** Multipage container title text. */
+  children: ReactNode;
+};
+
+export function NexusLayoutMultipageContainer(
+  props: NexusLayoutMultipageContainerProps,
+) {
   const { children } = props;
   return <div className={styles.container}>{children}</div>;
 }
 
-export function NexusLayoutMultipageSidebar(props: { children: ReactNode }) {
+export function NexusLayoutMultipageSidebar(
+  props: NexusLayoutMultipageSidebarProps,
+) {
   const { children } = props;
   return (
     <div role="region" className={styles.sidebar}>
@@ -19,7 +48,9 @@ export function NexusLayoutMultipageSidebar(props: { children: ReactNode }) {
   );
 }
 
-export function NexusLayoutMultipageContent(props: { children: ReactNode }) {
+export function NexusLayoutMultipageContent(
+  props: NexusLayoutMultipageContentProps,
+) {
   const { children } = props;
   return (
     <div className={styles.content}>
@@ -28,7 +59,9 @@ export function NexusLayoutMultipageContent(props: { children: ReactNode }) {
   );
 }
 
-export function NexusLayoutMultipageHeader(props: { children: ReactNode }) {
+export function NexusLayoutMultipageHeader(
+  props: NexusLayoutMultipageHeaderProps,
+) {
   const { children } = props;
   return (
     <HorizontalStack as="header" blockAlign="center" align="space-between">
@@ -37,7 +70,9 @@ export function NexusLayoutMultipageHeader(props: { children: ReactNode }) {
   );
 }
 
-export function NexusLayoutMultipageTitle(props: { children: ReactNode }) {
+export function NexusLayoutMultipageTitle(
+  props: NexusLayoutMultipageTitleProps,
+) {
   const { children } = props;
   return (
     <Text as="h3" variant="heading5">

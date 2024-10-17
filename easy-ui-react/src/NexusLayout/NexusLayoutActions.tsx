@@ -8,6 +8,11 @@ import { IconSymbol } from "../types";
 
 import styles from "./NexusLayoutActions.module.scss";
 
+export type NexusLayoutActionsProps = {
+  /** Actions children. */
+  children: ReactNode;
+};
+
 export type NexusLayoutMenuActionProps = {
   /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
@@ -22,7 +27,7 @@ export type NexusLayoutMenuActionProps = {
   children: ReactNode;
 };
 
-export function NexusLayoutActions(props: { children: ReactNode }) {
+export function NexusLayoutActions(props: NexusLayoutActionsProps) {
   const { children } = props;
   return <HorizontalStack gap="0.5">{children}</HorizontalStack>;
 }
