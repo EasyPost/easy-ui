@@ -2,7 +2,7 @@
 
 ## Overview
 
-A `Pill` is a compact element that displays contextual text typically representing selections or options; they can be dismissed as well as accompanied by an icon or image.
+A `Pill` is a compact element that displays contextual text typically representing selections or options; they can be dismissed as well as accompanied by an icon.
 
 ### Use Cases
 
@@ -10,13 +10,12 @@ A `Pill` is a compact element that displays contextual text typically representi
 
 ### Features
 
-- Supports icons and images
+- Supports icons
 - Supports dismissal
 
 ### Risks and Challenges
 
 - Ensuring ease of use
-- Handling invalid prop configurations
 
 ### Prior Art
 
@@ -40,12 +39,8 @@ export type PillProps = {
   children: ReactNode;
   /** Left aligned icon */
   icon?: IconSymbol;
-  /** Left aligned image */
-  image?: ReactNode;
   /** Callback function when dismissing Pill */
   onDismiss?: () => void;
-  /** Identifier for Pill */
-  key?: Key;
 };
 ```
 
@@ -66,14 +61,10 @@ _With image:_
 
 ```tsx
 import { Pill } from "@easypost/easy-ui/Pill";
-import SettingsIcon from "@easypost/easy-ui-icons/Settings";
 
 function Component() {
-  return (
-    <Pill image={<Image src="/logo.png" alt="carrier logo" />}>
-      First Last #12345
-    </Pill>
-  );
+  const CarrierImage = () => <Image src={`/${carrier}.png`} />;
+  return <Pill icon={CarrierImage}>First Last #12345</Pill>;
 }
 ```
 
@@ -82,7 +73,6 @@ _Dismissal:_
 ```tsx
 import { useState, useCallback } from "react";
 import { Pill } from "@easypost/easy-ui/Pill";
-import SettingsIcon from "@easypost/easy-ui-icons/Settings";
 
 function Component() {
   const [pills, setPills] = useState<{ id: number; text: string }[]>([
@@ -98,11 +88,7 @@ function Component() {
   return (
     <>
       {pills.map((pill) => (
-        <Pill
-          key={pill.id}
-          icon={SettingsIcon}
-          onDismiss={() => handleDismissal(pill.id)}
-        >
+        <Pill key={pill.id} onDismiss={() => handleDismissal(pill.id)}>
           {pill.text}
         </Pill>
       ))}
@@ -124,16 +110,9 @@ export function Pill(props: PillProps) {
 
   const className = classNames(styles.root);
 
-  let definedIconAndImage = false;
-  if (image && icon) {
-    console.warn("defining both icon and image is an invalid Pill state");
-    definedIconAndImage = true;
-  }
-
   return (
     <span className={className}>
-      {!definedIconAndImage && icon && <Icon size="xs" symbol={icon} />}
-      {!definedIconAndImage && image}
+      {icon && <Icon size="xs" symbol={icon} />}
       <Text>{children}</Text>
       <UnstyledButton>
         <Icon size="xs" symbol={CloseIcon} />
