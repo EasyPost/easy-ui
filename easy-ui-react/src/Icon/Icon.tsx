@@ -93,7 +93,7 @@ export type IconProps = {
  * import { Icon } from "@easypost/easy-ui/Icon";
  *
  * export function Component() {
- *   const CarrierLogo = () => <img src="/carrier-logo.png" />;
+ *   const CarrierLogo = (props) => <img src="/carrier-logo.png" {...props} />;
  *   return <Icon symbol={CarrierLogo} />;
  * }
  * ```
