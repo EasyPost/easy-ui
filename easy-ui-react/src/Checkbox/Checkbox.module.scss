@@ -7,7 +7,7 @@
   @include component-token(
     "checkbox",
     "border-radius",
-    design-token("shape.border_radius.sm")
+    design-token("shape.border_radius.xs")
   );
   @include component-token("checkbox", "gap", design-token("space.1"));
   @include component-token(
