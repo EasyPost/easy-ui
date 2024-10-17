@@ -169,7 +169,6 @@ export const MultiPageContent: Story = {
                 <NexusLayout.MultiPageSidebarNavLink
                   href="/"
                   iconSymbol={VerifiedUserIcon}
-                  isSelected
                 >
                   Username and Password
                 </NexusLayout.MultiPageSidebarNavLink>

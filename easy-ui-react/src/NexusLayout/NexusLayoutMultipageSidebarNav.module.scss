@@ -1,0 +1,9 @@
+@use "../styles/common" as *;
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  gap: design-token("space.1");
+}

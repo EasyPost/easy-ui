@@ -1,0 +1,18 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.link {
+  @include unstyled.button;
+  display: inline-flex;
+  align-items: center;
+  border-radius: design-token("shape.border_radius.lg");
+  cursor: pointer;
+  gap: design-token("space.0.5");
+  padding: design-token("space.1") design-token("space.2");
+  text-decoration: none;
+}
+
+.hovered {
+  background-color: design-token("color.primary.700");
+  color: design-token("color.neutral.000");
+}
