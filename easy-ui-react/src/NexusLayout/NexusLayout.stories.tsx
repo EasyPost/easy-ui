@@ -101,7 +101,7 @@ export const EmptyContent: Story = {
   ),
 };
 
-export const MultiPageContent: Story = {
+export const MultipageContent: Story = {
   render: () => (
     <NexusLayout>
       <NexusLayout.Header>
@@ -160,42 +160,42 @@ export const MultiPageContent: Story = {
         </NexusLayout.Actions>
       </NexusLayout.Header>
       <NexusLayout.Content>
-        <NexusLayout.MultiPageContainer>
-          <NexusLayout.MultiPageSidebar>
-            <NexusLayout.MultiPageSidebarNav title={<>Settings</>}>
-              <NexusLayout.MultiPageSidebarNavSection
+        <NexusLayout.MultipageContainer>
+          <NexusLayout.MultipageSidebar>
+            <NexusLayout.MultipageSidebarNav title={<>Settings</>}>
+              <NexusLayout.MultipageSidebarNavSection
                 title={<>General Account Settings</>}
               >
-                <NexusLayout.MultiPageSidebarNavLink
+                <NexusLayout.MultipageSidebarNavLink
                   href="/"
                   iconSymbol={VerifiedUserIcon}
                 >
                   Username and Password
-                </NexusLayout.MultiPageSidebarNavLink>
-                <NexusLayout.MultiPageSidebarNavLink
+                </NexusLayout.MultipageSidebarNavLink>
+                <NexusLayout.MultipageSidebarNavLink
                   href="/"
                   iconSymbol={VerifiedUserIcon}
                 >
                   Username and Password
-                </NexusLayout.MultiPageSidebarNavLink>
-              </NexusLayout.MultiPageSidebarNavSection>
-            </NexusLayout.MultiPageSidebarNav>
-          </NexusLayout.MultiPageSidebar>
-          <NexusLayout.MultiPageContent>
-            <NexusLayout.MultiPageHeader>
-              <NexusLayout.MultiPageTitle>
+                </NexusLayout.MultipageSidebarNavLink>
+              </NexusLayout.MultipageSidebarNavSection>
+            </NexusLayout.MultipageSidebarNav>
+          </NexusLayout.MultipageSidebar>
+          <NexusLayout.MultipageContent>
+            <NexusLayout.MultipageHeader>
+              <NexusLayout.MultipageTitle>
                 Username and Password
-              </NexusLayout.MultiPageTitle>
+              </NexusLayout.MultipageTitle>
               <HorizontalStack gap="1">
                 <Button size="sm" variant="outlined">
                   Contact Sales
                 </Button>
                 <Button size="sm">Manage Subscription</Button>
               </HorizontalStack>
-            </NexusLayout.MultiPageHeader>
+            </NexusLayout.MultipageHeader>
             <div style={{ height: 400, background: "#f3f3f3" }}></div>
-          </NexusLayout.MultiPageContent>
-        </NexusLayout.MultiPageContainer>
+          </NexusLayout.MultipageContent>
+        </NexusLayout.MultipageContainer>
       </NexusLayout.Content>
     </NexusLayout>
   ),
