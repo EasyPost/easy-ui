@@ -13,7 +13,7 @@ export function ExpandedRowContent({ children }: ExpandedRowContentProps) {
       className={classNames(styles.ExpandedRowContent)}
       data-ezui-data-grid-expanded-row-content="active"
     >
-      <div>{children}</div>
+      <div className={classNames(styles.inner)}>{children}</div>
     </div>
   );
 }
