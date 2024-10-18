@@ -1,0 +1,20 @@
+@use "../styles/common" as *;
+
+.container {
+  display: flex;
+  background: design-token("color.neutral.000");
+  border-radius: design-token("shape.border_radius.lg");
+  box-shadow: design-token("shadow.level.2");
+}
+
+.sidebar {
+  padding: design-token("space.3");
+  width: 100%;
+  max-width: component-token("nexus-layout", "multipage-sidebar-width");
+  border-right: 1px solid design-token("color.neutral.300");
+}
+
+.content {
+  flex: 1 0 auto;
+  padding: design-token("space.3") design-token("space.4");
+}

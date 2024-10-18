@@ -1,4 +1,4 @@
-import React, { ReactNode, forwardRef } from "react";
+import React, { ElementType, ReactNode, forwardRef } from "react";
 import { ResponsiveSpaceScale } from "../types";
 import {
   classNames,
@@ -17,14 +17,13 @@ export type Align =
   | "space-between"
   | "space-evenly";
 export type InlineAlign = "start" | "center" | "end" | "baseline" | "stretch";
-export type Element = "div" | "ul" | "ol" | "fieldset";
 
 export type VerticalStackProps = {
   /**
    * HTML Element type
    * @default 'div'
    */
-  as?: Element;
+  as?: ElementType;
 
   /** Vertical alignment of children */
   align?: Align;

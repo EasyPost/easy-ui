@@ -50,7 +50,7 @@ type NexusLayoutNavProps = {
   /**
    * The currently selected key in the navigation list.
    */
-  selectedKey?: Key;
+  selectedHref?: ComponentProps<"a">["href"];
 
   children: ReactNode;
 };
@@ -58,9 +58,6 @@ type NexusLayoutNavProps = {
 type NexusLayoutNavLinkProps = {
   /** Icon for nav link */
   iconSymbol: IconSymbol;
-
-  /** Key for the link. Usually the href */
-  key: Key;
 } & ComponentProps<"a">;
 
 // Header action components (buttons on the right side of header)
@@ -102,7 +99,7 @@ type NexusLayoutMultipageSidebarNavProps = {
   /**
    * The currently selected key in the navigation list.
    */
-  selectedKey?: Key;
+  selectedHref?: ComponentProps<"a">["href"];
 
   children: ReactNode;
 };
@@ -116,9 +113,6 @@ type NexusLayoutMultipageSidebarNavSectionProps = {
 type NexusLayoutMultipageSidebarNavLinkProps = {
   /** Icon for link */
   iconSymbol: IconSymbol;
-
-  /** Key for the link. Usually the href */
-  key: Key;
 } & ComponentProps<"a">;
 
 type NexusLayoutMultipageContentProps = {
@@ -147,17 +141,17 @@ function App() {
   return (
     <NexusLayout>
       <NexusLayout.Header>
-        <NexusLayout.Nav selectedKey="/1">
-          <NexusLayout.NavLink key="/1" href="/1" iconSymbol={Icon}>
+        <NexusLayout.Nav selectedHref="/1">
+          <NexusLayout.NavLink href="/1" iconSymbol={Icon}>
             Order Fulfillment
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink key="/2" href="/2" iconSymbol={Icon}>
+          <NexusLayout.NavLink href="/2" iconSymbol={Icon}>
             Post Delivery
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink key="/3" href="/3" iconSymbol={Icon}>
+          <NexusLayout.NavLink href="/3" iconSymbol={Icon}>
             Shipping
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink key="/4" href="/4" iconSymbol={Icon}>
+          <NexusLayout.NavLink href="/4" iconSymbol={Icon}>
             Analytics
           </NexusLayout.NavLink>
         </NexusLayout.Nav>
@@ -203,17 +197,17 @@ function App() {
   return (
     <NexusLayout>
       <NexusLayout.Header>
-        <NexusLayout.Nav selectedKey="/1">
-          <NexusLayout.NavLink key="/1" href="/1" iconSymbol={Icon}>
+        <NexusLayout.Nav selectedHref="/1">
+          <NexusLayout.NavLink href="/1" iconSymbol={Icon}>
             Order Fulfillment
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink key="/2" href="/2" iconSymbol={Icon}>
+          <NexusLayout.NavLink href="/2" iconSymbol={Icon}>
             Post Delivery
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink key="/3" href="/3" iconSymbol={Icon}>
+          <NexusLayout.NavLink href="/3" iconSymbol={Icon}>
             Shipping
           </NexusLayout.NavLink>
-          <NexusLayout.NavLink key="/4" href="/4" iconSymbol={Icon}>
+          <NexusLayout.NavLink href="/4" iconSymbol={Icon}>
             Analytics
           </NexusLayout.NavLink>
         </NexusLayout.Nav>
@@ -247,7 +241,7 @@ function App() {
           <NexusLayout.MultipageSidebar>
             <NexusLayout.MultipageSidebarNav
               title={<>Settings</>}
-              selectedKey="/1"
+              selectedHref="/1"
             >
               <NexusLayout.MultipageSidebarNavSection
                 title={<>General Account Settings</>}
