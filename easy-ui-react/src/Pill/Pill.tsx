@@ -15,6 +15,23 @@ export type PillProps = {
   onDismiss?: () => void;
 };
 
+/**
+ * A `Pill` is a compact element that displays contextual text
+ * typically representing selections or options.
+ *
+ * @remarks
+ * Supports dismissal via `onDismiss` prop and icons via the `icon`
+ * prop.
+ *
+ * @example
+```tsx
+* import { Pill } from "@easypost/easy-ui/Pill";
+*
+* function Component({ carrier }) {
+*   const CarrierImage = () => <Image src={`/${carrier}.png`} />;
+*   return <Pill icon={CarrierImage}>First Last #12345</Pill>;
+* }
+*/
 export function Pill(props: PillProps) {
   const { children, icon, onDismiss } = props;
 
