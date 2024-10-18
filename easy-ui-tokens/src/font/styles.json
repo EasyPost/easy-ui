@@ -44,7 +44,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_2.value}"
         },
-        "line_height": { "value": "{font.line_height.3.value}" }
+        "line_height": { "value": "{font.line_height.2.value}" }
       },
       "subtitle1": {
         "family": { "value": "{font.family.sans.value}" },
@@ -62,7 +62,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_1.value}"
         },
-        "line_height": { "value": "{font.line_height.2.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "body1": {
         "family": { "value": "{font.family.sans.value}" },
@@ -80,7 +80,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_3.value}"
         },
-        "line_height": { "value": "{font.line_height.2.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "caption": {
         "family": { "value": "{font.family.sans.value}" },
@@ -89,7 +89,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_4.value}"
         },
-        "line_height": { "value": "{font.line_height.2.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "caption2": {
         "family": { "value": "{font.family.sans.value}" },
@@ -98,7 +98,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_4.value}"
         },
-        "line_height": { "value": "{font.line_height.2.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "caption3": {
         "family": { "value": "{font.family.sans.value}" },
@@ -130,7 +130,7 @@
       "button": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.medium.value}" },
-        "size": { "value": "{font.size.125.value}" },
+        "size": { "value": "{font.size.100.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
         },
@@ -143,7 +143,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
         },
-        "line_height": { "value": "{font.line_height.2.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       }
     },
     "responsive_mapping": {
