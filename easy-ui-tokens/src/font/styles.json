@@ -116,7 +116,7 @@
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_6.value}"
         },
-        "line_height": { "value": "{font.line_height.2.value}" }
+        "line_height": { "value": "{font.line_height.1.value}" }
       },
       "overline2": {
         "family": { "value": "{font.family.sans.value}" },
