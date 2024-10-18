@@ -82,7 +82,7 @@
         },
         "line_height": { "value": "{font.line_height.2.value}" }
       },
-      "caption1": {
+      "caption": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.light.value}" },
         "size": { "value": "{font.size.50.value}" },
@@ -109,7 +109,7 @@
         },
         "line_height": { "value": "{font.line_height.1.value}" }
       },
-      "overline1": {
+      "overline": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },
         "size": { "value": "{font.size.50.value}" },
