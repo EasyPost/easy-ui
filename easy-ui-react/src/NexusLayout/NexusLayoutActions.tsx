@@ -1,10 +1,12 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback, useState } from "react";
+import { mergeProps, useFocusRing, useHover } from "react-aria";
 import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
 import { HorizontalStack } from "../HorizontalStack";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { IconSymbol } from "../types";
+import { classNames } from "../utilities/css";
 
 import styles from "./NexusLayoutActions.module.scss";
 
@@ -39,10 +41,29 @@ export function NexusLayoutMenuAction(props: NexusLayoutMenuActionProps) {
     children,
     renderBadge,
   } = props;
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenChange = useCallback((isOpen: boolean) => {
+    setIsOpen(isOpen);
+  }, []);
+
+  const { focusProps, isFocusVisible } = useFocusRing({});
+  const { hoverProps, isHovered } = useHover({});
+  const className = classNames(
+    styles.button,
+    isFocusVisible && styles.focused,
+    isHovered && styles.hovered,
+    isOpen && styles.open,
+  );
+
   return (
-    <Menu>
+    <Menu isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Menu.Trigger>
-        <UnstyledPressButton className={styles.button}>
+        <UnstyledPressButton
+          className={className}
+          {...mergeProps(focusProps, hoverProps)}
+        >
           <Text visuallyHidden>{accessibilityLabel}</Text>
           <Icon symbol={iconSymbol} />
           {renderBadge && <div className={styles.badge}>{renderBadge()}</div>}

@@ -1,5 +1,5 @@
 import React, { ComponentProps, forwardRef } from "react";
-import { AriaButtonProps, PressHookProps, usePress } from "react-aria";
+import { PressHookProps, usePress } from "react-aria";
 import { classNames } from "../utilities/css";
 
 import styles from "./UnstyledPressButton.module.scss";
@@ -12,9 +12,9 @@ import styles from "./UnstyledPressButton.module.scss";
  */
 export const UnstyledPressButton = forwardRef<
   null,
-  ComponentProps<"button"> & AriaButtonProps
+  ComponentProps<"button"> & PressHookProps
 >((props, ref) => {
-  const { pressProps } = usePress(props as PressHookProps);
+  const { pressProps } = usePress(props);
   return (
     <button
       {...pressProps}
