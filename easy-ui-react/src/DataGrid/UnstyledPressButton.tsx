@@ -11,7 +11,7 @@ import styles from "./UnstyledPressButton.module.scss";
  * @todo figure out how to supersede this with UnstyledButton
  */
 export const UnstyledPressButton = forwardRef<
-  HTMLButtonElement,
+  null,
   ComponentProps<"button"> & AriaButtonProps
 >((props, ref) => {
   const { pressProps } = usePress(props as PressHookProps);
