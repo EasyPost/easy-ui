@@ -1,6 +1,17 @@
-import React, { ReactNode, useCallback, useState } from "react";
-import { mergeProps, useFocusRing, useHover } from "react-aria";
-import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
+import React, {
+  ComponentProps,
+  forwardRef,
+  ReactNode,
+  useCallback,
+  useState,
+} from "react";
+import {
+  mergeProps,
+  PressHookProps,
+  useFocusRing,
+  useHover,
+  usePress,
+} from "react-aria";
 import { HorizontalStack } from "../HorizontalStack";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
@@ -61,7 +72,7 @@ export function NexusLayoutMenuAction(props: NexusLayoutMenuActionProps) {
   return (
     <Menu isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Menu.Trigger>
-        <UnstyledPressButton
+        <PressableButton
           className={className}
           {...mergeProps(focusProps, hoverProps)}
         >
@@ -70,7 +81,7 @@ export function NexusLayoutMenuAction(props: NexusLayoutMenuActionProps) {
           {renderBadge && (
             <div className={styles.badgeContainer}>{renderBadge()}</div>
           )}
-        </UnstyledPressButton>
+        </PressableButton>
       </Menu.Trigger>
       {children}
     </Menu>
@@ -81,3 +92,20 @@ export function NexusLayoutActionBadge(props: NexusLayoutActionBadgeProps) {
   const { children } = props;
   return <div className={styles.badge}>{children}</div>;
 }
+
+/** TODO: Figure out how to work with UnstyledButton instead */
+export const PressableButton = forwardRef<
+  HTMLButtonElement,
+  ComponentProps<"button"> & PressHookProps
+>((props, ref) => {
+  const { pressProps } = usePress(props);
+  return (
+    <button
+      {...pressProps}
+      ref={ref}
+      className={classNames(pressProps.className)}
+    />
+  );
+});
+
+PressableButton.displayName = "PressableButton";
