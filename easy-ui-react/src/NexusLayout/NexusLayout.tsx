@@ -106,18 +106,18 @@ export function NexusLayout(props: NexusLayoutProps) {
 function NexusLayoutHeader(props: NexusLayoutHeaderProps) {
   const { logo = <EasyPostLogo />, children } = props;
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <HorizontalStack blockAlign="center" align="space-between">
         {logo}
         {children}
       </HorizontalStack>
-    </div>
+    </header>
   );
 }
 
 function NexusLayoutContent(props: NexusLayoutContentProps) {
   const { children } = props;
-  return <div className={styles.content}>{children}</div>;
+  return <main className={styles.content}>{children}</main>;
 }
 
 /**
