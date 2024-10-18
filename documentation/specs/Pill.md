@@ -106,7 +106,7 @@ import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 
 export function Pill(props: PillProps) {
-  const { children, icon, image, onDismiss, key } = props;
+  const { children, icon, onDismiss } = props;
 
   const className = classNames(styles.root);
 
