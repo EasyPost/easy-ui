@@ -7,6 +7,17 @@
  */
 
 @font-face {
+  font-family: 'Poppins Fallback';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Arial');
+  ascent-override: 93.76%;
+  descent-override: 31.25%;
+  line-gap-override: 8.93%;
+  size-adjust: 111.99%;
+}
+
+@font-face {
   font-family: "Poppins Fallback";
   font-style: normal;
   font-weight: 400;
