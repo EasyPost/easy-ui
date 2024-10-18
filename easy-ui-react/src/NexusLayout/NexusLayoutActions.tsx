@@ -15,6 +15,11 @@ export type NexusLayoutActionsProps = {
   children: ReactNode;
 };
 
+export type NexusLayoutActionBadgeProps = {
+  /** Badge children. */
+  children?: ReactNode;
+};
+
 export type NexusLayoutMenuActionProps = {
   /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
@@ -41,13 +46,10 @@ export function NexusLayoutMenuAction(props: NexusLayoutMenuActionProps) {
     children,
     renderBadge,
   } = props;
-
   const [isOpen, setIsOpen] = useState(false);
-
   const handleOpenChange = useCallback((isOpen: boolean) => {
     setIsOpen(isOpen);
   }, []);
-
   const { focusProps, isFocusVisible } = useFocusRing({});
   const { hoverProps, isHovered } = useHover({});
   const className = classNames(
@@ -56,7 +58,6 @@ export function NexusLayoutMenuAction(props: NexusLayoutMenuActionProps) {
     isHovered && styles.hovered,
     isOpen && styles.open,
   );
-
   return (
     <Menu isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Menu.Trigger>
@@ -66,10 +67,17 @@ export function NexusLayoutMenuAction(props: NexusLayoutMenuActionProps) {
         >
           <Text visuallyHidden>{accessibilityLabel}</Text>
           <Icon symbol={iconSymbol} />
-          {renderBadge && <div className={styles.badge}>{renderBadge()}</div>}
+          {renderBadge && (
+            <div className={styles.badgeContainer}>{renderBadge()}</div>
+          )}
         </UnstyledPressButton>
       </Menu.Trigger>
       {children}
     </Menu>
   );
+}
+
+export function NexusLayoutActionBadge(props: NexusLayoutActionBadgeProps) {
+  const { children } = props;
+  return <div className={styles.badge}>{children}</div>;
 }

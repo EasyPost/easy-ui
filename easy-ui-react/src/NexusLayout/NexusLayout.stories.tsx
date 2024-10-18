@@ -1,4 +1,5 @@
 import AlarmIcon from "@easypost/easy-ui-icons/Alarm";
+import InfoIcon from "@easypost/easy-ui-icons/Info";
 import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
 import SettingsIcon from "@easypost/easy-ui-icons/Settings";
 import StorefrontIcon from "@easypost/easy-ui-icons/Storefront";
@@ -30,7 +31,7 @@ const meta: Meta<typeof NexusLayout> = {
 
 export default meta;
 
-export const EmptyContent: Story = {
+export const StandardContent: Story = {
   render: () => (
     <NexusLayout>
       <NexusLayout.Header>
@@ -90,8 +91,12 @@ export const EmptyContent: Story = {
       </NexusLayout.Header>
       <NexusLayout.Content>
         <div
-          style={{ height: 400, background: "white", borderRadius: 8 }}
-        ></div>
+          style={{
+            height: 400,
+            background: "white",
+            borderRadius: 8,
+          }}
+        />
       </NexusLayout.Content>
     </NexusLayout>
   ),
@@ -119,16 +124,7 @@ export const MultipageContent: Story = {
           <NexusLayout.MenuAction
             accessibilityLabel="Test"
             iconSymbol={AlarmIcon}
-            renderBadge={() => (
-              <div
-                style={{
-                  width: 12,
-                  height: 12,
-                  backgroundColor: tokens["theme.light.color.positive.500"],
-                  borderRadius: "100%",
-                }}
-              ></div>
-            )}
+            renderBadge={() => <NexusLayout.ActionBadge />}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
               <Menu.Item>Action 1</Menu.Item>
@@ -160,22 +156,22 @@ export const MultipageContent: Story = {
           <NexusLayout.MultipageSidebar>
             <NexusLayout.MultipageSidebarNav
               selectedHref="/1"
-              title={<>Settings</>}
+              title={<>Multipage Title</>}
             >
               <NexusLayout.MultipageSidebarNavSection
-                title={<>General Account Settings</>}
+                title={<>Multipage Nav Section</>}
               >
                 <NexusLayout.MultipageSidebarNavLink
                   href="/1"
-                  iconSymbol={VerifiedUserIcon}
+                  iconSymbol={InfoIcon}
                 >
-                  Username and Password
+                  Multipage Nav Link 1
                 </NexusLayout.MultipageSidebarNavLink>
                 <NexusLayout.MultipageSidebarNavLink
                   href="/2"
                   iconSymbol={VerifiedUserIcon}
                 >
-                  Username and Password
+                  Multipage Nav Link 2
                 </NexusLayout.MultipageSidebarNavLink>
               </NexusLayout.MultipageSidebarNavSection>
             </NexusLayout.MultipageSidebarNav>
@@ -183,16 +179,18 @@ export const MultipageContent: Story = {
           <NexusLayout.MultipageContent>
             <NexusLayout.MultipageHeader>
               <NexusLayout.MultipageTitle>
-                Username and Password
+                Multipage Nav Title
               </NexusLayout.MultipageTitle>
               <HorizontalStack gap="1">
-                <Button size="sm" variant="outlined">
-                  Contact Sales
+                <Button size="sm" variant="outlined" color="secondary">
+                  Action 1
                 </Button>
-                <Button size="sm">Manage Subscription</Button>
+                <Button size="sm" color="secondary">
+                  Action 2
+                </Button>
               </HorizontalStack>
             </NexusLayout.MultipageHeader>
-            <div style={{ height: 400, background: "#f3f3f3" }}></div>
+            <div style={{ height: 400 }}></div>
           </NexusLayout.MultipageContent>
         </NexusLayout.MultipageContainer>
       </NexusLayout.Content>

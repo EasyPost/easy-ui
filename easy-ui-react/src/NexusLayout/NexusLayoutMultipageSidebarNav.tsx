@@ -84,7 +84,7 @@ export function NexusLayoutMultipageSidebarNavSection(
 ) {
   const { title, children } = props;
   return (
-    <VerticalStack gap="2">
+    <VerticalStack gap="2" inlineAlign="start">
       <Text variant="overline">{title}</Text>
       {children}
     </VerticalStack>

@@ -3,6 +3,7 @@ import { HorizontalStack } from "../HorizontalStack";
 import { classNames, variationName } from "../utilities/css";
 import { EasyPostLogo } from "../utilities/EasyPostLogo";
 import {
+  NexusLayoutActionBadge,
   NexusLayoutActions,
   NexusLayoutMenuAction,
 } from "./NexusLayoutActions";
@@ -139,6 +140,11 @@ NexusLayout.NavLink = NexusLayoutNavLink;
  * Represents the secondary actions of a `<NexusLayout />`.
  */
 NexusLayout.Actions = NexusLayoutActions;
+
+/**
+ * Represents an action badge in a `<NexusLayout />`.
+ */
+NexusLayout.ActionBadge = NexusLayoutActionBadge;
 
 /**
  * Represents a secondary menu action of a `<NexusLayout />`.
