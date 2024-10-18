@@ -4,11 +4,11 @@
       "heading1": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.medium.value}" },
-        "size": { "value": "{font.size.600.value}" },
+        "size": { "value": "{font.size.700.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.tighten_5.value}"
         },
-        "line_height": { "value": "{font.line_height.6.value}" }
+        "line_height": { "value": "{font.line_height.7.value}" }
       },
       "heading2": {
         "family": { "value": "{font.family.sans.value}" },
@@ -21,7 +21,7 @@
       },
       "heading3": {
         "family": { "value": "{font.family.sans.value}" },
-        "weight": { "value": "{font.weight.normal.value}" },
+        "weight": { "value": "{font.weight.medium.value}" },
         "size": { "value": "{font.size.400.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_3.value}"
@@ -30,7 +30,7 @@
       },
       "heading4": {
         "family": { "value": "{font.family.sans.value}" },
-        "weight": { "value": "{font.weight.normal.value}" },
+        "weight": { "value": "{font.weight.semibold.value}" },
         "size": { "value": "{font.size.300.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.normal.value}"
@@ -84,14 +84,41 @@
       },
       "caption": {
         "family": { "value": "{font.family.sans.value}" },
-        "weight": { "value": "{font.weight.normal.value}" },
+        "weight": { "value": "{font.weight.light.value}" },
         "size": { "value": "{font.size.50.value}" },
         "letter_spacing": {
           "value": "{font.letter_spacing.widen_4.value}"
         },
         "line_height": { "value": "{font.line_height.1.value}" }
       },
+      "caption2": {
+        "family": { "value": "{font.family.sans.value}" },
+        "weight": { "value": "{font.weight.light.value}" },
+        "size": { "value": "{font.size.37_5.value}" },
+        "letter_spacing": {
+          "value": "{font.letter_spacing.widen_4.value}"
+        },
+        "line_height": { "value": "{font.line_height.1.value}" }
+      },
+      "caption3": {
+        "family": { "value": "{font.family.sans.value}" },
+        "weight": { "value": "{font.weight.light.value}" },
+        "size": { "value": "{font.size.17_5.value}" },
+        "letter_spacing": {
+          "value": "{font.letter_spacing.widen_4.value}"
+        },
+        "line_height": { "value": "{font.line_height.1.value}" }
+      },
       "overline": {
+        "family": { "value": "{font.family.sans.value}" },
+        "weight": { "value": "{font.weight.normal.value}" },
+        "size": { "value": "{font.size.50.value}" },
+        "letter_spacing": {
+          "value": "{font.letter_spacing.widen_6.value}"
+        },
+        "line_height": { "value": "{font.line_height.1.value}" }
+      },
+      "overline2": {
         "family": { "value": "{font.family.sans.value}" },
         "weight": { "value": "{font.weight.normal.value}" },
         "size": { "value": "{font.size.25.value}" },
