@@ -14,18 +14,26 @@ describe("<Pill />", () => {
   });
 
   it("should render a pill", () => {
-    render(<Pill>foobar</Pill>);
+    render(<Pill label="foobar" />);
     expect(screen.getByText(/foobar/i)).toBeInTheDocument();
   });
 
-  it("supports rendering a pill with an icon", () => {
-    render(<Pill icon={CheckCircleIcon}>foobar</Pill>);
+  it("should render a pill with an icon", () => {
+    render(<Pill label="foobar" icon={CheckCircleIcon} />);
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });
 
-  it("supports onDismiss", async () => {
+  it("should render a pill with a button", () => {
     const handleDismissal = vi.fn();
-    const { user } = render(<Pill onDismiss={handleDismissal}>foobar</Pill>);
+    render(<Pill label="foobar" onDismiss={handleDismissal} />);
+    expect(screen.getByRole("button")).toBeInTheDocument();
+  });
+
+  it("supports calling onDismiss callback function", async () => {
+    const handleDismissal = vi.fn();
+    const { user } = render(
+      <Pill label="foobar" onDismiss={handleDismissal} />,
+    );
     await userClick(user, screen.getByRole("button"));
     expect(handleDismissal).toHaveBeenCalled();
   });

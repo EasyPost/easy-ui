@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
@@ -8,7 +8,7 @@ import styles from "./Pill.module.scss";
 
 export type PillProps = {
   /** Text label */
-  children: ReactNode;
+  label: string;
   /** Left aligned icon */
   icon?: IconSymbol;
   /** Callback function when dismissing Pill */
@@ -29,20 +29,24 @@ export type PillProps = {
 *
 * function Component({ carrier }) {
 *   const CarrierImage = () => <Image src={`/${carrier}.png`} />;
-*   return <Pill icon={CarrierImage}>First Last #12345</Pill>;
+*   return <Pill label="First Last #12345" icon={CarrierImage} />;
 * }
 */
 export function Pill(props: PillProps) {
-  const { children, icon, onDismiss } = props;
+  const { label, icon, onDismiss } = props;
 
   return (
     <span className={styles.Pill}>
       {icon && <Icon size="xs" symbol={icon} color="primary.700" />}
       <Text color="primary.800" variant="subtitle2">
-        {children}
+        {label}
       </Text>
       {onDismiss && (
-        <UnstyledButton className={styles.dismiss} onPress={onDismiss}>
+        <UnstyledButton
+          className={styles.dismiss}
+          onPress={onDismiss}
+          aria-label={`Dismiss ${label}`}
+        >
           <Icon size="xs" symbol={CloseIcon} color="primary.600" />
         </UnstyledButton>
       )}

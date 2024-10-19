@@ -36,7 +36,7 @@ A `Pill` is a fairly straightforward component with no external dependencies and
 ```ts
 export type PillProps = {
   /** Text label */
-  children: ReactNode;
+  label: string;
   /** Left aligned icon */
   icon?: IconSymbol;
   /** Callback function when dismissing Pill */
@@ -53,7 +53,7 @@ import { Pill } from "@easypost/easy-ui/Pill";
 import SettingsIcon from "@easypost/easy-ui-icons/Settings";
 
 function Component() {
-  return <Pill icon={SettingsIcon}>First Last #12345</Pill>;
+  return <Pill label="First Last #12345" icon={SettingsIcon} />;
 }
 ```
 
@@ -64,7 +64,7 @@ import { Pill } from "@easypost/easy-ui/Pill";
 
 function Component({ carrier }) {
   const CarrierImage = () => <Image src={`/${carrier}.png`} />;
-  return <Pill icon={CarrierImage}>First Last #12345</Pill>;
+  return <Pill label="First Last #12345" icon={CarrierImage} />;
 }
 ```
 
@@ -88,9 +88,11 @@ function Component() {
   return (
     <>
       {pills.map((pill) => (
-        <Pill key={pill.id} onDismiss={() => handleDismissal(pill.id)}>
-          {pill.text}
-        </Pill>
+        <Pill
+          key={pill.id}
+          label={pill.text}
+          onDismiss={() => handleDismissal(pill.id)}
+        />
       ))}
     </>
   );
@@ -106,14 +108,14 @@ import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 
 export function Pill(props: PillProps) {
-  const { children, icon, onDismiss } = props;
+  const { label, icon, onDismiss } = props;
 
   const className = classNames(styles.root);
 
   return (
     <span className={className}>
       {icon && <Icon size="xs" symbol={icon} />}
-      <Text>{children}</Text>
+      <Text>{label}</Text>
       <UnstyledButton>
         <Icon size="xs" symbol={CloseIcon} />
       </UnstyledButton>

@@ -19,7 +19,7 @@ const meta: Meta<typeof Pill> = {
   component: Pill,
   decorators: [InlineStoryDecorator],
   argTypes: {
-    children: {
+    label: {
       control: "text",
     },
     icon: createLabelledOptionsControl({
@@ -35,7 +35,7 @@ export default meta;
 export const Default: Story = {
   render: Template.bind({}),
   args: {
-    children: "First Last #1234567890",
+    label: "First Last #1234567890",
     onDismiss: undefined,
   },
 };
@@ -43,7 +43,7 @@ export const Default: Story = {
 export const StandardIconSymbol: Story = {
   render: Template.bind({}),
   args: {
-    children: "First Last #1234567890",
+    label: "First Last #1234567890",
     onDismiss: undefined,
     icon: LocalShippingIcon,
   },
@@ -52,7 +52,7 @@ export const StandardIconSymbol: Story = {
 export const ImageSymbol: Story = {
   render: Template.bind({}),
   args: {
-    children: "First Last #1234567890",
+    label: "First Last #1234567890",
     onDismiss: undefined,
     icon: FedExLogoImg,
   },
@@ -61,7 +61,7 @@ export const ImageSymbol: Story = {
 export const Dismissal: Story = {
   render: Template.bind({}),
   args: {
-    children: "First Last #1234567890",
+    label: "First Last #1234567890",
     onDismiss: action("clicked!"),
     icon: Package2Icon,
   },
@@ -85,12 +85,11 @@ export const Group: Story = {
       <>
         {pills.map((pill) => (
           <Pill
+            label={pill.text}
             key={pill.id}
             icon={FedExLogoImg}
             onDismiss={() => handleDismissal(pill.id)}
-          >
-            {pill.text}
-          </Pill>
+          />
         ))}
       </>
     );
