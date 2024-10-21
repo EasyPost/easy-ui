@@ -22,37 +22,11 @@ A `SplitToggleCard` is a component built on top of the `Toggle` component with a
 ### API
 
 ```ts
-export type SplitToggleCardProps = {
+export type SplitToggleCardProps = ToggleProps & {
   /**
-   * The label for the toggle.
+   * Card children
    */
-  children: string;
-  /**
-   * The related content for the toggle.
-   */
-  description?: string;
-  /**
-   * Whether the toggle should be selected (uncontrolled).
-   */
-  defaultSelected?: boolean;
-  /**
-   * Disables the toggle.
-   */
-  isDisabled?: boolean;
-
-  /**
-   * Marks the toggle as immutable.
-   */
-  isReadOnly?: boolean;
-
-  /**
-   * Whether the toggle should be selected (controlled).
-   */
-  isSelected?: boolean;
-  /**
-   * Handler that is called when the toggle's selection state changes.
-   */
-  onChange?: (isSelected: boolean) => void;
+  children: ReactNode;
 };
 ```
 
@@ -60,9 +34,15 @@ export type SplitToggleCardProps = {
 
 ```tsx
 import { SplitToggleCard } from "@easypost/easy-ui/SplitToggleCard";
+import { Text } from "@easypost/easy-ui/Text";
 
 function Component() {
-  return <SplitToggleCard description="foobar">Toggle Label</SplitToggleCard>;
+  const id = useId();
+  return (
+    <SplitToggleCard aria-labelledby={id}>
+      <Text id={id}>Toggle Label</Text>
+    </SplitToggleCard>
+  );
 }
 ```
 
@@ -70,9 +50,14 @@ _Default value:_
 
 ```tsx
 import { SplitToggleCard } from "@easypost/easy-ui/SplitToggleCard";
+import { Text } from "@easypost/easy-ui/Text";
 
 function Component() {
-  return <SplitToggleCard defaultSelected={true}>Toggle Label</SplitToggleCard>;
+  return (
+    <SplitToggleCard defaultSelected={true}>
+      <Text>Toggle Label</Text>
+    </SplitToggleCard>
+  );
 }
 ```
 
@@ -80,6 +65,7 @@ _Controlled:_
 
 ```tsx
 import { SplitToggleCard } from "@easypost/easy-ui/SplitToggleCard";
+import { Text } from "@easypost/easy-ui/Text";
 
 function Component() {
   const [isSelected, setIsSelected] = useState(false);
@@ -88,7 +74,7 @@ function Component() {
       isSelected={isSelected}
       onChange={(isSelected) => setIsSelected(isSelected)}
     >
-      Toggle Label
+      <Text>Toggle Label</Text>
     </SplitToggleCard>
   );
 }
@@ -98,9 +84,14 @@ _Disabled:_
 
 ```tsx
 import { SplitToggleCard } from "@easypost/easy-ui/SplitToggleCard";
+import { Text } from "@easypost/easy-ui/Text";
 
 function Component() {
-  return <SplitToggleCard isDisabled={true}>Toggle Label</SplitToggleCard>;
+  return (
+    <SplitToggleCard isDisabled={true}>
+      <Text>Toggle Label</Text>
+    </SplitToggleCard>
+  );
 }
 ```
 
@@ -108,11 +99,12 @@ _Read-only:_
 
 ```tsx
 import { SplitToggleCard } from "@easypost/easy-ui/SplitToggleCard";
+import { Text } from "@easypost/easy-ui/Text";
 
 function Component() {
   return (
     <SplitToggleCard isSelected={true} isReadOnly={true}>
-      Toggle Label
+      <Text>Toggle Label</Text>
     </SplitToggleCard>
   );
 }
@@ -122,46 +114,19 @@ function Component() {
 
 ```tsx
 import { Toggle } from "../Toggle";
-import { Text } from "../Text";
 import { Card } from "../Card";
-import { VerticalStack } from "../VerticalStack";
 import { HorizontalGrid } from "../HorizontalGrid";
 
 export function SplitToggleCard(props: SplitToggleCardProps) {
-  const {
-    children,
-    description,
-    defaultSelected,
-    isDisabled,
-    isReadOnly,
-    isSelected,
-    onChange,
-  } = props;
-
-  const status = isSelected || defaultSelected ? "Enabled" : "Disabled";
+  const { children, ...toggleProps } = props;
 
   return (
     <Card.Container>
       <HorizontalGrid>
         <Card.Area>
-          <Toggle
-            name={children}
-            defaultSelected={defaultSelected}
-            isSelected={isSelected}
-            isReadOnly={isReadOnly}
-            isDisabled={isDisabled}
-            onChange={onChange}
-          />
+          <Toggle {...toggleProps} />
         </Card.Area>
-        <Card.Area>
-          <VerticalStack>
-            <Text>{children}</Text>
-            <Text>
-              {status}
-              {description && `: ${description}`}
-            </Text>
-          </VerticalStack>
-        </Card.Area>
+        <Card.Area>{children}</Card.Area>
       </HorizontalGrid>
     </Card.Container>
   );
