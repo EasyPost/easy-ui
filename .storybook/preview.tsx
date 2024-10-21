@@ -1,5 +1,6 @@
-import React from "react";
+import { action } from "@storybook/addon-actions";
 import { Preview } from "@storybook/react";
+import React from "react";
 import { Provider as EasyUIProvider } from "../easy-ui-react/src/Provider";
 import { backgrounds, gridCellSize, theme } from "./theme";
 import { viewports } from "./viewports";
@@ -45,6 +46,7 @@ const preview: Preview = {
       const background = context.globals.backgrounds?.value;
       return (
         <EasyUIProvider
+          navigate={action("Navigation")}
           colorScheme={background === "#1c222d" ? "dark" : "light"}
         >
           <Story />

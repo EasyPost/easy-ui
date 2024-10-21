@@ -1,0 +1,100 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { NexusLayout } from "./NexusLayout";
+import * as NexusLayoutStories from "./NexusLayout.stories";
+
+<Meta of={NexusLayoutStories} />
+
+# NexusLayout
+
+`NexusLayout` defines the header, main content, and multipage content areas of a Nexus product page.
+
+<Canvas of={NexusLayoutStories.StandardContent} />
+
+`NexusLayout` is a compound component consisting of `NexusLayout`, `NexusLayout.Header`, `NexusLayout.Content`, and `NexusLayout.MultipageContainer`.
+
+`NexusLayout` also provides components for building navigation with `NexusLayout.Nav` and `NexusLayout.SidebarNav`.
+
+`NexusLayout` is highly composable. Subcomponents within a `NexusLayout` can be replaced as needed. Subcomponents are simple lightweight wrappers with built-in styles and constraints.
+
+`NexusLayout` can render a standard page container with `NexusLayout.Content`. It can render a multipage navigational container with `NexusLayout.MultipageContainer`.
+
+## Multipage Container
+
+`NexusLayout` can be used to render a multipage navigational container.
+
+<Canvas of={NexusLayoutStories.MultipageContent} />
+
+## Properties
+
+### NexusLayout
+
+<ArgTypes of={NexusLayout} />
+
+### NexusLayout.Header
+
+<ArgTypes of={NexusLayout.Header} />
+
+### NexusLayout.Logo
+
+<ArgTypes of={NexusLayout.Logo} />
+
+### NexusLayout.Nav
+
+<ArgTypes of={NexusLayout.Nav} />
+
+### NexusLayout.NavLink
+
+<ArgTypes of={NexusLayout.NavLink} />
+
+### NexusLayout.Actions
+
+<ArgTypes of={NexusLayout.Actions} />
+
+### NexusLayout.MenuAction
+
+<ArgTypes of={NexusLayout.MenuAction} />
+
+### NexusLayout.LinkAction
+
+<ArgTypes of={NexusLayout.LinkAction} />
+
+### NexusLayout.ActionBadge
+
+<ArgTypes of={NexusLayout.ActionBadge} />
+
+### NexusLayout.Content
+
+<ArgTypes of={NexusLayout.Content} />
+
+### NexusLayout.MultipageContainer
+
+<ArgTypes of={NexusLayout.MultipageContainer} />
+
+### NexusLayout.MultipageSidebar
+
+<ArgTypes of={NexusLayout.MultipageSidebar} />
+
+### NexusLayout.MultipageContent
+
+<ArgTypes of={NexusLayout.MultipageContent} />
+
+### NexusLayout.MultipageHeader
+
+<ArgTypes of={NexusLayout.MultipageHeader} />
+
+### NexusLayout.MultipageTitle
+
+<ArgTypes of={NexusLayout.MultipageTitle} />
+
+### NexusLayout.MultipageSidebarNav
+
+<ArgTypes of={NexusLayout.MultipageSidebarNav} />
+
+### NexusLayout.MultipageSidebarNavSection
+
+<ArgTypes of={NexusLayout.MultipageSidebarNavSection} />
+
+### NexusLayout.MultipageSidebarNavLink
+
+<ArgTypes of={NexusLayout.MultipageSidebarNavLink} />
