@@ -5,6 +5,7 @@ import { EasyPostLogo } from "../utilities/EasyPostLogo";
 import {
   NexusLayoutActionBadge,
   NexusLayoutActions,
+  NexusLayoutLinkAction,
   NexusLayoutMenuAction,
 } from "./NexusLayoutActions";
 import {
@@ -150,6 +151,11 @@ NexusLayout.ActionBadge = NexusLayoutActionBadge;
  * Represents a secondary menu action of a `<NexusLayout />`.
  */
 NexusLayout.MenuAction = NexusLayoutMenuAction;
+
+/**
+ * Represents a secondary link action of a `<NexusLayout />`.
+ */
+NexusLayout.LinkAction = NexusLayoutLinkAction;
 
 /**
  * Represents the main content of a `<NexusLayout />`.

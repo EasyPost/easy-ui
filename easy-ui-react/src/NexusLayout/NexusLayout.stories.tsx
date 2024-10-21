@@ -9,7 +9,6 @@ import VerifiedUserIcon from "@easypost/easy-ui-icons/VerifiedUser";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import tokens from "../../../easy-ui-tokens/dist/js/tokens";
 import { Button } from "../Button";
 import { HorizontalStack } from "../HorizontalStack";
 import { Menu } from "../Menu";
@@ -51,42 +50,29 @@ export const StandardContent: Story = {
         </NexusLayout.Nav>
         <NexusLayout.Actions>
           <NexusLayout.MenuAction
-            accessibilityLabel="Test"
+            accessibilityLabel="Action 1"
             iconSymbol={AlarmIcon}
-            renderBadge={() => (
-              <div
-                style={{
-                  width: 12,
-                  height: 12,
-                  backgroundColor: tokens["theme.light.color.positive.500"],
-                  borderRadius: "100%",
-                }}
-              ></div>
-            )}
+            renderBadge={() => <NexusLayout.ActionBadge />}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
+              <Menu.Item>Action 1:1</Menu.Item>
+              <Menu.Item>Action 1:2</Menu.Item>
             </Menu.Overlay>
           </NexusLayout.MenuAction>
           <NexusLayout.MenuAction
-            accessibilityLabel="Test"
+            accessibilityLabel="Action 2"
             iconSymbol={SupportIcon}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
+              <Menu.Item>Action 1:1</Menu.Item>
+              <Menu.Item>Action 1:2</Menu.Item>
             </Menu.Overlay>
           </NexusLayout.MenuAction>
-          <NexusLayout.MenuAction
-            accessibilityLabel="Test"
+          <NexusLayout.LinkAction
+            href="/4"
+            accessibilityLabel="Action 3"
             iconSymbol={SettingsIcon}
-          >
-            <Menu.Overlay onAction={action("Menu item clicked!")}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
-            </Menu.Overlay>
-          </NexusLayout.MenuAction>
+          />
         </NexusLayout.Actions>
       </NexusLayout.Header>
       <NexusLayout.Content>
@@ -122,33 +108,29 @@ export const MultipageContent: Story = {
         </NexusLayout.Nav>
         <NexusLayout.Actions>
           <NexusLayout.MenuAction
-            accessibilityLabel="Test"
+            accessibilityLabel="Action 1"
             iconSymbol={AlarmIcon}
             renderBadge={() => <NexusLayout.ActionBadge />}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
+              <Menu.Item>Action 1:1</Menu.Item>
+              <Menu.Item>Action 1:2</Menu.Item>
             </Menu.Overlay>
           </NexusLayout.MenuAction>
           <NexusLayout.MenuAction
-            accessibilityLabel="Test"
+            accessibilityLabel="Action 2"
             iconSymbol={SupportIcon}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
+              <Menu.Item>Action 1:1</Menu.Item>
+              <Menu.Item>Action 1:2</Menu.Item>
             </Menu.Overlay>
           </NexusLayout.MenuAction>
-          <NexusLayout.MenuAction
-            accessibilityLabel="Test"
+          <NexusLayout.LinkAction
+            href="/4"
+            accessibilityLabel="Action 3"
             iconSymbol={SettingsIcon}
-          >
-            <Menu.Overlay onAction={action("Menu item clicked!")}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
-            </Menu.Overlay>
-          </NexusLayout.MenuAction>
+          />
         </NexusLayout.Actions>
       </NexusLayout.Header>
       <NexusLayout.Content>

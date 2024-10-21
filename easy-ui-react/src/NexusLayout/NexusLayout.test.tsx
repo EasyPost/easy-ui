@@ -50,6 +50,7 @@ describe("<NexusLayout />", () => {
       "aria-current",
       "page",
     );
+    expect(screen.getByRole("link", { name: "Action 3" })).toBeInTheDocument();
 
     await userClick(
       user,
@@ -125,6 +126,7 @@ describe("<NexusLayout />", () => {
       "aria-current",
       "page",
     );
+    expect(screen.getByRole("link", { name: "Action 3" })).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "Multipage Nav Link 1" }),
     ).toHaveAttribute("aria-current", "page");
@@ -192,6 +194,11 @@ function createNexusLayout(
               <Menu.Item>Menu Action 2:2</Menu.Item>
             </Menu.Overlay>
           </NexusLayout.MenuAction>
+          <NexusLayout.LinkAction
+            href="/1"
+            accessibilityLabel="Action 3"
+            iconSymbol={Icon}
+          />
         </NexusLayout.Actions>
       </NexusLayout.Header>
       <NexusLayout.Content>{content}</NexusLayout.Content>

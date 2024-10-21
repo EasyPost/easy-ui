@@ -3,13 +3,16 @@ import React, {
   forwardRef,
   ReactNode,
   useCallback,
+  useRef,
   useState,
 } from "react";
 import {
+  AriaLinkOptions,
   mergeProps,
   PressHookProps,
   useFocusRing,
   useHover,
+  useLink,
   usePress,
 } from "react-aria";
 import { HorizontalStack } from "../HorizontalStack";
@@ -44,6 +47,20 @@ export type NexusLayoutMenuActionProps = {
   /** Render the menu overlay. */
   children: ReactNode;
 };
+
+export type NexusLayoutLinkActionProps = {
+  /** Optional custom accessibility label describing the menu action. */
+  accessibilityLabel?: string;
+
+  /** Action link icon symbol. */
+  iconSymbol: IconSymbol;
+
+  /** Whether or not action link is selected. */
+  isSelected?: boolean;
+
+  /** Badge for the action. */
+  renderBadge?: () => ReactNode;
+} & AriaLinkOptions;
 
 export function NexusLayoutActions(props: NexusLayoutActionsProps) {
   const { children } = props;
@@ -85,6 +102,39 @@ export function NexusLayoutMenuAction(props: NexusLayoutMenuActionProps) {
       </Menu.Trigger>
       {children}
     </Menu>
+  );
+}
+
+export function NexusLayoutLinkAction(props: NexusLayoutLinkActionProps) {
+  const {
+    accessibilityLabel = "Actions",
+    iconSymbol,
+    renderBadge,
+    isSelected,
+  } = props;
+  const ref = useRef(null);
+  const { linkProps } = useLink(props, ref);
+  const { focusProps, isFocusVisible } = useFocusRing(props);
+  const { hoverProps, isHovered } = useHover(props);
+  const className = classNames(
+    styles.button,
+    isFocusVisible && styles.focused,
+    isHovered && styles.hovered,
+    isSelected && styles.selected,
+  );
+  return (
+    <a
+      ref={ref}
+      className={className}
+      {...mergeProps(hoverProps, focusProps, linkProps)}
+      aria-current={isSelected ? "true" : undefined}
+    >
+      <Text visuallyHidden>{accessibilityLabel}</Text>
+      <Icon symbol={iconSymbol} />
+      {renderBadge && (
+        <div className={styles.badgeContainer}>{renderBadge()}</div>
+      )}
+    </a>
   );
 }
 

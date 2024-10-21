@@ -2,6 +2,7 @@
 @use "../styles/unstyled";
 
 .button {
+  @include unstyled.link;
   @include unstyled.button;
   cursor: pointer;
 
@@ -24,6 +25,7 @@
   background-color: design-token("color.neutral.100");
 }
 
+.selected,
 .open {
   background-color: design-token("color.primary.700");
   color: design-token("color.neutral.000");
