@@ -166,6 +166,7 @@ function createNexusLayout(
   return (
     <NexusLayout>
       <NexusLayout.Header>
+        <NexusLayout.Logo />
         <NexusLayout.Nav selectedHref={selectedHref}>
           <NexusLayout.NavLink href="/1" iconSymbol={Icon}>
             Nav Link 1

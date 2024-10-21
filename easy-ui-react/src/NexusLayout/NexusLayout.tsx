@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { HorizontalStack } from "../HorizontalStack";
 import { classNames, variationName } from "../utilities/css";
 import { EasyPostLogo } from "../utilities/EasyPostLogo";
 import {
@@ -42,13 +41,15 @@ export type NexusLayoutProps = {
 };
 
 export type NexusLayoutHeaderProps = {
+  /** Header children. */
+  children: ReactNode;
+};
+
+export type NexusLayoutLogoProps = {
   /**
    * Custom logo for layout. Defaults to EasyPost logo.
    */
-  logo?: ReactNode;
-
-  /** Header children. */
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 export type NexusLayoutContentProps = {
@@ -63,6 +64,7 @@ export type NexusLayoutContentProps = {
  * ```tsx
  * <NexusLayout>
  *   <NexusLayout.Header>
+ *     <NexusLayout.Logo />
  *     <NexusLayout.Nav selectedKey="/1">
  *       <NexusLayout.NavLink key="/1" href="/1" iconSymbol={Icon}>
  *         Order Fulfillment
@@ -106,15 +108,13 @@ export function NexusLayout(props: NexusLayoutProps) {
 }
 
 function NexusLayoutHeader(props: NexusLayoutHeaderProps) {
-  const { logo = <EasyPostLogo />, children } = props;
-  return (
-    <header className={styles.header}>
-      <HorizontalStack blockAlign="center" align="space-between">
-        {logo}
-        {children}
-      </HorizontalStack>
-    </header>
-  );
+  const { children } = props;
+  return <header className={styles.header}>{children}</header>;
+}
+
+function NexusLayoutLogo(props: NexusLayoutLogoProps) {
+  const { children = <EasyPostLogo /> } = props;
+  return <div className={styles.logo}>{children}</div>;
 }
 
 function NexusLayoutContent(props: NexusLayoutContentProps) {
@@ -126,6 +126,11 @@ function NexusLayoutContent(props: NexusLayoutContentProps) {
  * Represents the header of a `<NexusLayout />`.
  */
 NexusLayout.Header = NexusLayoutHeader;
+
+/**
+ * Represents the logo in a `<NexusLayout />`.
+ */
+NexusLayout.Logo = NexusLayoutLogo;
 
 /**
  * Represents the primary nav of a `<NexusLayout />`.

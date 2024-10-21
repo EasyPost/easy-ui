@@ -64,7 +64,11 @@ export type NexusLayoutLinkActionProps = {
 
 export function NexusLayoutActions(props: NexusLayoutActionsProps) {
   const { children } = props;
-  return <HorizontalStack gap="0.5">{children}</HorizontalStack>;
+  return (
+    <HorizontalStack wrap={false} gap="0.5" align="end">
+      {children}
+    </HorizontalStack>
+  );
 }
 
 export function NexusLayoutMenuAction(props: NexusLayoutMenuActionProps) {

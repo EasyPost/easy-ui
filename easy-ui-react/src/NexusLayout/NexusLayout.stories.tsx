@@ -34,6 +34,7 @@ export const StandardContent: Story = {
   render: () => (
     <NexusLayout>
       <NexusLayout.Header>
+        <NexusLayout.Logo />
         <NexusLayout.Nav selectedHref="/1">
           <NexusLayout.NavLink href="/1" iconSymbol={StorefrontIcon}>
             Order Fulfillment
@@ -64,8 +65,8 @@ export const StandardContent: Story = {
             iconSymbol={SupportIcon}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
-              <Menu.Item>Action 1:1</Menu.Item>
-              <Menu.Item>Action 1:2</Menu.Item>
+              <Menu.Item>Action 2:1</Menu.Item>
+              <Menu.Item>Action 2:2</Menu.Item>
             </Menu.Overlay>
           </NexusLayout.MenuAction>
           <NexusLayout.LinkAction
@@ -92,6 +93,7 @@ export const MultipageContent: Story = {
   render: () => (
     <NexusLayout>
       <NexusLayout.Header>
+        <NexusLayout.Logo />
         <NexusLayout.Nav selectedHref="/1">
           <NexusLayout.NavLink href="/1" iconSymbol={StorefrontIcon}>
             Order Fulfillment
@@ -122,8 +124,8 @@ export const MultipageContent: Story = {
             iconSymbol={SupportIcon}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
-              <Menu.Item>Action 1:1</Menu.Item>
-              <Menu.Item>Action 1:2</Menu.Item>
+              <Menu.Item>Action 2:1</Menu.Item>
+              <Menu.Item>Action 2:2</Menu.Item>
             </Menu.Overlay>
           </NexusLayout.MenuAction>
           <NexusLayout.LinkAction
