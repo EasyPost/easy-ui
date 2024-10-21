@@ -1,5 +1,21 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.45
+
+### Minor Changes
+
+- 8071802: feat(DataGrid): add size support and fix colors
+- b190fa6: feat(Icon): add support for images
+- 14eaca7: feat: add NexusLayout
+- 0659bb6: feat(Card): support shadow variant
+
+### Patch Changes
+
+- Updated dependencies [ed36751]
+- Updated dependencies [21a2853]
+- Updated dependencies [0659bb6]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.11
+
 ## 1.0.0-alpha.44
 
 ### Patch Changes
