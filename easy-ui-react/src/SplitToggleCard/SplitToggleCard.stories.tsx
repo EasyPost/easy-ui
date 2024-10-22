@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React, { useState } from "react";
+import React, { useState, useId } from "react";
 import { SplitToggleCard, SplitToggleCardProps } from "./SplitToggleCard";
 import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
@@ -21,10 +21,11 @@ const meta: Meta<typeof SplitToggleCard> = {
 };
 
 const Template = (args: SplitToggleCardProps) => {
+  const id = useId();
   const status =
     args.isSelected || args.defaultSelected ? "Enabled" : "Disabled";
   return (
-    <SplitToggleCard {...args}>
+    <SplitToggleCard {...args} aria-labelledby={id}>
       <VerticalStack gap="1">
         <Text variant="subtitle2" color="primary.800">
           Toggle Label
@@ -54,10 +55,15 @@ export default meta;
 
 export const Standard: Story = {
   render: () => {
+    const id = useId();
     const [selected, setSelected] = useState(false);
     const status = selected ? "Enabled" : "Disabled";
     return (
-      <SplitToggleCard isSelected={selected} onChange={setSelected}>
+      <SplitToggleCard
+        isSelected={selected}
+        onChange={setSelected}
+        aria-labelledby={id}
+      >
         <VerticalStack gap="1">
           <Text variant="subtitle2" color="primary.800">
             Toggle Label
