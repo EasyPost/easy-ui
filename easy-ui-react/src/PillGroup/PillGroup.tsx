@@ -1,10 +1,6 @@
 import React from "react";
 import { useListData } from "react-stately";
-import type {
-  TagGroupProps,
-  TagListProps,
-  TagRenderProps,
-} from "react-aria-components";
+import type { TagGroupProps, TagListProps } from "react-aria-components";
 import { TagGroup, TagList, Tag, Label, Button } from "react-aria-components";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import { Icon } from "../Icon";
@@ -132,21 +128,19 @@ function Pill(props: PillProps) {
 
   return (
     <Tag textValue={label} className={styles.Pill} {...props}>
-      {(renderProps: TagRenderProps) => {
-        return (
-          <>
-            {icon && <Icon size="xs" symbol={icon} color="primary.700" />}
-            <Text color="primary.800" variant="subtitle2">
-              {label}
-            </Text>
-            {renderProps.allowsRemoving && (
-              <Button className={styles.remove} slot="remove">
-                <Icon size="xs" symbol={CloseIcon} color="primary.600" />
-              </Button>
-            )}
-          </>
-        );
-      }}
+      {({ allowsRemoving }) => (
+        <>
+          {icon && <Icon size="xs" symbol={icon} color="primary.700" />}
+          <Text color="primary.800" variant="subtitle2">
+            {label}
+          </Text>
+          {allowsRemoving && (
+            <Button className={styles.remove} slot="remove">
+              <Icon size="xs" symbol={CloseIcon} color="primary.600" />
+            </Button>
+          )}
+        </>
+      )}
     </Tag>
   );
 }
