@@ -3,4 +3,4 @@
 "@easypost/easy-ui": minor
 ---
 
-Create `<Pill />` component
+Create `<PillGroup />` component
