@@ -14,6 +14,12 @@ import { getComponentToken, getResponsiveDesignToken } from "../utilities/css";
 import styles from "./PillGroup.module.scss";
 import { HorizontalStackProps } from "../HorizontalStack";
 
+/**
+ * Assists in managing state for list data for `<PillGroup />`
+ *
+ * @param initialItems Initial items in list
+ * @returns List state with items including methods for efficient updates
+ */
 export function usePillListState<T>(initialItems: T[]) {
   return useListData({ initialItems });
 }
@@ -29,6 +35,58 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
     >;
   };
 
+/**
+ * A `<PillGroup />` displays a focusable list of labels, categories, keywords, or
+ * filters; individual pills can be dismissed as well as accompanied by an icon.
+ *
+ * @remarks
+ * Supports removal via `onRemove` prop (applied to `<PillGroup />` ) and icons
+ * via `icons` prop (applied to `<PillGroup.Pill />`). To assist with efficient
+ * removal, use `usePillListState`.
+ *
+ * @example
+ * ```tsx
+ * <PillGroup label="Categories">
+ *   <PillGroup.Pill label="First" />
+ *   <PillGroup.Pill label="Second" />
+ *   <PillGroup.Pill label="Third" />
+ * </PillGroup >
+ * ```
+ *
+ * @example
+ * _With icon:_
+ * ```tsx
+ * <PillGroup label="Categories">
+ *   <PillGroup.Pill label="First" icon={SettingsIcon} />
+ *   <PillGroup.Pill label="Second" icon={SettingsIcon} />
+ *   <PillGroup.Pill label="Third" icon={SettingsIcon} />
+ * </PillGroup >
+ * ```
+ *
+ * @example
+ * _Removal:_
+ * ```tsx
+ * const list = usePillListState([
+ *  { id: 1, name: "Food" },
+ *  { id: 2, name: "Travel" },
+ *  { id: 3, name: "Gaming" },
+ *  { id: 4, name: "Shopping" },
+ * ]);
+ *
+ * return (
+ *  <PillGroup
+ *    items={list.items}
+ *    horizontalStackContainerProps={{
+ *      gap: "2",
+ *    }}
+ *    onRemove={(keys) => list.remove(...keys)}
+ *    label="News Categories"
+ *  >
+ *    {(item) => <PillGroup.Pill label={item.name} />}
+ *  </PillGroup>
+ *);
+ * ```
+ */
 export function PillGroup<T extends object>(props: PillGroupProps<T>) {
   const { label, items, children, horizontalStackContainerProps = {} } = props;
   const {
@@ -93,4 +151,5 @@ function Pill(props: PillProps) {
   );
 }
 
+/** Represents an individual pill */
 PillGroup.Pill = Pill;
