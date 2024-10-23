@@ -65,7 +65,7 @@ export const SplitToggleCard = (props: SplitToggleCardProps) => {
   return (
     <Card.Container>
       <HorizontalGrid columns={["80px", "1fr"]}>
-        <Card.Area background="secondary" padding="1.5">
+        <Card.Area background="secondary" padding="3">
           <HorizontalStack align="center">
             <Toggle {...toggleProps} />
           </HorizontalStack>

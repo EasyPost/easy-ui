@@ -7,7 +7,7 @@ import { VerticalStack } from "../VerticalStack";
 type Story = StoryObj<typeof SplitToggleCard>;
 
 const meta: Meta<typeof SplitToggleCard> = {
-  title: "Components/SplitToggleCard",
+  title: "Components/Cards/SplitToggleCard",
   component: SplitToggleCard,
   args: {
     isDisabled: false,
@@ -27,12 +27,11 @@ const Template = (args: SplitToggleCardProps) => {
   return (
     <SplitToggleCard {...args} aria-labelledby={id}>
       <VerticalStack gap="1">
-        <Text variant="subtitle2" color="primary.800">
+        <Text id={id} variant="subtitle2" color="primary.800">
           Toggle Label
         </Text>
-        <div>
+        <Text variant="caption">
           <Text
-            variant="caption"
             color={
               args.isSelected || args.defaultSelected
                 ? "positive.600"
@@ -41,11 +40,11 @@ const Template = (args: SplitToggleCardProps) => {
           >
             {status}
           </Text>
-          <Text variant="caption" color="primary.800">
+          <Text color="primary.800">
             : AI-based Delivery Timelines for each Shipping Option at Checkout
             for Shoppers.
           </Text>
-        </div>
+        </Text>
       </VerticalStack>
     </SplitToggleCard>
   );
@@ -65,21 +64,18 @@ export const Standard: Story = {
         aria-labelledby={id}
       >
         <VerticalStack gap="1">
-          <Text variant="subtitle2" color="primary.800">
+          <Text id={id} variant="subtitle2" color="primary.800">
             Toggle Label
           </Text>
-          <div>
-            <Text
-              variant="caption"
-              color={selected ? "positive.600" : "negative.600"}
-            >
+          <Text variant="caption">
+            <Text color={selected ? "positive.600" : "negative.600"}>
               {status}
             </Text>
-            <Text variant="caption" color="primary.800">
+            <Text color="primary.800">
               : AI-based Delivery Timelines for each Shipping Option at Checkout
               for Shoppers.
             </Text>
-          </div>
+          </Text>
         </VerticalStack>
       </SplitToggleCard>
     );
