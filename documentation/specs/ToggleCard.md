@@ -25,7 +25,7 @@ No new external dependencies will be introduced.
 ### API
 
 ```ts
-export type ToggleCardProps = ToggleProps & {
+export type ToggleCardProps = {
   /**
    * The children of the <ToggleCard> element. Should render
    * `<ToggleCard.Header>` and `<ToggleCard.Body>`
@@ -33,7 +33,7 @@ export type ToggleCardProps = ToggleProps & {
   children: ReactNode;
 };
 
-export type ToggleCardHeaderProps = {
+export type ToggleCardHeaderProps = ToggleProps & {
   /**
    * Flips alignment for header content. By default,
    * the toggle control is right aligned.
@@ -65,12 +65,12 @@ import { Text } from "@easypost/easy-ui/Text";
 function Component() {
   const [isSelected, setIsSelected] = useState(false);
   return (
-    <ToggleCard
-      isSelected={isSelected}
-      onChange={(isSelected) => setIsSelected(isSelected)}
-      aria-labelledby="some id"
-    >
-      <ToggleCard.Header>
+    <ToggleCard>
+      <ToggleCard.Header
+        isSelected={isSelected}
+        onChange={(isSelected) => setIsSelected(isSelected)}
+        aria-labelledby="some id"
+      >
         <Text id="some id" variant="subtitle1" color="primary.900">
           Header
         </Text>
@@ -91,8 +91,8 @@ import { Icon } from "../Icon";
 function Component() {
   const PoweredByEasyPostLogo = () => <Image src="./logo.png" />;
   return (
-    <ToggleCard aria-label="carrier activation">
-      <ToggleCard.Header isAligmentFlipped>
+    <ToggleCard>
+      <ToggleCard.Header aria-label="carrier activation" isAligmentFlipped>
         <Icon size="sm" symbol={PoweredByEasyPostLogo}>
       </ToggleCard.Header>
       <ToggleCard.Body>
@@ -113,8 +113,8 @@ import { Text } from "@easypost/easy-ui/Text";
 
 function Component() {
   return (
-    <ToggleCard isDisabled aria-labelledby="some id">
-      <ToggleCard.Header>
+    <ToggleCard>
+      <ToggleCard.Header isDisabled aria-labelledby="some id">
         <Text id="some id" variant="subtitle1" color="primary.900">
           Header
         </Text>
@@ -133,8 +133,8 @@ import { Text } from "@easypost/easy-ui/Text";
 
 function Component() {
   return (
-    <ToggleCard isSelected isReadOnly aria-labelledby="some id">
-      <ToggleCard.Header>
+    <ToggleCard>
+      <ToggleCard.Header isSelected isReadOnly aria-labelledby="some id">
         <Text id="some id" variant="subtitle1" color="primary.900">
           Header
         </Text>
@@ -153,18 +153,15 @@ import { Card } from "../Card";
 import { HorizontalGrid } from "../HorizontalGrid";
 
 export function ToggleCard(props: ToggleCardProps) {
-  const { children, ...toggleProps } = props;
+  const { children } = props;
 
   return (
-    <InternalToggleCardContext.Provider value={toggleProps}>
       <Card.Container>{children}</Card.Container>
-    </InternalToggleCardContext.Provider>
   );
 }
 
 function ToggleCardHeader(props: ToggleCardHeaderProps) {
-  const { children, isAligmentFlipped = false } = props;
-  const { toggleProps } = useInternalToggleCardContext();
+  const { children, isAligmentFlipped = false, ...toggleProps } = props;
 
   return (
     <HorizontalStack>
