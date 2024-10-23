@@ -24,7 +24,7 @@ const Template = (args: CardProps) => (
 );
 
 const meta: Meta<typeof Card> = {
-  title: "Components/Card",
+  title: "Components/Cards/Card",
   component: Card,
   decorators: [InlineStoryDecorator],
   argTypes: {
