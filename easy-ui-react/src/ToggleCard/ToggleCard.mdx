@@ -1,0 +1,64 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { ToggleCard } from "./ToggleCard";
+import * as ToggleCardStories from "./ToggleCard.stories";
+
+<Meta of={ToggleCardStories} />
+
+# ToggleCard
+
+A `<ToggleCard />` is a styled container with an interactive header featuring a toggle control. It is a simple compound component consisting of `<ToggleCard.Header />` and `<ToggleCard.Body />`.
+
+`<ToggleCard.Header />` automatically handles the rendering for the `Toggle` control and accepts the corresponding props. Hence, consumers only need to pass in (via `children`) the content to render alongside the `Toggle` control.
+
+`<ToggleCard.Body />` is responsible for rendering the body content.
+
+**Note**: The toggle should have a visual label that is close to the control. Since the element that renders next to the toggle control for this component may not be text, `aria-label` should be provided in those cases. For cases when text is provided, the text should have an `id`, and the value of that `id` should be provided to the `aria-labelledby` prop of `<ToggleCard.Header />`.
+
+<Canvas of={ToggleCardStories.Default} />
+
+## Selected
+
+Use `isSelected` (controlled) or `defaultSelected` (uncontrolled) to handle selection.
+
+<Canvas of={ToggleCardStories.Selected} />
+
+## Disabled
+
+Use `isDisabled` handle disabling the toggle.
+
+<Canvas of={ToggleCardStories.Disabled} />
+
+## Read-Only
+
+Use `isReadOnly` to enable a read only state.
+
+<Canvas of={ToggleCardStories.ReadOnly} />
+
+## Toggle Position
+
+Use `togglePosition` to position the toggle element at the start of the header container.
+
+<Canvas of={ToggleCardStories.TogglePosition} />
+
+## Toggle Children
+
+Use `toggleChildren` to pass a `ReactNode` to render as a child of the underlying `Toggle` component.
+
+<Canvas of={ToggleCardStories.ToggleChildren} />
+
+## Properties
+
+### ToggleCard
+
+<ArgTypes of={ToggleCard} />
+
+### ToggleCard.Header
+
+**Note**: To pass children to the toggle, use `toggleChildren`.
+
+<ArgTypes of={ToggleCard.Header} />
+
+### ToggleCard.Body
+
+<ArgTypes of={ToggleCard.Body} />

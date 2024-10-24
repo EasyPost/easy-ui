@@ -1,8 +1,7 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
-import { selectCheckbox } from "../Checkbox/Checkbox.test";
-import { render } from "../utilities/test";
+import { render, selectCheckbox } from "../utilities/test";
 import { Text } from "../Text";
 import { SplitToggleCard } from "./SplitToggleCard";
 

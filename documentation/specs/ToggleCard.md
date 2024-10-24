@@ -36,10 +36,10 @@ export type ToggleCardProps = {
 export type ToggleCardHeaderProps = ToggleProps & {
   /**
    * Flips alignment for header content. By default,
-   * the toggle control is right aligned.
-   * @default false
+   * the toggle control is end aligned.
+   * @default end
    */
-  isAligmentFlipped?: boolean;
+  togglePosition?: "start" | "end";
   /**
    * Header content of card
    */
@@ -81,7 +81,7 @@ function Component() {
 }
 ```
 
-_Flipped alignment:_
+_Toggle position:_
 
 ```tsx
 import { ToggleCard } from "@easypost/easy-ui/ToggleCard";
@@ -92,7 +92,7 @@ function Component() {
   const PoweredByEasyPostLogo = () => <Image src="./logo.png" />;
   return (
     <ToggleCard>
-      <ToggleCard.Header aria-label="carrier activation" isAligmentFlipped>
+      <ToggleCard.Header aria-label="carrier activation" togglePosition="start">
         <Icon size="sm" symbol={PoweredByEasyPostLogo}>
       </ToggleCard.Header>
       <ToggleCard.Body>
@@ -150,7 +150,7 @@ function Component() {
 ```tsx
 import { Toggle } from "../Toggle";
 import { Card } from "../Card";
-import { HorizontalGrid } from "../HorizontalGrid";
+import { HorizontalStack } from "../HorizontalStack";
 
 export function ToggleCard(props: ToggleCardProps) {
   const { children } = props;
@@ -161,12 +161,12 @@ export function ToggleCard(props: ToggleCardProps) {
 }
 
 function ToggleCardHeader(props: ToggleCardHeaderProps) {
-  const { children, isAligmentFlipped = false, ...toggleProps } = props;
+  const { children, togglePosition = "end", ...toggleProps } = props;
 
   return (
     <HorizontalStack>
       <Card.Area>
-        {isAlignmentFlipped ? (
+        {togglePosition === "start" ? (
           <>
             <Toggle {...toggleProps} />
             {children}
@@ -202,8 +202,10 @@ ToggleCard.Body = ToggleCardBody;
 
 ### Accessibility
 
-There are no major accessibility concerns to highlight for this component
+- In general, a toggle should have a visual label that is close to the control. Since the element that renders next to the toggle control for this component may not be text, `aria-label` should be provided in those cases. For cases when text is provided, the text should have an `id`, and the value
+  of that `id` should be provided to the `aria-labelledby` prop of `ToggleCard.Header`.
 
 ### Dependencies
 
-There are no major dependencies to highlight for this component
+- `Card`
+- `Toggle`
