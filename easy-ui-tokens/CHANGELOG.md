@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.12
+
+### Minor Changes
+
+- 2eb11dc: Create `<PillGroup />` component
+
 ## 1.0.0-alpha.11
 
 ### Minor Changes
