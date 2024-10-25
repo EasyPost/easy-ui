@@ -10,15 +10,13 @@ A `ToggleCard` is a styled container with an interactive header featuring a togg
 
 ### Features
 
-- Toggle control supports all features of the `<Toggle />` component
-- Header alignment can be flipped
 - Header and body are broken into composable pieces
 
 ## Design
 
 A `ToggleCard` is a simple compound component consisting of`ToggleCard.Header` and `ToggleCard.Body`. It is built on top of the existing `Toggle` and `Card` components.
 
-The `ToggleCard.Header` will be responsible for rendering the `Toggle` as well as header content passed by the consumer. The `ToggleCard.Body` will be responsible for rendering the body content passed by the consumer. Note, the consumer will **not** need to pass in the `Toggle` component directly, they will only need to pass in the custom header content to render alongside the toggle control in the header.
+The `ToggleCard.Header` will be responsible for rendering the `Toggle` and the content passed by the consumer. The `ToggleCard.Body` will be responsible for rendering the body content passed by the consumer.
 
 No new external dependencies will be introduced.
 
@@ -33,13 +31,7 @@ export type ToggleCardProps = {
   children: ReactNode;
 };
 
-export type ToggleCardHeaderProps = ToggleProps & {
-  /**
-   * Flips alignment for header content. By default,
-   * the toggle control is right aligned.
-   * @default false
-   */
-  isAligmentFlipped?: boolean;
+export type ToggleCardHeaderProps = {
   /**
    * Header content of card
    */
@@ -66,41 +58,18 @@ function Component() {
   const [isSelected, setIsSelected] = useState(false);
   return (
     <ToggleCard>
-      <ToggleCard.Header
-        isSelected={isSelected}
-        onChange={(isSelected) => setIsSelected(isSelected)}
-        aria-labelledby="some id"
-      >
+      <ToggleCard.Header>
         <Text id="some id" variant="subtitle1" color="primary.900">
-          Header
+          header
         </Text>
+        <Toggle
+          aria-labelledby="some id"
+          isSelected={isSelected}
+          onChange={(isSelected) => setIsSelected(isSelected)}
+        />
       </ToggleCard.Header>
-      <ToggleCard.Body>Content</ToggleCard.Body>
-    </ToggleCard>
-  );
-}
-```
-
-_Flipped alignment:_
-
-```tsx
-import { ToggleCard } from "@easypost/easy-ui/ToggleCard";
-import { Icon } from "../Icon";
-
-
-function Component() {
-  const PoweredByEasyPostLogo = () => <Image src="./logo.png" />;
-  return (
-    <ToggleCard>
-      <ToggleCard.Header aria-label="carrier activation" isAligmentFlipped>
-        <Icon size="sm" symbol={PoweredByEasyPostLogo}>
-      </ToggleCard.Header>
-      <ToggleCard.Body>
-        <button>
-          <Image src="./carrier.png" />;
-        </button>
-      </ToggleCard.Body>
-    </ToggleCard>
+        <ToggleCard.Body>body</ToggleCard.Body>
+    </ToggleCard>,
   );
 }
 ```
@@ -114,18 +83,19 @@ import { Text } from "@easypost/easy-ui/Text";
 function Component() {
   return (
     <ToggleCard>
-      <ToggleCard.Header isDisabled aria-labelledby="some id">
+      <ToggleCard.Header>
         <Text id="some id" variant="subtitle1" color="primary.900">
-          Header
+          header
         </Text>
+        <Toggle aria-labelledby="some id" isDisabled />
       </ToggleCard.Header>
-      <ToggleCard.Body>Content</ToggleCard.Body>
+      <ToggleCard.Body>body</ToggleCard.Body>
     </ToggleCard>
   );
 }
 ```
 
-_Read only:_
+_Read-only:_
 
 ```tsx
 import { ToggleCard } from "@easypost/easy-ui/ToggleCard";
@@ -134,12 +104,13 @@ import { Text } from "@easypost/easy-ui/Text";
 function Component() {
   return (
     <ToggleCard>
-      <ToggleCard.Header isSelected isReadOnly aria-labelledby="some id">
+      <ToggleCard.Header>
         <Text id="some id" variant="subtitle1" color="primary.900">
-          Header
+          header
         </Text>
+        <Toggle aria-labelledby="some id" isReadOnly />
       </ToggleCard.Header>
-      <ToggleCard.Body>Content</ToggleCard.Body>
+      <ToggleCard.Body>body</ToggleCard.Body>
     </ToggleCard>
   );
 }
@@ -150,48 +121,31 @@ function Component() {
 ```tsx
 import { Toggle } from "../Toggle";
 import { Card } from "../Card";
-import { HorizontalGrid } from "../HorizontalGrid";
+import { HorizontalStack } from "../HorizontalStack";
 
 export function ToggleCard(props: ToggleCardProps) {
   const { children } = props;
 
-  return (
-      <Card.Container>{children}</Card.Container>
-  );
+  return <Card.Container>{children}</Card.Container>;
 }
 
 function ToggleCardHeader(props: ToggleCardHeaderProps) {
-  const { children, isAligmentFlipped = false, ...toggleProps } = props;
+  const { children } = props;
 
   return (
-    <HorizontalStack>
-      <Card.Area>
-        {isAlignmentFlipped ? (
-          <>
-            <Toggle {...toggleProps} />
-            {children}
-          </>
-        ) : (
-          {children}
-          <Toggle {...toggleProps} />
-        )}
-      </Card.Area>
-    </HorizontalStack>
+    <Card.Area>
+      <HorizontalStack>{children}</HorizontalStack>
+    </Card.Area>
   );
 }
 
 function ToggleCardBody(props: ToggleCardBodyProps) {
   const { children } = props;
 
-  return (
-    <Card.Area>
-      {children}
-    </Card.Area>
-  );
+  return <Card.Area>{children}</Card.Area>;
 }
 
 ToggleCard.Header = ToggleCardHeader;
-
 
 ToggleCard.Body = ToggleCardBody;
 ```
@@ -202,8 +156,10 @@ ToggleCard.Body = ToggleCardBody;
 
 ### Accessibility
 
-There are no major accessibility concerns to highlight for this component
+- In general, a toggle should have a visual label that is close to the control. Since the element that renders next to the toggle control for this component may not be text, `aria-label` should be provided in those cases. For cases when text is provided, the text should have an `id`, and the value
+  of that `id` should be provided to the `aria-labelledby` prop.
 
 ### Dependencies
 
-There are no major dependencies to highlight for this component
+- `Card`
+- `Toggle`
