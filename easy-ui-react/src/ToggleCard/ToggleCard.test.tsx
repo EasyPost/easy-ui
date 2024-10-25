@@ -3,7 +3,7 @@ import React from "react";
 import { vi } from "vitest";
 import { Toggle } from "../Toggle";
 import { Text } from "../Text";
-import { render, selectCheckbox } from "../utilities/test";
+import { render, silenceConsoleError, selectCheckbox } from "../utilities/test";
 import { ToggleCard } from "./ToggleCard";
 
 describe("<ToggleCard />", () => {
@@ -14,6 +14,7 @@ describe("<ToggleCard />", () => {
   afterEach(() => {
     vi.useRealTimers();
   });
+
   it("should render a toggle with content in header and body", () => {
     render(
       <ToggleCard>
@@ -30,6 +31,23 @@ describe("<ToggleCard />", () => {
     expect(screen.getByText(/body/i)).toBeInTheDocument();
     expect(screen.getByRole("switch")).toBeInTheDocument();
     expect(screen.getByRole("switch")).not.toBeChecked();
+  });
+
+  it("should throw an error when Toggle is missing", () => {
+    const restoreConsoleError = silenceConsoleError();
+    expect(() =>
+      render(
+        <ToggleCard>
+          <ToggleCard.Header>
+            <Text id="some id" variant="subtitle1" color="primary.900">
+              header
+            </Text>
+          </ToggleCard.Header>
+          <ToggleCard.Body>body</ToggleCard.Body>
+        </ToggleCard>,
+      ),
+    ).toThrow("ToggleCard.Header must contain Toggle");
+    restoreConsoleError();
   });
 
   it("should support uncontrolled", async () => {

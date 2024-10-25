@@ -16,7 +16,7 @@ A `ToggleCard` is a styled container with an interactive header featuring a togg
 
 A `ToggleCard` is a simple compound component consisting of`ToggleCard.Header` and `ToggleCard.Body`. It is built on top of the existing `Toggle` and `Card` components.
 
-The `ToggleCard.Header` will be responsible for rendering the `Toggle` as well as header content passed by the consumer. The `ToggleCard.Body` will be responsible for rendering the body content passed by the consumer.
+The `ToggleCard.Header` will be responsible for rendering the `Toggle` and the content passed by the consumer. The `ToggleCard.Body` will be responsible for rendering the body content passed by the consumer.
 
 No new external dependencies will be introduced.
 
@@ -59,14 +59,14 @@ function Component() {
   return (
     <ToggleCard>
       <ToggleCard.Header>
+        <Text id="some id" variant="subtitle1" color="primary.900">
+          header
+        </Text>
         <Toggle
           aria-labelledby="some id"
           isSelected={isSelected}
           onChange={(isSelected) => setIsSelected(isSelected)}
         />
-        <Text id="some id" variant="subtitle1" color="primary.900">
-          header
-        </Text>
       </ToggleCard.Header>
         <ToggleCard.Body>body</ToggleCard.Body>
     </ToggleCard>,
@@ -84,10 +84,10 @@ function Component() {
   return (
     <ToggleCard>
       <ToggleCard.Header>
-        <Toggle aria-labelledby="some id" isDisabled />
         <Text id="some id" variant="subtitle1" color="primary.900">
           header
         </Text>
+        <Toggle aria-labelledby="some id" isDisabled />
       </ToggleCard.Header>
       <ToggleCard.Body>body</ToggleCard.Body>
     </ToggleCard>
@@ -105,10 +105,10 @@ function Component() {
   return (
     <ToggleCard>
       <ToggleCard.Header>
-        <Toggle aria-labelledby="some id" isReadOnly />
         <Text id="some id" variant="subtitle1" color="primary.900">
           header
         </Text>
+        <Toggle aria-labelledby="some id" isReadOnly />
       </ToggleCard.Header>
       <ToggleCard.Body>body</ToggleCard.Body>
     </ToggleCard>

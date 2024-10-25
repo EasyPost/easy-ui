@@ -39,11 +39,11 @@ export const Default: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header aria-labelledby="some id">
-          <Toggle aria-labelledby="some id" />
+        <ToggleCard.Header>
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
+          <Toggle aria-labelledby="some id" />
         </ToggleCard.Header>
       </>
     ),
@@ -55,11 +55,11 @@ export const DefaultSelected: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header aria-labelledby="some id">
-          <Toggle aria-labelledby="some id" defaultSelected />
+        <ToggleCard.Header>
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
+          <Toggle aria-labelledby="some id" defaultSelected />
         </ToggleCard.Header>
       </>
     ),
@@ -71,11 +71,11 @@ export const Disabled: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header aria-labelledby="some id">
-          <Toggle aria-labelledby="some id" defaultSelected isDisabled />
+        <ToggleCard.Header>
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
+          <Toggle aria-labelledby="some id" defaultSelected isDisabled />
         </ToggleCard.Header>
       </>
     ),
@@ -87,11 +87,11 @@ export const ReadOnly: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header aria-labelledby="some id">
-          <Toggle aria-labelledby="some id" defaultSelected isReadOnly />
+        <ToggleCard.Header>
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
+          <Toggle aria-labelledby="some id" defaultSelected isReadOnly />
         </ToggleCard.Header>
       </>
     ),
@@ -103,11 +103,11 @@ export const TogglePosition: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header aria-labelledby="some id">
+        <ToggleCard.Header>
+          <Toggle aria-labelledby="some id" defaultSelected />
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
-          <Toggle aria-labelledby="some id" defaultSelected isReadOnly />
         </ToggleCard.Header>
       </>
     ),
@@ -120,7 +120,6 @@ export const Controlled: Story = {
     return (
       <ToggleCard>
         <ToggleCard.Header>
-          <Icon size="sm" symbol={EasyPostLogo} />
           <Toggle
             isSelected={isSelected}
             onChange={(isSelected) => setIsSelected(isSelected)}
@@ -132,6 +131,7 @@ export const Controlled: Story = {
               {isSelected ? "Enabled" : "Disabled"}
             </Text>
           </Toggle>
+          <Icon size="sm" symbol={EasyPostLogo} />
         </ToggleCard.Header>
         <ToggleCard.Body>
           <PlaceholderBox

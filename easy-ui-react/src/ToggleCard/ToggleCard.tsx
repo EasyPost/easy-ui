@@ -25,7 +25,7 @@ export type ToggleCardProps = {
  * and `<ToggleCard.Body />`.
  *
  * `<ToggleCard.Header />` should handle the rendering for the `Toggle`
- * control and the content to render alongside it.
+ * control and the content alongside it.
  *
  * `<ToggleCard.Body />` is responsible for rendering the body content.
  *
@@ -34,14 +34,14 @@ export type ToggleCardProps = {
  * ```tsx
  * <ToggleCard>
  *  <ToggleCard.Header>
+ *    <Text id="some id" variant="subtitle1" color="primary.900">
+ *      header
+ *    </Text>
  *    <Toggle
  *      aria-labelledby="some id"
  *      isSelected={isSelected}
  *      onChange={(isSelected) => setIsSelected(isSelected)}
  *     />
- *     <Text id="some id" variant="subtitle1" color="primary.900">
- *      header
- *     </Text>
  *  </ToggleCard.Header>
  *  <ToggleCard.Body>body</ToggleCard.Body>
  * </ToggleCard>
@@ -52,10 +52,10 @@ export type ToggleCardProps = {
  * ```tsx
  * <ToggleCard>
  *  <ToggleCard.Header>
- *    <Toggle aria-labelledby="some id" isDisabled />
  *    <Text id="some id" variant="subtitle1" color="primary.900">
  *      header
  *    </Text>
+ *    <Toggle aria-labelledby="some id" isDisabled />
  *  </ToggleCard.Header>
  *  <ToggleCard.Body>body</ToggleCard.Body>
  * </ToggleCard>
@@ -66,10 +66,10 @@ export type ToggleCardProps = {
  * ```tsx
  * <ToggleCard>
  *  <ToggleCard.Header>
- *    <Toggle aria-labelledby="some id" isReadOnly />
  *    <Text id="some id" variant="subtitle1" color="primary.900">
  *      header
  *    </Text>
+ *    <Toggle aria-labelledby="some id" isReadOnly />
  *  </ToggleCard.Header>
  *  <ToggleCard.Body>body</ToggleCard.Body>
  * </ToggleCard>
