@@ -1,13 +1,14 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React, { useState } from "react";
 import { Text } from "../Text";
+import { Toggle } from "../Toggle";
 import { Icon } from "../Icon";
 import { ToggleCard, ToggleCardProps } from "./ToggleCard";
 import {
   InlineStoryDecorator,
   PlaceholderBox,
-  EasyPostLogo,
   FedExLogoImg,
+  EasyPostLogo,
 } from "../utilities/storybook";
 
 type Story = StoryObj<typeof ToggleCard>;
@@ -39,6 +40,7 @@ export const Default: Story = {
     children: (
       <>
         <ToggleCard.Header aria-labelledby="some id">
+          <Toggle aria-labelledby="some id" />
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
@@ -53,7 +55,8 @@ export const DefaultSelected: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header aria-labelledby="some id" defaultSelected>
+        <ToggleCard.Header aria-labelledby="some id">
+          <Toggle aria-labelledby="some id" defaultSelected />
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
@@ -68,7 +71,8 @@ export const Disabled: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header aria-labelledby="some id" defaultSelected isDisabled>
+        <ToggleCard.Header aria-labelledby="some id">
+          <Toggle aria-labelledby="some id" defaultSelected isDisabled />
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
@@ -83,7 +87,8 @@ export const ReadOnly: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header aria-labelledby="some id" defaultSelected isReadOnly>
+        <ToggleCard.Header aria-labelledby="some id">
+          <Toggle aria-labelledby="some id" defaultSelected isReadOnly />
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
@@ -98,27 +103,11 @@ export const TogglePosition: Story = {
   args: {
     children: (
       <>
-        <ToggleCard.Header
-          aria-labelledby="some id"
-          defaultSelected
-          togglePosition="start"
-        >
+        <ToggleCard.Header aria-labelledby="some id">
           <Text id="some id" variant="subtitle1" color="primary.900">
             Header
           </Text>
-        </ToggleCard.Header>
-      </>
-    ),
-  },
-};
-
-export const ToggleChildren: Story = {
-  render: Template.bind({}),
-  args: {
-    children: (
-      <>
-        <ToggleCard.Header defaultSelected toggleChildren={<Text>Toggle</Text>}>
-          <Icon size="sm" symbol={EasyPostLogo} />
+          <Toggle aria-labelledby="some id" defaultSelected isReadOnly />
         </ToggleCard.Header>
       </>
     ),
@@ -130,20 +119,19 @@ export const Controlled: Story = {
     const [isSelected, setIsSelected] = useState(true);
     return (
       <ToggleCard>
-        <ToggleCard.Header
-          isSelected={isSelected}
-          onChange={(isSelected) => setIsSelected(isSelected)}
-          toggleChildren={
+        <ToggleCard.Header>
+          <Icon size="sm" symbol={EasyPostLogo} />
+          <Toggle
+            isSelected={isSelected}
+            onChange={(isSelected) => setIsSelected(isSelected)}
+          >
             <Text
               variant="button"
               color={isSelected ? "primary.500" : "primary.800"}
             >
               {isSelected ? "Enabled" : "Disabled"}
             </Text>
-          }
-          togglePosition="start"
-        >
-          <Icon size="sm" symbol={EasyPostLogo} />
+          </Toggle>
         </ToggleCard.Header>
         <ToggleCard.Body>
           <PlaceholderBox

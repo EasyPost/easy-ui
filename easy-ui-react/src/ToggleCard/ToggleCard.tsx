@@ -1,8 +1,10 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { Card } from "../Card";
 import { HorizontalStack } from "../HorizontalStack";
-import type { ToggleProps } from "../Toggle";
-import { Toggle } from "../Toggle";
+import {
+  flattenChildren,
+  getDisplayNameFromReactNode,
+} from "../utilities/react";
 
 import styles from "./ToggleCard.module.scss";
 
@@ -22,9 +24,8 @@ export type ToggleCardProps = {
  * It is a simple compound component consisting of `<ToggleCard.Header />`
  * and `<ToggleCard.Body />`.
  *
- * `<ToggleCard.Header />` automatically handles the rendering for the `Toggle`
- * control and accepts the corresponding props. Consumers only need to pass in
- * the content to render alongside the `Toggle` control.
+ * `<ToggleCard.Header />` should handle the rendering for the `Toggle`
+ * control and the content to render alongside it.
  *
  * `<ToggleCard.Body />` is responsible for rendering the body content.
  *
@@ -32,16 +33,17 @@ export type ToggleCardProps = {
  * _Controlled:_
  * ```tsx
  * <ToggleCard>
- *  <ToggleCard.Header
- *    isSelected={isSelected}
- *    onChange={(isSelected) => setIsSelected(isSelected)}
- *    aria-labelledby="some id"
- *  >
- *    <Text id="some id" variant="subtitle1" color="primary.900">
- *      Header
- *    </Text>
+ *  <ToggleCard.Header>
+ *    <Toggle
+ *      aria-labelledby="some id"
+ *      isSelected={isSelected}
+ *      onChange={(isSelected) => setIsSelected(isSelected)}
+ *     />
+ *     <Text id="some id" variant="subtitle1" color="primary.900">
+ *      header
+ *     </Text>
  *  </ToggleCard.Header>
- *  <ToggleCard.Body>Content</ToggleCard.Body>
+ *  <ToggleCard.Body>body</ToggleCard.Body>
  * </ToggleCard>
  * ```
  *
@@ -49,12 +51,13 @@ export type ToggleCardProps = {
  * _Disabled:_
  * ```tsx
  * <ToggleCard>
- *  <ToggleCard.Header isDisabled aria-labelledby="some id">
+ *  <ToggleCard.Header>
+ *    <Toggle aria-labelledby="some id" isDisabled />
  *    <Text id="some id" variant="subtitle1" color="primary.900">
- *      Header
+ *      header
  *    </Text>
  *  </ToggleCard.Header>
- *  <ToggleCard.Body>Content</ToggleCard.Body>
+ *  <ToggleCard.Body>body</ToggleCard.Body>
  * </ToggleCard>
  * ```
  *
@@ -62,23 +65,13 @@ export type ToggleCardProps = {
  * _Read-Only:_
  * ```tsx
  * <ToggleCard>
- *  <ToggleCard.Header isReadOnly aria-labelledby="some id">
+ *  <ToggleCard.Header>
+ *    <Toggle aria-labelledby="some id" isReadOnly />
  *    <Text id="some id" variant="subtitle1" color="primary.900">
- *      Header
+ *      header
  *    </Text>
  *  </ToggleCard.Header>
- *  <ToggleCard.Body>Content</ToggleCard.Body>
- * </ToggleCard>
- * ```
- *
- * @example
- * _Toggle position:_
- * ```tsx
- * <ToggleCard>
- *  <ToggleCard.Header togglePosition="start" aria-label="carrier activation">
- *    <Icon size="sm" symbol={PoweredByEasyPostLogo}>
- *  </ToggleCard.Header>
- *  <ToggleCard.Body>Content</ToggleCard.Body>
+ *  <ToggleCard.Body>body</ToggleCard.Body>
  * </ToggleCard>
  * ```
  */
@@ -87,17 +80,7 @@ export function ToggleCard(props: ToggleCardProps) {
 
   return <Card.Container>{children}</Card.Container>;
 }
-export type ToggleCardHeaderProps = Omit<ToggleProps, "children"> & {
-  /**
-   * Position of toggle; by default,
-   * the toggle control is positioned to the end.
-   * @default end
-   */
-  togglePosition?: "start" | "end";
-  /**
-   * Children for toggle control.
-   */
-  toggleChildren?: ReactNode;
+export type ToggleCardHeaderProps = {
   /**
    * Header content of card
    */
@@ -105,27 +88,26 @@ export type ToggleCardHeaderProps = Omit<ToggleProps, "children"> & {
 };
 
 function ToggleCardHeader(props: ToggleCardHeaderProps) {
-  const {
-    children,
-    togglePosition = "end",
-    toggleChildren,
-    ...toggleProps
-  } = props;
+  const { children } = props;
+
+  useMemo(() => {
+    const headerChildren = flattenChildren(children);
+    let foundToggle = false;
+    for (let i = 0; i < headerChildren.length; i++) {
+      if (getDisplayNameFromReactNode(headerChildren[i]) === "Toggle") {
+        foundToggle = true;
+        break;
+      }
+    }
+    if (!foundToggle) {
+      throw new Error("ToggleCard.Header must contain Toggle");
+    }
+  }, [children]);
 
   return (
     <Card.Area background="neutral.050" padding="0.5">
       <HorizontalStack gap="2" align="space-between" blockAlign="center">
-        {togglePosition === "start" ? (
-          <>
-            <Toggle {...toggleProps}>{toggleChildren}</Toggle>
-            {children}
-          </>
-        ) : (
-          <>
-            {children}
-            <Toggle {...toggleProps}>{toggleChildren}</Toggle>
-          </>
-        )}
+        {children}
       </HorizontalStack>
     </Card.Area>
   );

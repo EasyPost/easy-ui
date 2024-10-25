@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
+import { Toggle } from "../Toggle";
 import { Text } from "../Text";
 import { render, selectCheckbox } from "../utilities/test";
 import { ToggleCard } from "./ToggleCard";
@@ -16,8 +17,11 @@ describe("<ToggleCard />", () => {
   it("should render a toggle with content in header and body", () => {
     render(
       <ToggleCard>
-        <ToggleCard.Header aria-labelledby="myid">
-          <Text id="myid">header</Text>
+        <ToggleCard.Header>
+          <Toggle aria-labelledby="some id" />
+          <Text id="some id" variant="subtitle1" color="primary.900">
+            header
+          </Text>
         </ToggleCard.Header>
         <ToggleCard.Body>body</ToggleCard.Body>
       </ToggleCard>,
@@ -28,23 +32,14 @@ describe("<ToggleCard />", () => {
     expect(screen.getByRole("switch")).not.toBeChecked();
   });
 
-  it("should support passing children to toggle via toggleChildren", () => {
-    render(
-      <ToggleCard>
-        <ToggleCard.Header toggleChildren={<Text id="anotherid">toggle</Text>}>
-          header
-        </ToggleCard.Header>
-        <ToggleCard.Body>body</ToggleCard.Body>
-      </ToggleCard>,
-    );
-    expect(screen.getByText(/toggle/i)).toHaveAttribute("id", "anotherid");
-  });
-
   it("should support uncontrolled", async () => {
     const { user } = render(
       <ToggleCard>
-        <ToggleCard.Header defaultSelected aria-labelledby="myid">
-          <Text id="myid">header</Text>
+        <ToggleCard.Header>
+          <Toggle aria-labelledby="some id" defaultSelected />
+          <Text id="some id" variant="subtitle1" color="primary.900">
+            header
+          </Text>
         </ToggleCard.Header>
         <ToggleCard.Body>body</ToggleCard.Body>
       </ToggleCard>,
@@ -58,12 +53,15 @@ describe("<ToggleCard />", () => {
     const handleChange = vi.fn();
     const { user, rerender } = render(
       <ToggleCard>
-        <ToggleCard.Header
-          isSelected={false}
-          onChange={handleChange}
-          aria-labelledby="myid"
-        >
-          <Text id="myid">header</Text>
+        <ToggleCard.Header>
+          <Toggle
+            aria-labelledby="some id"
+            isSelected={false}
+            onChange={handleChange}
+          />
+          <Text id="some id" variant="subtitle1" color="primary.900">
+            header
+          </Text>
         </ToggleCard.Header>
         <ToggleCard.Body>body</ToggleCard.Body>
       </ToggleCard>,
@@ -73,12 +71,15 @@ describe("<ToggleCard />", () => {
     expect(screen.getByRole("switch")).not.toBeChecked();
     rerender(
       <ToggleCard>
-        <ToggleCard.Header
-          isSelected
-          onChange={handleChange}
-          aria-labelledby="myid"
-        >
-          <Text id="myid">header</Text>
+        <ToggleCard.Header>
+          <Toggle
+            aria-labelledby="some id"
+            isSelected
+            onChange={handleChange}
+          />
+          <Text id="some id" variant="subtitle1" color="primary.900">
+            header
+          </Text>
         </ToggleCard.Header>
         <ToggleCard.Body>body</ToggleCard.Body>
       </ToggleCard>,
@@ -89,8 +90,11 @@ describe("<ToggleCard />", () => {
   it("should support isDisabled", () => {
     render(
       <ToggleCard>
-        <ToggleCard.Header isDisabled aria-labelledby="myid">
-          <Text id="myid">header</Text>
+        <ToggleCard.Header>
+          <Toggle aria-labelledby="some id" isDisabled />
+          <Text id="some id" variant="subtitle1" color="primary.900">
+            header
+          </Text>
         </ToggleCard.Header>
         <ToggleCard.Body>body</ToggleCard.Body>
       </ToggleCard>,
@@ -101,8 +105,11 @@ describe("<ToggleCard />", () => {
   it("should support isReadOnly", async () => {
     render(
       <ToggleCard>
-        <ToggleCard.Header isReadOnly aria-labelledby="myid">
-          <Text id="myid">header</Text>
+        <ToggleCard.Header>
+          <Toggle aria-labelledby="some id" isReadOnly />
+          <Text id="some id" variant="subtitle1" color="primary.900">
+            header
+          </Text>
         </ToggleCard.Header>
         <ToggleCard.Body>body</ToggleCard.Body>
       </ToggleCard>,
