@@ -14,6 +14,74 @@ export type ToggleCardProps = {
   children: ReactNode;
 };
 
+/**
+ * A `<ToggleCard />` is a styled container with an interactive
+ * header featuring a toggle control.
+ *
+ * @remarks
+ * It is a simple compound component consisting of `<ToggleCard.Header />`
+ * and `<ToggleCard.Body />`.
+ *
+ * `<ToggleCard.Header />` automatically handles the rendering for the `Toggle`
+ * control and accepts the corresponding props. Consumers only need to pass in
+ * the content to render alongside the `Toggle` control.
+ *
+ * `<ToggleCard.Body />` is responsible for rendering the body content.
+ *
+ * @example
+ * _Controlled:_
+ * ```tsx
+ * <ToggleCard>
+ *  <ToggleCard.Header
+ *    isSelected={isSelected}
+ *    onChange={(isSelected) => setIsSelected(isSelected)}
+ *    aria-labelledby="some id"
+ *  >
+ *    <Text id="some id" variant="subtitle1" color="primary.900">
+ *      Header
+ *    </Text>
+ *  </ToggleCard.Header>
+ *  <ToggleCard.Body>Content</ToggleCard.Body>
+ * </ToggleCard>
+ * ```
+ *
+ * @example
+ * _Disabled:_
+ * ```tsx
+ * <ToggleCard>
+ *  <ToggleCard.Header isDisabled aria-labelledby="some id">
+ *    <Text id="some id" variant="subtitle1" color="primary.900">
+ *      Header
+ *    </Text>
+ *  </ToggleCard.Header>
+ *  <ToggleCard.Body>Content</ToggleCard.Body>
+ * </ToggleCard>
+ * ```
+ *
+ * @example
+ * _Read-Only:_
+ * ```tsx
+ * <ToggleCard>
+ *  <ToggleCard.Header isReadOnly aria-labelledby="some id">
+ *    <Text id="some id" variant="subtitle1" color="primary.900">
+ *      Header
+ *    </Text>
+ *  </ToggleCard.Header>
+ *  <ToggleCard.Body>Content</ToggleCard.Body>
+ * </ToggleCard>
+ * ```
+ *
+ * @example
+ * _Toggle position:_
+ * ```tsx
+ * <ToggleCard>
+ *  <ToggleCard.Header togglePosition="start" aria-label="carrier activation">
+ *    <Icon size="sm" symbol={PoweredByEasyPostLogo}>
+ *  </ToggleCard.Header>
+ *  <ToggleCard.Body>Content</ToggleCard.Body>
+ * </ToggleCard>
+ * ```
+ */
 export function ToggleCard(props: ToggleCardProps) {
   const { children } = props;
 

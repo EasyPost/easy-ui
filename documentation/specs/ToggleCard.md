@@ -33,13 +33,17 @@ export type ToggleCardProps = {
   children: ReactNode;
 };
 
-export type ToggleCardHeaderProps = ToggleProps & {
+export type ToggleCardHeaderProps = Omit<ToggleProps, "children"> & {
   /**
-   * Flips alignment for header content. By default,
-   * the toggle control is end aligned.
+   * Position of toggle; by default,
+   * the toggle control is positioned to the end.
    * @default end
    */
   togglePosition?: "start" | "end";
+  /**
+   * Children for toggle control.
+   */
+  toggleChildren?: ReactNode;
   /**
    * Header content of card
    */
@@ -81,30 +85,6 @@ function Component() {
 }
 ```
 
-_Toggle position:_
-
-```tsx
-import { ToggleCard } from "@easypost/easy-ui/ToggleCard";
-import { Icon } from "../Icon";
-
-
-function Component() {
-  const PoweredByEasyPostLogo = () => <Image src="./logo.png" />;
-  return (
-    <ToggleCard>
-      <ToggleCard.Header aria-label="carrier activation" togglePosition="start">
-        <Icon size="sm" symbol={PoweredByEasyPostLogo}>
-      </ToggleCard.Header>
-      <ToggleCard.Body>
-        <button>
-          <Image src="./carrier.png" />;
-        </button>
-      </ToggleCard.Body>
-    </ToggleCard>
-  );
-}
-```
-
 _Disabled:_
 
 ```tsx
@@ -125,7 +105,7 @@ function Component() {
 }
 ```
 
-_Read only:_
+_Read-only:_
 
 ```tsx
 import { ToggleCard } from "@easypost/easy-ui/ToggleCard";
@@ -134,10 +114,30 @@ import { Text } from "@easypost/easy-ui/Text";
 function Component() {
   return (
     <ToggleCard>
-      <ToggleCard.Header isSelected isReadOnly aria-labelledby="some id">
+      <ToggleCard.Header isReadOnly aria-labelledby="some id">
         <Text id="some id" variant="subtitle1" color="primary.900">
           Header
         </Text>
+      </ToggleCard.Header>
+      <ToggleCard.Body>Content</ToggleCard.Body>
+    </ToggleCard>
+  );
+}
+```
+
+_Toggle position:_
+
+```tsx
+import { ToggleCard } from "@easypost/easy-ui/ToggleCard";
+import { Icon } from "../Icon";
+
+
+function Component() {
+  const PoweredByEasyPostLogo = () => <Image src="./logo.png" />;
+  return (
+    <ToggleCard>
+      <ToggleCard.Header aria-label="carrier activation" togglePosition="start">
+        <Icon size="sm" symbol={PoweredByEasyPostLogo}>
       </ToggleCard.Header>
       <ToggleCard.Body>Content</ToggleCard.Body>
     </ToggleCard>
@@ -155,43 +155,42 @@ import { HorizontalStack } from "../HorizontalStack";
 export function ToggleCard(props: ToggleCardProps) {
   const { children } = props;
 
-  return (
-      <Card.Container>{children}</Card.Container>
-  );
+  return <Card.Container>{children}</Card.Container>;
 }
 
 function ToggleCardHeader(props: ToggleCardHeaderProps) {
-  const { children, togglePosition = "end", ...toggleProps } = props;
-
-  return (
-    <HorizontalStack>
-      <Card.Area>
-        {togglePosition === "start" ? (
-          <>
-            <Toggle {...toggleProps} />
-            {children}
-          </>
-        ) : (
-          {children}
-          <Toggle {...toggleProps} />
-        )}
-      </Card.Area>
-    </HorizontalStack>
-  );
-}
-
-function ToggleCardBody(props: ToggleCardBodyProps) {
-  const { children } = props;
+  const {
+    children,
+    togglePosition = "end",
+    toggleChildren,
+    ...toggleProps
+  } = props;
 
   return (
     <Card.Area>
-      {children}
+      <HorizontalStack>
+        {togglePosition === "start" ? (
+          <>
+            <Toggle {...toggleProps}>{toggleChildren}</Toggle>
+            {children}
+          </>
+        ) : (
+          <>
+            {children}
+            <Toggle {...toggleProps}>{toggleChildren}</Toggle>
+          </>
+        )}
+      </HorizontalStack>
     </Card.Area>
   );
 }
+function ToggleCardBody(props: ToggleCardBodyProps) {
+  const { children } = props;
+
+  return <Card.Area>{children}</Card.Area>;
+}
 
 ToggleCard.Header = ToggleCardHeader;
-
 
 ToggleCard.Body = ToggleCardBody;
 ```
