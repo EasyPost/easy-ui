@@ -148,6 +148,8 @@ function ToggleCardBody(props: ToggleCardBodyProps) {
   );
 }
 
+/** Represents the header content in a `<ToggleCard />`*/
 ToggleCard.Header = ToggleCardHeader;
 
+/** Represents the body content in a `<ToggleCard />`*/
 ToggleCard.Body = ToggleCardBody;
