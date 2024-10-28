@@ -66,8 +66,8 @@ type CardContainerProps = {
   /**
    * Card shadow.
    */
-
   boxShadow?: ShadowLevel;
+
   /**
    * Card border radius.
    */
