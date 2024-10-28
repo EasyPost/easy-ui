@@ -93,6 +93,18 @@ describe("<Card />", () => {
     );
   });
 
+  it("should render border radius", () => {
+    render(<Card borderRadius="lg">Content</Card>);
+    expect(screen.getByTestId("container")).toHaveStyle(
+      getComponentThemeToken(
+        "card",
+        "border-radius",
+        "shape.border_radius",
+        "lg",
+      ),
+    );
+  });
+
   it("should render custom padding", () => {
     render(<Card padding="1">Content</Card>);
     expect(screen.getByTestId("area")).toHaveStyle(

@@ -10,6 +10,7 @@ import { VerticalStack } from "../VerticalStack";
 import {
   createColorTokensControl,
   createShadowTokensControl,
+  createBorderRadiusTokensControl,
   InlineStoryDecorator,
   PlaceholderBox,
 } from "../utilities/storybook";
@@ -30,6 +31,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     background: createColorTokensControl(),
     boxShadow: createShadowTokensControl(),
+    borderRadius: createBorderRadiusTokensControl(),
   },
   parameters: {
     controls: {
@@ -73,6 +75,19 @@ export const Shadow: Story = {
   parameters: {
     controls: {
       include: ["variant", "status", "boxShadow"],
+    },
+  },
+};
+
+export const BorderRadius: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "outlined",
+    borderRadius: "md",
+  },
+  parameters: {
+    controls: {
+      include: ["variant", "status", "borderRadius"],
     },
   },
 };

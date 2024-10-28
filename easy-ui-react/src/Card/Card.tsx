@@ -64,6 +64,7 @@ export type CardContainerProps = {
    * Card shadow.
    */
   boxShadow?: ShadowLevel;
+
   /**
    * Card border radius.
    */
@@ -273,6 +274,11 @@ function getBackgroundToken(background: CardAreaProps["background"]) {
  * _Shadow:_
  * ```tsx
  * <Card boxShadow="1">Content</Card>
+ * ```
+ * @example
+ * _Border radius:_
+ * ```tsx
+ * <Card borderRadius="sm">Content</Card>
  * ```
  *
  * @example

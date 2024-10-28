@@ -66,7 +66,12 @@ type CardContainerProps = {
   /**
    * Card shadow.
    */
+
   boxShadow?: ShadowLevel;
+  /**
+   * Card border radius.
+   */
+  borderRadius?: BorderRadius;
 } & AllHTMLAttributes<ElementType>;
 
 type CardAreaProps = {
