@@ -10,14 +10,16 @@ A `Spinner` component indicate the loading state of a component or page.
 
 ### Features
 
-- Supports `md` and `lg` sizes.
+- Supports `sm`, `md` and `lg` sizes.
 - Supports optional label.
 - Supports various colors.
+- Supports both determinate and indeterminate states.
 - It's animated.
 
 ### Prior Art
 
 - [Paste `<Spinner />`](https://paste.twilio.design/components/spinner)
+- [React Aria `useProgressBar`](https://react-spectrum.adobe.com/react-aria/useProgressBar.html)
 
 ---
 
@@ -26,21 +28,45 @@ A `Spinner` component indicate the loading state of a component or page.
 ### API
 
 ```ts
-type SpinnerProps = {
+export type ProgressProps = {
+  /**
+   * Mark the `Spinner` as indeterminate when progress is
+   * unknown.
+   */
+  isIndeterminate: true;
+  /**
+   * The current progress
+   */
+  value?: undefined;
+};
+
+export type IndeterminateProps = {
+  /**
+   * Mark the `Spinner` as indeterminate when progress is
+   * unknown.
+   */
+  isIndeterminate?: false;
+  /**
+   * The current progress
+   */
+  value: IntRange<0, 100>;
+};
+
+type SpinnerProps = (ProgressProps | IndeterminateProps) & {
   /**
    * Size of spinner.
    * @default md
    */
-  size?: "md" | "lg";
+  size?: "sm" | "md" | "xl";
   /**
    * The label for spinner.
    */
-  children?: string;
+  label?: ReactNode;
   /**
    * Adjust color of spinner and label.
    * @default "neutral.500"
    */
-  color?: ThemeTokenNamespace<"color.text">;
+  color?: ThemeColorAliases;
 };
 ```
 
@@ -50,7 +76,17 @@ type SpinnerProps = {
 import { Spinner } from "@easypost/easy-ui/Spinner";
 
 function Component() {
-  return <Spinner>Loading...</Spinner>;
+  return <Spinner isIndeterminate label="Loading..." />;
+}
+```
+
+_Progress:_
+
+```tsx
+import { Spinner } from "@easypost/easy-ui/Spinner";
+
+function Component() {
+  return <Spinner value={50} label="Loading..." />;
 }
 ```
 
@@ -60,7 +96,7 @@ _Sizing:_
 import { Spinner } from "@easypost/easy-ui/Spinner";
 
 function Component() {
-  return <Spinner size="lg">Loading...</Spinner>;
+  return <Spinner size="xl" isIndeterminate label="Loading..." />;
 }
 ```
 
@@ -70,7 +106,7 @@ _Color:_
 import { Spinner } from "@easypost/easy-ui/Spinner";
 
 function Component() {
-  return <Spinner color="primary.500">Loading...</Spinner>;
+  return <Spinner color="primary.500" isIndeterminate />;
 }
 ```
 
@@ -78,26 +114,39 @@ function Component() {
 
 ```tsx
 export function Spinner(props: SpinnerProps) {
-  const { size, color, children } = props;
+  const {
+    label,
+    size = "md",
+    color = "neutral.500",
+    isIndeterminate = false,
+    value,
+  } = props;
+  const { progressBarProps, labelProps } = useProgressBar(props);
   const id = useId();
+  const degrees = !isIndeterminate && value && (value * 360) / 100;
   const style = {
     ...getComponentThemeToken("spinner", "background", "color", color),
     ...getResponsiveDesignToken("spinner", "size", "size.icon", size),
+    ...(degrees && {
+      ...getComponentToken("spinner", "degrees", `${degrees}deg`),
+    }),
   } as React.CSSProperties;
   return (
     <div
+      {...progressBarProps}
       className={styles.spinner}
       style={style}
-      role="alert"
-      aria-label={children ? undefined : "loading"}
-      aria-labelledby={children ? undefined : id}
+      role={isIndeterminate ? "status" : progressBarProps.role}
+      aria-labelledby={progressBarProps["aria-labelledby"] ?? id}
     >
-      <div className={styles.spinnerCircle} />
-      {children && (
-        <Text id={id} color={color}>
-          {children}
-        </Text>
-      )}
+      <div
+        className={classNames(
+          isIndeterminate ? styles.spinnerIntermediate : styles.spinnerProgress,
+        )}
+      />
+      <Text {...labelProps} id={labelProps.id ?? id} visuallyHidden={!label}>
+        {label ? label : "Loading"}
+      </Text>
     </div>
   );
 }
@@ -109,9 +158,9 @@ export function Spinner(props: SpinnerProps) {
 
 ### Accessibility
 
-- Spinner always has the `role="alert"` attribute.
+- Spinner has the `role="status"` attribute when progress is unknown, and it has the `role="progressbar"` attribute when progress is known.
 
-- Spinner must have `aria-label` or `aria-labelledby` depends on the visibility of the label.
+- Spinner accessibility is handled by `useProgressBar` from React Aria.
 
 ### Dependencies
 
