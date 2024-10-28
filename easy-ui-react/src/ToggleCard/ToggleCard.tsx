@@ -6,8 +6,6 @@ import {
   getDisplayNameFromReactNode,
 } from "../utilities/react";
 
-import styles from "./ToggleCard.module.scss";
-
 export type ToggleCardProps = {
   /**
    * The children of the <ToggleCard> element. Should render
@@ -78,7 +76,7 @@ export type ToggleCardProps = {
 export function ToggleCard(props: ToggleCardProps) {
   const { children } = props;
 
-  return <Card.Container>{children}</Card.Container>;
+  return <Card.Container borderRadius="lg">{children}</Card.Container>;
 }
 export type ToggleCardHeaderProps = {
   /**
@@ -124,8 +122,8 @@ function ToggleCardBody(props: ToggleCardBodyProps) {
   const { children } = props;
 
   return (
-    <Card.Area padding="0.5">
-      <div className={styles.body}>{children}</div>
+    <Card.Area padding={{ paddingX: "0.5", paddingY: "1" }}>
+      {children}
     </Card.Area>
   );
 }

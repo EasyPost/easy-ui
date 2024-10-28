@@ -70,3 +70,5 @@ export type SpaceScale = DesignTokenNamespace<"space">;
 export type ResponsiveSpaceScale = ResponsiveProp<SpaceScale>;
 
 export type ShadowLevel = DesignTokenNamespace<"shadow.level">;
+
+export type BorderRadius = DesignTokenNamespace<"shape.border_radius">;

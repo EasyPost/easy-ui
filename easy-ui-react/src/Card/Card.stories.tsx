@@ -283,6 +283,19 @@ export const ExampleCallout: Story = {
   ),
 };
 
+export const ExamplePadding: Story = {
+  render: () => (
+    <Card.Container variant="outlined">
+      <Card.Area
+        background="primary.800"
+        padding={{ paddingX: "1", paddingY: { xs: "2", sm: "3", md: "5" } }}
+      >
+        <PlaceholderBox width={250} />
+      </Card.Area>
+    </Card.Container>
+  ),
+};
+
 export const ExampleStretch: Story = {
   render: () => (
     <HorizontalGrid columns={2} gap="2">

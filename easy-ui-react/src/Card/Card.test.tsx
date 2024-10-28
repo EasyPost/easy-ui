@@ -96,7 +96,16 @@ describe("<Card />", () => {
   it("should render custom padding", () => {
     render(<Card padding="1">Content</Card>);
     expect(screen.getByTestId("area")).toHaveStyle(
-      getResponsiveDesignToken("card-area", "padding", "space", "1"),
+      getResponsiveDesignToken("card-area", "padding-top", "space", "1"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-right", "space", "1"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-bottom", "space", "1"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-left", "space", "1"),
     );
   });
 
