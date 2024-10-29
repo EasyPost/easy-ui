@@ -148,10 +148,15 @@ export function Spinner(props: SpinnerProps) {
     >
       <div
         className={classNames(
-          isIndeterminate ? styles.spinnerIntermediate : styles.spinnerProgress,
+          isIndeterminate ? styles.indeterminate : styles.progress,
         )}
       />
-      <Text {...labelProps} id={labelProps.id ?? id} visuallyHidden={!children}>
+      <Text
+        {...labelProps}
+        id={labelProps.id ?? id}
+        visuallyHidden={!children}
+        variant="subtitle2"
+      >
         {children ? children : "Loading"}
       </Text>
     </div>

@@ -8,15 +8,38 @@
   color: component-token("spinner", "color");
 }
 
-.spinnerIntermediate {
+// .indeterminate {
+//   height: component-token("spinner", "size");
+//   width: component-token("spinner", "size");
+//   border: 2px solid;
+//   border-bottom-color: design-token("color.neutral.050");
+//   border-radius: 50%;
+//   display: inline-block;
+//   box-sizing: border-box;
+//   animation: rotation 1s linear infinite;
+// }
+.indeterminate {
   height: component-token("spinner", "size");
   width: component-token("spinner", "size");
-  border: 2px solid;
-  border-bottom-color: design-token("color.neutral.050");
   border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 2s linear infinite;
+  animation: rotation 1s linear infinite;
+
+  &:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 2px solid component-token("spinner", "color");
+    animation: prixClipFix 2s linear infinite ;
+  }
+}
+@keyframes prixClipFix {
+  0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+  25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+  50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+  75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+  100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
 }
 
 @keyframes rotation {
@@ -28,7 +51,7 @@
   }
 }
 
-.spinnerProgress {
+.progress {
   height: component-token("spinner", "size");
   width: component-token("spinner", "size");
   border-radius: 50%;
