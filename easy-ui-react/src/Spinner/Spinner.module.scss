@@ -29,47 +29,16 @@
 }
 
 .spinnerProgress {
-  // position: relative;
   height: component-token("spinner", "size");
   width: component-token("spinner", "size");
-  // border: 2px solid design-token("color.neutral.050");
   border-radius: 50%;
   background: conic-gradient(
     component-token("spinner", "color") component-token("spinner", "degrees"),
     design-token("color.neutral.050") 0deg
   );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:before {
-    position: absolute;
-    height: calc(component-token("spinner", "size") - 4px);
-    width: calc(component-token("spinner", "size") - 4px);
-    background: #fff;
-    content: "";
-    // box-sizing: border-box;
-    // inset: -2px;
-    border-radius: 50%;
-    // border: 2px solid;
-    // animation: prixClipFix 2s linear 1;
-    // animation-play-state:
-  }
+  mask-image: radial-gradient(
+    circle at center,
+    transparent calc((component-token("spinner", "size") - 4px) / 2),
+    #fff calc((component-token("spinner", "size") - 3px) / 2)
+  );
 }
-
-// @keyframes prixClipFix {
-//   0% {
-//     clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
-//   }
-//   25% {
-//     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
-//   }
-//   50% {
-//     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
-//   }
-//   75% {
-//     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
-//   }
-//   100% {
-//     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
-//   }
-// }
