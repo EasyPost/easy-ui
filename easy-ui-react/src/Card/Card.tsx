@@ -176,25 +176,25 @@ function CardArea({
       "card-area",
       "padding-top",
       "space",
-      paddingTop as ResponsiveProp<SpaceScale>,
+      paddingTop,
     ),
     ...getResponsiveDesignToken(
       "card-area",
       "padding-bottom",
       "space",
-      paddingBottom as ResponsiveProp<SpaceScale>,
+      paddingBottom,
     ),
     ...getResponsiveDesignToken(
       "card-area",
       "padding-left",
       "space",
-      paddingLeft as ResponsiveProp<SpaceScale>,
+      paddingLeft,
     ),
     ...getResponsiveDesignToken(
       "card-area",
       "padding-right",
       "space",
-      paddingRight as ResponsiveProp<SpaceScale>,
+      paddingRight,
     ),
   } as React.CSSProperties;
 
