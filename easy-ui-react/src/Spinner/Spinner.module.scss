@@ -8,16 +8,6 @@
   color: component-token("spinner", "color");
 }
 
-// .indeterminate {
-//   height: component-token("spinner", "size");
-//   width: component-token("spinner", "size");
-//   border: 2px solid;
-//   border-bottom-color: design-token("color.neutral.050");
-//   border-radius: 50%;
-//   display: inline-block;
-//   box-sizing: border-box;
-//   animation: rotation 1s linear infinite;
-// }
 .indeterminate {
   height: component-token("spinner", "size");
   width: component-token("spinner", "size");
