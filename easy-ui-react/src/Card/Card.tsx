@@ -212,7 +212,7 @@ function CardArea({
  * @param padding card padding
  * @param paddingX horizontal card padding
  * @param paddingY vertical card padding
- * @returns extracted padding values
+ * @returns extracted directional padding values
  */
 function getPaddingValues(
   padding?: CardPadding,
@@ -228,21 +228,12 @@ function getPaddingValues(
     };
   }
 
-  if (paddingX && paddingY) {
+  if (paddingX || paddingY) {
     return {
       paddingTop: paddingY,
       paddingBottom: paddingY,
       paddingLeft: paddingX,
       paddingRight: paddingX,
-    };
-  }
-
-  if (paddingX || paddingY) {
-    return {
-      paddingTop: paddingY || 0,
-      paddingBottom: paddingY || 0,
-      paddingLeft: paddingX || 0,
-      paddingRight: paddingX || 0,
     };
   }
 
@@ -338,10 +329,22 @@ function getBackgroundToken(background: CardAreaProps["background"]) {
  * ```
  */
 export function Card(props: CardProps) {
-  const { background, children, padding, ...containerProps } = props;
+  const {
+    background,
+    children,
+    padding,
+    paddingX,
+    paddingY,
+    ...containerProps
+  } = props;
   return (
     <CardContainer {...containerProps}>
-      <CardArea background={background} padding={padding}>
+      <CardArea
+        background={background}
+        padding={padding}
+        paddingX={paddingX}
+        paddingY={paddingY}
+      >
         {children}
       </CardArea>
     </CardContainer>
