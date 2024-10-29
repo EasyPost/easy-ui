@@ -30,14 +30,14 @@ export default meta;
 
 export const Default: Story = {
   render: Template.bind({}),
-  args: { isIndeterminate: true, label: "Loading..." },
+  args: { isIndeterminate: true, children: "Loading..." },
 };
 
 export const Size: Story = {
   render: Template.bind({}),
   args: {
     size: "xl",
-    label: "Loading...",
+    children: "Loading...",
     isIndeterminate: true,
   },
 };
@@ -49,10 +49,10 @@ export const Indeterminate: Story = {
 
 export const Progress: Story = {
   render: Template.bind({}),
-  args: { value: 75 },
+  args: { value: 75, size: "xl" },
 };
 
 export const Color: Story = {
   render: Template.bind({}),
-  args: { label: "Loading...", color: "positive.500" },
+  args: { children: "Loading...", color: "positive.500" },
 };

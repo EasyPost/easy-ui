@@ -61,7 +61,7 @@ type SpinnerProps = (ProgressProps | IndeterminateProps) & {
   /**
    * The label for spinner.
    */
-  label?: ReactNode;
+  children?: ReactNode;
   /**
    * Adjust color of spinner and label.
    * @default "neutral.500"
@@ -76,7 +76,7 @@ type SpinnerProps = (ProgressProps | IndeterminateProps) & {
 import { Spinner } from "@easypost/easy-ui/Spinner";
 
 function Component() {
-  return <Spinner isIndeterminate label="Loading..." />;
+  return <Spinner isIndeterminate>Loading...</Spinner>;
 }
 ```
 
@@ -86,7 +86,7 @@ _Progress:_
 import { Spinner } from "@easypost/easy-ui/Spinner";
 
 function Component() {
-  return <Spinner value={50} label="Loading..." />;
+  return <Spinner value={50}>Loading...</Spinner>;
 }
 ```
 
@@ -96,7 +96,11 @@ _Sizing:_
 import { Spinner } from "@easypost/easy-ui/Spinner";
 
 function Component() {
-  return <Spinner size="xl" isIndeterminate label="Loading..." />;
+  return (
+    <Spinner size="xl" isIndeterminate>
+      Loading...
+    </Spinner>
+  );
 }
 ```
 
@@ -115,13 +119,16 @@ function Component() {
 ```tsx
 export function Spinner(props: SpinnerProps) {
   const {
-    label,
+    children,
     size = "md",
     color = "neutral.500",
     isIndeterminate = false,
     value,
   } = props;
-  const { progressBarProps, labelProps } = useProgressBar(props);
+  const { progressBarProps, labelProps } = useProgressBar({
+    ...props,
+    label: children,
+  });
   const id = useId();
   const degrees = !isIndeterminate && value && (value * 360) / 100;
   const style = {
@@ -144,8 +151,8 @@ export function Spinner(props: SpinnerProps) {
           isIndeterminate ? styles.spinnerIntermediate : styles.spinnerProgress,
         )}
       />
-      <Text {...labelProps} id={labelProps.id ?? id} visuallyHidden={!label}>
-        {label ? label : "Loading"}
+      <Text {...labelProps} id={labelProps.id ?? id} visuallyHidden={!children}>
+        {children ? children : "Loading"}
       </Text>
     </div>
   );

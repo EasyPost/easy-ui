@@ -12,7 +12,7 @@ describe("<Spinner />", () => {
   });
 
   it("should support indeterminate state with custom label", () => {
-    render(<Spinner isIndeterminate label="waiting" />);
+    render(<Spinner isIndeterminate>waiting</Spinner>);
     expect(screen.getByRole("status")).toBeInTheDocument();
     expect(screen.getByLabelText(/waiting/i)).toBeInTheDocument();
   });

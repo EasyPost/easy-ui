@@ -42,7 +42,7 @@ export type SpinnerProps = (ProgressProps | IndeterminateProps) & {
   /**
    * The label for spinner.
    */
-  label?: ReactNode;
+  children?: ReactNode;
   /**
    * Adjust color of spinner and label.
    * @default "neutral.500"
@@ -59,13 +59,13 @@ export type SpinnerProps = (ProgressProps | IndeterminateProps) & {
  *
  * @example
  * ```tsx
- * <Spinner isIndeterminate label="Loading..." />
+ * <Spinner isIndeterminate>Loading...</Spinner>
  * ```
  *
  * @example
  * _Progress:_
  * ```tsx
- * <Spinner value={50} label="Loading..." />
+ * <Spinner value={50}>Loading...</Spinner>
  * ```
  *
  * @example
@@ -83,13 +83,16 @@ export type SpinnerProps = (ProgressProps | IndeterminateProps) & {
 
 export const Spinner = (props: SpinnerProps) => {
   const {
-    label,
+    children,
     size = "md",
     color = "neutral.500",
     isIndeterminate = false,
     value,
   } = props;
-  const { progressBarProps, labelProps } = useProgressBar(props);
+  const { progressBarProps, labelProps } = useProgressBar({
+    ...props,
+    label: children,
+  });
   const id = useId();
   const degrees = !isIndeterminate && value && (value * 360) / 100;
   const style = {
@@ -112,8 +115,8 @@ export const Spinner = (props: SpinnerProps) => {
           isIndeterminate ? styles.spinnerIntermediate : styles.spinnerProgress,
         )}
       />
-      <Text {...labelProps} id={labelProps.id ?? id} visuallyHidden={!label}>
-        {label ? label : "Loading"}
+      <Text {...labelProps} id={labelProps.id ?? id} visuallyHidden={!children}>
+        {children ? children : "Loading"}
       </Text>
     </div>
   );
