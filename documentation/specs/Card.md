@@ -38,6 +38,7 @@ Architecture proposed is to surface a basic `<Card />` component with `variety` 
 type CardBackground = "primary" | "secondary";
 type CardVariant = "solid" | "outlined" | "flagged";
 type CardStatus = "danger" | "warning" | "success";
+type CardPadding = ResponsiveProp<SpaceScale>;
 
 type CardContainerProps = {
   /** Custom element for the card container. */
@@ -80,6 +81,33 @@ type CardAreaProps = {
 
   /** Content of the card area. */
   children: ReactNode;
+
+  /**
+   * The spacing around the content area. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   *
+   * @example
+   * padding='2'
+   * padding={{ xs: '2', sm: '3', md: '4', lg: '5', xl: '6' }}
+   */
+  padding?: CardPadding;
+
+  /**
+   * The horizontal spacing around the content area. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   *
+   * @example
+   * paddingX='2'
+   * paddingX={{ xs: '2', sm: '3', md: '4', lg: '5', xl: '6' }}
+   */
+  paddingX?: CardPadding;
+
+  /**
+   * The vertical spacing around the content area. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   *
+   * @example
+   * paddingY='2'
+   * paddingY={{ xs: '2', sm: '3', md: '4', lg: '5', xl: '6' }}
+   */
+  paddingY?: CardPadding;
 };
 
 type CardProps = CardContainerProps & CardAreaProps;

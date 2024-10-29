@@ -121,6 +121,22 @@ describe("<Card />", () => {
     );
   });
 
+  it("should render custom paddingX", () => {
+    render(<Card paddingX="2">Content</Card>);
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-top", "space", "0"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-right", "space", "2"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-bottom", "space", "0"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-left", "space", "2"),
+    );
+  });
+
   it("should render composable card", () => {
     render(
       <Card.Container variant="outlined">

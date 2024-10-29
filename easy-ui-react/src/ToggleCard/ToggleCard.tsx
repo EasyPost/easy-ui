@@ -122,7 +122,7 @@ function ToggleCardBody(props: ToggleCardBodyProps) {
   const { children } = props;
 
   return (
-    <Card.Area padding={{ paddingX: "0.5", paddingY: "1" }}>
+    <Card.Area paddingX="0.5" paddingY="1">
       {children}
     </Card.Area>
   );

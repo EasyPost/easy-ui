@@ -92,6 +92,33 @@ export const BorderRadius: Story = {
   },
 };
 
+export const Padding: Story = {
+  render: () => (
+    <Card.Container variant="outlined">
+      <Card.Area
+        background="primary.800"
+        padding={{ xs: "2", sm: "3", md: "4", lg: "5" }}
+      >
+        <PlaceholderBox width={250} />
+      </Card.Area>
+    </Card.Container>
+  ),
+};
+
+export const PaddingXAndPaddingY: Story = {
+  render: () => (
+    <Card.Container variant="outlined">
+      <Card.Area
+        background="primary.800"
+        paddingX="1"
+        paddingY={{ xs: "2", sm: "3", md: "4", lg: "5" }}
+      >
+        <PlaceholderBox width={250} />
+      </Card.Area>
+    </Card.Container>
+  ),
+};
+
 export const Composition: Story = {
   render: () => (
     <Card.Container variant="outlined">
@@ -295,19 +322,6 @@ export const ExampleCallout: Story = {
         </Text>
       </Card>
     </div>
-  ),
-};
-
-export const ExamplePadding: Story = {
-  render: () => (
-    <Card.Container variant="outlined">
-      <Card.Area
-        background="primary.800"
-        padding={{ paddingX: "1", paddingY: { xs: "2", sm: "3", md: "5" } }}
-      >
-        <PlaceholderBox width={250} />
-      </Card.Area>
-    </Card.Container>
   ),
 };
 

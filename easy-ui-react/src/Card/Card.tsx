@@ -29,12 +29,7 @@ export type CardBackground =
   | ThemeTokenNamespace<"color">;
 export type CardVariant = "solid" | "outlined" | "flagged";
 export type CardStatus = "danger" | "warning" | "success" | "neutral";
-export type CardPadding =
-  | {
-      paddingY?: ResponsiveProp<SpaceScale>;
-      paddingX?: ResponsiveProp<SpaceScale>;
-    }
-  | ResponsiveProp<SpaceScale>;
+export type CardPadding = ResponsiveProp<SpaceScale>;
 
 export type CardContainerProps = {
   /** Custom element for the card container. */
@@ -81,13 +76,29 @@ export type CardAreaProps = {
   /**
    * The spacing around the content area. Accepts a spacing token or an object of spacing tokens for different screen sizes.
    *
-   * @default '2'
    * @example
    * padding='2'
    * padding={{ xs: '2', sm: '3', md: '4', lg: '5', xl: '6' }}
-   * padding={{ paddingX: '4', paddingY: { sm: '1', md: '3' }}}
    */
   padding?: CardPadding;
+
+  /**
+   * The horizontal spacing around the content area. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   *
+   * @example
+   * paddingX='2'
+   * paddingX={{ xs: '2', sm: '3', md: '4', lg: '5', xl: '6' }}
+   */
+  paddingX?: CardPadding;
+
+  /**
+   * The vertical spacing around the content area. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   *
+   * @example
+   * paddingY='2'
+   * paddingY={{ xs: '2', sm: '3', md: '4', lg: '5', xl: '6' }}
+   */
+  paddingY?: CardPadding;
 };
 
 export type CardProps = CardContainerProps & CardAreaProps;
@@ -144,9 +155,15 @@ function CardContainer(props: CardContainerProps) {
   );
 }
 
-function CardArea({ background, children, padding = "2" }: CardAreaProps) {
+function CardArea({
+  background,
+  children,
+  padding,
+  paddingX,
+  paddingY,
+}: CardAreaProps) {
   const { paddingTop, paddingBottom, paddingLeft, paddingRight } =
-    getPaddingValues(padding);
+    getPaddingValues(padding, paddingX, paddingY);
 
   const style = {
     ...getComponentThemeToken(
@@ -193,16 +210,16 @@ function CardArea({ background, children, padding = "2" }: CardAreaProps) {
  * right, bottom, and left values
  *
  * @param padding card padding
+ * @param paddingX horizontal card padding
+ * @param paddingY vertical card padding
  * @returns extracted padding values
  */
-function getPaddingValues(padding: CardPadding) {
-  // handles padding='2' and padding={{ sm: '3', md: '4', lg: '5' }}
-  if (
-    typeof padding === "string" ||
-    (typeof padding === "object" &&
-      !("paddingX" in padding) &&
-      !("paddingY" in padding))
-  ) {
+function getPaddingValues(
+  padding?: CardPadding,
+  paddingX?: CardPadding,
+  paddingY?: CardPadding,
+) {
+  if (padding) {
     return {
       paddingTop: padding,
       paddingBottom: padding,
@@ -211,12 +228,7 @@ function getPaddingValues(padding: CardPadding) {
     };
   }
 
-  // handles padding={{ paddingX: '4', paddingY: { sm: '1', md: '3' }}}
-  if (
-    typeof padding === "object" &&
-    ("paddingX" in padding || "paddingY" in padding)
-  ) {
-    const { paddingX = 0, paddingY = 0 } = padding;
+  if (paddingX && paddingY) {
     return {
       paddingTop: paddingY,
       paddingBottom: paddingY,
@@ -225,6 +237,16 @@ function getPaddingValues(padding: CardPadding) {
     };
   }
 
+  if (paddingX || paddingY) {
+    return {
+      paddingTop: paddingY || 0,
+      paddingBottom: paddingY || 0,
+      paddingLeft: paddingX || 0,
+      paddingRight: paddingX || 0,
+    };
+  }
+
+  // default
   return {
     paddingTop: DEFAULT_PADDING,
     paddingBottom: DEFAULT_PADDING,
@@ -275,10 +297,29 @@ function getBackgroundToken(background: CardAreaProps["background"]) {
  * ```tsx
  * <Card boxShadow="1">Content</Card>
  * ```
+ *
  * @example
  * _Border radius:_
  * ```tsx
  * <Card borderRadius="sm">Content</Card>
+ * ```
+ *
+ * @example
+ * _Padding:_
+ * ```tsx
+ * <Card padding={{ xs: '2', sm: '3', md: '4', lg: '5', xl: '6' }}>Content</Card>
+ * ```
+ *
+ * @example
+ * _PaddingX:_
+ * ```tsx
+ * <Card paddingX="3">Content</Card>
+ * ```
+ *
+ * @example
+ * _PaddingY:_
+ * ```tsx
+ * <Card paddingY={{ xs: '1', sm: '2', md: '3'}}>Content</Card>
  * ```
  *
  * @example

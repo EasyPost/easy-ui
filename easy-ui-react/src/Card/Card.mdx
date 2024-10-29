@@ -49,6 +49,18 @@ Cards can have a border radius using the `borderRadius` prop. Use any value in t
 
 <Controls of={CardStories.BorderRadius} />
 
+## Padding
+
+By default, Cards have a uniform padding of `space.2`.
+
+The `padding` prop accepts a spacing token or an object of spacing tokens for different screen sizes as a value, and it can be used to define custom **uniform** padding.
+
+<Canvas of={CardStories.Padding} />
+
+Similarly, the `paddingX` and `paddingY` props accept a spacing token or an object of spacing tokens for different screen sizes as values, they can be used together to define custom **non-uniform** padding.
+
+<Canvas of={CardStories.PaddingXAndPaddingY} />
+
 ## Composition
 
 Cards are composable. Use `<Card.Container />` and `<Card.Area />` to create cards with complex content.
@@ -98,10 +110,6 @@ To create a card with two columns, for instance, use `<Card.Container />` and `<
 ### Callout
 
 <Canvas of={CardStories.ExampleCallout} />
-
-### Non-uniform padding
-
-<Canvas of={CardStories.ExamplePadding} />
 
 ### Layouts
 
