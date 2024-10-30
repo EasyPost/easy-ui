@@ -7,18 +7,60 @@ import * as SectionCardStories from "./SectionCard.stories";
 
 # SectionCard
 
-Card serving as a section in the product.
+A `SectionCard` is a styled container for grouping section content on a page.
 
-## WithTabs
+`SectionCard` is designed for composability. It can be deconstructed and reassembled as needed.
 
-SectionCard with tabs.
+<Canvas of={SectionCardStories.WithTabPanels} />
 
-<Canvas of={SectionCardStories.WithTabs} />
+## Basic
 
-<Controls of={SectionCardStories.WithTabs} />
+A basic `SectionCard` renders a stylized `Card` for page sections.
+
+<Canvas of={SectionCardStories.Basic} />
+
+## With Header
+
+Use a `SectionCard.Header` to render a header.
+
+`SectionCard.Header` supports `SectionCard.Title`, `SectionCard.Controls`, and `SectionCard.Actions`.
+
+<Canvas of={SectionCardStories.WithHeader} />
+
+## With Tabs
+
+Use the `SectionCard.Tabs` helper to wrap `TabPanels` or `TabNav`.
+
+### TabNav
+
+<Canvas of={SectionCardStories.WithTabNav} />
+
+### TabPanels
+
+<Canvas of={SectionCardStories.WithTabPanels} />
 
 ## Properties
 
 ### SectionCard
 
 <ArgTypes of={SectionCard} />
+
+### SectionCard.Container
+
+<ArgTypes of={SectionCard.Container} />
+
+### SectionCard.Area
+
+<ArgTypes of={SectionCard.Area} />
+
+### SectionCard.Header
+
+<ArgTypes of={SectionCard.Header} />
+
+### SectionCard.Title
+
+<ArgTypes of={SectionCard.Title} />
+
+### SectionCard.Tabs
+
+<ArgTypes of={SectionCard.Tabs} />

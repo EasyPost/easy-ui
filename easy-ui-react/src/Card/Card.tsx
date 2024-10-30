@@ -15,6 +15,7 @@ import {
 } from "../utilities/css";
 
 import styles from "./Card.module.scss";
+import { pick } from "lodash";
 
 const DEFAULT_ELEMENT_TYPE = "div";
 const DEFAULT_VARIANT = "outlined";
@@ -102,6 +103,20 @@ export type CardAreaProps = {
 };
 
 export type CardProps = CardContainerProps & CardAreaProps;
+
+/**
+ * Helper for picking card area props from a superset of component props.
+ */
+export function pickCardAreaProps(props: Partial<CardAreaProps>) {
+  return pick(props, [
+    "background",
+    "children",
+    "padding",
+    "paddingX",
+    "paddingY",
+    "as",
+  ]);
+}
 
 function CardContainer(props: CardContainerProps) {
   const {
