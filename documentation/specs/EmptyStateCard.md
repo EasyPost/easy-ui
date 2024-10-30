@@ -2,7 +2,7 @@
 
 ## Overview
 
-An `EmptyStateCard` is a styled container with a header, content, and action sections, designed to display relevant information when there is no nearby data to display.
+An `EmptyStateCard` is a styled container with a header, body, and action sections, designed to display relevant information when there is no nearby data to display.
 
 ### Use Cases
 
@@ -10,7 +10,7 @@ An `EmptyStateCard` is a styled container with a header, content, and action sec
 
 ### Features
 
-- Header, content, and action components are broken into composable pieces
+- Header, body, and action components are broken into composable pieces
 
 ## Design
 
