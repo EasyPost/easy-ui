@@ -93,10 +93,43 @@ describe("<Card />", () => {
     );
   });
 
+  it("should render border radius", () => {
+    render(<Card borderRadius="lg">Content</Card>);
+    expect(screen.getByTestId("container")).toHaveStyle(
+      getComponentThemeToken(
+        "card",
+        "border-radius",
+        "shape.border_radius",
+        "lg",
+      ),
+    );
+  });
+
   it("should render custom padding", () => {
     render(<Card padding="1">Content</Card>);
     expect(screen.getByTestId("area")).toHaveStyle(
-      getResponsiveDesignToken("card-area", "padding", "space", "1"),
+      getResponsiveDesignToken("card-area", "padding-top", "space", "1"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-right", "space", "1"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-bottom", "space", "1"),
+    );
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-left", "space", "1"),
+    );
+  });
+
+  it("should render custom paddingX", () => {
+    render(<Card paddingX="2">Content</Card>);
+
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-right", "space", "2"),
+    );
+
+    expect(screen.getByTestId("area")).toHaveStyle(
+      getResponsiveDesignToken("card-area", "padding-left", "space", "2"),
     );
   });
 

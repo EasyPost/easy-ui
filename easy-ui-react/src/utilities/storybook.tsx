@@ -34,6 +34,10 @@ export function createShadowTokensControl() {
   return getDesignTokensControl("shadow.level.{alias}");
 }
 
+export function createBorderRadiusTokensControl() {
+  return getDesignTokensControl("shape.border_radius.{alias}");
+}
+
 export function getDesignTokensControl(pattern: string) {
   return getTokensControl(getTokenAliases(tokens, pattern));
 }
