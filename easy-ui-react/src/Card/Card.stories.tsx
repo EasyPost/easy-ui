@@ -10,6 +10,7 @@ import { VerticalStack } from "../VerticalStack";
 import {
   createColorTokensControl,
   createShadowTokensControl,
+  createBorderRadiusTokensControl,
   InlineStoryDecorator,
   PlaceholderBox,
 } from "../utilities/storybook";
@@ -30,6 +31,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     background: createColorTokensControl(),
     boxShadow: createShadowTokensControl(),
+    borderRadius: createBorderRadiusTokensControl(),
   },
   parameters: {
     controls: {
@@ -75,6 +77,46 @@ export const Shadow: Story = {
       include: ["variant", "status", "boxShadow"],
     },
   },
+};
+
+export const BorderRadius: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "outlined",
+    borderRadius: "md",
+  },
+  parameters: {
+    controls: {
+      include: ["variant", "status", "borderRadius"],
+    },
+  },
+};
+
+export const Padding: Story = {
+  render: () => (
+    <Card.Container variant="outlined">
+      <Card.Area
+        background="primary.800"
+        padding={{ xs: "2", sm: "3", md: "4", lg: "5" }}
+      >
+        <PlaceholderBox width={250} />
+      </Card.Area>
+    </Card.Container>
+  ),
+};
+
+export const PaddingXAndPaddingY: Story = {
+  render: () => (
+    <Card.Container variant="outlined">
+      <Card.Area
+        background="primary.800"
+        paddingX="1"
+        paddingY={{ xs: "2", sm: "3", md: "4", lg: "5" }}
+      >
+        <PlaceholderBox width={250} />
+      </Card.Area>
+    </Card.Container>
+  ),
 };
 
 export const Composition: Story = {

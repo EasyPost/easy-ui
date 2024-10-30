@@ -5,7 +5,7 @@
   @include unstyled.button;
   @include unstyled.link;
   @include component-token("card", "box-shadow", "none");
-  border-radius: design-token("shape.border_radius.md");
+  border-radius: component-token("card", "border-radius");
   box-shadow: component-token("card", "box-shadow");
   overflow: hidden;
 }
@@ -19,7 +19,11 @@ button.container:not([disabled]) {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  @include responsive-prop("card-area", "padding", padding);
+
+  @include responsive-prop("card-area", "padding-top", "padding-top");
+  @include responsive-prop("card-area", "padding-bottom", "padding-bottom");
+  @include responsive-prop("card-area", "padding-left", "padding-left");
+  @include responsive-prop("card-area", "padding-right", "padding-right");
   > * {
     flex: 1 0 auto;
   }

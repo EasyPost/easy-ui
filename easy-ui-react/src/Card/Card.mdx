@@ -41,6 +41,26 @@ Cards can have a shadow using the `boxShadow` prop. Use any value in the `shadow
 
 <Controls of={CardStories.Shadow} />
 
+## Border Radius
+
+Cards can have a border radius using the `borderRadius` prop. Use any value in the `shape.border_radius` token namespace.
+
+<Canvas of={CardStories.BorderRadius} />
+
+<Controls of={CardStories.BorderRadius} />
+
+## Padding
+
+By default, Cards have a uniform padding of `space.2`.
+
+The `padding` prop accepts a spacing token or an object of spacing tokens for different screen sizes as a value, and it can be used to define custom **uniform** padding.
+
+<Canvas of={CardStories.Padding} />
+
+Similarly, the `paddingX` and `paddingY` props accept a spacing token or an object of spacing tokens for different screen sizes as values, they can be used together to define custom **non-uniform** padding.
+
+<Canvas of={CardStories.PaddingXAndPaddingY} />
+
 ## Composition
 
 Cards are composable. Use `<Card.Container />` and `<Card.Area />` to create cards with complex content.
