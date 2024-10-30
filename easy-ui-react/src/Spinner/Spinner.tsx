@@ -1,5 +1,6 @@
 import React, { useId, ReactNode } from "react";
 import { useProgressBar } from "react-aria";
+import { IconSize } from "../Icon";
 import { Text } from "../Text";
 import { ThemeColorAliases, IntRange } from "../types";
 import {
@@ -38,7 +39,7 @@ export type SpinnerProps = (ProgressProps | IndeterminateProps) & {
    * Size of spinner.
    * @default md
    */
-  size?: "sm" | "md" | "xl";
+  size?: IconSize;
   /**
    * The label for spinner.
    */

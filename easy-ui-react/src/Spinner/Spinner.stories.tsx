@@ -1,6 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { createColorTokensControl } from "../utilities/storybook";
+import {
+  createColorTokensControl,
+  getDesignTokensControl,
+} from "../utilities/storybook";
 import { Spinner, SpinnerProps } from "./Spinner";
 
 type Story = StoryObj<typeof Spinner>;
@@ -15,6 +18,12 @@ const meta: Meta<typeof Spinner> = {
   argTypes: {
     color: {
       ...createColorTokensControl(),
+      table: {
+        type: { summary: null },
+      },
+    },
+    size: {
+      ...getDesignTokensControl("size.icon.{alias}"),
       table: {
         type: { summary: null },
       },

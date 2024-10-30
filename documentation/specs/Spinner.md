@@ -57,7 +57,7 @@ type SpinnerProps = (ProgressProps | IndeterminateProps) & {
    * Size of spinner.
    * @default md
    */
-  size?: "sm" | "md" | "xl";
+  size?: IconSize;
   /**
    * The label for spinner.
    */
