@@ -128,7 +128,7 @@ export function EmptyStateCard(props: EmptyStateCardProps) {
 
   return (
     <Card>
-      <VerticalStack>{children}</VerticalStack>
+      <VerticalStack {...verticalStackProps}>{children}</VerticalStack>
     </Card>
   );
 }
