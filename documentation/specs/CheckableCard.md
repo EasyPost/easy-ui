@@ -124,6 +124,27 @@ function Component() {
 }
 ```
 
+### Anatomy
+
+The `CheckableCard` component will render a `Card` component that wraps a `Checkbox` component.
+
+```tsx
+function CheckableCard() {
+  return (
+    <Card>
+      <Checkbox
+        isSelected={isSelected}
+        onChange={(isSelected) => setIsSelected(isSelected)}
+      >
+        Checkbox item
+      </Checkbox>
+    </Card>
+  );
+}
+```
+
+---
+
 ## Behavior
 
 ### Accessibility
