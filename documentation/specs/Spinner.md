@@ -10,7 +10,7 @@ A `Spinner` component indicate the loading state of a component or page.
 
 ### Features
 
-- Supports `sm`, `md` and `lg` sizes.
+- Supports all icon sizes.
 - Supports optional label.
 - Supports various colors.
 - Supports both determinate and indeterminate states.
