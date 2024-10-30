@@ -9,6 +9,7 @@
 }
 
 .indeterminate {
+  position: relative;
   height: component-token("spinner", "size");
   width: component-token("spinner", "size");
   border-radius: 50%;
@@ -21,9 +22,10 @@
     inset: 0px;
     border-radius: 50%;
     border: 2px solid component-token("spinner", "color");
-    animation: dynamicSpinner 2s linear infinite;
+    animation: dynamicSpinner 1.5s linear infinite;
   }
 }
+
 @keyframes dynamicSpinner {
   0% {
     clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
