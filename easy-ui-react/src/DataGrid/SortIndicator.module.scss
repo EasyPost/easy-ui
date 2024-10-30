@@ -15,7 +15,7 @@
   @include component-token(
     "data-grid",
     "sort-icon-color",
-    design-token("color.white")
+    design-token("color.neutral.000")
   );
 }
 
@@ -23,13 +23,13 @@
   @include component-token(
     "data-grid",
     "sort-icon-color",
-    design-token("color.gray.400")
+    design-token("color.neutral.400")
   );
   &.sorted {
     @include component-token(
       "data-grid",
       "sort-icon-color",
-      design-token("color.blue.800")
+      design-token("color.primary.800")
     );
   }
 }

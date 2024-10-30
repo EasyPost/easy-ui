@@ -7,6 +7,7 @@ import React from "react";
 import {
   createColorTokensControl,
   createLabelledOptionsControl,
+  FedExLogoImg,
 } from "../utilities/storybook";
 import { Icon, IconProps } from "./Icon";
 
@@ -23,6 +24,7 @@ const meta: Meta<typeof Icon> = {
       Info: InfoIcon,
       Warning: WarningIcon,
       Error: ErrorIcon,
+      FedExLogoImg: FedExLogoImg,
     }),
     size: createLabelledOptionsControl({
       md: "md",

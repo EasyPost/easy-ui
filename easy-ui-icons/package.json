@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui-icons",
-  "version": "1.0.0-alpha.27",
+  "version": "1.0.0-alpha.28",
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",
@@ -19,9 +19,9 @@
     "dev": "vite build --watch"
   },
   "devDependencies": {
-    "@material-symbols/svg-300": "^0.24.0",
-    "@material-symbols/svg-400": "^0.24.0",
-    "@material-symbols/svg-600": "^0.24.0",
+    "@material-symbols/svg-300": "^0.25.3",
+    "@material-symbols/svg-400": "^0.25.3",
+    "@material-symbols/svg-600": "^0.25.3",
     "@svgr/cli": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "glob": "^10.2.5"

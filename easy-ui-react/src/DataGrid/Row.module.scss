@@ -1,18 +1,41 @@
 @use "../styles/common" as *;
 
 .Row {
-  display: contents;
+  vertical-align: top;
+  outline: none;
+  user-select: none;
+  cursor: default;
+}
+
+.expanded {
+  /* stylelint-disable scss/operator-no-newline-after */
+  height: calc(
+    component-token("data-grid", "body-row-height") +
+      component-token("data-grid", "expanded-row-height")
+  );
+  /* stylelint-enable scss/operator-no-newline-after */
 }
 
 .hovered {
   @include component-token(
     "data-grid",
     "cell-bg",
-    design-token("color.gray.050")
+    design-token("color.neutral.050")
   );
+}
+
+.selected {
   @include component-token(
     "data-grid",
-    "cell-text",
-    design-token("color.blue.700")
+    "cell-bg",
+    design-token("color.primary.050")
+  );
+}
+
+.selected.hovered {
+  @include component-token(
+    "data-grid",
+    "cell-bg",
+    design-token("color.primary.100")
   );
 }

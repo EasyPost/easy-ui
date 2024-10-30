@@ -11,13 +11,13 @@ import { RowGroup } from "./RowGroup";
 import {
   ACTIONS_COLUMN_KEY,
   DEFAULT_MAX_ROWS,
+  DEFAULT_SIZE,
   EXPAND_COLUMN_KEY,
 } from "./constants";
 import { DataGridTableContext } from "./context";
 import { Column, DataGridProps } from "./types";
 import { useEdgeInterceptors } from "./useEdgeInterceptors";
 import { useExpandedRow } from "./useExpandedRow";
-import { useGridTemplate } from "./useGridTemplate";
 
 import styles from "./DataGrid.module.scss";
 
@@ -31,29 +31,28 @@ export function Table<C extends Column>(props: TableProps<C>) {
     maxRows = DEFAULT_MAX_ROWS,
     renderExpandedRow = (r) => r,
     selectionMode,
-    templateColumns,
+    size = DEFAULT_SIZE,
   } = props;
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const tableRef = useRef<HTMLDivElement | null>(null);
+  const outerContainerRef = useRef<HTMLDivElement | null>(null);
+  const innerContainerRef = useRef<HTMLDivElement | null>(null);
+  const tableRef = useRef<HTMLTableElement | null>(null);
   const state = useTableState({
     ...props,
     selectionMode,
     selectionBehavior: "toggle",
     showSelectionCheckboxes: selectionMode !== "none",
   });
-  const { gridProps } = useTable(
-    { ...props, focusMode: "cell" },
-    state,
-    tableRef,
-  );
+  const { gridProps } = useTable(props, state, tableRef);
 
-  const { expandedRow, expandedRowStyle } = useExpandedRow({ tableRef, state });
-  const { gridTemplateStyle } = useGridTemplate({ templateColumns, state });
+  const { expandedRow, expandedRowStyle } = useExpandedRow({
+    containerRef: innerContainerRef,
+    state,
+  });
   const [
     renderInterceptors,
     { isTopEdgeUnderScroll, isLeftEdgeUnderScroll, isRightEdgeUnderScroll },
-  ] = useEdgeInterceptors(containerRef);
+  ] = useEdgeInterceptors(outerContainerRef);
 
   const { collection } = state;
   const { columns } = collection;
@@ -62,7 +61,12 @@ export function Table<C extends Column>(props: TableProps<C>) {
   const hasExpansion = columns.some((c) => c.key === EXPAND_COLUMN_KEY);
   const hasRowActions = columns.some((c) => c.key === ACTIONS_COLUMN_KEY);
 
-  const className = classNames(
+  const dataGridClassName = classNames(
+    styles.DataGrid,
+    styles[variationName("size", size)],
+  );
+
+  const tableClassName = classNames(
     styles.table,
     headerVariant && styles[variationName("header", headerVariant)],
     hasSelection && styles.hasSelection,
@@ -75,7 +79,6 @@ export function Table<C extends Column>(props: TableProps<C>) {
 
   const style = {
     ...getComponentToken("data-grid", "max-rows", String(maxRows)),
-    ...gridTemplateStyle,
     ...expandedRowStyle,
   } as CSSProperties;
 
@@ -101,35 +104,37 @@ export function Table<C extends Column>(props: TableProps<C>) {
 
   return (
     <DataGridTableContext.Provider value={context}>
-      <div ref={containerRef} className={styles.DataGrid} style={style}>
-        <div {...gridProps} ref={tableRef} className={className}>
-          <RowGroup>
-            {collection.headerRows.map((headerRow) => (
-              <HeaderRow key={headerRow.key} item={headerRow} state={state}>
-                {[...headerRow.childNodes].map((column) => (
-                  <ColumnHeader
-                    key={column.key}
-                    column={column}
-                    state={state}
-                  />
-                ))}
-              </HeaderRow>
-            ))}
-          </RowGroup>
-          <RowGroup>
-            {[...collection.body.childNodes].map((row) => (
-              <Row
-                key={row.key}
-                item={row}
-                state={state}
-                isExpanded={expandedRow ? expandedRow.key === row.key : false}
-              >
-                {[...row.childNodes].map((cell) => (
-                  <Cell key={cell.key} cell={cell} state={state} />
-                ))}
-              </Row>
-            ))}
-          </RowGroup>
+      <div ref={outerContainerRef} className={dataGridClassName} style={style}>
+        <div ref={innerContainerRef} className={styles.innerContainer}>
+          <table {...gridProps} ref={tableRef} className={tableClassName}>
+            <RowGroup as="thead">
+              {collection.headerRows.map((headerRow) => (
+                <HeaderRow key={headerRow.key} item={headerRow} state={state}>
+                  {[...headerRow.childNodes].map((column) => (
+                    <ColumnHeader
+                      key={column.key}
+                      column={column}
+                      state={state}
+                    />
+                  ))}
+                </HeaderRow>
+              ))}
+            </RowGroup>
+            <RowGroup as="tbody">
+              {[...collection.body.childNodes].map((row) => (
+                <Row
+                  key={row.key}
+                  item={row}
+                  state={state}
+                  isExpanded={expandedRow ? expandedRow.key === row.key : false}
+                >
+                  {[...row.childNodes].map((cell) => (
+                    <Cell key={cell.key} cell={cell} state={state} />
+                  ))}
+                </Row>
+              ))}
+            </RowGroup>
+          </table>
           {expandedRow && (
             <ExpandedRowContent>
               {renderExpandedRow(expandedRow.key)}

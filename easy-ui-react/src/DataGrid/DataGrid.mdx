@@ -44,6 +44,10 @@ const rows = [
   rows={rows}
   renderColumnCell={(column) => <span>{String(column.name)}</span>}
   renderRowCell={(item, columnKey, row) => <span>{String(item)}</span>}
+  // Handler that is called when a user performs an action on the cell
+  onCellAction={(key) => {}}
+  // Handler that is called when a user performs an action on the row
+  onRowAction={(key: Key) => {}}
   // Enable row expansion
   renderExpandedRow={(rowKey: Key) => <div>Expanded row content</div>}
   defaultExpandedKey={1}
@@ -76,8 +80,8 @@ const rows = [
     // update row order
   }}
   columnKeysAllowingSort={["name"]}
-  // Provide a custom grid-template-columns value
-  templateColumns="repeat(2, 1fr)"
+  // "sm", "md" (default), or "lg"
+  size="lg"
 />;
 ```
 
@@ -191,6 +195,14 @@ function SortableDataGrid(args: DataGridProps) {
 
 <Canvas of={DataGridStories.WithSort} />
 
+## With Custom Size
+
+`DataGrid` supports `sm`, `md`, and `lg` row heights with the `size` prop.
+
+<Canvas of={DataGridStories.WithCustomSize} />
+
+<Controls of={DataGridStories.WithCustomSize} />
+
 ## With Custom Rendering
 
 `DataGrid` supports custom rendering of content for row and column cells using the `renderRowCell` and `renderColumnCell` props.
@@ -222,7 +234,7 @@ In the example below, to make the status text green or red depending on whether 
 
 ## Header Variant
 
-`DataGrid` supports an alternate header color through the `headerVariant` prop. Pass `secondary` as the alternate color for the header.
+`DataGrid` supports alternate header styles through the `headerVariant` prop. Pass `secondary` or `emphasized` as alternate versions of the header.
 
 <Canvas of={DataGridStories.WithHeaderVariant} />
 

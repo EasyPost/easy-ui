@@ -1,0 +1,137 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta } from "@storybook/blocks";
+import { PillGroup } from "./PillGroup";
+import * as PillStories from "./PillGroup.stories";
+
+<Meta of={PillStories} />
+
+# PillGroup
+
+A `<PillGroup />` displays a focusable list of labels, categories, keywords, or filters; individual pills can be dismissed as well as accompanied by an icon.
+
+### Architecture
+
+`<PillGroup />` is a simple compound component, use alongside `<PillGroup.Pill />` to render a group of pills.
+
+```tsx
+import { PillGroup } from "@easypost/easy-ui/PillGroup";
+
+<PillGroup label="Orders">
+  <PillGroup.Pill label="First Last #123" />
+  <PillGroup.Pill label="First Last #456" />
+  <PillGroup.Pill label="First Last #789" />
+</PillGroup>;
+```
+
+### Labels
+
+Both `<PillGroup />` and `<PillGroup.Pill />` are required to have labels, and for the former, the label is visually hidden.
+
+### Flex positioning
+
+`<PillGroup />` exposes a `horizontalStackContainerProps` property to assist with position managment. The properties are a subset of what is exposed by the `HorizontalStack` component.
+
+```tsx
+type horizontalStackContainerProps = {
+  /** Horizontal alignment of children */
+  align?: Align;
+  /** Vertical alignment of children */
+  blockAlign?: BlockAlign;
+  /** Whether or not the horizontal stack uses inline-flex instead of flex. */
+  inline?: boolean;
+  /**
+   * The spacing between elements. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   * @example
+   * gap='2'
+   * gap={{xs: '2', sm: '3', md: '4', lg: '5', xl: '6'}}
+   */
+  gap?: ResponsiveSpaceScale;
+  /**
+   * Wrap stack elements to additional rows as needed on small screens
+   * @default true
+   */
+  wrap?: boolean;
+};
+```
+
+### Managing state
+
+To efficiently manage the removal of pills via the keyboard and mouse while maintaining key accessibility details, the module exports the `usePillListState` hook. The hook
+is a simple wrapper around the `useListData` hook from `react-stately`.
+
+```tsx
+import { PillGroup, usePillListState } from "@easypost/easy-ui/PillGroup";
+
+const list = usePillListState([
+  { id: 1, name: "Food" },
+  { id: 2, name: "Travel" },
+  { id: 3, name: "Gaming" },
+  { id: 4, name: "Shopping" },
+]);
+
+return (
+  <PillGroup
+    items={list.items}
+    horizontalStackContainerProps={{
+      gap: "2",
+    }}
+    onRemove={(keys) => list.remove(...keys)}
+    label="News Categories"
+  >
+    {(item) => <PillGroup.Pill label={item.name} />}
+  </PillGroup>
+);
+```
+
+## Default
+
+<Canvas of={PillStories.Default} />
+
+## Standard Icon
+
+Use the `icon` property on `<PillGroup.Pill />` to render a pill with a left aligned icon.
+
+<Canvas of={PillStories.StandardIconSymbol} />
+
+## Image
+
+The `icon` property directly passes the argument to the underlying `Icon` component, hence an image can also be passed to `icon`.
+
+<Canvas of={PillStories.ImageSymbol} />
+
+## Positioning
+
+Use `horizontalStackContainerProps` prop of `<PillGroup />` for handling CSS flex positioning.
+
+<Canvas of={PillStories.Positioning} />
+
+## Removal
+
+Use `onRemove` prop of `<PillGroup />` and `usePillListState` for handling removal.
+
+<Canvas of={PillStories.Removal} />
+
+## Properties
+
+### PillGroup props
+
+```tsx
+// onRemove (keys: Set<Key>) => void
+export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
+  Pick<TagListProps<T>, "items" | "children"> & {
+    /** Label for grouping */
+    label: string;
+    /** HorizontalStack props except children and as */
+    horizontalStackContainerProps?: Omit<
+      HorizontalStackProps,
+      "children" | "as"
+    >;
+  };
+
+export type PillProps = {
+  /** Left aligned icon */
+  icon?: IconSymbol;
+  /** Visual label for individual pill */
+  label: string;
+};
+```

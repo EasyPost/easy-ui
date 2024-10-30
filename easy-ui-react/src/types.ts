@@ -1,5 +1,5 @@
 import type tokens from "@easypost/easy-ui-tokens/js/tokens";
-import React from "react";
+import React, { ComponentProps } from "react";
 import { ResponsiveProp } from "./utilities/css";
 
 export type DesignTokens = typeof tokens;
@@ -57,12 +57,16 @@ export type ThemeTokenNamespace<Needle extends string> = Namespace<
 
 export type ThemeColorAliases = ThemeTokenNamespace<"color">;
 
-type IconSymbolProps = React.SVGProps<SVGSVGElement> & {
+type IconSvgSymbolProps = React.SVGProps<SVGSVGElement> & {
   title?: string;
   titleId?: string;
 };
 
-export type IconSymbol = React.FunctionComponent<IconSymbolProps>;
+export type IconSymbol =
+  | React.FunctionComponent<IconSvgSymbolProps>
+  | React.FunctionComponent<ComponentProps<"img">>;
 
 export type SpaceScale = DesignTokenNamespace<"space">;
 export type ResponsiveSpaceScale = ResponsiveProp<SpaceScale>;
+
+export type ShadowLevel = DesignTokenNamespace<"shadow.level">;

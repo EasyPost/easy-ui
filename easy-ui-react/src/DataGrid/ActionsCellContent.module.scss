@@ -4,3 +4,13 @@
   display: inline-flex;
   gap: design-token("space.1.5");
 }
+
+.MenuButton {
+  display: inline-flex;
+  border-radius: design-token("shape.border_radius.sm");
+}
+
+.open {
+  background: design-token("color.primary.700");
+  color: design-token("color.neutral.000");
+}

@@ -22,7 +22,12 @@ export type IconColor =
   | "primary-inverse";
 
 export type IconProps = {
-  /** Icon symbol SVG source from @easypost/easy-ui-icons */
+  /**
+   * Icon symbol.
+   *
+   * This can be an SVG source from @easypost/easy-ui-icons or a React
+   * element that renders to an img.
+   */
   symbol: IconSymbol;
   /** Size of the icon */
   size?: ResponsiveProp<IconSize>;
@@ -82,6 +87,16 @@ export type IconProps = {
  *  return <Icon symbol={AddIcon} size={{ sm: "sm", md: "md", lg: "lg" }} />;
  * }
  * ```
+ * @example
+ * _With image symbol:_
+ * ```tsx
+ * import { Icon } from "@easypost/easy-ui/Icon";
+ *
+ * export function Component() {
+ *   const CarrierLogo = (props) => <img src="/carrier-logo.png" {...props} />;
+ *   return <Icon symbol={CarrierLogo} />;
+ * }
+ * ```
  */
 export function Icon({
   symbol: Symbol,
@@ -101,7 +116,7 @@ export function Icon({
   return (
     <span className={styles.Icon} style={style}>
       <Symbol
-        className={styles.Svg}
+        className={styles.symbol}
         focusable="false"
         role="img"
         title={accessibilityLabel}

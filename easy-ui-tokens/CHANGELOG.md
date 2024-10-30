@@ -1,5 +1,19 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.12
+
+### Minor Changes
+
+- 2eb11dc: Create `<PillGroup />` component
+
+## 1.0.0-alpha.11
+
+### Minor Changes
+
+- ed36751: feat: add new colors
+- 21a2853: Update typography tokens
+- 0659bb6: feat(Card): support shadow variant
+
 ## 1.0.0-alpha.10
 
 ### Minor Changes

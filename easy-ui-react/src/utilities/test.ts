@@ -124,3 +124,7 @@ export async function userType(
     await user.type(element, text);
   });
 }
+
+export async function selectCheckbox(user: UserEvent, el: HTMLElement) {
+  await userClick(user, el);
+}

@@ -1,0 +1,28 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.Pill {
+  display: inline-flex;
+  border-radius: design-token("shape.border_radius.md");
+  padding: calc(
+    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+  );
+  gap: design-token("space.0.5");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.gray.400");
+  align-items: center;
+}
+
+.remove {
+  @include unstyled.button;
+  cursor: pointer;
+}
+
+.list {
+  display: component-token("pill-group", "display");
+  flex-wrap: component-token("pill-group", "wrap");
+  align-items: component-token("pill-group", "block-align");
+  justify-content: component-token("pill-group", "align");
+  min-width: 0;
+  @include responsive-prop("pill-group", "gap", gap);
+}

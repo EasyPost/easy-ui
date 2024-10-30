@@ -1,0 +1,56 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { SplitToggleCard } from "./SplitToggleCard";
+import * as SplitToggleCardStories from "./SplitToggleCard.stories";
+
+<Meta of={SplitToggleCardStories} />
+
+# SplitToggleCard
+
+A `<SplitToggleCard />` is an interactive binary control with related content.
+
+<Canvas of={SplitToggleCardStories.Standard} />
+
+## Default Selected
+
+A `<SplitToggleCard />` can be selected using `defaultSelected` (uncontrolled).
+
+<Canvas of={SplitToggleCardStories.DefaultSelected} />
+<Controls
+  of={SplitToggleCardStories.DefaultSelected}
+  include={["defaultSelected"]}
+/>
+
+## Selected
+
+A `<SplitToggleCard />` can be selected using `isSelected` (controlled).
+
+<Canvas of={SplitToggleCardStories.Selected} />
+
+<Controls of={SplitToggleCardStories.Selected} include={["isSelected"]} />
+
+## Disabled
+
+A `<SplitToggleCard />` can be disabled using `isDisabled`.
+
+<Canvas of={SplitToggleCardStories.Disabled} />
+
+<Controls
+  of={SplitToggleCardStories.Disabled}
+  include={["isDisabled", "isSelected"]}
+/>
+
+## Read-Only
+
+A `<SplitToggleCard />` can be read-only using `isReadOnly`.
+
+<Canvas of={SplitToggleCardStories.ReadOnly} />
+
+<Controls
+  of={SplitToggleCardStories.ReadOnly}
+  include={["isReadOnly", "isSelected"]}
+/>
+
+## Properties
+
+<ArgTypes of={SplitToggleCard} />

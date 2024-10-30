@@ -1,6 +1,6 @@
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import { render, screen } from "@testing-library/react";
-import React from "react";
+import React, { ComponentProps } from "react";
 import {
   getResponsiveDesignToken,
   getComponentThemeToken,
@@ -38,5 +38,14 @@ describe("<Icon />", () => {
     expect($svg.closest("span")).toHaveStyle(
       getResponsiveDesignToken("icon", "size", "size.icon", "sm"),
     );
+  });
+
+  it("should render an image", () => {
+    const CarrierLogo = (props: ComponentProps<"img">) => (
+      <img src="/carrier-logo.png" {...props} />
+    );
+    render(<Icon symbol={CarrierLogo} accessibilityLabel="Carrier name" />);
+    expect(screen.getByRole("img", { hidden: false })).toBeInTheDocument();
+    expect(screen.getByTitle("Carrier name")).toBeInTheDocument();
   });
 });

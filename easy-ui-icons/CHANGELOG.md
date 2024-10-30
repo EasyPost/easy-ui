@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.28
+
+### Minor Changes
+
+- 8c1c613: feat: add icons for ecom support
+
 ## 1.0.0-alpha.27
 
 ### Minor Changes
