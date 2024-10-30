@@ -25,7 +25,10 @@ No new external dependencies will be introduced.
 ### API
 
 ```ts
-export type EmptyStateCardProps = VerticalStackProps & {
+export type EmptyStateCardProps = Omit<
+  VerticalStackProps,
+  "children" | "as" | "reverseOrder"
+> & {
   /**
    * The children of the <EmptyStateCard> element. Should render
    * `<EmptyStateCard.Header>`, `<EmptyStateCard.Content>`, and
@@ -67,7 +70,7 @@ import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
   return (
-    <EmptyStateCard inlineAlign="center">
+    <EmptyStateCard>
       <EmptyStateCard.Header>
         <Text variant="heading5" color="neutral.000">
           Analytics
@@ -95,7 +98,7 @@ import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
   return (
-    <EmptyStateCard>
+    <EmptyStateCard inlineAlign="center">
       <EmptyStateCard.Header>
         <Text variant="heading5" color="neutral.000">
           Analytics
