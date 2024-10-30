@@ -12,7 +12,7 @@ import { TabNav } from "../TabNav";
 type Story = StoryObj<typeof SectionCard>;
 
 const meta: Meta<typeof SectionCard> = {
-  title: "Components/SectionCard",
+  title: "Components/Cards/SectionCard",
   component: SectionCard,
   decorators: [InlineStoryDecorator],
   parameters: {
