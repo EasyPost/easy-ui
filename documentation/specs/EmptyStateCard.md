@@ -14,11 +14,11 @@ An `EmptyStateCard` is a styled container with a header, content, and action sec
 
 ## Design
 
-An `EmptyStateCard` is a very simple compound component consisting of`EmptyStateCard.Header`, `EmptyStateCard.Content`, and `EmptyStateCard.Action`.
+An `EmptyStateCard` is a very simple compound component consisting of`EmptyStateCard.Header`, `EmptyStateCard.Body`, and `EmptyStateCard.Action`.
 
-The `EmptyStateCard` will render `EmptyStateCard.Header`,` EmptyStateCard.Content`, and`EmptyStateCard.Action` via children, while delegating the styled container to the `Card` component.
+The `EmptyStateCard` will render `EmptyStateCard.Header`,` EmptyStateCard.Body`, and`EmptyStateCard.Action` via children, while delegating the styled container to the `Card` component.
 
-The `EmptyStateCard.Header`,` EmptyStateCard.Content`, and`EmptyStateCard.Action` components will only be lightweight wrappers to handle the rendering for the content passed by consumers.
+The `EmptyStateCard.Header`,` EmptyStateCard.Body`, and`EmptyStateCard.Action` components will only be lightweight wrappers to handle the rendering for the content passed by consumers.
 
 No new external dependencies will be introduced.
 
@@ -31,7 +31,7 @@ export type EmptyStateCardProps = Omit<
 > & {
   /**
    * The children of the <EmptyStateCard> element. Should render
-   * `<EmptyStateCard.Header>`, `<EmptyStateCard.Content>`, and
+   * `<EmptyStateCard.Header>`, `<EmptyStateCard.Body>`, and
    * `<EmptyStateCard.Action>`
    */
   children: ReactNode;
@@ -44,16 +44,16 @@ export type EmptyStateCardHeaderProps = {
   children: ReactNode;
 };
 
-export type EmptyStateCardContentProps = {
+export type EmptyStateCardBodyProps = {
   /**
-   * Content of card
+   * Body content of card
    */
   children: ReactNode;
 };
 
 export type EmptyStateCardActionProps = {
   /**
-   * Content of card
+   * Action content of card
    */
   children: ReactNode;
 };
@@ -76,11 +76,11 @@ function Component() {
           Analytics
         </Text>
       </EmptyStateCard.Header>
-      <EmptyStateCard.Content>
+      <EmptyStateCard.Body>
         <Text variant="subtitle1" color="neutral.000">
           Start shipping to get insights on your shipping costs and performance.
         </Text>
-      </EmptyStateCard.Content>
+      </EmptyStateCard.Body>
       <EmptyStateCard.Action>
         <Button>Buy a label</Button>
       </EmptyStateCard.Action>
@@ -104,11 +104,11 @@ function Component() {
           Analytics
         </Text>
       </EmptyStateCard.Header>
-      <EmptyStateCard.Content>
+      <EmptyStateCard.Body>
         <Text variant="subtitle1" color="neutral.000">
           Start shipping to get insights on your shipping costs and performance.
         </Text>
-      </EmptyStateCard.Content>
+      </EmptyStateCard.Body>
       <EmptyStateCard.Action>
         <Button>Buy a label</Button>
       </EmptyStateCard.Action>
@@ -139,7 +139,7 @@ function EmptyStateCardHeader(props: EmptyStateCardHeaderProps) {
   return <div>{children}</div>;
 }
 
-function EmptyStateCardContent(props: EmptyStateCardContentProps) {
+function EmptyStateCardBody(props: EmptyStateCardBodyProps) {
   const { children } = props;
 
   return <div>{children}</div>;
@@ -153,7 +153,7 @@ function EmptyStateCardAction(props: EmptyStateCardActionProps) {
 
 EmptyStateCard.Header = EmptyStateCardHeader;
 
-EmptyStateCard.Content = EmptyStateCardContent;
+EmptyStateCard.Body = EmptyStateCardBody;
 
 EmptyStateCard.Action = EmptyStateCardAction;
 ```
