@@ -1,9 +1,10 @@
 import omit from "lodash/omit";
+import pick from "lodash/pick";
 import React, { AllHTMLAttributes, ElementType, ReactNode } from "react";
 import {
+  BorderRadius,
   DesignTokenNamespace,
   ShadowLevel,
-  BorderRadius,
   ThemeTokenNamespace,
 } from "../types";
 import {
@@ -15,7 +16,6 @@ import {
 } from "../utilities/css";
 
 import styles from "./Card.module.scss";
-import { pick } from "lodash";
 
 const DEFAULT_ELEMENT_TYPE = "div";
 const DEFAULT_VARIANT = "outlined";

@@ -179,6 +179,28 @@ export const WithTabPanels: Story = {
   ),
 };
 
+export const WithAdjustableCardProps: Story = {
+  render: () => (
+    <SectionCard
+      padding="4"
+      borderRadius="xl"
+      variant="outlined"
+      boxShadow={undefined}
+    >
+      <SectionCard.Header>
+        <SectionCard.Title>Section Title</SectionCard.Title>
+        <SectionCard.Controls>
+          <div style={{ textAlign: "center" }}>Controls</div>
+        </SectionCard.Controls>
+        <SectionCard.Actions>
+          <Button size="sm">Action</Button>
+        </SectionCard.Actions>
+      </SectionCard.Header>
+      <div>Content</div>
+    </SectionCard>
+  ),
+};
+
 function getColumns() {
   return [
     { key: "name", name: "Name" },

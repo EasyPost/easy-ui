@@ -60,4 +60,17 @@ describe("<SectionCard />", () => {
 
     expect(handleAction).toBeCalled();
   });
+
+  it("should accept card props", async () => {
+    render(
+      <SectionCard variant="outlined">
+        <div>Content</div>
+      </SectionCard>,
+    );
+
+    expect(screen.getByTestId("container")).toHaveAttribute(
+      "class",
+      expect.stringContaining("variantOutlined"),
+    );
+  });
 });
