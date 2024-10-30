@@ -103,7 +103,7 @@ function ToggleCardHeader(props: ToggleCardHeaderProps) {
   }, [children]);
 
   return (
-    <Card.Area background="neutral.050" padding="0.5">
+    <Card.Area background="neutral.050" paddingY="0.5" paddingX="1">
       <HorizontalStack gap="2" align="space-between" blockAlign="center">
         {children}
       </HorizontalStack>
