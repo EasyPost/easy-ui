@@ -72,3 +72,14 @@ export type ResponsiveSpaceScale = ResponsiveProp<SpaceScale>;
 export type ShadowLevel = DesignTokenNamespace<"shadow.level">;
 
 export type BorderRadius = DesignTokenNamespace<"shape.border_radius">;
+
+type Enumerate<
+  N extends number,
+  Acc extends number[] = [],
+> = Acc["length"] extends N
+  ? Acc[number]
+  : Enumerate<N, [...Acc, Acc["length"]]>;
+
+export type IntRange<F extends number, L extends number> =
+  | Exclude<Enumerate<L>, Enumerate<F>>
+  | L;
