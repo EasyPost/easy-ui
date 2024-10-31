@@ -1,6 +1,15 @@
 @use "../styles/common" as *;
+@use "sass:math";
 
 .spinner {
+  @include component-token("spinner", "track-width", 1.5px);
+  @include component-token("spinner", "animation-speed", 1s);
+  // Update the factor to match the animation-speed:
+  //   animation-speed: 1s;   -> animation-factor: 1 / 1
+  //   animation-speed: 2s;   -> animation-factor: 2 / 1
+  //   animation-speed: 0.5s; -> animation-factor: 0.5 / 1
+  // calc() needs a unitless number in the animation-delay below
+  @include component-token("spinner", "animation-factor", math.div(1, 1));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,52 +17,8 @@
   color: component-token("spinner", "color");
 }
 
-.indeterminate {
-  position: relative;
-  height: component-token("spinner", "size");
-  width: component-token("spinner", "size");
-  border-radius: 50%;
-  animation: rotation 1s linear infinite;
-
-  &:before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    inset: 0px;
-    border-radius: 50%;
-    border: 2px solid component-token("spinner", "color");
-    animation: dynamicSpinner 1.5s linear infinite;
-  }
-}
-
-@keyframes dynamicSpinner {
-  0% {
-    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
-  }
-  25% {
-    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
-  }
-  50% {
-    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
-  }
-  75% {
-    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
-  }
-  100% {
-    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
-  }
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .progress {
+  --offset: calc(#{component-token("spinner", "track-width")} * 2);
   height: component-token("spinner", "size");
   width: component-token("spinner", "size");
   border-radius: 50%;
@@ -63,7 +28,57 @@
   );
   mask-image: radial-gradient(
     circle at center,
-    transparent calc((component-token("spinner", "size") - 4px) / 2),
-    #fff calc((component-token("spinner", "size") - 3px) / 2)
+    transparent
+      calc((component-token("spinner", "size") - var(--offset) - 1px) / 2),
+    design-token("color.neutral.000")
+      calc((component-token("spinner", "size") - var(--offset)) / 2)
   );
+}
+
+.indeterminate,
+.indeterminate div {
+  box-sizing: border-box;
+}
+
+.indeterminate {
+  display: inline-block;
+  position: relative;
+  height: component-token("spinner", "size");
+  width: component-token("spinner", "size");
+  border: component-token("spinner", "track-width") solid
+    design-token("color.neutral.050");
+  border-radius: 50%;
+}
+
+.indeterminate div {
+  display: block;
+  position: absolute;
+  height: component-token("spinner", "size");
+  width: component-token("spinner", "size");
+  margin-top: calc(component-token("spinner", "track-width") * -1);
+  margin-left: calc(component-token("spinner", "track-width") * -1);
+  border: component-token("spinner", "track-width") solid currentColor;
+  border-radius: 50%;
+  animation: indeterminate-ring component-token("spinner", "animation-speed")
+    cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: currentColor transparent transparent transparent;
+}
+
+.indeterminate div:nth-child(1) {
+  animation-delay: calc(-0.1s * component-token("spinner", "animation-factor"));
+}
+.indeterminate div:nth-child(2) {
+  animation-delay: calc(-0.2s * component-token("spinner", "animation-factor"));
+}
+.indeterminate div:nth-child(3) {
+  animation-delay: calc(-0.3s * component-token("spinner", "animation-factor"));
+}
+
+@keyframes indeterminate-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
