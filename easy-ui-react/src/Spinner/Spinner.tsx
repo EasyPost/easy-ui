@@ -4,7 +4,6 @@ import { IconSize } from "../Icon";
 import { Text } from "../Text";
 import { ThemeColorAliases, IntRange } from "../types";
 import {
-  classNames,
   getComponentThemeToken,
   getComponentDesignToken,
   getComponentToken,
@@ -22,6 +21,7 @@ export type ProgressProps = {
    */
   value?: undefined;
 };
+
 export type IndeterminateProps = {
   /**
    * Mark the `Spinner` as indeterminate when progress is
@@ -81,7 +81,6 @@ export type SpinnerProps = (ProgressProps | IndeterminateProps) & {
  * <Spinner color="primary.500" isIndeterminate />
  * ```
  */
-
 export const Spinner = (props: SpinnerProps) => {
   const {
     children,
@@ -111,11 +110,15 @@ export const Spinner = (props: SpinnerProps) => {
       role={isIndeterminate ? "status" : progressBarProps.role}
       aria-labelledby={progressBarProps["aria-labelledby"] ?? id}
     >
-      <div
-        className={classNames(
-          isIndeterminate ? styles.indeterminate : styles.progress,
-        )}
-      />
+      {isIndeterminate ? (
+        <div className={styles.indeterminate}>
+          <div />
+          <div />
+          <div />
+        </div>
+      ) : (
+        <div className={styles.progress} />
+      )}
       <Text
         {...labelProps}
         id={labelProps.id ?? id}
