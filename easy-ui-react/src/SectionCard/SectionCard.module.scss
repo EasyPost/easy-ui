@@ -1,0 +1,32 @@
+@use "../styles/common" as *;
+@use "../Tabs/mixins" as Tabs;
+
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+
+  // Ensure middle content is centered
+  > :nth-child(1),
+  > :nth-child(3) {
+    flex-grow: 1;
+    flex-basis: 0;
+  }
+}
+
+.controls {
+  flex: 1 0 auto;
+}
+
+// Add padding around tabs and extend border to edge
+.tabs {
+  @include Tabs.border-tokens;
+  @include Tabs.border;
+  padding: design-token("space.1");
+  padding-bottom: 0;
+  > * {
+    margin-bottom: -1px;
+  }
+}

@@ -1,9 +1,10 @@
 import omit from "lodash/omit";
+import pick from "lodash/pick";
 import React, { AllHTMLAttributes, ElementType, ReactNode } from "react";
 import {
+  BorderRadius,
   DesignTokenNamespace,
   ShadowLevel,
-  BorderRadius,
   ThemeTokenNamespace,
 } from "../types";
 import {
@@ -102,6 +103,20 @@ export type CardAreaProps = {
 };
 
 export type CardProps = CardContainerProps & CardAreaProps;
+
+/**
+ * Helper for picking card area props from a superset of component props.
+ */
+export function pickCardAreaProps(props: Partial<CardAreaProps>) {
+  return pick(props, [
+    "background",
+    "children",
+    "padding",
+    "paddingX",
+    "paddingY",
+    "as",
+  ]);
+}
 
 function CardContainer(props: CardContainerProps) {
   const {
