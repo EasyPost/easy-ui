@@ -14,11 +14,13 @@ An `EmptyStateCard` is a styled container with a header, body, and action sectio
 
 ## Design
 
-An `EmptyStateCard` is a very simple compound component consisting of`EmptyStateCard.Header`, `EmptyStateCard.Body`, and `EmptyStateCard.Action`.
+An `EmptyStateCard` is a very simple compound component consisting of`EmptyStateCard.Header`, `EmptyStateCard.HeaderText`, `EmptyStateCard.Body`, `EmptyStateCard.BodyText`, and `EmptyStateCard.Action`.
 
 The `EmptyStateCard` will render `EmptyStateCard.Header`,` EmptyStateCard.Body`, and`EmptyStateCard.Action` via children, while delegating the styled container to the `Card` component.
 
-The `EmptyStateCard.Header`,` EmptyStateCard.Body`, and`EmptyStateCard.Action` components will only be lightweight wrappers to handle the rendering for the content passed by consumers.
+`EmptyStateCard.Header` will render `EmptyStateCard.HeaderText` and `EmptyStateCard.Body` will render `EmptyStateCard.BodyText`; both text components will handle the styles to avoid the consumer having to pass them in explicitly.
+
+The `EmptyStateCard.HeaderText`,` EmptyStateCard.BodyText`, and`EmptyStateCard.Action` components will be lightweight wrappers to handle the rendering for the content passed by consumers.
 
 No new external dependencies will be introduced.
 
@@ -32,7 +34,7 @@ export type EmptyStateCardProps = Omit<
   /**
    * The children of the <EmptyStateCard> element. Should render
    * `<EmptyStateCard.Header>`, `<EmptyStateCard.Body>`, and
-   * `<EmptyStateCard.Action>`
+   * `<EmptyStateCard.Action>` at minimum.
    */
   children: ReactNode;
 };
@@ -70,26 +72,28 @@ import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
   return (
-    <EmptyStateCard>
-      <EmptyStateCard.Header>
-        <Text variant="heading5" color="neutral.000">
-          Analytics
-        </Text>
-      </EmptyStateCard.Header>
-      <EmptyStateCard.Body>
-        <Text variant="subtitle1" color="neutral.000">
-          Start shipping to get insights on your shipping costs and performance.
-        </Text>
-      </EmptyStateCard.Body>
-      <EmptyStateCard.Action>
-        <Button>Buy a label</Button>
-      </EmptyStateCard.Action>
-    </EmptyStateCard>,
+  <EmptyStateCard>
+   <EmptyStateCard.Header>
+     <EmptyStateCard.HeaderText>
+       Shipment Insurance
+     </EmptyStateCard.HeaderText>
+   </EmptyStateCard.Header>
+   <EmptyStateCard.Body>
+     <EmptyStateCard.BodyText>
+       Rest easy knowing if one of your customers orders is damaged, lost
+       in transit or stolen you are covered! Automatically add insurance to
+       all your shipments
+     </EmptyStateCard.BodyText>
+   </EmptyStateCard.Body>
+   <EmptyStateCard.Action>
+     <Button>Manage Insurance Settings</Button>
+   </EmptyStateCard.Action>
+  </EmptyStateCard>,
   );
 }
 ```
 
-_Center aligned:_
+_Center inline-align:_
 
 ```tsx
 import { EmptyStateCard } from "@easypost/easy-ui/EmptyStateCard";
@@ -98,21 +102,23 @@ import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
   return (
-    <EmptyStateCard inlineAlign="center">
-      <EmptyStateCard.Header>
-        <Text variant="heading5" color="neutral.000">
-          Analytics
-        </Text>
-      </EmptyStateCard.Header>
-      <EmptyStateCard.Body>
-        <Text variant="subtitle1" color="neutral.000">
-          Start shipping to get insights on your shipping costs and performance.
-        </Text>
-      </EmptyStateCard.Body>
-      <EmptyStateCard.Action>
-        <Button>Buy a label</Button>
-      </EmptyStateCard.Action>
-    </EmptyStateCard>,
+  <EmptyStateCard inlineAlign="center">
+   <EmptyStateCard.Header>
+    <EmptyStateCard.HeaderText>
+       Shipment Insurance
+     </EmptyStateCard.HeaderText>
+   </EmptyStateCard.Header>
+   <EmptyStateCard.Body>
+     <EmptyStateCard.BodyText>
+       Rest easy knowing if one of your customers orders is damaged, lost
+       in transit or stolen you are covered! Automatically add insurance to
+       all your shipments
+     </EmptyStateCard.BodyText>
+   </EmptyStateCard.Body>
+   <EmptyStateCard.Action>
+     <Button>Manage Insurance Settings</Button>
+   </EmptyStateCard.Action>
+  </EmptyStateCard>,
   );
 }
 ```
@@ -121,6 +127,7 @@ function Component() {
 
 ```tsx
 import { Card } from "../Card";
+import { Text, TextProps } from "../Text";
 import { VerticalStack } from "../VerticalStack";
 
 export function EmptyStateCard(props: EmptyStateCardProps) {
@@ -139,10 +146,22 @@ function EmptyStateCardHeader(props: EmptyStateCardHeaderProps) {
   return <div>{children}</div>;
 }
 
+function EmptyStateCardHeaderText(props: TextProps) {
+  const { ...textProps } = props;
+
+  return <Text {...textProps} />;
+}
+
 function EmptyStateCardBody(props: EmptyStateCardBodyProps) {
   const { children } = props;
 
   return <div>{children}</div>;
+}
+
+function EmptyStateCardBodyText(props: TextProps) {
+  const { ..textProps } = props;
+
+  return <Text {...restTextProps} />;
 }
 
 function EmptyStateCardAction(props: EmptyStateCardActionProps) {
@@ -153,7 +172,11 @@ function EmptyStateCardAction(props: EmptyStateCardActionProps) {
 
 EmptyStateCard.Header = EmptyStateCardHeader;
 
+EmptyStateCard.HeaderText = EmptyStateCardHeaderText;
+
 EmptyStateCard.Body = EmptyStateCardBody;
+
+EmptyStateCard.BodyText = EmptyStateCardBodyText;
 
 EmptyStateCard.Action = EmptyStateCardAction;
 ```
@@ -170,3 +193,4 @@ There are no major accessibility concerns to highlight for this component
 
 - `Card`
 - `VerticalStack`
+- `Text`

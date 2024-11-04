@@ -1,0 +1,46 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { EmptyStateCard } from "./EmptyStateCard";
+import * as EmptyStateCardStories from "./EmptyStateCard.stories";
+
+<Meta of={EmptyStateCardStories} />
+
+# EmptyStateCard
+
+An `<EmptyStateCard />` is a styled container with a header, body, and action sections, designed to display relevant information when there is no nearby data to display.
+
+It is a simple compound component consisting of `<EmptyStateCard.Header />`, `<EmptyStateCard.HeaderText />`, `<EmptyStateCard.Body />`, `<EmptyStateCard.BodyText />`, and `<EmptyStateCard.Action />`.
+
+## Simple
+
+<Canvas of={EmptyStateCardStories.Simple} />
+
+## Flex Alignment
+
+`<EmptyStateCard />` can accept a subset of properties from the `<VerticalStack />` component to assist with custom content alignment.
+
+<Canvas of={EmptyStateCardStories.Flex} />
+
+<Controls of={EmptyStateCardStories.Flex} />
+
+## Properties
+
+### EmptyStateCard
+
+<ArgTypes of={EmptyStateCard} />
+
+### EmptyStateCard.Header
+
+<ArgTypes of={EmptyStateCard.Header} />
+
+### EmptyStateCard.HeaderText
+
+<ArgTypes of={EmptyStateCard.HeaderText} />
+
+### EmptyStateCard.Body
+
+<ArgTypes of={EmptyStateCard.Body} />
+
+### EmptyStateCard.BodyText
+
+<ArgTypes of={EmptyStateCard.BodyText} />
