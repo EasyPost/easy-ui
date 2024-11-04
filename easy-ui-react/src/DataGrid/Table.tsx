@@ -32,7 +32,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
     renderExpandedRow = (r) => r,
     selectionMode,
     size = DEFAULT_SIZE,
-    renderEmptyState,
+    renderEmptyState = () => "No Data!",
   } = props;
 
   const outerContainerRef = useRef<HTMLDivElement | null>(null);
@@ -122,7 +122,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
               ))}
             </RowGroup>
             <RowGroup as="tbody">
-              {collection.size === 0 && renderEmptyState && (
+              {collection.size === 0 && (
                 <StaticRow>
                   <StaticCell colSpan={collection.columnCount}>
                     {renderEmptyState()}

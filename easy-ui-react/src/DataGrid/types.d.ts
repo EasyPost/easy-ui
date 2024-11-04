@@ -126,6 +126,7 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
 
   /**
    * Renders the content of empty state.
+   * @default "No Data"
    */
   renderEmptyState?: () => ReactNode;
 };
