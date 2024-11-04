@@ -2,11 +2,11 @@ import React, { CSSProperties, ReactElement, useMemo, useRef } from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
-import { Cell } from "./Cell";
+import { Cell, StaticCell } from "./Cell";
 import { ColumnHeader } from "./ColumnHeader";
 import { ExpandedRowContent } from "./ExpandedRowContent";
 import { HeaderRow } from "./HeaderRow";
-import { Row } from "./Row";
+import { Row, StaticRow } from "./Row";
 import { RowGroup } from "./RowGroup";
 import {
   ACTIONS_COLUMN_KEY,
@@ -32,6 +32,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
     renderExpandedRow = (r) => r,
     selectionMode,
     size = DEFAULT_SIZE,
+    renderEmptyState,
   } = props;
 
   const outerContainerRef = useRef<HTMLDivElement | null>(null);
@@ -121,6 +122,13 @@ export function Table<C extends Column>(props: TableProps<C>) {
               ))}
             </RowGroup>
             <RowGroup as="tbody">
+              {collection.size === 0 && renderEmptyState && (
+                <StaticRow>
+                  <StaticCell colSpan={collection.columnCount}>
+                    {renderEmptyState()}
+                  </StaticCell>
+                </StaticRow>
+              )}
               {[...collection.body.childNodes].map((row) => (
                 <Row
                   key={row.key}

@@ -301,6 +301,15 @@ export const WithSelectionAndSortAndKebabMenu: Story = {
   },
 };
 
+export const EmptyState: Story = {
+  render: Template.bind({}),
+  args: {
+    "aria-label": "Example data grid with no data",
+    renderEmptyState: () => <span>No Data!!</span>,
+    rows: [],
+  },
+};
+
 function WithSortTemplate(args: Partial<DataGridProps>) {
   // https://react-spectrum.adobe.com/react-stately/useAsyncList.html
   const list = useAsyncList({

@@ -123,4 +123,9 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
 
   /** The current sorted column and direction. */
   sortDescriptor?: SortDescriptor;
+
+  /**
+   * Renders the content of empty state.
+   */
+  renderEmptyState?: () => ReactNode;
 };

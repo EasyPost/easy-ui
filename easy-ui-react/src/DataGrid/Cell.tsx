@@ -1,5 +1,5 @@
 import { GridNode } from "@react-types/grid";
-import React, { useRef } from "react";
+import React, { useRef, ReactNode } from "react";
 import {
   Key,
   mergeProps,
@@ -9,10 +9,16 @@ import {
 } from "react-aria";
 import { TableState } from "react-stately";
 import { Checkbox } from "../Checkbox";
+import { Text } from "../Text";
 import { classNames, variationName } from "../utilities/css";
 import { useDataGridRow, useDataGridTable } from "./context";
 
 import styles from "./Cell.module.scss";
+
+type StaticCellProps = {
+  children: ReactNode;
+  colSpan: number;
+};
 
 type CellProps<T = unknown> = {
   cell: GridNode<T>;
@@ -85,4 +91,18 @@ function SelectCellContent({ cell, state }: CellProps) {
     state,
   );
   return <Checkbox {...checkboxProps} />;
+}
+
+export function StaticCell({ children, colSpan }: StaticCellProps) {
+  const className = classNames(styles.Cell, styles.static);
+  return (
+    <td role="gridcell" className={className} colSpan={colSpan}>
+      <div className={styles.content}>
+        <Text variant="subtitle2" color="neutral.500">
+          {children}
+        </Text>
+        <div data-ezui-data-grid-shadow />
+      </div>
+    </td>
+  );
 }

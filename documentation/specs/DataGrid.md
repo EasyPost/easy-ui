@@ -91,6 +91,9 @@ type DataGridProps<C extends Column> = AriaLabelingProps & {
   /** Renders the content of a body cell. Defaults to row property text. */
   renderRowCell?: (cell: unknown, columnKey: Key, row: R) => ReactNode;
 
+  /** Renders the content of empty state. */
+  renderEmptyState?: () => ReactNode;
+
   /** Action definitions for the row. */
   rowActions?: (key: Key) => RowAction[];
 
