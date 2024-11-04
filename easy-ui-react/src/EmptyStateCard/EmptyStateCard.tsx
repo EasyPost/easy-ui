@@ -54,7 +54,7 @@ export function EmptyStateCard(props: EmptyStateCardProps) {
   } = props;
 
   return (
-    <Card background="primary.800" borderRadius="lg" padding="5">
+    <Card background="primary.800" borderRadius="lg" padding="5" boxShadow="1">
       <VerticalStack
         gap={gap}
         align={align}
