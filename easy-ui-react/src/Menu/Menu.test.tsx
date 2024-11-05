@@ -141,7 +141,7 @@ describe("<Menu />", () => {
       getMenu({
         menuProps: { defaultOpen: true },
         items: [
-          <Menu.Section key="s-1" aria-label="Section 1">
+          <Menu.Section key="s-1" title="Title option" aria-label="Section 1">
             <Menu.Item key="i-1">1</Menu.Item>
           </Menu.Section>,
           <Menu.Section key="s-2" aria-label="Section 2">

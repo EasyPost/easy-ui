@@ -9,6 +9,9 @@ export type MenuSectionProps = {
   /** Rendered contents of the item or child items. */
   children: ReactNode;
 
+  /** A description of the section title */
+  title?: string;
+
   /** An accessibility label for the section. */
   "aria-label"?: string;
 };
@@ -36,28 +39,40 @@ export function MenuSectionContent<T>({
   section,
   state,
 }: MenuSectionContentProps<T>) {
-  const { itemProps, groupProps } = useMenuSection({
+  const { itemProps, headingProps, groupProps } = useMenuSection({
+    heading: section.rendered,
     "aria-label": section["aria-label"],
   });
   const { separatorProps } = useSeparator({ elementType: "li" });
 
+  const isNotFirstOrLast =
+    section.key !== state.collection.getFirstKey() &&
+    section.nextKey !== state.collection.getLastKey();
+  const hasContent = section.hasChildNodes || section.rendered;
+
   return (
     <>
-      {section.key !== state.collection.getFirstKey() &&
-        section.nextKey !== state.collection.getLastKey() && (
-          <li {...separatorProps} className={styles.separator} />
-        )}
-      <li {...itemProps}>
-        {section.hasChildNodes && (
-          <ul {...groupProps} className={styles.sectionList}>
-            {[...section.childNodes].map((item) => {
-              return (
-                <MenuItemContent key={item.key} item={item} state={state} />
-              );
-            })}
-          </ul>
-        )}
-      </li>
+      {isNotFirstOrLast && (
+        <li {...separatorProps} className={styles.separator} />
+      )}
+      {hasContent && (
+        <li {...itemProps}>
+          {section.hasChildNodes && (
+            <>
+              <li {...headingProps} className={styles.sectionTitle}>
+                {section.rendered}
+              </li>
+              <ul {...groupProps} className={styles.sectionList}>
+                {[...section.childNodes].map((item) => {
+                  return (
+                    <MenuItemContent key={item.key} item={item} state={state} />
+                  );
+                })}
+              </ul>
+            </>
+          )}
+        </li>
+      )}
     </>
   );
 }

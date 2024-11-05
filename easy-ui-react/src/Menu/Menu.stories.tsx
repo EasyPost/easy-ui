@@ -66,6 +66,24 @@ export const WithSeparator: Story = {
   },
 };
 
+export const WithTitle: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <Menu.Overlay onAction={action("Selected")}>
+        <Menu.Section aria-label="Edit commands" title="Title option">
+          <Menu.Item key="edit">Edit</Menu.Item>
+          <Menu.Item key="duplicate">Duplicate</Menu.Item>
+        </Menu.Section>
+        <Menu.Section aria-label="Copy commands" title="Title option">
+          <Menu.Item key="copy">Copy</Menu.Item>
+          <Menu.Item key="paste">Paste</Menu.Item>
+        </Menu.Section>
+      </Menu.Overlay>
+    ),
+  },
+};
+
 export const ScrollsOnMaxItems: StoryObj<MenuOverlayProps<unknown>> = {
   render: ({ maxItemsUntilScroll, ...menuProps }) => (
     <Menu {...menuProps}>
