@@ -2,10 +2,7 @@ import React, { ReactNode, useMemo } from "react";
 import { Text, TextProps } from "../Text";
 import { Card } from "../Card";
 import { VerticalStack } from "../VerticalStack";
-import {
-  flattenChildren,
-  getDisplayNameFromReactNode,
-} from "../utilities/react";
+import { flattenChildren } from "../utilities/react";
 import { ResponsiveSpaceScale } from "../types";
 
 export type EmptyStateCardProps = {
@@ -19,12 +16,13 @@ export type EmptyStateCardProps = {
    * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
    * @default 2
    */
-  gapBetweenHeaderAndBody?: ResponsiveSpaceScale;
+  primaryGap?: ResponsiveSpaceScale;
   /**
-   * Gap between `<EmptyStateCard.Body>` and `<EmptyStateCard.Action>`
+   * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
+   * block and `<EmptyStateCard.Action>`
    * @default 2
    */
-  gapBetweenBodyAndAction?: ResponsiveSpaceScale;
+  secondaryGap?: ResponsiveSpaceScale;
   /**
    * Content alignment
    * @default start
@@ -40,8 +38,53 @@ export type EmptyStateCardProps = {
  * Supports custom spacing between elements and center alignment.
  *
  * @example
+ * _Basic:_
  * ```tsx
  * <EmptyStateCard>
+ *  <EmptyStateCard.Header>
+ *    <EmptyStateCard.HeaderText>
+ *      Shipment Insurance
+ *    </EmptyStateCard.HeaderText>
+ *  </EmptyStateCard.Header>
+ *  <EmptyStateCard.Body>
+ *    <EmptyStateCard.BodyText>
+ *      Rest easy knowing if one of your customers orders is damaged, lost
+ *      in transit or stolen you are covered! Automatically add insurance to
+ *      all your shipments
+ *    </EmptyStateCard.BodyText>
+ *  </EmptyStateCard.Body>
+ *  <EmptyStateCard.Action>
+ *    <Button>Manage Insurance Settings</Button>
+ *  </EmptyStateCard.Action>
+ * </EmptyStateCard>
+ * ```
+ *
+ * @example
+ * _Gap:_
+ * ```tsx
+ * <EmptyStateCard primaryGap="1">
+ *  <EmptyStateCard.Header>
+ *    <EmptyStateCard.HeaderText>
+ *      Shipment Insurance
+ *    </EmptyStateCard.HeaderText>
+ *  </EmptyStateCard.Header>
+ *  <EmptyStateCard.Body>
+ *    <EmptyStateCard.BodyText>
+ *      Rest easy knowing if one of your customers orders is damaged, lost
+ *      in transit or stolen you are covered! Automatically add insurance to
+ *      all your shipments
+ *    </EmptyStateCard.BodyText>
+ *  </EmptyStateCard.Body>
+ *  <EmptyStateCard.Action>
+ *    <Button>Manage Insurance Settings</Button>
+ *  </EmptyStateCard.Action>
+ * </EmptyStateCard>
+ * ```
+ *
+ * @example
+ * _Alignment:_
+ * ```tsx
+ * <EmptyStateCard contentAlignment = "center">
  *  <EmptyStateCard.Header>
  *    <EmptyStateCard.HeaderText>
  *      Shipment Insurance
@@ -63,8 +106,8 @@ export type EmptyStateCardProps = {
 export function EmptyStateCard(props: EmptyStateCardProps) {
   const {
     children,
-    gapBetweenBodyAndAction = "2",
-    gapBetweenHeaderAndBody = "2",
+    secondaryGap = "2",
+    primaryGap = "2",
     contentAlignment = "start",
   } = props;
 
@@ -96,11 +139,8 @@ export function EmptyStateCard(props: EmptyStateCardProps) {
 
   return (
     <Card background="primary.800" borderRadius="lg" padding="5" boxShadow="1">
-      <VerticalStack
-        gap={gapBetweenBodyAndAction}
-        inlineAlign={contentAlignment}
-      >
-        <VerticalStack gap={gapBetweenHeaderAndBody}>
+      <VerticalStack gap={secondaryGap} inlineAlign={contentAlignment}>
+        <VerticalStack gap={primaryGap}>
           {header}
           {body}
         </VerticalStack>
@@ -169,10 +209,9 @@ function EmptyStateCardAction(props: EmptyStateCardActionProps) {
 }
 
 function getEmptyStateCardNode(node: ReactNode, displayName: string) {
-  if (!node || getDisplayNameFromReactNode(node) !== displayName) {
+  if (!node) {
     throw new Error(`EmptyStateCard must contain ${displayName}`);
   }
-
   return node;
 }
 

@@ -27,16 +27,29 @@ No new external dependencies will be introduced.
 ### API
 
 ```ts
-export type EmptyStateCardProps = Omit<
-  VerticalStackProps,
-  "children" | "as" | "reverseOrder"
-> & {
+export type EmptyStateCardProps = {
   /**
    * The children of the <EmptyStateCard> element. Should render
    * `<EmptyStateCard.Header>`, `<EmptyStateCard.Body>`, and
    * `<EmptyStateCard.Action>` at minimum.
    */
   children: ReactNode;
+  /**
+   * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
+   * @default 2
+   */
+  primaryGap?: ResponsiveSpaceScale;
+  /**
+   * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
+   * block and `<EmptyStateCard.Action>`
+   * @default 2
+   */
+  secondaryGap?: ResponsiveSpaceScale;
+  /**
+   * Content alignment
+   * @default start
+   */
+  contentAlignment?: "start" | "center";
 };
 
 export type EmptyStateCardHeaderProps = {
@@ -93,7 +106,7 @@ function Component() {
 }
 ```
 
-_Center inline-align:_
+_Gap:_
 
 ```tsx
 import { EmptyStateCard } from "@easypost/easy-ui/EmptyStateCard";
@@ -102,9 +115,39 @@ import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
   return (
-  <EmptyStateCard inlineAlign="center">
+  <EmptyStateCard primaryGap="1">
    <EmptyStateCard.Header>
-    <EmptyStateCard.HeaderText>
+     <EmptyStateCard.HeaderText>
+       Shipment Insurance
+     </EmptyStateCard.HeaderText>
+   </EmptyStateCard.Header>
+   <EmptyStateCard.Body>
+     <EmptyStateCard.BodyText>
+       Rest easy knowing if one of your customers orders is damaged, lost
+       in transit or stolen you are covered! Automatically add insurance to
+       all your shipments
+     </EmptyStateCard.BodyText>
+   </EmptyStateCard.Body>
+   <EmptyStateCard.Action>
+     <Button>Manage Insurance Settings</Button>
+   </EmptyStateCard.Action>
+  </EmptyStateCard>,
+  );
+}
+```
+
+_Alignment:_
+
+```tsx
+import { EmptyStateCard } from "@easypost/easy-ui/EmptyStateCard";
+import { Text } from "@easypost/easy-ui/Text";
+import { Button } from "@easypost/easy-ui/Button";
+
+function Component() {
+  return (
+  <EmptyStateCard contentAlignment = "center">
+   <EmptyStateCard.Header>
+     <EmptyStateCard.HeaderText>
        Shipment Insurance
      </EmptyStateCard.HeaderText>
    </EmptyStateCard.Header>

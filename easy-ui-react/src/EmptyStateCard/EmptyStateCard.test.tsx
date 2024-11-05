@@ -7,7 +7,12 @@ import {
   getResponsiveDesignToken,
   getComponentToken,
 } from "../utilities/css";
-import { render, mockGetComputedStyle, userClick } from "../utilities/test";
+import {
+  render,
+  mockGetComputedStyle,
+  silenceConsoleError,
+  userClick,
+} from "../utilities/test";
 
 describe("<EmptyStateCard />", () => {
   let restoreGetComputedStyle: () => void;
@@ -39,6 +44,23 @@ describe("<EmptyStateCard />", () => {
     expect(screen.getByText(/Header text/i).parentElement).toBeInTheDocument();
     expect(screen.getByText(/Body text/i).parentElement).toBeInTheDocument();
     expect(screen.getByRole("button").parentElement).toBeInTheDocument();
+  });
+
+  it("should throw an error when a content section is missing", () => {
+    const restoreConsoleError = silenceConsoleError();
+    expect(() =>
+      render(
+        <EmptyStateCard>
+          <EmptyStateCard.Header>
+            <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
+          </EmptyStateCard.Header>
+          <EmptyStateCard.Body>
+            <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
+          </EmptyStateCard.Body>
+        </EmptyStateCard>,
+      ),
+    ).toThrow("EmptyStateCard must contain EmptyStateCard.Action");
+    restoreConsoleError();
   });
 
   it("should render header and body text with default styles", () => {
@@ -90,9 +112,9 @@ describe("<EmptyStateCard />", () => {
     expect(handleClick).toHaveBeenCalled();
   });
 
-  it("supports gapBetweenHeaderAndBody", () => {
+  it("supports primaryGap", () => {
     render(
-      <EmptyStateCard gapBetweenHeaderAndBody="5">
+      <EmptyStateCard primaryGap="5">
         <EmptyStateCard.Header>
           <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
         </EmptyStateCard.Header>
@@ -111,9 +133,9 @@ describe("<EmptyStateCard />", () => {
     );
   });
 
-  it("supports gapBetweenBodyAndAction", () => {
+  it("supports secondaryGap", () => {
     render(
-      <EmptyStateCard gapBetweenBodyAndAction="1">
+      <EmptyStateCard secondaryGap="1">
         <EmptyStateCard.Header>
           <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
         </EmptyStateCard.Header>
