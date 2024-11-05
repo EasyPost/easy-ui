@@ -39,12 +39,12 @@ export type EmptyStateCardProps = {
    * block and `<EmptyStateCard.Action>`
    * @default 2
    */
-  primaryGap?: ResponsiveSpaceScale;
+  blockGap?: ResponsiveSpaceScale;
   /**
    * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
    * @default 2
    */
-  secondaryGap?: ResponsiveSpaceScale;
+  textGap?: ResponsiveSpaceScale;
   /**
    * Content alignment
    * @default start
@@ -115,7 +115,7 @@ import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
   return (
-  <EmptyStateCard secondaryGap="1">
+  <EmptyStateCard textGap="1">
    <EmptyStateCard.Header>
      <EmptyStateCard.HeaderText>
        Shipment Insurance

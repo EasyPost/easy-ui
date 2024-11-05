@@ -15,8 +15,8 @@ const meta: Meta<typeof EmptyStateCard> = {
   title: "Components/Cards/EmptyStateCard",
   component: EmptyStateCard,
   argTypes: {
-    primaryGap: getDesignTokensControl("space.{alias}"),
-    secondaryGap: getDesignTokensControl("space.{alias}"),
+    blockGap: getDesignTokensControl("space.{alias}"),
+    textGap: getDesignTokensControl("space.{alias}"),
   },
 };
 
@@ -44,12 +44,12 @@ export const Gap: Story = {
         </EmptyStateCard.Action>
       </>
     ),
-    primaryGap: "2",
-    secondaryGap: "1",
+    blockGap: "2",
+    textGap: "1",
   },
   parameters: {
     controls: {
-      include: ["primaryGap", "secondaryGap"],
+      include: ["blockGap", "textGap"],
     },
   },
 };

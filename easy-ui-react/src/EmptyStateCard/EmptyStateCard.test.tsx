@@ -112,9 +112,9 @@ describe("<EmptyStateCard />", () => {
     expect(handleClick).toHaveBeenCalled();
   });
 
-  it("supports secondaryGap", () => {
+  it("supports textGap", () => {
     render(
-      <EmptyStateCard secondaryGap="5">
+      <EmptyStateCard textGap="5">
         <EmptyStateCard.Header>
           <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
         </EmptyStateCard.Header>
@@ -133,9 +133,9 @@ describe("<EmptyStateCard />", () => {
     );
   });
 
-  it("supports primaryGap", () => {
+  it("supports blockGap", () => {
     render(
-      <EmptyStateCard primaryGap="1">
+      <EmptyStateCard blockGap="1">
         <EmptyStateCard.Header>
           <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
         </EmptyStateCard.Header>

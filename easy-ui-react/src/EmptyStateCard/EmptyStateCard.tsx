@@ -20,12 +20,12 @@ export type EmptyStateCardProps = {
    * block and `<EmptyStateCard.Action>`
    * @default 2
    */
-  primaryGap?: ResponsiveSpaceScale;
+  blockGap?: ResponsiveSpaceScale;
   /**
    * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
    * @default 2
    */
-  secondaryGap?: ResponsiveSpaceScale;
+  textGap?: ResponsiveSpaceScale;
   /**
    * Content alignment
    * @default start
@@ -65,7 +65,7 @@ export type EmptyStateCardProps = {
  * @example
  * _Gap:_
  * ```tsx
- * <EmptyStateCard secondaryGap="1">
+ * <EmptyStateCard textGap="1">
  *  <EmptyStateCard.Header>
  *    <EmptyStateCard.HeaderText>
  *      Shipment Insurance
@@ -109,8 +109,8 @@ export type EmptyStateCardProps = {
 export function EmptyStateCard(props: EmptyStateCardProps) {
   const {
     children,
-    primaryGap = "2",
-    secondaryGap = "2",
+    blockGap = "2",
+    textGap = "2",
     contentAlignment = "start",
   } = props;
 
@@ -142,8 +142,8 @@ export function EmptyStateCard(props: EmptyStateCardProps) {
 
   return (
     <Card background="primary.800" borderRadius="lg" padding="5" boxShadow="1">
-      <VerticalStack gap={primaryGap} inlineAlign={contentAlignment}>
-        <VerticalStack gap={secondaryGap}>
+      <VerticalStack gap={blockGap} inlineAlign={contentAlignment}>
+        <VerticalStack gap={textGap}>
           {header}
           {body}
         </VerticalStack>
