@@ -213,6 +213,18 @@ describe("<DataGrid />", () => {
       expect.stringContaining("lastWithActions"),
     );
   });
+
+  it("should render an empty state", () => {
+    render(
+      createDataGrid({
+        rows: [],
+        renderEmptyState: () => <span>No Data Yet</span>,
+      }),
+    );
+    expect(
+      screen.getByRole("gridcell", { name: /no data yet/i }),
+    ).toBeInTheDocument();
+  });
 });
 
 const columns = [

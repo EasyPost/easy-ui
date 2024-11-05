@@ -82,3 +82,7 @@
 .shadowRight [data-ezui-data-grid-shadow] {
   @include DataGrid.shadow(right);
 }
+
+.static {
+  text-align: center;
+}

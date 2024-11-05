@@ -14,6 +14,10 @@ import { DataGridRowContext } from "./context";
 
 import styles from "./Row.module.scss";
 
+type StaticRowProps = {
+  children: ReactNode;
+};
+
 type RowProps<T = object> = {
   children: ReactNode;
   isExpanded: boolean;
@@ -75,5 +79,13 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
         {children}
       </tr>
     </DataGridRowContext.Provider>
+  );
+}
+
+export function StaticRow({ children }: StaticRowProps) {
+  return (
+    <tr role="row" className={styles.Row}>
+      {children}
+    </tr>
   );
 }

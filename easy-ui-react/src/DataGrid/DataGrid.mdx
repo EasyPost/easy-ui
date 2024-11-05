@@ -44,6 +44,7 @@ const rows = [
   rows={rows}
   renderColumnCell={(column) => <span>{String(column.name)}</span>}
   renderRowCell={(item, columnKey, row) => <span>{String(item)}</span>}
+  renderEmptyState={() => <span>No Data</span>}
   // Handler that is called when a user performs an action on the cell
   onCellAction={(key) => {}}
   // Handler that is called when a user performs an action on the row
@@ -239,6 +240,12 @@ In the example below, to make the status text green or red depending on whether 
 <Canvas of={DataGridStories.WithHeaderVariant} />
 
 <Controls of={DataGridStories.WithHeaderVariant} />
+
+## Empty State
+
+`DataGrid` supports rendering empty state through `renderEmptyState` prop.
+
+<Canvas of={DataGridStories.EmptyState} />
 
 ## Properties
 
