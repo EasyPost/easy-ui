@@ -117,6 +117,12 @@ type DataGridProps<C extends Column> = AriaLabelingProps & {
 
   /** The current sorted column and direction. */
   sortDescriptor?: SortDescriptor;
+
+  /**
+   * Whether the table is currently loading.
+   * @default false
+   */
+  isLoading?: boolean;
 };
 
 type MenuRowAction = {

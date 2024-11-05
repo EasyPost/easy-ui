@@ -129,4 +129,10 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
    * @default "No Data"
    */
   renderEmptyState?: () => ReactNode;
+
+  /**
+   * Whether the table is currently loading.
+   * @default false
+   */
+  isLoading?: boolean;
 };
