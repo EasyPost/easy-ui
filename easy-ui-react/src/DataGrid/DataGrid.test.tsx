@@ -226,7 +226,7 @@ describe("<DataGrid />", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render an loading state", () => {
+  it("should render a loading state", () => {
     render(
       createDataGrid({
         isLoading: true,
