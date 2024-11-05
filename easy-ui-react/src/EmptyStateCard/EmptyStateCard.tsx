@@ -2,7 +2,10 @@ import React, { ReactNode, useMemo } from "react";
 import { Text, TextProps } from "../Text";
 import { Card } from "../Card";
 import { VerticalStack } from "../VerticalStack";
-import { flattenChildren } from "../utilities/react";
+import {
+  flattenChildren,
+  getDisplayNameFromReactNode,
+} from "../utilities/react";
 import { ResponsiveSpaceScale } from "../types";
 
 export type EmptyStateCardProps = {
@@ -209,23 +212,28 @@ function EmptyStateCardAction(props: EmptyStateCardActionProps) {
 }
 
 function getEmptyStateCardNode(node: ReactNode, displayName: string) {
-  if (!node) {
+  if (!node || getDisplayNameFromReactNode(node) !== displayName) {
     throw new Error(`EmptyStateCard must contain ${displayName}`);
   }
   return node;
 }
 
+EmptyStateCard.displayName = "EmptyStateCard";
+
 /** Represents the header section in a `<EmptyStateCard />`*/
+EmptyStateCardHeader.displayName = "EmptyStateCard.Header";
 EmptyStateCard.Header = EmptyStateCardHeader;
 
 /** Represents the header text in a `<EmptyStateCard.Header />`*/
 EmptyStateCard.HeaderText = EmptyStateCardHeaderText;
 
 /** Represents the body section in a `<EmptyStateCard />`*/
+EmptyStateCardBody.displayName = "EmptyStateCard.Body";
 EmptyStateCard.Body = EmptyStateCardBody;
 
 /** Represents the body text in a `<EmptyStateCard.Body />`*/
 EmptyStateCard.BodyText = EmptyStateCardBodyText;
 
 /** Represents the action section in a `<EmptyStateCard />`*/
+EmptyStateCardAction.displayName = "EmptyStateCard.Action";
 EmptyStateCard.Action = EmptyStateCardAction;

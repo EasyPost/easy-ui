@@ -71,6 +71,7 @@ export function getDisplayNameFromReactNode(component: ReactNode) {
   const componentAsElement = component as ReactElement;
   if (isValidElement(componentAsElement)) {
     const componentType = componentAsElement.type as NamedExoticComponent;
+    console.log(componentType.displayName, "am i here");
     return componentType.displayName;
   }
 }
