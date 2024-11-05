@@ -32,7 +32,7 @@ describe("<EmptyStateCard />", () => {
           <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
         </EmptyStateCard.Body>
         <EmptyStateCard.Action>
-          <Button>Button</Button>
+          <Button>Butto1n</Button>
         </EmptyStateCard.Action>
       </EmptyStateCard>,
     );
@@ -90,9 +90,9 @@ describe("<EmptyStateCard />", () => {
     expect(handleClick).toHaveBeenCalled();
   });
 
-  it("supports gap", () => {
+  it("supports gapBetweenHeaderAndBody", () => {
     render(
-      <EmptyStateCard gap="5">
+      <EmptyStateCard gapBetweenHeaderAndBody="5">
         <EmptyStateCard.Header>
           <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
         </EmptyStateCard.Header>
@@ -111,9 +111,9 @@ describe("<EmptyStateCard />", () => {
     );
   });
 
-  it("supports align", () => {
+  it("supports gapBetweenBodyAndAction", () => {
     render(
-      <EmptyStateCard align="end">
+      <EmptyStateCard gapBetweenBodyAndAction="1">
         <EmptyStateCard.Header>
           <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
         </EmptyStateCard.Header>
@@ -126,13 +126,16 @@ describe("<EmptyStateCard />", () => {
       </EmptyStateCard>,
     );
     expect(
-      screen.getByText(/Body text/i).parentElement?.parentElement,
-    ).toHaveStyle(getComponentToken("vertical-stack", "align", "end"));
+      screen.getByText(/Body text/i).parentElement?.parentElement
+        ?.parentElement,
+    ).toHaveStyle(
+      getResponsiveDesignToken("vertical-stack", "gap", "space", "1"),
+    );
   });
 
-  it("supports inline align", () => {
+  it("supports contentAlignment", () => {
     render(
-      <EmptyStateCard inlineAlign="center">
+      <EmptyStateCard contentAlignment="center">
         <EmptyStateCard.Header>
           <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
         </EmptyStateCard.Header>

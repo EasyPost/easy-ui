@@ -1,18 +1,35 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { Text, TextProps } from "../Text";
 import { Card } from "../Card";
-import { VerticalStack, VerticalStackProps } from "../VerticalStack";
+import { VerticalStack } from "../VerticalStack";
+import {
+  flattenChildren,
+  getDisplayNameFromReactNode,
+} from "../utilities/react";
+import { ResponsiveSpaceScale } from "../types";
 
-export type EmptyStateCardProps = Omit<
-  VerticalStackProps,
-  "children" | "as" | "reverseOrder"
-> & {
+export type EmptyStateCardProps = {
   /**
    * The children of the <EmptyStateCard> element. Should render
    * `<EmptyStateCard.Header>`, `<EmptyStateCard.Body>`, and
    * `<EmptyStateCard.Action>` at minimum.
    */
   children: ReactNode;
+  /**
+   * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
+   * @default 2
+   */
+  gapBetweenHeaderAndBody?: ResponsiveSpaceScale;
+  /**
+   * Gap between `<EmptyStateCard.Body>` and `<EmptyStateCard.Action>`
+   * @default 2
+   */
+  gapBetweenBodyAndAction?: ResponsiveSpaceScale;
+  /**
+   * Content alignment
+   * @default start
+   */
+  contentAlignment?: "start" | "center";
 };
 
 /**
@@ -20,8 +37,7 @@ export type EmptyStateCardProps = Omit<
  * designed to display relevant information when there is no nearby data to display.
  *
  * @remarks
- * Can accept a subset of properties from the `<VerticalStack />` component to assist
- * with custom content alignment.
+ * Supports custom spacing between elements and center alignment.
  *
  * @example
  * ```tsx
@@ -47,21 +63,48 @@ export type EmptyStateCardProps = Omit<
 export function EmptyStateCard(props: EmptyStateCardProps) {
   const {
     children,
-    gap = "2",
-    align = "space-between",
-    inlineAlign = "start",
-    ...restVerticalStackProps
+    gapBetweenBodyAndAction = "2",
+    gapBetweenHeaderAndBody = "2",
+    contentAlignment = "start",
   } = props;
+
+  const { header, body, action } = useMemo(() => {
+    const topLevelChildren = flattenChildren(children);
+    const size = topLevelChildren.length;
+
+    const header = getEmptyStateCardNode(
+      size > 0 ? topLevelChildren[0] : null,
+      "EmptyStateCard.Header",
+    );
+
+    const body = getEmptyStateCardNode(
+      size > 1 ? topLevelChildren[1] : null,
+      "EmptyStateCard.Body",
+    );
+
+    const action = getEmptyStateCardNode(
+      size > 2 ? topLevelChildren[2] : null,
+      "EmptyStateCard.Action",
+    );
+
+    return {
+      header,
+      body,
+      action,
+    };
+  }, [children]);
 
   return (
     <Card background="primary.800" borderRadius="lg" padding="5" boxShadow="1">
       <VerticalStack
-        gap={gap}
-        align={align}
-        inlineAlign={inlineAlign}
-        {...restVerticalStackProps}
+        gap={gapBetweenBodyAndAction}
+        inlineAlign={contentAlignment}
       >
-        {children}
+        <VerticalStack gap={gapBetweenHeaderAndBody}>
+          {header}
+          {body}
+        </VerticalStack>
+        {action}
       </VerticalStack>
     </Card>
   );
@@ -123,6 +166,14 @@ function EmptyStateCardAction(props: EmptyStateCardActionProps) {
   const { children } = props;
 
   return <div>{children}</div>;
+}
+
+function getEmptyStateCardNode(node: ReactNode, displayName: string) {
+  if (!node || getDisplayNameFromReactNode(node) !== displayName) {
+    throw new Error(`EmptyStateCard must contain ${displayName}`);
+  }
+
+  return node;
 }
 
 /** Represents the header section in a `<EmptyStateCard />`*/

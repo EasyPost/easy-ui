@@ -15,13 +15,14 @@ const meta: Meta<typeof EmptyStateCard> = {
   title: "Components/Cards/EmptyStateCard",
   component: EmptyStateCard,
   argTypes: {
-    gap: getDesignTokensControl("space.{alias}"),
+    gapBetweenBodyAndAction: getDesignTokensControl("space.{alias}"),
+    gapBetweenHeaderAndBody: getDesignTokensControl("space.{alias}"),
   },
 };
 
 export default meta;
 
-export const Simple: Story = {
+export const Gap: Story = {
   render: Template.bind({}),
   args: {
     children: (
@@ -43,10 +44,17 @@ export const Simple: Story = {
         </EmptyStateCard.Action>
       </>
     ),
+    gapBetweenBodyAndAction: "1",
+    gapBetweenHeaderAndBody: "2",
+  },
+  parameters: {
+    controls: {
+      include: ["gapBetweenBodyAndAction", "gapBetweenHeaderAndBody"],
+    },
   },
 };
 
-export const Flex: Story = {
+export const Position: Story = {
   render: Template.bind({}),
   args: {
     children: (
@@ -65,13 +73,11 @@ export const Flex: Story = {
         </EmptyStateCard.Action>
       </>
     ),
-    gap: "2",
-    align: "space-between",
-    inlineAlign: "center",
+    contentAlignment: "center",
   },
   parameters: {
     controls: {
-      include: ["gap", "align", "inlineAlign"],
+      include: ["contentAlignment"],
     },
   },
 };

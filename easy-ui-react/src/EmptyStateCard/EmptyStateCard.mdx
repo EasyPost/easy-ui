@@ -11,17 +11,21 @@ An `<EmptyStateCard />` is a styled container with a header, body, and action se
 
 It is a simple compound component consisting of `<EmptyStateCard.Header />`, `<EmptyStateCard.HeaderText />`, `<EmptyStateCard.Body />`, `<EmptyStateCard.BodyText />`, and `<EmptyStateCard.Action />`.
 
-## Simple
+## Gap
 
-<Canvas of={EmptyStateCardStories.Simple} />
+Use `gapBetweenHeaderAndBody` and `gapBetweenBodyAndAction` to configure the content spacing.
 
-## Flex Alignment
+<Canvas of={EmptyStateCardStories.Gap} />
 
-`<EmptyStateCard />` can accept a subset of properties from the `<VerticalStack />` component to assist with custom content alignment.
+<Controls of={EmptyStateCardStories.Gap} />
 
-<Canvas of={EmptyStateCardStories.Flex} />
+## Positioning
 
-<Controls of={EmptyStateCardStories.Flex} />
+Use `contentAlignment` to configure the content alignment.
+
+<Canvas of={EmptyStateCardStories.Position} />
+
+<Controls of={EmptyStateCardStories.Position} />
 
 ## Properties
 
