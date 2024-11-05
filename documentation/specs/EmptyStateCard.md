@@ -36,12 +36,12 @@ export type EmptyStateCardProps = {
   children: ReactNode;
   /**
    * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
+   * block and `<EmptyStateCard.Action>`
    * @default 2
    */
   primaryGap?: ResponsiveSpaceScale;
   /**
    * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
-   * block and `<EmptyStateCard.Action>`
    * @default 2
    */
   secondaryGap?: ResponsiveSpaceScale;
@@ -115,7 +115,7 @@ import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
   return (
-  <EmptyStateCard primaryGap="1">
+  <EmptyStateCard secondaryGap="1">
    <EmptyStateCard.Header>
      <EmptyStateCard.HeaderText>
        Shipment Insurance

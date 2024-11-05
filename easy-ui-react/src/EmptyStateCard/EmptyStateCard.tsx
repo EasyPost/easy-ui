@@ -14,12 +14,12 @@ export type EmptyStateCardProps = {
   children: ReactNode;
   /**
    * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
+   * block and `<EmptyStateCard.Action>`
    * @default 2
    */
   primaryGap?: ResponsiveSpaceScale;
   /**
    * Gap between `<EmptyStateCard.Header>` and `<EmptyStateCard.Body>`
-   * block and `<EmptyStateCard.Action>`
    * @default 2
    */
   secondaryGap?: ResponsiveSpaceScale;
@@ -62,7 +62,7 @@ export type EmptyStateCardProps = {
  * @example
  * _Gap:_
  * ```tsx
- * <EmptyStateCard primaryGap="1">
+ * <EmptyStateCard secondaryGap="1">
  *  <EmptyStateCard.Header>
  *    <EmptyStateCard.HeaderText>
  *      Shipment Insurance
@@ -106,8 +106,8 @@ export type EmptyStateCardProps = {
 export function EmptyStateCard(props: EmptyStateCardProps) {
   const {
     children,
-    secondaryGap = "2",
     primaryGap = "2",
+    secondaryGap = "2",
     contentAlignment = "start",
   } = props;
 
@@ -139,8 +139,8 @@ export function EmptyStateCard(props: EmptyStateCardProps) {
 
   return (
     <Card background="primary.800" borderRadius="lg" padding="5" boxShadow="1">
-      <VerticalStack gap={secondaryGap} inlineAlign={contentAlignment}>
-        <VerticalStack gap={primaryGap}>
+      <VerticalStack gap={primaryGap} inlineAlign={contentAlignment}>
+        <VerticalStack gap={secondaryGap}>
           {header}
           {body}
         </VerticalStack>
