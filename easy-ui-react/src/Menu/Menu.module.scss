@@ -19,6 +19,12 @@
   @include Menu.menuList;
 }
 
+.sectionTitle {
+  color: theme-token("color.primary.900");
+  font-weight: design-token("font.weight.semibold");
+  padding: 0 component-token("menu", "padding.x");
+}
+
 .itemContent,
 .separator {
   @include Menu.itemContent;
