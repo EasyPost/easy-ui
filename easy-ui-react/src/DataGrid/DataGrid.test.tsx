@@ -225,6 +225,17 @@ describe("<DataGrid />", () => {
       screen.getByRole("gridcell", { name: /no data yet/i }),
     ).toBeInTheDocument();
   });
+
+  it("should render a loading state", () => {
+    render(
+      createDataGrid({
+        isLoading: true,
+      }),
+    );
+    expect(
+      screen.getByRole("status", { name: /loading/i }),
+    ).toBeInTheDocument();
+  });
 });
 
 const columns = [

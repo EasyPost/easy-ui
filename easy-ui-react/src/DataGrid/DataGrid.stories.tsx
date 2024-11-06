@@ -310,6 +310,20 @@ export const EmptyState: Story = {
   },
 };
 
+export const LoadingState: Story = {
+  render: Template.bind({}),
+  args: {
+    "aria-label": "Example data grid loading state",
+    isLoading: true,
+    rows: [],
+  },
+  parameters: {
+    controls: {
+      include: ["isLoading"],
+    },
+  },
+};
+
 function WithSortTemplate(args: Partial<DataGridProps>) {
   // https://react-spectrum.adobe.com/react-stately/useAsyncList.html
   const list = useAsyncList({

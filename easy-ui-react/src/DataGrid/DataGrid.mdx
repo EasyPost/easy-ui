@@ -83,6 +83,7 @@ const rows = [
   columnKeysAllowingSort={["name"]}
   // "sm", "md" (default), or "lg"
   size="lg"
+  isLoading={false}
 />;
 ```
 
@@ -246,6 +247,14 @@ In the example below, to make the status text green or red depending on whether 
 `DataGrid` supports rendering empty state through `renderEmptyState` prop.
 
 <Canvas of={DataGridStories.EmptyState} />
+
+## Loading State
+
+`DataGrid` supports rendering loading state through `isLoading` prop.
+
+<Canvas of={DataGridStories.LoadingState} />
+
+<Controls of={DataGridStories.LoadingState} />
 
 ## Properties
 
