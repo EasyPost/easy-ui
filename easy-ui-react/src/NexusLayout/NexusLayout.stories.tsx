@@ -10,6 +10,7 @@ import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { Button } from "../Button";
+import { Text } from "../Text";
 import { HorizontalStack } from "../HorizontalStack";
 import { Menu } from "../Menu";
 import { NexusLayout } from "./NexusLayout";
@@ -174,7 +175,14 @@ export const MultipageContent: Story = {
                 </Button>
               </HorizontalStack>
             </NexusLayout.MultipageHeader>
-            <div style={{ height: 400 }}></div>
+            <div style={{ height: 400 }}>
+              <Text variant="body2">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque
+                obcaecati iusto neque architecto, quae dolore illo. Saepe ipsum
+                voluptates reprehenderit repellendus deleniti, molestias
+                placeat, consectetur et nihil quisquam, numquam pariatur!
+              </Text>
+            </div>
           </NexusLayout.MultipageContent>
         </NexusLayout.MultipageContainer>
       </NexusLayout.Content>
