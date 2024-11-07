@@ -20,8 +20,8 @@
 }
 
 .sectionTitle {
+  @include font-style("subtitle1");
   color: theme-token("color.primary.900");
-  font-weight: design-token("font.weight.semibold");
   padding: 0 component-token("menu", "padding.x");
 }
 
