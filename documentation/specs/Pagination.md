@@ -137,13 +137,14 @@ export function Pagination(props: PaginationProps) {
     hasPrevious,
     hasNext,
     count,
+    isDisabled,
     onSelect,
   } = props;
   const className = classNames(
     styles.pagination,
     isDisabled && styles.disabled,
   );
-  function numberToArray(num) {
+  function numberToArray(num: number) {
     return Array.from({ length: num }, (_, i) => i + 1);
   }
 
@@ -152,16 +153,12 @@ export function Pagination(props: PaginationProps) {
       <button
         aria-label="Previous"
         onClick={onPrevious}
-        className={!hasPrevious && styles.buttonDisabled}
+        className={classNames(!hasPrevious && styles.buttonDisabled)}
       />
       {count && (
-        <Select selectedKey={page}>
+        <Select selectedKey={page} onSelectionChange={onSelect}>
           {numberToArray(count).map((number) => (
-            <Select.Option
-              key={number}
-              arial-label={`page ${number}`}
-              onSelectionChange={onSelect}
-            >
+            <Select.Option key={number} arial-label={`page ${number}`}>
               <Text>{`${number} of ${count}`}</Text>
             </Select.Option>
           ))}
@@ -170,7 +167,7 @@ export function Pagination(props: PaginationProps) {
       <button
         aria-label="Next"
         onClick={onNext}
-        className={!hasNext && styles.buttonDisabled}
+        className={classNames(!hasNext && styles.buttonDisabled)}
       />
     </nav>
   );
