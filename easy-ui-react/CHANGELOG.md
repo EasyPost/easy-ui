@@ -1,5 +1,18 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.47
+
+### Minor Changes
+
+- 2ac540f: Create `<Spinner />` component
+- 712edb9: feat: create EmptyStateCard component
+- 6c92ae5: Create `<ToggleCard />` component
+- b2bfda7: DataGrid support empty state
+- 4be0201: feat: support border radius, paddingX, and paddingY for `Card` and update `ToggleCard` to use new `Card` props
+- 1fd8015: Supports DataGrid loading state
+- 15309ec: fix: overflow for NexusLayoutMultipageContent component
+- 11ca1e9: feat: add SectionCard component
+
 ## 1.0.0-alpha.46
 
 ### Minor Changes
