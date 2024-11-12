@@ -21,6 +21,7 @@
 }
 
 .header {
+  z-index: design-token("z-index.nav");
   position: sticky;
   top: 0;
 

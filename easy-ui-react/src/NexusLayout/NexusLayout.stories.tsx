@@ -14,6 +14,7 @@ import { Text } from "../Text";
 import { HorizontalStack } from "../HorizontalStack";
 import { Menu } from "../Menu";
 import { NexusLayout } from "./NexusLayout";
+import { PlaceholderBox } from "../utilities/storybook";
 
 type Story = StoryObj<typeof NexusLayout>;
 
@@ -175,13 +176,18 @@ export const MultipageContent: Story = {
                 </Button>
               </HorizontalStack>
             </NexusLayout.MultipageHeader>
-            <div style={{ height: 400 }}>
+            <div style={{ height: 400, position: "relative" }}>
               <Text variant="body2">
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque
                 obcaecati iusto neque architecto, quae dolore illo. Saepe ipsum
                 voluptates reprehenderit repellendus deleniti, molestias
                 placeat, consectetur et nihil quisquam, numquam pariatur!
               </Text>
+              <PlaceholderBox
+                style={{ position: "absolute", top: "100px", zIndex: 50 }}
+              >
+                z-index = 50
+              </PlaceholderBox>
             </div>
           </NexusLayout.MultipageContent>
         </NexusLayout.MultipageContainer>
