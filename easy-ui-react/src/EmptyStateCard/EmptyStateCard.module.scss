@@ -1,0 +1,48 @@
+@use "mixins" as EmptyStateCard;
+
+.container {
+  max-width: 695px;
+  position: relative;
+}
+
+.inlineMargin {
+  margin: 0 auto;
+}
+
+.decorative {
+  position: relative;
+  display: none;
+  background-repeat: no-repeat no-repeat;
+  @include EmptyStateCard.breakpoint-lg-screen {
+    display: block;
+    width: 425px;
+    height: 295px;
+    background-position:
+      130px 65px,
+      0px 0px;
+  }
+
+  @include EmptyStateCard.breakpoint-xl-screen {
+    display: block;
+    width: 617px;
+    background-position:
+      260px 65px,
+      10px 0px;
+  }
+}
+
+.decorativeContent {
+  position: absolute;
+
+  @include EmptyStateCard.breakpoint-lg-screen {
+    top: 40px;
+    left: 40px;
+    max-width: 215px;
+  }
+
+  @include EmptyStateCard.breakpoint-xl-screen {
+    top: 50px;
+    left: 85px;
+    max-width: 265px;
+  }
+}

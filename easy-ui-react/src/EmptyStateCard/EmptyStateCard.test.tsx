@@ -7,12 +7,7 @@ import {
   getResponsiveDesignToken,
   getComponentToken,
 } from "../utilities/css";
-import {
-  render,
-  mockGetComputedStyle,
-  silenceConsoleError,
-  userClick,
-} from "../utilities/test";
+import { render, mockGetComputedStyle, userClick } from "../utilities/test";
 
 describe("<EmptyStateCard />", () => {
   let restoreGetComputedStyle: () => void;
@@ -27,18 +22,18 @@ describe("<EmptyStateCard />", () => {
     restoreGetComputedStyle();
   });
 
-  it("should render header, body, and action sections", () => {
+  it("should render header, body, and action content", () => {
     render(
       <EmptyStateCard>
-        <EmptyStateCard.Header>
-          <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
-        </EmptyStateCard.Header>
-        <EmptyStateCard.Body>
-          <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
-        </EmptyStateCard.Body>
-        <EmptyStateCard.Action>
-          <Button>Butto1n</Button>
-        </EmptyStateCard.Action>
+        <EmptyStateCard.Section>
+          <EmptyStateCard.TextGroup>
+            <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
+            <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
+          </EmptyStateCard.TextGroup>
+          <EmptyStateCard.ActionGroup>
+            <Button>Button</Button>
+          </EmptyStateCard.ActionGroup>
+        </EmptyStateCard.Section>
       </EmptyStateCard>,
     );
     expect(screen.getByText(/Header text/i).parentElement).toBeInTheDocument();
@@ -46,35 +41,18 @@ describe("<EmptyStateCard />", () => {
     expect(screen.getByRole("button").parentElement).toBeInTheDocument();
   });
 
-  it("should throw an error when a content section is missing", () => {
-    const restoreConsoleError = silenceConsoleError();
-    expect(() =>
-      render(
-        <EmptyStateCard>
-          <EmptyStateCard.Header>
-            <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
-          </EmptyStateCard.Header>
-          <EmptyStateCard.Body>
-            <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
-          </EmptyStateCard.Body>
-        </EmptyStateCard>,
-      ),
-    ).toThrow("EmptyStateCard must contain EmptyStateCard.Action");
-    restoreConsoleError();
-  });
-
   it("should render header and body text with default styles", () => {
     render(
       <EmptyStateCard>
-        <EmptyStateCard.Header>
-          <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
-        </EmptyStateCard.Header>
-        <EmptyStateCard.Body>
-          <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
-        </EmptyStateCard.Body>
-        <EmptyStateCard.Action>
-          <Button>Button</Button>
-        </EmptyStateCard.Action>
+        <EmptyStateCard.Section>
+          <EmptyStateCard.TextGroup>
+            <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
+            <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
+          </EmptyStateCard.TextGroup>
+          <EmptyStateCard.ActionGroup>
+            <Button>Button</Button>
+          </EmptyStateCard.ActionGroup>
+        </EmptyStateCard.Section>
       </EmptyStateCard>,
     );
     expect(screen.getByText(/Header text/i)).toHaveAttribute(
@@ -97,76 +75,73 @@ describe("<EmptyStateCard />", () => {
     const handleClick = vi.fn();
     const { user } = render(
       <EmptyStateCard>
-        <EmptyStateCard.Header>
-          <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
-        </EmptyStateCard.Header>
-        <EmptyStateCard.Body>
-          <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
-        </EmptyStateCard.Body>
-        <EmptyStateCard.Action>
-          <Button onPress={handleClick}>Button</Button>
-        </EmptyStateCard.Action>
+        <EmptyStateCard.Section>
+          <EmptyStateCard.TextGroup>
+            <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
+            <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
+          </EmptyStateCard.TextGroup>
+          <EmptyStateCard.ActionGroup>
+            <Button onPress={handleClick}>Button</Button>
+          </EmptyStateCard.ActionGroup>
+        </EmptyStateCard.Section>
       </EmptyStateCard>,
     );
     await userClick(user, screen.getByRole("button"));
     expect(handleClick).toHaveBeenCalled();
   });
 
-  it("supports textGap", () => {
+  it("supports gap for text group", () => {
     render(
-      <EmptyStateCard textGap="5">
-        <EmptyStateCard.Header>
-          <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
-        </EmptyStateCard.Header>
-        <EmptyStateCard.Body>
-          <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
-        </EmptyStateCard.Body>
-        <EmptyStateCard.Action>
-          <Button>Button</Button>
-        </EmptyStateCard.Action>
+      <EmptyStateCard>
+        <EmptyStateCard.Section>
+          <EmptyStateCard.TextGroup gap="4">
+            <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
+            <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
+          </EmptyStateCard.TextGroup>
+          <EmptyStateCard.ActionGroup>
+            <Button>Button</Button>
+          </EmptyStateCard.ActionGroup>
+        </EmptyStateCard.Section>
       </EmptyStateCard>,
     );
-    expect(
-      screen.getByText(/Header text/i).parentElement?.parentElement,
-    ).toHaveStyle(
-      getResponsiveDesignToken("vertical-stack", "gap", "space", "5"),
+    expect(screen.getByText(/Header text/i).parentElement).toHaveStyle(
+      getResponsiveDesignToken("vertical-stack", "gap", "space", "4"),
     );
   });
 
-  it("supports blockGap", () => {
+  it("supports gap for action group", () => {
     render(
-      <EmptyStateCard blockGap="1">
-        <EmptyStateCard.Header>
-          <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
-        </EmptyStateCard.Header>
-        <EmptyStateCard.Body>
-          <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
-        </EmptyStateCard.Body>
-        <EmptyStateCard.Action>
-          <Button>Button</Button>
-        </EmptyStateCard.Action>
+      <EmptyStateCard>
+        <EmptyStateCard.Section>
+          <EmptyStateCard.TextGroup>
+            <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
+            <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
+          </EmptyStateCard.TextGroup>
+          <EmptyStateCard.ActionGroup gap="3">
+            <Button>Button</Button>
+          </EmptyStateCard.ActionGroup>
+        </EmptyStateCard.Section>
       </EmptyStateCard>,
     );
     expect(
-      screen.getByText(/Body text/i).parentElement?.parentElement
-        ?.parentElement,
+      screen.getByText(/Button/i).parentElement?.parentElement,
     ).toHaveStyle(
-      getResponsiveDesignToken("vertical-stack", "gap", "space", "1"),
+      getResponsiveDesignToken("horizontal-stack", "gap", "space", "3"),
     );
   });
 
   it("supports contentAlignment", () => {
     render(
-      <EmptyStateCard contentAlignment="center">
-        <EmptyStateCard.Header>
-          <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
-        </EmptyStateCard.Header>
-        <EmptyStateCard.Body>
-          <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
-        </EmptyStateCard.Body>
-        <EmptyStateCard.Action>
-          <Button>Button</Button>
-        </EmptyStateCard.Action>
+      <EmptyStateCard>
+        <EmptyStateCard.Section inlineAlign="center">
+          <EmptyStateCard.TextGroup>
+            <EmptyStateCard.HeaderText>Header text</EmptyStateCard.HeaderText>
+            <EmptyStateCard.BodyText>Body text</EmptyStateCard.BodyText>
+          </EmptyStateCard.TextGroup>
+          <EmptyStateCard.ActionGroup>
+            <Button>Button</Button>
+          </EmptyStateCard.ActionGroup>
+        </EmptyStateCard.Section>
       </EmptyStateCard>,
     );
     expect(screen.getByRole("button").parentElement?.parentElement).toHaveStyle(

@@ -17,3 +17,9 @@
     @content;
   }
 }
+
+@mixin breakpoint-xl-up {
+  @media (min-width: #{$ezui-breakpoint-xl}) {
+    @content;
+  }
+}
