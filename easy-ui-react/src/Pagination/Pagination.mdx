@@ -1,0 +1,24 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { Pagination } from "./Pagination";
+import * as PaginationStories from "./Pagination.stories";
+
+<Meta of={PaginationStories} />
+
+# Pagination
+
+A `<Pagination />` component enabled the user to divide large amounts of content into multiple pages, and navigate between pages.
+
+<Canvas of={PaginationStories.Default} />
+
+## With Page Dropdown
+
+<Canvas of={PaginationStories.WithPageDropdown} />
+
+## Disabled
+
+<Canvas of={PaginationStories.Disabled} />
+
+## Properties
+
+<ArgTypes of={Pagination} />
