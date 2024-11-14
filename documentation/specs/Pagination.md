@@ -13,7 +13,7 @@ A `Pagination` component enabled the user to divide large amounts of content int
 
 ## Design
 
-The design of the `Pagination` component consists of a next and a previous button for navigation, and a dropdown for the user to select specific page. This component will rely on React Aria's `useFocusRing` and `useKeyboard` hooks to handle keyboard interactions.
+The design of the `Pagination` component consists of a next and a previous button for navigation, and a dropdown menu for users to select specific page.
 
 ### API
 
@@ -162,7 +162,11 @@ export function PaginationDropdown(props: PaginationDropdownProps) {
   return (
     <Menu isDisabled={isDisabled}>
       <Menu.Trigger>
-        <UnstyledButton className={styles.menuButton}>
+        <UnstyledButton
+          aria-label="dropdown"
+          className={styles.menuButton}
+          isDisabled={isDisabled}
+        >
           <HorizontalStack blockAlign="center">
             <Text
               variant="body2"
