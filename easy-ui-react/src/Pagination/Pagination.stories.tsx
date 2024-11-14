@@ -7,9 +7,6 @@ type Story = StoryObj<typeof Pagination>;
 const meta: Meta<typeof Pagination> = {
   title: "Components/Pagination",
   component: Pagination,
-  args: {
-    label: "Exmaple Pagination",
-  },
 };
 
 export default meta;
