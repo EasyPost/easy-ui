@@ -7,25 +7,37 @@ import * as EmptyStateCardStories from "./EmptyStateCard.stories";
 
 # EmptyStateCard
 
-An `<EmptyStateCard />` is a styled container with a header, body, and action sections, designed to display relevant information when there is no nearby data to display.
+An `<EmptyStateCard />` is a styled container designed to display relevant information when there is no nearby data to display.
 
-It is a simple compound component consisting of `<EmptyStateCard.Header />`, `<EmptyStateCard.HeaderText />`, `<EmptyStateCard.Body />`, `<EmptyStateCard.BodyText />`, and `<EmptyStateCard.Action />`.
+It is a compound component consisting of `<EmptyStateCard.MultiSection />`, `<EmptyStateCard.Section />`, `<EmptyStateCard.TextGroup />`, `<EmptyStateCard.HeaderText />`, `<EmptyStateCard.BodyText />`, and `<EmptyStateCard.ActionGroup />`
 
-## Gap
+## Simple
 
-Use `blockGap` and `textGap`to configure the content spacing.
+<Canvas of={EmptyStateCardStories.Simple} />
 
-<Canvas of={EmptyStateCardStories.Gap} />
+## Alignment
 
-<Controls of={EmptyStateCardStories.Gap} />
+`<EmptyStateCard.Section />` and `<EmptyStateCard.TextGroup />` can accept `VerticalStack` props to override defaults and to assist with alignment. Similarly, `<EmptyStateCard.ActionGroup />` can accept `HorizontalStack` props.
 
-## Positioning
+<Canvas of={EmptyStateCardStories.Alignment} />
 
-Use `contentAlignment` to configure the content alignment.
+## Multiple Sections
 
-<Canvas of={EmptyStateCardStories.Position} />
+Use `EmptyStateCard.MultiSection` to render horizontally aligned sections; it can accept `HorizontalStack` props to assist with alignment.
 
-<Controls of={EmptyStateCardStories.Position} />
+### Decorative
+
+Use `hasDecorativeBackground` to render a `<EmptyStateCard.Section />` with a decorative background.
+
+**Note**: A decorative section is designed to render aligned to the end of a `EmptyStateCard.MultiSection` and has pre-configured positioning for content and collapses on smaller screens.
+
+<Canvas of={EmptyStateCardStories.Decorative} />
+
+### Custom Markup
+
+A `<EmptyStateCard.Section />` can also render custom markup.
+
+<Canvas of={EmptyStateCardStories.Custom} />
 
 ## Properties
 
@@ -33,18 +45,26 @@ Use `contentAlignment` to configure the content alignment.
 
 <ArgTypes of={EmptyStateCard} />
 
-### EmptyStateCard.Header
+### EmptyStateCard.MultiSection
 
-<ArgTypes of={EmptyStateCard.Header} />
+<ArgTypes of={EmptyStateCard.MultiSection} />
+
+### EmptyStateCard.Section
+
+<ArgTypes of={EmptyStateCard.Section} />
+
+### EmptyStateCard.TextGroup
+
+<ArgTypes of={EmptyStateCard.TextGroup} />
 
 ### EmptyStateCard.HeaderText
 
-<ArgTypes of={EmptyStateCard.HeaderText} />
-
-### EmptyStateCard.Body
-
-<ArgTypes of={EmptyStateCard.Body} />
+<ArgTypes of={EmptyStateCard.TextGroup} />
 
 ### EmptyStateCard.BodyText
 
 <ArgTypes of={EmptyStateCard.BodyText} />
+
+### EmptyStateCard.ActionGroup
+
+<ArgTypes of={EmptyStateCard.ActionGroup} />

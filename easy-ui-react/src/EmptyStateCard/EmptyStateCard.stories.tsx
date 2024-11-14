@@ -2,7 +2,7 @@ import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { EmptyStateCard, EmptyStateCardProps } from "./EmptyStateCard";
 import { Button } from "../Button";
-import { getDesignTokensControl } from "../utilities/storybook";
+import { PlaceholderBox } from "../utilities/storybook";
 
 type Story = StoryObj<typeof EmptyStateCard>;
 
@@ -14,70 +14,116 @@ const Template = (args: EmptyStateCardProps) => {
 const meta: Meta<typeof EmptyStateCard> = {
   title: "Components/Cards/EmptyStateCard",
   component: EmptyStateCard,
-  argTypes: {
-    blockGap: getDesignTokensControl("space.{alias}"),
-    textGap: getDesignTokensControl("space.{alias}"),
-  },
 };
 
 export default meta;
 
-export const Gap: Story = {
+export const Simple: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <>
-        <EmptyStateCard.Header>
+      <EmptyStateCard.Section>
+        <EmptyStateCard.TextGroup>
           <EmptyStateCard.HeaderText>
             Shipment Insurance
           </EmptyStateCard.HeaderText>
-        </EmptyStateCard.Header>
-        <EmptyStateCard.Body>
           <EmptyStateCard.BodyText>
             Rest easy knowing if one of your customers orders is damaged, lost
             in transit or stolen you are covered! Automatically add insurance to
             all your shipments
           </EmptyStateCard.BodyText>
-        </EmptyStateCard.Body>
-        <EmptyStateCard.Action>
+        </EmptyStateCard.TextGroup>
+        <EmptyStateCard.ActionGroup>
           <Button>Manage Insurance Settings</Button>
-        </EmptyStateCard.Action>
-      </>
+        </EmptyStateCard.ActionGroup>
+      </EmptyStateCard.Section>
     ),
-    blockGap: "2",
-    textGap: "1",
-  },
-  parameters: {
-    controls: {
-      include: ["blockGap", "textGap"],
-    },
   },
 };
 
-export const Position: Story = {
+export const Alignment: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <>
-        <EmptyStateCard.Header>
+      <EmptyStateCard.Section inlineAlign="center">
+        <EmptyStateCard.TextGroup gap="2">
           <EmptyStateCard.HeaderText>Analytics</EmptyStateCard.HeaderText>
-        </EmptyStateCard.Header>
-        <EmptyStateCard.Body>
           <EmptyStateCard.BodyText>
             Start shipping to get insights on your shipping costs and
             performance.
           </EmptyStateCard.BodyText>
-        </EmptyStateCard.Body>
-        <EmptyStateCard.Action>
-          <Button>Buy a Label</Button>
-        </EmptyStateCard.Action>
-      </>
+        </EmptyStateCard.TextGroup>
+        <EmptyStateCard.ActionGroup gap="2">
+          <Button>Buy a label</Button>
+          <Button color="success">Fund your wallet</Button>
+        </EmptyStateCard.ActionGroup>
+      </EmptyStateCard.Section>
     ),
-    contentAlignment: "center",
   },
-  parameters: {
-    controls: {
-      include: ["contentAlignment"],
-    },
+};
+
+export const Decorative: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <EmptyStateCard.MultiSection gap="1">
+        <EmptyStateCard.Section>
+          <EmptyStateCard.TextGroup>
+            <EmptyStateCard.HeaderText variant="heading3">
+              Welcome to EasyPost Nexus
+            </EmptyStateCard.HeaderText>
+          </EmptyStateCard.TextGroup>
+          <EmptyStateCard.ActionGroup>
+            <Button>Buy a label</Button>
+          </EmptyStateCard.ActionGroup>
+        </EmptyStateCard.Section>
+        <EmptyStateCard.Section hasDecorativeBackground>
+          <EmptyStateCard.TextGroup gap="2">
+            <EmptyStateCard.TextGroup gap="0">
+              <EmptyStateCard.HeaderText>Spend $100</EmptyStateCard.HeaderText>
+              <EmptyStateCard.HeaderText color="positive.500">
+                Get $100
+              </EmptyStateCard.HeaderText>
+            </EmptyStateCard.TextGroup>
+            <EmptyStateCard.BodyText variant="button">
+              Fund your wallet with $100 and we will give you $100 more to buy
+              labels
+            </EmptyStateCard.BodyText>
+          </EmptyStateCard.TextGroup>
+        </EmptyStateCard.Section>
+      </EmptyStateCard.MultiSection>
+    ),
+  },
+};
+
+export const Custom: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <EmptyStateCard.MultiSection>
+        <EmptyStateCard.Section gap="1.5">
+          <EmptyStateCard.TextGroup gap="2">
+            <EmptyStateCard.TextGroup gap="0.5">
+              <EmptyStateCard.HeaderText variant="heading3">
+                Welcome to EasyPost Nexus
+              </EmptyStateCard.HeaderText>
+              <EmptyStateCard.HeaderText variant="heading4">
+                Start fulfilling your orders fast!
+              </EmptyStateCard.HeaderText>
+            </EmptyStateCard.TextGroup>
+            <EmptyStateCard.BodyText>
+              Get ready for your first order:
+            </EmptyStateCard.BodyText>
+          </EmptyStateCard.TextGroup>
+          <EmptyStateCard.ActionGroup>
+            <Button>Buy a label</Button>
+            <Button color="success">Fund your wallet</Button>
+          </EmptyStateCard.ActionGroup>
+        </EmptyStateCard.Section>
+        <EmptyStateCard.Section>
+          <PlaceholderBox width="100" height="100" />
+        </EmptyStateCard.Section>
+      </EmptyStateCard.MultiSection>
+    ),
   },
 };
