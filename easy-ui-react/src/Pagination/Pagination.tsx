@@ -111,7 +111,7 @@ export function Pagination(props: PaginationProps) {
 
   return (
     <nav aria-label={label} className={className}>
-      <HorizontalStack>
+      <HorizontalStack wrap={false}>
         <PaginationButton
           aria-label="Previous"
           onPress={onPrevious}

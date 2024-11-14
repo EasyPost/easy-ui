@@ -1,27 +1,40 @@
 @use "../styles/common" as *;
 
-.pagination button:not(:disabled) {
-  cursor: pointer;
+.menuButton {
+  padding: 0 design-token("space.1");
 }
-
-.pagination button:not(.menuButton) {
+.arrowButton,
+.menuButton {
+  color: design-token("color.primary.700");
   border: design-token("shape.border_width.1") solid
     design-token("color.neutral.200");
 
   &:first-of-type {
     border-radius: design-token("shape.border_radius.md") 0 0
       design-token("shape.border_radius.md");
+    border-right: none;
   }
+
   &:last-of-type {
     border-radius: 0 design-token("shape.border_radius.md")
       design-token("shape.border_radius.md") 0;
+    border-left: none;
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.400");
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: design-token("color.primary.600");
   }
 }
 
-.menuButton {
-  padding: 0 design-token("space.1");
-  border: design-token("shape.border_width.1") solid
+.pagination:not(:has(.menuButton)) .arrowButton:first-of-type {
+  border-right: design-token("shape.border_width.1") solid
     design-token("color.neutral.200");
-  border-left: none;
-  border-right: none;
 }

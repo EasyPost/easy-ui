@@ -3,6 +3,7 @@ import { Icon } from "../Icon";
 
 import { UnstyledButton, UnstyledButtonProps } from "../UnstyledButton";
 import { IconSymbol } from "../types";
+import styles from "./Pagination.module.scss";
 
 type PaginationButtonProps = UnstyledButtonProps & {
   symbol: IconSymbol;
@@ -11,12 +12,8 @@ type PaginationButtonProps = UnstyledButtonProps & {
 export function PaginationButton(props: PaginationButtonProps) {
   const { symbol, ...buttonProps } = props;
   return (
-    <UnstyledButton {...buttonProps}>
-      <Icon
-        symbol={symbol}
-        color={!buttonProps.isDisabled ? "primary.700" : "neutral.400"}
-        size="md"
-      />
+    <UnstyledButton {...buttonProps} className={styles.arrowButton}>
+      <Icon symbol={symbol} size="md" />
     </UnstyledButton>
   );
 }

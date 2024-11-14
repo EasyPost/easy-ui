@@ -37,18 +37,9 @@ export function PaginationDropdown(props: PaginationDropdownProps) {
           className={styles.menuButton}
           isDisabled={isDisabled}
         >
-          <HorizontalStack blockAlign="center">
-            <Text
-              variant="body2"
-              color={isDisabled ? "neutral.400" : "neutral.900"}
-            >
-              {`${page} of ${count}`}
-            </Text>
-            <Icon
-              symbol={ExpandMoreIcon400}
-              size="2xs"
-              color={isDisabled ? "neutral.400" : "neutral.900"}
-            />
+          <HorizontalStack blockAlign="center" wrap={false}>
+            <Text variant="body2">{`${page} of ${count}`}</Text>
+            <Icon symbol={ExpandMoreIcon400} size="2xs" />
           </HorizontalStack>
         </UnstyledButton>
       </Menu.Trigger>
