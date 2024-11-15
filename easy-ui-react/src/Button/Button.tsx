@@ -8,6 +8,8 @@ import { logWarningIfInvalidColorVariantCombination } from "./utilities";
 
 import styles from "./Button.module.scss";
 
+// some comment
+
 export type ButtonColor =
   | "primary"
   | "secondary"
