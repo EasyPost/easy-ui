@@ -29,7 +29,14 @@ export type CardBackground =
   | "secondary"
   | ThemeTokenNamespace<"color">;
 export type CardVariant = "solid" | "outlined" | "flagged";
-export type CardStatus = "danger" | "warning" | "success" | "neutral";
+export type CardStatus =
+  | "primary"
+  | "secondary"
+  | "danger"
+  | "warning"
+  | "success"
+  | "neutral"
+  | ThemeTokenNamespace<"color">;
 export type CardPadding = ResponsiveProp<SpaceScale>;
 
 export type CardContainerProps = {
@@ -146,6 +153,12 @@ function CardContainer(props: CardContainerProps) {
       "border-radius",
       "shape.border_radius",
       borderRadius,
+    ),
+    ...getComponentThemeToken(
+      "card",
+      "border-left",
+      "color",
+      getLeftBorderToken(status),
     ),
   };
 
@@ -270,6 +283,21 @@ function getBackgroundToken(background: CardAreaProps["background"]) {
     return tokens[background as keyof typeof tokens];
   }
   return background;
+}
+
+function getLeftBorderToken(status: CardContainerProps["status"]) {
+  const tokens = {
+    primary: "primary.300",
+    secondary: "secondary.300",
+    danger: "danger.300",
+    warning: "warning.300",
+    success: "success.300",
+    neutral: "neutral.300",
+  };
+  if (status && tokens.hasOwnProperty(status)) {
+    return tokens[status as keyof typeof tokens];
+  }
+  return status;
 }
 
 /**
