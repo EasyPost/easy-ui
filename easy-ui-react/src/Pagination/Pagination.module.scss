@@ -30,7 +30,7 @@
   }
 
   &:hover:not(:disabled):not(:active) {
-    color: design-token("color.primary.600");
+    color: design-token("color.primary.500");
   }
 }
 
