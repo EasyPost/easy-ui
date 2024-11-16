@@ -29,8 +29,7 @@ button.container:not([disabled]) {
   }
 }
 
-.variantOutlined,
-.variantFlagged {
+.variantOutlined {
   border: design-token("shape.border_width.1") solid
     component-token("card", "color.border");
 }

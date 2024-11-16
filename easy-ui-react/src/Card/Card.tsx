@@ -156,7 +156,7 @@ function CardContainer(props: CardContainerProps) {
     ),
     ...getComponentThemeToken(
       "card",
-      "border-left",
+      "color-border",
       "color",
       getLeftBorderToken(status),
     ),
