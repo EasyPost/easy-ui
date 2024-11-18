@@ -31,8 +31,7 @@ export type PaginationProps = {
    */
   onNext?: () => void;
   /**
-   * Accessible label for Pagination, used as the
-   * aria-label.
+   * Accessible label for Pagination, used for aria-label.
    */
   label: string;
   /**

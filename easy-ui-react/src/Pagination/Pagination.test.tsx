@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
-import { render, userClick } from "../utilities/test";
+import { render, userClick, silenceConsoleError } from "../utilities/test";
 import { Pagination, PaginationProps } from "./Pagination";
 
 describe("<Pagination />", () => {
@@ -97,6 +97,19 @@ describe("<Pagination />", () => {
     expect(screen.getByRole("button", { name: /next/i })).toBeDisabled();
     expect(screen.getByRole("button", { name: /previous/i })).toBeDisabled();
     expect(screen.getByRole("button", { name: /dropdown/i })).toBeDisabled();
+  });
+
+  it("should throw an error when children is not <Pagination.Dropdown />", () => {
+    const restoreConsoleError = silenceConsoleError();
+    expect(() =>
+      render(
+        createPagination({
+          label: "Example Pagination",
+          children: <span>Hello World</span>,
+        }),
+      ),
+    ).toThrow("children must be Pagination.Dropdown");
+    restoreConsoleError();
   });
 });
 
