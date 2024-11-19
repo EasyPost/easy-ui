@@ -30,11 +30,6 @@ button.container:not([disabled]) {
 }
 
 .variantFlagged {
-  border: design-token("shape.border_width.1") solid
-    component-token("card", "color.border");
-}
-
-.variantFlagged {
   border-left: 4px solid component-token("card", "color.border");
   border-top: none;
   border-right: none;
