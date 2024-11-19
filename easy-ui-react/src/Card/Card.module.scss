@@ -29,17 +29,21 @@ button.container:not([disabled]) {
   }
 }
 
-.variantOutlined,
 .variantFlagged {
   border: design-token("shape.border_width.1") solid
     component-token("card", "color.border");
 }
 
 .variantFlagged {
-  border-left-width: 4px;
+  border-left: 4px solid component-token("card", "color.border");
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
 }
 
 .variantOutlined {
+  border: design-token("shape.border_width.1") solid
+    component-token("card", "color.border");
   @include component-token(
     "card",
     "color.border",
@@ -67,7 +71,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.negative.500")
+    theme-token("color.negative.300")
   );
 }
 
@@ -75,7 +79,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.warning.500")
+    theme-token("color.warning.300")
   );
 }
 
@@ -83,7 +87,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.positive.600")
+    theme-token("color.positive.300")
   );
 }
 
@@ -91,6 +95,22 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.neutral.500")
+    theme-token("color.neutral.300")
+  );
+}
+
+.statusPrimary {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.blue.300")
+  );
+}
+
+.statusSecondary {
+  @include component-token(
+    "card",
+    "color.border",
+    theme-token("color.purple.300")
   );
 }
