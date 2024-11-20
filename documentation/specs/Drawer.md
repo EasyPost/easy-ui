@@ -32,7 +32,9 @@ The component design was inspired by Aria's Dialog component and Twilio's SideMo
 
 `Drawer` will manage its own state by default but can be controlled if the consumer opts in.
 
-`Drawer` will be a compound component consistenting of `Drawer`, `Drawer.Header`, and `Drawer.Body`. `Drawer.Banner`, `Drawer.BannerBody`, `Drawer.StandaloneBody`, and `Drawer.CloseButton` will be included for optional patterns.
+`Drawer` will be a compound component consistenting of `Drawer`, `Drawer.Header`, and `Drawer.Body`.
+
+While the above components allow for any design, `Drawer` includes `Drawer.Banner`, `Drawer.BanneredBody`, `Drawer.StandaloneBody`, and `Drawer.CloseButton` for using preset Drawer patterns.
 
 `Drawer` should be attached to a focusable trigger element such as a `Button` through the `Drawer.Trigger` component. This ensures the trigger and modal are accessible. In the event that a focusable element can't be used, `DrawerContainer` can be used for custom triggering.
 
@@ -94,20 +96,22 @@ type DrawerBannerProps = {
 type DrawerBodyProps = {
   /**
    * Drawer body content.
+   * This provides a scrollable region without any predefined padding.
+   * Use Drawer.StandaloneBody and Drawer.BanneredBody for preset paddings.
+   */
+  children: ReactNode;
+};
+
+type DrawerBanneredBodyProps = {
+  /**
+   * Drawer body content for a drawer with a banner.
    */
   children: ReactNode;
 };
 
 type DrawerStandaloneBodyProps = {
   /**
-   * Drawer standalone body content.
-   */
-  children: ReactNode;
-};
-
-type DrawerBannerBodyProps = {
-  /**
-   * Drawer banner body content.
+   * Drawer body content for a drawer without a banner (standalone).
    */
   children: ReactNode;
 };
@@ -171,12 +175,12 @@ function PageWithDrawer() {
                 <TabPanels.Item key="mar">Tab 2</TabPanels.Item>
               </TabPanels.Tabs>
             </Drawer.Header>
-            <Drawer.BannerBody>
+            <Drawer.BanneredBody>
               <TabPanels.Panels>
                 <TabPanels.Item key="for">Tab 1</TabPanels.Item>
                 <TabPanels.Item key="mar">Tab 2</TabPanels.Item>
               </TabPanels.Panels>
-            </Drawer.BannerBody>
+            </Drawer.BanneredBody>
           </Drawer>
         </TabPanels>
       )}
