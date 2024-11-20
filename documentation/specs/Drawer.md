@@ -34,7 +34,7 @@ The component design was inspired by Aria's Dialog component and Twilio's SideMo
 
 `Drawer` will be a compound component consistenting of `Drawer`, `Drawer.Header`, and `Drawer.Body`.
 
-While the above components allow for any design, `Drawer` includes `Drawer.Banner`, `Drawer.BanneredBody`, `Drawer.StandaloneBody`, and `Drawer.CloseButton` for using preset Drawer patterns.
+While the above components allow for any design, `Drawer` includes `Drawer.Banner`, `Drawer.BanneredContentArea`, `Drawer.StandaloneContentArea`, and `Drawer.CloseButton` for using preset Drawer patterns.
 
 `Drawer` should be attached to a focusable trigger element such as a `Button` through the `Drawer.Trigger` component. This ensures the trigger and modal are accessible. In the event that a focusable element can't be used, `DrawerContainer` can be used for custom triggering.
 
@@ -97,21 +97,20 @@ type DrawerBodyProps = {
   /**
    * Drawer body content.
    * This provides a scrollable region without any predefined padding.
-   * Use Drawer.StandaloneBody and Drawer.BanneredBody for preset paddings.
    */
   children: ReactNode;
 };
 
-type DrawerBanneredBodyProps = {
+type DrawerBanneredContentAreaProps = {
   /**
-   * Drawer body content for a drawer with a banner.
+   * Content area for a drawer with a banner.
    */
   children: ReactNode;
 };
 
-type DrawerStandaloneBodyProps = {
+type DrawerStandaloneContentAreaProps = {
   /**
-   * Drawer body content for a drawer without a banner (standalone).
+   * Content area for a drawer without a banner (standalone).
    */
   children: ReactNode;
 };
@@ -139,11 +138,13 @@ function PageWithDrawer() {
     <Drawer.Trigger onOpenChange={action("Drawer open state changed!")}>
       <Button>Open drawer</Button>
       <Drawer>
-        <Drawer.StandaloneBody>
-          <VerticalStack gap="2">
-            <Drawer.Title>Title</Drawer.Title>
-            <div>Content</div>
-          </VerticalStack>
+        <Drawer.Body>
+          <Drawer.StandaloneContentArea>
+            <VerticalStack gap="2">
+              <Drawer.Title>Title</Drawer.Title>
+              <div>Content</div>
+            </VerticalStack>
+          </Drawer.StandaloneContentArea>
         </Drawer.StandaloneBody>
       </Drawer>
     </Drawer.Trigger>
@@ -175,12 +176,14 @@ function PageWithDrawer() {
                 <TabPanels.Item key="mar">Tab 2</TabPanels.Item>
               </TabPanels.Tabs>
             </Drawer.Header>
-            <Drawer.BanneredBody>
-              <TabPanels.Panels>
-                <TabPanels.Item key="for">Tab 1</TabPanels.Item>
-                <TabPanels.Item key="mar">Tab 2</TabPanels.Item>
-              </TabPanels.Panels>
-            </Drawer.BanneredBody>
+            <Drawer.Body>
+              <Drawer.BanneredContentArea>
+                <TabPanels.Panels>
+                  <TabPanels.Item key="for">Tab 1</TabPanels.Item>
+                  <TabPanels.Item key="mar">Tab 2</TabPanels.Item>
+                </TabPanels.Panels>
+              </Drawer.BanneredContentArea>
+            </Drawer.Body>
           </Drawer>
         </TabPanels>
       )}
