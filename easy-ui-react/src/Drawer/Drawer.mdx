@@ -13,12 +13,34 @@ Use a `<Drawer />` when you want to capture information from the user as a part 
 
 ### Drawer architecture
 
-`<Drawer />` is a compound component. Use `<Drawer.Trigger />`, `<Drawer />`, `<Drawer.Header />`, and `<Drawer.Body />` to construct a drawer.
+`<Drawer />` is a compound component. Use `<Drawer.Trigger />`, `<Drawer />`, `<Drawer.Header />`, and `<Drawer.Body />` to construct a drawer. `Drawer` includes `Drawer.Banner`, `Drawer.BanneredContentArea`, `Drawer.StandaloneContentArea`, and `Drawer.CloseButton` for using preset Drawer patterns.
+
+_Drawer example with banner and tabs:_
 
 ```tsx
 <Drawer.Trigger>
   <Button>Open drawer</Button>
   <Drawer>
+    <Drawer.Header>
+      <Drawer.Banner>
+        <VerticalStack gap="2">
+          <HorizontalStack align="space-between" blockAlign="center">
+            <Text variant="subtitle1">Subtitle:</Text>
+            <Drawer.CloseButton />
+          </HorizontalStack>
+          <HorizontalStack align="space-between" blockAlign="center">
+            <Drawer.Title weight="normal">Drawer Title</Drawer.Title>
+            <Badge variant="danger">Status</Badge>
+          </HorizontalStack>
+        </VerticalStack>
+      </Drawer.Banner>
+      <TabNav aria-label="Drawer">
+        <TabNav.Item href="/1" isCurrentPage>
+          Tab 1
+        </TabNav.Item>
+        <TabNav.Item href="/2">Tab 2</TabNav.Item>
+      </TabNav>
+    </Drawer.Header>
     <Drawer.Body>
       <Drawer.StandaloneContentArea>
         <VerticalStack gap="2">
@@ -26,7 +48,7 @@ Use a `<Drawer />` when you want to capture information from the user as a part 
             <Drawer.Title>Drawer Title</Drawer.Title>
             <Drawer.CloseButton />
           </HorizontalStack>
-          <PlaceholderBox width="100%">Content</PlaceholderBox>
+          <div>Content</div>
         </VerticalStack>
       </Drawer.StandaloneContentArea>
     </Drawer.Body>
@@ -42,28 +64,7 @@ The first child should be a trigger element, such as a `<Button />`, where the t
 
 The second element must be a `<Drawer />`. If access to programmatically close the drawer inline is needed, a child with a function that has a close method and returns a `<Drawer />` (`(close) => <Drawer />`) can be passed as the second child instead of a `<Drawer />`.
 
-_Drawer with close function injected:_
-
-```tsx
-<Drawer.Trigger>
-  <Button>Open drawer</Button>
-  {(close) => (
-    <Drawer>
-      <Drawer.Body>
-        <Drawer.StandaloneContentArea>
-          <VerticalStack gap="2">
-            <HorizontalStack align="space-between" blockAlign="center">
-              <Drawer.Title>Drawer Title</Drawer.Title>
-              <Drawer.CloseButton />
-            </HorizontalStack>
-            <PlaceholderBox width="100%">Content</PlaceholderBox>
-          </VerticalStack>
-        </Drawer.StandaloneContentArea>
-      </Drawer.Body>
-    </Drawer>
-  )}
-</Drawer.Trigger>
-```
+Alternatively, a `<Drawer />` can be wrapped in a `<DrawerContainer />` to entirely control the triggering process. See the Custom Triggers story below.
 
 ### State management
 

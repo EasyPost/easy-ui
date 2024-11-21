@@ -32,22 +32,19 @@ export const Standalone: DrawerStory = {
   render: () => (
     <Drawer.Trigger onOpenChange={action("Drawer open state changed!")}>
       <Button>Open drawer</Button>
-      {(close) => (
-        <Drawer>
-          <Drawer.Body>
-            <Drawer.StandaloneContentArea>
-              <VerticalStack gap="2">
-                <HorizontalStack align="space-between" blockAlign="center">
-                  <Drawer.Title>Drawer Title</Drawer.Title>
-                  <Drawer.CloseButton />
-                </HorizontalStack>
-                <PlaceholderBox width="100%">Content</PlaceholderBox>
-                <Button onPress={() => close()}>Close</Button>
-              </VerticalStack>
-            </Drawer.StandaloneContentArea>
-          </Drawer.Body>
-        </Drawer>
-      )}
+      <Drawer>
+        <Drawer.Body>
+          <Drawer.StandaloneContentArea>
+            <VerticalStack gap="2">
+              <HorizontalStack align="space-between" blockAlign="center">
+                <Drawer.Title>Drawer Title</Drawer.Title>
+                <Drawer.CloseButton />
+              </HorizontalStack>
+              <PlaceholderBox width="100%">Drawer Content</PlaceholderBox>
+            </VerticalStack>
+          </Drawer.StandaloneContentArea>
+        </Drawer.Body>
+      </Drawer>
     </Drawer.Trigger>
   ),
 };
@@ -81,12 +78,12 @@ export const BannerAndTabs: DrawerStory = {
               <TabPanels.Panels>
                 <TabPanels.Item key="for">
                   <div>
-                    <PlaceholderBox width="100%">Tab 1</PlaceholderBox>
+                    <PlaceholderBox width="100%">Tab 1 Content</PlaceholderBox>
                   </div>
                 </TabPanels.Item>
                 <TabPanels.Item key="mar">
                   <div>
-                    <PlaceholderBox width="100%">Tab 2</PlaceholderBox>
+                    <PlaceholderBox width="100%">Tab 2 Content</PlaceholderBox>
                   </div>
                 </TabPanels.Item>
               </TabPanels.Panels>
@@ -111,8 +108,8 @@ export const Nondismissable: DrawerTriggerStory = {
                   <Drawer.Title>Drawer Title</Drawer.Title>
                   <Drawer.CloseButton />
                 </HorizontalStack>
-                <PlaceholderBox width="100%">Content</PlaceholderBox>
-                <Button onPress={() => close()}>Close</Button>
+                <PlaceholderBox width="100%">Drawer Content</PlaceholderBox>
+                <Button onPress={() => close()}>Close Drawer</Button>
               </VerticalStack>
             </Drawer.StandaloneContentArea>
           </Drawer.Body>
@@ -132,22 +129,19 @@ export const DefaultOpen: DrawerTriggerStory = {
   render: (args) => (
     <Drawer.Trigger {...args} onOpenChange={action("Open state changed!")}>
       <Button>Open drawer</Button>
-      {(close) => (
-        <Drawer>
-          <Drawer.Body>
-            <Drawer.StandaloneContentArea>
-              <VerticalStack gap="2">
-                <HorizontalStack align="space-between" blockAlign="center">
-                  <Drawer.Title>Drawer Title</Drawer.Title>
-                  <Drawer.CloseButton />
-                </HorizontalStack>
-                <PlaceholderBox width="100%">Content</PlaceholderBox>
-                <Button onPress={() => close()}>Close</Button>
-              </VerticalStack>
-            </Drawer.StandaloneContentArea>
-          </Drawer.Body>
-        </Drawer>
-      )}
+      <Drawer>
+        <Drawer.Body>
+          <Drawer.StandaloneContentArea>
+            <VerticalStack gap="2">
+              <HorizontalStack align="space-between" blockAlign="center">
+                <Drawer.Title>Drawer Title</Drawer.Title>
+                <Drawer.CloseButton />
+              </HorizontalStack>
+              <PlaceholderBox width="100%">Drawer Content</PlaceholderBox>
+            </VerticalStack>
+          </Drawer.StandaloneContentArea>
+        </Drawer.Body>
+      </Drawer>
     </Drawer.Trigger>
   ),
   args: {
@@ -162,22 +156,19 @@ export const Controlled: DrawerTriggerStory = {
   render: (args) => (
     <Drawer.Trigger {...args} onOpenChange={action("Open state changed!")}>
       <Button>Open drawer</Button>
-      {(close) => (
-        <Drawer>
-          <Drawer.Body>
-            <Drawer.StandaloneContentArea>
-              <VerticalStack gap="2">
-                <HorizontalStack align="space-between" blockAlign="center">
-                  <Drawer.Title>Drawer Title</Drawer.Title>
-                  <Drawer.CloseButton />
-                </HorizontalStack>
-                <PlaceholderBox width="100%">Content</PlaceholderBox>
-                <Button onPress={() => close()}>Close</Button>
-              </VerticalStack>
-            </Drawer.StandaloneContentArea>
-          </Drawer.Body>
-        </Drawer>
-      )}
+      <Drawer>
+        <Drawer.Body>
+          <Drawer.StandaloneContentArea>
+            <VerticalStack gap="2">
+              <HorizontalStack align="space-between" blockAlign="center">
+                <Drawer.Title>Drawer Title</Drawer.Title>
+                <Drawer.CloseButton />
+              </HorizontalStack>
+              <PlaceholderBox width="100%">Drawer Content</PlaceholderBox>
+            </VerticalStack>
+          </Drawer.StandaloneContentArea>
+        </Drawer.Body>
+      </Drawer>
     </Drawer.Trigger>
   ),
   args: {
@@ -227,8 +218,10 @@ function ManageAccountDrawer({ title }: { title: string }) {
               <Drawer.Title>{`${title} Account`}</Drawer.Title>
               <Drawer.CloseButton />
             </HorizontalStack>
-            <PlaceholderBox width="100%">Content</PlaceholderBox>
-            <Button onPress={() => drawerTriggerState.close()}>Close</Button>
+            <PlaceholderBox width="100%">Drawer Content</PlaceholderBox>
+            <Button onPress={() => drawerTriggerState.close()}>
+              Close Drawer
+            </Button>
           </VerticalStack>
         </Drawer.StandaloneContentArea>
       </Drawer.Body>
