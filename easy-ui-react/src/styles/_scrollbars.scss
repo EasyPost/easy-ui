@@ -38,15 +38,15 @@
   --os-handle-bg: #{token-helpers.theme-token("color.neutral.200")};
   --os-size: #{token-helpers.design-token("space.1")};
   --os-padding-perpendicular: 0;
-  --os-padding-axis: #{token-helpers.design-token("space.2")};
-  right: #{token-helpers.design-token("space.2")};
+  --os-padding-axis: #{token-helpers.design-token("space.1")};
+  right: #{token-helpers.design-token("space.0.5")};
 }
 
 .os-scrollbar.ezui-os-theme-drawer {
   @include default-os-style;
   --os-handle-bg: #{token-helpers.theme-token("color.neutral.200")};
-  --os-size: #{token-helpers.design-token("space.0.5")};
+  --os-size: #{token-helpers.design-token("space.1")};
   --os-padding-perpendicular: 0;
-  --os-padding-axis: calc(#{token-helpers.design-token("space.1.5")} / 2);
-  right: calc(#{token-helpers.design-token("space.1.5")} / 2);
+  --os-padding-axis: #{token-helpers.design-token("space.1")};
+  right: #{token-helpers.design-token("space.0.5")};
 }

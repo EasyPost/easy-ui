@@ -22,21 +22,3 @@ export function DrawerBody(props: DrawerBodyProps) {
     </div>
   );
 }
-
-export function DrawerBannerBody(props: DrawerBodyProps) {
-  const { children } = props;
-  return (
-    <DrawerBody>
-      <div className={styles.banneredContent}>{children}</div>
-    </DrawerBody>
-  );
-}
-
-export function DrawerStandaloneBody(props: DrawerBodyProps) {
-  const { children } = props;
-  return (
-    <DrawerBody>
-      <div className={styles.standaloneContent}>{children}</div>
-    </DrawerBody>
-  );
-}

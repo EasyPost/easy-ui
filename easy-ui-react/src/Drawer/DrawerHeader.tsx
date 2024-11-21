@@ -26,5 +26,5 @@ export function DrawerHeader(props: DrawerHeaderProps) {
 
 export function DrawerTitle(props: DrawerTitleProps) {
   const drawerContext = useDrawerContext();
-  return <Text {...drawerContext.titleProps} {...props} />;
+  return <Text variant="heading3" {...drawerContext.titleProps} {...props} />;
 }

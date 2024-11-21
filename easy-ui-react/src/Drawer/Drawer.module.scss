@@ -46,6 +46,7 @@
   background: theme-token("color.neutral.000");
   box-shadow: design-token("shadow.level.3");
   pointer-events: auto;
+  position: relative;
   outline: none;
 }
 
@@ -80,18 +81,18 @@
   }
 }
 
-.banneredContent {
-  padding: design-token("space.3") design-token("space.2");
-}
-
-.standaloneContent {
-  padding: design-token("space.3") design-token("space.4");
-}
-
 .closeButton {
   @include unstyled.button;
   display: inline-flex;
   padding: design-token("space.0.25");
   margin: calc(#{design-token("space.0.25")} * -1);
   cursor: pointer;
+}
+
+.banneredContentArea {
+  padding: design-token("space.3") design-token("space.2");
+}
+
+.standaloneContentArea {
+  padding: design-token("space.3") design-token("space.4");
 }

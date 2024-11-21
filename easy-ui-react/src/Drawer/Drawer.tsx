@@ -2,13 +2,13 @@ import React, { ElementRef, ReactNode, useMemo, useRef } from "react";
 import { useDialog } from "react-aria";
 import { classNames } from "../utilities/css";
 import { DrawerBanner } from "./DrawerBanner";
-import {
-  DrawerBannerBody,
-  DrawerBody,
-  DrawerStandaloneBody,
-} from "./DrawerBody";
+import { DrawerBody } from "./DrawerBody";
 import { DrawerCloseButton } from "./DrawerCloseButton";
 import { DrawerContainer } from "./DrawerContainer";
+import {
+  DrawerBanneredContentArea,
+  DrawerStandaloneContentArea,
+} from "./DrawerContentArea";
 import { DrawerHeader, DrawerTitle } from "./DrawerHeader";
 import { DrawerTrigger } from "./DrawerTrigger";
 import { DrawerContext, useDrawerTrigger } from "./context";
@@ -65,9 +65,9 @@ Drawer.Banner = DrawerBanner;
 
 Drawer.Body = DrawerBody;
 
-Drawer.BannerBody = DrawerBannerBody;
+Drawer.BanneredContentArea = DrawerBanneredContentArea;
 
-Drawer.StandaloneBody = DrawerStandaloneBody;
+Drawer.StandaloneContentArea = DrawerStandaloneContentArea;
 
 Drawer.CloseButton = DrawerCloseButton;
 

@@ -4,6 +4,9 @@ import { classNames } from "../utilities/css";
 import styles from "./Drawer.module.scss";
 
 export type DrawerBannerProps = {
+  /**
+   * Content of the drawer banner.
+   */
   children: ReactNode;
 };
 

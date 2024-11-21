@@ -28,69 +28,72 @@ const meta: Meta<typeof Drawer> = {
 
 export default meta;
 
-export const Simple: DrawerStory = {
+export const Standalone: DrawerStory = {
   render: () => (
-    <Drawer.Trigger onOpenChange={action("Modal open state changed!")}>
+    <Drawer.Trigger onOpenChange={action("Drawer open state changed!")}>
       <Button>Open drawer</Button>
-      <Drawer>
-        <Drawer.StandaloneBody>
-          <PlaceholderBox width="100%" height={1200}>
-            Space for content
-          </PlaceholderBox>
-        </Drawer.StandaloneBody>
-      </Drawer>
+      {(close) => (
+        <Drawer>
+          <Drawer.Body>
+            <Drawer.StandaloneContentArea>
+              <VerticalStack gap="2">
+                <HorizontalStack align="space-between" blockAlign="center">
+                  <Drawer.Title>Drawer Title</Drawer.Title>
+                  <Drawer.CloseButton />
+                </HorizontalStack>
+                <PlaceholderBox width="100%">Content</PlaceholderBox>
+                <Button onPress={() => close()}>Close</Button>
+              </VerticalStack>
+            </Drawer.StandaloneContentArea>
+          </Drawer.Body>
+        </Drawer>
+      )}
     </Drawer.Trigger>
   ),
 };
 
-export const Complete: DrawerStory = {
+export const BannerAndTabs: DrawerStory = {
   render: () => (
-    <Drawer.Trigger onOpenChange={action("Modal open state changed!")}>
+    <Drawer.Trigger onOpenChange={action("Drawer open state changed!")}>
       <Button>Open drawer</Button>
-      {() => (
-        <TabPanels>
-          <Drawer>
-            <Drawer.Header>
-              <Drawer.Banner>
-                <VerticalStack gap="2">
-                  <HorizontalStack align="space-between" blockAlign="center">
-                    <Text variant="subtitle1">Viewing Order for:</Text>
-                    <Drawer.CloseButton />
-                  </HorizontalStack>
-                  <HorizontalStack align="space-between" blockAlign="center">
-                    <Drawer.Title variant="heading3" weight="normal">
-                      Eric Fink
-                    </Drawer.Title>
-                    <Badge variant="danger">Needs Fulfillment</Badge>
-                  </HorizontalStack>
-                </VerticalStack>
-              </Drawer.Banner>
-              <TabPanels.Tabs>
-                <TabPanels.Item key="for">Order Details</TabPanels.Item>
-                <TabPanels.Item key="mar">Shipping</TabPanels.Item>
-              </TabPanels.Tabs>
-            </Drawer.Header>
-            <Drawer.BannerBody>
+      <TabPanels>
+        <Drawer>
+          <Drawer.Header>
+            <Drawer.Banner>
+              <VerticalStack gap="2">
+                <HorizontalStack align="space-between" blockAlign="center">
+                  <Text variant="subtitle1">Subtitle:</Text>
+                  <Drawer.CloseButton />
+                </HorizontalStack>
+                <HorizontalStack align="space-between" blockAlign="center">
+                  <Drawer.Title weight="normal">Drawer Title</Drawer.Title>
+                  <Badge variant="danger">Status</Badge>
+                </HorizontalStack>
+              </VerticalStack>
+            </Drawer.Banner>
+            <TabPanels.Tabs>
+              <TabPanels.Item key="for">Tab 1</TabPanels.Item>
+              <TabPanels.Item key="mar">Tab 2</TabPanels.Item>
+            </TabPanels.Tabs>
+          </Drawer.Header>
+          <Drawer.Body>
+            <Drawer.BanneredContentArea>
               <TabPanels.Panels>
                 <TabPanels.Item key="for">
                   <div>
-                    <PlaceholderBox width="100%" height={800}>
-                      Order Details
-                    </PlaceholderBox>
+                    <PlaceholderBox width="100%">Tab 1</PlaceholderBox>
                   </div>
                 </TabPanels.Item>
                 <TabPanels.Item key="mar">
                   <div>
-                    <PlaceholderBox width="100%" height={200}>
-                      Shipping
-                    </PlaceholderBox>
+                    <PlaceholderBox width="100%">Tab 2</PlaceholderBox>
                   </div>
                 </TabPanels.Item>
               </TabPanels.Panels>
-            </Drawer.BannerBody>
-          </Drawer>
-        </TabPanels>
-      )}
+            </Drawer.BanneredContentArea>
+          </Drawer.Body>
+        </Drawer>
+      </TabPanels>
     </Drawer.Trigger>
   ),
 };
@@ -101,12 +104,18 @@ export const Nondismissable: DrawerTriggerStory = {
       <Button>Open drawer</Button>
       {(close) => (
         <Drawer>
-          <Drawer.StandaloneBody>
-            <VerticalStack gap="2">
-              <PlaceholderBox width="100%">Space for content</PlaceholderBox>
-              <Button onPress={() => close()}>Close drawer</Button>
-            </VerticalStack>
-          </Drawer.StandaloneBody>
+          <Drawer.Body>
+            <Drawer.StandaloneContentArea>
+              <VerticalStack gap="2">
+                <HorizontalStack align="space-between" blockAlign="center">
+                  <Drawer.Title>Drawer Title</Drawer.Title>
+                  <Drawer.CloseButton />
+                </HorizontalStack>
+                <PlaceholderBox width="100%">Content</PlaceholderBox>
+                <Button onPress={() => close()}>Close</Button>
+              </VerticalStack>
+            </Drawer.StandaloneContentArea>
+          </Drawer.Body>
         </Drawer>
       )}
     </Drawer.Trigger>
@@ -123,14 +132,22 @@ export const Controlled: DrawerTriggerStory = {
   render: (args) => (
     <Drawer.Trigger {...args} onOpenChange={action("Open state changed!")}>
       <Button>Open drawer</Button>
-      <Drawer>
-        <Drawer.Header>H4 Title</Drawer.Header>
-        <Drawer.StandaloneBody>
-          <PlaceholderBox width="100%" height={2000}>
-            Space for content
-          </PlaceholderBox>
-        </Drawer.StandaloneBody>
-      </Drawer>
+      {(close) => (
+        <Drawer>
+          <Drawer.Body>
+            <Drawer.StandaloneContentArea>
+              <VerticalStack gap="2">
+                <HorizontalStack align="space-between" blockAlign="center">
+                  <Drawer.Title>Drawer Title</Drawer.Title>
+                  <Drawer.CloseButton />
+                </HorizontalStack>
+                <PlaceholderBox width="100%">Content</PlaceholderBox>
+                <Button onPress={() => close()}>Close</Button>
+              </VerticalStack>
+            </Drawer.StandaloneContentArea>
+          </Drawer.Body>
+        </Drawer>
+      )}
     </Drawer.Trigger>
   ),
   args: {
@@ -173,15 +190,18 @@ function ManageAccountDrawer({ title }: { title: string }) {
   const drawerTriggerState = useDrawerTrigger();
   return (
     <Drawer>
-      <Drawer.Header>{`${title} Account`}</Drawer.Header>
-      <Drawer.StandaloneBody>
-        <VerticalStack gap="2">
-          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
-          <Button onPress={() => drawerTriggerState.close()}>
-            Close drawer
-          </Button>
-        </VerticalStack>
-      </Drawer.StandaloneBody>
+      <Drawer.Body>
+        <Drawer.StandaloneContentArea>
+          <VerticalStack gap="2">
+            <HorizontalStack align="space-between" blockAlign="center">
+              <Drawer.Title>{`${title} Account`}</Drawer.Title>
+              <Drawer.CloseButton />
+            </HorizontalStack>
+            <PlaceholderBox width="100%">Content</PlaceholderBox>
+            <Button onPress={() => drawerTriggerState.close()}>Close</Button>
+          </VerticalStack>
+        </Drawer.StandaloneContentArea>
+      </Drawer.Body>
     </Drawer>
   );
 }
