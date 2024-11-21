@@ -128,6 +128,36 @@ export const Nondismissable: DrawerTriggerStory = {
   },
 };
 
+export const DefaultOpen: DrawerTriggerStory = {
+  render: (args) => (
+    <Drawer.Trigger {...args} onOpenChange={action("Open state changed!")}>
+      <Button>Open drawer</Button>
+      {(close) => (
+        <Drawer>
+          <Drawer.Body>
+            <Drawer.StandaloneContentArea>
+              <VerticalStack gap="2">
+                <HorizontalStack align="space-between" blockAlign="center">
+                  <Drawer.Title>Drawer Title</Drawer.Title>
+                  <Drawer.CloseButton />
+                </HorizontalStack>
+                <PlaceholderBox width="100%">Content</PlaceholderBox>
+                <Button onPress={() => close()}>Close</Button>
+              </VerticalStack>
+            </Drawer.StandaloneContentArea>
+          </Drawer.Body>
+        </Drawer>
+      )}
+    </Drawer.Trigger>
+  ),
+  args: {
+    defaultOpen: false,
+  },
+  parameters: {
+    controls: { include: ["defaultOpen"] },
+  },
+};
+
 export const Controlled: DrawerTriggerStory = {
   render: (args) => (
     <Drawer.Trigger {...args} onOpenChange={action("Open state changed!")}>

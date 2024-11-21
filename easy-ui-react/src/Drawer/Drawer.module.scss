@@ -2,10 +2,19 @@
 @use "../styles/unstyled";
 
 .underlayBg {
+  @include component-token("drawer", "animation-duration", 150ms);
+  @include component-token("drawer", "max-width", 608px);
+  @include component-token("drawer", "height", 100svh);
+
   position: fixed;
   z-index: design-token("z-index.drawer");
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  transition-property: opacity, backdrop-filter;
+  transition-timing-function: ease-in-out;
+  transition-duration: component-token("drawer", "animation-duration");
+
   &::before {
     content: "";
     position: absolute;
@@ -22,18 +31,44 @@
   bottom: 0;
 }
 
+.underlayBgEnter {
+  opacity: 0;
+}
+
+.underlayBgEnterDone {
+  opacity: 1;
+  backdrop-filter: blur(1px);
+}
+
+.underlayBgExit {
+  opacity: 0;
+  backdrop-filter: blur(0);
+}
+
 .underlayBox {
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
   pointer-events: none;
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
+  transition-duration: component-token("drawer", "animation-duration");
+}
+
+.underlayBoxAppear {
+  transform: translateX(25%);
+}
+
+.underlayBoxAppearDone {
+  transform: translateX(0);
+}
+
+.underlayBoxExit {
+  transform: translateX(25%);
 }
 
 .Drawer {
-  @include component-token("drawer", "max-width", 608px);
-  @include component-token("drawer", "height", 100svh);
-
   flex: 0 1 auto;
   display: flex;
   flex-direction: column;

@@ -67,6 +67,7 @@ export function DrawerContainer(props: DrawerContainerProps) {
     },
   });
   const { overlayProps } = useOverlayTrigger({ type: "dialog" }, state);
+  const [animationExited, setAnimationExited] = useState(!state.isOpen);
 
   const context = useMemo(() => {
     return { state, isDismissable };
@@ -74,8 +75,12 @@ export function DrawerContainer(props: DrawerContainerProps) {
 
   return (
     <DrawerTriggerContext.Provider value={context}>
-      {state.isOpen && (
-        <DrawerUnderlay state={state} isDismissable={isDismissable}>
+      {(state.isOpen || !animationExited) && (
+        <DrawerUnderlay
+          setAnimationExited={setAnimationExited}
+          state={state}
+          isDismissable={isDismissable}
+        >
           {lastChild ? cloneElement(lastChild, overlayProps) : null}
         </DrawerUnderlay>
       )}

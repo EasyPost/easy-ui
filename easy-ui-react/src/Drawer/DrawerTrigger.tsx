@@ -1,4 +1,4 @@
-import React, { ReactElement, cloneElement, useMemo } from "react";
+import React, { ReactElement, cloneElement, useMemo, useState } from "react";
 import { useOverlayTrigger } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { DrawerUnderlay } from "./DrawerUnderlay";
@@ -41,6 +41,7 @@ export function DrawerTrigger(props: DrawerTriggerProps) {
     { type: "dialog" },
     state,
   );
+  const [animationExited, setAnimationExited] = useState(!state.isOpen);
 
   if (children.length !== 2) {
     throw new Error(
@@ -57,8 +58,12 @@ export function DrawerTrigger(props: DrawerTriggerProps) {
   return (
     <DrawerTriggerContext.Provider value={context}>
       {cloneElement(trigger, triggerProps)}
-      {state.isOpen && (
-        <DrawerUnderlay {...props} state={state}>
+      {(state.isOpen || !animationExited) && (
+        <DrawerUnderlay
+          setAnimationExited={setAnimationExited}
+          {...props}
+          state={state}
+        >
           {cloneElement(
             typeof modal === "function" ? modal(state.close) : modal,
             overlayProps,
