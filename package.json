@@ -56,7 +56,6 @@
     "@storybook/react": "7.6.20",
     "@storybook/react-vite": "7.6.20",
     "@storybook/testing-library": "^0.2.2",
-    "@types/react-transition-group": "^4.4.11",
     "babel-loader": "^9.2.1",
     "eslint": "^8.57.1",
     "glob": "^8.1.0",
@@ -70,8 +69,5 @@
     "typescript": "~5.5.4",
     "vite": "^5.4.11",
     "vitest": "^1.6.0"
-  },
-  "dependencies": {
-    "react-transition-group": "^4.4.5"
   }
 }
