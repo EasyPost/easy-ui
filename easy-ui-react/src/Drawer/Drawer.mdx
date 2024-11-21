@@ -9,9 +9,11 @@ import * as DrawerStories from "./Drawer.stories";
 
 A `Drawer` is a modal that stays on the side of the screen.
 
+Use a `<Drawer />` when you want to capture information from the user as a part of a concentrated workflow without having them leave the parent page.
+
 ### Drawer architecture
 
-`<Drawer />` is a compound component. Use `<Drawer.Trigger />`, `<Drawer />`, `<Drawer.Header />`, and `<Drawer.Body />` to construct a modal.
+`<Drawer />` is a compound component. Use `<Drawer.Trigger />`, `<Drawer />`, `<Drawer.Header />`, and `<Drawer.Body />` to construct a drawer.
 
 ```tsx
 <Drawer.Trigger>
@@ -38,7 +40,7 @@ A `Drawer` is a modal that stays on the side of the screen.
 
 The first child should be a trigger element, such as a `<Button />`, where the trigger events and appropriate accessibility attributes can be applied.
 
-The second element must be a `<Drawer />`. If access to programmatically close the modal inline is needed, a child with a function that has a close method and returns a `<Drawer />` (`(close) => <Drawer />`) can be passed as the second child instead of a `<Drawer />`.
+The second element must be a `<Drawer />`. If access to programmatically close the drawer inline is needed, a child with a function that has a close method and returns a `<Drawer />` (`(close) => <Drawer />`) can be passed as the second child instead of a `<Drawer />`.
 
 _Drawer with close function injected:_
 
@@ -93,7 +95,7 @@ Refer to the property tables at the bottom of the page for full documentation.
 
 ## Nondismissable
 
-By default, `<Drawer />`s are dismissable, meaning a user can exit the modal without performing an action. Exiting can be done by clicking on the underlay behind the drawer, pressing the `Esc` key, or clicking the close icon.
+By default, `<Drawer />`s are dismissable, meaning a user can exit the drawer without performing an action. Exiting can be done by clicking on the underlay behind the drawer, pressing the `Esc` key, or clicking the close icon.
 
 To override that behavior, set `isDismissable` to `false` on the `<Drawer.Trigger />`.
 
