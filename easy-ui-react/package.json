@@ -34,7 +34,7 @@
     "@react-aria/toast": "^3.0.0-beta.12",
     "@react-aria/utils": "^3.25.3",
     "@react-stately/toast": "^3.0.0-beta.6",
-    "@react-types/shared": "^3.25.0",
+    "@react-types/shared": "^3.26.0",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "lodash": "^4.17.21",
