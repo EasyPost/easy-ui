@@ -156,3 +156,11 @@ export function deepFind(
 
   return found;
 }
+
+export function getSetsDifference<T>(set1: Set<T>, set2: Set<T>): Set<T> {
+  const result = new Set<T>(set1);
+  for (const element of set2) {
+    result.delete(element);
+  }
+  return result;
+}

@@ -5,13 +5,12 @@ import React, {
   MutableRefObject,
   ReactNode,
 } from "react";
-import { Key } from "@react-types/shared";
 import { mergeProps, useMenuItem } from "react-aria";
 import { Item, Node, TreeState } from "react-stately";
 import { Text } from "../Text";
-import { Checkbox, CheckboxProps } from "../Checkbox";
+import { Checkbox } from "../Checkbox";
 import { NoInfer } from "../types";
-import { useMenuSelectAll, SELECT_ALL_KEY } from "./utilities";
+import { SELECT_ALL_KEY } from "./utilities";
 
 import styles from "./Menu.module.scss";
 
@@ -87,6 +86,9 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
       )
     : menuItemProps;
 
+  const isSelectAllIndeterminate =
+    !selectedKeys.has(SELECT_ALL_KEY) && selectedKeys.size > 0;
+
   return (
     <MenuItemContainer
       {...props}
@@ -101,18 +103,14 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
           <Text variant="body1" truncate>
             {item.rendered}
           </Text>
-        ) : item.key === SELECT_ALL_KEY ? (
-          <SelectAllCheckbox
+        ) : (
+          <Checkbox
             isSelected={isSelected}
             isDisabled={isDisabled}
-            selectedKeys={selectedKeys}
-            state={state}
-            isFocused={isFocused}
+            isIndeterminate={
+              item.key === SELECT_ALL_KEY ? isSelectAllIndeterminate : undefined
+            }
           >
-            {item.rendered}
-          </SelectAllCheckbox>
-        ) : (
-          <Checkbox isSelected={isSelected} isDisabled={isDisabled}>
             {item.rendered}
           </Checkbox>
         )}
@@ -139,36 +137,5 @@ function LinkMenuItemContainer({
     <li role="none">
       <Component ref={itemRef} {...props} />
     </li>
-  );
-}
-
-type SelectAllCheckboxProps<T> = CheckboxProps & {
-  selectedKeys: Set<Key>;
-  state: TreeState<T>;
-  isFocused: boolean;
-};
-
-function SelectAllCheckbox<T>({
-  children,
-  isSelected,
-  isDisabled,
-  selectedKeys,
-  state,
-  isFocused,
-}: SelectAllCheckboxProps<T>) {
-  const isSelectAllIndeterminate = useMenuSelectAll(
-    selectedKeys,
-    state,
-    isFocused,
-  );
-
-  return (
-    <Checkbox
-      isSelected={isSelected}
-      isDisabled={isDisabled}
-      isIndeterminate={isSelectAllIndeterminate}
-    >
-      {children}
-    </Checkbox>
   );
 }

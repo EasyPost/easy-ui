@@ -4,7 +4,6 @@ import {
   getResponsiveValue,
   pxToRem,
 } from "../utilities/css";
-import { Key } from "@react-types/shared";
 import { TreeState } from "react-stately";
 import { MenuOverlayWidth } from "./MenuOverlay";
 
@@ -41,13 +40,8 @@ export function getUnmergedPopoverStyles(
   };
 }
 
-export function useMenuSelectAll<T>(
-  selectedKeys: Set<Key>,
-  state: TreeState<T>,
-  isFocused: boolean,
-): boolean {
-  // Get collection size minus section item type
-  const itemSize = [...state.collection].reduce((acc, item) => {
+export function getItemSize<T>(state: TreeState<T>): number {
+  return [...state.collection].reduce((acc, item) => {
     if (item.type === "section") {
       acc += [...item.childNodes].length;
     } else {
@@ -55,40 +49,4 @@ export function useMenuSelectAll<T>(
     }
     return acc;
   }, 0);
-
-  const isSelectAll = selectedKeys.has(SELECT_ALL_KEY);
-  const selectedSize = selectedKeys.size;
-  const isSelectAllIndeterminate = selectedSize > 0 && !isSelectAll;
-
-  React.useEffect(() => {
-    // This prevent infinite loop
-    if (!state.selectionManager.lastSelectedKey) return;
-
-    if (!isSelectAll && selectedSize === itemSize - 1) {
-      if (isFocused) {
-        // Deselect all checkboxes when Select ALL is deselected
-        state.selectionManager.clearSelection();
-      } else {
-        // Select Select ALL checkbox when all other checkboxes are selected
-        state.selectionManager.selectAll();
-      }
-    } else if (isSelectAll && selectedSize > 0) {
-      if (isFocused) {
-        // Select all checkboxes when Seleclt ALL is selected
-        state.selectionManager.selectAll();
-      } else {
-        // Deselect and mark Select ALL checkbox as indeterminate when deselect one of the checkbox
-        state.selectionManager.select(SELECT_ALL_KEY);
-      }
-    }
-  }, [
-    selectedKeys,
-    isFocused,
-    isSelectAll,
-    selectedSize,
-    itemSize,
-    state.selectionManager,
-  ]);
-
-  return isSelectAllIndeterminate;
 }
