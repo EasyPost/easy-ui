@@ -59,9 +59,11 @@ export function MenuSectionContent<T>({
         <li {...itemProps}>
           {section.hasChildNodes && (
             <>
-              <li {...headingProps} className={styles.sectionTitle}>
-                {section.rendered}
-              </li>
+              {section.rendered && (
+                <span {...headingProps} className={styles.sectionTitle}>
+                  {section.rendered}
+                </span>
+              )}
               <ul {...groupProps} className={styles.sectionList}>
                 {[...section.childNodes].map((item) => {
                   return (

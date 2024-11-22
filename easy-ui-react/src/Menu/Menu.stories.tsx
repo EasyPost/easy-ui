@@ -1,5 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
+import type { Selection } from "react-stately";
 import React from "react";
 import { DropdownButton } from "../DropdownButton";
 import {
@@ -229,4 +230,59 @@ export const CustomPlacement: StoryObj<MenuOverlayProps<unknown>> = {
     },
   },
   decorators: [OverlayLayoutDecorator],
+};
+
+export const MultipleSelection: Story = {
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
+      new Set([]),
+    );
+
+    return (
+      <Menu>
+        <Menu.Trigger>
+          <DropdownButton>Click me</DropdownButton>
+        </Menu.Trigger>
+        <Menu.Overlay
+          onSelectionChange={setSelectedKeys}
+          selectionMode="multiple"
+          selectedKeys={selectedKeys}
+        >
+          <Menu.Item key="transit">In Transit</Menu.Item>
+          <Menu.Item key="delivery">Out for Delivery</Menu.Item>
+          <Menu.Item key="delivered">Delivered</Menu.Item>
+        </Menu.Overlay>
+      </Menu>
+    );
+  },
+};
+
+export const MultipleSelectionWithSelectAll: Story = {
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
+      new Set([]),
+    );
+
+    return (
+      <Menu>
+        <Menu.Trigger>
+          <DropdownButton>Click me</DropdownButton>
+        </Menu.Trigger>
+        <Menu.Overlay
+          selectionMode="multiple"
+          onSelectionChange={setSelectedKeys}
+          selectedKeys={selectedKeys}
+        >
+          <Menu.Section aria-label="All Status">
+            <Menu.Item key="all">All Statues</Menu.Item>
+          </Menu.Section>
+          <Menu.Section aria-label="Status">
+            <Menu.Item key="transit">In Transit</Menu.Item>
+            <Menu.Item key="delivery">Out for Delivery</Menu.Item>
+            <Menu.Item key="delivered">Delivered</Menu.Item>
+          </Menu.Section>
+        </Menu.Overlay>
+      </Menu>
+    );
+  },
 };

@@ -1,4 +1,9 @@
-import { CollectionChildren, Key } from "@react-types/shared";
+import {
+  CollectionChildren,
+  Key,
+  SelectionMode,
+  Selection,
+} from "@react-types/shared";
 import React from "react";
 import {
   DismissButton,
@@ -59,6 +64,21 @@ export type MenuOverlayProps<T> = {
    * @default auto
    */
   width?: MenuOverlayWidth;
+
+  /**
+   * The type of selection that is allowed in the collection.
+   */
+  selectionMode?: SelectionMode;
+
+  /**
+   * The currently selected keys in the collection (controlled).
+   */
+  selectedKeys?: "all" | Iterable<Key>;
+
+  /**
+   * Handler that is called when the selection changes.
+   */
+  onSelectionChange?: (keys: Selection) => void;
 };
 
 export function MenuOverlay<T extends object>(props: MenuOverlayProps<T>) {
@@ -78,6 +98,9 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
     onClose,
     placement = DEFAULT_PLACEMENT,
     width = DEFAULT_WIDTH,
+    selectionMode,
+    onSelectionChange,
+    selectedKeys,
   } = props;
 
   const popoverRef = React.useRef(null);
@@ -86,6 +109,9 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
   const menuTreeState = useTreeState({
     children,
     disabledKeys,
+    selectionMode,
+    selectedKeys,
+    onSelectionChange,
   });
 
   const { menuTriggerState, triggerRef, triggerWidth, menuPropsFromTrigger } =
