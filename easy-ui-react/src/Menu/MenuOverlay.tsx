@@ -159,6 +159,9 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
         }
         break;
     }
+    if (onAction) {
+      onAction(key);
+    }
   };
 
   const handleOnAction =
