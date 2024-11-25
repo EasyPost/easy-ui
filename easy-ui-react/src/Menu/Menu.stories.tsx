@@ -247,6 +247,7 @@ export const MultipleSelection: Story = {
           onSelectionChange={setSelectedKeys}
           selectionMode="multiple"
           selectedKeys={selectedKeys}
+          onAction={action("Selected")}
         >
           <Menu.Item key="transit">In Transit</Menu.Item>
           <Menu.Item key="delivery">Out for Delivery</Menu.Item>
@@ -272,6 +273,7 @@ export const MultipleSelectionWithSelectAll: Story = {
           selectionMode="multiple"
           onSelectionChange={setSelectedKeys}
           selectedKeys={selectedKeys}
+          onAction={action("Selected")}
         >
           <Menu.Section aria-label="All Status">
             <Menu.Item key="all">All Statues</Menu.Item>
