@@ -49,6 +49,17 @@ export const Icon: Story = {
   },
 };
 
+export const PrefixAndSuffix: Story = {
+  render: Template.bind({}),
+  args: {
+    label: "Label",
+    placeholder: "Placeholder text",
+    helperText: "Optional helper text",
+    textPrefix: "$",
+    textSuffix: "2.50",
+  },
+};
+
 export const SmallTextFields: Story = {
   render: () => (
     <>

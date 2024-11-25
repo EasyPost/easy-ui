@@ -143,6 +143,16 @@
   right: design-token("space.1.5");
 }
 
+.prefix {
+  left: design-token("space.1.5");
+  color: theme-token("color.primary.800");
+}
+
+.suffix {
+  right: design-token("space.1.5");
+  color: theme-token("color.neutral.400");
+}
+
 .iconStartInput {
   @include Input.iconStartInput;
 }
