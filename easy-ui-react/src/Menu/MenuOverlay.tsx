@@ -15,7 +15,6 @@ import {
 } from "react-aria";
 import { useTreeState } from "react-stately";
 import { ResponsiveProp } from "../utilities/css";
-import { getSetsDifference } from "../utilities/react";
 import { useScrollbar } from "../utilities/useScrollbar";
 import { useInternalMenuContext } from "./MenuContext";
 import { MenuItemContent } from "./MenuItem";
@@ -30,7 +29,7 @@ import {
   SELECT_ALL_KEY,
   Y_PADDING_INSIDE_OVERLAY,
   getUnmergedPopoverStyles,
-  getItemSize,
+  getItems,
 } from "./utilities";
 
 import styles from "./Menu.module.scss";
@@ -136,28 +135,13 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
 
   const { selectionManager } = menuTreeState;
   const handleMultiSelectAll = (key: Key) => {
-    switch (key) {
-      case SELECT_ALL_KEY:
-        // Handle select all and deselect all
-        selectionManager.toggleSelectAll();
-        break;
-      default:
-        // Deselect and mark Select ALL checkbox as indeterminate when deselecting a checkbox
-        if (selectionManager.isSelected(SELECT_ALL_KEY)) {
-          const selected = getSetsDifference(
-            selectionManager.selectedKeys,
-            new Set([SELECT_ALL_KEY, key]),
-          );
-          selectionManager.setSelectedKeys(selected);
-        } else if (
-          // Select Select ALL checkbox when all other checkboxes are selected
-          selectionManager.selectedKeys.size ===
-            getItemSize(menuTreeState) - 2 &&
-          !selectionManager.isSelected(key)
-        ) {
-          selectionManager.selectAll();
-        }
-        break;
+    const { itemSize, items } = getItems(menuTreeState);
+    if (key === SELECT_ALL_KEY) {
+      if (selectionManager.selectedKeys.size === itemSize) {
+        selectionManager.clearSelection();
+      } else {
+        selectionManager.setSelectedKeys(items);
+      }
     }
     if (onAction) {
       onAction(key);

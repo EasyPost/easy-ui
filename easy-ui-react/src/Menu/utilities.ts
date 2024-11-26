@@ -1,4 +1,5 @@
 import React from "react";
+import { Key } from "@react-types/shared";
 import {
   getComponentToken,
   getResponsiveValue,
@@ -40,13 +41,48 @@ export function getUnmergedPopoverStyles(
   };
 }
 
-export function getItemSize<T>(state: TreeState<T>): number {
-  return [...state.collection].reduce((acc, item) => {
-    if (item.type === "section") {
-      acc += [...item.childNodes].length;
-    } else {
-      acc += 1;
-    }
-    return acc;
-  }, 0);
+type Items = {
+  itemSize: number;
+  items: Set<Key>;
+};
+export function getItems<T>(state: TreeState<T>): Items {
+  return [...state.collection].reduce(
+    (acc, item) => {
+      if (item.type === "section") {
+        [...item.childNodes].forEach((child) => {
+          if (
+            child.key !== SELECT_ALL_KEY &&
+            !state.disabledKeys.has(child.key)
+          ) {
+            acc.itemSize += 1;
+            acc.items.add(child.key);
+          }
+        });
+      } else {
+        if (item.key !== SELECT_ALL_KEY) {
+          acc.itemSize += 1;
+          acc.items.add(item.key);
+        }
+      }
+      return acc;
+    },
+    { itemSize: 0, items: new Set<Key>() },
+  );
+}
+
+export function useSelectAllState<T>(state: TreeState<T>, key: Key) {
+  const { selectedKeys } = state.selectionManager;
+  const { itemSize } = getItems(state);
+  const isSelectAllCheckbox = key === SELECT_ALL_KEY;
+  const isSelectAllSelected =
+    !selectedKeys.has(SELECT_ALL_KEY) && selectedKeys.size === itemSize;
+  const isSelectAllIndeterminate =
+    selectedKeys.size > 0 && !isSelectAllSelected;
+  const selectAllItemProps = isSelectAllCheckbox
+    ? {
+        "aria-checked": isSelectAllSelected,
+      }
+    : {};
+
+  return { selectAllItemProps, isSelectAllSelected, isSelectAllIndeterminate };
 }

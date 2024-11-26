@@ -10,7 +10,7 @@ import { Item, Node, TreeState } from "react-stately";
 import { Text } from "../Text";
 import { Checkbox } from "../Checkbox";
 import { NoInfer } from "../types";
-import { SELECT_ALL_KEY } from "./utilities";
+import { SELECT_ALL_KEY, useSelectAllState } from "./utilities";
 
 import styles from "./Menu.module.scss";
 
@@ -66,7 +66,7 @@ type MenuItemContentProps<T> = {
 export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
   const ref = React.useRef(null);
   const {
-    selectionManager: { selectionMode, selectedKeys },
+    selectionManager: { selectionMode },
   } = state;
   const { closeOnSelect, href } = item.props;
   const { menuItemProps, isFocused, isSelected, isDisabled } = useMenuItem(
@@ -74,6 +74,8 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
     state,
     ref,
   );
+  const { selectAllItemProps, isSelectAllSelected, isSelectAllIndeterminate } =
+    useSelectAllState(state, item.key);
 
   const MenuItemContainer = href
     ? LinkMenuItemContainer
@@ -84,10 +86,7 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
         menuItemProps,
         omit(item.props, ["aria-label", "as", "children", "closeOnSelect"]),
       )
-    : menuItemProps;
-
-  const isSelectAllIndeterminate =
-    !selectedKeys.has(SELECT_ALL_KEY) && selectedKeys.size > 0;
+    : mergeProps(menuItemProps, selectAllItemProps);
 
   return (
     <MenuItemContainer
@@ -96,7 +95,9 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
       className={styles.item}
       data-is-disabled={isDisabled}
       data-is-focused={isFocused}
-      data-is-selected={isSelected}
+      data-is-selected={
+        item.key === SELECT_ALL_KEY ? isSelectAllSelected : isSelected
+      }
     >
       <div className={styles.itemContent}>
         {selectionMode !== "multiple" ? (
@@ -105,7 +106,9 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
           </Text>
         ) : (
           <Checkbox
-            isSelected={isSelected}
+            isSelected={
+              item.key === SELECT_ALL_KEY ? isSelectAllSelected : isSelected
+            }
             isDisabled={isDisabled}
             isIndeterminate={
               item.key === SELECT_ALL_KEY ? isSelectAllIndeterminate : undefined
