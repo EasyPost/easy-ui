@@ -6,21 +6,29 @@ import * as DropdownButtonStories from "./DropdownButton.stories";
 
 # DropdownButton
 
-## Filled buttons
+## Filled
 
-<Canvas of={DropdownButtonStories.FilledButtons} />
+By default, a `<DropdownButton />` renders as a filled variant.
 
-## Outlined buttons
+<Canvas of={DropdownButtonStories.Filled} />
 
-<Canvas of={DropdownButtonStories.OutlinedButtons} />
+<Controls of={DropdownButtonStories.Filled} include={["color"]} />
 
-## Inverse button
+## Outlined
 
-<Canvas of={DropdownButtonStories.InverseButtons} />
+Use `variant="outlined"` to render an outlined variant.
 
-## Disabled buttons
+<Canvas of={DropdownButtonStories.Outlined} />
 
-<Canvas of={DropdownButtonStories.DisabledButtons} />
+<Controls of={DropdownButtonStories.Outlined} include={["color"]} />
+
+## Inverse
+
+<Canvas of={DropdownButtonStories.Inverse} />
+
+## Disabled
+
+<Canvas of={DropdownButtonStories.Disabled} />
 
 ## Click event
 

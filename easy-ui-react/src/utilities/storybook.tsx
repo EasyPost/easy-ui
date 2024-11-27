@@ -6,6 +6,11 @@ import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
 import { SortDescriptor } from "react-stately";
 import { Menu } from "../Menu";
+import {
+  FILLED_BUTTON_COLORS,
+  OUTLINED_BUTTON_COLORS,
+  LINK_BUTTON_COLORS,
+} from "../Button/utilities";
 
 export function createLabelledOptionsControl(
   opts: Record<string, unknown>,
@@ -49,6 +54,24 @@ export function getThemeTokensControl(pattern: string) {
 function getTokensControl(tokenAliases: string[]) {
   return createLabelledOptionsControl(
     tokenAliases.reduce((o, alias) => ({ ...o, [alias]: alias }), {}),
+  );
+}
+
+export function getFilledButtonsColorMapping() {
+  return createLabelledOptionsControl(
+    Object.fromEntries(FILLED_BUTTON_COLORS.map((key) => [key, key])),
+  );
+}
+
+export function getOutlinedButtonsColorMapping() {
+  return createLabelledOptionsControl(
+    Object.fromEntries(OUTLINED_BUTTON_COLORS.map((key) => [key, key])),
+  );
+}
+
+export function getLinkButtonsColorMapping() {
+  return createLabelledOptionsControl(
+    Object.fromEntries(LINK_BUTTON_COLORS.map((key) => [key, key])),
   );
 }
 

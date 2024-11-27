@@ -4,6 +4,8 @@ import React from "react";
 import {
   InlineStoryDecorator,
   InlineStoryOnDarkBackgroundDecorator,
+  getFilledButtonsColorMapping,
+  getOutlinedButtonsColorMapping,
 } from "../utilities/storybook";
 import { DropdownButton, DropdownButtonProps } from "./DropdownButton";
 
@@ -23,41 +25,35 @@ const meta: Meta<typeof DropdownButton> = {
 
 export default meta;
 
-export const Controls: Story = {
+export const Filled: Story = {
   render: Template.bind({}),
-  args: {},
+  args: {
+    color: "primary",
+  },
 };
 
-export const FilledButtons: Story = {
-  render: () => (
-    <>
-      <DropdownButton />
-      <DropdownButton color="secondary" />
-      <DropdownButton color="success" />
-      <DropdownButton color="warning" />
-      <DropdownButton color="neutral" />
-    </>
-  ),
-  decorators: [InlineStoryDecorator],
+Filled.argTypes = {
+  color: getFilledButtonsColorMapping(),
 };
 
-export const OutlinedButtons: Story = {
-  render: () => (
-    <>
-      <DropdownButton variant="outlined" />
-      <DropdownButton color="secondary" variant="outlined" />
-      <DropdownButton color="support" variant="outlined" />
-    </>
-  ),
-  decorators: [InlineStoryDecorator],
+export const Outlined: Story = {
+  render: Template.bind({}),
+  args: {
+    color: "primary",
+    variant: "outlined",
+  },
 };
 
-export const InverseButtons: Story = {
+Outlined.argTypes = {
+  color: getOutlinedButtonsColorMapping(),
+};
+
+export const Inverse: Story = {
   render: () => <DropdownButton color="inverse" variant="outlined" />,
   decorators: [InlineStoryOnDarkBackgroundDecorator],
 };
 
-export const DisabledButtons: Story = {
+export const Disabled: Story = {
   render: () => (
     <>
       <DropdownButton isDisabled />
@@ -70,4 +66,9 @@ export const DisabledButtons: Story = {
 export const ClickEvent: Story = {
   render: () => <DropdownButton onPress={action("clicked!")} />,
   decorators: [InlineStoryDecorator],
+};
+
+export const Controls: Story = {
+  render: Template.bind({}),
+  args: {},
 };
