@@ -199,7 +199,7 @@ function TooltipInner(props: TooltipInnerProps) {
     <span
       ref={tooltipRef}
       {...tooltipProps}
-      className={classNames(styles.Tooltip, styles[placement])}
+      className={classNames(styles.Tooltip, placement && styles[placement])}
       data-placement={placement}
       style={style}
     >
