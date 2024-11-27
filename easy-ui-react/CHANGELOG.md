@@ -1,5 +1,17 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.49
+
+### Minor Changes
+
+- 73fde3e: feat: Drawer component
+
+### Patch Changes
+
+- 9316554: fix: EmptyStateCard use solid variant
+- Updated dependencies [73fde3e]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.14
+
 ## 1.0.0-alpha.48
 
 ### Minor Changes

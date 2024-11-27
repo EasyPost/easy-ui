@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.14
+
+### Minor Changes
+
+- 73fde3e: feat: Drawer component
+
 ## 1.0.0-alpha.13
 
 ### Minor Changes
