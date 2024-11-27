@@ -42,7 +42,7 @@ export type ButtonProps = AriaButtonProps & {
 };
 
 /**
- * A `<Button />` enable users to take an action or transition to other pages.
+ * A `<Button />` enables users to take an action or transition to other pages.
  * They are designed with multiple styles to address various needs, and they are
  * ideal for highlighting an action for the user to take in order to move forward in a flow.
  *
