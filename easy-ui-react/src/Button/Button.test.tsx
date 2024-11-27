@@ -52,6 +52,18 @@ describe("<Button />", () => {
     );
   });
 
+  it("should apply the outlined variant class with a color", () => {
+    render(<Button color="warning" variant="outlined" />);
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("variantOutlined"),
+    );
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("colorWarning"),
+    );
+  });
+
   it("should render a disabled button", () => {
     render(<Button isDisabled />);
     expect(screen.getByRole("button")).toBeDisabled();
