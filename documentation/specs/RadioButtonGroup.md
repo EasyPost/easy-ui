@@ -10,7 +10,7 @@ A `RadioButtonGroup` is a group of connected buttons that act as a radio group.
 
 ### Features
 
-- Supports lables
+- Supports labels
 - Supports EasyUI colors
 
 ### Prior Art
@@ -26,23 +26,42 @@ A `<RadioButtonGroup />` is a compound component and the buttons will render via
 ### API
 
 ```ts
-export type RadioButtonGroupProps = {
+export type RadioButtonGroupProps = AriaLabelingProps & {
   /**
    * Color for the selected button in the group.
    * @default "primary"
    */
   color?: ThemeColorAliases;
-  /** Label for the radio group. */
-  label?: ReactNode;
   /**
-   * The name of the radio group, used when submitting an HTML form.
-   * See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name_and_radio_buttons).
+   * Whether single or multiple selection is enabled.
+   * @default "single"
    */
-  name?: string;
-  /** Handler that is called when the value changes. */
-  onChange?: (value: string) => void;
-  /** The current value (controlled). */
-  value?: string;
+  selectionMode?: "single" | "multiple";
+  /**
+   * Whether the collection allows empty selection.
+   * @default true
+   */
+  disallowEmptySelection?: boolean;
+  /**
+   * 	The currently selected keys in the collection (controlled).
+   */
+  selectedKeys?: string[];
+  /**
+   * The initial selected keys in the collection (uncontrolled).
+   */
+  defaultSelectedKeys?: string[];
+  /**
+   * Whether all items are disabled.
+   */
+  isDisabled?: boolean;
+  /**
+   * RadioButtonGroup Buttons
+   */
+  children: ReactNode;
+  /**
+   * Handler that is called when the selection changes.
+   */
+  onSelectionChange: () => void;
 };
 export type RadioButtonGroupButtonProps = {
   /**
@@ -54,23 +73,25 @@ export type RadioButtonGroupButtonProps = {
    */
   isDisabled?: boolean;
   /**
-   * The value of the radio button, used when submitting an HTML form.
+   * An identifier for the item in selectedKeys.
    */
-  value: String;
+  id: string;
 };
 ```
 
 ### Example Usage
 
 ```tsx
+import * as React from "react";
 import { RadioButtonGroup } from "@easypost/easy-ui/RadioButtonGroup";
 import SettingsIcon from "@easypost/easy-ui-icons/Settings";
 
 function Component() {
+  const [selected, setSelected] = React.useState("in");
   return (
-    <RadioButtonGroup>
-      <RadioButtonGroup.Button value="in">in</RadioButtonGroup.Button>
-      <RadioButtonGroup.Button value="cm">cm</RadioButtonGroup.Button>
+    <RadioButtonGroup onSelectionChange={setSelected}>
+      <RadioButtonGroup.Button id="in">in</RadioButtonGroup.Button>
+      <RadioButtonGroup.Button id="cm">cm</RadioButtonGroup.Button>
     </RadioButtonGroup>
   );
 }
