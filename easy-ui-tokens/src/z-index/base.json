@@ -1,16 +1,9 @@
 {
   "z-index": {
-    "input_icon": {
-      "value": "1"
-    },
-    "nav": {
-      "value": "1000"
-    },
-    "modal": {
-      "value": "1300"
-    },
-    "notification": {
-      "value": "999999"
-    }
+    "input_icon": { "value": "1" },
+    "nav": { "value": "1000" },
+    "drawer": { "value": "1200" },
+    "modal": { "value": "1300" },
+    "notification": { "value": "999999" }
   }
 }
