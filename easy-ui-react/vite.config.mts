@@ -48,6 +48,7 @@ export default defineConfig({
           ignore: ["**/test.ts", "**/*.test.ts"],
         }),
       ]),
+      cssFileName: "style",
     },
     rollupOptions: {
       external: ["react", "react-dom"],
