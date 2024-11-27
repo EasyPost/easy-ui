@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.50
+
+### Patch Changes
+
+- fcbd591: fix: css output filename
+
 ## 1.0.0-alpha.49
 
 ### Minor Changes
