@@ -1,5 +1,20 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.48
+
+### Minor Changes
+
+- eb43221: feat: add Pagination component
+- 8372f76: added a new prop to support menu section titles
+- 6161a5c: feat: support sections and a decorative background for EmptyStateCard
+- 00a9497: feat: adds z-index token for nav to support NexusLayoutHeader
+
+### Patch Changes
+
+- a0d7d05: Remove outer border from flagged variant, Support primary and secondary in status prop, and allow any color. token to be passed to status
+- Updated dependencies [00a9497]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.13
+
 ## 1.0.0-alpha.47
 
 ### Minor Changes

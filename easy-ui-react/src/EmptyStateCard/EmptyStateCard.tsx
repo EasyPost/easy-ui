@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Text, TextProps } from "../Text";
-import { Card } from "../Card";
+import { Card, CardProps } from "../Card";
 import { VerticalStack, VerticalStackProps } from "../VerticalStack";
 import { HorizontalStack, HorizontalStackProps } from "../HorizontalStack";
 import { classNames } from "../utilities/css";
@@ -8,7 +8,7 @@ import { classNames } from "../utilities/css";
 import { BASE_64_BLUE_BOX, BASE_64_CLAPPING_BENJAMIN } from "./utilities";
 import styles from "./EmptyStateCard.module.scss";
 
-export type EmptyStateCardProps = {
+export type EmptyStateCardProps = CardProps & {
   /**
    * The children of the <EmptyStateCard> element.
    */
@@ -67,10 +67,17 @@ export type EmptyStateCardProps = {
  * ```
  */
 export function EmptyStateCard(props: EmptyStateCardProps) {
-  const { children } = props;
+  const { children, ...cardProps } = props;
 
   return (
-    <Card background="primary.800" borderRadius="lg" padding="0" boxShadow="1">
+    <Card
+      variant="solid"
+      background="primary.800"
+      borderRadius="lg"
+      padding="0"
+      boxShadow="1"
+      {...cardProps}
+    >
       {children}
     </Card>
   );
