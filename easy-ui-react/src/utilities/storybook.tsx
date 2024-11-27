@@ -15,6 +15,7 @@ import {
 export function createLabelledOptionsControl(
   opts: Record<string, unknown>,
   control = {},
+  restProps = {},
 ) {
   return {
     options: Object.keys(opts),
@@ -24,6 +25,7 @@ export function createLabelledOptionsControl(
       labels: Object.keys(opts).reduce((o, key) => ({ ...o, [key]: key }), {}),
       ...control,
     },
+    ...restProps,
   };
 }
 
@@ -60,18 +62,50 @@ function getTokensControl(tokenAliases: string[]) {
 export function getFilledButtonsColorMapping() {
   return createLabelledOptionsControl(
     Object.fromEntries(FILLED_BUTTON_COLORS.map((key) => [key, key])),
+    {},
+    {
+      table: {
+        type: {
+          summary:
+            '"primary" | "secondary" | "success" | "warning" | "neutral"',
+        },
+        defaultValue: { summary: "primary" },
+      },
+      description: "Supported colors for filled variant",
+    },
   );
 }
 
 export function getOutlinedButtonsColorMapping() {
   return createLabelledOptionsControl(
     Object.fromEntries(OUTLINED_BUTTON_COLORS.map((key) => [key, key])),
+    {},
+    {
+      table: {
+        type: {
+          summary:
+            '"primary" | "secondary" | "support" | "warning" | "inverse"',
+        },
+        defaultValue: { summary: "primary" },
+      },
+      description: "Supported colors for outlined variant",
+    },
   );
 }
 
 export function getLinkButtonsColorMapping() {
   return createLabelledOptionsControl(
     Object.fromEntries(LINK_BUTTON_COLORS.map((key) => [key, key])),
+    {},
+    {
+      table: {
+        type: {
+          summary: '"primary" | "secondary"',
+        },
+        defaultValue: { summary: "primary" },
+      },
+      description: "Supported colors for link variant",
+    },
   );
 }
 
