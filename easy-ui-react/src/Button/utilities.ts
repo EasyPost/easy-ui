@@ -2,14 +2,32 @@ import omit from "lodash/omit";
 import { ButtonColor } from "./Button";
 import { ButtonVariant } from "./Button";
 
+export const FILLED_BUTTON_COLORS = [
+  "primary",
+  "secondary",
+  "success",
+  "warning",
+  "neutral",
+];
+
+export const OUTLINED_BUTTON_COLORS = [
+  "primary",
+  "secondary",
+  "support",
+  "warning",
+  "inverse",
+];
+
+export const LINK_BUTTON_COLORS = ["primary", "secondary"];
+
 export function logWarningIfInvalidColorVariantCombination(
   color: ButtonColor,
   variant: ButtonVariant,
 ): void {
   const validColorVariantCombinations = {
-    filled: ["primary", "secondary", "success", "warning", "neutral"],
-    outlined: ["primary", "secondary", "support", "inverse"],
-    link: ["primary", "secondary"],
+    filled: FILLED_BUTTON_COLORS,
+    outlined: OUTLINED_BUTTON_COLORS,
+    link: LINK_BUTTON_COLORS,
   };
   if (!validColorVariantCombinations[variant]?.includes(color)) {
     // eslint-disable-next-line no-console

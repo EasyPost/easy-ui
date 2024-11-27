@@ -6,10 +6,16 @@ import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
 import { SortDescriptor } from "react-stately";
 import { Menu } from "../Menu";
+import {
+  FILLED_BUTTON_COLORS,
+  OUTLINED_BUTTON_COLORS,
+  LINK_BUTTON_COLORS,
+} from "../Button/utilities";
 
 export function createLabelledOptionsControl(
   opts: Record<string, unknown>,
   control = {},
+  restProps = {},
 ) {
   return {
     options: Object.keys(opts),
@@ -19,6 +25,7 @@ export function createLabelledOptionsControl(
       labels: Object.keys(opts).reduce((o, key) => ({ ...o, [key]: key }), {}),
       ...control,
     },
+    ...restProps,
   };
 }
 
@@ -49,6 +56,56 @@ export function getThemeTokensControl(pattern: string) {
 function getTokensControl(tokenAliases: string[]) {
   return createLabelledOptionsControl(
     tokenAliases.reduce((o, alias) => ({ ...o, [alias]: alias }), {}),
+  );
+}
+
+export function getFilledButtonsColorMapping() {
+  return createLabelledOptionsControl(
+    Object.fromEntries(FILLED_BUTTON_COLORS.map((key) => [key, key])),
+    {},
+    {
+      table: {
+        type: {
+          summary:
+            '"primary" | "secondary" | "success" | "warning" | "neutral"',
+        },
+        defaultValue: { summary: "primary" },
+      },
+      description: "Supported colors for filled variant",
+    },
+  );
+}
+
+export function getOutlinedButtonsColorMapping() {
+  return createLabelledOptionsControl(
+    Object.fromEntries(OUTLINED_BUTTON_COLORS.map((key) => [key, key])),
+    {},
+    {
+      table: {
+        type: {
+          summary:
+            '"primary" | "secondary" | "support" | "warning" | "inverse"',
+        },
+        defaultValue: { summary: "primary" },
+      },
+      description: "Supported colors for outlined variant",
+    },
+  );
+}
+
+export function getLinkButtonsColorMapping() {
+  return createLabelledOptionsControl(
+    Object.fromEntries(LINK_BUTTON_COLORS.map((key) => [key, key])),
+    {},
+    {
+      table: {
+        type: {
+          summary: '"primary" | "secondary"',
+        },
+        defaultValue: { summary: "primary" },
+      },
+      description: "Supported colors for link variant",
+    },
   );
 }
 
