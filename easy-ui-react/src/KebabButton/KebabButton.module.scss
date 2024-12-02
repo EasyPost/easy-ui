@@ -1,0 +1,9 @@
+@use "../styles/common" as *;
+
+.kebabButton {
+  border-radius: design-token("shape.border_radius.md");
+}
+
+.kebabButton[aria-expanded="true"] {
+  background-color: design-token("color.primary.700");
+}
