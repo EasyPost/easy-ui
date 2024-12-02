@@ -1,10 +1,8 @@
-import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
 import React, { useCallback, useState } from "react";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { KebabButton } from "../KebabButton";
-import { classNames } from "../utilities/css";
 import { UnstyledPressButton } from "./UnstyledPressButton";
 import { useDataGridRow } from "./context";
 import {
