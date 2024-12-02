@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
+import { KebabButton } from "../KebabButton";
 import { classNames } from "../utilities/css";
 import { UnstyledPressButton } from "./UnstyledPressButton";
 import { useDataGridRow } from "./context";
@@ -45,14 +46,13 @@ function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
     setIsOpen(isOpen);
   }, []);
 
-  const className = classNames(styles.MenuButton, isOpen && styles.open);
   return (
     <Menu isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Menu.Trigger>
-        <UnstyledPressButton onPress={handleClick} className={className}>
-          <Text visuallyHidden>{accessibilityLabel}</Text>
-          <Icon symbol={MoreVertIcon} />
-        </UnstyledPressButton>
+        <KebabButton
+          onPress={handleClick}
+          accessibilityLabel={accessibilityLabel}
+        />
       </Menu.Trigger>
       {rowAction.renderMenuOverlay()}
     </Menu>

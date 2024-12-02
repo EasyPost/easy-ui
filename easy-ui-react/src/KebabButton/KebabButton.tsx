@@ -22,18 +22,14 @@ export const KebabButton = React.forwardRef<null, KebabButtonProps>(
   (props, inRef) => {
     const { accessibilityLabel = "Actions", ...restProps } = props;
 
-    const isExpanded = props["aria-expanded"];
     return (
       <UnstyledPressButton
         ref={inRef}
-        className={styles.kebabButton}
+        className={styles.KebabButton}
         {...restProps}
       >
         <Text visuallyHidden>{accessibilityLabel}</Text>
-        <Icon
-          symbol={MoreVertIcon}
-          color={isExpanded ? "neutral.000" : "neutral.800"}
-        />
+        <Icon symbol={MoreVertIcon} />
       </UnstyledPressButton>
     );
   },
