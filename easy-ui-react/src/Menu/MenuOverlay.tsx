@@ -32,6 +32,7 @@ import {
   filterSelectedKeys,
   getUnmergedPopoverStyles,
   isSelectAllSelected,
+  useSelectionCapture,
 } from "./utilities";
 
 import styles from "./Menu.module.scss";
@@ -115,8 +116,9 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
 
   const popoverRef = React.useRef(null);
   const menuRef = React.useRef(null);
-  const selectionPendingRef = React.useRef(false);
 
+  const { isSelectionPending, markSelectionPending, markSelectionStale } =
+    useSelectionCapture();
   const { menuTriggerState, triggerRef, triggerWidth, menuPropsFromTrigger } =
     useInternalMenuContext();
 
@@ -138,13 +140,13 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
   // "Select all" behavior.
   const handleSelectionChange = useCallback(
     (keys: Selection) => {
-      if (!selectionPendingRef.current) {
+      if (!isSelectionPending()) {
         return;
       }
       onSelectionChange(keys === "all" ? keys : filterSelectedKeys(keys));
-      selectionPendingRef.current = false;
+      markSelectionStale();
     },
-    [onSelectionChange],
+    [isSelectionPending, markSelectionStale, onSelectionChange],
   );
 
   const menuTreeState = useTreeState({
@@ -159,7 +161,7 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
   // Override the onAction handler to handle custom "Select all" behavior.
   const handleAction = useCallback(
     (key: Key) => {
-      selectionPendingRef.current = true;
+      markSelectionPending();
       if (key === SELECT_ALL_KEY && isSelectAllSelected(menuTreeState)) {
         menuTreeState.selectionManager.clearSelection();
       } else if (key === SELECT_ALL_KEY) {
@@ -169,7 +171,7 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
       }
       onAction(key);
     },
-    [menuTreeState, onAction],
+    [markSelectionPending, menuTreeState, onAction],
   );
 
   const { menuProps } = useMenu(

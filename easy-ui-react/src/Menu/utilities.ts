@@ -1,5 +1,5 @@
 import { Key } from "@react-types/shared";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { TreeState } from "react-stately";
 import {
   getComponentToken,
@@ -78,4 +78,39 @@ export function isSelectAllSelected<T>(state: TreeState<T>) {
 
 export function isSelectAllIndeterminate<T>(state: TreeState<T>) {
   return !isSelectAllSelected(state) && getFilteredSelectedKeys(state).size > 0;
+}
+
+export function useSelectionCapture() {
+  const selectionPendingRef = React.useRef(false);
+
+  const isSelectionPending = useCallback(() => {
+    return selectionPendingRef.current === true;
+  }, []);
+
+  const markSelectionPending = useCallback(() => {
+    selectionPendingRef.current = true;
+  }, []);
+
+  const markSelectionStale = useCallback(() => {
+    selectionPendingRef.current = false;
+  }, []);
+
+  // This effect ensures that keyboard shortcuts (i.e. `cmd + a`) still
+  // works with our custom "select all" logic
+  useEffect(() => {
+    window.addEventListener("keydown", markSelectionPending);
+    window.addEventListener("pointerdown", markSelectionStale, {
+      capture: true,
+    });
+    window.addEventListener("keyup", markSelectionStale);
+    return () => {
+      window.removeEventListener("keydown", markSelectionPending);
+      window.removeEventListener("pointerdown", markSelectionStale, {
+        capture: true,
+      });
+      window.removeEventListener("keyup", markSelectionStale);
+    };
+  }, [markSelectionPending, markSelectionStale]);
+
+  return { isSelectionPending, markSelectionPending, markSelectionStale };
 }
