@@ -1,10 +1,11 @@
 import {
   CollectionChildren,
   Key,
-  SelectionMode,
   Selection,
+  SelectionMode,
 } from "@react-types/shared";
-import React from "react";
+import noop from "lodash/noop";
+import React, { useCallback } from "react";
 import {
   DismissButton,
   Overlay,
@@ -28,8 +29,10 @@ import {
   OVERLAY_PADDING_FROM_CONTAINER,
   SELECT_ALL_KEY,
   Y_PADDING_INSIDE_OVERLAY,
+  filterSelectedKeys,
   getUnmergedPopoverStyles,
-  getItems,
+  isSelectAllSelected,
+  useSelectionCapture,
 } from "./utilities";
 
 import styles from "./Menu.module.scss";
@@ -42,6 +45,11 @@ export type MenuOverlayWidth =
 export type MenuOverlayProps<T> = {
   /** The contents of the menu. */
   children: CollectionChildren<T>;
+
+  /**
+   * The initial selected keys in the collection (uncontrolled).
+   */
+  defaultSelectedKeys?: "all" | Iterable<Key>;
 
   /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
   disabledKeys?: Iterable<Key>;
@@ -94,28 +102,23 @@ export function MenuOverlay<T extends object>(props: MenuOverlayProps<T>) {
 function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
   const {
     children,
+    defaultSelectedKeys,
     disabledKeys,
     maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
-    onAction,
+    onAction = noop,
     onClose,
     placement = DEFAULT_PLACEMENT,
     width = DEFAULT_WIDTH,
     selectionMode,
-    onSelectionChange,
+    onSelectionChange = noop,
     selectedKeys,
   } = props;
 
   const popoverRef = React.useRef(null);
   const menuRef = React.useRef(null);
 
-  const menuTreeState = useTreeState({
-    children,
-    disabledKeys,
-    selectionMode,
-    selectedKeys,
-    onSelectionChange,
-  });
-
+  const { isSelectionPending, markSelectionPending, markSelectionStale } =
+    useSelectionCapture();
   const { menuTriggerState, triggerRef, triggerWidth, menuPropsFromTrigger } =
     useInternalMenuContext();
 
@@ -133,30 +136,47 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
     menuTriggerState,
   );
 
-  const { selectionManager } = menuTreeState;
-  const handleMultiSelectAll = (key: Key) => {
-    const { itemSize, items } = getItems(menuTreeState);
-    if (key === SELECT_ALL_KEY) {
-      if (selectionManager.selectedKeys.size === itemSize) {
-        selectionManager.clearSelection();
-      } else {
-        selectionManager.setSelectedKeys(items);
+  // Override the onSelectionChange handler to handle custom
+  // "Select all" behavior.
+  const handleSelectionChange = useCallback(
+    (keys: Selection) => {
+      if (!isSelectionPending()) {
+        return;
       }
-    }
-    if (onAction) {
-      onAction(key);
-    }
-  };
+      onSelectionChange(keys === "all" ? keys : filterSelectedKeys(keys));
+      markSelectionStale();
+    },
+    [isSelectionPending, markSelectionStale, onSelectionChange],
+  );
 
-  const handleOnAction =
-    selectionMode === "multiple" &&
-    !!menuTreeState.collection.getItem(SELECT_ALL_KEY)
-      ? handleMultiSelectAll
-      : onAction;
+  const menuTreeState = useTreeState({
+    children,
+    defaultSelectedKeys,
+    disabledKeys,
+    selectionMode,
+    selectedKeys,
+    onSelectionChange: handleSelectionChange,
+  });
+
+  // Override the onAction handler to handle custom "Select all" behavior.
+  const handleAction = useCallback(
+    (key: Key) => {
+      markSelectionPending();
+      if (key === SELECT_ALL_KEY && isSelectAllSelected(menuTreeState)) {
+        menuTreeState.selectionManager.clearSelection();
+      } else if (key === SELECT_ALL_KEY) {
+        menuTreeState.selectionManager.selectAll();
+      } else {
+        menuTreeState.selectionManager.toggleSelection(key);
+      }
+      onAction(key);
+    },
+    [markSelectionPending, menuTreeState, onAction],
+  );
 
   const { menuProps } = useMenu(
     mergeProps(
-      { disabledKeys, onAction: handleOnAction, onClose },
+      { disabledKeys, onAction: handleAction, onClose },
       menuPropsFromTrigger,
     ),
     menuTreeState,

@@ -1,11 +1,11 @@
-import React from "react";
 import { Key } from "@react-types/shared";
+import React, { useCallback, useEffect } from "react";
+import { TreeState } from "react-stately";
 import {
   getComponentToken,
   getResponsiveValue,
   pxToRem,
 } from "../utilities/css";
-import { TreeState } from "react-stately";
 import { MenuOverlayWidth } from "./MenuOverlay";
 
 export const DEFAULT_MAX_ITEMS_UNTIL_SCROLL = 5;
@@ -41,48 +41,76 @@ export function getUnmergedPopoverStyles(
   };
 }
 
-type Items = {
-  itemSize: number;
-  items: Set<Key>;
-};
-export function getItems<T>(state: TreeState<T>): Items {
-  return [...state.collection].reduce(
-    (acc, item) => {
-      if (item.type === "section") {
-        [...item.childNodes].forEach((child) => {
-          if (
-            child.key !== SELECT_ALL_KEY &&
-            !state.disabledKeys.has(child.key)
-          ) {
-            acc.itemSize += 1;
-            acc.items.add(child.key);
-          }
-        });
-      } else {
-        if (item.key !== SELECT_ALL_KEY) {
-          acc.itemSize += 1;
-          acc.items.add(item.key);
+export function getAllSelectableItems<T>(state: TreeState<T>): Set<Key> {
+  return [...state.collection].reduce((acc, item) => {
+    if (item.type === "section") {
+      [...item.childNodes].forEach((child) => {
+        if (
+          child.key !== SELECT_ALL_KEY &&
+          !state.disabledKeys.has(child.key)
+        ) {
+          acc.add(child.key);
         }
+      });
+    } else {
+      if (item.key !== SELECT_ALL_KEY && !state.disabledKeys.has(item.key)) {
+        acc.add(item.key);
       }
-      return acc;
-    },
-    { itemSize: 0, items: new Set<Key>() },
+    }
+    return acc;
+  }, new Set<Key>());
+}
+
+export function filterSelectedKeys(keys: Set<Key>) {
+  return new Set([...keys].filter((v) => v !== SELECT_ALL_KEY));
+}
+
+export function getFilteredSelectedKeys<T>(state: TreeState<T>) {
+  return filterSelectedKeys(state.selectionManager.selectedKeys);
+}
+
+export function isSelectAllSelected<T>(state: TreeState<T>) {
+  return (
+    state.selectionManager.isSelectAll ||
+    getFilteredSelectedKeys(state).size === getAllSelectableItems(state).size
   );
 }
 
-export function useSelectAllState<T>(state: TreeState<T>, key: Key) {
-  const { selectedKeys } = state.selectionManager;
-  const { itemSize } = getItems(state);
-  const isSelectAllCheckbox = key === SELECT_ALL_KEY;
-  const isSelectAllSelected =
-    !selectedKeys.has(SELECT_ALL_KEY) && selectedKeys.size === itemSize;
-  const isSelectAllIndeterminate =
-    selectedKeys.size > 0 && !isSelectAllSelected;
-  const selectAllItemProps = isSelectAllCheckbox
-    ? {
-        "aria-checked": isSelectAllSelected,
-      }
-    : {};
+export function isSelectAllIndeterminate<T>(state: TreeState<T>) {
+  return !isSelectAllSelected(state) && getFilteredSelectedKeys(state).size > 0;
+}
 
-  return { selectAllItemProps, isSelectAllSelected, isSelectAllIndeterminate };
+export function useSelectionCapture() {
+  const selectionPendingRef = React.useRef(false);
+
+  const isSelectionPending = useCallback(() => {
+    return selectionPendingRef.current === true;
+  }, []);
+
+  const markSelectionPending = useCallback(() => {
+    selectionPendingRef.current = true;
+  }, []);
+
+  const markSelectionStale = useCallback(() => {
+    selectionPendingRef.current = false;
+  }, []);
+
+  // This effect ensures that keyboard shortcuts (i.e. `cmd + a`) still
+  // works with our custom "select all" logic
+  useEffect(() => {
+    window.addEventListener("keydown", markSelectionPending);
+    window.addEventListener("pointerdown", markSelectionStale, {
+      capture: true,
+    });
+    window.addEventListener("keyup", markSelectionStale);
+    return () => {
+      window.removeEventListener("keydown", markSelectionPending);
+      window.removeEventListener("pointerdown", markSelectionStale, {
+        capture: true,
+      });
+      window.removeEventListener("keyup", markSelectionStale);
+    };
+  }, [markSelectionPending, markSelectionStale]);
+
+  return { isSelectionPending, markSelectionPending, markSelectionStale };
 }

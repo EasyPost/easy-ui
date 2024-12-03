@@ -7,10 +7,14 @@ import React, {
 } from "react";
 import { mergeProps, useMenuItem } from "react-aria";
 import { Item, Node, TreeState } from "react-stately";
-import { Text } from "../Text";
 import { Checkbox } from "../Checkbox";
+import { Text } from "../Text";
 import { NoInfer } from "../types";
-import { SELECT_ALL_KEY, useSelectAllState } from "./utilities";
+import {
+  isSelectAllIndeterminate,
+  isSelectAllSelected,
+  SELECT_ALL_KEY,
+} from "./utilities";
 
 import styles from "./Menu.module.scss";
 
@@ -74,19 +78,19 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
     state,
     ref,
   );
-  const { selectAllItemProps, isSelectAllSelected, isSelectAllIndeterminate } =
-    useSelectAllState(state, item.key);
 
   const MenuItemContainer = href
     ? LinkMenuItemContainer
     : StandardMenuItemContainer;
 
-  const props = href
-    ? mergeProps(
-        menuItemProps,
-        omit(item.props, ["aria-label", "as", "children", "closeOnSelect"]),
-      )
-    : mergeProps(menuItemProps, selectAllItemProps);
+  const props = mergeProps(
+    menuItemProps,
+    href
+      ? omit(item.props, ["aria-label", "as", "children", "closeOnSelect"])
+      : item.key === SELECT_ALL_KEY
+        ? { "aria-checked": isSelectAllSelected(state) }
+        : {},
+  );
 
   return (
     <MenuItemContainer
@@ -96,7 +100,7 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
       data-is-disabled={isDisabled}
       data-is-focused={isFocused}
       data-is-selected={
-        item.key === SELECT_ALL_KEY ? isSelectAllSelected : isSelected
+        item.key === SELECT_ALL_KEY ? isSelectAllSelected(state) : isSelected
       }
     >
       <div className={styles.itemContent}>
@@ -106,12 +110,16 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
           </Text>
         ) : (
           <Checkbox
-            isSelected={
-              item.key === SELECT_ALL_KEY ? isSelectAllSelected : isSelected
-            }
             isDisabled={isDisabled}
             isIndeterminate={
-              item.key === SELECT_ALL_KEY ? isSelectAllIndeterminate : undefined
+              item.key === SELECT_ALL_KEY
+                ? isSelectAllIndeterminate(state)
+                : undefined
+            }
+            isSelected={
+              item.key === SELECT_ALL_KEY
+                ? isSelectAllSelected(state)
+                : isSelected
             }
           >
             {item.rendered}

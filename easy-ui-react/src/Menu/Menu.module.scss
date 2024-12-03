@@ -20,8 +20,9 @@
 }
 
 .sectionTitle {
-  @include font-style("subtitle1");
-  color: theme-token("color.primary.900");
+  display: inline-flex;
+  align-items: center;
+  min-height: design-token("space.4");
   padding: 0 component-token("menu", "padding.x");
 }
 
