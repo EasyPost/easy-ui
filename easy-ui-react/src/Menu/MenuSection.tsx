@@ -4,6 +4,7 @@ import { Node, Section, TreeState } from "react-stately";
 
 import styles from "./Menu.module.scss";
 import { MenuItemContent } from "./MenuItem";
+import { Text } from "../Text";
 
 export type MenuSectionProps = {
   /** Rendered contents of the item or child items. */
@@ -59,9 +60,13 @@ export function MenuSectionContent<T>({
         <li {...itemProps}>
           {section.hasChildNodes && (
             <>
-              <li {...headingProps} className={styles.sectionTitle}>
-                {section.rendered}
-              </li>
+              {section.rendered && (
+                <span {...headingProps} className={styles.sectionTitle}>
+                  <Text variant="subtitle1" color="primary.900">
+                    {section.rendered}
+                  </Text>
+                </span>
+              )}
               <ul {...groupProps} className={styles.sectionList}>
                 {[...section.childNodes].map((item) => {
                   return (

@@ -66,6 +66,16 @@ A `<Menu />` can be placed on different edges of its trigger element. See the co
 
 <Controls of={MenuStories.CustomPlacement} include={["placement"]} />
 
+## Multiple Selection
+
+A `<Menu />` supports multiple selection mode by using `selectionMode` prop on `<Menu.Overlay />`. `onSelectionChange` and `selectedKeys` (controlled) are used to make selection.
+
+<Canvas of={MenuStories.MultipleSelection} />
+
+A multiple selection `<Menu />` supports Select All checkbox with `all` as key on `<Menu.Item />`. When a "select all" event occurs—either through clicking the Select All menu item or using `cmd` + `a` keyboard shortcut— `onSelectionChange(keys)` will be passed `all` as its key instead of a list of all keys.
+
+<Canvas of={MenuStories.MultipleSelectionWithSelectAll} />
+
 ## Properties
 
 ### Menu

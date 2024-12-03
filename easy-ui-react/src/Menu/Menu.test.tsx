@@ -230,6 +230,95 @@ describe("<Menu />", () => {
     await clickMenuItem(user, screen.getByRole("menuitem"));
     expect(screen.getByRole("menu")).toBeInTheDocument();
   });
+
+  it("supports multiple selection", async () => {
+    const { user } = render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        menuOverlayProps: {
+          selectionMode: "multiple",
+        },
+      }),
+    );
+    const checkboxes = screen.getAllByRole("menuitemcheckbox");
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked());
+    await clickMenuItem(user, checkboxes[0]);
+    await clickMenuItem(user, checkboxes[1]);
+    expect(checkboxes[0]).toBeChecked();
+    expect(checkboxes[1]).toBeChecked();
+    expect(checkboxes[2]).not.toBeChecked();
+  });
+
+  it("displays select all checkbox as indeterminate when few options are selected", async () => {
+    const { user } = render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        menuOverlayProps: {
+          selectionMode: "multiple",
+        },
+        items: [
+          <Menu.Item key="all">Select All</Menu.Item>,
+          <Menu.Item key="1">1</Menu.Item>,
+          <Menu.Item key="2">2</Menu.Item>,
+          <Menu.Item key="3">3</Menu.Item>,
+        ],
+      }),
+    );
+    const checkboxes = screen.getAllByRole("menuitemcheckbox");
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked());
+    await clickMenuItem(user, checkboxes[1]);
+    await clickMenuItem(user, checkboxes[2]);
+    expect(
+      (
+        screen.getByRole("checkbox", {
+          name: /select all/i,
+        }) as HTMLInputElement
+      ).indeterminate,
+    ).toBeTruthy();
+  });
+
+  it("should select all options when select all checkbox is selected", async () => {
+    const { user } = render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        menuOverlayProps: {
+          selectionMode: "multiple",
+        },
+        items: [
+          <Menu.Item key="all">Select All</Menu.Item>,
+          <Menu.Item key="1">1</Menu.Item>,
+          <Menu.Item key="2">2</Menu.Item>,
+          <Menu.Item key="3">3</Menu.Item>,
+        ],
+      }),
+    );
+    const checkboxes = screen.getAllByRole("menuitemcheckbox");
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked());
+    await clickMenuItem(user, checkboxes[0]);
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeChecked());
+  });
+
+  // TODO: userKeyboard is not registering onSelectionChange in React Aria
+  //       figure out how to get working with react aria
+  it.skip("should select all options when cmd + a keyboard shortcut is used", async () => {
+    const { user } = render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        menuOverlayProps: {
+          selectionMode: "multiple",
+        },
+        items: [
+          <Menu.Item key="all">Select All</Menu.Item>,
+          <Menu.Item key="1">1</Menu.Item>,
+          <Menu.Item key="2">2</Menu.Item>,
+          <Menu.Item key="3">3</Menu.Item>,
+        ],
+      }),
+    );
+    await userKeyboard(user, "{Meta>}{a}{/Meta}");
+    const checkboxes = screen.getAllByRole("menuitemcheckbox");
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeChecked());
+  });
 });
 
 function getMenu({

@@ -103,6 +103,21 @@ type MenuOverlay = {
    * @default auto
    */
   width?: MenuOverlayWidth;
+
+  /**
+   * The type of selection that is allowed in the collection.
+   */
+  selectionMode?: SelectionMode;
+
+  /**
+   * The currently selected keys in the collection (controlled).
+   */
+  selectedKeys?: "all" | Iterable<Key>;
+
+  /**
+   * Handler that is called when the selection changes.
+   */
+  onSelectionChange?: (keys: Selection) => void;
 };
 
 type MenuSectionProps = {
@@ -298,6 +313,38 @@ function Component() {
           I won't be closed on select
         </Menu.Item>
       </Menu.List>
+    </Menu>
+  );
+}
+```
+
+_Multiple Selection:_
+
+Menu items support being links and disabling closing on select and being disabled.
+
+```tsx
+import { Menu } from "@easypost/easy-ui/Menu";
+
+function Component() {
+  return (
+    <Menu>
+      <Menu.Trigger>
+        <DropdownButton>Click me</DropdownButton>
+      </Menu.Trigger>
+      <Menu.Overlay
+        selectionMode="multiple"
+        onSelectionChange={setSelectedKeys}
+        selectedKeys={selectedKeys}
+      >
+        <Menu.Section aria-label="All Status">
+          <Menu.Item key="all">All Statues</Menu.Item>
+        </Menu.Section>
+        <Menu.Section aria-label="Status">
+          <Menu.Item key="transit">In Transit</Menu.Item>
+          <Menu.Item key="delivery">Out for Delivery</Menu.Item>
+          <Menu.Item key="delivered">Delivered</Menu.Item>
+        </Menu.Section>
+      </Menu.Overlay>
     </Menu>
   );
 }

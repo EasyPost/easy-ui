@@ -1,5 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
+import type { Selection } from "react-stately";
 import React from "react";
 import { DropdownButton } from "../DropdownButton";
 import {
@@ -39,7 +40,10 @@ export const SimpleMenu: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <Menu.Overlay onAction={action("Selected")}>
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+      >
         <Menu.Item key="copy">Copy</Menu.Item>
         <Menu.Item key="cut">Cut</Menu.Item>
         <Menu.Item key="paste">Paste</Menu.Item>
@@ -52,7 +56,10 @@ export const WithSeparator: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <Menu.Overlay onAction={action("Selected")}>
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+      >
         <Menu.Section aria-label="Edit commands">
           <Menu.Item key="edit">Edit</Menu.Item>
           <Menu.Item key="duplicate">Duplicate</Menu.Item>
@@ -70,7 +77,10 @@ export const WithTitle: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <Menu.Overlay onAction={action("Selected")}>
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+      >
         <Menu.Section aria-label="Edit commands" title="Title option">
           <Menu.Item key="edit">Edit</Menu.Item>
           <Menu.Item key="duplicate">Duplicate</Menu.Item>
@@ -91,7 +101,8 @@ export const ScrollsOnMaxItems: StoryObj<MenuOverlayProps<unknown>> = {
         <DropdownButton>Click me</DropdownButton>
       </Menu.Trigger>
       <Menu.Overlay
-        onAction={action("Selected")}
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
         maxItemsUntilScroll={maxItemsUntilScroll}
       >
         <Menu.Item key="edit">Edit</Menu.Item>
@@ -118,7 +129,10 @@ export const WithLongItems: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <Menu.Overlay onAction={action("Selected")}>
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+      >
         <Menu.Item key="download-carriers">Download carriers report</Menu.Item>
         <Menu.Item key="download-shipping">Download shipping report</Menu.Item>
       </Menu.Overlay>
@@ -130,7 +144,11 @@ export const MatchContentWidth: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <Menu.Overlay onAction={action("Selected")} width="fit-content">
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+        width="fit-content"
+      >
         <Menu.Item key="copy">Copy</Menu.Item>
         <Menu.Item key="cut">Cut</Menu.Item>
         <Menu.Item key="paste">Paste</Menu.Item>
@@ -143,7 +161,11 @@ export const DefinedWidth: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <Menu.Overlay onAction={action("Selected")} width={300}>
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+        width={300}
+      >
         <Menu.Item key="copy">Copy</Menu.Item>
         <Menu.Item key="cut">Cut</Menu.Item>
         <Menu.Item key="paste">Paste</Menu.Item>
@@ -156,7 +178,11 @@ export const DefinedResponsiveWidth: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <Menu.Overlay onAction={action("Selected")} width={{ xs: 150, lg: 250 }}>
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+        width={{ xs: 150, lg: 250 }}
+      >
         <Menu.Item key="copy">Copy</Menu.Item>
         <Menu.Item key="cut">Cut</Menu.Item>
         <Menu.Item key="paste">Paste</Menu.Item>
@@ -177,7 +203,11 @@ export const MixedItemTypes: Story = {
   render: Template.bind({}),
   args: {
     children: (
-      <Menu.Overlay onAction={action("Selected")} disabledKeys={["no-results"]}>
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+        disabledKeys={["no-results"]}
+      >
         <Menu.Item key="no-results">Nothing to click here</Menu.Item>
         <Menu.Item key="link" href="https://easypost.com" target="_blank">
           I am a link
@@ -204,7 +234,8 @@ export const CustomPlacement: StoryObj<MenuOverlayProps<unknown>> = {
         <DropdownButton>Click me</DropdownButton>
       </Menu.Trigger>
       <Menu.Overlay
-        onAction={action("Selected")}
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
         placement={placement}
         width="fit-content"
       >
@@ -230,3 +261,101 @@ export const CustomPlacement: StoryObj<MenuOverlayProps<unknown>> = {
   },
   decorators: [OverlayLayoutDecorator],
 };
+
+export const MultipleSelection: Story = {
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
+      new Set([]),
+    );
+    return (
+      <Menu>
+        <Menu.Trigger>
+          <DropdownButton>Click me</DropdownButton>
+        </Menu.Trigger>
+        <Menu.Overlay
+          selectionMode="multiple"
+          selectedKeys={selectedKeys}
+          onSelectionChange={(keys) => {
+            setSelectedKeys(keys);
+            selectionChangeAction("onSelectionChange")(keys);
+          }}
+          onAction={action("onAction")}
+        >
+          <Menu.Item key="transit">In Transit</Menu.Item>
+          <Menu.Item key="delivery">Out for Delivery</Menu.Item>
+          <Menu.Item key="delivered">Delivered</Menu.Item>
+        </Menu.Overlay>
+      </Menu>
+    );
+  },
+};
+
+export const MultipleSelectionWithSelectAll: Story = {
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
+      new Set([]),
+    );
+    return (
+      <Menu>
+        <Menu.Trigger>
+          <DropdownButton>Click me</DropdownButton>
+        </Menu.Trigger>
+        <Menu.Overlay
+          selectionMode="multiple"
+          selectedKeys={selectedKeys}
+          onSelectionChange={(keys) => {
+            setSelectedKeys(keys);
+            selectionChangeAction("onSelectionChange")(keys);
+          }}
+          onAction={action("onAction")}
+        >
+          <Menu.Section aria-label="All Status">
+            <Menu.Item key="all">All Statues</Menu.Item>
+          </Menu.Section>
+          <Menu.Section aria-label="Status">
+            <Menu.Item key="transit">In Transit</Menu.Item>
+            <Menu.Item key="delivery">Out for Delivery</Menu.Item>
+            <Menu.Item key="delivered">Delivered</Menu.Item>
+          </Menu.Section>
+        </Menu.Overlay>
+      </Menu>
+    );
+  },
+};
+
+export const UncontrolledMultipleSelectionWithSelectAll: Story = {
+  render: () => {
+    return (
+      <Menu>
+        <Menu.Trigger>
+          <DropdownButton>Click me</DropdownButton>
+        </Menu.Trigger>
+        <Menu.Overlay
+          selectionMode="multiple"
+          defaultSelectedKeys={["transit", "usps"]}
+          onAction={action("onAction")}
+          onSelectionChange={selectionChangeAction("onSelectionChange")}
+          maxItemsUntilScroll={8}
+        >
+          <Menu.Section aria-label="All Status">
+            <Menu.Item key="all">All Statues</Menu.Item>
+          </Menu.Section>
+          <Menu.Section aria-label="Status" title="Status">
+            <Menu.Item key="transit">In Transit</Menu.Item>
+            <Menu.Item key="delivery">Out for Delivery</Menu.Item>
+            <Menu.Item key="delivered">Delivered</Menu.Item>
+          </Menu.Section>
+          <Menu.Section aria-label="Carrier" title="Carrier">
+            <Menu.Item key="usps">USPS</Menu.Item>
+            <Menu.Item key="ups">UPS</Menu.Item>
+            <Menu.Item key="fedex">FedEx</Menu.Item>
+          </Menu.Section>
+        </Menu.Overlay>
+      </Menu>
+    );
+  },
+};
+
+function selectionChangeAction(name: string) {
+  return (keys: Selection) => action(name)(keys === "all" ? keys : [...keys]);
+}
