@@ -1,12 +1,13 @@
 import React from "react";
 import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
 import { AriaButtonProps } from "react-aria";
-import { UnstyledPressButton } from "../DataGrid/UnstyledPressButton";
+import { UnstyledPressButton } from "../UnstyledButton/UnstyledPressButton";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 import styles from "./KebabButton.module.scss";
 
-type KebabButtonProps = AriaButtonProps & {
+export type KebabButtonProps = AriaButtonProps & {
+  /** Optional custom accessibility label describing the action. */
   accessibilityLabel?: string;
 };
 

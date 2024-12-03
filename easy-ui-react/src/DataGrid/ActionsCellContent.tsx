@@ -3,7 +3,7 @@ import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { KebabButton } from "../KebabButton";
-import { UnstyledPressButton } from "./UnstyledPressButton";
+import { UnstyledPressButton } from "../UnstyledButton/UnstyledPressButton";
 import { useDataGridRow } from "./context";
 import {
   ActionRowAction as ActionRowActionType,
