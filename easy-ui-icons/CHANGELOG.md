@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.29
+
+### Minor Changes
+
+- a722ea9: feat(icons): more icon support
+
 ## 1.0.0-alpha.28
 
 ### Minor Changes
