@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.51
+
+### Minor Changes
+
+- 1a3376b: feat: Menu supports multiple selection
+- a747675: feat(Button): support warning color with outlined variant
+
 ## 1.0.0-alpha.50
 
 ### Patch Changes
