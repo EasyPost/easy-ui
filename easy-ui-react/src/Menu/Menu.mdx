@@ -72,7 +72,7 @@ A `<Menu />` supports multiple selection mode by using `selectionMode` prop on `
 
 <Canvas of={MenuStories.MultipleSelection} />
 
-A multiple selection `<Menu />` supports Select All checkbox with `all` as key on `<Menu.Item />`.
+A multiple selection `<Menu />` supports Select All checkbox with `all` as key on `<Menu.Item />`. When a "select all" event occurs—either through clicking the Select All menu item or using `cmd` + `a` keyboard shortcut— `onSelectionChange(keys)` will be passed `all` as its key instead of a list of all keys.
 
 <Canvas of={MenuStories.MultipleSelectionWithSelectAll} />
 
