@@ -2,7 +2,7 @@ import ArrowForwardIos from "@easypost/easy-ui-icons/ArrowForwardIos";
 import React, { useCallback } from "react";
 import { Icon } from "../Icon";
 import { classNames } from "../utilities/css";
-import { UnstyledPressButton } from "./UnstyledPressButton";
+import { UnstyledPressButton } from "../UnstyledButton/UnstyledPressButton";
 import { Text } from "../Text";
 
 import styles from "./ExpandCellContent.module.scss";
