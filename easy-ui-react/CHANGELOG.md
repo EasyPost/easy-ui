@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.53
+
+### Minor Changes
+
+- 6a9ea9c: feat: KebabButton
+
+### Patch Changes
+
+- Updated dependencies [b1a7fc5]
+  - @easypost/easy-ui-icons@1.0.0-alpha.30
+
 ## 1.0.0-alpha.52
 
 ### Patch Changes
