@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.30
+
+### Minor Changes
+
+- b1a7fc5: Add analytics icon
+
 ## 1.0.0-alpha.29
 
 ### Minor Changes
