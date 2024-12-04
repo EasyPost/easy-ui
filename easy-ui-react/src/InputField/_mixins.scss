@@ -87,6 +87,7 @@
   @include component-token(
     "inputfield",
     "icon-input-padding",
+    "text-input-padding"
     design-token("space.6")
   );
   color: component-token("inputfield", "color.text.resting");
@@ -173,4 +174,12 @@
   display: flex;
   align-items: center;
   position: relative;
+}
+
+@mixin textStartInput {
+  padding-left: component-token("inputfield", "text-input-padding");
+}
+
+@mixin textEndInput {
+  padding-right: component-token("inputfield", "text-input-padding");
 }

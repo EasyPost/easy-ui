@@ -55,8 +55,8 @@ export const PrefixAndSuffix: Story = {
     label: "Label",
     placeholder: "Placeholder text",
     helperText: "Optional helper text",
-    textPrefix: "$",
-    textSuffix: "2.50",
+    textAtStart: "$",
+    textAtEnd: "2.50",
   },
 };
 

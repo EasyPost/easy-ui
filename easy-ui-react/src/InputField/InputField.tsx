@@ -7,6 +7,7 @@ import { Label } from "./Label";
 import { InputCaption } from "./InputCaption";
 import { PasswordButton } from "./PasswordButton";
 import { InputIcon } from "./InputIcon";
+import { InputText } from "./inputText";
 import { useInputField } from "./useInputField";
 import styles from "./InputField.module.scss";
 import {
@@ -90,9 +91,9 @@ export type InputFieldProps = AriaTextFieldProps & {
   /** Right aligned icon on input. */
   iconAtEnd?: IconSymbol;
   /** Left aligned text on input */
-  textPrefix?: string;
+  textAtStart?: string;
   /** Right aligned text on input */
-  textSuffix?: string;
+  textAtEnd?: string;
 };
 /**
  * @privateRemarks
@@ -119,8 +120,8 @@ export function InputField(props: InputFieldProps) {
     defaultValue,
     iconAtStart,
     iconAtEnd,
-    textPrefix,
-    textSuffix,
+    textAtStart,
+    textAtEnd,
     rows,
   } = props;
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -132,17 +133,19 @@ export function InputField(props: InputFieldProps) {
   const Component = getElementType(isMultiline);
 
   const bothIconPropsDefined = !!iconAtEnd && !!iconAtStart;
-  // const bothPrefixSuffixDefined = !!textPrefix && !!textSuffix;
+  const iconAndTextPropsDefined =
+    (!!iconAtEnd || !!iconAtStart) && (!!textAtStart || !!textAtEnd);
   const smallSizeTextarea = size === "sm" && Component === "textarea";
   const definedIconsWithTextarea =
     (!!iconAtEnd || !!iconAtStart) && Component === "textarea";
   const definedprefixsuffixWithTextarea =
-    (!!textPrefix || !!textSuffix) && Component === "textarea";
+    (!!textAtStart || !!textAtEnd) && Component === "textarea";
 
   logWarningsForInvalidPropConfiguration(
     bothIconPropsDefined,
     smallSizeTextarea,
     definedIconsWithTextarea,
+    iconAndTextPropsDefined,
   );
 
   logWarningForMissingAriaLabel(label, ariaLabel);
@@ -153,11 +156,11 @@ export function InputField(props: InputFieldProps) {
   const showHelperText = !showErrorText && helperText;
   const canUseIcon =
     !bothIconPropsDefined && !isPassword && !definedIconsWithTextarea;
-  const canUseTextPrefixSuffix = !definedprefixsuffixWithTextarea;
+  const canUsetextAtStartAndAtEnd = !definedprefixsuffixWithTextarea;
   const hasStartIcon = canUseIcon && iconAtStart;
   const hasEndIcon = canUseIcon && iconAtEnd;
-  const hastextPrefix = canUseTextPrefixSuffix && textPrefix;
-  const hastextSuffix = canUseTextPrefixSuffix && textSuffix;
+  const hasTextAtStart = canUsetextAtStartAndAtEnd && textAtStart;
+  const hastextAtEnd = canUsetextAtStartAndAtEnd && textAtEnd;
   const isTypeAdjustedForPasswordVisibility = isPassword && isPasswordVisible;
   const captionProps = showHelperText ? helperTextProps : errorTextProps;
   const captionText = showHelperText ? helperText : errorText;
@@ -171,8 +174,8 @@ export function InputField(props: InputFieldProps) {
     hasError && styles.errorInput,
     hasStartIcon && styles.iconStartInput,
     hasEndIcon && styles.iconEndInput,
-    hastextPrefix && styles.prefix,
-    hastextSuffix && styles.suffix,
+    hasTextAtStart && styles.textStart,
+    hastextAtEnd && styles.textEnd,
     styles[variationName("inputSize", adjustedSize)],
   );
 
@@ -204,7 +207,9 @@ export function InputField(props: InputFieldProps) {
             icon={iconAtStart}
           />
         )}
-        {hastextPrefix && <span className={styles.prefix}>{textPrefix}</span>}
+        {hasTextAtStart && (
+          <InputText alignment="start" size={adjustedSize} text={textAtStart} />
+        )}
         <Component
           {...elementProps}
           {...hoverProps}
@@ -219,7 +224,9 @@ export function InputField(props: InputFieldProps) {
           defaultValue={defaultValue}
           rows={Component === "textarea" ? rows : undefined}
         />
-        {hastextSuffix && <span className={styles.suffix}>:{textSuffix}</span>}
+        {hastextAtEnd && (
+          <InputText alignment="end" size={adjustedSize} text={textAtEnd} />
+        )}
         {isPassword ? (
           <PasswordButton
             isInputHovered={isInputHovered}
