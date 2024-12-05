@@ -174,8 +174,8 @@ export function InputField(props: InputFieldProps) {
     hasError && styles.errorInput,
     hasStartIcon && styles.iconStartInput,
     hasEndIcon && styles.iconEndInput,
-    hasTextAtStart && styles.textStart,
-    hastextAtEnd && styles.textEnd,
+    hasTextAtStart && styles.textStartInput,
+    hastextAtEnd && styles.textEndInput,
     styles[variationName("inputSize", adjustedSize)],
   );
 

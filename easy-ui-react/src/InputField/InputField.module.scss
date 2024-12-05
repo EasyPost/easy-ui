@@ -190,11 +190,11 @@
 }
 
 .textStart {
-  left: design-token("space.0.5");
-  color: theme-token("color.primary.800");
+  left: design-token("space.1.5");
+  color: theme-token("color.gray.600");
 }
 
 .textEnd {
   right: design-token("space.1.5");
-  color: theme-token("color.neutral.400");
+  color: theme-token("color.gray.400");
 }
