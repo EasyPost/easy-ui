@@ -10,7 +10,6 @@ const meta: Meta<typeof RadioButtonGroup> = {
   component: RadioButtonGroup,
   args: {
     color: "primary.500",
-    defaultSelectedKeys: ["in"],
   },
   argTypes: {
     color: {
@@ -36,9 +35,57 @@ export const Default: Story = {
       <>
         <RadioButtonGroup.Button id="in">in</RadioButtonGroup.Button>
         <RadioButtonGroup.Button id="cm">cm</RadioButtonGroup.Button>
-        <RadioButtonGroup.Button id="ft">ft</RadioButtonGroup.Button>
-        <RadioButtonGroup.Button id="mi">mi</RadioButtonGroup.Button>
       </>
     ),
+    defaultSelectedKeys: ["in"],
+  },
+};
+
+export const SelectionMode: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <>
+        <RadioButtonGroup.Button id="bold">Bold</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button id="italic">Italic</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button id="underline">
+          Underline
+        </RadioButtonGroup.Button>
+      </>
+    ),
+    selectionMode: "multiple",
+  },
+};
+
+export const EnabledDisabled: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <>
+        <RadioButtonGroup.Button id="in">in</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button id="cm">cm</RadioButtonGroup.Button>
+      </>
+    ),
+    isDisabled: true,
+    defaultSelectedKeys: ["in"],
+  },
+};
+
+export const EnabledDisabledButton: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <>
+        <RadioButtonGroup.Button id="in">in</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button isDisabled id="cm">
+          cm
+        </RadioButtonGroup.Button>
+        <RadioButtonGroup.Button id="ft">ft</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button isDisabled id="mi">
+          mi
+        </RadioButtonGroup.Button>
+      </>
+    ),
+    defaultSelectedKeys: ["in"],
   },
 };
