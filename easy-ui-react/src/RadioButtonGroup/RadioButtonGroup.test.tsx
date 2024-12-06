@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
-// import { hoverOverTooltipTrigger } from "../Tooltip/Tooltip.test";
+import type { Key } from "react-aria-components";
 import { render, selectCheckbox } from "../utilities/test";
 import { RadioButtonGroup } from "./RadioButtonGroup";
 
@@ -29,7 +29,7 @@ describe("<RadioButtonGroup />", () => {
     expect(screen.getAllByRole("radio")[0]).toHaveAttribute("aria-checked");
   });
 
-  it("should support uncontrolled", async () => {
+  it("should update when a button is clicked", async () => {
     const { user } = render(
       <RadioButtonGroup defaultSelectedKeys={["first"]}>
         <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
@@ -46,10 +46,47 @@ describe("<RadioButtonGroup />", () => {
     expect(radios[1]).toBeChecked();
   });
 
-  it("should support controlled", async () => {
-    const handleChange = vi.fn();
+  it("should support disabling the group", async () => {
     const { user } = render(
-      <RadioButtonGroup onSelectionChange={handleChange}>
+      <RadioButtonGroup defaultSelectedKeys={["first"]} isDisabled>
+        <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button id="second">
+          Second item
+        </RadioButtonGroup.Button>
+      </RadioButtonGroup>,
+    );
+    const radios = screen.getAllByRole("radio");
+    expect(radios[0]).toBeChecked();
+
+    await selectCheckbox(user, radios[1]);
+    expect(radios[0]).toBeChecked();
+    expect(radios[1]).not.toBeChecked();
+  });
+
+  it("should support disabling individual buttons", async () => {
+    const { user } = render(
+      <RadioButtonGroup defaultSelectedKeys={["first"]} isDisabled>
+        <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button id="second" isDisabled>
+          Second item
+        </RadioButtonGroup.Button>
+      </RadioButtonGroup>,
+    );
+    const radios = screen.getAllByRole("radio");
+    expect(radios[0]).toBeChecked();
+
+    await selectCheckbox(user, radios[1]);
+    expect(radios[0]).toBeChecked();
+    expect(radios[1]).not.toBeChecked();
+  });
+
+  it("should support controlled use", async () => {
+    const handleChange = vi.fn();
+    const { user, rerender } = render(
+      <RadioButtonGroup
+        selectedKeys={new Set<Key>(["second"])}
+        onSelectionChange={handleChange}
+      >
         <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
         <RadioButtonGroup.Button id="second">
           Second item
@@ -60,5 +97,17 @@ describe("<RadioButtonGroup />", () => {
     const radios = screen.getAllByRole("radio");
     await selectCheckbox(user, radios[0]);
     expect(handleChange).toBeCalled();
+    expect(screen.getAllByRole("radio")[0]).not.toBeChecked();
+
+    rerender(
+      <RadioButtonGroup selectedKeys={new Set<Key>(["second"])}>
+        <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button id="second">
+          Second item
+        </RadioButtonGroup.Button>
+      </RadioButtonGroup>,
+    );
+
+    expect(screen.getAllByRole("radio")[1]).toBeChecked();
   });
 });
