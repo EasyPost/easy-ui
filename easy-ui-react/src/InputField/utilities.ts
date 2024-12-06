@@ -15,6 +15,7 @@ export function logWarningsForInvalidPropConfiguration(
   bothIconPropsDefined: boolean,
   smallSizeTextarea: boolean,
   definedIconsWithTextarea: boolean,
+  iconAndTextPropsDefined: boolean,
 ) {
   if (bothIconPropsDefined) {
     console.warn("Cannot simultaneously define `iconAtEnd` and `iconAtStart`");
@@ -26,6 +27,12 @@ export function logWarningsForInvalidPropConfiguration(
 
   if (definedIconsWithTextarea) {
     console.warn("Cannot define `textarea` with `iconAtEnd` or `iconAtStart`");
+  }
+
+  if (iconAndTextPropsDefined) {
+    console.warn(
+      "Cannot define `iconAtEnd` or `iconAtStart` with `textAtStart` or `textAtEnd`",
+    );
   }
 }
 

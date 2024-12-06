@@ -7,6 +7,7 @@ import { Label } from "./Label";
 import { InputCaption } from "./InputCaption";
 import { PasswordButton } from "./PasswordButton";
 import { InputIcon } from "./InputIcon";
+import { InputText } from "./inputText";
 import { useInputField } from "./useInputField";
 import styles from "./InputField.module.scss";
 import {
@@ -89,8 +90,11 @@ export type InputFieldProps = AriaTextFieldProps & {
   iconAtStart?: IconSymbol;
   /** Right aligned icon on input. */
   iconAtEnd?: IconSymbol;
+  /** Left aligned text on input */
+  textAtStart?: string;
+  /** Right aligned text on input */
+  textAtEnd?: string;
 };
-
 /**
  * @privateRemarks
  * The InputField is an internal component that has been designed to support the TextField
@@ -116,6 +120,8 @@ export function InputField(props: InputFieldProps) {
     defaultValue,
     iconAtStart,
     iconAtEnd,
+    textAtStart,
+    textAtEnd,
     rows,
   } = props;
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -127,14 +133,19 @@ export function InputField(props: InputFieldProps) {
   const Component = getElementType(isMultiline);
 
   const bothIconPropsDefined = !!iconAtEnd && !!iconAtStart;
+  const iconAndTextPropsDefined =
+    (!!iconAtEnd || !!iconAtStart) && (!!textAtStart || !!textAtEnd);
   const smallSizeTextarea = size === "sm" && Component === "textarea";
   const definedIconsWithTextarea =
     (!!iconAtEnd || !!iconAtStart) && Component === "textarea";
+  const definedprefixsuffixWithTextarea =
+    (!!textAtStart || !!textAtEnd) && Component === "textarea";
 
   logWarningsForInvalidPropConfiguration(
     bothIconPropsDefined,
     smallSizeTextarea,
     definedIconsWithTextarea,
+    iconAndTextPropsDefined,
   );
 
   logWarningForMissingAriaLabel(label, ariaLabel);
@@ -145,8 +156,11 @@ export function InputField(props: InputFieldProps) {
   const showHelperText = !showErrorText && helperText;
   const canUseIcon =
     !bothIconPropsDefined && !isPassword && !definedIconsWithTextarea;
+  const canUsetextAtStartAndAtEnd = !definedprefixsuffixWithTextarea;
   const hasStartIcon = canUseIcon && iconAtStart;
   const hasEndIcon = canUseIcon && iconAtEnd;
+  const hasTextAtStart = canUsetextAtStartAndAtEnd && textAtStart;
+  const hastextAtEnd = canUsetextAtStartAndAtEnd && textAtEnd;
   const isTypeAdjustedForPasswordVisibility = isPassword && isPasswordVisible;
   const captionProps = showHelperText ? helperTextProps : errorTextProps;
   const captionText = showHelperText ? helperText : errorText;
@@ -160,6 +174,8 @@ export function InputField(props: InputFieldProps) {
     hasError && styles.errorInput,
     hasStartIcon && styles.iconStartInput,
     hasEndIcon && styles.iconEndInput,
+    hasTextAtStart && styles.textStartInput,
+    hastextAtEnd && styles.textEndInput,
     styles[variationName("inputSize", adjustedSize)],
   );
 
@@ -191,6 +207,9 @@ export function InputField(props: InputFieldProps) {
             icon={iconAtStart}
           />
         )}
+        {hasTextAtStart && (
+          <InputText alignment="start" size={adjustedSize} text={textAtStart} />
+        )}
         <Component
           {...elementProps}
           {...hoverProps}
@@ -205,6 +224,9 @@ export function InputField(props: InputFieldProps) {
           defaultValue={defaultValue}
           rows={Component === "textarea" ? rows : undefined}
         />
+        {hastextAtEnd && (
+          <InputText alignment="end" size={adjustedSize} text={textAtEnd} />
+        )}
         {isPassword ? (
           <PasswordButton
             isInputHovered={isInputHovered}
