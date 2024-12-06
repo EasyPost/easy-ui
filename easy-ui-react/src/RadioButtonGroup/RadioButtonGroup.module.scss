@@ -5,7 +5,7 @@
 .RadioButtonGroupButton {
   @include unstyled.button;
   min-width: 32px;
-  padding: calc(#{design-token("space.0.5")} - 1px) // subracting 1
+  padding: calc(#{design-token("space.0.5")} - 1px) // subracting 1 for border
     design-token("space.1");
   border: design-token("shape.border_width.1") solid
     design-token("color.neutral.300");
