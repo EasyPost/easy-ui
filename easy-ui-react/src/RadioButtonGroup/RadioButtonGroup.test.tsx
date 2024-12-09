@@ -1,7 +1,6 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
-import type { Key } from "react-aria-components";
 import { render, selectCheckbox } from "../utilities/test";
 import { RadioButtonGroup } from "./RadioButtonGroup";
 
@@ -13,6 +12,7 @@ describe("<RadioButtonGroup />", () => {
   afterEach(() => {
     vi.useRealTimers();
   });
+
   it("should render a radio group", () => {
     render(
       <RadioButtonGroup>
@@ -84,7 +84,7 @@ describe("<RadioButtonGroup />", () => {
     const handleChange = vi.fn();
     const { user, rerender } = render(
       <RadioButtonGroup
-        selectedKeys={new Set<Key>(["second"])}
+        selectedKeys={["second"]}
         onSelectionChange={handleChange}
       >
         <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
@@ -100,7 +100,7 @@ describe("<RadioButtonGroup />", () => {
     expect(screen.getAllByRole("radio")[0]).not.toBeChecked();
 
     rerender(
-      <RadioButtonGroup selectedKeys={new Set<Key>(["second"])}>
+      <RadioButtonGroup selectedKeys={["second"]}>
         <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
         <RadioButtonGroup.Button id="second">
           Second item

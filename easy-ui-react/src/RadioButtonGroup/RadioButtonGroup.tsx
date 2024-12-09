@@ -23,6 +23,10 @@ export type RadioButtonGroupButtonProps = {
   id: string;
 };
 
+/**
+ * Represents an button in a `<RadioButtonGroup />`.
+ */
+
 function RadioButtonGroupButton(props: RadioButtonGroupButtonProps) {
   const { children, isDisabled, id } = props;
 
@@ -53,13 +57,13 @@ export type RadioButtonGroupProps = AriaLabelingProps & {
    */
   disallowEmptySelection?: boolean;
   /**
-   * 	The currently selected keys in the collection (controlled).
+   * The currently selected keys in the collection (controlled).
    */
-  selectedKeys?: Set<Key>;
+  selectedKeys?: Iterable<Key>;
   /**
    * The initial selected keys in the collection (uncontrolled).
    */
-  defaultSelectedKeys?: string[];
+  defaultSelectedKeys?: Iterable<Key>;
   /**
    * Whether all items are disabled.
    */
@@ -73,6 +77,46 @@ export type RadioButtonGroupProps = AriaLabelingProps & {
    */
   onSelectionChange?: (keys: Set<Key>) => void;
 };
+
+/**
+ * A group of connected buttons that act as a radio group.
+ *
+ * @remarks
+ * Use a radio button group to toggle between two or more
+ * values for a given attribute.
+ *
+ * @example
+ * ```tsx
+ * <RadioButtonGroup defaultSelectedKeys={["first"]}>
+ *   <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
+ *   <RadioButtonGroup.Button id="second">
+ *     Second item
+ *   </RadioButtonGroup.Button>
+ * </RadioButtonGroup>
+ * ```
+ *
+ * @example
+ * _Default selected keys:_
+ * ```tsx
+ * <RadioButtonGroup defaultSelectedKeys={["first"]}>
+ *   <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
+ *   <RadioButtonGroup.Button id="second">
+ *     Second item
+ *   </RadioButtonGroup.Button>
+ * </RadioButtonGroup>
+ * ```
+ *
+ * @example
+ * _Controlled value:_
+ * ```tsx
+ * <RadioButtonGroup selectedKeys={["first"]}  onSelectionChange={(value) => ()}>
+ *   <RadioButtonGroup.Button id="first">First item</RadioButtonGroup.Button>
+ *   <RadioButtonGroup.Button id="second">
+ *     Second item
+ *   </RadioButtonGroup.Button>
+ * </RadioButtonGroup>
+ * ```
+ */
 
 export function RadioButtonGroup(props: RadioButtonGroupProps) {
   const {

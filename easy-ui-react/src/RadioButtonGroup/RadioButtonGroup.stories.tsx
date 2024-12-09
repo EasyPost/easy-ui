@@ -89,3 +89,17 @@ export const EnabledDisabledButton: Story = {
     defaultSelectedKeys: ["in"],
   },
 };
+
+export const DisallowEmptySelection: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <>
+        <RadioButtonGroup.Button id="in">in</RadioButtonGroup.Button>
+        <RadioButtonGroup.Button id="cm">cm</RadioButtonGroup.Button>
+      </>
+    ),
+    disallowEmptySelection: true,
+    defaultSelectedKeys: ["in"],
+  },
+};
