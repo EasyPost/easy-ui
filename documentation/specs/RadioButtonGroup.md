@@ -87,9 +87,12 @@ import { RadioButtonGroup } from "@easypost/easy-ui/RadioButtonGroup";
 import SettingsIcon from "@easypost/easy-ui-icons/Settings";
 
 function Component() {
-  const [selected, setSelected] = React.useState("in");
+  const [selected, setSelected] = React.useState(new Set(["in"]));
   return (
-    <RadioButtonGroup onSelectionChange={setSelected}>
+    <RadioButtonGroup
+      selectedKeys={new Set(["in"])}
+      onSelectionChange={setSelected}
+    >
       <RadioButtonGroup.Button id="in">in</RadioButtonGroup.Button>
       <RadioButtonGroup.Button id="cm">cm</RadioButtonGroup.Button>
     </RadioButtonGroup>
