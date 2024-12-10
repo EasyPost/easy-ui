@@ -31,7 +31,7 @@ export function logWarningsForInvalidPropConfiguration(
 
   if (iconAndTextPropsDefined) {
     console.warn(
-      "Cannot define `iconAtEnd` or `iconAtStart` with `textAtStart` or `textAtEnd`",
+      "Cannot simultaneously define `iconAtEnd` and `textAtEnd` or `iconAtStart` and `textAtStart`",
     );
   }
 }

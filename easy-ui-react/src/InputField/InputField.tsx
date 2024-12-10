@@ -134,11 +134,11 @@ export function InputField(props: InputFieldProps) {
 
   const bothIconPropsDefined = !!iconAtEnd && !!iconAtStart;
   const iconAndTextPropsDefined =
-    (!!iconAtEnd || !!iconAtStart) && (!!textAtStart || !!textAtEnd);
+    (!!iconAtEnd && !!textAtEnd) || (!!iconAtStart && !!textAtStart);
   const smallSizeTextarea = size === "sm" && Component === "textarea";
   const definedIconsWithTextarea =
     (!!iconAtEnd || !!iconAtStart) && Component === "textarea";
-  const definedprefixsuffixWithTextarea =
+  const definedPrefixSuffixWithTextarea =
     (!!textAtStart || !!textAtEnd) && Component === "textarea";
 
   logWarningsForInvalidPropConfiguration(
@@ -156,11 +156,11 @@ export function InputField(props: InputFieldProps) {
   const showHelperText = !showErrorText && helperText;
   const canUseIcon =
     !bothIconPropsDefined && !isPassword && !definedIconsWithTextarea;
-  const canUsetextAtStartAndAtEnd = !definedprefixsuffixWithTextarea;
+  const canUseTextAtStartAndAtEnd = !definedPrefixSuffixWithTextarea;
   const hasStartIcon = canUseIcon && iconAtStart;
   const hasEndIcon = canUseIcon && iconAtEnd;
-  const hasTextAtStart = canUsetextAtStartAndAtEnd && textAtStart;
-  const hastextAtEnd = canUsetextAtStartAndAtEnd && textAtEnd;
+  const hasTextAtStart = canUseTextAtStartAndAtEnd && textAtStart;
+  const hasTextAtEnd = canUseTextAtStartAndAtEnd && textAtEnd;
   const isTypeAdjustedForPasswordVisibility = isPassword && isPasswordVisible;
   const captionProps = showHelperText ? helperTextProps : errorTextProps;
   const captionText = showHelperText ? helperText : errorText;
@@ -175,7 +175,7 @@ export function InputField(props: InputFieldProps) {
     hasStartIcon && styles.iconStartInput,
     hasEndIcon && styles.iconEndInput,
     hasTextAtStart && styles.textStartInput,
-    hastextAtEnd && styles.textEndInput,
+    hasTextAtEnd && styles.textEndInput,
     styles[variationName("inputSize", adjustedSize)],
   );
 
@@ -224,7 +224,7 @@ export function InputField(props: InputFieldProps) {
           defaultValue={defaultValue}
           rows={Component === "textarea" ? rows : undefined}
         />
-        {hastextAtEnd && (
+        {hasTextAtEnd && (
           <InputText alignment="end" size={adjustedSize} text={textAtEnd} />
         )}
         {isPassword ? (
