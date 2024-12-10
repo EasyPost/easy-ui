@@ -1,0 +1,48 @@
+@use "../styles/common" as *;
+@use "../Button/mixins" as Button;
+@use "../styles/unstyled";
+
+.RadioButtonGroupButton {
+  @include unstyled.button;
+  min-width: 32px;
+  padding: calc(#{design-token("space.0.5")} - 1px) // subracting 1 for border
+    design-token("space.1");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.300");
+  outline: none;
+  color: design-token("color.primary.800");
+  margin-inline-start: calc(#{design-token("shape.border_width.1")} * -1);
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  &:first-child {
+    border-radius: design-token("shape.border_radius.md") 0 0
+      design-token("shape.border_radius.md");
+    margin-inline-start: 0;
+  }
+
+  &:last-child {
+    border-radius: 0 design-token("shape.border_radius.md")
+      design-token("shape.border_radius.md") 0;
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.300");
+    cursor: not-allowed;
+  }
+
+  &[data-selected] {
+    background-color: component-token("radio-button-group", "color");
+    border-color: component-token("radio-button-group", "color");
+    color: design-token("color.neutral.000");
+    z-index: 2;
+  }
+
+  &[data-selected]:disabled {
+    background-color: design-token("color.neutral.100");
+    color: design-token("color.neutral.600");
+    border-color: design-token("color.neutral.300");
+  }
+}
