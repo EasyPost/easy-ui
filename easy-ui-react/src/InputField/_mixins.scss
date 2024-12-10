@@ -176,9 +176,9 @@
 }
 
 @mixin textStartInput {
-  padding-left: 2rem;
+  padding-left: component-token("inputfield", "icon-input-padding");
 }
 
 @mixin textEndInput {
-  padding-right: 2rem;
+  padding-right: component-token("inputfield", "icon-input-padding");
 }
