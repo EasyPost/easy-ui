@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.54
+
+### Minor Changes
+
+- 58d2edc: Add RadioButtonGroup component
+
 ## 1.0.0-alpha.53
 
 ### Minor Changes
