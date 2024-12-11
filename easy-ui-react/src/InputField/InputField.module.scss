@@ -171,14 +171,6 @@
   @include Input.textEndInput;
 }
 
-.inputTextPlacementSm {
-  top: design-token("space.1");
-}
-
-.inputTextPlacementLg {
-  top: design-token("space.2");
-}
-
 .text {
   border: 0;
   display: inline-flex;
@@ -189,6 +181,17 @@
   z-index: component-token("inputfield", "z-index");
   min-width: design-token("space.3");
   height: design-token("space.3");
+}
+
+.inputTextPlacementSm {
+  top: design-token("space.1");
+  min-width: design-token("space.2");
+  height: design-token("space.2");
+  font-size: design-token("font-size.75");
+}
+
+.inputTextPlacementLg {
+  top: design-token("space.2");
 }
 
 .textStart {
