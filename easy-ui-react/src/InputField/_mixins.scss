@@ -174,3 +174,11 @@
   align-items: center;
   position: relative;
 }
+
+@mixin textStartInput {
+  padding-left: component-token("inputfield", "icon-input-padding");
+}
+
+@mixin textEndInput {
+  padding-right: component-token("inputfield", "icon-input-padding");
+}
