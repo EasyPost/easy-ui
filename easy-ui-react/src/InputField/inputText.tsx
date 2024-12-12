@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Text } from "../Text";
 import { InputSize } from "./InputField";
 import styles from "./InputField.module.scss";
@@ -18,7 +18,7 @@ export type TextFieldTextProps = {
    */
   size?: InputSize;
   /** Text to display alongside input. */
-  text: string;
+  text: ReactNode;
 };
 
 /**
@@ -26,7 +26,6 @@ export type TextFieldTextProps = {
  * The InputText component has been designed for use on the InputField
  * component. Text can appears either at the start or end of the input
  */
-
 export function InputText(props: TextFieldTextProps) {
   const { alignment = "start", size = "md", text } = props;
   return (
@@ -37,7 +36,12 @@ export function InputText(props: TextFieldTextProps) {
         styles[variationName("inputTextPlacement", size)],
       )}
     >
-      <Text>{text}</Text>
+      <Text
+        variant={size === "sm" ? "body2" : "body1"}
+        color={alignment === "start" ? "neutral.600" : "neutral.400"}
+      >
+        {text}
+      </Text>
     </div>
   );
 }

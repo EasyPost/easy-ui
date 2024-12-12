@@ -91,9 +91,9 @@ export type InputFieldProps = AriaTextFieldProps & {
   /** Right aligned icon on input. */
   iconAtEnd?: IconSymbol;
   /** Left aligned text on input */
-  textAtStart?: string;
+  textAtStart?: ReactNode;
   /** Right aligned text on input */
-  textAtEnd?: string;
+  textAtEnd?: ReactNode;
 };
 /**
  * @privateRemarks
