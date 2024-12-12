@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.55
+
+### Patch Changes
+
+- e33439e: fix(Select,Tooltip): use proper Overlay primitive
+
 ## 1.0.0-alpha.54
 
 ### Minor Changes
