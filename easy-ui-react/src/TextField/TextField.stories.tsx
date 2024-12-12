@@ -55,7 +55,7 @@ export const PrefixAndSuffix: Story = {
     label: "Label",
     placeholder: "Placeholder text",
     helperText: "Optional helper text",
-    textAtStart: "2.5",
+    textAtStart: "$",
     textAtEnd: "in",
   },
 };
@@ -88,8 +88,8 @@ export const SmallTextFields: Story = {
         helperText="Optional helper text"
         label="Label"
         placeholder="Placeholder text"
+        textAtStart="$"
         textAtEnd="in"
-        textAtStart="2.5"
       />
     </>
   ),
@@ -123,8 +123,8 @@ export const LargeTextFields: Story = {
         helperText="Optional helper text"
         label="Label"
         placeholder="Placeholder text"
+        textAtStart="$"
         textAtEnd="in"
-        textAtStart="2.5"
       />
     </>
   ),

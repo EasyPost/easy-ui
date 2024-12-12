@@ -181,13 +181,13 @@
   z-index: component-token("inputfield", "z-index");
   min-width: design-token("space.3");
   height: design-token("space.3");
+  pointer-events: none;
 }
 
 .inputTextPlacementSm {
   top: design-token("space.1");
   min-width: design-token("space.2");
   height: design-token("space.2");
-  font-size: design-token("font-size.75");
 }
 
 .inputTextPlacementLg {
@@ -196,10 +196,8 @@
 
 .textStart {
   left: design-token("space.1.5");
-  color: design-token("color.neutral.600");
 }
 
 .textEnd {
   right: design-token("space.1.5");
-  color: design-token("color.neutral.400");
 }
