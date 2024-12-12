@@ -1,7 +1,7 @@
 import React from "react";
 import {
   DismissButton,
-  OverlayContainer,
+  Overlay,
   mergeProps,
   useListBox,
   usePopover,
@@ -68,7 +68,7 @@ function SelectOverlayContent() {
   } as React.CSSProperties;
 
   return (
-    <OverlayContainer>
+    <Overlay>
       <div {...underlayProps} className={styles.underlay} />
       <div
         {...mergeProps(popoverProps, { style })}
@@ -104,6 +104,6 @@ function SelectOverlayContent() {
         </div>
         <DismissButton onDismiss={selectState.close} />
       </div>
-    </OverlayContainer>
+    </Overlay>
   );
 }
