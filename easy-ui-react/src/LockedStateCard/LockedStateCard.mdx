@@ -1,0 +1,48 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { LockedStateCard } from "./LockedStateCard";
+import * as LockedStateCardStories from "./LockedStateCard.stories";
+
+<Meta of={LockedStateCardStories} />
+
+# LockedStateCard
+
+A `<LockedStateCard />` is a styled container designed to display relevant information when a user is locked out of a feature or functionality.
+
+It is a compound component consisting of `<LockedStateCard.Section />`, `<LockedStateCard.TextGroup />`, `<LockedStateCard.HeaderText />`, `<LockedStateCard.BodyText />`, and `<LockedStateCard.ActionGroup />`
+
+## Simple
+
+<Canvas of={LockedStateCardStories.Simple} />
+
+## Alignment
+
+`<LockedStateCard.Section />` and `<LockedStateCard.TextGroup />` can accept `VerticalStack` props to override defaults and to assist with alignment. Similarly, `<LockedStateCard.ActionGroup />` can accept `HorizontalStack` props.
+
+<Canvas of={LockedStateCardStories.Alignment} />
+
+## Properties
+
+### LockedStateCard
+
+<ArgTypes of={LockedStateCard} />
+
+### LockedStateCard.Section
+
+<ArgTypes of={LockedStateCard.Section} />
+
+### LockedStateCard.TextGroup
+
+<ArgTypes of={LockedStateCard.TextGroup} />
+
+### LockedStateCard.HeaderText
+
+<ArgTypes of={LockedStateCard.TextGroup} />
+
+### LockedStateCard.BodyText
+
+<ArgTypes of={LockedStateCard.BodyText} />
+
+### LockedStateCard.ActionGroup
+
+<ArgTypes of={LockedStateCard.ActionGroup} />
