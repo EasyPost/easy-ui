@@ -58,7 +58,7 @@ export type CalendarProps = CalendarBaseStateProps & {
  * _Controlled:_
  * ```tsx
  * const [date, setDate] = React.useState(null);
- * 
+ *
  * <Calendar
  *  value={date}
  *  onChange={setDate}
