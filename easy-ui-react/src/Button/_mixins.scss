@@ -90,7 +90,6 @@
   color: component-token("button", "resting.color");
   background-color: transparent;
   border: design-token("shape.border_width.1") solid transparent;
-  text-decoration: underline;
 
   &:focus {
     border: design-token("shape.border_width.1") solid
