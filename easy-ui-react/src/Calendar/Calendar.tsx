@@ -25,6 +25,46 @@ export type CalendarProps = CalendarBaseStateProps & {
   isDateUnavailable?: (date: DateValue) => boolean;
 };
 
+/**
+ *
+ * A `Calendar` displays a grid of days and allows users to select a single date.
+ *
+ * @example
+ * _Default Value:_
+ * ```tsx
+ * <Calendar defaultValue={new CalendarDate(2024, 7, 25)} />
+ * ```
+ *
+ * @example
+ * _Set limited available dates:_
+ * ```tsx
+ * <Calendar
+ *  minValue={new CalendarDate(2024, 7, 24)}
+ *  maxValue={new CalendarDate(2024, 8, 5)}
+ * />
+ * ```
+ *
+ * @example
+ * _Date availability:_
+ * ```tsx
+ * <Calendar
+ *  isDateUnavailable={(date: DateValue) =>
+ *    today(getLocalTimeZone()).compare(date) > 0
+ *  }
+ * />
+ * ```
+ *
+ * @example
+ * _Controlled:_
+ * ```tsx
+ * const [date, setDate] = React.useState(null);
+ * 
+ * <Calendar
+ *  value={date}
+ *  onChange={setDate}
+ * />
+ * ```
+ */
 export function Calendar(props: CalendarProps) {
   const { locale } = useLocale();
   const calendarRef = React.useRef(null);

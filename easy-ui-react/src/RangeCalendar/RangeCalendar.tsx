@@ -21,6 +21,54 @@ export type RangeCalendarProps = CalendarBaseStateProps & {
   onChange?: (value: RangeValue<MappedDateValue<DateValue>>) => void;
 };
 
+/**
+ *
+ * A `RangeCalendar` displays a grid of days and allows users to select a range of dates.
+ *
+ * @example
+ * _Default Value:_
+ * ```tsx
+ * <Calendar
+ *   defaultValue={{
+ *     start: new CalendarDate(2024, 7, 15),
+ *     end: new CalendarDate(2024, 7, 25),
+ *   }}
+ * />
+ * ```
+ *
+ * @example
+ * _Set limited available dates:_
+ * ```tsx
+ * <RangeCalendar
+ *  minValue={new CalendarDate(2024, 7, 24)}
+ *  maxValue={new CalendarDate(2024, 8, 5)}
+ * />
+ * ```
+ *
+ * @example
+ * _Date availability:_
+ * ```tsx
+ * <RangeCalendar
+ *  isDateUnavailable={(date: DateValue) =>
+ *    today(getLocalTimeZone()).compare(date) > 0
+ *  }
+ * />
+ * ```
+ *
+ * @example
+ * _Controlled:_
+ * ```tsx
+ * const [date, setDate] = React.useState({
+ *   start: today(getLocalTimeZone()).subtract({ days: 7 }),
+ *   end: today(getLocalTimeZone()),
+ * });
+ *
+ * <RangeCalendar
+ *  value={date}
+ *  onChange={setDate}
+ * />
+ * ```
+ */
 export function RangeCalendar(props: RangeCalendarProps) {
   const { locale } = useLocale();
   const calendarRef = React.useRef(null);
