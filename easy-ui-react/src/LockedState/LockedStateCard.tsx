@@ -15,7 +15,7 @@ export type LockedStateCardProps = CardProps & {
 };
 
 /**
- * An `<LockedStateCard />` is a styled container designed to display relevant information when a user is locked out of a feature or functionality.
+ * A `<LockedStateCard />` is a styled container designed to display relevant information when a user is locked out of a feature or functionality.
  *
  * @remarks
  * Supports custom spacing and alignment between elements.
@@ -24,45 +24,44 @@ export type LockedStateCardProps = CardProps & {
  * _Basic:_
  * ```tsx
  * <LockedStateCard>
- *  <LockedStateCard.Section>
- *    <LockedStateCard.TextGroup>
- *     <LockedStateCard.Icon>
- *      <Icon />
- *      <LockedStateCard.HeaderText>
- *        Shipment Insurance
- *      </LockedStateCard.HeaderText>
- *      <LockedStateCard.BodyText>
- *        Rest easy knowing if one of your customers orders is damaged, lost
- *        in transit or stolen you are covered! Automatically add insurance
- *        to all your shipments
- *      </LockedStateCard.BodyText>
- *    </LockedStateCard.TextGroup>
- *    <LockedStateCard.ActionGroup>
- *      <Button>Manage Insurance Settings</Button>
- *    </LockedStateCard.ActionGroup>
- *  </LockedStateCard.Section>
+    <LockedStateCard.Section>
+      <LockedStateCard.TextGroup>
+        <LockedStateCard.HeaderText>
+          Looking to create something more advanced?
+        </LockedStateCard.HeaderText>
+        <LockedStateCard.BodyText>
+          EasyPost’s API Suite delivers the best developer experience by
+          offering a comprehensive suite of tools and features to ensure we
+          meet the shipping needs of every single shipper. 
+        </LockedStateCard.BodyText>
+      </LockedStateCard.TextGroup>
+      <LockedStateCard.ActionGroup>
+        <Button color="secondary">Upgrade Plans</Button>
+      </LockedStateCard.ActionGroup>
+    </LockedStateCard.Section>
  * </LockedStateCard>
  * ```
- *
- * @example
- * _Alignment:_
- * ```tsx
- * <LockedStateCard>
- *  <LockedStateCard.Section inlineAlign="center">
- *    <LockedStateCard.TextGroup gap="2">
- *      <LockedStateCard.HeaderText>
- *        Shipment Insurance
- *      </LockedStateCard.HeaderText>
- *      <LockedStateCard.BodyText>
- *        Rest easy knowing if one of your customers orders is damaged, lost
- *        in transit or stolen you are covered! Automatically add insurance
- *        to all your shipments
- *      </LockedStateCard.BodyText>
- *    </LockedStateCard.TextGroup>
- *    <LockedStateCard.ActionGroup>
- *      <Button>Manage Insurance Settings</Button>
- *    </LockedStateCard.ActionGroup>
- *  </LockedStateCard.Section>
+*
+* @example
+* _Alignment:_
+* ```tsx
+* <LockedStateCard>
+    <LockedStateCard.Section inlineAlign="center">
+      <LockedStateCard.TextGroup gap="2">
+        <Icon />
+        <LockedStateCard.HeaderText>
+          Looking to create something more advanced?
+        </LockedStateCard.HeaderText>
+        <LockedStateCard.BodyText>
+          EasyPost’s API Suite delivers the best developer experience by
+          offering a comprehensive suite of tools and features to ensure we
+          meet the shipping needs of every single shipper. 
+        </LockedStateCard.BodyText>
+      </LockedStateCard.TextGroup>
+      <LockedStateCard.ActionGroup gap="2">
+        <Button color="secondary">Upgrade Plan</Button>
+      </LockedStateCard.ActionGroup>
+    </LockedStateCard.Section>
  * </LockedStateCard>
  * ```
  */

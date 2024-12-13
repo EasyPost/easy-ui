@@ -48,8 +48,10 @@ export const Alignment: Story = {
     children: (
       <LockedStateCard.Section inlineAlign="center">
         <LockedStateCard.TextGroup gap="2">
-          <Icon color="danger" size="3xl" symbol={Visibility} />
-          <LockedStateCard.HeaderText>Analytics</LockedStateCard.HeaderText>
+          <Icon color="secondary.500" size="3xl" symbol={Visibility} />
+          <LockedStateCard.HeaderText>
+            Looking to create something more advanced?
+          </LockedStateCard.HeaderText>
           <LockedStateCard.BodyText>
             EasyPost’s API Suite delivers the best developer experience by
             offering a comprehensive suite of tools and features to ensure we
