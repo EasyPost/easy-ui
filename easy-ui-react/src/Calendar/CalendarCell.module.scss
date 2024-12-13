@@ -8,12 +8,11 @@
   width: 100%;
   z-index: -1;
   // Move by half of the container size.
+  // prettier-ignore
   left: calc(
     (
-        component-token("calendar-cell", "mobile-size") +
-          design-token("space.0-5")
-      ) /
-      2
+      component-token("calendar-cell", "mobile-size") + design-token("space.0-5")
+    ) / 2
   );
   @include breakpoint-lg-up {
     left: calc(
