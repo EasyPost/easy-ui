@@ -6,14 +6,30 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  right: -21px;
   z-index: -1;
+  // Move by half of the container size.
+  left: calc(
+    (
+        component-token("calendar-cell", "mobile-size") +
+          design-token("space.0-5")
+      ) /
+      2
+  );
+  @include breakpoint-lg-up {
+    left: calc(
+      (component-token("calendar-cell", "size") + design-token("space.1")) / 2
+    );
+  }
 }
 
 .CellContainer {
-  padding: design-token("space.1.5") design-token("space.1");
+  padding: design-token("space.0-5");
   .rangeSelectionStart:before {
     @include rangeSelection;
+  }
+
+  @include breakpoint-lg-up {
+    padding: design-token("space.1.5") design-token("space.1");
   }
 }
 
@@ -82,7 +98,7 @@
     content: none;
   }
 
-  @include breakpoint-md-up {
+  @include breakpoint-lg-up {
     width: component-token("calendar-cell", "size");
     height: component-token("calendar-cell", "size");
   }
