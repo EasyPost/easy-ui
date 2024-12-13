@@ -1,16 +1,35 @@
 @use "../styles/common" as *;
 
+@mixin rangeSelection {
+  content: "";
+  background-color: design-token("color.primary.100");
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  right: -21px;
+  z-index: -1;
+}
+
 .CellContainer {
   padding: design-token("space.1.5") design-token("space.1");
+  .rangeSelectionStart:before {
+    @include rangeSelection;
+  }
 }
 
 .CalendarCell {
   @include component-token("calendar-cell", "size", design-token("space.4-5"));
+  @include component-token(
+    "calendar-cell",
+    "mobile-size",
+    design-token("space.3")
+  );
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: component-token("calendar-cell", "size");
-  height: component-token("calendar-cell", "size");
+  width: component-token("calendar-cell", "mobile-size");
+  height: component-token("calendar-cell", "mobile-size");
   cursor: pointer;
   border-radius: design-token("shape.border_radius.lg");
   span {
@@ -21,11 +40,6 @@
   }
 
   &:hover:not(.isUnavailable, .isSelected, .isDisabled, .isReadOnly) {
-    background-color: design-token("color.primary.100");
-  }
-
-  &.isOutsideCurrentMonth:hover:not(.isUnavailable) {
-    cursor: pointer;
     background-color: design-token("color.primary.100");
   }
 
@@ -53,5 +67,23 @@
     span {
       text-decoration: line-through;
     }
+  }
+  &.rangeSelection {
+    background-color: design-token("color.primary.100");
+    span {
+      color: design-token("color.primary.800");
+    }
+    &:before {
+      @include rangeSelection;
+    }
+  }
+
+  &.roundedRight:before {
+    content: none;
+  }
+
+  @include breakpoint-md-up {
+    width: component-token("calendar-cell", "size");
+    height: component-token("calendar-cell", "size");
   }
 }

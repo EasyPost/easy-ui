@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from "react";
 import { CalendarState, RangeCalendarState } from "@react-stately/calendar";
+import { useDateFormatter } from "@react-aria/i18n";
 import { AriaButtonProps } from "react-aria";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
@@ -18,11 +19,6 @@ export type CalendarHeaderProps = {
    */
   calendarProps: AriaAttributes;
   /**
-   * A description of the visible date range, for use in the calendar
-   * title.
-   */
-  title: string;
-  /**
    * Props for the previous button.
    */
   prevButtonProps: AriaButtonProps;
@@ -33,7 +29,7 @@ export type CalendarHeaderProps = {
 };
 
 export function CalendarHeader({
-  title,
+  state,
   calendarProps,
   prevButtonProps: {
     onFocusChange: _onFocusChangePrevButton,
@@ -44,6 +40,15 @@ export function CalendarHeader({
     ...restNextButtonProps
   },
 }: CalendarHeaderProps) {
+  const monthDateFormatter = useDateFormatter({
+    month: "long",
+    year: "numeric",
+    timeZone: state.timeZone,
+  });
+  const title = monthDateFormatter.format(
+    state.visibleRange.start.toDate(state.timeZone),
+  );
+
   return (
     <div className={styles.CalendarHeader}>
       <VisuallyHidden>
