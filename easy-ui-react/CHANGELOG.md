@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.56
+
+### Minor Changes
+
+- 9d7349a: update the text field to have an option for a text prefix and suffix
+- 7d77749: feat: RangeCalendar
+
 ## 1.0.0-alpha.55
 
 ### Patch Changes
