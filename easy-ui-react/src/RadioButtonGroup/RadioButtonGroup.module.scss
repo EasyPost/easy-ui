@@ -48,7 +48,6 @@
 
   &[data-focus-visible] {
     @include native-focus-ring;
-    outline-offset: 1px;
     z-index: 3;
   }
 }
