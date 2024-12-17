@@ -47,7 +47,7 @@
   }
 
   &[data-focus-visible] {
-    @include native-focus-ring;
     z-index: 3;
+    @include native-focus-ring;
   }
 }
