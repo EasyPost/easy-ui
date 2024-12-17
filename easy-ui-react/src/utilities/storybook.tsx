@@ -10,6 +10,7 @@ import {
   FILLED_BUTTON_COLORS,
   OUTLINED_BUTTON_COLORS,
   LINK_BUTTON_COLORS,
+  TEXT_BUTTON_COLORS,
 } from "../Button/utilities";
 
 export function createLabelledOptionsControl(
@@ -105,6 +106,22 @@ export function getLinkButtonsColorMapping() {
         defaultValue: { summary: "primary" },
       },
       description: "Supported colors for link variant",
+    },
+  );
+}
+
+export function getTextButtonsColorMapping() {
+  return createLabelledOptionsControl(
+    Object.fromEntries(TEXT_BUTTON_COLORS.map((key) => [key, key])),
+    {},
+    {
+      table: {
+        type: {
+          summary: '"primary" | "secondary"',
+        },
+        defaultValue: { summary: "primary" },
+      },
+      description: "Supported colors for text variant",
     },
   );
 }

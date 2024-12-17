@@ -17,7 +17,7 @@ export type ButtonColor =
   | "support"
   | "inverse";
 
-export type ButtonVariant = "filled" | "outlined" | "link";
+export type ButtonVariant = "filled" | "outlined" | "link" | "text";
 export type ButtonSize = "sm" | "md";
 
 export type ButtonProps = AriaButtonProps & {

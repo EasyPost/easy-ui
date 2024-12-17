@@ -20,6 +20,8 @@ export const OUTLINED_BUTTON_COLORS = [
 
 export const LINK_BUTTON_COLORS = ["primary", "secondary"];
 
+export const TEXT_BUTTON_COLORS = ["primary", "secondary"];
+
 export function logWarningIfInvalidColorVariantCombination(
   color: ButtonColor,
   variant: ButtonVariant,
@@ -28,6 +30,7 @@ export function logWarningIfInvalidColorVariantCombination(
     filled: FILLED_BUTTON_COLORS,
     outlined: OUTLINED_BUTTON_COLORS,
     link: LINK_BUTTON_COLORS,
+    text: TEXT_BUTTON_COLORS,
   };
   if (!validColorVariantCombinations[variant]?.includes(color)) {
     // eslint-disable-next-line no-console
