@@ -12,6 +12,7 @@ import {
   getFilledButtonsColorMapping,
   getLinkButtonsColorMapping,
   getOutlinedButtonsColorMapping,
+  getTextButtonsColorMapping,
 } from "../utilities/storybook";
 import { Button, ButtonProps } from "./Button";
 
@@ -78,6 +79,18 @@ export const Link: Story = {
 
 Link.argTypes = {
   color: getLinkButtonsColorMapping(),
+};
+
+export const Text: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "text",
+    color: "primary",
+  },
+};
+
+Text.argTypes = {
+  color: getTextButtonsColorMapping(),
 };
 
 export const Icons: Story = {

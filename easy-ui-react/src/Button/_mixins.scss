@@ -90,6 +90,30 @@
   color: component-token("button", "resting.color");
   background-color: transparent;
   border: design-token("shape.border_width.1") solid transparent;
+  text-decoration: underline;
+
+  &:focus {
+    border: design-token("shape.border_width.1") solid
+      component-token("button", "hover.focus.color");
+  }
+
+  &:disabled {
+    color: theme-token("color.neutral.300");
+  }
+
+  &:active:not(:disabled) {
+    color: component-token("button", "active.color");
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: component-token("button", "hover.focus.color");
+  }
+}
+
+@mixin variantText {
+  color: component-token("button", "resting.color");
+  background-color: transparent;
+  border: design-token("shape.border_width.1") solid transparent;
 
   &:focus {
     border: design-token("shape.border_width.1") solid
