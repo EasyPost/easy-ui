@@ -45,4 +45,10 @@
     color: design-token("color.neutral.600");
     border-color: design-token("color.neutral.300");
   }
+
+  &[data-focus-visible] {
+    @include native-focus-ring;
+    outline-offset: 1px;
+    z-index: 3;
+  }
 }
