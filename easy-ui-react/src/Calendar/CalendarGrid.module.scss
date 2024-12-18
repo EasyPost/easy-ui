@@ -1,6 +1,8 @@
 @use "../styles/common" as *;
 .CalendarGrid {
   border-collapse: collapse;
+  z-index: 999;
+  position: relative;
 }
 .CalendarGridHeader {
   background-color: design-token("color.primary.700");

@@ -73,7 +73,7 @@ export function CalendarBase(props: CalendarBaseProps) {
     ...restProps
   } = props;
   return (
-    <VerticalStack gap="1">
+    <div className={styles.calendarContainer}>
       <div {...calendarProps} className={styles.Calendar} ref={calendarRef}>
         <CalendarHeader
           state={state}
@@ -92,6 +92,6 @@ export function CalendarBase(props: CalendarBaseProps) {
           {errorMessage}
         </Text>
       )}
-    </VerticalStack>
+    </div>
   );
 }

@@ -97,7 +97,7 @@
     content: none;
   }
 
-  @include breakpoint-lg-up {
+  @include breakpoint-md-up {
     width: component-token("calendar-cell", "size");
     height: component-token("calendar-cell", "size");
   }

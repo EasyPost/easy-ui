@@ -1,0 +1,94 @@
+@use "../styles/common" as *;
+@use "../InputField/mixins" as Input;
+@use "../Menu/mixins" as Menu;
+
+.DatePicker {
+  @include Input.root;
+}
+
+.datePickerTrigger {
+  display: flex;
+  align-items: center;
+  @include Input.input;
+
+  &:hover {
+    @include Input.hovered;
+  }
+  @include Input.iconEndInput;
+
+}
+
+
+.datePickerTriggerContainer {
+  @include Input.inputIconContainer;
+}
+
+.datePickerSm .datePickerTrigger {
+  @include Input.inputSm;
+  @include Input.iconEndInput;
+}
+
+.errorInput {
+  @include Input.error;
+}
+
+.underlay {
+  position: fixed;
+  inset: 0;
+}
+
+.dialog {
+  @include Menu.root;
+  @include Menu.menu;
+  @include component-token("modal", "max-height", 762px);
+  @include component-token("modal", "max-width", 788px);
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-height: component-token("modal", "max-height");
+  max-width: component-token("modal", "max-width");
+  width: 100%;
+  overflow: hidden;
+  background: theme-token("color.neutral.000");
+  border-radius: design-token("shape.border_radius.lg");
+  box-shadow: design-token("shadow.modal");
+  pointer-events: auto;
+  outline: none;
+
+  padding: design-token("space.5");
+}
+
+.quickSelection {
+  @include Menu.menuList;
+}
+
+.option {
+  @include Menu.itemContentColor;
+  outline: none;
+  text-decoration: none;
+  margin-bottom: design-token("space.2");
+
+  &:hover {
+    color: design-token("color.primary.500");
+  }
+}
+
+.option :first-child {
+  cursor: pointer;
+}
+
+.DateSegment {
+  padding: design-token("space.0-5");
+  color: design-token("color.primary.800");
+  &[data-placeholder="true"],
+  &.literalSegment {
+    color: design-token("color.neutral.500");
+  }
+  &:focus-visible {
+    outline: none;
+    background-color: design-token("color.primary.500");
+    border-radius: design-token("shape.border_radius.md");
+    color: design-token("color.neutral.000");
+  }
+}
