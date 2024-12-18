@@ -5,6 +5,8 @@
   top: 0;
   background: design-token("color.neutral.000");
   box-shadow: design-token("shadow.level.2");
+  border: 2px solid component-token("forge-layout", "menu-border-color");
+  border-top: 0;
   border-bottom-right-radius: design-token("shape.border_radius.lg");
   border-bottom-left-radius: design-token("shape.border_radius.lg");
   padding: design-token("space.2");

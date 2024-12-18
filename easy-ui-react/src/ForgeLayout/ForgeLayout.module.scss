@@ -4,6 +4,13 @@
 .ForgeLayout {
   @include component-token("forge-layout", "header-height", 56px);
   @include component-token("forge-layout", "shell-gutter", 20px);
+  @include component-token("forge-layout", "menu-border-color", transparent);
+  @include component-token(
+    "forge-layout",
+    "header-border-color",
+    design-token("color.neutral.300")
+  );
+  @include component-token("forge-layout", "header-border-width", 1px);
 
   display: flex;
   flex-direction: row;
@@ -13,6 +20,20 @@
   gap: component-token("forge-layout", "shell-gutter");
   min-height: 100svh;
   background-color: design-token("color.neutral.025");
+}
+
+.modeTest {
+  @include component-token(
+    "forge-layout",
+    "menu-border-color",
+    design-token("color.warning.600")
+  );
+  @include component-token(
+    "forge-layout",
+    "header-border-color",
+    design-token("color.warning.600")
+  );
+  @include component-token("forge-layout", "header-border-width", 2px);
 }
 
 .backgroundDecoration01 {
@@ -37,6 +58,7 @@
   align-items: center;
   justify-content: space-between;
   min-width: 0;
+  border-bottom: 2px solid transparent;
   z-index: calc(#{design-token("z-index.nav")} + 1);
 }
 
@@ -65,7 +87,8 @@
 
 .fauxHeader {
   background-color: design-token("color.neutral.025");
-  border-bottom: 1px solid design-token("color.neutral.300");
+  border-bottom: component-token("forge-layout", "header-border-width") solid
+    component-token("forge-layout", "header-border-color");
   z-index: design-token("z-index.nav");
 }
 

@@ -38,7 +38,7 @@ export default meta;
 
 export const StandardContent: Story = {
   render: () => (
-    <ForgeLayout mode="test" navState="expanded">
+    <ForgeLayout mode="production" navState="expanded">
       <ForgeLayout.Nav selectedHref="/1">
         <ForgeLayout.NavLink href="/1" iconSymbol={HomeIcon}>
           Dashboard
