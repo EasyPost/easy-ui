@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.31
+
+### Minor Changes
+
+- 6029410: add lock icon
+
 ## 1.0.0-alpha.30
 
 ### Minor Changes

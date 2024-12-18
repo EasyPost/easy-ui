@@ -1,5 +1,13 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.57
+
+### Patch Changes
+
+- 1b5a813: fix(RadioButtonGroup): add focus state
+- Updated dependencies [6029410]
+  - @easypost/easy-ui-icons@1.0.0-alpha.31
+
 ## 1.0.0-alpha.56
 
 ### Minor Changes
