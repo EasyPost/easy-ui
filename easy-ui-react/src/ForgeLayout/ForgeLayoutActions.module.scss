@@ -12,8 +12,8 @@
   justify-content: center;
 
   border-radius: design-token("shape.border_radius.lg");
-  height: design-token("space.5");
-  width: design-token("space.5");
+  padding: design-token("space.0.5");
+  margin: calc(#{design-token("space.0.5")} * -1);
   outline: none;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .hovered {
-  background-color: design-token("color.neutral.100");
+  background-color: design-token("color.neutral.050");
 }
 
 .selected,
@@ -33,8 +33,8 @@
 
 .badgeContainer {
   position: absolute;
-  right: design-token("space.1");
-  bottom: design-token("space.1");
+  right: design-token("space.0.5");
+  bottom: design-token("space.0.5");
   display: inline-flex;
 }
 

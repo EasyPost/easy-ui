@@ -65,7 +65,7 @@ export type ForgeLayoutLinkActionProps = {
 export function ForgeLayoutActions(props: ForgeLayoutActionsProps) {
   const { children } = props;
   return (
-    <HorizontalStack wrap={false} gap="0.5" align="end">
+    <HorizontalStack wrap={false} gap="1" align="end">
       {children}
     </HorizontalStack>
   );

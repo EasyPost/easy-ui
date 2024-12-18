@@ -15,7 +15,7 @@
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  color: inherit;
+  color: design-token("color.primary.700");
   gap: design-token("space.1");
   outline: none;
 }
@@ -25,7 +25,7 @@
 }
 
 .hovered {
-  color: design-token("color.primary.700");
+  color: design-token("color.primary.600");
 }
 
 .selected {
