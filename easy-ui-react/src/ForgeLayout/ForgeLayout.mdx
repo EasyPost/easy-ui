@@ -9,7 +9,29 @@ import * as ForgeLayoutStories from "./ForgeLayout.stories";
 
 `ForgeLayout` defines the header, main content, and multipage content areas of a Nexus product page.
 
-<Canvas of={ForgeLayoutStories.StandardContent} />
+<Canvas of={ForgeLayoutStories.Default} />
+
+`ForgeLayout` is a compound component consisting of `ForgeLayout`, `ForgeLayout.Nav`, `ForgeLayout.Header`, and `ForgeLayout.Content`.
+
+`ForgeLayout` also provides components for building navigation with `ForgeLayout.Nav`, `ForgeLayout.NavLink`, and `ForgeLayout.NavSection`.
+
+`ForgeLayout` is highly composable. Subcomponents within a `ForgeLayout` can be replaced as needed. Subcomponents are simple lightweight wrappers with built-in styles and constraints.
+
+## Test Mode
+
+`ForgeLayout` supports an obvious visual indicator for test mode with the `mode="test"` prop.
+
+<Canvas of={ForgeLayoutStories.TestMode} />
+
+<Controls of={ForgeLayoutStories.TestMode} include={["mode"]} />
+
+## Collapsed Navigation
+
+`ForgeLayout` supports a distraction-free content mode with the `navState="collapsed"` prop.
+
+<Canvas of={ForgeLayoutStories.Collapsed} />
+
+<Controls of={ForgeLayoutStories.Collapsed} include={["navState"]} />
 
 ## Properties
 

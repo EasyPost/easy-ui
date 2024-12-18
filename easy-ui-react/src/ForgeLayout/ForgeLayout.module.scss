@@ -20,6 +20,7 @@
   gap: component-token("forge-layout", "shell-gutter");
   min-height: 100svh;
   background-color: design-token("color.neutral.025");
+  position: relative;
 }
 
 .modeTest {

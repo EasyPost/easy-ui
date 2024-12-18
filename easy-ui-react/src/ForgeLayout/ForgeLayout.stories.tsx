@@ -17,28 +17,14 @@ import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { Menu } from "../Menu";
-import { ForgeLayout } from "./ForgeLayout";
+import { ForgeLayout, ForgeLayoutProps } from "./ForgeLayout";
 import { Card } from "../Card";
 
 type Story = StoryObj<typeof ForgeLayout>;
 
-const meta: Meta<typeof ForgeLayout> = {
-  title: "Components/ProductLayout/ForgeLayout",
-  component: ForgeLayout,
-  decorators: [
-    (Story) => (
-      <div className="full-screen-story product-layout-story">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-export default meta;
-
-export const StandardContent: Story = {
-  render: () => (
-    <ForgeLayout mode="production" navState="expanded">
+const Template = (args: Partial<ForgeLayoutProps>) => {
+  return (
+    <ForgeLayout {...args}>
       <ForgeLayout.Nav selectedHref="/1">
         <ForgeLayout.NavLink href="/1" iconSymbol={HomeIcon}>
           Dashboard
@@ -125,5 +111,47 @@ export const StandardContent: Story = {
         </ForgeLayout.Content>
       </ForgeLayout.Body>
     </ForgeLayout>
-  ),
+  );
+};
+
+const meta: Meta<typeof ForgeLayout> = {
+  title: "Components/ProductLayout/ForgeLayout",
+  component: ForgeLayout,
+  decorators: [
+    (Story) => (
+      <div className="full-screen-story product-layout-story">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export default meta;
+
+export const Default: Story = {
+  render: Template.bind({}),
+};
+
+export const TestMode: Story = {
+  render: Template.bind({}),
+  args: {
+    mode: "test",
+  },
+  parameters: {
+    controls: {
+      include: ["mode"],
+    },
+  },
+};
+
+export const Collapsed: Story = {
+  render: Template.bind({}),
+  args: {
+    navState: "collapsed",
+  },
+  parameters: {
+    controls: {
+      include: ["navState"],
+    },
+  },
 };
