@@ -1,6 +1,5 @@
 import React, { ReactNode, HTMLAttributes } from "react";
 import { AriaButtonProps } from "react-aria";
-import { VerticalStack } from "../VerticalStack";
 import { Text } from "../Text";
 import { CalendarState, RangeCalendarState } from "@react-stately/calendar";
 import { RefObject } from "@react-types/shared";

@@ -15,9 +15,7 @@
     @include Input.hovered;
   }
   @include Input.iconEndInput;
-
 }
-
 
 .datePickerTriggerContainer {
   @include Input.inputIconContainer;

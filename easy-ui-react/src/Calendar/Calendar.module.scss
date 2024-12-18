@@ -9,6 +9,6 @@
 .calendarContainer {
   display: flex;
   flex-direction: column;
-  gap: design-token('space.1');
+  gap: design-token("space.1");
   max-width: min-content;
 }
