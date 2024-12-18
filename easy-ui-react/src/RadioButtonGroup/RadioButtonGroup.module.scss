@@ -47,7 +47,6 @@
   }
 
   &[data-focus-visible] {
-    z-index: 3;
-    @include native-focus-ring;
+    box-shadow: design-token("shadow.button");
   }
 }
