@@ -45,4 +45,9 @@
     color: design-token("color.neutral.600");
     border-color: design-token("color.neutral.300");
   }
+
+  &[data-focus-visible] {
+    z-index: 3;
+    box-shadow: design-token("shadow.button");
+  }
 }
