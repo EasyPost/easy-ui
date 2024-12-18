@@ -18,6 +18,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { Menu } from "../Menu";
 import { ForgeLayout } from "./ForgeLayout";
+import { Card } from "../Card";
 
 type Story = StoryObj<typeof ForgeLayout>;
 
@@ -118,7 +119,9 @@ export const StandardContent: Story = {
           </ForgeLayout.Actions>
         </ForgeLayout.Header>
         <ForgeLayout.Content>
-          <div style={{ height: 1000 }}>Page Content</div>
+          <Card background="primary" boxShadow="1" variant="solid">
+            <div style={{ height: 1000 }}>Page Content</div>
+          </Card>
         </ForgeLayout.Content>
       </ForgeLayout.Body>
     </ForgeLayout>

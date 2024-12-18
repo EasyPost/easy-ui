@@ -3,12 +3,12 @@
 .nav {
   position: sticky;
   top: 0;
-  background: white;
+  background: design-token("color.neutral.000");
   box-shadow: design-token("shadow.level.2");
   border-bottom-right-radius: design-token("shape.border_radius.lg");
   border-bottom-left-radius: design-token("shape.border_radius.lg");
-  z-index: 99999;
-  padding: 16px;
+  padding: design-token("space.2");
+  z-index: calc(#{design-token("z-index.nav")} + 1);
 }
 
 .link {

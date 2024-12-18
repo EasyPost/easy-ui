@@ -3,13 +3,14 @@
 
 .ForgeLayout {
   @include component-token("forge-layout", "header-height", 56px);
+  @include component-token("forge-layout", "shell-gutter", 20px);
 
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding-left: design-token("space.3");
-  padding-right: design-token("space.3");
-  gap: design-token("space.3");
+  padding-left: component-token("forge-layout", "shell-gutter");
+  padding-right: component-token("forge-layout", "shell-gutter");
+  gap: component-token("forge-layout", "shell-gutter");
   min-height: 100svh;
   background-color: design-token("color.neutral.025");
 }
@@ -28,7 +29,26 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+}
+
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  z-index: calc(#{design-token("z-index.nav")} + 1);
+}
+
+.content {
+  padding-top: component-token("forge-layout", "shell-gutter");
+  padding-bottom: component-token("forge-layout", "shell-gutter");
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: design-token("space.2");
 }
 
 .fauxContainer {
@@ -54,17 +74,4 @@
   position: sticky;
   top: 0;
   height: component-token("forge-layout", "header-height");
-}
-
-.header {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 0;
-  z-index: 99999;
-}
-
-.controls {
-  display: flex;
 }

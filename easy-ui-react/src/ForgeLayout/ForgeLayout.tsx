@@ -194,13 +194,12 @@ function ForgeLayoutHeader(props: ForgeLayoutHeaderProps) {
 function ForgeLayoutControls(props: ForgeLayoutControlsProps) {
   const { navState } = useForgeLayout();
   const { children, visibleWhenNavStateIs = "expanded" } = props;
-  const className = classNames(
-    styles.controls,
-    styles[variationName("visibleWhenNavStateIs", visibleWhenNavStateIs)],
-  );
-  return navState !== visibleWhenNavStateIs ? null : (
-    <div className={className}>{children}</div>
-  );
+
+  if (navState !== visibleWhenNavStateIs) {
+    return null;
+  }
+
+  return <div className={styles.controls}>{children}</div>;
 }
 
 function ForgeLayoutBody(props: ForgeLayoutContentProps) {
