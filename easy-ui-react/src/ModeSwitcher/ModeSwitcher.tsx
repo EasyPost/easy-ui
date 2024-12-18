@@ -82,7 +82,7 @@ export function ModeSwitcher(props: ModeSwitcherProps) {
       >
         <Text
           variant="subtitle1"
-          color={state.mode === "test" ? "alert.600" : "positive.600"}
+          color={state.mode === "test" ? "warning.600" : "positive.600"}
           truncate
         >
           {state.mode === "test" ? "Test" : "Production"}
