@@ -1,0 +1,29 @@
+@use "../styles/common" as *;
+
+.breadcrumbNavigationContainer {
+  border: design-token("shape.border_width.1") solid
+    theme-token("color.neutral.300");
+  display: inline-flex;
+  align-items: center;
+}
+
+.backButtonContainer {
+  background: theme-token("color.neutral.050");
+  border-right: design-token("shape.border_width.1") solid
+    theme-token("color.neutral.300");
+  padding: design-token("space.0-5") design-token("space.1.5")
+    design-token("space.0-5") design-token("space.1");
+  display: inline-flex;
+  align-items: center;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  color: theme-token("color.primary.600");
+}
+
+.breadcrumbContainer {
+  padding: design-token("space.0-5") design-token("space.1");
+}
