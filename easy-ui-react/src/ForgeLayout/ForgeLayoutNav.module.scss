@@ -1,0 +1,33 @@
+@use "../styles/common" as *;
+
+.nav {
+  position: sticky;
+  top: 0;
+  background: white;
+  box-shadow: design-token("shadow.level.2");
+  border-bottom-right-radius: design-token("shape.border_radius.lg");
+  border-bottom-left-radius: design-token("shape.border_radius.lg");
+  z-index: 99999;
+  padding: 16px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  gap: design-token("space.1");
+  outline: none;
+}
+
+.focused {
+  @include native-focus-ring;
+}
+
+.hovered {
+  color: design-token("color.primary.700");
+}
+
+.selected {
+  color: design-token("color.primary.500");
+}
