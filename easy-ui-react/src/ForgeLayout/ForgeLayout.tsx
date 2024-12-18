@@ -176,7 +176,7 @@ export function ForgeLayout(props: ForgeLayoutProps) {
   }, [mode, navState]);
   return (
     <ForgeLayoutContext.Provider value={context}>
-      <div className={className}>
+      <div className={className} data-testid="ForgeLayout">
         {children}
         <div className={styles.fauxContainer}>
           <div className={styles.fauxHeader}></div>

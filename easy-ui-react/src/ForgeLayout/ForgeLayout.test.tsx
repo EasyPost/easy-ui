@@ -5,7 +5,6 @@ import { Menu } from "../Menu";
 import {
   mockGetComputedStyle,
   mockIntersectionObserver,
-  mockMatchMedia,
   render,
   userClick,
 } from "../utilities/test";
@@ -14,7 +13,6 @@ import { ForgeLayout, Mode, NavState } from "./ForgeLayout";
 describe("<ForgeLayout />", () => {
   let restoreGetComputedStyle: () => void;
   let restoreIntersectionObserver: () => void;
-  let restoreMatchMedia: () => void;
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -29,8 +27,6 @@ describe("<ForgeLayout />", () => {
   });
 
   it("should render a forge layout", async () => {
-    restoreMatchMedia = mockMatchMedia({ getMatches: () => false });
-
     const handleMenuAction1 = vi.fn();
 
     const { user } = render(
@@ -62,8 +58,35 @@ describe("<ForgeLayout />", () => {
     );
 
     expect(handleMenuAction1).toBeCalled();
+  });
 
-    restoreMatchMedia();
+  it("should render collapsed state", async () => {
+    render(
+      createForgeLayout({
+        navState: "collapsed",
+        selectedHref: "/1",
+      }),
+    );
+    expect(
+      screen.queryByRole("navigation", { name: "Main" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Controls when expanded"),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Controls when collapsed")).toBeInTheDocument();
+  });
+
+  it("should render test mode", async () => {
+    render(
+      createForgeLayout({
+        mode: "test",
+        selectedHref: "/1",
+      }),
+    );
+    expect(screen.getByTestId("ForgeLayout")).toHaveAttribute(
+      "class",
+      expect.stringContaining("modeTest"),
+    );
   });
 });
 
@@ -109,22 +132,22 @@ function createForgeLayout(
         </ForgeLayout.Controls>
         <ForgeLayout.Actions>
           <ForgeLayout.MenuAction
-            accessibilityLabel="Action 1"
+            accessibilityLabel="Menu Action 1"
             iconSymbol={Icon}
             renderBadge={() => <ForgeLayout.ActionBadge />}
           >
             <Menu.Overlay onAction={onMenuAction1}>
-              <Menu.Item>Action 1:1</Menu.Item>
-              <Menu.Item>Action 1:2</Menu.Item>
+              <Menu.Item>Menu Action 1:1</Menu.Item>
+              <Menu.Item>Menu Action 1:2</Menu.Item>
             </Menu.Overlay>
           </ForgeLayout.MenuAction>
           <ForgeLayout.MenuAction
-            accessibilityLabel="Action 2"
+            accessibilityLabel="Menu Action 2"
             iconSymbol={Icon}
           >
             <Menu.Overlay onAction={onMenuAction2}>
-              <Menu.Item>Action 2:1</Menu.Item>
-              <Menu.Item>Action 2:2</Menu.Item>
+              <Menu.Item>Menu Action 2:1</Menu.Item>
+              <Menu.Item>Menu Action 2:2</Menu.Item>
             </Menu.Overlay>
           </ForgeLayout.MenuAction>
           <ForgeLayout.LinkAction
