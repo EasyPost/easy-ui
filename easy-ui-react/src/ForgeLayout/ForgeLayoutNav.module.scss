@@ -1,0 +1,35 @@
+@use "../styles/common" as *;
+
+.nav {
+  position: sticky;
+  top: 0;
+  background: design-token("color.neutral.000");
+  box-shadow: design-token("shadow.level.2");
+  border: 2px solid component-token("forge-layout", "menu-border-color");
+  border-top: 0;
+  border-bottom-right-radius: design-token("shape.border_radius.lg");
+  border-bottom-left-radius: design-token("shape.border_radius.lg");
+  padding: design-token("space.2");
+  z-index: calc(#{design-token("z-index.nav")} + 1);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: design-token("color.primary.700");
+  gap: design-token("space.1");
+  outline: none;
+}
+
+.focused {
+  @include native-focus-ring;
+}
+
+.hovered {
+  color: design-token("color.primary.600");
+}
+
+.selected {
+  color: design-token("color.primary.500");
+}
