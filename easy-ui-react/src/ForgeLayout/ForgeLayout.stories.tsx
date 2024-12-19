@@ -106,7 +106,7 @@ const Template = (args: Partial<ForgeLayoutProps>) => {
         </ForgeLayout.Header>
         <ForgeLayout.Content>
           <Card background="primary" boxShadow="1" variant="solid">
-            <div style={{ height: 1000 }}>Page Content</div>
+            <div style={{ height: 4000 }}>Page Content</div>
           </Card>
         </ForgeLayout.Content>
       </ForgeLayout.Body>
