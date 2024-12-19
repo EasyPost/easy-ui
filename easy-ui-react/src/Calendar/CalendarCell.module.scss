@@ -22,7 +22,7 @@
 }
 
 .CellContainer {
-  padding: design-token("space.0-5") design-token("space.0-5");
+  padding: design-token("space.0-5");
   .rangeSelectionStart:before {
     @include rangeSelection;
   }

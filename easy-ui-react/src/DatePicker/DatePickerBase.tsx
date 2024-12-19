@@ -7,7 +7,8 @@ import {
 import { DatePickerState, DateRangePickerState } from "react-stately";
 import { DateValue } from "@react-types/calendar";
 import { FocusableElement, GroupDOMAttributes } from "@react-types/shared";
-import { DatePicker } from "./DatePicker";
+import { DatePickerTrigger } from "./DatePickerTrigger";
+import { DatePickerOverlay } from "./DatePickerOverlay";
 import { Text } from "../Text";
 import { logWarningForMissingAriaLabel } from "../InputField/utilities";
 import { classNames, variationName } from "../utilities/css";
@@ -75,18 +76,18 @@ export function DatePickerBase(props: DatePickerProps) {
           {label}
         </Text>
       )}
-      <DatePicker.Trigger
+      <DatePickerTrigger
         {...triggerProps}
         triggerRef={triggerRef}
         state={state}
       />
-      <DatePicker.Overlay
+      <DatePickerOverlay
         {...overlayProps}
         triggerRef={triggerRef}
         state={state}
       >
         {children}
-      </DatePicker.Overlay>
+      </DatePickerOverlay>
     </div>
   );
 }

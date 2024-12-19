@@ -2,9 +2,7 @@ import React, { ReactNode } from "react";
 import { useDatePicker } from "react-aria";
 import { useDatePickerState } from "react-stately";
 import { DateValue, MappedDateValue } from "@react-types/calendar";
-import { DatePickerTrigger } from "./DatePickerTrigger";
 import { DatePickerBase } from "./DatePickerBase";
-import { DatePickerOverlay } from "./DatePickerOverlay";
 import { Calendar } from "../Calendar";
 
 export type DatePickerProps = {
@@ -108,7 +106,3 @@ export function DatePicker(props: DatePickerProps) {
 }
 
 DatePicker.displayName = "DatePicker";
-
-DatePicker.Trigger = DatePickerTrigger;
-
-DatePicker.Overlay = DatePickerOverlay;
