@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.59
+
+### Minor Changes
+
+- 5e76576: feat(ForgeLayout): add button action
+
 ## 1.0.0-alpha.58
 
 ### Minor Changes
