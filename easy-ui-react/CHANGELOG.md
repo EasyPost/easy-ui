@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.58
+
+### Minor Changes
+
+- 72816da: feat: ForgeLayout
+
+### Patch Changes
+
+- Updated dependencies [72816da]
+  - @easypost/easy-ui-icons@1.0.0-alpha.32
+
 ## 1.0.0-alpha.57
 
 ### Patch Changes
