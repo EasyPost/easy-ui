@@ -44,7 +44,9 @@ export function CalendarCell({ state, date }: CalendarCellProps) {
     }
     if (!state.isInvalid(date)) {
       if (isRangeCalendar) {
-        rangeState.setValue(rangeState.highlightedRange);
+        if (!rangeState.anchorDate) {
+          rangeState.setValue(rangeState.highlightedRange);
+        }
       } else {
         singleState.setValue(date);
       }
