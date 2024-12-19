@@ -67,12 +67,6 @@
   padding-bottom: component-token("forge-layout", "shell-gutter");
 }
 
-.controls {
-  display: flex;
-  align-items: center;
-  gap: design-token("space.2");
-}
-
 .fauxContainer {
   position: absolute;
   top: 0;

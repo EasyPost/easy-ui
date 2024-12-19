@@ -14,6 +14,16 @@ import {
   useForgeLayoutNav,
 } from "./ForgeLayoutNav";
 
+import {
+  ForgeLayoutControls,
+  ForgeLayoutBreadcrumbsNavigation,
+  ForgeLayoutBackButton,
+  ForgeLayoutBreadcrumbs,
+  ForgeLayoutBreadcrumb,
+  ForgeLayoutSearch,
+  ForgeLayoutModeSwitcher,
+} from "./ForgeLayoutControls";
+
 import styles from "./ForgeLayout.module.scss";
 
 export type Mode = "test" | "production";
@@ -54,18 +64,6 @@ export type ForgeLayoutHeaderProps = {
 export type ForgeLayoutContentProps = {
   /** Content children. */
   children: ReactNode;
-};
-
-export type ForgeLayoutControlsProps = {
-  /** Controls children. */
-  children: ReactNode;
-
-  /**
-   * Display state of the nav menu for when these controls show.
-   *
-   * @default expanded
-   */
-  visibleWhenNavStateIs?: NavState;
 };
 
 export type ForgeLayoutContextType = {
@@ -192,17 +190,6 @@ function ForgeLayoutHeader(props: ForgeLayoutHeaderProps) {
   return <header className={styles.header}>{children}</header>;
 }
 
-function ForgeLayoutControls(props: ForgeLayoutControlsProps) {
-  const { navState } = useForgeLayout();
-  const { children, visibleWhenNavStateIs = "expanded" } = props;
-
-  if (navState !== visibleWhenNavStateIs) {
-    return null;
-  }
-
-  return <div className={styles.controls}>{children}</div>;
-}
-
 function ForgeLayoutBody(props: ForgeLayoutContentProps) {
   const { children } = props;
   return <div className={styles.body}>{children}</div>;
@@ -242,6 +229,36 @@ ForgeLayout.Header = ForgeLayoutHeader;
  * Represents the controls of a `<ForgeLayout />`.
  */
 ForgeLayout.Controls = ForgeLayoutControls;
+
+/**
+ * Represents the breadcrumbs and navigation in a `<ForgeLayout />`.
+ */
+ForgeLayout.BreadcrumbsNavigation = ForgeLayoutBreadcrumbsNavigation;
+
+/**
+ * Represents a navigation back button in a `<ForgeLayout />`.
+ */
+ForgeLayout.BackButton = ForgeLayoutBackButton;
+
+/**
+ * Represents breadcrumbs in a `<ForgeLayout />`.
+ */
+ForgeLayout.Breadcrumbs = ForgeLayoutBreadcrumbs;
+
+/**
+ * Represents a breadcrumb in a `<ForgeLayout />`.
+ */
+ForgeLayout.Breadcrumb = ForgeLayoutBreadcrumb;
+
+/**
+ * Represents a mode switcher in a `<ForgeLayout />`.
+ */
+ForgeLayout.ModeSwitcher = ForgeLayoutModeSwitcher;
+
+/**
+ * Represents a search input in a `<ForgeLayout />`.
+ */
+ForgeLayout.Search = ForgeLayoutSearch;
 
 /**
  * Represents the secondary actions of a `<ForgeLayout />`.

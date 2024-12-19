@@ -1,0 +1,69 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: design-token("space.2");
+}
+
+.breadcrumbNavigationContainer {
+  border: design-token("shape.border_width.1") solid
+    theme-token("color.neutral.300");
+  display: inline-flex;
+}
+
+.backButtonContainer {
+  background: theme-token("color.neutral.050");
+  border-right: design-token("shape.border_width.1") solid
+    theme-token("color.neutral.300");
+  padding: design-token("space.0-5") design-token("space.1.5")
+    design-token("space.0-5") design-token("space.1");
+  display: inline-flex;
+  align-items: center;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  color: theme-token("color.primary.600");
+}
+
+.breadcrumbsContainer {
+  padding: design-token("space.0-5") design-token("space.1");
+}
+
+.trigger {
+  @include unstyled.button;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: design-token("space.1");
+  border: design-token("shape.border_width.1") solid
+    theme-token("color.neutral.300");
+  padding: calc(
+    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+  );
+  border-radius: design-token("shape.border_radius.md");
+  cursor: pointer;
+  width: 100%;
+  max-width: 133px;
+}
+
+.triggerPopoverOpen {
+  border-color: theme-token("color.neutral.800");
+}
+
+.popover {
+  border: design-token("shape.border_width.1") solid
+    theme-token("color.neutral.300");
+  border-radius: design-token("shape.border_radius.md");
+  background-color: white;
+  padding: design-token("space.2");
+  box-shadow: design-token("shadow.overlay");
+}
+
+.searchContainer {
+  position: relative;
+}
