@@ -5,6 +5,7 @@ import SearchIcon from "@easypost/easy-ui-icons/Search";
 import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
 import { useForgeLayout } from "./ForgeLayout";
 import type { NavState } from "./ForgeLayout";
+import { useForgeLayoutHeader } from "./ForgeLayoutHeader";
 import { UnstyledButton } from "../UnstyledButton";
 import type { UnstyledButtonProps } from "../UnstyledButton";
 import { Text } from "../Text";
@@ -40,13 +41,18 @@ export type ForgeLayoutControlsProps = {
 
 export function ForgeLayoutControls(props: ForgeLayoutControlsProps) {
   const { navState } = useForgeLayout();
+  const { areControlsGrouped } = useForgeLayoutHeader();
   const { children, visibleWhenNavStateIs = "expanded" } = props;
 
   if (navState !== visibleWhenNavStateIs) {
     return null;
   }
 
-  return <div className={styles.controls}>{children}</div>;
+  if (areControlsGrouped) {
+    return <div className={styles.controls}>{children}</div>;
+  }
+
+  return <>{children}</>;
 }
 
 export type ForgeLayoutBreadcrumbsNavigationProps = {
@@ -232,13 +238,15 @@ export function ForgeLayoutSearch(props: TextFieldProps) {
   const { "aria-label": ariaLabel = "Search for content", ...textFieldProps } =
     props;
   return (
-    <TextField
-      size="sm"
-      type="search"
-      aria-label={ariaLabel}
-      placeholder="/ search"
-      iconAtStart={SearchIcon}
-      {...textFieldProps}
-    />
+    <div className={styles.searchContainer}>
+      <TextField
+        size="sm"
+        type="search"
+        aria-label={ariaLabel}
+        placeholder="/ search"
+        iconAtStart={SearchIcon}
+        {...textFieldProps}
+      />
+    </div>
   );
 }

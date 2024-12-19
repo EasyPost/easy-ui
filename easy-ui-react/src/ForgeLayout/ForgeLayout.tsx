@@ -13,7 +13,7 @@ import {
   ForgeLayoutNavSection,
   useForgeLayoutNav,
 } from "./ForgeLayoutNav";
-
+import { ForgeLayoutHeader } from "./ForgeLayoutHeader";
 import {
   ForgeLayoutControls,
   ForgeLayoutBreadcrumbsNavigation,
@@ -54,11 +54,6 @@ export type ForgeLayoutProps = {
    * @default 01
    */
   backgroundDecoration?: "01";
-};
-
-export type ForgeLayoutHeaderProps = {
-  /** Header children. */
-  children: ReactNode;
 };
 
 export type ForgeLayoutContentProps = {
@@ -183,16 +178,6 @@ export function ForgeLayout(props: ForgeLayoutProps) {
         {children}
       </div>
     </ForgeLayoutContext.Provider>
-  );
-}
-
-function ForgeLayoutHeader(props: ForgeLayoutHeaderProps) {
-  const { children } = props;
-  return (
-    <header className={styles.header}>
-      <div className={styles.headerBg}></div>
-      {children}
-    </header>
   );
 }
 

@@ -5,12 +5,14 @@
   display: flex;
   align-items: center;
   gap: design-token("space.2");
+  width: 100%;
 }
 
 .breadcrumbNavigationContainer {
   border: design-token("shape.border_width.1") solid
     theme-token("color.neutral.300");
   display: inline-flex;
+  z-index: 1;
 }
 
 .backButtonContainer {
@@ -49,6 +51,7 @@
   cursor: pointer;
   width: 100%;
   max-width: 133px;
+  z-index: 1;
 }
 
 .triggerPopoverOpen {
@@ -65,5 +68,7 @@
 }
 
 .searchContainer {
-  position: relative;
+  width: 100%;
+  max-width: 715px;
+  padding-right: design-token("space.3");
 }

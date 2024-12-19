@@ -61,33 +61,6 @@
   flex-direction: column;
 }
 
-.header {
-  position: sticky;
-  top: 0;
-  height: component-token("forge-layout", "header-height");
-
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 0;
-
-  border-bottom: 2px solid transparent;
-  z-index: design-token("z-index.nav");
-}
-
-.headerBg {
-  position: absolute;
-  top: 0;
-  left: -100vw;
-  width: 300vw;
-  height: component-token("forge-layout", "header-height");
-
-  background-color: design-token("color.neutral.025");
-  border-bottom: component-token("forge-layout", "header-border-width") solid
-    component-token("forge-layout", "header-border-color");
-}
-
 .content {
   padding-top: component-token("forge-layout", "shell-gutter");
   padding-bottom: component-token("forge-layout", "shell-gutter");
