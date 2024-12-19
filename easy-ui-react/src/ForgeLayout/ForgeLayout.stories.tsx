@@ -97,10 +97,10 @@ const Template = (args: Partial<ForgeLayoutProps>) => {
               accessibilityLabel="Action 3"
               iconSymbol={AccountCircleIcon}
             />
-            <ForgeLayout.LinkAction
-              href="/5"
+            <ForgeLayout.ButtonAction
               accessibilityLabel="Action 4"
               iconSymbol={DoorOpenIcon}
+              onPress={action("Button clicked!")}
             />
           </ForgeLayout.Actions>
         </ForgeLayout.Header>

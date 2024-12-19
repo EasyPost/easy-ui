@@ -3,6 +3,7 @@ import { classNames, variationName } from "../utilities/css";
 import {
   ForgeLayoutActionBadge,
   ForgeLayoutActions,
+  ForgeLayoutButtonAction,
   ForgeLayoutLinkAction,
   ForgeLayoutMenuAction,
 } from "./ForgeLayoutActions";
@@ -261,6 +262,11 @@ ForgeLayout.MenuAction = ForgeLayoutMenuAction;
  * Represents a secondary link action of a `<ForgeLayout />`.
  */
 ForgeLayout.LinkAction = ForgeLayoutLinkAction;
+
+/**
+ * Represents a secondary button action of a `<ForgeLayout />`.
+ */
+ForgeLayout.ButtonAction = ForgeLayoutButtonAction;
 
 /**
  * Represents the main content of a `<ForgeLayout />`.

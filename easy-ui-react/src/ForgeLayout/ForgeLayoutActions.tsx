@@ -15,6 +15,8 @@ import {
   useLink,
   usePress,
 } from "react-aria";
+import { Button } from "react-aria-components";
+import { ButtonProps } from "../Button";
 import { HorizontalStack } from "../HorizontalStack";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
@@ -61,6 +63,21 @@ export type ForgeLayoutLinkActionProps = {
   /** Badge for the action. */
   renderBadge?: () => ReactNode;
 } & AriaLinkOptions;
+
+export type ForgeLayoutButtonActionProps = {
+  /** Optional custom accessibility label describing the menu action. */
+  accessibilityLabel?: string;
+
+  /** Action button icon symbol. */
+  iconSymbol: IconSymbol;
+
+  /** Whether or not action button is selected. */
+  isSelected?: boolean;
+
+  /** Badge for the action. */
+  renderBadge?: () => ReactNode;
+} & ButtonProps &
+  React.RefAttributes<HTMLButtonElement>;
 
 export function ForgeLayoutActions(props: ForgeLayoutActionsProps) {
   const { children } = props;
@@ -139,6 +156,32 @@ export function ForgeLayoutLinkAction(props: ForgeLayoutLinkActionProps) {
         <div className={styles.badgeContainer}>{renderBadge()}</div>
       )}
     </a>
+  );
+}
+
+export function ForgeLayoutButtonAction(props: ForgeLayoutButtonActionProps) {
+  const {
+    accessibilityLabel = "Actions",
+    iconSymbol,
+    renderBadge,
+    isSelected,
+    ...buttonProps
+  } = props;
+  const ref = useRef(null);
+  const className = classNames(styles.button, isSelected && styles.selected);
+  return (
+    <Button
+      ref={ref}
+      className={className}
+      aria-current={isSelected ? "true" : undefined}
+      {...buttonProps}
+    >
+      <Text visuallyHidden>{accessibilityLabel}</Text>
+      <Icon symbol={iconSymbol} />
+      {renderBadge && (
+        <div className={styles.badgeContainer}>{renderBadge()}</div>
+      )}
+    </Button>
   );
 }
 
