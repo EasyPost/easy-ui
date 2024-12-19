@@ -11,6 +11,7 @@ DatePicker combine a date field and a calendar popver to allow users to enter or
 ### Features
 
 - Supports setting dates availability
+- Support minimum and maximum allowed dates
 - Supports being controlled
 
 ### Prior Art
@@ -23,56 +24,122 @@ DatePicker combine a date field and a calendar popver to allow users to enter or
 
 ## Design
 
-`DatePicker` will use `useDatePicker` and `useDateRangePicker` from `React Aria` to helps achieve accessible date picker.
+The `DatePicker` will utilize `useDatePicker` and `useDateRangePicker` from `React Aria` to ensure an accessible date picker experience.
 
-A `DatePicker` composes several other components to product a composite element that can be used to enter dates with keyboard, or select them on a calendar. The component consist of `DatePicker` wrapper, `DatePicker.Trigger` to open a `DatePicker.Overlay` containing a `Calendar` and `DateField` for selecting and inputing dates.
+The component includes a `DatePickerBase` that determines whether it's a `DatePicker` or a `DateRangePicker`, depending on the state is passed into.
+
+`DatePickerTiger` features a `DateField` that enables users to input dates, along with a calendar icon that opens the `DatePickerOverlay`, allowing users to select dates from the calendar component.
 
 ### API
 
 ```ts
-type DatePickerProps = {
+export type DatePickerProps = {
+  /**
+   * Accessibility label for input field.
+   */
+  "aria-label"?: string;
   /**
    * The content to display as the label.
    */
-  label: ReactNode;
+  label?: string;
+  /**
+   * The default value (uncontrolled).
+   */
+  defaultValue?: DateValue | null;
+  /**
+   * The current value (controlled).
+   */
+  value?: DateValue | null;
+  /**
+   * Handler that is called when the value changes.
+   */
+  onChange?: (value: MappedDateValue<DateValue> | null) => void;
+  // onChange?: (value: DateValue | null) => void;
   /**
    * The minimum allowed date that a user may select.
    */
-  minValue: DateValue;
+  minValue?: DateValue;
   /**
    * The maximum allowed date that a user may select.
    */
-  maxValue: DateValue;
-  /**
-   * Callback that is called for each date of the calendar. If it returns
-   * true, then the date is unavailable.
-   */
-  isDateUnavailable: (date: DateValue) => boolean;
-  /**
-   * A placeholder date that influences the format of the placeholder shown
-   * when no value is selected. Defaults to today's date at midnight.
-   */
-  placeholderValue: DateValue;
+  maxValue?: DateValue;
   /**
    * Whether the input is disabled.
    */
-  isDisabled: boolean;
-  /**
-   * Whether the input can be selected but not changed by the user.
-   */
-  isReadOnly: boolean;
-  /**
-   * Whether user input is required on the input before form submission.
-   */
-  isRequired: boolean;
+  isDisabled?: boolean;
   /**
    * Whether the input value is invalid.
    */
-  isInvalid: boolean;
+  isInvalid?: boolean;
   /**
-   * An error message for the field.
+   * An error message to display when the selected value is invalid.
    */
-  errorMessage: ReactNode;
+  errorMessage?: ReactNode;
+  /**
+   * Callback that is called for each date of the calendar. If
+   * it returns true, then the date is unavailable.
+   */
+  isDateUnavailable?: (date: DateValue) => boolean;
+  /**
+   * The size of the DatePicker.
+   * @default md
+   */
+  size?: "sm" | "md";
+};
+```
+
+```ts
+export type DateRangePickerProps = {
+  /**
+   * Accessibility label for input field.
+   */
+  "aria-label"?: string;
+  /**
+   * The content to display as the label.
+   */
+  label?: string;
+  /**
+   * The default value (uncontrolled).
+   */
+  defaultValue?: RangeValue<DateValue> | null;
+  /**
+   * The current value (controlled).
+   */
+  value?: RangeValue<DateValue> | null;
+  /**
+   * Handler that is called when the value changes.
+   */
+  onChange?: (value: RangeValue<MappedDateValue<DateValue>> | null) => void;
+  /**
+   * The minimum allowed date that a user may select.
+   */
+  minValue?: DateValue;
+  /**
+   * The maximum allowed date that a user may select.
+   */
+  maxValue?: DateValue;
+  /**
+   * Whether the input is disabled.
+   */
+  isDisabled?: boolean;
+  /**
+   * Whether the input value is invalid.
+   */
+  isInvalid?: boolean;
+  /**
+   * An error message to display when the selected value is invalid.
+   */
+  errorMessage?: ReactNode;
+  /**
+   * Callback that is called for each date of the calendar. If
+   * it returns true, then the date is unavailable.
+   */
+  isDateUnavailable?: (date: DateValue) => boolean;
+  /**
+   * The size of the DateRangePicker.
+   * @default md
+   */
+  size?: "sm" | "md";
 };
 ```
 
@@ -82,20 +149,93 @@ _Standalone_:
 
 ```tsx
 import { DatePicker } from "@easypost/easy-ui/DatePicker";
-import { Calendar } from "@easypost/easy-ui/Calendar";
-import { DateField } from "@easypost/easy-ui/DateField";
+
+function PageWithDatePicker() {
+  return <DatePicker />;
+}
+```
+
+_Default value:_
+
+```tsx
+import { DatePicker } from "@easypost/easy-ui/DatePicker";
+
+function PageWithDatePicker() {
+  return <DatePicker defaultValue={today(getLocalTimeZone())} />;
+}
+```
+
+_Disabled:_
+
+```tsx
+import { DatePicker } from "@easypost/easy-ui/DatePicker";
+
+function PageWithDatePicker() {
+  return <DatePicker isDisabled />;
+}
+```
+
+_Minimum and maximum allowed dates:_
+
+```tsx
+import { DatePicker } from "@easypost/easy-ui/DatePicker";
 
 function PageWithDatePicker() {
   return (
-    <DatePicker>
-      <DatePicker.Trigger>
-        <Button>01/01/2024 - 02/01/2024</Button>
-      </DatePicker.Trigger>
-      <DatePicker.Overlay>
-        <DateField />
-        <Calendar />
-      </DatePicker.Overlay>
-    </DatePicker>
+    <DatePicker
+      minValue={today(getLocalTimeZone()).subtract({ days: 10 })}
+      maxValue={today(getLocalTimeZone())}
+    />
+  );
+}
+```
+
+_Dates availabilty:_
+
+```tsx
+import { DatePicker } from "@easypost/easy-ui/DatePicker";
+
+function PageWithDatePicker() {
+  return (
+    <DatePicker
+      isDateUnavailable={(date) => today(getLocalTimeZone()).compare(date) > 0}
+    />
+  );
+}
+```
+
+_Controlled:_
+
+```tsx
+import { DatePicker } from "@easypost/easy-ui/DatePicker";
+
+function PageWithDatePicker() {
+  const [date, setDate] = React.useState<MappedDateValue<DateValue> | null>(
+    null,
+  );
+
+  return <DatePicker value={date} onChange={setDate} />;
+}
+```
+
+_Invalid:_
+
+```tsx
+import { DatePicker } from "@easypost/easy-ui/DatePicker";
+
+function PageWithDatePicker() {
+  const { locale } = useLocale();
+  const [date, setDate] = React.useState<MappedDateValue<DateValue> | null>(
+    endOfWeek(today(getLocalTimeZone()), locale),
+  );
+
+  return (
+    <DatePicker
+      value={date}
+      onChange={setDate}
+      isInvalid={isInvalid}
+      errorMessage={isInvalid && "Weekend is not available"}
+    />
   );
 }
 ```

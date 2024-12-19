@@ -1,0 +1,59 @@
+@use "../styles/common" as *;
+@use "../InputField/mixins" as Input;
+@use "../Menu/mixins" as Menu;
+
+.DatePicker {
+  @include Input.root;
+}
+
+.datePickerTrigger {
+  display: flex;
+  align-items: center;
+  @include Input.input;
+
+  &:hover {
+    @include Input.hovered;
+  }
+  @include Input.iconEndInput;
+}
+
+.datePickerTriggerContainer {
+  @include Input.inputIconContainer;
+}
+
+.datePickerSm .datePickerTrigger {
+  @include Input.inputSm;
+  @include Input.iconEndInput;
+}
+
+.errorInput {
+  @include Input.error;
+}
+
+.underlay {
+  position: fixed;
+  inset: 0;
+}
+
+.dialog {
+  background: theme-token("color.neutral.000");
+  border-radius: design-token("shape.border_radius.lg");
+  box-shadow: design-token("shadow.modal");
+  pointer-events: auto;
+  outline: none;
+}
+
+.DateSegment {
+  padding: design-token("space.0-5");
+  color: design-token("color.primary.800");
+  &[data-placeholder="true"],
+  &.literalSegment {
+    color: design-token("color.neutral.500");
+  }
+  &:focus-visible {
+    outline: none;
+    background-color: design-token("color.primary.500");
+    border-radius: design-token("shape.border_radius.md");
+    color: design-token("color.neutral.000");
+  }
+}
