@@ -46,6 +46,10 @@
   @include Button.variantLink;
 }
 
+.variantText {
+  @include Button.variantText;
+}
+
 .variantOutlined,
 .variantLink {
   padding: calc(
