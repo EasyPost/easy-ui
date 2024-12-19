@@ -17,11 +17,13 @@
   outline: none;
 }
 
-.focused {
+.focused,
+[data-focus-visible="true"] {
   @include native-focus-ring;
 }
 
-.hovered {
+.hovered,
+[data-hovered="true"] {
   background-color: design-token("color.neutral.050");
 }
 

@@ -155,6 +155,11 @@ function createForgeLayout(
             accessibilityLabel="Action 3"
             iconSymbol={Icon}
           />
+          <ForgeLayout.ButtonAction
+            accessibilityLabel="Action 4"
+            iconSymbol={Icon}
+            onPress={() => {}}
+          />
         </ForgeLayout.Actions>
       </ForgeLayout.Header>
       <ForgeLayout.Content>{content}</ForgeLayout.Content>
