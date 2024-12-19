@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.32
+
+### Minor Changes
+
+- 72816da: feat: ForgeLayout
+
 ## 1.0.0-alpha.31
 
 ### Minor Changes
