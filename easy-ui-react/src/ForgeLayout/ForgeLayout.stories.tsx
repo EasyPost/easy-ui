@@ -67,10 +67,19 @@ const Template = (args: Partial<ForgeLayoutProps>) => {
       <ForgeLayout.Body>
         <ForgeLayout.Header>
           <ForgeLayout.Controls visibleWhenNavStateIs="collapsed">
-            <div>Controls when collapsed</div>
+            <ForgeLayout.BreadcrumbsNavigation>
+              <ForgeLayout.BackButton onPress={() => {}}>
+                Back
+              </ForgeLayout.BackButton>
+              <ForgeLayout.Breadcrumbs>
+                <ForgeLayout.Breadcrumb>Breadcrumb</ForgeLayout.Breadcrumb>
+                <ForgeLayout.Breadcrumb>Breadcrumb</ForgeLayout.Breadcrumb>
+              </ForgeLayout.Breadcrumbs>
+            </ForgeLayout.BreadcrumbsNavigation>
           </ForgeLayout.Controls>
           <ForgeLayout.Controls visibleWhenNavStateIs="expanded">
-            <div>Controls when expanded</div>
+            <ForgeLayout.ModeSwitcher onModeChange={action("Mode changed!")} />
+            <ForgeLayout.Search />
           </ForgeLayout.Controls>
           <ForgeLayout.Actions>
             <ForgeLayout.MenuAction
