@@ -32,13 +32,7 @@ type OverlayProps = {
 };
 
 export type DatePickerProps = {
-  /**
-   * Accessibility label for input field.
-   */
   "aria-label"?: string;
-  /**
-   * The content to display as the label.
-   */
   label?: string;
   triggerProps: TriggerProps;
   overlayProps: OverlayProps;
