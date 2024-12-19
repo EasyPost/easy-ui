@@ -3,14 +3,18 @@ import { useDatePicker } from "react-aria";
 import { useDatePickerState } from "react-stately";
 import { DatePickerTrigger } from "./DatePickerTrigger";
 import { DatePickerOverlay } from "./DatePickerOverlay";
-import { DatePickerQuickSelect } from "../DateRangePicker/DatePickerQuickSelect";
 import { classNames, variationName } from "../utilities/css";
 import { Calendar } from "../Calendar";
 import { Text } from "../Text";
 import styles from "./DatePicker.module.scss";
 import { DateValue, MappedDateValue } from "@react-types/calendar";
+import { logWarningForMissingAriaLabel } from "../InputField/utilities";
 
 export type DatePickerProps = {
+  /**
+   * Accessibility label for input field.
+   */
+  "aria-label"?: string;
   /**
    * The content to display as the label.
    */
@@ -60,7 +64,14 @@ export type DatePickerProps = {
   size?: "sm" | "md";
 };
 export function DatePicker(props: DatePickerProps) {
-  const { label, size = "md", isDisabled, isInvalid, errorMessage } = props;
+  const {
+    label,
+    size = "md",
+    isDisabled,
+    isInvalid,
+    errorMessage,
+    "aria-label": ariaLabel,
+  } = props;
   const datePickerRef = React.useRef(null);
   const triggerRef = React.useRef(null);
   const state = useDatePickerState(props);
@@ -72,6 +83,8 @@ export function DatePicker(props: DatePickerProps) {
     dialogProps,
     calendarProps,
   } = useDatePicker(props, state, datePickerRef);
+
+  logWarningForMissingAriaLabel(label, ariaLabel);
 
   const triggerProps = {
     triggerRef,
@@ -85,7 +98,6 @@ export function DatePicker(props: DatePickerProps) {
     errorMessage,
     state,
   };
-
   const overlayProps = { state, triggerRef, dialogProps };
   const className = classNames(
     styles.DatePicker,
@@ -104,7 +116,8 @@ export function DatePicker(props: DatePickerProps) {
       )}
       <DatePicker.Trigger {...triggerProps} />
       <DatePicker.Overlay {...overlayProps}>
-        <Calendar {...calendarProps} />
+        {/** Set Calendar to always valid to prevent displaying error message under Calendar */}
+        <Calendar {...calendarProps} isInvalid={false} />
       </DatePicker.Overlay>
     </div>
   );
@@ -115,5 +128,3 @@ DatePicker.displayName = "DatePicker";
 DatePicker.Trigger = DatePickerTrigger;
 
 DatePicker.Overlay = DatePickerOverlay;
-
-DatePicker.QuickSelect = DatePickerQuickSelect;

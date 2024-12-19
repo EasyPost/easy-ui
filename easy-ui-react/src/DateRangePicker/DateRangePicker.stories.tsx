@@ -1,6 +1,6 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
-import { today, getLocalTimeZone, startOfYear } from "@internationalized/date";
+import { today, getLocalTimeZone } from "@internationalized/date";
 import { DateRange } from "@react-types/calendar";
 import { InputDecorator } from "../utilities/storybook";
 import { DateRangePicker, DateRangePickerProps } from "./DateRangePicker";
@@ -10,6 +10,7 @@ type Story = StoryObj<typeof DateRangePicker>;
 const meta: Meta<typeof DateRangePicker> = {
   title: "Components/DatePicker/DateRangePicker",
   component: DateRangePicker,
+  args: { "aria-label": "Range date picker" },
   decorators: [InputDecorator],
 };
 
@@ -17,60 +18,18 @@ export default meta;
 
 const Template = (args: DateRangePickerProps) => <DateRangePicker {...args} />;
 
-const QUICK_SELECTION_OPTIONS = [
-  {
-    label: "Today",
-    dateRange: {
-      start: today(getLocalTimeZone()),
-      end: today(getLocalTimeZone()),
-    },
-  },
-  {
-    label: "Yesterday",
-    dateRange: {
-      start: today(getLocalTimeZone()).subtract({ days: 1 }),
-      end: today(getLocalTimeZone()).subtract({ days: 1 }),
-    },
-  },
-  {
-    label: "Last 7 days",
-    dateRange: {
-      start: today(getLocalTimeZone()).subtract({ days: 6 }),
-      end: today(getLocalTimeZone()),
-    },
-  },
-  {
-    label: "Last 30 days",
-    dateRange: {
-      start: today(getLocalTimeZone()).subtract({ days: 29 }),
-      end: today(getLocalTimeZone()),
-    },
-  },
-  {
-    label: "Last 6 months",
-    dateRange: {
-      start: today(getLocalTimeZone()).subtract({ months: 6 }),
-      end: today(getLocalTimeZone()),
-    },
-  },
-  {
-    label: "Last 12 months",
-    dateRange: {
-      start: today(getLocalTimeZone()).subtract({ months: 12 }),
-      end: today(getLocalTimeZone()),
-    },
-  },
-  {
-    label: "Year to date",
-    dateRange: {
-      start: startOfYear(today(getLocalTimeZone())),
-      end: today(getLocalTimeZone()),
-    },
-  },
-];
-
 export const Standard: Story = {
   render: Template.bind({}),
+};
+
+export const DefaultValue: Story = {
+  render: Template.bind({}),
+  args: {
+    defaultValue: {
+      start: today(getLocalTimeZone()).subtract({ days: 7 }),
+      end: today(getLocalTimeZone()),
+    },
+  },
 };
 
 export const Sizes: Story = {
@@ -98,18 +57,11 @@ export const DatesAvailability: Story = {
 export const ControlledSelection: Story = {
   render: () => {
     const [date, setDate] = React.useState<DateRange>();
-    return <DateRangePicker value={date} onChange={setDate} />;
-  },
-};
-
-export const WithQuickSelection: Story = {
-  render: () => {
-    const [date, setDate] = React.useState<DateRange>();
     return (
       <DateRangePicker
         value={date}
         onChange={setDate}
-        quickSelectOptions={QUICK_SELECTION_OPTIONS}
+        aria-label="Range date picker"
       />
     );
   },
@@ -126,6 +78,7 @@ export const InvalidSelection: Story = {
 
     return (
       <DateRangePicker
+        aria-label="Range date picker"
         value={date}
         onChange={setDate}
         isInvalid={isInvalid}

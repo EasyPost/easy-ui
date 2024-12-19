@@ -3,15 +3,18 @@ import { useDateRangePicker } from "react-aria";
 import { useDateRangePickerState } from "react-stately";
 import { RangeValue } from "@react-types/shared";
 import { DateValue, MappedDateValue } from "@react-types/calendar";
-import { HorizontalStack } from "../HorizontalStack";
 import { DatePicker } from "../DatePicker";
 import { Text } from "../Text";
 import { RangeCalendar } from "../RangeCalendar";
-import { OptionProps } from "./DatePickerQuickSelect";
 import { classNames, variationName } from "../utilities/css";
 import styles from "../DatePicker/DatePicker.module.scss";
+import { logWarningForMissingAriaLabel } from "../InputField/utilities";
 
 export type DateRangePickerProps = {
+  /**
+   * Accessibility label for input field.
+   */
+  "aria-label"?: string;
   /**
    * The content to display as the label.
    */
@@ -58,11 +61,6 @@ export type DateRangePickerProps = {
    * @default md
    */
   size?: "sm" | "md";
-  /**
-   * A list of quick select options that provide users the
-   * ability to make selection faster.
-   */
-  quickSelectOptions?: OptionProps[];
 };
 
 export function DateRangePicker(props: DateRangePickerProps) {
@@ -70,9 +68,9 @@ export function DateRangePicker(props: DateRangePickerProps) {
     label,
     size = "md",
     isDisabled,
-    quickSelectOptions,
     isInvalid,
     errorMessage,
+    "aria-label": ariaLabel,
   } = props;
   const datePickerRef = React.useRef(null);
   const triggerRef = React.useRef(null);
@@ -86,6 +84,8 @@ export function DateRangePicker(props: DateRangePickerProps) {
     dialogProps,
     calendarProps,
   } = useDateRangePicker(props, state, datePickerRef);
+
+  logWarningForMissingAriaLabel(label, ariaLabel);
 
   const triggerProps = {
     triggerRef,
@@ -119,15 +119,8 @@ export function DateRangePicker(props: DateRangePickerProps) {
       )}
       <DatePicker.Trigger {...triggerProps} />
       <DatePicker.Overlay {...overlayProps}>
-        <HorizontalStack gap="8">
-          {quickSelectOptions && (
-            <DatePicker.QuickSelect
-              quickSelectOptions={quickSelectOptions}
-              state={state}
-            />
-          )}
-          <RangeCalendar {...calendarProps} />
-        </HorizontalStack>
+        {/** Set Calendar to always valid to prevent displaying error message under Calendar */}
+        <RangeCalendar {...calendarProps} isInvalid={false} />
       </DatePicker.Overlay>
     </div>
   );

@@ -109,6 +109,6 @@ describe("<RangeCalendar />", () => {
   });
 });
 
-async function clickElement(user: UserEvent, el: HTMLElement) {
+export async function clickElement(user: UserEvent, el: HTMLElement) {
   await userClick(user, el);
 }

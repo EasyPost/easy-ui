@@ -15,6 +15,7 @@ type Story = StoryObj<typeof DatePicker>;
 
 const meta: Meta<typeof DatePicker> = {
   title: "Components/DatePicker/DatePicker",
+  args: { "aria-label": "Date picker" },
   component: DatePicker,
   decorators: [InputDecorator],
 };
@@ -25,6 +26,13 @@ const Template = (args: DatePickerProps) => <DatePicker {...args} />;
 
 export const Standard: Story = {
   render: Template.bind({}),
+};
+
+export const DefaultValue: Story = {
+  render: Template.bind({}),
+  args: {
+    defaultValue: today(getLocalTimeZone()),
+  },
 };
 
 export const Sizes: Story = {
@@ -54,7 +62,9 @@ export const ControlledSelection: Story = {
     const [date, setDate] = React.useState<MappedDateValue<DateValue> | null>(
       null,
     );
-    return <DatePicker value={date} onChange={setDate} />;
+    return (
+      <DatePicker value={date} onChange={setDate} aria-label="Date picker" />
+    );
   },
 };
 
@@ -69,6 +79,7 @@ export const InvalidSelection: Story = {
 
     return (
       <DatePicker
+        aria-label="Date picker"
         value={date}
         onChange={setDate}
         isInvalid={isInvalid}
