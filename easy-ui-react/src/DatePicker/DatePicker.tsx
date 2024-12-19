@@ -1,14 +1,11 @@
 import React, { ReactNode } from "react";
 import { useDatePicker } from "react-aria";
 import { useDatePickerState } from "react-stately";
-import { DatePickerTrigger } from "./DatePickerTrigger";
-import { DatePickerOverlay } from "./DatePickerOverlay";
-import { classNames, variationName } from "../utilities/css";
-import { Calendar } from "../Calendar";
-import { Text } from "../Text";
-import styles from "./DatePicker.module.scss";
 import { DateValue, MappedDateValue } from "@react-types/calendar";
-import { logWarningForMissingAriaLabel } from "../InputField/utilities";
+import { DatePickerTrigger } from "./DatePickerTrigger";
+import { DatePickerBase } from "./DatePickerBase";
+import { DatePickerOverlay } from "./DatePickerOverlay";
+import { Calendar } from "../Calendar";
 
 export type DatePickerProps = {
   /**
@@ -73,7 +70,6 @@ export function DatePicker(props: DatePickerProps) {
     "aria-label": ariaLabel,
   } = props;
   const datePickerRef = React.useRef(null);
-  const triggerRef = React.useRef(null);
   const state = useDatePickerState(props);
   const {
     groupProps,
@@ -84,10 +80,7 @@ export function DatePicker(props: DatePickerProps) {
     calendarProps,
   } = useDatePicker(props, state, datePickerRef);
 
-  logWarningForMissingAriaLabel(label, ariaLabel);
-
   const triggerProps = {
-    triggerRef,
     datePickerRef,
     buttonProps,
     groupProps,
@@ -95,31 +88,22 @@ export function DatePicker(props: DatePickerProps) {
     isDisabled,
     size,
     isInvalid,
-    errorMessage,
-    state,
+    errorMessage: errorMessage || calendarProps.errorMessage,
   };
-  const overlayProps = { state, triggerRef, dialogProps };
-  const className = classNames(
-    styles.DatePicker,
-    size && styles[variationName("datePicker", size)],
-  );
+  const overlayProps = { dialogProps };
+
   return (
-    <div className={className}>
-      {label && (
-        <Text
-          {...labelProps}
-          variant={size === "sm" ? "body2" : "body1"}
-          color="primary.800"
-        >
-          {label}
-        </Text>
-      )}
-      <DatePicker.Trigger {...triggerProps} />
-      <DatePicker.Overlay {...overlayProps}>
-        {/** Set Calendar to always valid to prevent displaying error message under Calendar */}
-        <Calendar {...calendarProps} isInvalid={false} />
-      </DatePicker.Overlay>
-    </div>
+    <DatePickerBase
+      labelProps={labelProps}
+      triggerProps={triggerProps}
+      overlayProps={overlayProps}
+      state={state}
+      label={label}
+      aria-label={ariaLabel}
+    >
+      {/** When DatePicker is invalid, error message display under both DatePicker and Calendar. Set calendar to valid prevent error message displaying twice  */}
+      <Calendar {...calendarProps} isInvalid={false} />
+    </DatePickerBase>
   );
 }
 

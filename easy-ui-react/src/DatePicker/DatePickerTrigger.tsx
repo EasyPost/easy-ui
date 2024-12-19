@@ -2,14 +2,14 @@ import React, { MutableRefObject, ReactNode } from "react";
 import CalendarMonth from "@easypost/easy-ui-icons/CalendarMonth";
 import { GroupDOMAttributes } from "@react-types/shared";
 import { AriaDatePickerProps, DateValue, AriaButtonProps } from "react-aria";
+import { DatePickerState, DateRangePickerState } from "react-stately";
 import { InputIcon } from "../InputField/InputIcon";
 import { UnstyledButton } from "../UnstyledButton";
 import { DateFieldField } from "./DateField";
 import { VerticalStack } from "../VerticalStack";
 import { Text } from "../Text";
-import styles from "./DatePicker.module.scss";
 import { classNames } from "../utilities/css";
-import { DatePickerState, DateRangePickerState } from "react-stately";
+import styles from "./DatePicker.module.scss";
 
 export type DatePickerTriggerProps = {
   isDisabled?: boolean;

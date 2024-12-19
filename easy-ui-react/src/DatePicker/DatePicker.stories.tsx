@@ -1,5 +1,6 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
+import { useLocale } from "react-aria";
 import {
   today,
   getLocalTimeZone,
@@ -9,7 +10,6 @@ import {
 import { DateValue, MappedDateValue } from "@react-types/calendar";
 import { InputDecorator } from "../utilities/storybook";
 import { DatePicker, DatePickerProps } from "./DatePicker";
-import { useLocale } from "react-aria";
 
 type Story = StoryObj<typeof DatePicker>;
 

@@ -22,18 +22,18 @@
 }
 
 .CellContainer {
-  padding: design-token("space.0-5");
+  padding: design-token("space.0-5") design-token("space.0-5");
   .rangeSelectionStart:before {
     @include rangeSelection;
   }
 
   @include breakpoint-md-up {
-    padding: design-token("space.1.5") design-token("space.1");
+    padding: 10px design-token("space.1");
   }
 }
 
 .CalendarCell {
-  @include component-token("calendar-cell", "size", design-token("space.4-5"));
+  @include component-token("calendar-cell", "size", design-token("space.4"));
   @include component-token(
     "calendar-cell",
     "mobile-size",

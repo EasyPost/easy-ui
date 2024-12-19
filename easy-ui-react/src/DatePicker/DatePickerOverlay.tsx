@@ -5,14 +5,13 @@ import {
   Overlay,
   usePopover,
 } from "react-aria";
-
+import { DatePickerState, DateRangePickerState } from "react-stately";
 import {
   DEFAULT_PLACEMENT,
   OVERLAY_OFFSET,
   OVERLAY_PADDING_FROM_CONTAINER,
 } from "../Menu/utilities";
 import styles from "./DatePicker.module.scss";
-import { DatePickerState, DateRangePickerState } from "react-stately";
 
 type DatePickerOverlayProps = {
   children: ReactNode;
