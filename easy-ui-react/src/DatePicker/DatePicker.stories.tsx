@@ -24,7 +24,7 @@ export default meta;
 
 const Template = (args: DatePickerProps) => <DatePicker {...args} />;
 
-export const Standard: Story = {
+export const Standalone: Story = {
   render: Template.bind({}),
 };
 

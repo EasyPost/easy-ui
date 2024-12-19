@@ -59,6 +59,38 @@ export type DateRangePickerProps = {
   size?: "sm" | "md";
 };
 
+/**
+ * A `DateRangePicker` has a `DateField` and a calendar popover
+ * to allow users to enter or select a date.
+ *
+ * @remarks
+ * Use a DateRangePicker when you want to provide a view that
+ * allows the users to select a date.
+ *
+ * @example
+ * _Standalone:_
+ * ```tsx
+ * import { DateRangePicker } from "@easypost/easy-ui/DateRangePicker";
+ *
+ * function PageWithDateRangePicker() {
+ *   return <DateRangePicker />;
+ * }
+ * ```
+ *
+ * @example
+ * _Controlled:_
+ * ```tsx
+ * import { DateRangePicker } from "@easypost/easy-ui/DateRangePicker";
+ *
+ * function PageWithDateRangePicker() {
+ *   const [date, setDate] = React.useState(null);
+ *   return (
+ *      <DateRangePicker value={date} onChange={setDate}
+ *      aria-label="Date picker" />
+ *    );
+ * }
+ * ```
+ */
 export function DateRangePicker(props: DateRangePickerProps) {
   const {
     label,

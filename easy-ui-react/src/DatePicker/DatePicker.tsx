@@ -58,6 +58,39 @@ export type DatePickerProps = {
    */
   size?: "sm" | "md";
 };
+
+/**
+ * A `DatePicker` has a `DateField` and a calendar popover to
+ * allow users to enter or select a date.
+ *
+ * @remarks
+ * Use a DatePciker when you want to provide a view that allows
+ * the users to select a date.
+ *
+ * @example
+ * _Standalone:_
+ * ```tsx
+ * import { DatePicker } from "@easypost/easy-ui/DatePicker";
+ *
+ * function PageWithDatePicker() {
+ *   return <DatePicker />;
+ * }
+ * ```
+ *
+ * @example
+ * _Controlled:_
+ * ```tsx
+ * import { DatePicker } from "@easypost/easy-ui/DatePicker";
+ *
+ * function PageWithDatePicker() {
+ *   const [date, setDate] = React.useState(null);
+ *   return (
+ *      <DatePicker value={date} onChange={setDate}
+ *      aria-label="Date picker" />
+ *    );
+ * }
+ * ```
+ */
 export function DatePicker(props: DatePickerProps) {
   const {
     label,
