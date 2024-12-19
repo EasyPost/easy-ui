@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.60
+
+### Patch Changes
+
+- 2be5e1c: fix(ForgeLayout): attach bg
+
 ## 1.0.0-alpha.59
 
 ### Minor Changes

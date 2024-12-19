@@ -166,20 +166,21 @@ export function ForgeLayout(props: ForgeLayoutProps) {
   } = props;
   const className = classNames(
     styles.ForgeLayout,
-    styles[variationName("backgroundDecoration", backgroundDecoration)],
     styles[variationName("mode", mode)],
     styles[variationName("navState", navState)],
+  );
+  const bgClassName = classNames(
+    styles.bg,
+    styles[variationName("backgroundDecoration", backgroundDecoration)],
   );
   const context = useMemo(() => {
     return { mode, navState };
   }, [mode, navState]);
   return (
     <ForgeLayoutContext.Provider value={context}>
+      <div className={bgClassName} />
       <div className={className} data-testid="ForgeLayout">
         {children}
-        <div className={styles.fauxContainer}>
-          <div className={styles.fauxHeader}></div>
-        </div>
       </div>
     </ForgeLayoutContext.Provider>
   );
@@ -187,7 +188,12 @@ export function ForgeLayout(props: ForgeLayoutProps) {
 
 function ForgeLayoutHeader(props: ForgeLayoutHeaderProps) {
   const { children } = props;
-  return <header className={styles.header}>{children}</header>;
+  return (
+    <header className={styles.header}>
+      <div className={styles.headerBg}></div>
+      {children}
+    </header>
+  );
 }
 
 function ForgeLayoutBody(props: ForgeLayoutContentProps) {

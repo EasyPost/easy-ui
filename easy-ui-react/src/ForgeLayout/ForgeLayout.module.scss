@@ -19,8 +19,8 @@
   padding-right: component-token("forge-layout", "shell-gutter");
   gap: component-token("forge-layout", "shell-gutter");
   min-height: 100svh;
-  background-color: design-token("color.neutral.025");
   position: relative;
+  overflow-x: clip;
 }
 
 .modeTest {
@@ -35,6 +35,15 @@
     design-token("color.warning.600")
   );
   @include component-token("forge-layout", "header-border-width", 2px);
+}
+
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: design-token("color.neutral.025");
 }
 
 .backgroundDecoration01 {
@@ -53,42 +62,33 @@
 }
 
 .header {
+  position: sticky;
+  top: 0;
+  height: component-token("forge-layout", "header-height");
+
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   min-width: 0;
+
   border-bottom: 2px solid transparent;
-  z-index: calc(#{design-token("z-index.nav")} + 1);
+  z-index: design-token("z-index.nav");
+}
+
+.headerBg {
+  position: absolute;
+  top: 0;
+  left: -100vw;
+  width: 300vw;
+  height: component-token("forge-layout", "header-height");
+
+  background-color: design-token("color.neutral.025");
+  border-bottom: component-token("forge-layout", "header-border-width") solid
+    component-token("forge-layout", "header-border-color");
 }
 
 .content {
   padding-top: component-token("forge-layout", "shell-gutter");
   padding-bottom: component-token("forge-layout", "shell-gutter");
-}
-
-.fauxContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  pointer-events: none;
-}
-
-.fauxHeader {
-  background-color: design-token("color.neutral.025");
-  border-bottom: component-token("forge-layout", "header-border-width") solid
-    component-token("forge-layout", "header-border-color");
-  z-index: design-token("z-index.nav");
-}
-
-.fauxHeader,
-.header {
-  position: sticky;
-  top: 0;
-  height: component-token("forge-layout", "header-height");
 }
