@@ -11,6 +11,7 @@
 .breadcrumbNavigationContainer {
   border: design-token("shape.border_width.1") solid
     theme-token("color.neutral.300");
+  padding-right: design-token("space.3");
   display: inline-flex;
   z-index: 1;
 }
@@ -62,7 +63,7 @@
   border: design-token("shape.border_width.1") solid
     theme-token("color.neutral.300");
   border-radius: design-token("shape.border_radius.md");
-  background-color: white;
+  background-color: theme-token("color.neutral.000");
   padding: design-token("space.2");
   box-shadow: design-token("shadow.overlay");
 }

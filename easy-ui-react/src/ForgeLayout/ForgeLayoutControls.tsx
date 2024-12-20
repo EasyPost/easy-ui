@@ -27,6 +27,9 @@ import styles from "./ForgeLayoutControls.module.scss";
 const TEST_MODE = "Test";
 const PRODUCTION_MODE = "Production";
 
+const POPOVER_CROSS_OFFSET = 116;
+const POPOVER_OFFSET = 2;
+
 export type ForgeLayoutControlsProps = {
   /** Controls children. */
   children: ReactNode;
@@ -46,10 +49,6 @@ export function ForgeLayoutControls(props: ForgeLayoutControlsProps) {
 
   if (navState !== visibleWhenNavStateIs) {
     return null;
-  }
-
-  if (areControlsGrouped) {
-    return <div className={styles.controls}>{children}</div>;
   }
 
   return (
@@ -187,8 +186,8 @@ export function ForgeLayoutModeSwitcher(props: ForgeLayoutModeSwitcherProps) {
       </Button>
       <Popover
         className={styles.popover}
-        offset={2}
-        crossOffset={102}
+        offset={POPOVER_OFFSET}
+        crossOffset={POPOVER_CROSS_OFFSET}
         isOpen={isOpen}
         onOpenChange={setIsOpen}
       >
