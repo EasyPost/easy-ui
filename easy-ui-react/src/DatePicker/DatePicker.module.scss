@@ -26,6 +26,14 @@
   @include Input.iconEndInput;
 }
 
+.datePickerTrigger > :last-child {
+  top: calc(design-token("space.1-5") - design-token("shape.border_width.1"));
+}
+
+.datePickerSm .datePickerTrigger > :last-child {
+  top: calc(design-token("space.1") - design-token("shape.border_width.1"));
+}
+
 .errorInput {
   @include Input.error;
 }
@@ -42,7 +50,7 @@
   pointer-events: auto;
   outline: none;
   position: relative;
-  z-index: design-token("z-index.input_icon");
+  z-index: 1;
 }
 
 .DateSegment {
