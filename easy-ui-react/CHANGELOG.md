@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.61
+
+### Minor Changes
+
+- 15a0b00: feat: Create DatePicker and DaterangePicker
+
 ## 1.0.0-alpha.60
 
 ### Patch Changes
