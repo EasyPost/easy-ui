@@ -14,7 +14,7 @@
       component-token("calendar-cell", "mobile-size") + design-token("space.0-5")
     ) / 2
   );
-  @include breakpoint-lg-up {
+  @include breakpoint-md-up {
     left: calc(
       (component-token("calendar-cell", "size") + design-token("space.1")) / 2
     );
@@ -27,13 +27,13 @@
     @include rangeSelection;
   }
 
-  @include breakpoint-lg-up {
-    padding: design-token("space.1.5") design-token("space.1");
+  @include breakpoint-md-up {
+    padding: 10px design-token("space.1");
   }
 }
 
 .CalendarCell {
-  @include component-token("calendar-cell", "size", design-token("space.4-5"));
+  @include component-token("calendar-cell", "size", design-token("space.4"));
   @include component-token(
     "calendar-cell",
     "mobile-size",
@@ -97,7 +97,7 @@
     content: none;
   }
 
-  @include breakpoint-lg-up {
+  @include breakpoint-md-up {
     width: component-token("calendar-cell", "size");
     height: component-token("calendar-cell", "size");
   }
