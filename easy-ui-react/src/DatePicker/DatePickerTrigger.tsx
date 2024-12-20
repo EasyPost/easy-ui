@@ -45,6 +45,7 @@ export function DatePickerTrigger(props: DatePickerTriggerProps) {
   const className = classNames(
     styles.datePickerTrigger,
     (isInvalid || state.isInvalid) && styles.errorInput,
+    isDisabled && styles.disabled,
   );
 
   return (

@@ -26,14 +26,17 @@
   @include Input.iconEndInput;
 }
 
-.datePickerTrigger > :last-child {
-  color: design-token("color.primary.500");
+.datePickerTrigger:not(.disabled) > :last-child {
+  color: design-token("color.neutral.700");
   cursor: pointer;
-  top: calc(design-token("space.1-5") - design-token("shape.border_width.1"));
 
   &:hover {
-    color: design-token("color.primary.600");
+    color: design-token("color.neutral.800");
   }
+}
+
+.datePickerTrigger > :last-child {
+  top: calc(design-token("space.1-5") - design-token("shape.border_width.1"));
 }
 
 .datePickerSm .datePickerTrigger > :last-child {
