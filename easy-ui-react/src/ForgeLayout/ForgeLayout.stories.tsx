@@ -68,12 +68,15 @@ const Template = (args: Partial<ForgeLayoutProps>) => {
         <ForgeLayout.Header>
           <ForgeLayout.Controls visibleWhenNavStateIs="collapsed">
             <ForgeLayout.BreadcrumbsNavigation>
-              <ForgeLayout.BackButton onPress={() => {}}>
+              <ForgeLayout.BackButton onPress={action("Going back!")}>
                 Back
               </ForgeLayout.BackButton>
               <ForgeLayout.Breadcrumbs>
-                <ForgeLayout.Breadcrumb>Breadcrumb</ForgeLayout.Breadcrumb>
-                <ForgeLayout.Breadcrumb>Breadcrumb</ForgeLayout.Breadcrumb>
+                <ForgeLayout.Breadcrumb>Breadcrumb One</ForgeLayout.Breadcrumb>
+                <ForgeLayout.Breadcrumb>Breadcrumb Two</ForgeLayout.Breadcrumb>
+                <ForgeLayout.Breadcrumb>
+                  Breadcrumb Three
+                </ForgeLayout.Breadcrumb>
               </ForgeLayout.Breadcrumbs>
             </ForgeLayout.BreadcrumbsNavigation>
           </ForgeLayout.Controls>
@@ -115,7 +118,7 @@ const Template = (args: Partial<ForgeLayoutProps>) => {
         </ForgeLayout.Header>
         <ForgeLayout.Content>
           <Card background="primary" boxShadow="1" variant="solid">
-            <div style={{ height: 4000 }}>Page Content</div>
+            <div style={{ height: 1000 }}>Page Content</div>
           </Card>
         </ForgeLayout.Content>
       </ForgeLayout.Body>

@@ -28,11 +28,13 @@ describe("<ForgeLayout />", () => {
 
   it("should render a forge layout", async () => {
     const handleMenuAction1 = vi.fn();
+    const handleModeChange = vi.fn();
 
     const { user } = render(
       createForgeLayout({
         selectedHref: "/1",
         onMenuAction1: handleMenuAction1,
+        onModeChange: handleModeChange,
       }),
     );
 
@@ -58,22 +60,44 @@ describe("<ForgeLayout />", () => {
     );
 
     expect(handleMenuAction1).toBeCalled();
+
+    expect(
+      screen.getByRole("button", { name: "Production" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("searchbox", { name: "Search for content" }),
+    ).toBeInTheDocument();
+
+    await userClick(user, screen.getByRole("button", { name: "Production" }));
+    const radios = screen.getAllByRole("radio");
+    expect(radios[0]).not.toBeChecked();
+    expect(radios[1]).toBeChecked();
+    await userClick(user, radios[0]);
+
+    expect(handleModeChange).toBeCalled();
   });
 
   it("should render collapsed state", async () => {
-    render(
+    const handleBackButton = vi.fn();
+    const { user } = render(
       createForgeLayout({
         navState: "collapsed",
         selectedHref: "/1",
+        onBackButton: handleBackButton,
       }),
     );
+    expect(screen.getByRole("button", { name: "Back" })).toBeInTheDocument();
+    expect(screen.queryByText("Breadcrumb One")).toBeInTheDocument();
+    expect(screen.queryByText("Breadcrumb Two")).toBeInTheDocument();
+    expect(screen.queryByText("Breadcrumb Three")).toBeInTheDocument();
     expect(
-      screen.queryByRole("navigation", { name: "Main" }),
+      screen.queryByRole("button", { name: "Production" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByText("Controls when expanded"),
+      screen.queryByRole("searchbox", { name: "Search for content" }),
     ).not.toBeInTheDocument();
-    expect(screen.queryByText("Controls when collapsed")).toBeInTheDocument();
+    await userClick(user, screen.getByRole("button", { name: "Back" }));
+    expect(handleBackButton).toBeCalled();
   });
 
   it("should render test mode", async () => {
@@ -98,6 +122,8 @@ function createForgeLayout(
     selectedHref?: string;
     onMenuAction1?: () => void;
     onMenuAction2?: () => void;
+    onBackButton?: () => void;
+    onModeChange?: () => void;
   } = {},
 ) {
   const {
@@ -107,6 +133,8 @@ function createForgeLayout(
     selectedHref = "/1",
     onMenuAction1 = vi.fn(),
     onMenuAction2 = vi.fn(),
+    onBackButton = vi.fn(),
+    onModeChange = vi.fn(),
   } = props;
   return (
     <ForgeLayout mode={mode} navState={navState}>
@@ -125,10 +153,20 @@ function createForgeLayout(
       </ForgeLayout.Nav>
       <ForgeLayout.Header>
         <ForgeLayout.Controls visibleWhenNavStateIs="collapsed">
-          <div>Controls when collapsed</div>
+          <ForgeLayout.BreadcrumbsNavigation>
+            <ForgeLayout.BackButton onPress={onBackButton}>
+              Back
+            </ForgeLayout.BackButton>
+            <ForgeLayout.Breadcrumbs>
+              <ForgeLayout.Breadcrumb>Breadcrumb One</ForgeLayout.Breadcrumb>
+              <ForgeLayout.Breadcrumb>Breadcrumb Two</ForgeLayout.Breadcrumb>
+              <ForgeLayout.Breadcrumb>Breadcrumb Three</ForgeLayout.Breadcrumb>
+            </ForgeLayout.Breadcrumbs>
+          </ForgeLayout.BreadcrumbsNavigation>
         </ForgeLayout.Controls>
         <ForgeLayout.Controls visibleWhenNavStateIs="expanded">
-          <div>Controls when expanded</div>
+          <ForgeLayout.ModeSwitcher onModeChange={onModeChange} />
+          <ForgeLayout.Search />
         </ForgeLayout.Controls>
         <ForgeLayout.Actions>
           <ForgeLayout.MenuAction
