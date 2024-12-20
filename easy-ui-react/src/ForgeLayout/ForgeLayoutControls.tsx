@@ -52,7 +52,15 @@ export function ForgeLayoutControls(props: ForgeLayoutControlsProps) {
     return <div className={styles.controls}>{children}</div>;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {areControlsGrouped ? (
+        <div className={styles.controls}>{children}</div>
+      ) : (
+        <>{children}</>
+      )}
+    </>
+  );
 }
 
 export type ForgeLayoutBreadcrumbsNavigationProps = {
