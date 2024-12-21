@@ -72,10 +72,9 @@ const Template = (args: Partial<ForgeLayoutProps>) => {
                 Back
               </ForgeLayout.BackButton>
               <ForgeLayout.Breadcrumbs>
-                <ForgeLayout.Breadcrumb>Breadcrumb One</ForgeLayout.Breadcrumb>
-                <ForgeLayout.Breadcrumb>Breadcrumb Two</ForgeLayout.Breadcrumb>
+                <ForgeLayout.Breadcrumb>Sub Account</ForgeLayout.Breadcrumb>
                 <ForgeLayout.Breadcrumb>
-                  Breadcrumb Three
+                  Sub Account Name
                 </ForgeLayout.Breadcrumb>
               </ForgeLayout.Breadcrumbs>
             </ForgeLayout.BreadcrumbsNavigation>
