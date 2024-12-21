@@ -67,10 +67,21 @@ const Template = (args: Partial<ForgeLayoutProps>) => {
       <ForgeLayout.Body>
         <ForgeLayout.Header>
           <ForgeLayout.Controls visibleWhenNavStateIs="collapsed">
-            <div>Controls when collapsed</div>
+            <ForgeLayout.BreadcrumbsNavigation>
+              <ForgeLayout.BackButton onPress={action("Going back!")}>
+                Back
+              </ForgeLayout.BackButton>
+              <ForgeLayout.Breadcrumbs>
+                <ForgeLayout.Breadcrumb>Sub Account</ForgeLayout.Breadcrumb>
+                <ForgeLayout.Breadcrumb>
+                  Sub Account Name
+                </ForgeLayout.Breadcrumb>
+              </ForgeLayout.Breadcrumbs>
+            </ForgeLayout.BreadcrumbsNavigation>
           </ForgeLayout.Controls>
           <ForgeLayout.Controls visibleWhenNavStateIs="expanded">
-            <div>Controls when expanded</div>
+            <ForgeLayout.ModeSwitcher onModeChange={action("Mode changed!")} />
+            <ForgeLayout.Search />
           </ForgeLayout.Controls>
           <ForgeLayout.Actions>
             <ForgeLayout.MenuAction
@@ -106,7 +117,7 @@ const Template = (args: Partial<ForgeLayoutProps>) => {
         </ForgeLayout.Header>
         <ForgeLayout.Content>
           <Card background="primary" boxShadow="1" variant="solid">
-            <div style={{ height: 4000 }}>Page Content</div>
+            <div style={{ height: 1000 }}>Page Content</div>
           </Card>
         </ForgeLayout.Content>
       </ForgeLayout.Body>
