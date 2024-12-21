@@ -13,6 +13,7 @@
 
   border-bottom: 2px solid transparent;
   z-index: design-token("z-index.nav");
+  gap: design-token("space.1");
 }
 
 .headerBg {

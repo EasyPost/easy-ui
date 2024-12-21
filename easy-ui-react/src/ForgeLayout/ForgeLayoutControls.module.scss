@@ -11,7 +11,7 @@
 .breadcrumbNavigationContainer {
   border: design-token("shape.border_width.1") solid
     theme-token("color.neutral.300");
-  padding-right: design-token("space.3");
+  margin-right: design-token("space.3");
   display: inline-flex;
   z-index: 1;
 }
@@ -71,5 +71,5 @@
 .searchContainer {
   width: 100%;
   max-width: 715px;
-  padding-right: design-token("space.3");
+  margin-right: design-token("space.3");
 }
