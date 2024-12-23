@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.62
+
+### Minor Changes
+
+- 462b0a4: feat(ForgeLayout): add modeswitcher, breadcrumb navigation, and search
+
 ## 1.0.0-alpha.61
 
 ### Minor Changes
