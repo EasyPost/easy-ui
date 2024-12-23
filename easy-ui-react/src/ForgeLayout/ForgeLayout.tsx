@@ -107,15 +107,15 @@ export const useForgeLayout = () => {
  *   </ForgeLayout.Nav>
  *   <ForgeLayout.Header>
  *     <ForgeLayout.Controls visibleWhenNavStateIs="collapsed">
- *       <ForgeLayout.BreadrumbsNavigation>
+ *       <ForgeLayout.BreadcrumbsNavigation>
  *         <ForgeLayout.BackButton onClick={() => {}}>
  *           Back
  *         </ForgeLayout.BackButton>
- *         <ForgeLayout.Breadrumbs>
- *           <ForgeLayout.Breadrumb>Breadcrumb</ForgeLayout.Breadrumb>
- *           <ForgeLayout.Breadrumb>Breadcrumb</ForgeLayout.Breadrumb>
- *         </ForgeLayout.Breadrumbs>
- *       </ForgeLayout.BreadrumbsNavigation>
+ *         <ForgeLayout.Breadcrumbs>
+ *           <ForgeLayout.Breadcrumb>Breadcrumb</ForgeLayout.Breadcrumb>
+ *           <ForgeLayout.Breadcrumb>Breadcrumb</ForgeLayout.Breadcrumb>
+ *         </ForgeLayout.Breadcrumbs>
+ *       </ForgeLayout.BreadcrumbsNavigation>
  *     </ForgeLayout.Controls>
  *     <ForgeLayout.Controls visibleWhenNavStateIs="expanded">
  *       <ForgeLayout.ModeSwitcher onModeChange={action("Mode changed!")} />
