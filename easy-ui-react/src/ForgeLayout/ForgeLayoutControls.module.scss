@@ -13,7 +13,7 @@
     theme-token("color.neutral.300");
   margin-right: design-token("space.3");
   display: inline-flex;
-  z-index: 1;
+  z-index: design-token("z-index.nav");
 }
 
 .backButtonContainer {
@@ -52,7 +52,7 @@
   cursor: pointer;
   width: 100%;
   max-width: 133px;
-  z-index: 1;
+  z-index: design-token("z-index.nav");
 }
 
 .triggerPopoverOpen {
