@@ -51,7 +51,8 @@
 }
 
 .variantOutlined,
-.variantLink {
+.variantLink,
+.variantText {
   padding: calc(
       #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
     )
