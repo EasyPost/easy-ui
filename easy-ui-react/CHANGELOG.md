@@ -1,5 +1,15 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.63
+
+### Minor Changes
+
+- a402333: add a new text variant for Button
+
+### Patch Changes
+
+- aa534c5: remove underline from link variant
+
 ## 1.0.0-alpha.62
 
 ### Minor Changes
