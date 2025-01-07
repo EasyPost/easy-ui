@@ -17,6 +17,14 @@ export const OVERLAY_OFFSET = 8;
 export const OVERLAY_PADDING_FROM_CONTAINER = 12;
 export const SELECT_ALL_KEY = "all";
 
+export function getMenuPopoverMaxHeight({
+  maxItemsUntilScroll,
+}: {
+  maxItemsUntilScroll: number;
+}) {
+  return ITEM_HEIGHT * maxItemsUntilScroll + Y_PADDING_INSIDE_OVERLAY * 2 + 2;
+}
+
 export function getUnmergedPopoverStyles(
   width: MenuOverlayWidth,
   triggerWidth: number | null,
