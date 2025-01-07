@@ -3,6 +3,7 @@ import React from "react";
 import { useListData } from "react-stately";
 import { FedExLogoImg, InlineStoryDecorator } from "../utilities/storybook";
 import { MultipleSelect, SelectedKey } from "./MultiSelect";
+import { Icon } from "../Icon";
 
 type Story = StoryObj<typeof MultipleSelect>;
 
@@ -37,7 +38,12 @@ function Component() {
       >
         {(item) => (
           <MultipleSelect.Option textValue={item.label}>
-            <MultipleSelect.OptionText>{item.label}</MultipleSelect.OptionText>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              {item.icon && <Icon symbol={item.icon} />}
+              <MultipleSelect.OptionText>
+                {item.label}
+              </MultipleSelect.OptionText>
+            </div>
           </MultipleSelect.Option>
         )}
       </MultipleSelect>

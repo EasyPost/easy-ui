@@ -1,5 +1,6 @@
 import KeyboardArrowDownIcon from "@easypost/easy-ui-icons/KeyboardArrowDown";
 import React, {
+  KeyboardEvent,
   ReactNode,
   RefObject,
   useCallback,
@@ -32,9 +33,9 @@ import {
 import { PillGroup, PillProps } from "../PillGroup";
 import { Text, TextProps } from "../Text";
 import { classNames, getComponentToken, pxToRem } from "../utilities/css";
+import { useScrollbar } from "../utilities/useScrollbar";
 
 import styles from "./MultiSelect.module.scss";
-import { useScrollbar } from "../utilities/useScrollbar";
 
 type SelectedKey = {
   id: Key;
@@ -66,6 +67,7 @@ type MultipleSelectProps<T extends object> = Omit<
   maxItemsUntilScroll?: MenuOverlayProps<T>["maxItemsUntilScroll"];
 };
 
+// inspired by https://github.com/irsyadadl/justd/blob/2.x/components/ui/multiple-select.tsx
 const MultipleSelect = <T extends SelectedKey>({
   children,
   items,
@@ -135,14 +137,13 @@ const MultipleSelect = <T extends SelectedKey>({
 
     if (!selectedKeys.includes(id)) {
       selectedItems.append(item);
-      setFieldState({
-        inputValue: "",
-        selectedKey: id,
-      });
+      setFieldState({ inputValue: "", selectedKey: id });
       onItemInserted?.(id);
     }
 
-    accessibleList.setFilterText("");
+    setTimeout(() => {
+      accessibleList.setFilterText("");
+    });
   };
 
   const onInputChange = (value: string) => {
@@ -150,7 +151,6 @@ const MultipleSelect = <T extends SelectedKey>({
       inputValue: value,
       selectedKey: value === "" ? null : prev.selectedKey,
     }));
-
     accessibleList.setFilterText(value);
   };
 
@@ -172,8 +172,9 @@ const MultipleSelect = <T extends SelectedKey>({
     });
   }, [selectedItems, onItemCleared]);
 
+  // handle deleting pills with keyboard
   const onKeyDownCapture = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Backspace" && fieldState.inputValue === "") {
         popLast();
       }
@@ -235,7 +236,9 @@ const MultipleSelect = <T extends SelectedKey>({
               className={styles.input}
               onBlur={() => {
                 setFieldState({ inputValue: "", selectedKey: null });
-                accessibleList.setFilterText("");
+                setTimeout(() => {
+                  accessibleList.setFilterText("");
+                });
               }}
               onKeyDownCapture={onKeyDownCapture}
             />
@@ -272,9 +275,11 @@ const MultipleSelect = <T extends SelectedKey>({
             <ListBoxContainer menuRef={menuRef}>
               <ListBox
                 renderEmptyState={() => (
-                  <Text variant="subtitle2" color="neutral.400">
-                    No results found
-                  </Text>
+                  <div className={styles.listEmptyState}>
+                    <Text variant="subtitle2" color="neutral.400">
+                      No results found
+                    </Text>
+                  </div>
                 )}
                 selectionMode="multiple"
               >

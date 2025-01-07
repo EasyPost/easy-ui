@@ -104,16 +104,25 @@
   padding: component-token("menu", "padding.y") 0;
 }
 
-.option {
+.option,
+.listEmptyState {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   height: component-token("menu", "item_height");
   padding: 0 component-token("menu", "padding.x");
+}
+
+.option {
   cursor: pointer;
 
   &[data-hovered],
   &[data-focused] {
     background: component-token("menu", "color.background.hovered");
   }
+}
+
+.listEmptyState {
+  align-items: center;
 }
