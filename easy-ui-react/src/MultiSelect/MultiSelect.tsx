@@ -12,14 +12,12 @@ import { useFilter, VisuallyHidden } from "react-aria";
 import {
   Button,
   ComboBox,
-  ComboBoxProps as ComboBoxPrimitiveProps,
   Input,
   Key,
   ListBox,
   ListBoxItem,
   ListBoxItemProps,
   Popover,
-  ValidationResult,
 } from "react-aria-components";
 import { ListData, useListData } from "react-stately";
 import { Icon } from "../Icon";
@@ -32,7 +30,7 @@ import {
 } from "../Menu/utilities";
 import { PillGroup, PillProps } from "../PillGroup";
 import { Text, TextProps } from "../Text";
-import { classNames, getComponentToken, pxToRem } from "../utilities/css";
+import { getComponentToken, pxToRem } from "../utilities/css";
 import { useScrollbar } from "../utilities/useScrollbar";
 
 import styles from "./MultiSelect.module.scss";
@@ -41,44 +39,32 @@ type SelectedKey = {
   id: Key;
 } & PillProps;
 
-type MultipleSelectProps<T extends object> = Omit<
-  ComboBoxPrimitiveProps<T>,
-  | "children"
-  | "validate"
-  | "allowsEmptyCollection"
-  | "inputValue"
-  | "selectedKey"
-  | "className"
-  | "value"
-  | "onSelectionChange"
-  | "onInputChange"
-> & {
-  label: string;
+type MultipleSelectProps<T extends object> = {
+  children: React.ReactNode | ((item: T) => React.ReactNode);
   placeholder?: string;
   items: Array<T>;
   selectedItems: ListData<T>;
-  className?: string;
-  onItemInserted?: (key: Key) => void;
-  onItemCleared?: (key: Key) => void;
-  renderEmptyState?: (inputValue: string) => React.ReactNode;
-  pill: (item: T) => React.ReactNode;
-  children: React.ReactNode | ((item: T) => React.ReactNode);
-  errorMessage?: string | ((validation: ValidationResult) => string);
+  onItemRemoved?: (key: Key) => void;
+  onItemSelected?: (key: Key) => void;
+  renderPill: (item: T) => React.ReactNode;
   maxItemsUntilScroll?: MenuOverlayProps<T>["maxItemsUntilScroll"];
 };
 
 // inspired by https://github.com/irsyadadl/justd/blob/2.x/components/ui/multiple-select.tsx
-const MultipleSelect = <T extends SelectedKey>({
-  children,
-  items,
-  label,
-  onItemCleared,
-  onItemInserted,
-  pill,
-  selectedItems,
-  maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
-  ...props
-}: MultipleSelectProps<T>) => {
+const MultipleSelect = <T extends SelectedKey>(
+  props: MultipleSelectProps<T>,
+) => {
+  const {
+    children,
+    items,
+    onItemRemoved,
+    onItemSelected,
+    placeholder,
+    renderPill,
+    selectedItems,
+    maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
+  } = props;
+
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -118,10 +104,10 @@ const MultipleSelect = <T extends SelectedKey>({
           inputValue: "",
           selectedKey: null,
         });
-        onItemCleared?.(key);
+        onItemRemoved?.(key);
       }
     },
-    [selectedItems, onItemCleared],
+    [selectedItems, onItemRemoved],
   );
 
   const onSelectionChange = (id: Key | null) => {
@@ -138,7 +124,7 @@ const MultipleSelect = <T extends SelectedKey>({
     if (!selectedKeys.includes(id)) {
       selectedItems.append(item);
       setFieldState({ inputValue: "", selectedKey: id });
-      onItemInserted?.(id);
+      onItemSelected?.(id);
     }
 
     setTimeout(() => {
@@ -163,14 +149,14 @@ const MultipleSelect = <T extends SelectedKey>({
 
     if (endKey) {
       selectedItems.remove(endKey.id);
-      onItemCleared?.(endKey.id);
+      onItemRemoved?.(endKey.id);
     }
 
     setFieldState({
       inputValue: "",
       selectedKey: null,
     });
-  }, [selectedItems, onItemCleared]);
+  }, [selectedItems, onItemRemoved]);
 
   // handle deleting pills with keyboard
   const onKeyDownCapture = useCallback(
@@ -201,26 +187,19 @@ const MultipleSelect = <T extends SelectedKey>({
   const triggerButtonRef = useRef<HTMLButtonElement | null>(null);
 
   return (
-    <div
-      ref={triggerRef}
-      className={classNames(
-        styles.MultiSelect,
-        props.isDisabled && styles.disabled,
-      )}
-    >
+    <div ref={triggerRef} className={styles.MultiSelect}>
       {selectedItems.items.length > 0 && (
         <PillGroup
           items={selectedItems.items}
           horizontalStackContainerProps={{ gap: "1" }}
           onRemove={onRemove}
-          label={label}
+          label="Selected items"
         >
-          {pill}
+          {renderPill}
         </PillGroup>
       )}
       <div className={styles.comboBoxContainer}>
         <ComboBox
-          {...props}
           className={styles.comboBox}
           allowsEmptyCollection
           aria-label="Available items"
@@ -232,7 +211,7 @@ const MultipleSelect = <T extends SelectedKey>({
         >
           <div className={styles.inputContainer}>
             <Input
-              placeholder={props.placeholder}
+              placeholder={placeholder}
               className={styles.input}
               onBlur={() => {
                 setFieldState({ inputValue: "", selectedKey: null });
@@ -293,7 +272,6 @@ const MultipleSelect = <T extends SelectedKey>({
           className={styles.button}
           onClick={() => triggerButtonRef.current?.click()}
           tabIndex={-1}
-          aria-hidden="true"
         >
           <Icon symbol={KeyboardArrowDownIcon} />
         </button>

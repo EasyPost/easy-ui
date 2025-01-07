@@ -27,12 +27,11 @@ function Component() {
   return (
     <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
       <MultipleSelect
-        label="Fruits"
         selectedItems={selectedItems}
         items={fruits}
         placeholder="Select a fruit"
         maxItemsUntilScroll={10}
-        pill={(item) => (
+        renderPill={(item) => (
           <MultipleSelect.Pill icon={item.icon} label={item.label} />
         )}
       >
