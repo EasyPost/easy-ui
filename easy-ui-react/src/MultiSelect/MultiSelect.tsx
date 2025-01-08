@@ -8,18 +8,17 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useFilter, VisuallyHidden } from "react-aria";
+import { Key, useFilter, VisuallyHidden } from "react-aria";
 import {
   Button,
   ComboBox,
   Input,
-  Key,
   ListBox,
   ListBoxItem,
   ListBoxItemProps,
   Popover,
 } from "react-aria-components";
-import { ListData, useListData } from "react-stately";
+import { useListData } from "react-stately";
 import { Icon } from "../Icon";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import {
@@ -35,62 +34,61 @@ import { useScrollbar } from "../utilities/useScrollbar";
 
 import styles from "./MultiSelect.module.scss";
 
-type SelectedKey = {
-  id: Key;
-} & PillProps;
+type FieldState = {
+  selectedKey: Key | null;
+  inputValue: string;
+};
+
+type Item = { key: Key } & PillProps;
 
 type MultipleSelectProps<T extends object> = {
   children: React.ReactNode | ((item: T) => React.ReactNode);
-  placeholder?: string;
   items: Array<T>;
-  selectedItems: ListData<T>;
-  onItemRemoved?: (key: Key) => void;
-  onItemSelected?: (key: Key) => void;
-  renderPill: (item: T) => React.ReactNode;
   maxItemsUntilScroll?: MenuOverlayProps<T>["maxItemsUntilScroll"];
+  placeholder?: string;
+  renderPill: (item: T) => React.ReactNode;
+
+  /**
+   * The currently selected keys in the collection (controlled).
+   */
+  selectedKeys: Iterable<Key>;
+
+  /**
+   * Handler that is called when the selection changes.
+   */
+  onSelectionChange: (keys: Iterable<Key>) => void;
 };
 
 // inspired by https://github.com/irsyadadl/justd/blob/2.x/components/ui/multiple-select.tsx
-const MultipleSelect = <T extends SelectedKey>(
-  props: MultipleSelectProps<T>,
-) => {
+const MultipleSelect = <T extends Item>(props: MultipleSelectProps<T>) => {
   const {
     children,
     items,
-    onItemRemoved,
-    onItemSelected,
+    maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
+    onSelectionChange: onSourceSelectionChange,
     placeholder,
     renderPill,
-    selectedItems,
-    maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
+    selectedKeys,
   } = props;
 
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   const [width, setWidth] = useState(0);
-
   const { contains } = useFilter({ sensitivity: "base" });
-  const selectedKeys = selectedItems.items.map((i) => i.id);
 
   const filter = useCallback(
     (item: T, filterText: string) => {
       return (
-        !selectedKeys.includes(item.id) && contains(item.label, filterText)
+        ![...selectedKeys].includes(item.key) &&
+        contains(item.label, filterText)
       );
     },
     [contains, selectedKeys],
   );
 
-  const accessibleList = useListData({
-    initialItems: items,
-    filter,
-  });
-
-  const [fieldState, setFieldState] = useState<{
-    selectedKey: Key | null;
-    inputValue: string;
-  }>({
+  const accessibleList = useListData({ initialItems: items, filter });
+  const [fieldState, setFieldState] = useState<FieldState>({
     selectedKey: null,
     inputValue: "",
   });
@@ -99,15 +97,11 @@ const MultipleSelect = <T extends SelectedKey>(
     (keys: Set<Key>) => {
       const key = keys.values().next().value;
       if (key) {
-        selectedItems.remove(key);
-        setFieldState({
-          inputValue: "",
-          selectedKey: null,
-        });
-        onItemRemoved?.(key);
+        onSourceSelectionChange([...selectedKeys].filter((k) => k !== key));
+        setFieldState({ inputValue: "", selectedKey: null });
       }
     },
-    [selectedItems, onItemRemoved],
+    [onSourceSelectionChange, selectedKeys],
   );
 
   const onSelectionChange = (id: Key | null) => {
@@ -121,10 +115,9 @@ const MultipleSelect = <T extends SelectedKey>(
       return;
     }
 
-    if (!selectedKeys.includes(id)) {
-      selectedItems.append(item);
+    if (![...selectedKeys].includes(id)) {
+      onSourceSelectionChange([...selectedKeys, item.key]);
       setFieldState({ inputValue: "", selectedKey: id });
-      onItemSelected?.(id);
     }
 
     setTimeout(() => {
@@ -141,22 +134,17 @@ const MultipleSelect = <T extends SelectedKey>(
   };
 
   const popLast = useCallback(() => {
-    if (selectedItems.items.length === 0) {
+    if ([...selectedKeys].length === 0) {
       return;
     }
 
-    const endKey = selectedItems.items[selectedItems.items.length - 1];
-
+    const endKey = [...selectedKeys][[...selectedKeys].length - 1];
     if (endKey) {
-      selectedItems.remove(endKey.id);
-      onItemRemoved?.(endKey.id);
+      onSourceSelectionChange([...selectedKeys].filter((k) => k !== endKey));
     }
 
-    setFieldState({
-      inputValue: "",
-      selectedKey: null,
-    });
-  }, [selectedItems, onItemRemoved]);
+    setFieldState({ inputValue: "", selectedKey: null });
+  }, [selectedKeys, onSourceSelectionChange]);
 
   // handle deleting pills with keyboard
   const onKeyDownCapture = useCallback(
@@ -167,6 +155,13 @@ const MultipleSelect = <T extends SelectedKey>(
     },
     [popLast, fieldState.inputValue],
   );
+
+  const onBlurInput = useCallback(() => {
+    setFieldState({ inputValue: "", selectedKey: null });
+    setTimeout(() => {
+      accessibleList.setFilterText("");
+    });
+  }, [accessibleList]);
 
   useEffect(() => {
     const trigger = triggerRef.current;
@@ -188,9 +183,11 @@ const MultipleSelect = <T extends SelectedKey>(
 
   return (
     <div ref={triggerRef} className={styles.MultiSelect}>
-      {selectedItems.items.length > 0 && (
+      {[...selectedKeys].length > 0 && (
         <PillGroup
-          items={selectedItems.items}
+          items={[...selectedKeys]
+            .map((k) => items.find((i) => i.key === k))
+            .filter((i) => !!i)}
           horizontalStackContainerProps={{ gap: "1" }}
           onRemove={onRemove}
           label="Selected items"
@@ -213,12 +210,7 @@ const MultipleSelect = <T extends SelectedKey>(
             <Input
               placeholder={placeholder}
               className={styles.input}
-              onBlur={() => {
-                setFieldState({ inputValue: "", selectedKey: null });
-                setTimeout(() => {
-                  accessibleList.setFilterText("");
-                });
-              }}
+              onBlur={onBlurInput}
               onKeyDownCapture={onKeyDownCapture}
             />
             <VisuallyHidden>
@@ -308,4 +300,4 @@ MultipleSelect.Option = MultipleSelectOption;
 MultipleSelect.OptionText = MultipleSelectOptionText;
 
 export { MultipleSelect };
-export type { MultipleSelectProps, SelectedKey };
+export type { Item, MultipleSelectProps };

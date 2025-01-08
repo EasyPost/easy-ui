@@ -64,62 +64,51 @@ export interface MultipleSelectProps<T extends object> {
   /** Maximum number of items visible before scrolling. */
   maxItemsUntilScroll?: number;
 }
-
-export const MultipleSelect: React.FC<MultipleSelectProps<T>>;
 ```
 
 ### Example Usage
 
-_Basic multi-select:_
-
 ```tsx
-<MultipleSelect
-  placeholder="Select an item"
-  items={[
-    { id: "1", label: "Option 1" },
-    { id: "2", label: "Option 2" },
-    { id: "3", label: "Option 3" },
-  ]}
-  selectedItems={useListData({ initialItems: [] })}
-  onItemSelected={(key) => console.log(`Item added: ${key}`)}
-  onItemRemoved={(key) => console.log(`Item removed: ${key}`)}
-  renderPill={(item) => <div>{item.label}</div>}
->
-  {(item) => (
-    <MultipleSelect.Option textValue={item.label}>
-      {item.label}
-    </MultipleSelect.Option>
-  )}
-</MultipleSelect>
-```
+import { MultiSelect } from "@easypost/easy-ui/MultiSelect";
+import { useListData } from "react-stately";
 
-_With filtering and custom pill rendering:_
+const items = [
+  { id: "1", label: "Option 1" },
+  { id: "2", label: "Option 2" },
+  { id: "3", label: "Option 3" },
+];
 
-```tsx
-<MultipleSelect
-  placeholder="Search for an item"
-  items={[
-    { id: "apple", label: "Apple" },
-    { id: "banana", label: "Banana" },
-  ]}
-  selectedItems={useListData({ initialItems: [] })}
-  renderPill={(item) => <span>{item.label}</span>}
->
-  {(item) => (
-    <MultipleSelect.Option textValue={item.label}>
-      {item.label}
-    </MultipleSelect.Option>
-  )}
-</MultipleSelect>
+function App() {
+  const selectedItems = useListData<SelectedKey>({
+    initialItems: [items[0]],
+  });
+  return (
+    <MultipleSelect
+      items={items}
+      maxItemsUntilScroll={10}
+      onItemSelected={(key) => console.log(`Item added: ${key}`)}
+      onItemRemoved={(key) => console.log(`Item removed: ${key}`)}
+      placeholder="Select an item"
+      renderPill={(item) => <MultipleSelect.Pill label={item.label} />}
+      selectedItems={selectedItems}
+    >
+      {(item) => (
+        <MultipleSelect.Option textValue={item.label}>
+          <MultipleSelect.OptionText>{item.label}</MultipleSelect.OptionText>
+        </MultipleSelect.Option>
+      )}
+    </MultipleSelect>
+  );
+}
 ```
 
 ### Anatomy
 
-- **Trigger**: Activates the dropdown.
-- **Dropdown**: Contains selectable options.
+- **Popover**: Contains selectable options.
 - **Option**: A single item in the dropdown.
-- **Tag Group**: Displays selected items as removable tags.
-- **Search Input**: Allows filtering of options.
+- **PillGroup**: Displays selected items as removable tags.
+- **ComboBox Trigger**: Activates the dropdown.
+- **ComboBox Input**: Allows filtering of options.
 
 ### Behavior
 
@@ -127,17 +116,15 @@ _With filtering and custom pill rendering:_
 
 - ARIA roles (`combobox`, `listbox`, `option`) are applied.
 - Keyboard support:
-  - Arrow keys to navigate options.
   - Enter/space to select an option.
   - Backspace to remove tags.
-- Screen readers announce active options and selection states.
 
 #### Interactions
 
 - Selecting an option adds it to the selected items.
 - Removing a tag removes the corresponding item from the selection.
 - Input field supports filtering and keyboard interactions.
-- Dropdown closes on selection if configured.
+- Dropdown closes on selection.
 
 ---
 

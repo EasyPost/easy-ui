@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { useListData } from "react-stately";
-import { FedExLogoImg, InlineStoryDecorator } from "../utilities/storybook";
-import { MultipleSelect, SelectedKey } from "./MultiSelect";
 import { Icon } from "../Icon";
+import { FedExLogoImg, InlineStoryDecorator } from "../utilities/storybook";
+import { Item, MultipleSelect } from "./MultiSelect";
+import { Key } from "react-aria";
 
 type Story = StoryObj<typeof MultipleSelect>;
 
@@ -21,14 +21,13 @@ export const Default: Story = {
 };
 
 function Component() {
-  const selectedItems = useListData<SelectedKey>({
-    initialItems: [fruits[0], fruits[1]],
-  });
+  const [selectedKeys, setSelectedKeys] = React.useState<Iterable<Key>>([1, 2]);
   return (
     <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
       <MultipleSelect
-        selectedItems={selectedItems}
         items={fruits}
+        selectedKeys={selectedKeys}
+        onSelectionChange={setSelectedKeys}
         placeholder="Select a fruit"
         maxItemsUntilScroll={10}
         renderPill={(item) => (
@@ -51,24 +50,24 @@ function Component() {
 }
 
 const fruits = [
-  { id: 1, label: "Apple", icon: FedExLogoImg },
-  { id: 2, label: "Banana" },
-  { id: 3, label: "Cherry", icon: FedExLogoImg },
-  { id: 4, label: "Date", icon: FedExLogoImg },
-  { id: 5, label: "Elderberry", icon: FedExLogoImg },
-  { id: 6, label: "Fig", icon: FedExLogoImg },
-  { id: 7, label: "Grape", icon: FedExLogoImg },
-  { id: 8, label: "Honeydew", icon: FedExLogoImg },
-  { id: 9, label: "Kiwi", icon: FedExLogoImg },
-  { id: 10, label: "Lemon", icon: FedExLogoImg },
-  { id: 11, label: "Mango", icon: FedExLogoImg },
-  { id: 12, label: "Nectarine", icon: FedExLogoImg },
-  { id: 13, label: "Orange", icon: FedExLogoImg },
-  { id: 14, label: "Papaya", icon: FedExLogoImg },
-  { id: 15, label: "Quince", icon: FedExLogoImg },
-  { id: 16, label: "Raspberry", icon: FedExLogoImg },
-  { id: 17, label: "Strawberry", icon: FedExLogoImg },
-  { id: 18, label: "Tangerine", icon: FedExLogoImg },
-  { id: 19, label: "Ugli Fruit", icon: FedExLogoImg },
-  { id: 20, label: "Watermelon", icon: FedExLogoImg },
-] as const as SelectedKey[];
+  { key: 1, label: "Apple", icon: FedExLogoImg },
+  { key: 2, label: "Banana" },
+  { key: 3, label: "Cherry", icon: FedExLogoImg },
+  { key: 4, label: "Date", icon: FedExLogoImg },
+  { key: 5, label: "Elderberry", icon: FedExLogoImg },
+  { key: 6, label: "Fig", icon: FedExLogoImg },
+  { key: 7, label: "Grape", icon: FedExLogoImg },
+  { key: 8, label: "Honeydew", icon: FedExLogoImg },
+  { key: 9, label: "Kiwi", icon: FedExLogoImg },
+  { key: 10, label: "Lemon", icon: FedExLogoImg },
+  { key: 11, label: "Mango", icon: FedExLogoImg },
+  { key: 12, label: "Nectarine", icon: FedExLogoImg },
+  { key: 13, label: "Orange", icon: FedExLogoImg },
+  { key: 14, label: "Papaya", icon: FedExLogoImg },
+  { key: 15, label: "Quince", icon: FedExLogoImg },
+  { key: 16, label: "Raspberry", icon: FedExLogoImg },
+  { key: 17, label: "Strawberry", icon: FedExLogoImg },
+  { key: 18, label: "Tangerine", icon: FedExLogoImg },
+  { key: 19, label: "Ugli Fruit", icon: FedExLogoImg },
+  { key: 20, label: "Watermelon", icon: FedExLogoImg },
+] as const as Item[];
