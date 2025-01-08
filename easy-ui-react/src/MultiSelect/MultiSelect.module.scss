@@ -115,14 +115,39 @@
 }
 
 .option {
+  position: relative;
   cursor: pointer;
 
   &[data-hovered],
   &[data-focused] {
     background: component-token("menu", "color.background.hovered");
   }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: default;
+  }
 }
 
 .listEmptyState {
   align-items: center;
+}
+
+.spinnerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: component-token("menu", "padding.y") 0;
+}
+
+.spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: component-token("menu", "item_height");
+  padding: 0 component-token("menu", "padding.x");
 }

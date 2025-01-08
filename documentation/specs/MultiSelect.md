@@ -48,51 +48,127 @@ The `MultiSelect` API is a limited subset of `react-aria-component`'s `ComboBox`
 ```ts
 type MultiSelectProps<T extends object> = {
   /** Children or render function for dropdown options. */
-  children: ReactNode | ((item: T) => ReactNode);
+  children: React.ReactNode | ((item: T) => React.ReactNode);
 
-  /** Placeholder text when no input value is entered. */
-  placeholder?: string;
+  /** List of disabled item keys. */
+  disabledKeys?: Array<Key>;
 
-  /** Array of available items. */
-  items: Array<T>;
+  /** Array of dropdown items (dynamic or async). */
+  dropdownItems: T[];
 
-  /** Maximum number of items visible in dropdown before scrolling. */
+  /** Current input value for filtering dropdown items. */
+  inputValue: string;
+
+  /** Flag indicating if the dropdown is in a loading state. */
+  isLoading?: boolean;
+
+  /** Maximum number of items visible before scrolling. */
   maxItemsUntilScroll?: number;
 
-  /** The currently selected keys in the collection (controlled). */
-  selectedKeys: Iterable<Key>;
+  /** Callback fired when the input value changes. */
+  onInputChange: (value: string) => void;
 
-  /** Handler that is called when the selection changes. */
-  onSelectionChange: (keys: Iterable<Key>) => void;
+  /** Callback fired when the selection changes. */
+  onSelectionChange: (items: T[]) => void;
 
-  /** Render function for each selected pill. Extends Pill component. */
-  renderPill: (item: T) => ReactNode;
+  /** Placeholder text when no items are selected. */
+  placeholder?: string;
+
+  /** Render function for each selected pill. */
+  renderPill: (item: T) => React.ReactNode;
+
+  /** Array of currently selected items. */
+  selectedItems: T[];
 };
 ```
 
 ### Example Usage
 
+_Sync list_
+
 ```tsx
-import { Item, MultipleSelect, Key } from "./MultiSelect";
+import { Item, MultiSelect, Key, useListData, useFilter } from "./MultiSelect";
 
 function App() {
-  const [selectedKeys, setSelectedKeys] = useState<Iterable<Key>>(["1", "2"]);
+  const [selectedItems, setSelectedItems] = React.useState<Item[]>([]);
+  const { contains } = useFilter({ sensitivity: "base" });
+  const filter = useCallback(
+    (item: Item, filterText: string) => contains(item.label, filterText),
+    [contains],
+  );
+  const list = useListData<Item>({ initialItems: fruits, filter });
+  return (
+    <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
+      <MultiSelect
+        isLoading={list.isLoading}
+        dropdownItems={list.items}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+        disabledKeys={selectedItems.map((item) => item.key)}
+        selectedItems={selectedItems}
+        onSelectionChange={setSelectedItems}
+        placeholder="Select a fruit"
+        maxItemsUntilScroll={10}
+        renderPill={(item) => (
+          <MultiSelect.Pill icon={item.icon} label={item.label} />
+        )}
+      >
+        {(item) => (
+          <MultiSelect.Option textValue={item.label}>
+            <HorizontalStack gap="1" blockAlign="center">
+              {item.icon && <Icon symbol={item.icon} />}
+              <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
+            </HorizontalStack>
+          </MultiSelect.Option>
+        )}
+      </MultiSelect>
+    </div>
+  );
+}
+```
+
+_Async list_
+
+```tsx
+import { MultiSelect, Item, Key, useAsyncList, useFilter } from "./MultiSelect";
+
+function App() {
+  const [selectedItems, setSelectedItems] = React.useState<Item[]>([]);
+  const { contains } = useFilter({ sensitivity: "base" });
+  const list = useAsyncList<Item>({
+    initialSelectedKeys: [],
+    async load({ filterText }) {
+      // perform a fetch to a server
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      return {
+        items: fruits.filter((fruit) => {
+          return filterText ? contains(fruit.label, filterText) : true;
+        }),
+      };
+    },
+  });
   return (
     <MultiSelect
-      items={[
-        { key: "1", label: "Option 1" },
-        { key: "2", label: "Option 2" },
-        { key: "3", label: "Option 3" },
-      ]}
-      onSelectionChange={setSelectedKeys}
-      placeholder="Select an item"
-      renderPill={(item) => <MultipleSelect.Pill label={item.label} />}
-      selectedKeys={selectedKeys}
+      isLoading={list.isLoading}
+      dropdownItems={list.items}
+      inputValue={list.filterText}
+      onInputChange={list.setFilterText}
+      disabledKeys={selectedItems.map((item) => item.key)}
+      selectedItems={selectedItems}
+      onSelectionChange={setSelectedItems}
+      placeholder="Select a fruit"
+      maxItemsUntilScroll={10}
+      renderPill={(item) => (
+        <MultiSelect.Pill icon={item.icon} label={item.label} />
+      )}
     >
       {(item) => (
-        <MultipleSelect.Option textValue={item.label}>
-          <MultipleSelect.OptionText>{item.label}</MultipleSelect.OptionText>
-        </MultipleSelect.Option>
+        <MultiSelect.Option textValue={item.label}>
+          <HorizontalStack gap="1" blockAlign="center">
+            {item.icon && <Icon symbol={item.icon} />}
+            <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
+          </HorizontalStack>
+        </MultiSelect.Option>
       )}
     </MultiSelect>
   );

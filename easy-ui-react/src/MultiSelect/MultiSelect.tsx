@@ -3,7 +3,6 @@ import React, {
   KeyboardEvent,
   ReactNode,
   RefObject,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -12,13 +11,14 @@ import { Key, useFilter, VisuallyHidden } from "react-aria";
 import {
   Button,
   ComboBox,
+  ComboBoxProps,
   Input,
   ListBox,
   ListBoxItem,
   ListBoxItemProps,
   Popover,
 } from "react-aria-components";
-import { useListData } from "react-stately";
+import { AsyncListData, useAsyncList, useListData } from "react-stately";
 import { Icon } from "../Icon";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import {
@@ -28,140 +28,118 @@ import {
   Y_PADDING_INSIDE_OVERLAY,
 } from "../Menu/utilities";
 import { PillGroup, PillProps } from "../PillGroup";
+import { Spinner } from "../Spinner";
 import { Text, TextProps } from "../Text";
 import { getComponentToken, pxToRem } from "../utilities/css";
 import { useScrollbar } from "../utilities/useScrollbar";
 
 import styles from "./MultiSelect.module.scss";
 
-type FieldState = {
-  selectedKey: Key | null;
-  inputValue: string;
-};
-
 type Item = { key: Key } & PillProps;
 
 type MultipleSelectProps<T extends object> = {
   children: React.ReactNode | ((item: T) => React.ReactNode);
-  items: Array<T>;
   maxItemsUntilScroll?: MenuOverlayProps<T>["maxItemsUntilScroll"];
   placeholder?: string;
   renderPill: (item: T) => React.ReactNode;
 
+  dropdownItems: ComboBoxProps<T>["items"];
+  inputValue: ComboBoxProps<T>["inputValue"];
+  onInputChange: ComboBoxProps<T>["onInputChange"];
+  disabledKeys?: ComboBoxProps<T>["disabledKeys"];
+  isLoading?: AsyncListData<T>["isLoading"];
+
   /**
    * The currently selected keys in the collection (controlled).
    */
-  selectedKeys: Iterable<Key>;
+  selectedItems: T[];
 
   /**
    * Handler that is called when the selection changes.
    */
-  onSelectionChange: (keys: Iterable<Key>) => void;
+  onSelectionChange: (items: T[]) => void;
 };
 
-// inspired by https://github.com/irsyadadl/justd/blob/2.x/components/ui/multiple-select.tsx
+// some inspiration from https://github.com/irsyadadl/justd/blob/2.x/components/ui/multiple-select.tsx
+// note that there are some limitations to this until React Aria builds a dedicated component
+// https://github.com/adobe/react-spectrum/issues/2140
 const MultipleSelect = <T extends Item>(props: MultipleSelectProps<T>) => {
   const {
     children,
-    items,
     maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
-    onSelectionChange: onSourceSelectionChange,
+    onSelectionChange,
     placeholder,
     renderPill,
-    selectedKeys,
+    selectedItems,
+    dropdownItems = [],
+    inputValue,
+    onInputChange = () => {},
+    isLoading,
+    disabledKeys,
   } = props;
 
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   const [width, setWidth] = useState(0);
-  const { contains } = useFilter({ sensitivity: "base" });
-
-  const filter = useCallback(
-    (item: T, filterText: string) => {
-      return (
-        ![...selectedKeys].includes(item.key) &&
-        contains(item.label, filterText)
-      );
-    },
-    [contains, selectedKeys],
+  const [comboBoxSelectedKey, setComboBoxSelectedKey] = useState<Key | null>(
+    null,
   );
 
-  const accessibleList = useListData({ initialItems: items, filter });
-  const [fieldState, setFieldState] = useState<FieldState>({
-    selectedKey: null,
-    inputValue: "",
-  });
+  const onRemove = (keys: Set<Key>) => {
+    const key = keys.values().next().value;
+    if (key) {
+      onSelectionChange(selectedItems.filter((k) => k.key !== key));
+      onInputChange("");
+      setComboBoxSelectedKey(null);
+    }
+  };
 
-  const onRemove = useCallback(
-    (keys: Set<Key>) => {
-      const key = keys.values().next().value;
-      if (key) {
-        onSourceSelectionChange([...selectedKeys].filter((k) => k !== key));
-        setFieldState({ inputValue: "", selectedKey: null });
-      }
-    },
-    [onSourceSelectionChange, selectedKeys],
-  );
-
-  const onSelectionChange = (id: Key | null) => {
-    if (!id) {
+  const onComboBoxSelectionChange = (key: Key | null) => {
+    if (!key) {
       return;
     }
 
-    const item = accessibleList.getItem(id);
-
+    const item = [...dropdownItems].find((i) => i.key === key);
     if (!item) {
       return;
     }
 
-    if (![...selectedKeys].includes(id)) {
-      onSourceSelectionChange([...selectedKeys, item.key]);
-      setFieldState({ inputValue: "", selectedKey: id });
+    if (!selectedItems.map((i) => i.key).includes(key)) {
+      onSelectionChange([...selectedItems, item]);
+      setComboBoxSelectedKey(key);
     }
 
-    setTimeout(() => {
-      accessibleList.setFilterText("");
-    });
+    onInputChange("");
   };
 
-  const onInputChange = (value: string) => {
-    setFieldState((prev) => ({
-      inputValue: value,
-      selectedKey: value === "" ? null : prev.selectedKey,
-    }));
-    accessibleList.setFilterText(value);
+  const onComboBoxInputChange = (value: string) => {
+    onInputChange(value);
+    setComboBoxSelectedKey((prevSelectedKey) =>
+      value === "" ? null : prevSelectedKey,
+    );
   };
 
-  const popLast = useCallback(() => {
-    if ([...selectedKeys].length === 0) {
-      return;
-    }
-
-    const endKey = [...selectedKeys][[...selectedKeys].length - 1];
-    if (endKey) {
-      onSourceSelectionChange([...selectedKeys].filter((k) => k !== endKey));
-    }
-
-    setFieldState({ inputValue: "", selectedKey: null });
-  }, [selectedKeys, onSourceSelectionChange]);
-
-  // handle deleting pills with keyboard
-  const onKeyDownCapture = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Backspace" && fieldState.inputValue === "") {
-        popLast();
+  const onKeyDownCapture = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && inputValue === "") {
+      if (selectedItems.length === 0) {
+        return;
       }
-    },
-    [popLast, fieldState.inputValue],
-  );
 
-  const onBlurInput = useCallback(() => {
-    setFieldState({ inputValue: "", selectedKey: null });
-    setTimeout(() => {
-      accessibleList.setFilterText("");
-    });
-  }, [accessibleList]);
+      if (selectedItems.length > 0) {
+        const endItem = selectedItems[selectedItems.length - 1];
+        onSelectionChange(selectedItems.filter((k) => k.key !== endItem.key));
+      }
+
+      onInputChange("");
+      setComboBoxSelectedKey(null);
+    }
+  };
+
+  const onBlurInput = () => {
+    onInputChange("");
+    setComboBoxSelectedKey(null);
+  };
 
   useEffect(() => {
     const trigger = triggerRef.current;
@@ -183,11 +161,9 @@ const MultipleSelect = <T extends Item>(props: MultipleSelectProps<T>) => {
 
   return (
     <div ref={triggerRef} className={styles.MultiSelect}>
-      {[...selectedKeys].length > 0 && (
+      {selectedItems.length > 0 && (
         <PillGroup
-          items={[...selectedKeys]
-            .map((k) => items.find((i) => i.key === k))
-            .filter((i) => !!i)}
+          items={selectedItems}
           horizontalStackContainerProps={{ gap: "1" }}
           onRemove={onRemove}
           label="Selected items"
@@ -200,11 +176,12 @@ const MultipleSelect = <T extends Item>(props: MultipleSelectProps<T>) => {
           className={styles.comboBox}
           allowsEmptyCollection
           aria-label="Available items"
-          items={accessibleList.items}
-          selectedKey={fieldState.selectedKey}
-          inputValue={fieldState.inputValue}
-          onSelectionChange={onSelectionChange}
-          onInputChange={onInputChange}
+          selectedKey={comboBoxSelectedKey}
+          onSelectionChange={onComboBoxSelectionChange}
+          items={dropdownItems}
+          inputValue={inputValue}
+          onInputChange={onComboBoxInputChange}
+          disabledKeys={disabledKeys}
         >
           <div className={styles.inputContainer}>
             <Input
@@ -243,20 +220,28 @@ const MultipleSelect = <T extends Item>(props: MultipleSelectProps<T>) => {
             trigger="ComboBox"
             maxHeight={getMenuPopoverMaxHeight({ maxItemsUntilScroll })}
           >
-            <ListBoxContainer menuRef={menuRef}>
-              <ListBox
-                renderEmptyState={() => (
-                  <div className={styles.listEmptyState}>
-                    <Text variant="subtitle2" color="neutral.400">
-                      No results found
-                    </Text>
-                  </div>
-                )}
-                selectionMode="multiple"
-              >
-                {children}
-              </ListBox>
-            </ListBoxContainer>
+            {isLoading ? (
+              <div className={styles.spinnerContainer}>
+                <div className={styles.spinner}>
+                  <Spinner isIndeterminate aria-label="Loading" size="sm" />
+                </div>
+              </div>
+            ) : (
+              <ListBoxContainer menuRef={menuRef}>
+                <ListBox
+                  renderEmptyState={() => (
+                    <div className={styles.listEmptyState}>
+                      <Text variant="subtitle2" color="neutral.400">
+                        No results found
+                      </Text>
+                    </div>
+                  )}
+                  selectionMode="multiple"
+                >
+                  {children}
+                </ListBox>
+              </ListBoxContainer>
+            )}
           </Popover>
         </ComboBox>
         <button
@@ -299,5 +284,5 @@ MultipleSelect.Pill = PillGroup.Pill;
 MultipleSelect.Option = MultipleSelectOption;
 MultipleSelect.OptionText = MultipleSelectOptionText;
 
-export { MultipleSelect };
-export type { Item, MultipleSelectProps, Key };
+export { MultipleSelect, useAsyncList, useListData, useFilter };
+export type { Item, Key, MultipleSelectProps };

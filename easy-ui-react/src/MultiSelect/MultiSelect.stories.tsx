@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { Icon } from "../Icon";
 import { FedExLogoImg, InlineStoryDecorator } from "../utilities/storybook";
-import { Item, MultipleSelect, Key } from "./MultiSelect";
+import { Item, MultipleSelect, useAsyncList, useFilter } from "./MultiSelect";
 
 type Story = StoryObj<typeof MultipleSelect>;
 
@@ -20,13 +20,37 @@ export const Default: Story = {
 };
 
 function Component() {
-  const [selectedKeys, setSelectedKeys] = React.useState<Iterable<Key>>([1, 2]);
+  const [selectedItems, setSelectedItems] = React.useState<Item[]>([]);
+  const { contains } = useFilter({ sensitivity: "base" });
+  const list = useAsyncList<Item>({
+    initialSelectedKeys: [],
+    async load({ filterText }) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      return {
+        items: fruits.filter((fruit) => {
+          return filterText ? contains(fruit.label, filterText) : true;
+        }),
+      };
+    },
+  });
+
+  // useAsyncListReloadOnSelectionChange(list);
+  // const filter = useCallback(
+  //   (item: Item, filterText: string) => contains(item.label, filterText),
+  //   [contains],
+  // );
+  // const list = useListData<Item>({ initialItems: fruits, filter });
+
   return (
     <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
       <MultipleSelect
-        items={fruits}
-        selectedKeys={selectedKeys}
-        onSelectionChange={setSelectedKeys}
+        isLoading={list.isLoading}
+        dropdownItems={list.items}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+        disabledKeys={selectedItems.map((item) => item.key)}
+        selectedItems={selectedItems}
+        onSelectionChange={setSelectedItems}
         placeholder="Select a fruit"
         maxItemsUntilScroll={10}
         renderPill={(item) => (
