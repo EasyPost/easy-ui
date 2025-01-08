@@ -1,8 +1,14 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React from "react";
+import React, { useCallback } from "react";
 import { Icon } from "../Icon";
 import { FedExLogoImg, InlineStoryDecorator } from "../utilities/storybook";
-import { Item, MultipleSelect, useAsyncList, useFilter } from "./MultiSelect";
+import {
+  Item,
+  MultipleSelect,
+  useAsyncList,
+  useFilter,
+  useListData,
+} from "./MultiSelect";
 
 type Story = StoryObj<typeof MultipleSelect>;
 
@@ -20,31 +26,35 @@ export const Default: Story = {
 };
 
 function Component() {
-  const [selectedItems, setSelectedItems] = React.useState<Item[]>([]);
+  const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+    { key: 1, label: "Apple", icon: FedExLogoImg },
+  ]);
   const { contains } = useFilter({ sensitivity: "base" });
-  const list = useAsyncList<Item>({
-    initialSelectedKeys: [],
-    async load({ filterText }) {
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      return {
-        items: fruits.filter((fruit) => {
-          return filterText ? contains(fruit.label, filterText) : true;
-        }),
-      };
-    },
+  // const list = useAsyncList<Item>({
+  //   initialSelectedKeys: [1],
+  //   async load({ filterText }) {
+  //     await new Promise((resolve) => setTimeout(resolve, 300));
+  //     return {
+  //       items: fruits.filter((fruit) => {
+  //         return filterText ? contains(fruit.label, filterText) : true;
+  //       }),
+  //     };
+  //   },
+  // });
+  const filter = useCallback(
+    (item: Item, filterText: string) => contains(item.label, filterText),
+    [contains],
+  );
+  const list = useListData<Item>({
+    initialSelectedKeys: [1],
+    initialItems: fruits,
+    filter,
   });
-
-  // useAsyncListReloadOnSelectionChange(list);
-  // const filter = useCallback(
-  //   (item: Item, filterText: string) => contains(item.label, filterText),
-  //   [contains],
-  // );
-  // const list = useListData<Item>({ initialItems: fruits, filter });
 
   return (
     <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
       <MultipleSelect
-        isLoading={list.isLoading}
+        // isLoading={list.isLoading}
         dropdownItems={list.items}
         inputValue={list.filterText}
         onInputChange={list.setFilterText}

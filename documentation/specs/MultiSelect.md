@@ -89,40 +89,52 @@ _Sync list_
 ```tsx
 import { Item, MultiSelect, Key, useListData, useFilter } from "./MultiSelect";
 
+const dropdownItems = [
+  { key: "1", label: "Option 1" },
+  { key: "2", label: "Option 2" },
+  { key: "3", label: "Option 3" },
+];
+
 function App() {
   const [selectedItems, setSelectedItems] = React.useState<Item[]>([]);
+  // supports initially selected items
+  // const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+  //   dropdownItems[0],
+  // ]);
   const { contains } = useFilter({ sensitivity: "base" });
   const filter = useCallback(
     (item: Item, filterText: string) => contains(item.label, filterText),
     [contains],
   );
-  const list = useListData<Item>({ initialItems: fruits, filter });
+  const list = useListData<Item>({
+    // supports initially selected keys
+    // initialSelectedKeys: selectedItems.map((i) => i.key),
+    initialItems: dropdownItems,
+    filter,
+  });
   return (
-    <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
-      <MultiSelect
-        isLoading={list.isLoading}
-        dropdownItems={list.items}
-        inputValue={list.filterText}
-        onInputChange={list.setFilterText}
-        disabledKeys={selectedItems.map((item) => item.key)}
-        selectedItems={selectedItems}
-        onSelectionChange={setSelectedItems}
-        placeholder="Select a fruit"
-        maxItemsUntilScroll={10}
-        renderPill={(item) => (
-          <MultiSelect.Pill icon={item.icon} label={item.label} />
-        )}
-      >
-        {(item) => (
-          <MultiSelect.Option textValue={item.label}>
-            <HorizontalStack gap="1" blockAlign="center">
-              {item.icon && <Icon symbol={item.icon} />}
-              <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
-            </HorizontalStack>
-          </MultiSelect.Option>
-        )}
-      </MultiSelect>
-    </div>
+    <MultiSelect
+      dropdownItems={list.items}
+      inputValue={list.filterText}
+      onInputChange={list.setFilterText}
+      disabledKeys={selectedItems.map((item) => item.key)}
+      selectedItems={selectedItems}
+      onSelectionChange={setSelectedItems}
+      placeholder="Select an item"
+      maxItemsUntilScroll={10}
+      renderPill={(item) => (
+        <MultiSelect.Pill icon={item.icon} label={item.label} />
+      )}
+    >
+      {(item) => (
+        <MultiSelect.Option textValue={item.label}>
+          <HorizontalStack gap="1" blockAlign="center">
+            {item.icon && <Icon symbol={item.icon} />}
+            <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
+          </HorizontalStack>
+        </MultiSelect.Option>
+      )}
+    </MultiSelect>
   );
 }
 ```
@@ -134,17 +146,19 @@ import { MultiSelect, Item, Key, useAsyncList, useFilter } from "./MultiSelect";
 
 function App() {
   const [selectedItems, setSelectedItems] = React.useState<Item[]>([]);
-  const { contains } = useFilter({ sensitivity: "base" });
+  // supports initially selected items
+  // const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+  //   { key: 1, label: "Option 1" },
+  // ]);
   const list = useAsyncList<Item>({
     initialSelectedKeys: [],
+    // supports initially selected keys
+    // initialSelectedKeys: selectedItems.map((i) => i.key),
     async load({ filterText }) {
-      // perform a fetch to a server
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      return {
-        items: fruits.filter((fruit) => {
-          return filterText ? contains(fruit.label, filterText) : true;
-        }),
-      };
+      // perform a filtered fetch on the server
+      const response = await fetch(`/api/endpoint?filter=${filterText}`);
+      const json = await response.json();
+      return { items: json.items };
     },
   });
   return (
@@ -156,7 +170,7 @@ function App() {
       disabledKeys={selectedItems.map((item) => item.key)}
       selectedItems={selectedItems}
       onSelectionChange={setSelectedItems}
-      placeholder="Select a fruit"
+      placeholder="Select an item"
       maxItemsUntilScroll={10}
       renderPill={(item) => (
         <MultiSelect.Pill icon={item.icon} label={item.label} />
