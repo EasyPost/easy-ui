@@ -300,4 +300,4 @@ MultipleSelect.Option = MultipleSelectOption;
 MultipleSelect.OptionText = MultipleSelectOptionText;
 
 export { MultipleSelect };
-export type { Item, MultipleSelectProps };
+export type { Item, MultipleSelectProps, Key };

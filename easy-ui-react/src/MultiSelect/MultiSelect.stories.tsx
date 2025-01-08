@@ -2,8 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { Icon } from "../Icon";
 import { FedExLogoImg, InlineStoryDecorator } from "../utilities/storybook";
-import { Item, MultipleSelect } from "./MultiSelect";
-import { Key } from "react-aria";
+import { Item, MultipleSelect, Key } from "./MultiSelect";
 
 type Story = StoryObj<typeof MultipleSelect>;
 
