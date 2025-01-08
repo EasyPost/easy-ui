@@ -1,20 +1,19 @@
-# `MultipleSelect` Component Specification
+# `MultiSelect` Component Specification
 
 ## Overview
 
-The `MultipleSelect` component enables users to select multiple options from a list. It features filtering, tag-based displays for selected items, and accessibility compliance. The component is highly customizable, supporting dynamic item rendering, styling, and behavior for various use cases.
+The `MultiSelect` component allows users to select multiple options from a list.
 
 ### Use Cases
 
 - Used in forms requiring multi-selection fields.
-- Applied in filtering interfaces to refine displayed data.
 - Suitable for workflows needing multiple discrete selections.
 
 ### Features
 
-- Dynamic filtering of options.
-- Tag-based display of selected items with removable tags.
-- Customizable rendering for items and tags.
+- Dynamic filtering of options via text input.
+- Pill-based display of selected items with removable pills.
+- Customizable rendering for items and pills.
 - Configurable maximum number of visible options before scrolling.
 - Keyboard and mouse navigation support.
 - Accessibility compliant with ARIA roles and attributes.
@@ -38,77 +37,75 @@ The `MultipleSelect` component enables users to select multiple options from a l
 
 ### API
 
+The `MultiSelect` API is a limited subset of `react-aria-component`'s `ComboBox` component extended to support multiple selected keys. Support for more `ComboBox` functionality may be added in the future.
+
+`MultiSelect` is an entirely controlled component. Support for uncontrolled behavior may be added in the future.
+
+`items` passed to a `MultiSelect` extend `PillProps`. They must contain a `key` and `label`. Optionally they can have an attached `icon` for rendering in the dropdown option and pill.
+
+`MultiSelect` supports dynamic item and pill rendering.
+
 ```ts
-export interface MultipleSelectProps<T extends object> {
-  /** Placeholder text when no items are selected. */
+type MultiSelectProps<T extends object> = {
+  /** Children or render function for dropdown options. */
+  children: ReactNode | ((item: T) => ReactNode);
+
+  /** Placeholder text when no input value is entered. */
   placeholder?: string;
 
   /** Array of available items. */
   items: Array<T>;
 
-  /** ListData instance managing selected items. */
-  selectedItems: ListData<T>;
-
-  /** Callback triggered when an item is added. */
-  onItemSelected?: (key: Key) => void;
-
-  /** Callback triggered when an item is removed. */
-  onItemRemoved?: (key: Key) => void;
-
-  /** Render function for each selected pill. */
-  renderPill: (item: T) => React.ReactNode;
-
-  /** Children or render function for dropdown options. */
-  children: React.ReactNode | ((item: T) => React.ReactNode);
-
-  /** Maximum number of items visible before scrolling. */
+  /** Maximum number of items visible in dropdown before scrolling. */
   maxItemsUntilScroll?: number;
-}
+
+  /** The currently selected keys in the collection (controlled). */
+  selectedKeys: Iterable<Key>;
+
+  /** Handler that is called when the selection changes. */
+  onSelectionChange: (keys: Iterable<Key>) => void;
+
+  /** Render function for each selected pill. Extends Pill component. */
+  renderPill: (item: T) => ReactNode;
+};
 ```
 
 ### Example Usage
 
 ```tsx
-import { MultiSelect } from "@easypost/easy-ui/MultiSelect";
-import { useListData } from "react-stately";
-
-const items = [
-  { id: "1", label: "Option 1" },
-  { id: "2", label: "Option 2" },
-  { id: "3", label: "Option 3" },
-];
+import { Item, MultipleSelect, Key } from "./MultiSelect";
 
 function App() {
-  const selectedItems = useListData<SelectedKey>({
-    initialItems: [items[0]],
-  });
+  const [selectedKeys, setSelectedKeys] = useState<Iterable<Key>>(["1", "2"]);
   return (
-    <MultipleSelect
-      items={items}
-      maxItemsUntilScroll={10}
-      onItemSelected={(key) => console.log(`Item added: ${key}`)}
-      onItemRemoved={(key) => console.log(`Item removed: ${key}`)}
+    <MultiSelect
+      items={[
+        { key: "1", label: "Option 1" },
+        { key: "2", label: "Option 2" },
+        { key: "3", label: "Option 3" },
+      ]}
+      onSelectionChange={setSelectedKeys}
       placeholder="Select an item"
       renderPill={(item) => <MultipleSelect.Pill label={item.label} />}
-      selectedItems={selectedItems}
+      selectedKeys={selectedKeys}
     >
       {(item) => (
         <MultipleSelect.Option textValue={item.label}>
           <MultipleSelect.OptionText>{item.label}</MultipleSelect.OptionText>
         </MultipleSelect.Option>
       )}
-    </MultipleSelect>
+    </MultiSelect>
   );
 }
 ```
 
 ### Anatomy
 
-- **Popover**: Contains selectable options.
-- **Option**: A single item in the dropdown.
-- **PillGroup**: Displays selected items as removable tags.
+- **Pill Group**: Displays selected items as removable tags.
+- **ComboBox Dropdown**: Contains selectable options.
+- **ComboBox Option**: A single item in the dropdown.
+- **ComboBox Input**: Allows filtering of dropdown options.
 - **ComboBox Trigger**: Activates the dropdown.
-- **ComboBox Input**: Allows filtering of options.
 
 ### Behavior
 
@@ -116,15 +113,16 @@ function App() {
 
 - ARIA roles (`combobox`, `listbox`, `option`) are applied.
 - Keyboard support:
+  - Arrow keys to navigate options.
   - Enter/space to select an option.
   - Backspace to remove tags.
+- Screen readers announce active options and selection states.
 
 #### Interactions
 
 - Selecting an option adds it to the selected items.
 - Removing a tag removes the corresponding item from the selection.
 - Input field supports filtering and keyboard interactions.
-- Dropdown closes on selection.
 
 ---
 
