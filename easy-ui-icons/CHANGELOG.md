@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.33
+
+### Patch Changes
+
+- e3f0ef5: Adds Edit icon, fixes LocationOn Icon
+
 ## 1.0.0-alpha.32
 
 ### Minor Changes
