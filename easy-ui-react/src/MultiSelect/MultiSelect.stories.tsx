@@ -4,17 +4,17 @@ import { Icon } from "../Icon";
 import { FedExLogoImg, InlineStoryDecorator } from "../utilities/storybook";
 import {
   Item,
-  MultipleSelect,
+  MultiSelect,
   useAsyncList,
   useFilter,
   useListData,
 } from "./MultiSelect";
 
-type Story = StoryObj<typeof MultipleSelect>;
+type Story = StoryObj<typeof MultiSelect>;
 
-const meta: Meta<typeof MultipleSelect> = {
+const meta: Meta<typeof MultiSelect> = {
   title: "Components/MultiSelect",
-  component: MultipleSelect,
+  component: MultiSelect,
   args: {},
   decorators: [InlineStoryDecorator],
 };
@@ -25,22 +25,15 @@ export const Default: Story = {
   render: () => <Component />,
 };
 
+export const Async: Story = {
+  render: () => <AsyncComponent />,
+};
+
 function Component() {
   const [selectedItems, setSelectedItems] = React.useState<Item[]>([
     { key: 1, label: "Apple", icon: FedExLogoImg },
   ]);
   const { contains } = useFilter({ sensitivity: "base" });
-  // const list = useAsyncList<Item>({
-  //   initialSelectedKeys: [1],
-  //   async load({ filterText }) {
-  //     await new Promise((resolve) => setTimeout(resolve, 300));
-  //     return {
-  //       items: fruits.filter((fruit) => {
-  //         return filterText ? contains(fruit.label, filterText) : true;
-  //       }),
-  //     };
-  //   },
-  // });
   const filter = useCallback(
     (item: Item, filterText: string) => contains(item.label, filterText),
     [contains],
@@ -50,10 +43,9 @@ function Component() {
     initialItems: fruits,
     filter,
   });
-
   return (
     <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
-      <MultipleSelect
+      <MultiSelect
         // isLoading={list.isLoading}
         dropdownItems={list.items}
         inputValue={list.filterText}
@@ -64,20 +56,63 @@ function Component() {
         placeholder="Select a fruit"
         maxItemsUntilScroll={10}
         renderPill={(item) => (
-          <MultipleSelect.Pill icon={item.icon} label={item.label} />
+          <MultiSelect.Pill icon={item.icon} label={item.label} />
         )}
       >
         {(item) => (
-          <MultipleSelect.Option textValue={item.label}>
+          <MultiSelect.Option textValue={item.label}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               {item.icon && <Icon symbol={item.icon} />}
-              <MultipleSelect.OptionText>
-                {item.label}
-              </MultipleSelect.OptionText>
+              <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
             </div>
-          </MultipleSelect.Option>
+          </MultiSelect.Option>
         )}
-      </MultipleSelect>
+      </MultiSelect>
+    </div>
+  );
+}
+
+function AsyncComponent() {
+  const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+    { key: 1, label: "Apple", icon: FedExLogoImg },
+  ]);
+  const { contains } = useFilter({ sensitivity: "base" });
+  const list = useAsyncList<Item>({
+    initialSelectedKeys: [1],
+    async load({ filterText }) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      return {
+        items: fruits.filter((fruit) => {
+          return filterText ? contains(fruit.label, filterText) : true;
+        }),
+      };
+    },
+  });
+  return (
+    <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
+      <MultiSelect
+        isLoading={list.isLoading}
+        dropdownItems={list.items}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+        disabledKeys={selectedItems.map((item) => item.key)}
+        selectedItems={selectedItems}
+        onSelectionChange={setSelectedItems}
+        placeholder="Select a fruit"
+        maxItemsUntilScroll={10}
+        renderPill={(item) => (
+          <MultiSelect.Pill icon={item.icon} label={item.label} />
+        )}
+      >
+        {(item) => (
+          <MultiSelect.Option textValue={item.label}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              {item.icon && <Icon symbol={item.icon} />}
+              <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
+            </div>
+          </MultiSelect.Option>
+        )}
+      </MultiSelect>
     </div>
   );
 }
