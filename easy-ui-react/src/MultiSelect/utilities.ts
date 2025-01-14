@@ -5,7 +5,9 @@ export function useElementWidth(elementRef: RefObject<HTMLDivElement>) {
 
   useEffect(() => {
     const trigger = elementRef.current;
-    if (!trigger) return;
+    if (!trigger) {
+      return;
+    }
 
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {

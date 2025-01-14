@@ -1,7 +1,59 @@
-import React from "react";
-import { ArgTypes, Canvas, Meta } from "@storybook/blocks";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { MultiSelect } from "./MultiSelect";
 import * as MultiSelectStories from "./MultiSelect.stories";
 
 <Meta of={MultiSelectStories} />
 
 # MultiSelect
+
+The `<MultiSelect />` component is an input with a dropdown that allows users to select multiple options from a list. It's customizable with various props such as `placeholder`, `maxItemsUntilScroll`, and `onSelectionChange`.
+
+<Canvas of={MultiSelectStories.StandardDropdown} />
+
+## Async Dropdown
+
+The `<MultiSelect />` component can also support asynchronous loading of dropdown items. This is useful for fetching items from a server or a large dataset.
+
+<Canvas of={MultiSelectStories.AsyncDropdown} />
+
+## With Icons
+
+This variant of the `<MultiSelect />` includes icons next to each option. It uses the `renderPill` prop to customize how selected items are displayed, and it can render custom content in the dropdown items.
+
+<Canvas of={MultiSelectStories.WithIcons} />
+
+## Disabled Keys
+
+You can disable specific items from being selected by using the `disabledKeys` prop. This is useful when some options should be unselectable.
+
+<Canvas of={MultiSelectStories.DisabledKeys} />
+
+## Max Items Until Scroll
+
+When there are too many items to fit in the dropdown, you can set a maximum number of items to display before the dropdown becomes scrollable. The `maxItemsUntilScroll` prop controls this behavior.
+
+<Canvas of={MultiSelectStories.MaxItemsUntilScroll} />
+
+## Properties
+
+### MultiSelect
+
+<ArgTypes of={MultiSelect} />
+
+### MultiSelect.Pill
+
+The `MultiSelect.Pill` component represents a selected item in the multi-select dropdown. It's used to display each selected item as a "pill" or tag.
+
+<ArgTypes of={MultiSelect.Pill} />
+
+### MultiSelect.Option
+
+The `MultiSelect.Option` component represents a single option in the dropdown.
+
+<ArgTypes of={MultiSelect.Option} />
+
+### MultiSelect.OptionText
+
+The `MultiSelect.OptionText` component represents the default text inside a dropdown option.
+
+<ArgTypes of={MultiSelect.OptionText} />

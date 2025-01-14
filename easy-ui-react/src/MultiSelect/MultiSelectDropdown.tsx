@@ -1,5 +1,4 @@
 import React, { ReactNode, RefObject } from "react";
-import { Key } from "react-aria";
 import {
   ListBox,
   ListBoxItem,
@@ -14,24 +13,26 @@ import {
   ITEM_HEIGHT,
   Y_PADDING_INSIDE_OVERLAY,
 } from "../Menu/utilities";
-import { PillProps } from "../PillGroup";
 import { Spinner } from "../Spinner";
 import { Text, TextProps } from "../Text";
 import { getComponentToken, pxToRem } from "../utilities/css";
 import { useScrollbar } from "../utilities/useScrollbar";
+import { Item } from "./MultiSelect";
 
 import styles from "./MultiSelectDropdown.module.scss";
 
-type Item = { key: Key } & PillProps;
-
 type MultiSelectDropdownProps<T extends object> = {
   children: React.ReactNode | ((item: T) => React.ReactNode);
-  maxItemsUntilScroll?: MenuOverlayProps<T>["maxItemsUntilScroll"];
   isLoading?: AsyncListData<T>["isLoading"];
-  triggerRef: RefObject<HTMLDivElement>;
+  maxItemsUntilScroll?: MenuOverlayProps<T>["maxItemsUntilScroll"];
   menuRef: RefObject<HTMLDivElement>;
+  triggerRef: RefObject<HTMLDivElement>;
   width: number;
 };
+
+type MultiSelectDropdownOptionProps = {
+  children: React.ReactNode;
+} & ListBoxItemProps;
 
 export function MultiSelectDropdown<T extends Item>(
   props: MultiSelectDropdownProps<T>,
@@ -91,7 +92,9 @@ export function MultiSelectDropdown<T extends Item>(
   );
 }
 
-export function MultiSelectDropdownOption(props: ListBoxItemProps) {
+export function MultiSelectDropdownOption(
+  props: MultiSelectDropdownOptionProps,
+) {
   return <ListBoxItem {...props} className={styles.option} />;
 }
 

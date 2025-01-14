@@ -5,6 +5,7 @@
 
 .MultiSelect {
   @include InputField.root;
+  @include component-token("multi-select", "input-min-width", 120px);
 
   position: relative;
   display: flex;
@@ -49,13 +50,10 @@
 .input {
   @include font-style("body1");
   flex: 1 1 0%;
-
   width: 100%;
-  min-width: 120px;
-
+  min-width: component-token("multi-select", "input-min-width");
   padding: design-token("space.1") 0;
   margin: calc(#{design-token("space.1")} * -1) 0;
-
   outline: none;
   background-color: transparent;
   border: 0;

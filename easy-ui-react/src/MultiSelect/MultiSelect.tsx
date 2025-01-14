@@ -248,7 +248,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
             <VisuallyHidden>
               <Button
                 type="button"
-                slot={null}
+                slot="remove"
                 aria-label="Clear"
                 ref={clearComboBoxButtonRef}
               />
