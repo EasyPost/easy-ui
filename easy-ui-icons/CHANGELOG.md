@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.34
+
+### Minor Changes
+
+- 98f81c4: feat: EmojiObjects icon
+
 ## 1.0.0-alpha.33
 
 ### Patch Changes
