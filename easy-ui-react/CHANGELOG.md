@@ -1,5 +1,13 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.65
+
+### Patch Changes
+
+- 581a299: fix(DataGrid): align actions menu to end
+- Updated dependencies [98f81c4]
+  - @easypost/easy-ui-icons@1.0.0-alpha.34
+
 ## 1.0.0-alpha.64
 
 ### Patch Changes
