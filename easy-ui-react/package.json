@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui",
-  "version": "1.0.0-alpha.63",
+  "version": "1.0.0-alpha.64",
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",
@@ -29,7 +29,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@easypost/easy-ui-icons": "1.0.0-alpha.32",
+    "@easypost/easy-ui-icons": "1.0.0-alpha.33",
     "@easypost/easy-ui-tokens": "1.0.0-alpha.14",
     "@react-aria/toast": "^3.0.0-beta.18",
     "@react-aria/utils": "^3.26.0",
@@ -61,10 +61,10 @@
     "@types/react-transition-group": "^4.4.12",
     "@vitejs/plugin-react": "^4.3.4",
     "glob": "^10.2.5",
-    "jsdom": "^25.0.1",
+    "jsdom": "^26.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "sass": "^1.83.1",
+    "sass": "^1.83.4",
     "vite-plugin-react-remove-attributes": "^1.0.3",
     "vite-plugin-static-copy": "^2.2.0"
   }
