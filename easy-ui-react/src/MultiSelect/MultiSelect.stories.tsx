@@ -14,6 +14,7 @@ import {
   useFilter,
   useListData,
 } from "./MultiSelect";
+import { fruits } from "./MultiSelect.test";
 
 type Story = StoryObj<typeof MultiSelect>;
 
@@ -32,29 +33,6 @@ const meta: Meta<typeof MultiSelect> = {
 };
 
 export default meta;
-
-const fruits = [
-  { key: 1, label: "Apple" },
-  { key: 2, label: "Banana" },
-  { key: 3, label: "Cherry" },
-  { key: 4, label: "Date" },
-  { key: 5, label: "Elderberry" },
-  { key: 6, label: "Fig" },
-  { key: 7, label: "Grape" },
-  { key: 8, label: "Honeydew" },
-  { key: 9, label: "Kiwi" },
-  { key: 10, label: "Lemon" },
-  { key: 11, label: "Mango" },
-  { key: 12, label: "Nectarine" },
-  { key: 13, label: "Orange" },
-  { key: 14, label: "Papaya" },
-  { key: 15, label: "Quince" },
-  { key: 16, label: "Raspberry" },
-  { key: 17, label: "Strawberry" },
-  { key: 18, label: "Tangerine" },
-  { key: 19, label: "Ugli Fruit" },
-  { key: 20, label: "Watermelon" },
-] as const satisfies Item[];
 
 export const StandardDropdown: Story = {
   render: () => {
