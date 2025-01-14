@@ -61,7 +61,6 @@
     "@types/react-transition-group": "^4.4.12",
     "@vitejs/plugin-react": "^4.3.4",
     "glob": "^10.2.5",
-    "jsdom": "^26.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sass": "^1.83.4",

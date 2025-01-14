@@ -1,6 +1,6 @@
 @use "../styles/common" as *;
 
-@mixin root {
+@mixin tokens {
   @include component-token(
     "menu",
     "border_radius",
@@ -33,6 +33,10 @@
     "color.border",
     theme-token("color.neutral.300")
   );
+}
+
+@mixin root {
+  @include tokens;
 
   background: component-token("menu", "color.background");
   border: design-token("shape.border_width.1") solid

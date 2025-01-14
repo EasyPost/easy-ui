@@ -24,12 +24,11 @@ import {
   DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
   DEFAULT_PLACEMENT,
   DEFAULT_WIDTH,
-  ITEM_HEIGHT,
   OVERLAY_OFFSET,
   OVERLAY_PADDING_FROM_CONTAINER,
   SELECT_ALL_KEY,
-  Y_PADDING_INSIDE_OVERLAY,
   filterSelectedKeys,
+  getMenuPopoverMaxHeight,
   getUnmergedPopoverStyles,
   isSelectAllSelected,
   useSelectionCapture,
@@ -125,8 +124,7 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
   const { popoverProps, underlayProps } = usePopover(
     {
       containerPadding: OVERLAY_PADDING_FROM_CONTAINER,
-      maxHeight:
-        ITEM_HEIGHT * maxItemsUntilScroll + Y_PADDING_INSIDE_OVERLAY * 2 + 2,
+      maxHeight: getMenuPopoverMaxHeight({ maxItemsUntilScroll }),
       offset: OVERLAY_OFFSET,
       placement,
       popoverRef,
