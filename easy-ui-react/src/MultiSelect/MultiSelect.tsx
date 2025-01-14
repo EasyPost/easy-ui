@@ -15,6 +15,7 @@ import {
 import { useElementWidth } from "./utilities";
 
 import styles from "./MultiSelect.module.scss";
+import { Text } from "../Text";
 
 export type Item = { key: Key } & PillProps;
 
@@ -216,7 +217,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
 
   return (
     <div ref={rootRef} className={styles.MultiSelect}>
-      {selectedItems.length > 0 && (
+      {selectedItems.length > 0 ? (
         <PillGroup
           items={selectedItems}
           horizontalStackContainerProps={{ gap: "1" }}
@@ -225,6 +226,10 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
         >
           {renderPill}
         </PillGroup>
+      ) : (
+        <VisuallyHidden>
+          <Text>No selected items</Text>
+        </VisuallyHidden>
       )}
       <div className={styles.comboBoxContainer}>
         <ComboBox
@@ -270,6 +275,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
           onClick={() => clearComboBoxButtonRef.current?.click()}
           tabIndex={-1}
         >
+          <Text visuallyHidden>Open dropdown</Text>
           <Icon symbol={KeyboardArrowDownIcon} />
         </button>
       </div>
