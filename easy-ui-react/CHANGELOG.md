@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.66
+
+### Minor Changes
+
+- 74272b9: feat: MultiSelect component
+
 ## 1.0.0-alpha.65
 
 ### Patch Changes
