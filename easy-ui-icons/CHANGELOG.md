@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.35
+
+### Minor Changes
+
+- 6fbcfea: feat: add icons to support rules editor
+
 ## 1.0.0-alpha.34
 
 ### Minor Changes
