@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.36
+
+### Minor Changes
+
+- 0b80019: Adds OpenInNew icon
+
 ## 1.0.0-alpha.35
 
 ### Minor Changes
