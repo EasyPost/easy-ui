@@ -1,7 +1,9 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "./mixins" as Tabs;
 
 .Tabs {
+  @include Tabs.border-tokens;
   @include component-token("tab-nav", "indicator-height", 1px);
   @include component-token("tab-nav", "indicator-width", 0);
   @include component-token("tab-nav", "indicator-position", 0);
@@ -9,11 +11,6 @@
     "tab-nav",
     "background-color",
     design-token("color.gray.000")
-  );
-  @include component-token(
-    "tab-nav",
-    "border-color",
-    design-token("color.gray.100")
   );
   @include component-token(
     "tab-nav",
@@ -54,6 +51,7 @@
 
 .list {
   @include unstyled.list;
+  @include Tabs.border;
   display: flex;
   align-items: center;
   gap: design-token("space.3");
@@ -61,8 +59,6 @@
   // offset with the border size to ensure the nav height is not off by one
   padding-bottom: calc(#{design-token("space.1")} - 1px);
   background: component-token("tab-nav", "background-color");
-  border-bottom: design-token("shape.border_width.1") solid
-    component-token("tab-nav", "border-color");
 }
 
 .indicator {

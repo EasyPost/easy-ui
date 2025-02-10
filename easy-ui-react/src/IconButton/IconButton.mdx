@@ -6,21 +6,29 @@ import * as IconButtonStories from "./IconButton.stories";
 
 # IconButton
 
-## Filled buttons
+## Filled
 
-<Canvas of={IconButtonStories.FilledButtons} />
+By default, an `<IconButton />` renders as a filled variant.
 
-## Outlined buttons
+<Canvas of={IconButtonStories.Filled} />
 
-<Canvas of={IconButtonStories.OutlinedButtons} />
+<Controls of={IconButtonStories.Filled} include={["color"]} />
 
-## Inverse buttons
+## Outlined
 
-<Canvas of={IconButtonStories.InverseButton} />
+Use `variant="outlined"` to render an outlined variant.
 
-## Disabled buttons
+<Canvas of={IconButtonStories.Outlined} />
 
-<Canvas of={IconButtonStories.DisabledButtons} />
+<Controls of={IconButtonStories.Outlined} include={["color"]} />
+
+## Inverse
+
+<Canvas of={IconButtonStories.Inverse} />
+
+## Disabled
+
+<Canvas of={IconButtonStories.Disabled} />
 
 ## Click event
 

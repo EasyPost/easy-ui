@@ -9,6 +9,10 @@ import {
   InlineStoryDecorator,
   InlineStoryOnDarkBackgroundDecorator,
   createLabelledOptionsControl,
+  getFilledButtonsColorMapping,
+  getLinkButtonsColorMapping,
+  getOutlinedButtonsColorMapping,
+  getTextButtonsColorMapping,
 } from "../utilities/storybook";
 import { Button, ButtonProps } from "./Button";
 
@@ -22,10 +26,16 @@ const meta: Meta<typeof Button> = {
     iconAtStart: createLabelledOptionsControl({
       ArrowBack: ArrowBackIcon,
       Add: AddIcon,
+      CheckCircle: CheckCircleIcon,
+      Info: InfoIcon,
+      None: undefined,
     }),
     iconAtEnd: createLabelledOptionsControl({
       ArrowBack: ArrowBackIcon,
       Add: AddIcon,
+      CheckCircle: CheckCircleIcon,
+      Info: InfoIcon,
+      None: undefined,
     }),
     children: {
       control: "text",
@@ -36,64 +46,66 @@ const meta: Meta<typeof Button> = {
 
 export default meta;
 
-export const Controls: Story = {
+export const Filled: Story = {
   render: Template.bind({}),
-  args: {},
+  args: {
+    color: "primary",
+  },
 };
 
-export const FilledButtons: Story = {
-  render: () => (
-    <>
-      <Button />
-      <Button color="secondary" />
-      <Button color="success" />
-      <Button color="warning" />
-      <Button color="neutral" />
-      <Button size="sm" />
-      <Button color="secondary" size="sm" />
-      <Button color="success" size="sm" />
-      <Button color="warning" size="sm" />
-      <Button color="neutral" size="sm" />
-    </>
-  ),
-  decorators: [InlineStoryDecorator],
+Filled.argTypes = {
+  color: getFilledButtonsColorMapping(),
 };
 
-export const OutlinedButtons: Story = {
-  render: () => (
-    <>
-      <Button variant="outlined" />
-      <Button color="secondary" variant="outlined" />
-      <Button color="support" variant="outlined" />
-      <Button variant="outlined" size="sm" />
-      <Button color="secondary" variant="outlined" size="sm" />
-      <Button color="support" variant="outlined" size="sm" />
-    </>
-  ),
-  decorators: [InlineStoryDecorator],
+export const Outlined: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "outlined",
+    color: "primary",
+  },
 };
 
-export const LinkButtons: Story = {
-  render: () => (
-    <>
-      <Button variant="link" />
-      <Button color="secondary" variant="link" />
-    </>
-  ),
-  decorators: [InlineStoryDecorator],
+Outlined.argTypes = {
+  color: getOutlinedButtonsColorMapping(),
 };
 
-export const InverseButtons: Story = {
-  render: () => (
-    <>
-      <Button color="inverse" variant="outlined" />
-      <Button color="inverse" variant="outlined" size="sm" />
-    </>
-  ),
-  decorators: [InlineStoryOnDarkBackgroundDecorator],
+export const Link: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "link",
+    color: "primary",
+  },
 };
 
-export const WithHref: Story = {
+Link.argTypes = {
+  color: getLinkButtonsColorMapping(),
+};
+
+export const Text: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "text",
+    color: "primary",
+  },
+};
+
+Text.argTypes = {
+  color: getTextButtonsColorMapping(),
+};
+
+export const Icons: Story = {
+  render: Template.bind({}),
+  args: {
+    iconAtStart: AddIcon,
+  },
+  parameters: {
+    controls: {
+      include: ["iconAtStart", "iconAtEnd", "children"],
+    },
+  },
+};
+
+export const Href: Story = {
   render: () => (
     <>
       <Button href="https://www.easypost.com/" />
@@ -103,24 +115,32 @@ export const WithHref: Story = {
   decorators: [InlineStoryDecorator],
 };
 
-export const WithIcons: Story = {
+export const Small: Story = {
   render: () => (
     <>
-      <Button iconAtEnd={CheckCircleIcon} />
-      <Button color="neutral" iconAtEnd={AddIcon} />
-      <Button color="success" iconAtStart={ArrowBackIcon} />
-      <Button color="warning" iconAtStart={InfoIcon} />
+      <Button size="sm" />
+      <Button variant="outlined" size="sm" />
     </>
   ),
   decorators: [InlineStoryDecorator],
 };
 
-export const BlockButton: Story = {
+export const Inverse: Story = {
+  render: () => (
+    <>
+      <Button color="inverse" variant="outlined" />
+      <Button color="inverse" variant="outlined" size="sm" />
+    </>
+  ),
+  decorators: [InlineStoryOnDarkBackgroundDecorator],
+};
+
+export const Block: Story = {
   render: () => <Button isBlock />,
   decorators: [InlineStoryDecorator],
 };
 
-export const DisabledButtons: Story = {
+export const Disabled: Story = {
   render: () => (
     <>
       <Button isDisabled />
@@ -133,4 +153,9 @@ export const DisabledButtons: Story = {
 export const ClickEvent: Story = {
   render: () => <Button onPress={action("clicked!")} />,
   decorators: [InlineStoryDecorator],
+};
+
+export const Controls: Story = {
+  render: Template.bind({}),
+  args: {},
 };

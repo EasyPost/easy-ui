@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui-icons",
-  "version": "1.0.0-alpha.28",
+  "version": "1.0.0-alpha.36",
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",
@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "@material-symbols/svg-300": "^0.25.3",
-    "@material-symbols/svg-400": "^0.25.3",
-    "@material-symbols/svg-600": "^0.25.3",
+    "@material-symbols/svg-400": "^0.27.0",
+    "@material-symbols/svg-600": "^0.27.0",
     "@svgr/cli": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "glob": "^10.2.5"

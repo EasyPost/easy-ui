@@ -6,37 +6,73 @@ import * as ButtonStories from "./Button.stories";
 
 # Button
 
-## Filled buttons
+A `<Button />` enables users to take an action or transition to other pages. They are designed with multiple styles to address various needs, and they are ideal for highlighting an action for the user to take in order to move forward in a flow.
 
-<Canvas of={ButtonStories.FilledButtons} />
+**Note**: Each `<Button />` variant support a subset of colors from the `color` property.
 
-## Outlined buttons
+## Filled
 
-<Canvas of={ButtonStories.OutlinedButtons} />
+By default, a `<Button />` renders as a filled variant.
 
-## Link buttons
+<Canvas of={ButtonStories.Filled} />
 
-<Canvas of={ButtonStories.LinkButtons} />
+<Controls of={ButtonStories.Filled} include={["color"]} />
 
-## Inverse buttons
+## Outlined
 
-<Canvas of={ButtonStories.InverseButtons} />
+Use `variant="outlined"` to render an outlined variant.
 
-## With href
+<Canvas of={ButtonStories.Outlined} />
 
-<Canvas of={ButtonStories.WithHref} />
+<Controls of={ButtonStories.Outlined} include={["color"]} />
 
-## With icons
+## Link
 
-<Canvas of={ButtonStories.WithIcons} />
+Use `variant="link"` to render a link variant.
 
-## Block button
+<Canvas of={ButtonStories.Link} />
 
-<Canvas of={ButtonStories.BlockButton} />
+<Controls of={ButtonStories.Link} include={["color"]} />
 
-## Disabled buttons
+## Text
 
-<Canvas of={ButtonStories.DisabledButtons} />
+Use `variant="text"` to render a text variant.
+
+<Canvas of={ButtonStories.Text} />
+
+<Controls of={ButtonStories.Text} include={["color"]} />
+
+## Icons
+
+Use `iconAtStart` or `iconAtEnd` to render an icon.
+
+<Canvas of={ButtonStories.Icons} />
+
+<Controls of={ButtonStories.Icons} />
+
+## Href
+
+Use `href` to for navigation.
+
+<Canvas of={ButtonStories.Href} />
+
+## Small
+
+Use `size="sm"` to render a smaller `<Button />`.
+
+<Canvas of={ButtonStories.Small} />
+
+## Inverse
+
+<Canvas of={ButtonStories.Inverse} />
+
+## Block
+
+<Canvas of={ButtonStories.Block} />
+
+## Disabled
+
+<Canvas of={ButtonStories.Disabled} />
 
 ## Click event
 

@@ -1,4 +1,4 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 
 import react from "@vitejs/plugin-react";
 import { glob } from "glob";
@@ -48,9 +48,10 @@ export default defineConfig({
           ignore: ["**/test.ts", "**/*.test.ts"],
         }),
       ]),
+      cssFileName: "style",
     },
     rollupOptions: {
-      external: ["react", "react-dom", "@react-aria/ssr"],
+      external: ["react", "react-dom"],
       output: [
         {
           format: "cjs",

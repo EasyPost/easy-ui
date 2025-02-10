@@ -4,6 +4,9 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     if: ${{ github.triggering_actor != 'dependabot[bot]' }}
+    permissions:
+      contents: write
+      statuses: write
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js v18

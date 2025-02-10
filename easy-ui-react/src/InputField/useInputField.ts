@@ -18,7 +18,7 @@ export function useInputField(
     descriptionProps: helperTextProps,
     errorMessageProps: errorTextProps,
   } = useTextField(
-    { ...props, inputElementType: getElementType(isMultiline) },
+    { ...props, inputElementType: getElementType(isMultiline) as "input" },
     ref,
   );
 

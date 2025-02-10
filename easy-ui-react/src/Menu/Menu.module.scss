@@ -19,6 +19,13 @@
   @include Menu.menuList;
 }
 
+.sectionTitle {
+  display: inline-flex;
+  align-items: center;
+  min-height: design-token("space.4");
+  padding: 0 component-token("menu", "padding.x");
+}
+
 .itemContent,
 .separator {
   @include Menu.itemContent;
@@ -37,7 +44,7 @@
   outline: none;
 }
 
-.item:not([data-is-disabled="true"]) {
+.item:not([data-is-disabled="true"]) * {
   cursor: pointer;
 }
 

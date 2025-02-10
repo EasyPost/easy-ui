@@ -31,7 +31,7 @@ describe("<Notification />", () => {
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
-    expect(screen.getByRole("alert")).toBeInTheDocument();
+    expect(screen.getByRole("alertdialog")).toBeInTheDocument();
   });
 
   it("should render a toast notification", async () => {
@@ -75,7 +75,7 @@ describe("<Notification />", () => {
     );
     await clickNotification(user, screen.getByRole("button"));
     await clickNotification(user, screen.getAllByRole("button")[1]);
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument();
   });
 
   it("should render a notification with appropriate status styles applied", async () => {
@@ -89,7 +89,7 @@ describe("<Notification />", () => {
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
-    expect(screen.getByRole("alert")).toHaveAttribute(
+    expect(screen.getByRole("alertdialog")).toHaveAttribute(
       "class",
       expect.stringContaining("statusPromotional"),
     );
@@ -102,7 +102,7 @@ describe("<Notification />", () => {
       </NotificationProvider>,
     );
     await clickNotification(user, screen.getByRole("button"));
-    expect(screen.getByRole("alert")).toHaveAttribute(
+    expect(screen.getByRole("alertdialog")).toHaveAttribute(
       "class",
       expect.stringContaining("typeAlert"),
     );

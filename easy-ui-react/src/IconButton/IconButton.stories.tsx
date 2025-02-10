@@ -7,6 +7,8 @@ import {
   InlineStoryDecorator,
   InlineStoryOnDarkBackgroundDecorator,
   createLabelledOptionsControl,
+  getFilledButtonsColorMapping,
+  getOutlinedButtonsColorMapping,
 } from "../utilities/storybook";
 import { IconButton, IconButtonProps } from "./IconButton";
 
@@ -32,53 +34,39 @@ const meta: Meta<typeof IconButton> = {
 
 export default meta;
 
-export const Controls: Story = {
+export const Filled: Story = {
   render: Template.bind({}),
   args: {
-    ...sharedIconButtonProps,
+    color: "primary",
+    icon: ArrowBackIcon,
   },
 };
 
-export const FilledButtons: Story = {
-  render: () => (
-    <>
-      <IconButton {...sharedIconButtonProps} />
-      <IconButton color="secondary" {...sharedIconButtonProps} />
-      <IconButton color="success" {...sharedIconButtonProps} />
-      <IconButton color="warning" {...sharedIconButtonProps} />
-      <IconButton color="neutral" {...sharedIconButtonProps} />
-    </>
-  ),
-  decorators: [InlineStoryDecorator],
+Filled.argTypes = {
+  color: getFilledButtonsColorMapping(),
 };
 
-export const OutlinedButtons: Story = {
-  render: () => (
-    <>
-      <IconButton variant="outlined" {...sharedIconButtonProps} />
-      <IconButton
-        color="secondary"
-        variant="outlined"
-        {...sharedIconButtonProps}
-      />
-      <IconButton
-        color="support"
-        variant="outlined"
-        {...sharedIconButtonProps}
-      />
-    </>
-  ),
-  decorators: [InlineStoryDecorator],
+export const Outlined: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "outlined",
+    color: "primary",
+    icon: ArrowBackIcon,
+  },
 };
 
-export const InverseButton: Story = {
+Outlined.argTypes = {
+  color: getOutlinedButtonsColorMapping(),
+};
+
+export const Inverse: Story = {
   render: () => (
     <IconButton color="inverse" variant="outlined" {...sharedIconButtonProps} />
   ),
   decorators: [InlineStoryOnDarkBackgroundDecorator],
 };
 
-export const DisabledButtons: Story = {
+export const Disabled: Story = {
   render: () => (
     <>
       <IconButton {...sharedIconButtonProps} isDisabled />
@@ -93,4 +81,11 @@ export const ClickEvent: Story = {
     <IconButton {...sharedIconButtonProps} onPress={action("clicked!")} />
   ),
   decorators: [InlineStoryDecorator],
+};
+
+export const Controls: Story = {
+  render: Template.bind({}),
+  args: {
+    ...sharedIconButtonProps,
+  },
 };

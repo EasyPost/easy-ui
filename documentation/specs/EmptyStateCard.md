@@ -2,7 +2,7 @@
 
 ## Overview
 
-An `EmptyStateCard` is a styled container with a header, body, and action sections, designed to display relevant information when there is no nearby data to display.
+An `EmptyStateCard` is a styled container designed to display relevant information when there is no nearby data to display.
 
 ### Use Cases
 
@@ -10,52 +10,34 @@ An `EmptyStateCard` is a styled container with a header, body, and action sectio
 
 ### Features
 
-- Header, body, and action components are broken into composable pieces
+- Components are broken into composable pieces
 
 ## Design
 
-An `EmptyStateCard` is a very simple compound component consisting of`EmptyStateCard.Header`, `EmptyStateCard.Body`, and `EmptyStateCard.Action`.
+An `EmptyStateCard` is a compound component consisting of `EmptyStateCard.MultiSection`, `EmptyStateCard.Section`, `EmptyStateCard.TextGroup`, `EmptyStateCard.HeaderText`, `EmptyStateCard.BodyText`, and `EmptyStateCard.ActionGroup`. The styled container will be handled by the `Card` component.
 
-The `EmptyStateCard` will render `EmptyStateCard.Header`,` EmptyStateCard.Body`, and`EmptyStateCard.Action` via children, while delegating the styled container to the `Card` component.
+A `EmptyStateCard.Section` is a simple container that can render `EmptyStateCard.TextGroup`, `EmptyStateCard.HeaderText`, `EmptyStateCard.BodyText`, and `EmptyStateCard.ActionGroup`. It can also support custom markup. To handle multiple `EmptyStateCard.Section` components, consumers should use `EmptyStateCard.MultiSection`.
 
-The `EmptyStateCard.Header`,` EmptyStateCard.Body`, and`EmptyStateCard.Action` components will only be lightweight wrappers to handle the rendering for the content passed by consumers.
+The `EmptyStateCard.HeaderText` and` EmptyStateCard.BodyText` components will be lightweight wrappers around the `Text` component.
 
 No new external dependencies will be introduced.
 
 ### API
 
 ```ts
-export type EmptyStateCardProps = Omit<
-  VerticalStackProps,
-  "children" | "as" | "reverseOrder"
-> & {
+export type EmptyStateCardProps = {
   /**
-   * The children of the <EmptyStateCard> element. Should render
-   * `<EmptyStateCard.Header>`, `<EmptyStateCard.Body>`, and
-   * `<EmptyStateCard.Action>`
+   * The children of the <EmptyStateCard> element.
    */
   children: ReactNode;
 };
 
-export type EmptyStateCardHeaderProps = {
+export type EmptyStateCardSectionProps = VerticalStackProps & {
   /**
-   * Header content of card
+   * Renders a section with a decorative background.
+   * @default false
    */
-  children: ReactNode;
-};
-
-export type EmptyStateCardBodyProps = {
-  /**
-   * Body content of card
-   */
-  children: ReactNode;
-};
-
-export type EmptyStateCardActionProps = {
-  /**
-   * Action content of card
-   */
-  children: ReactNode;
+  hasDecorativeBackground?: boolean;
 };
 ```
 
@@ -71,25 +53,27 @@ import { Button } from "@easypost/easy-ui/Button";
 function Component() {
   return (
     <EmptyStateCard>
-      <EmptyStateCard.Header>
-        <Text variant="heading5" color="neutral.000">
-          Analytics
-        </Text>
-      </EmptyStateCard.Header>
-      <EmptyStateCard.Body>
-        <Text variant="subtitle1" color="neutral.000">
-          Start shipping to get insights on your shipping costs and performance.
-        </Text>
-      </EmptyStateCard.Body>
-      <EmptyStateCard.Action>
-        <Button>Buy a label</Button>
-      </EmptyStateCard.Action>
-    </EmptyStateCard>,
+      <EmptyStateCard.Section>
+        <EmptyStateCard.TextGroup>
+          <EmptyStateCard.HeaderText>
+            Shipment Insurance
+          </EmptyStateCard.HeaderText>
+          <EmptyStateCard.BodyText>
+            Rest easy knowing if one of your customers orders is damaged, lost
+            in transit or stolen you are covered! Automatically add insurance to
+            all your shipments
+          </EmptyStateCard.BodyText>
+        </EmptyStateCard.TextGroup>
+        <EmptyStateCard.ActionGroup>
+          <Button>Manage Insurance Settings</Button>
+        </EmptyStateCard.ActionGroup>
+      </EmptyStateCard.Section>
+    </EmptyStateCard>
   );
 }
 ```
 
-_Center aligned:_
+_Alignment:_
 
 ```tsx
 import { EmptyStateCard } from "@easypost/easy-ui/EmptyStateCard";
@@ -98,21 +82,23 @@ import { Button } from "@easypost/easy-ui/Button";
 
 function Component() {
   return (
-    <EmptyStateCard inlineAlign="center">
-      <EmptyStateCard.Header>
-        <Text variant="heading5" color="neutral.000">
-          Analytics
-        </Text>
-      </EmptyStateCard.Header>
-      <EmptyStateCard.Body>
-        <Text variant="subtitle1" color="neutral.000">
-          Start shipping to get insights on your shipping costs and performance.
-        </Text>
-      </EmptyStateCard.Body>
-      <EmptyStateCard.Action>
-        <Button>Buy a label</Button>
-      </EmptyStateCard.Action>
-    </EmptyStateCard>,
+    <EmptyStateCard>
+      <EmptyStateCard.Section inlineAlign="center">
+        <EmptyStateCard.TextGroup gap="2">
+          <EmptyStateCard.HeaderText>
+            Shipment Insurance
+          </EmptyStateCard.HeaderText>
+          <EmptyStateCard.BodyText>
+            Rest easy knowing if one of your customers orders is damaged, lost
+            in transit or stolen you are covered! Automatically add insurance to
+            all your shipments
+          </EmptyStateCard.BodyText>
+        </EmptyStateCard.TextGroup>
+        <EmptyStateCard.ActionGroup>
+          <Button>Manage Insurance Settings</Button>
+        </EmptyStateCard.ActionGroup>
+      </EmptyStateCard.Section>
+    </EmptyStateCard>
   );
 }
 ```
@@ -121,42 +107,76 @@ function Component() {
 
 ```tsx
 import { Card } from "../Card";
-import { VerticalStack } from "../VerticalStack";
+import { Text, TextProps } from "../Text";
+import { HorizontalStack, HorizontalStackProps } from "../HorizontalStack";
+import { VerticalStack, VerticalStackProps } from "../VerticalStack";
 
 export function EmptyStateCard(props: EmptyStateCardProps) {
-  const { children, ...verticalStackProps } = props;
+  const { children } = props;
+
+  return <Card>{children}</Card>;
+}
+
+function EmptyStateCardMultiSection(props: HorizontalStackProps) {
+  const { children, ...restProps } = props;
+  return <HorizontalStack {...restProps}>{children}</HorizontalStack>;
+}
+
+function EmptyStateCardSection(props: EmptyStateCardSectionProps) {
+  const { hasDecorativeBackground = false, children, ...restProps } = props;
 
   return (
-    <Card>
-      <VerticalStack {...verticalStackProps}>{children}</VerticalStack>
-    </Card>
+    <div>
+      {!hasDecorativeBackground ? (
+        <Card.Area>
+          <VerticalStack {...restProps}>{children}</VerticalStack>
+        </Card.Area>
+      ) : (
+        <Card.Area>
+          <div>
+            <div>
+              <VerticalStack {...restProps}>{children}</VerticalStack>
+            </div>
+          </div>
+        </Card.Area>
+      )}
+    </div>
   );
 }
 
-function EmptyStateCardHeader(props: EmptyStateCardHeaderProps) {
-  const { children } = props;
-
-  return <div>{children}</div>;
+function EmptyStateCardTextGroup(props: VerticalStackProps) {
+  const { children, ...restProps } = props;
+  return <VerticalStack {...restProps}>{children}</VerticalStack>;
 }
 
-function EmptyStateCardBody(props: EmptyStateCardBodyProps) {
-  const { children } = props;
-
-  return <div>{children}</div>;
+function EmptyStateCardActionGroup(props: HorizontalStackProps) {
+  const { children, ...restProps } = props;
+  return <HorizontalStack {...restProps}>{children}</HorizontalStack>;
 }
 
-function EmptyStateCardAction(props: EmptyStateCardActionProps) {
-  const { children } = props;
+function EmptyStateCardHeaderText(props: TextProps) {
+  const { ...restTextProps } = props;
 
-  return <div>{children}</div>;
+  return <Text {...restTextProps} />;
 }
 
-EmptyStateCard.Header = EmptyStateCardHeader;
+function EmptyStateCardBodyText(props: TextProps) {
+  const { ...restTextProps } = props;
 
-EmptyStateCard.Body = EmptyStateCardBody;
+  return <Text {...restTextProps} />;
+}
 
-EmptyStateCard.Action = EmptyStateCardAction;
-```
+EmptyStateCard.MultiSection = EmptyStateCardMultiSection;
+
+EmptyStateCard.Section = EmptyStateCardSection;
+
+EmptyStateCard.TextGroup = EmptyStateCardTextGroup;
+
+EmptyStateCard.HeaderText = EmptyStateCardHeaderText;
+
+EmptyStateCard.BodyText = EmptyStateCardBodyText;
+
+EmptyStateCard.ActionGroup = EmptyStateCardActionGroup;
 
 ---
 
@@ -170,3 +190,6 @@ There are no major accessibility concerns to highlight for this component
 
 - `Card`
 - `VerticalStack`
+- `HorizontalStack`
+- `Text`
+```

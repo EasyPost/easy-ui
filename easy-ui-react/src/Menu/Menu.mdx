@@ -17,6 +17,12 @@ A `<Menu />` can be divided into multiple sections, rendering a separator betwee
 
 <Canvas of={MenuStories.WithSeparator} />
 
+## With Title
+
+A `<Menu />` with sections can include a title
+
+<Canvas of={MenuStories.WithTitle} />
+
 ## Scrolls on Max Items
 
 When a `<Menu />` has more than five items the menu scrolls to only show those items. The number can be configured with the `maxItemsUntilScroll` property. Set the value to `Infinity` to disable scrolling.
@@ -59,6 +65,16 @@ A `<Menu />` can be placed on different edges of its trigger element. See the co
 <Canvas of={MenuStories.CustomPlacement} />
 
 <Controls of={MenuStories.CustomPlacement} include={["placement"]} />
+
+## Multiple Selection
+
+A `<Menu />` supports multiple selection mode by using `selectionMode` prop on `<Menu.Overlay />`. `onSelectionChange` and `selectedKeys` (controlled) are used to make selection.
+
+<Canvas of={MenuStories.MultipleSelection} />
+
+A multiple selection `<Menu />` supports Select All checkbox with `all` as key on `<Menu.Item />`. When a "select all" event occurs—either through clicking the Select All menu item or using `cmd` + `a` keyboard shortcut— `onSelectionChange(keys)` will be passed `all` as its key instead of a list of all keys.
+
+<Canvas of={MenuStories.MultipleSelectionWithSelectAll} />
 
 ## Properties
 

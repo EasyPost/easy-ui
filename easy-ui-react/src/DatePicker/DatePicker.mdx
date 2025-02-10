@@ -1,0 +1,62 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { DatePicker } from "./DatePicker";
+import * as DatePickerStories from "./DatePicker.stories";
+
+<Meta of={DatePickerStories} />
+
+# DatePicker
+
+DatePicker combine a DateField and a Calendar popover to allow users to enter or select a date.
+
+<Canvas of={DatePickerStories.Standalone} />
+
+## Default value
+
+A `<DatePicker />` component allows users to set default selected date (uncontrolled).
+
+<Canvas of={DatePickerStories.DefaultValue} />
+
+## Sizes
+
+Use `size="sm"` to render a smaller `<DatePicker />`.
+
+<Canvas of={DatePickerStories.Sizes} />
+
+<Controls of={DatePickerStories.Sizes} include={["size"]} />
+
+## Set minimum and maximum value
+
+Set minimum and maximum allowed date that a user may select or enter. Dates outside the minimum and maximum value are disabled and unreachable.
+
+<Canvas of={DatePickerStories.LimitAvailableDates} />
+
+## Set Date Availability
+
+Callback that is called for each date of the calendar. If it returns `true`, then the date is unavailable.
+
+<Canvas of={DatePickerStories.DatesAvailability} />
+
+## Disabled DatePicker
+
+Use `isDisabled` to disabled the DatePicker entirely.
+
+<Canvas of={DatePickerStories.Disabled} />
+
+<Controls of={DatePickerStories.Disabled} include={["isDisabled"]} />
+
+## Controlled Selection
+
+For controlled selection, use `onChange` and `value`. Uncontrolled selection is possible with `defaultValue`. See associated code snippet.
+
+<Canvas of={DatePickerStories.ControlledSelection} />
+
+## Invalid Selection
+
+An error message is displayed when the selected value is invalid according to application logic. Select a weekend date to see an invalid selection.
+
+<Canvas of={DatePickerStories.InvalidSelection} />
+
+## Properties
+
+<ArgTypes of={DatePicker} />

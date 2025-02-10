@@ -1,0 +1,72 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { SectionCard } from "./SectionCard";
+import * as SectionCardStories from "./SectionCard.stories";
+
+<Meta of={SectionCardStories} />
+
+# SectionCard
+
+A `SectionCard` is a styled container for grouping section content on a page.
+
+`SectionCard` is designed for composability. It can be deconstructed and reassembled as needed.
+
+<Canvas of={SectionCardStories.WithTabPanels} />
+
+## Basic
+
+A basic `SectionCard` renders a stylized `Card` for page sections.
+
+<Canvas of={SectionCardStories.Basic} />
+
+## With Header
+
+Use a `SectionCard.Header` to render a header.
+
+`SectionCard.Header` supports `SectionCard.Title`, `SectionCard.Controls`, and `SectionCard.Actions`.
+
+<Canvas of={SectionCardStories.WithHeader} />
+
+## With Tabs
+
+Use the `SectionCard.Tabs` helper to wrap `TabPanels` or `TabNav`.
+
+### TabNav
+
+<Canvas of={SectionCardStories.WithTabNav} />
+
+### TabPanels
+
+<Canvas of={SectionCardStories.WithTabPanels} />
+
+## With Adjustable Card Properties
+
+`SectionCard` can be customized with any `Card` props.
+
+<Canvas of={SectionCardStories.WithAdjustableCardProps} />
+
+## Properties
+
+### SectionCard
+
+<ArgTypes of={SectionCard} />
+
+### SectionCard.Container
+
+<ArgTypes of={SectionCard.Container} />
+
+### SectionCard.Area
+
+<ArgTypes of={SectionCard.Area} />
+
+### SectionCard.Header
+
+<ArgTypes of={SectionCard.Header} />
+
+### SectionCard.Title
+
+<ArgTypes of={SectionCard.Title} />
+
+### SectionCard.Tabs
+
+<ArgTypes of={SectionCard.Tabs} />

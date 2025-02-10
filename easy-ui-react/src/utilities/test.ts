@@ -1,6 +1,7 @@
 import { act, render as renderWithTestingLib } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ReactElement } from "react";
+import { config as reactTransitionGroupConfig } from "react-transition-group";
 import { vi } from "vitest";
 
 declare global {
@@ -127,4 +128,12 @@ export async function userType(
 
 export async function selectCheckbox(user: UserEvent, el: HTMLElement) {
   await userClick(user, el);
+}
+
+export function disableReactTransitionGroup() {
+  reactTransitionGroupConfig.disabled = true;
+}
+
+export function enableReactTransitionGroup() {
+  reactTransitionGroupConfig.disabled = false;
 }

@@ -1,5 +1,53 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.36
+
+### Minor Changes
+
+- 0b80019: Adds OpenInNew icon
+
+## 1.0.0-alpha.35
+
+### Minor Changes
+
+- 6fbcfea: feat: add icons to support rules editor
+
+## 1.0.0-alpha.34
+
+### Minor Changes
+
+- 98f81c4: feat: EmojiObjects icon
+
+## 1.0.0-alpha.33
+
+### Patch Changes
+
+- e3f0ef5: Adds Edit icon, fixes LocationOn Icon
+
+## 1.0.0-alpha.32
+
+### Minor Changes
+
+- 72816da: feat: ForgeLayout
+
+## 1.0.0-alpha.31
+
+### Minor Changes
+
+- 6029410: add lock icon
+
+## 1.0.0-alpha.30
+
+### Minor Changes
+
+- b1a7fc5: Add analytics icon
+
+## 1.0.0-alpha.29
+
+### Minor Changes
+
+- a722ea9: feat(icons): more icon support
+
 ## 1.0.0-alpha.28
 
 ### Minor Changes

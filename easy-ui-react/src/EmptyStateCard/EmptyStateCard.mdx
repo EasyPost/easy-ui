@@ -1,0 +1,70 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { EmptyStateCard } from "./EmptyStateCard";
+import * as EmptyStateCardStories from "./EmptyStateCard.stories";
+
+<Meta of={EmptyStateCardStories} />
+
+# EmptyStateCard
+
+An `<EmptyStateCard />` is a styled container designed to display relevant information when there is no nearby data to display.
+
+It is a compound component consisting of `<EmptyStateCard.MultiSection />`, `<EmptyStateCard.Section />`, `<EmptyStateCard.TextGroup />`, `<EmptyStateCard.HeaderText />`, `<EmptyStateCard.BodyText />`, and `<EmptyStateCard.ActionGroup />`
+
+## Simple
+
+<Canvas of={EmptyStateCardStories.Simple} />
+
+## Alignment
+
+`<EmptyStateCard.Section />` and `<EmptyStateCard.TextGroup />` can accept `VerticalStack` props to override defaults and to assist with alignment. Similarly, `<EmptyStateCard.ActionGroup />` can accept `HorizontalStack` props.
+
+<Canvas of={EmptyStateCardStories.Alignment} />
+
+## Multiple Sections
+
+Use `EmptyStateCard.MultiSection` to render horizontally aligned sections; it can accept `HorizontalStack` props to assist with alignment.
+
+### Decorative
+
+Use `hasDecorativeBackground` to render a `<EmptyStateCard.Section />` with a decorative background.
+
+**Note**: A decorative section is designed to render aligned to the end of a `EmptyStateCard.MultiSection` and has pre-configured positioning for content and collapses on smaller screens.
+
+<Canvas of={EmptyStateCardStories.Decorative} />
+
+### Custom Markup
+
+A `<EmptyStateCard.Section />` can also render custom markup.
+
+<Canvas of={EmptyStateCardStories.Custom} />
+
+## Properties
+
+### EmptyStateCard
+
+<ArgTypes of={EmptyStateCard} />
+
+### EmptyStateCard.MultiSection
+
+<ArgTypes of={EmptyStateCard.MultiSection} />
+
+### EmptyStateCard.Section
+
+<ArgTypes of={EmptyStateCard.Section} />
+
+### EmptyStateCard.TextGroup
+
+<ArgTypes of={EmptyStateCard.TextGroup} />
+
+### EmptyStateCard.HeaderText
+
+<ArgTypes of={EmptyStateCard.TextGroup} />
+
+### EmptyStateCard.BodyText
+
+<ArgTypes of={EmptyStateCard.BodyText} />
+
+### EmptyStateCard.ActionGroup
+
+<ArgTypes of={EmptyStateCard.ActionGroup} />

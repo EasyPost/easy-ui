@@ -49,6 +49,17 @@ export const Icon: Story = {
   },
 };
 
+export const PrefixAndSuffix: Story = {
+  render: Template.bind({}),
+  args: {
+    label: "Label",
+    placeholder: "Placeholder text",
+    helperText: "Optional helper text",
+    textAtStart: "$",
+    textAtEnd: "in",
+  },
+};
+
 export const SmallTextFields: Story = {
   render: () => (
     <>
@@ -71,6 +82,14 @@ export const SmallTextFields: Story = {
         placeholder="Placeholder text"
         iconAtStart={SearchIcon}
         helperText="Optional helper text"
+      />
+      <TextField
+        size="sm"
+        helperText="Optional helper text"
+        label="Label"
+        placeholder="Placeholder text"
+        textAtStart="$"
+        textAtEnd="in"
       />
     </>
   ),
@@ -98,6 +117,14 @@ export const LargeTextFields: Story = {
         placeholder="Placeholder text"
         iconAtStart={SearchIcon}
         helperText="Optional helper text"
+      />
+      <TextField
+        size="lg"
+        helperText="Optional helper text"
+        label="Label"
+        placeholder="Placeholder text"
+        textAtStart="$"
+        textAtEnd="in"
       />
     </>
   ),

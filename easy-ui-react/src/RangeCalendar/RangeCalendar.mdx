@@ -1,0 +1,79 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { RangeCalendar } from "./RangeCalendar";
+import * as RangeCalendarStories from "./RangeCalendar.stories";
+
+<Meta of={RangeCalendarStories} />
+
+# RangeCalendar
+
+Range Calendar displays a grid of days and allow users to select a range of dates.
+
+<Canvas of={RangeCalendarStories.Default} />
+
+## Default Value
+
+A `<RangeCalendar />` component allows users to set default selected date (uncontrolled).
+
+<Canvas of={RangeCalendarStories.DefaultValue} />
+
+## Set minimum and maximum value
+
+Set minimum and maximum allowed date that a user may select. Dates outside the minimum and maximum value are disabled and unreachable.
+
+<Canvas of={RangeCalendarStories.LimitAvailableDates} />
+
+## Show days outside of current month
+
+Display the days falling into the other months.
+
+<Canvas of={RangeCalendarStories.ShowDaysOutsideCurrentMonth} />
+
+<Controls
+  of={RangeCalendarStories.ShowDaysOutsideCurrentMonth}
+  include={["showDaysOutsideCurrentMonth"]}
+/>
+
+## Set Date Availability
+
+Callback that is called for each date of the calendar. If it returns `true`, then the date is unavailable.
+
+<Canvas of={RangeCalendarStories.DatesAvailability} />
+
+## Disabled Calendar
+
+Use `isDisabled` to disabled the calendar entirely.
+
+<Canvas of={RangeCalendarStories.DisabledCalendar} />
+
+<Controls
+  of={RangeCalendarStories.DisabledCalendar}
+  include={["isDisabled", "showDaysOutsideCurrentMonth"]}
+/>
+
+## Read-Only Calendar
+
+Use `isReadOnly` to make the calendar immutable.
+
+<Canvas of={RangeCalendarStories.ReadonlyCalendar} />
+
+<Controls
+  of={RangeCalendarStories.ReadonlyCalendar}
+  include={["isReadOnly", "showDaysOutsideCurrentMonth"]}
+/>
+
+## Controlled Selection
+
+For controlled selection, use `onChange` and `value`. Uncontrolled selection is possible with `defaultValue`. See associated code snippet.
+
+<Canvas of={RangeCalendarStories.ControlledSelection} />
+
+## Invalid Selection
+
+An error message is displayed when the selected value is invalid according to application logic. Select more than 7 days to see the error message.
+
+<Canvas of={RangeCalendarStories.InvalidSelection} />
+
+## Properties
+
+<ArgTypes of={RangeCalendar} />

@@ -46,11 +46,27 @@ export type SectionCardContainerProps = CardContainerProps;
 export type SectionCardAreaProps = CardAreaProps;
 
 export type SectionCardHeaderProps = {
+  /** SectionCard header children. */
   children: ReactNode;
 };
 
 // Extends Text component
 export type SectionCardTitleProps = TextProps;
+
+export type SectionCardActionsProps = {
+  /** SectionCard actions children. */
+  children: ReactNode;
+};
+
+export type SectionCardControlsProps = {
+  /** SectionCard controls children. */
+  children: ReactNode;
+};
+
+export type SectionCardTabsProps = {
+  /** SectionCard tabs children. */
+  children: ReactNode;
+};
 ```
 
 ### Example Usage
@@ -88,20 +104,26 @@ import { SectionCard } from "@easypost/easy-ui/SectionCard";
 
 function Page() {
   return (
-    <SectionCard.TabsContainer>
-      <TabNav aria-label="Tabs">
-        <TabNav.Item href="/tab1">Tab 1</TabNav.Item>
-        <TabNav.Item href="/tab2">Tab 2</TabNav.Item>
-      </TabNav>
+    <SectionCard.Container>
+      <SectionCard.Tabs>
+        <TabNav aria-label="Tabs">
+          <TabNav.Item href="/tab1">Tab 1</TabNav.Item>
+          <TabNav.Item href="/tab2">Tab 2</TabNav.Item>
+        </TabNav>
+      </SectionCard.Tabs>
       <SectionCard.Area>
         <SectionCard.Header>
           <SectionCard.Title>SectionTitle</SectionCard.Title>
-          <TextField size="sm" placeholder="Search" />
-          <Button size="sm">Action</Button>
+          <SectionCard.Controls>
+            <TextField size="sm" placeholder="Search" />
+          </SectionCard.Controls>
+          <SectionCard.Actions>
+            <Button size="sm">Action</Button>
+          </SectionCard.Actions>
         </SectionCard.Header>
         <div>Content</div>
       </SectionCard.Area>
-    </SectionCard.TabsContainer>
+    </SectionCard.Container>
   );
 }
 ```
@@ -133,16 +155,6 @@ function SectionCardContainer(props: SectionCardContainerProps) {
   );
 }
 
-function SectionCardTabsContainer(props: SectionCardTabsContainerProps) {
-  const { children, ...cardContainerProps } = props;
-  return (
-    <SectionCardContainer {...cardContainerProps}>
-      <div className={styles.tabsContainerSpacer} /> {/* height of 8px */}
-      {children}
-    </SectionCardContainer>
-  );
-}
-
 function SectionCardHeader(props: SectionCardHeaderProps) {
   return (
     <HorizontalStack blockAlign="center" align="space-between" gap="2">
@@ -165,10 +177,10 @@ function SectionCardArea(props: SectionCardAreaProps) {
 }
 
 SectionCard.Container = SectionCardContainer;
-SectionCard.TabsContainer = SectionCardTabsContainer;
 SectionCard.Area = SectionCardArea;
 SectionCard.Header = SectionCardHeader;
 SectionCard.Title = SectionCardTitle;
+SectionCard.Tabs = SectionCardTabs;
 ```
 
 ---

@@ -1,0 +1,16 @@
+@use "../styles/common" as *;
+
+// These are used in external components
+
+@mixin border-tokens {
+  @include component-token(
+    "tab-nav",
+    "border-color",
+    design-token("color.gray.100")
+  );
+}
+
+@mixin border {
+  border-bottom: design-token("shape.border_width.1") solid
+    component-token("tab-nav", "border-color");
+}

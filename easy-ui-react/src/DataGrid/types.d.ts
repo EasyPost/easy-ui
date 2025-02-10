@@ -123,4 +123,16 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
 
   /** The current sorted column and direction. */
   sortDescriptor?: SortDescriptor;
+
+  /**
+   * Renders the content of empty state.
+   * @default "No Data"
+   */
+  renderEmptyState?: () => ReactNode;
+
+  /**
+   * Whether the table is currently loading.
+   * @default false
+   */
+  isLoading?: boolean;
 };

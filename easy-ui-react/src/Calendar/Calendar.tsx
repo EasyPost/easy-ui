@@ -1,33 +1,11 @@
-import React, { ReactNode } from "react";
-import { Text } from "../Text";
-import { VerticalStack } from "../VerticalStack";
+import React from "react";
 import { useCalendar, useLocale } from "react-aria";
 import { useCalendarState } from "react-stately";
 import { createCalendar } from "@internationalized/date";
 import { DateValue, MappedDateValue } from "@react-types/calendar";
-import { CalendarGrid } from "./CalendarGrid";
-import { CalendarHeader } from "./CalendarHeader";
-import styles from "./Calendar.module.scss";
+import { CalendarBase, CalendarBaseStateProps } from "./CalendarBase";
 
-export type CalendarProps = {
-  /**
-   * The minimum allowed date that a user may select.
-   */
-  minValue?: DateValue | null;
-  /**
-   * The maximum allowed date that a user may select.
-   */
-  maxValue?: DateValue | null;
-  /**
-   * Whether the calendar is disabled.
-   * @default false
-   */
-  isDisabled?: boolean;
-  /**
-   * Whether the calendar value is immutable.
-   * @default false
-   */
-  isReadOnly?: boolean;
+export type CalendarProps = CalendarBaseStateProps & {
   /**
    * The current value (controlled).
    */
@@ -45,56 +23,65 @@ export type CalendarProps = {
    * it returns true, then the date is unavailable.
    */
   isDateUnavailable?: (date: DateValue) => boolean;
-  /**
-   * Whether the current selection is invalid according to application logic.
-   */
-  isInvalid?: boolean;
-  /**
-   * An error message to display when the selected value is invalid.
-   */
-  errorMessage?: ReactNode;
-  /**
-   * Display the days falling into the other months.
-   * @default false
-   */
-  showDaysOutsideCurrentMonth?: boolean;
 };
 
+/**
+ *
+ * A `Calendar` displays a grid of days and allows users to select a single date.
+ *
+ * @example
+ * _Default Value:_
+ * ```tsx
+ * <Calendar defaultValue={new CalendarDate(2024, 7, 25)} />
+ * ```
+ *
+ * @example
+ * _Set limited available dates:_
+ * ```tsx
+ * <Calendar
+ *  minValue={new CalendarDate(2024, 7, 24)}
+ *  maxValue={new CalendarDate(2024, 8, 5)}
+ * />
+ * ```
+ *
+ * @example
+ * _Date availability:_
+ * ```tsx
+ * <Calendar
+ *  isDateUnavailable={(date: DateValue) =>
+ *    today(getLocalTimeZone()).compare(date) > 0
+ *  }
+ * />
+ * ```
+ *
+ * @example
+ * _Controlled:_
+ * ```tsx
+ * const [date, setDate] = React.useState(null);
+ *
+ * <Calendar
+ *  value={date}
+ *  onChange={setDate}
+ * />
+ * ```
+ */
 export function Calendar(props: CalendarProps) {
   const { locale } = useLocale();
-  const {
-    showDaysOutsideCurrentMonth = false,
-    isInvalid,
-    errorMessage,
-  } = props;
+  const calendarRef = React.useRef(null);
   const state = useCalendarState({
     ...props,
     locale,
     createCalendar,
   });
-  const { calendarProps, prevButtonProps, nextButtonProps, title } =
-    useCalendar(props, state);
+  const calendarProps = useCalendar(props, state);
+
   return (
-    <VerticalStack gap="1">
-      <div {...calendarProps} className={styles.Calendar}>
-        <CalendarHeader
-          title={title}
-          state={state}
-          calendarProps={calendarProps}
-          prevButtonProps={prevButtonProps}
-          nextButtonProps={nextButtonProps}
-        />
-        <CalendarGrid
-          state={state}
-          showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
-        />
-      </div>
-      {isInvalid && (
-        <Text color="negative.500" variant="caption">
-          {errorMessage}
-        </Text>
-      )}
-    </VerticalStack>
+    <CalendarBase
+      {...props}
+      {...calendarProps}
+      state={state}
+      calendarRef={calendarRef}
+    />
   );
 }
 

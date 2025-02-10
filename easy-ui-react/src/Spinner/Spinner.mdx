@@ -1,0 +1,40 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { Spinner } from "./Spinner";
+import * as SpinnerStories from "./Spinner.stories";
+
+<Meta of={SpinnerStories} />
+
+# Spinner
+
+A `<Spinner />` is an indicator for loading state of a component or page.
+
+<Canvas of={SpinnerStories.Default} />
+
+## Indeterminate
+
+A `<Spinner />` can be marked indeterminate using `isIndeterminate` when progress is unknown.
+
+<Canvas of={SpinnerStories.Indeterminate} />
+<Controls
+  of={SpinnerStories.Indeterminate}
+  include={["isIndeterminate", "value"]}
+/>
+
+## Progress
+
+A `<Spinner />` can display progress of the loading state when `value` is provided.
+
+<Canvas of={SpinnerStories.Progress} />
+<Controls of={SpinnerStories.Progress} include={["value"]} />
+
+## Appearance
+
+A `<Spinner />` supports all icon sizes and various colors.
+
+<Canvas of={SpinnerStories.Size} />
+<Controls of={SpinnerStories.Size} include={["size", "color"]} />
+
+## Properties
+
+<ArgTypes of={Spinner} />

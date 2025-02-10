@@ -6,7 +6,7 @@ import React, {
   useLayoutEffect,
 } from "react";
 import {
-  OverlayContainer,
+  Overlay,
   Placement,
   mergeProps,
   useOverlayPosition,
@@ -129,14 +129,14 @@ export function Tooltip(props: TooltipProps) {
         ref: triggerRef,
       })}
       {tooltipTriggerState.isOpen && (
-        <OverlayContainer>
+        <Overlay>
           <TooltipInner
             {...props}
             triggerRef={triggerRef}
             tooltipPropsFromTrigger={tooltipPropsFromTrigger}
             tooltipTriggerState={tooltipTriggerState}
           />
-        </OverlayContainer>
+        </Overlay>
       )}
     </>
   );
@@ -199,7 +199,7 @@ function TooltipInner(props: TooltipInnerProps) {
     <span
       ref={tooltipRef}
       {...tooltipProps}
-      className={classNames(styles.Tooltip, styles[placement])}
+      className={classNames(styles.Tooltip, placement && styles[placement])}
       data-placement={placement}
       style={style}
     >

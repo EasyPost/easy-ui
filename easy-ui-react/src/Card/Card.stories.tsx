@@ -30,6 +30,7 @@ const meta: Meta<typeof Card> = {
   decorators: [InlineStoryDecorator],
   argTypes: {
     background: createColorTokensControl(),
+    status: createColorTokensControl(),
     boxShadow: createShadowTokensControl(),
     borderRadius: createBorderRadiusTokensControl(),
   },

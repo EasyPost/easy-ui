@@ -1,5 +1,17 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.14
+
+### Minor Changes
+
+- 73fde3e: feat: Drawer component
+
+## 1.0.0-alpha.13
+
+### Minor Changes
+
+- 00a9497: feat: adds z-index token for nav to support NexusLayoutHeader
+
 ## 1.0.0-alpha.12
 
 ### Minor Changes

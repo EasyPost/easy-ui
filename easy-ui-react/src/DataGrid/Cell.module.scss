@@ -68,6 +68,7 @@
   padding-right: design-token("space.2");
   position: sticky;
   right: component-token("data-grid", "sticky-right-offset");
+  text-align: end;
   z-index: component-token("data-grid", "cell-stuck-z-index");
 }
 
@@ -81,4 +82,8 @@
 
 .shadowRight [data-ezui-data-grid-shadow] {
   @include DataGrid.shadow(right);
+}
+
+.static {
+  text-align: center;
 }

@@ -1,5 +1,11 @@
-import { CollectionChildren, Key } from "@react-types/shared";
-import React from "react";
+import {
+  CollectionChildren,
+  Key,
+  Selection,
+  SelectionMode,
+} from "@react-types/shared";
+import noop from "lodash/noop";
+import React, { useCallback } from "react";
 import {
   DismissButton,
   Overlay,
@@ -18,11 +24,14 @@ import {
   DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
   DEFAULT_PLACEMENT,
   DEFAULT_WIDTH,
-  ITEM_HEIGHT,
   OVERLAY_OFFSET,
   OVERLAY_PADDING_FROM_CONTAINER,
-  Y_PADDING_INSIDE_OVERLAY,
+  SELECT_ALL_KEY,
+  filterSelectedKeys,
+  getMenuPopoverMaxHeight,
   getUnmergedPopoverStyles,
+  isSelectAllSelected,
+  useSelectionCapture,
 } from "./utilities";
 
 import styles from "./Menu.module.scss";
@@ -35,6 +44,11 @@ export type MenuOverlayWidth =
 export type MenuOverlayProps<T> = {
   /** The contents of the menu. */
   children: CollectionChildren<T>;
+
+  /**
+   * The initial selected keys in the collection (uncontrolled).
+   */
+  defaultSelectedKeys?: "all" | Iterable<Key>;
 
   /** The item keys that are disabled. These items cannot be selected, focused, or otherwise interacted with. */
   disabledKeys?: Iterable<Key>;
@@ -59,6 +73,21 @@ export type MenuOverlayProps<T> = {
    * @default auto
    */
   width?: MenuOverlayWidth;
+
+  /**
+   * The type of selection that is allowed in the collection.
+   */
+  selectionMode?: SelectionMode;
+
+  /**
+   * The currently selected keys in the collection (controlled).
+   */
+  selectedKeys?: "all" | Iterable<Key>;
+
+  /**
+   * Handler that is called when the selection changes.
+   */
+  onSelectionChange?: (keys: Selection) => void;
 };
 
 export function MenuOverlay<T extends object>(props: MenuOverlayProps<T>) {
@@ -72,30 +101,30 @@ export function MenuOverlay<T extends object>(props: MenuOverlayProps<T>) {
 function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
   const {
     children,
+    defaultSelectedKeys,
     disabledKeys,
     maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
-    onAction,
+    onAction = noop,
     onClose,
     placement = DEFAULT_PLACEMENT,
     width = DEFAULT_WIDTH,
+    selectionMode,
+    onSelectionChange = noop,
+    selectedKeys,
   } = props;
 
   const popoverRef = React.useRef(null);
   const menuRef = React.useRef(null);
 
-  const menuTreeState = useTreeState({
-    children,
-    disabledKeys,
-  });
-
+  const { isSelectionPending, markSelectionPending, markSelectionStale } =
+    useSelectionCapture();
   const { menuTriggerState, triggerRef, triggerWidth, menuPropsFromTrigger } =
     useInternalMenuContext();
 
   const { popoverProps, underlayProps } = usePopover(
     {
       containerPadding: OVERLAY_PADDING_FROM_CONTAINER,
-      maxHeight:
-        ITEM_HEIGHT * maxItemsUntilScroll + Y_PADDING_INSIDE_OVERLAY * 2 + 2,
+      maxHeight: getMenuPopoverMaxHeight({ maxItemsUntilScroll }),
       offset: OVERLAY_OFFSET,
       placement,
       popoverRef,
@@ -105,8 +134,49 @@ function MenuOverlayContent<T extends object>(props: MenuOverlayProps<T>) {
     menuTriggerState,
   );
 
+  // Override the onSelectionChange handler to handle custom
+  // "Select all" behavior.
+  const handleSelectionChange = useCallback(
+    (keys: Selection) => {
+      if (!isSelectionPending()) {
+        return;
+      }
+      onSelectionChange(keys === "all" ? keys : filterSelectedKeys(keys));
+      markSelectionStale();
+    },
+    [isSelectionPending, markSelectionStale, onSelectionChange],
+  );
+
+  const menuTreeState = useTreeState({
+    children,
+    defaultSelectedKeys,
+    disabledKeys,
+    selectionMode,
+    selectedKeys,
+    onSelectionChange: handleSelectionChange,
+  });
+
+  // Override the onAction handler to handle custom "Select all" behavior.
+  const handleAction = useCallback(
+    (key: Key) => {
+      markSelectionPending();
+      if (key === SELECT_ALL_KEY && isSelectAllSelected(menuTreeState)) {
+        menuTreeState.selectionManager.clearSelection();
+      } else if (key === SELECT_ALL_KEY) {
+        menuTreeState.selectionManager.selectAll();
+      } else {
+        menuTreeState.selectionManager.toggleSelection(key);
+      }
+      onAction(key);
+    },
+    [markSelectionPending, menuTreeState, onAction],
+  );
+
   const { menuProps } = useMenu(
-    mergeProps({ disabledKeys, onAction, onClose }, menuPropsFromTrigger),
+    mergeProps(
+      { disabledKeys, onAction: handleAction, onClose },
+      menuPropsFromTrigger,
+    ),
     menuTreeState,
     menuRef,
   );

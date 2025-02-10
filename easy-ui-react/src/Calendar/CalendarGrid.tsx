@@ -1,16 +1,14 @@
 import React from "react";
 import { useCalendarGrid, useLocale } from "react-aria";
 import { getWeeksInMonth } from "@internationalized/date";
-import { CalendarState } from "@react-stately/calendar";
+import { CalendarState, RangeCalendarState } from "@react-stately/calendar";
 import { CalendarDate, isSameMonth } from "@internationalized/date";
 import { Text } from "../Text";
 import { CalendarCell } from "./CalendarCell";
 import styles from "./CalendarGrid.module.scss";
 
 export type CalendarGridProps = {
-  state: CalendarState;
-  startDate?: CalendarDate;
-  endDate?: CalendarDate;
+  state: CalendarState | RangeCalendarState;
   weekdayStyle?: "narrow" | "short" | "long";
   showDaysOutsideCurrentMonth?: boolean;
 };
@@ -18,20 +16,18 @@ export type CalendarGridProps = {
 export function CalendarGrid({ state, ...props }: CalendarGridProps) {
   const { locale } = useLocale();
   const { showDaysOutsideCurrentMonth } = props;
+  const visibleStartDate = state.visibleRange.start;
   const { gridProps, headerProps, weekDays } = useCalendarGrid(props, state);
 
-  const firstDateOfMonth = state.visibleRange.start;
-
   // Get the number of weeks in the month so we can render the proper number of rows.
-  const weeksInMonth = getWeeksInMonth(firstDateOfMonth, locale);
-
+  const weeksInMonth = getWeeksInMonth(visibleStartDate, locale);
   return (
     <table {...gridProps} className={styles.CalendarGrid}>
       <thead {...headerProps} className={styles.CalendarGridHeader}>
         <tr>
           {weekDays.map((day, index) => (
             <th key={index}>
-              <Text variant="overline" color="neutral.000">
+              <Text variant="caption3" color="neutral.000">
                 {day}
               </Text>
             </th>
@@ -45,7 +41,7 @@ export function CalendarGrid({ state, ...props }: CalendarGridProps) {
               .getDatesInWeek(weekIndex)
               .map((date: CalendarDate | null, i: number) =>
                 date &&
-                (isSameMonth(firstDateOfMonth, date) ||
+                (isSameMonth(visibleStartDate, date) ||
                   showDaysOutsideCurrentMonth) ? (
                   <CalendarCell key={i} state={state} date={date} />
                 ) : (

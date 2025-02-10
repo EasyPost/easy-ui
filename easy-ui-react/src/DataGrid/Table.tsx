@@ -2,11 +2,11 @@ import React, { CSSProperties, ReactElement, useMemo, useRef } from "react";
 import { useTable } from "react-aria";
 import { useTableState } from "react-stately";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
-import { Cell } from "./Cell";
+import { Cell, StaticCell } from "./Cell";
 import { ColumnHeader } from "./ColumnHeader";
 import { ExpandedRowContent } from "./ExpandedRowContent";
 import { HeaderRow } from "./HeaderRow";
-import { Row } from "./Row";
+import { Row, StaticRow } from "./Row";
 import { RowGroup } from "./RowGroup";
 import {
   ACTIONS_COLUMN_KEY,
@@ -18,6 +18,7 @@ import { DataGridTableContext } from "./context";
 import { Column, DataGridProps } from "./types";
 import { useEdgeInterceptors } from "./useEdgeInterceptors";
 import { useExpandedRow } from "./useExpandedRow";
+import { Spinner } from "../Spinner";
 
 import styles from "./DataGrid.module.scss";
 
@@ -32,6 +33,8 @@ export function Table<C extends Column>(props: TableProps<C>) {
     renderExpandedRow = (r) => r,
     selectionMode,
     size = DEFAULT_SIZE,
+    renderEmptyState = () => "No Data!",
+    isLoading = false,
   } = props;
 
   const outerContainerRef = useRef<HTMLDivElement | null>(null);
@@ -121,18 +124,34 @@ export function Table<C extends Column>(props: TableProps<C>) {
               ))}
             </RowGroup>
             <RowGroup as="tbody">
-              {[...collection.body.childNodes].map((row) => (
-                <Row
-                  key={row.key}
-                  item={row}
-                  state={state}
-                  isExpanded={expandedRow ? expandedRow.key === row.key : false}
-                >
-                  {[...row.childNodes].map((cell) => (
-                    <Cell key={cell.key} cell={cell} state={state} />
-                  ))}
-                </Row>
-              ))}
+              {collection.size === 0 || isLoading ? (
+                <StaticRow>
+                  <StaticCell colSpan={collection.columnCount}>
+                    {isLoading ? (
+                      <Spinner isIndeterminate size="sm">
+                        Loading..
+                      </Spinner>
+                    ) : (
+                      renderEmptyState()
+                    )}
+                  </StaticCell>
+                </StaticRow>
+              ) : (
+                [...collection.body.childNodes].map((row) => (
+                  <Row
+                    key={row.key}
+                    item={row}
+                    state={state}
+                    isExpanded={
+                      expandedRow ? expandedRow.key === row.key : false
+                    }
+                  >
+                    {[...row.childNodes].map((cell) => (
+                      <Cell key={cell.key} cell={cell} state={state} />
+                    ))}
+                  </Row>
+                ))
+              )}
             </RowGroup>
           </table>
           {expandedRow && (

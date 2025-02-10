@@ -30,6 +30,7 @@
   color: component-token("tooltip", "color");
   display: inline-flex;
   filter: drop-shadow(#{component-token("tooltip", "shadow")});
+  /* prettier-ignore */
   max-width: calc(
     #{component-token("tooltip", "max-width")} - (#{component-token(
             "tooltip",

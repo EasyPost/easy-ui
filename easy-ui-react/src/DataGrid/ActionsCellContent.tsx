@@ -1,10 +1,9 @@
-import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
 import React, { useCallback, useState } from "react";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
-import { classNames } from "../utilities/css";
-import { UnstyledPressButton } from "./UnstyledPressButton";
+import { KebabButton } from "../KebabButton";
+import { UnstyledPressButton } from "../UnstyledButton/UnstyledPressButton";
 import { useDataGridRow } from "./context";
 import {
   ActionRowAction as ActionRowActionType,
@@ -45,14 +44,13 @@ function MenuRowAction({ rowAction }: { rowAction: MenuRowActionType }) {
     setIsOpen(isOpen);
   }, []);
 
-  const className = classNames(styles.MenuButton, isOpen && styles.open);
   return (
     <Menu isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Menu.Trigger>
-        <UnstyledPressButton onPress={handleClick} className={className}>
-          <Text visuallyHidden>{accessibilityLabel}</Text>
-          <Icon symbol={MoreVertIcon} />
-        </UnstyledPressButton>
+        <KebabButton
+          onPress={handleClick}
+          accessibilityLabel={accessibilityLabel}
+        />
       </Menu.Trigger>
       {rowAction.renderMenuOverlay()}
     </Menu>
