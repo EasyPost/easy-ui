@@ -15,7 +15,7 @@ describe("<SplitToggleCard />", () => {
   });
   it("should render a toggle with related content", () => {
     render(
-      <SplitToggleCard>
+      <SplitToggleCard aria-label="Split Toggle">
         <Text>Toggle Label</Text>
       </SplitToggleCard>,
     );
@@ -26,7 +26,7 @@ describe("<SplitToggleCard />", () => {
 
   it("should support uncontrolled", async () => {
     const { user } = render(
-      <SplitToggleCard defaultSelected={true}>
+      <SplitToggleCard defaultSelected={true} aria-label="Split Toggle">
         <Text>Toggle Label</Text>
       </SplitToggleCard>,
     );
@@ -38,7 +38,11 @@ describe("<SplitToggleCard />", () => {
   it("should support controlled", async () => {
     const handleChange = vi.fn();
     const { user, rerender } = render(
-      <SplitToggleCard isSelected={false} onChange={handleChange}>
+      <SplitToggleCard
+        isSelected={false}
+        onChange={handleChange}
+        aria-label="Split Toggle"
+      >
         <Text>Toggle Label</Text>
       </SplitToggleCard>,
     );
@@ -46,7 +50,11 @@ describe("<SplitToggleCard />", () => {
     expect(handleChange).toBeCalled();
     expect(screen.getByRole("switch")).not.toBeChecked();
     rerender(
-      <SplitToggleCard isSelected={true} onChange={handleChange}>
+      <SplitToggleCard
+        isSelected={true}
+        onChange={handleChange}
+        aria-label="Split Toggle"
+      >
         <Text>Toggle Label</Text>
       </SplitToggleCard>,
     );
@@ -55,7 +63,7 @@ describe("<SplitToggleCard />", () => {
 
   it("should support isDisabled", () => {
     render(
-      <SplitToggleCard isDisabled>
+      <SplitToggleCard isDisabled aria-label="Split Toggle">
         <Text>Toggle Label</Text>
       </SplitToggleCard>,
     );
@@ -64,7 +72,7 @@ describe("<SplitToggleCard />", () => {
 
   it("should support isReadOnly", async () => {
     render(
-      <SplitToggleCard isReadOnly>
+      <SplitToggleCard isReadOnly aria-label="Split Toggle">
         <Text>Toggle Label</Text>
       </SplitToggleCard>,
     );

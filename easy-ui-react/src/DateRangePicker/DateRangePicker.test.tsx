@@ -28,14 +28,14 @@ describe("<DateRangePicker />", () => {
   });
 
   it("should render a date range picker", () => {
-    render(<DateRangePicker />);
+    render(<DateRangePicker aria-label="Date range picker" />);
     expect(
       screen.getByRole("button", { name: /calendar/i }),
     ).toBeInTheDocument();
   });
 
   it("should open up a popover with calendar", async () => {
-    const { user } = render(<DateRangePicker />);
+    const { user } = render(<DateRangePicker aria-label="Date range picker" />);
     await clickElement(user, screen.getByRole("button", { name: /calendar/i }));
     const dateObject = startOfMonth(today(getLocalTimeZone())).toDate(
       getLocalTimeZone(),
@@ -48,7 +48,12 @@ describe("<DateRangePicker />", () => {
   });
 
   it("should have default selected value", async () => {
-    const { user } = render(<DateRangePicker defaultValue={defaultValue} />);
+    const { user } = render(
+      <DateRangePicker
+        aria-label="Date range picker"
+        defaultValue={defaultValue}
+      />,
+    );
     // Dates display on the DateField
     expect(
       screen.getByRole("spinbutton", { name: /month, start date/i }),
@@ -77,6 +82,7 @@ describe("<DateRangePicker />", () => {
   it("should have minimum and maximun date that a user may select", async () => {
     const { user } = render(
       <DateRangePicker
+        aria-label="Date range picker"
         minValue={defaultValue.start}
         maxValue={defaultValue.start.add({ days: 10 })}
       />,
@@ -95,6 +101,7 @@ describe("<DateRangePicker />", () => {
       defaultValue.start.compare(date) > 0;
     const { user } = render(
       <DateRangePicker
+        aria-label="Date range picker"
         isDateUnavailable={setDateUnavailable}
         defaultValue={defaultValue}
       />,
@@ -112,14 +119,20 @@ describe("<DateRangePicker />", () => {
   });
 
   it("should be disabled", () => {
-    render(<DateRangePicker isDisabled />);
+    render(<DateRangePicker aria-label="Date range picker" isDisabled />);
     expect(screen.getByRole("group")).toHaveAttribute("aria-disabled");
     const dateFields = screen.getAllByRole("spinbutton");
     dateFields.every((field) => expect(field).toHaveAttribute("aria-disabled"));
   });
 
   it("should show error message when date is invalid", async () => {
-    render(<DateRangePicker isInvalid errorMessage="This date is invalid" />);
+    render(
+      <DateRangePicker
+        aria-label="Date range picker"
+        isInvalid
+        errorMessage="This date is invalid"
+      />,
+    );
     expect(screen.getByText("This date is invalid")).toBeInTheDocument();
   });
 });

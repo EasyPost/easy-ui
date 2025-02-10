@@ -45,7 +45,7 @@ export function PaginationDropdown(props: PaginationDropdownProps) {
       </Menu.Trigger>
       <Menu.Overlay onAction={(key) => onSelect(Number(key))}>
         {numberToArray(count).map((pageNumber) => (
-          <Menu.Item key={pageNumber} arial-label={`page ${pageNumber}`}>
+          <Menu.Item key={pageNumber} aria-label={`${pageNumber} of ${count}`}>
             <Text
               variant="body2"
               color="neutral.900"
