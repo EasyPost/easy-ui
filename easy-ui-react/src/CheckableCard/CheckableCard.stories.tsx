@@ -7,7 +7,7 @@ type Story = StoryObj<typeof CheckableCard>;
 const Template = (args: CheckableCardProps) => <CheckableCard {...args} />;
 
 const meta: Meta<typeof CheckableCard> = {
-  title: "Components/CheckableCard",
+  title: "Components/Cards/CheckableCard",
   component: CheckableCard,
 };
 
@@ -16,6 +16,7 @@ export default meta;
 export const Default: Story = {
   render: Template.bind({}),
   args: {
+    header: "Header",
     children: "Content",
   },
 };
