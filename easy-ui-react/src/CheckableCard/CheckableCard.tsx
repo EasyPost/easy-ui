@@ -46,7 +46,7 @@ export function CheckableCard(props: CheckableCardProps) {
               </Text>
             </Checkbox>
             <div className={styles.textContainer}>
-              <Text weight="medium" color="gray.resting">
+              <Text weight="medium" color="neutral.500">
                 {children}
               </Text>
             </div>

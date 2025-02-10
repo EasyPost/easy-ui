@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import { Card } from "../Card";
-import { Toggle, ToggleProps } from "../Toggle";
 import { HorizontalGrid } from "../HorizontalGrid";
 import { HorizontalStack } from "../HorizontalStack";
+import { Toggle, ToggleProps } from "../Toggle";
 
 export type SplitToggleCardProps = ToggleProps & {
   /**
@@ -61,7 +61,6 @@ export type SplitToggleCardProps = ToggleProps & {
 
 export const SplitToggleCard = (props: SplitToggleCardProps) => {
   const { children, ...toggleProps } = props;
-
   return (
     <Card.Container>
       <HorizontalGrid columns={["80px", "1fr"]}>

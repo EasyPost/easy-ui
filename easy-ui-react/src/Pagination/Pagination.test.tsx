@@ -1,15 +1,24 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
-import { render, userClick, silenceConsoleError } from "../utilities/test";
+import {
+  mockGetComputedStyle,
+  render,
+  silenceConsoleError,
+  userClick,
+} from "../utilities/test";
 import { Pagination, PaginationProps } from "./Pagination";
 
 describe("<Pagination />", () => {
+  let restoreGetComputedStyle: () => void;
+
   beforeEach(() => {
     vi.useFakeTimers();
+    restoreGetComputedStyle = mockGetComputedStyle();
   });
 
   afterEach(() => {
+    restoreGetComputedStyle();
     vi.useRealTimers();
   });
 
