@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.69
+
+### Minor Changes
+
+- 4314cde: feat: CheckableCard component
+
 ## 1.0.0-alpha.68
 
 ### Patch Changes
