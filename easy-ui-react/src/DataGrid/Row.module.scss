@@ -3,6 +3,9 @@
 .Row {
   vertical-align: top;
   outline: none;
+}
+
+.noUserSelection {
   user-select: none;
   cursor: default;
 }

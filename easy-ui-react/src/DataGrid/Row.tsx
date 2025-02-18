@@ -10,7 +10,7 @@ import { mergeProps, useFocusRing, useHover, useTableRow } from "react-aria";
 import { TableState } from "react-stately";
 import { classNames } from "../utilities/css";
 import { EXPAND_COLUMN_KEY } from "./constants";
-import { DataGridRowContext } from "./context";
+import { DataGridRowContext, useDataGridTable } from "./context";
 
 import styles from "./Row.module.scss";
 
@@ -34,6 +34,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
   const rowIndex = item.index;
 
   const ref = useRef(null);
+  const { hasSelection, hasOnRowAction } = useDataGridTable();
   const { rowProps, isPressed } = useTableRow({ node: item }, state, ref);
   const { isFocusVisible, focusProps } = useFocusRing();
   const { isHovered, hoverProps } = useHover({});
@@ -65,6 +66,7 @@ export function Row({ item, children, state, isExpanded }: RowProps) {
     isSelected && styles.selected,
     isPressed && styles.pressed,
     isDisabled && styles.disabled,
+    (hasSelection || hasOnRowAction) && styles.noUserSelection,
   );
 
   return (
