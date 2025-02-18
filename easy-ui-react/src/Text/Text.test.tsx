@@ -95,4 +95,12 @@ describe("<Text />", () => {
       expect.stringContaining("transformUppercase"),
     );
   });
+
+  it("should apply whiteSpace", () => {
+    render(<Text whiteSpace="pre-line">Here is some text</Text>);
+    expect(screen.getByText("Here is some text")).toHaveAttribute(
+      "class",
+      expect.stringContaining("whiteSpacePre-line"),
+    );
+  });
 });
