@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
 import { Text } from "../Text";
 
+import styles from "./DataGrid.module.scss";
+
 type VisuallyHiddenCellContentProps = {
   children: ReactNode;
 };
@@ -8,5 +10,9 @@ type VisuallyHiddenCellContentProps = {
 export function VisuallyHiddenCellContent({
   children,
 }: VisuallyHiddenCellContentProps) {
-  return <Text visuallyHidden>{children}</Text>;
+  return (
+    <span className={styles.visuallyHiddenCellContainer}>
+      <Text visuallyHidden>{children}</Text>
+    </span>
+  );
 }

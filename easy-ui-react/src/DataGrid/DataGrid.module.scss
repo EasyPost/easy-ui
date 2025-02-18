@@ -76,7 +76,6 @@
   /* stylelint-enable scss/operator-no-newline-after */
   overflow: auto;
   position: relative;
-  line-height: 0;
 
   [data-ezui-data-grid-shadow] {
     position: absolute;
@@ -128,4 +127,10 @@
     "header-bg",
     design-token("color.primary.900")
   );
+}
+
+// Table layout renders extra height on visuallyHidden text elements
+// when display is set to usual `inline`
+.visuallyHiddenCellContainer {
+  display: inline-flex;
 }
