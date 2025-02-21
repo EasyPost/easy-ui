@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.70
+
+### Minor Changes
+
+- f5806ab: feat(Text): whiteSpace
+
+### Patch Changes
+
+- f967cff: fix(DataGrid): support user selection and unbreak line-height
+- 88d2ed3: fix(Select,TextField): click through icon
+
 ## 1.0.0-alpha.69
 
 ### Minor Changes
