@@ -126,6 +126,7 @@
   color: component-token("inputfield", "color.text.gray.resting");
   border: 0;
   display: inline-block;
+  pointer-events: none;
   position: absolute;
   top: design-token("space.1.5");
   z-index: component-token("inputfield", "z-index");
