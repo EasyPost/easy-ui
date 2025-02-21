@@ -33,7 +33,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
     renderExpandedRow = (r) => r,
     selectionMode,
     size = DEFAULT_SIZE,
-    renderEmptyState = () => "No Data!",
+    renderEmptyState = () => "No Data",
     isLoading = false,
   } = props;
 
@@ -63,6 +63,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
   const hasSelection = columns.some((c) => c.props.isSelectionCell);
   const hasExpansion = columns.some((c) => c.key === EXPAND_COLUMN_KEY);
   const hasRowActions = columns.some((c) => c.key === ACTIONS_COLUMN_KEY);
+  const hasOnRowAction = !!props.onRowAction;
 
   const dataGridClassName = classNames(
     styles.DataGrid,
@@ -91,6 +92,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
       hasSelection,
       hasExpansion,
       hasRowActions,
+      hasOnRowAction,
       isTopEdgeUnderScroll,
       isLeftEdgeUnderScroll,
       isRightEdgeUnderScroll,
@@ -100,6 +102,7 @@ export function Table<C extends Column>(props: TableProps<C>) {
     hasSelection,
     hasExpansion,
     hasRowActions,
+    hasOnRowAction,
     isTopEdgeUnderScroll,
     isLeftEdgeUnderScroll,
     isRightEdgeUnderScroll,

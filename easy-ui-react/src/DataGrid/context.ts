@@ -22,6 +22,7 @@ type DataGridTableContextType = {
   hasSelection: boolean;
   hasExpansion: boolean;
   hasRowActions: boolean;
+  hasOnRowAction: boolean;
   isTopEdgeUnderScroll: boolean;
   isLeftEdgeUnderScroll: boolean;
   isRightEdgeUnderScroll: boolean;
