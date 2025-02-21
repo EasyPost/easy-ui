@@ -33,6 +33,13 @@ export type TextColor =
 export type TextVariant = DesignTokenNamespace<"font.style", "family">;
 export type TextWeight = "normal" | "medium" | "semibold" | "bold";
 export type TextTransform = "none" | "capitalize" | "uppercase" | "lowercase";
+export type TextWhiteSpace =
+  | "normal"
+  | "pre"
+  | "nowrap"
+  | "pre-wrap"
+  | "break-spaces"
+  | "pre-line";
 
 export type TextProps = {
   /** Adjusts horizontal alignment of text */
@@ -59,6 +66,8 @@ export type TextProps = {
   visuallyHidden?: boolean;
   /** Adjust weight of text */
   weight?: TextWeight;
+  /** Adjust white space of text */
+  whiteSpace?: TextWhiteSpace;
 };
 
 /**
@@ -114,6 +123,7 @@ export function Text({
   variant,
   visuallyHidden = false,
   weight,
+  whiteSpace,
 }: TextProps) {
   const className = classNames(
     styles.Text,
@@ -125,6 +135,7 @@ export function Text({
     truncate && styles.truncate,
     visuallyHidden && styles.visuallyHidden,
     transform && styles[variationName("transform", transform)],
+    whiteSpace && styles[variationName("whiteSpace", whiteSpace)],
   );
 
   const style = {

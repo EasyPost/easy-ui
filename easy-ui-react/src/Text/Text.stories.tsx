@@ -53,3 +53,23 @@ export const Truncate: Story = {
     ),
   },
 };
+
+export const WhiteSpace: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "body1",
+    children: (
+      <>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tincidunt
+        vel lorem nec pretium. Vestibulum ante ipsum primis in faucibus orci
+        luctus et ultrices posuere cubilia curae; Morbi sollicitudin ex nec
+        imperdiet pellentesque.
+      </>
+    ),
+  },
+  parameters: {
+    controls: {
+      include: ["whiteSpace"],
+    },
+  },
+};
