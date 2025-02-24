@@ -68,4 +68,17 @@ describe("<Button />", () => {
     render(<Button isDisabled />);
     expect(screen.getByRole("button")).toBeDisabled();
   });
+
+  it("should extend the className", () => {
+    render(<Button className="extend" />);
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("extend"),
+    );
+    // keep existing button class
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("_Button_"),
+    );
+  });
 });

@@ -39,6 +39,8 @@ export type ButtonProps = AriaButtonProps & {
   children?: ReactNode;
   /** Link's destination */
   href?: string;
+  /** Button's className */
+  className?: string;
 };
 
 /**
@@ -115,6 +117,7 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
     iconAtEnd,
     children = "Button",
     href = "",
+    className,
     ...restProps
   } = props;
 
@@ -142,6 +145,7 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
         styles[variationName("variant", variant)],
         styles[variationName("size", size)],
         isBlock && styles.block,
+        className,
       )}
       href={href}
       {...restProps}
