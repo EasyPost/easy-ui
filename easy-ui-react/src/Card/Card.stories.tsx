@@ -5,12 +5,14 @@ import React, { useState } from "react";
 import { HorizontalGrid } from "../HorizontalGrid";
 import { HorizontalStack } from "../HorizontalStack";
 import { Icon } from "../Icon";
+import { KebabButton } from "../KebabButton";
+import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
 import {
+  createBorderRadiusTokensControl,
   createColorTokensControl,
   createShadowTokensControl,
-  createBorderRadiusTokensControl,
   InlineStoryDecorator,
   PlaceholderBox,
 } from "../utilities/storybook";
@@ -295,21 +297,39 @@ export const ExampleTileC: Story = {
 
 export const ExampleSlat: Story = {
   render: () => (
-    <Card.Container>
-      <HorizontalStack blockAlign="center">
-        <Card.Area background="secondary">
-          <Icon symbol={AccountBalanceIcon} size="lg" />
-        </Card.Area>
-        <Card.Area>
-          <VerticalStack>
-            <Text variant="subtitle2">Financial Account</Text>
-            <Text variant="caption">
-              Primary | Free 2-3 Business Days For Transfers
-            </Text>
-          </VerticalStack>
-        </Card.Area>
-      </HorizontalStack>
-    </Card.Container>
+    <div style={{ maxWidth: 440, width: "100%" }}>
+      <Card.Container>
+        <HorizontalStack gap="0" blockAlign="stretch" wrap={false}>
+          <Card.Area background="secondary">
+            <Icon symbol={AccountBalanceIcon} size="lg" />
+          </Card.Area>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <Card.Area>
+              <HorizontalStack gap="2" blockAlign="center" wrap={false}>
+                <VerticalStack gap="0.25">
+                  <HorizontalStack gap="0.5" align="start">
+                    <Text variant="subtitle2">Financial Account</Text>
+                  </HorizontalStack>
+                  <Text variant="caption">
+                    Primary | Free 2-3 Business Days For Transfers
+                  </Text>
+                </VerticalStack>
+                <div style={{ display: "inline-flex", marginLeft: "auto" }}>
+                  <Menu>
+                    <Menu.Trigger>
+                      <KebabButton accessibilityLabel="Menu" />
+                    </Menu.Trigger>
+                    <Menu.Overlay placement="bottom right" onAction={() => {}}>
+                      <Menu.Item key="1">Menu Item</Menu.Item>
+                    </Menu.Overlay>
+                  </Menu>
+                </div>
+              </HorizontalStack>
+            </Card.Area>
+          </div>
+        </HorizontalStack>
+      </Card.Container>
+    </div>
   ),
 };
 
