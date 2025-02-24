@@ -39,8 +39,6 @@ export type ButtonProps = AriaButtonProps & {
   children?: ReactNode;
   /** Link's destination */
   href?: string;
-  /** Button's className */
-  className?: string;
 };
 
 /**
@@ -117,7 +115,6 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
     iconAtEnd,
     children = "Button",
     href = "",
-    className,
     ...restProps
   } = props;
 
@@ -139,16 +136,15 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
     <UnstyledButton
       isDisabled={isDisabled}
       ref={inRef}
+      href={href}
+      {...restProps}
       className={classNames(
         styles.Button,
         styles[variationName("color", color)],
         styles[variationName("variant", variant)],
         styles[variationName("size", size)],
         isBlock && styles.block,
-        className,
       )}
-      href={href}
-      {...restProps}
     >
       {iconAtStart && canUseIcon && <Icon symbol={iconAtStart} />}
       <span
