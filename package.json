@@ -56,7 +56,7 @@
     "@storybook/react": "7.6.20",
     "@storybook/react-vite": "7.6.20",
     "@storybook/testing-library": "^0.2.2",
-    "babel-loader": "^9.2.1",
+    "babel-loader": "^10.0.0",
     "eslint": "^8.57.1",
     "glob": "^8.1.0",
     "jsdom": "^26.0.0",
