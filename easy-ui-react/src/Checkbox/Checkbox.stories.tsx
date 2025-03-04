@@ -134,3 +134,41 @@ export const Multiline: Story = {
       "Multi line option for mobile use. Note how the box is at the top not centered",
   },
 };
+
+export const WithLink: Story = {
+  render: (args) => (
+    <span
+      style={{
+        display: "inline-flex",
+        flexDirection: "column",
+        width: "100%",
+        maxWidth: 320,
+        gap: 48,
+      }}
+    >
+      <Checkbox {...args} />
+    </span>
+  ),
+  args: {
+    children: (
+      <>
+        I agree to the EasyPost{" "}
+        <a
+          href="https://www.easypost.com/legal/terms"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Terms of Service
+        </a>{" "}
+        and{" "}
+        <a
+          href="https://www.easypost.com/privacy"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Privacy Policy
+        </a>
+      </>
+    ),
+  },
+};
