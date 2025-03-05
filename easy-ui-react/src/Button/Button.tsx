@@ -136,6 +136,8 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
     <UnstyledButton
       isDisabled={isDisabled}
       ref={inRef}
+      href={href}
+      {...restProps}
       className={classNames(
         styles.Button,
         styles[variationName("color", color)],
@@ -143,8 +145,6 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
         styles[variationName("size", size)],
         isBlock && styles.block,
       )}
-      href={href}
-      {...restProps}
     >
       {iconAtStart && canUseIcon && <Icon symbol={iconAtStart} />}
       <span

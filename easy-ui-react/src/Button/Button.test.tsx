@@ -68,4 +68,18 @@ describe("<Button />", () => {
     render(<Button isDisabled />);
     expect(screen.getByRole("button")).toBeDisabled();
   });
+
+  it("should not support className", () => {
+    // @ts-expect-error testing className omission
+    render(<Button className="extend" />);
+    expect(screen.getByRole("button")).not.toHaveAttribute(
+      "class",
+      expect.stringContaining("extend"),
+    );
+    // keep existing button class
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("_Button_"),
+    );
+  });
 });
