@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.72
+
+### Patch Changes
+
+- ea48bbf: fix(DataGrid): extra spacing inside row
+
 ## 1.0.0-alpha.71
 
 ### Patch Changes
