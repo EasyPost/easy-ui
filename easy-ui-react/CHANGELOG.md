@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.71
+
+### Patch Changes
+
+- e3cd156: fix(Button): remove support for className
+- 05f9b32: fix(Checkbox,RadioGroupItem,Toggle): support clickable elements in text
+
 ## 1.0.0-alpha.70
 
 ### Minor Changes
