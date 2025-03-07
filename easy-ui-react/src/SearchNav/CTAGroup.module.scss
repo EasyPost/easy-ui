@@ -5,7 +5,7 @@
   @include component-token(
     "cta-group",
     "menu-color",
-    theme-token("color.primary.800")
+    design-token("color.primary.800")
   );
   grid-column-start: 3;
   align-items: center;

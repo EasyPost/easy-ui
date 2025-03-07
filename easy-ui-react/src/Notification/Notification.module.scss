@@ -2,32 +2,32 @@
 
 // prettier-ignore
 .statusPromotional {
-  @include component-token("notification", "color", theme-token("color.neutral.000"));
-  @include component-token("notification", "color.background", theme-token("color.primary.500"));
+  @include component-token("notification", "color", design-token("color.neutral.000"));
+  @include component-token("notification", "color.background", design-token("color.primary.500"));
 }
 
 // prettier-ignore
 .statusSuccess {
-  @include component-token("notification", "color", theme-token("color.positive.800"));
-  @include component-token("notification", "color.background", theme-token("color.positive.100"));
+  @include component-token("notification", "color", design-token("color.positive.800"));
+  @include component-token("notification", "color.background", design-token("color.positive.100"));
 }
 
 // prettier-ignore
 .statusNeutral {
-  @include component-token("notification", "color", theme-token("color.secondary.800"));
-  @include component-token("notification", "color.background",theme-token("color.secondary.100"));
+  @include component-token("notification", "color", design-token("color.secondary.800"));
+  @include component-token("notification", "color.background",design-token("color.secondary.100"));
 }
 
 // prettier-ignore
 .statusWarning {
-  @include component-token("notification", "color", theme-token("color.neutral.900"));
-  @include component-token("notification", "color.background", theme-token("color.warning.300"));
+  @include component-token("notification", "color", design-token("color.neutral.900"));
+  @include component-token("notification", "color.background", design-token("color.warning.300"));
 }
 
 // prettier-ignore
 .statusError {
-  @include component-token("notification", "color", theme-token("color.negative.800"));
-  @include component-token("notification", "color.background", theme-token("color.negative.100"));
+  @include component-token("notification", "color", design-token("color.negative.800"));
+  @include component-token("notification", "color.background", design-token("color.negative.100"));
 }
 
 .typeToast {

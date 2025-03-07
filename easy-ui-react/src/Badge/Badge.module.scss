@@ -32,64 +32,64 @@
 
 // prettier-ignore
 .variantPrimary {
-  @include component-token("badge", "primary.color.background", theme-token("color.primary.600"));
-  @include component-token("badge", "primary.color.text", theme-token("color.neutral.000"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.primary.100"));
-  @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.primary.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.primary.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
 }
 
 // prettier-ignore
 .variantSecondary {
-  @include component-token("badge", "primary.color.background", theme-token("color.secondary.600"));
-  @include component-token("badge", "primary.color.text", theme-token("color.neutral.000"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.secondary.100"));
-  @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.secondary.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.secondary.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
 }
 
 // prettier-ignore
 .variantBlack {
-  @include component-token("badge", "primary.color.background", theme-token("color.neutral.800"));
-  @include component-token("badge", "primary.color.text", theme-token("color.neutral.000"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.neutral.050"));
-  @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.800"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.neutral.050"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
 }
 
 // prettier-ignore
 .variantInverse {
-  @include component-token("badge", "primary.color.background", theme-token("color.neutral.100"));
-  @include component-token("badge", "primary.color.text", theme-token("color.neutral.900"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.neutral.050"));
-  @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.100"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.900"));
+  @include component-token("badge", "secondary.color.background", design-token("color.neutral.050"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
 }
 
 // prettier-ignore
 .variantGray {
-  @include component-token("badge", "primary.color.background", theme-token("color.neutral.600"));
-  @include component-token("badge", "primary.color.text", theme-token("color.neutral.000"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.neutral.050"));
-  @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.neutral.050"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
 }
 
 // prettier-ignore
 .variantSuccess {
-  @include component-token("badge", "primary.color.background", theme-token("color.positive.600"));
-  @include component-token("badge", "primary.color.text", theme-token("color.neutral.000"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.positive.100"));
-  @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.positive.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.positive.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
 }
 
 // prettier-ignore
 .variantWarning {
-  @include component-token("badge", "primary.color.background", theme-token("color.warning.500"));
-  @include component-token("badge", "primary.color.text", theme-token("color.neutral.900"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.warning.300"));
-  @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.warning.500"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.900"));
+  @include component-token("badge", "secondary.color.background", design-token("color.warning.300"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
 }
 
 // prettier-ignore
 .variantDanger {
-  @include component-token("badge", "primary.color.background", theme-token("color.negative.600"));
-  @include component-token("badge", "primary.color.text", theme-token("color.neutral.000"));
-  @include component-token("badge", "secondary.color.background", theme-token("color.negative.100"));
-  @include component-token("badge", "secondary.color.text", theme-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.negative.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.negative.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
 }

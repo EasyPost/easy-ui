@@ -4,7 +4,7 @@
   @include component-token(
     "step",
     "color-separator",
-    theme-token("color.primary.800")
+    design-token("color.primary.800")
   );
 }
 
@@ -12,7 +12,7 @@
   @include component-token(
     "step",
     "color-separator",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
 }
 

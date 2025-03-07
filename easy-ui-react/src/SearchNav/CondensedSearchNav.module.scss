@@ -15,17 +15,17 @@
   @include component-token(
     "condensed-search-nav",
     "menu-color",
-    theme-token("color.neutral.900")
+    design-token("color.neutral.900")
   );
   @include component-token(
     "condensed-search-nav",
     "menu-open-color",
-    theme-token("color.primary.500")
+    design-token("color.primary.500")
   );
   @include component-token(
     "condensed-search-nav",
     "search-color",
-    theme-token("color.primary.800")
+    design-token("color.primary.800")
   );
 }
 
