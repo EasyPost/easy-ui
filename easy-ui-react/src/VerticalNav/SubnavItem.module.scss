@@ -14,20 +14,20 @@
   position: relative;
   display: flex;
 
-  color: theme-token("color.primary.800");
+  color: design-token("color.primary.800");
   cursor: pointer;
 }
 
 .hovered > .link {
-  color: theme-token("color.primary.600");
+  color: design-token("color.primary.600");
 }
 
 .selected:has(.selected) > .link {
   font-weight: design-token("font.weight.medium");
-  color: theme-token("color.primary.700");
+  color: design-token("color.primary.700");
 }
 
 .selected:not(:has(.selected)) > .link {
   font-weight: design-token("font.weight.normal");
-  color: theme-token("color.primary.500");
+  color: design-token("color.primary.500");
 }

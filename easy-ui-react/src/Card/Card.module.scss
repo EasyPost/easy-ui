@@ -42,7 +42,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.neutral.400")
+    design-token("color.neutral.400")
   );
 }
 
@@ -50,7 +50,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.primary.500")
+    design-token("color.primary.500")
   );
 }
 
@@ -58,7 +58,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.neutral.300")
+    design-token("color.neutral.300")
   );
 }
 
@@ -66,7 +66,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.negative.300")
+    design-token("color.negative.300")
   );
 }
 
@@ -74,7 +74,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.warning.300")
+    design-token("color.warning.300")
   );
 }
 
@@ -82,7 +82,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.positive.300")
+    design-token("color.positive.300")
   );
 }
 
@@ -90,7 +90,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.neutral.300")
+    design-token("color.neutral.300")
   );
 }
 
@@ -98,7 +98,7 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.blue.300")
+    design-token("color.blue.300")
   );
 }
 
@@ -106,6 +106,6 @@ button.container:not([disabled]) {
   @include component-token(
     "card",
     "color.border",
-    theme-token("color.purple.300")
+    design-token("color.purple.300")
   );
 }

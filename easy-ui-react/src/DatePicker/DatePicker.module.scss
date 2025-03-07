@@ -53,7 +53,7 @@
 }
 
 .dialog {
-  background: theme-token("color.neutral.000");
+  background: design-token("color.neutral.000");
   border-radius: design-token("shape.border_radius.lg");
   box-shadow: design-token("shadow.modal");
   pointer-events: auto;

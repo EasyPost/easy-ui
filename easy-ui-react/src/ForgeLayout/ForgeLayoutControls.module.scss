@@ -10,16 +10,16 @@
 
 .breadcrumbNavigationContainer {
   border: design-token("shape.border_width.1") solid
-    theme-token("color.neutral.300");
+    design-token("color.neutral.300");
   margin-right: design-token("space.3");
   display: inline-flex;
   z-index: design-token("z-index.nav");
 }
 
 .backButtonContainer {
-  background: theme-token("color.neutral.050");
+  background: design-token("color.neutral.050");
   border-right: design-token("shape.border_width.1") solid
-    theme-token("color.neutral.300");
+    design-token("color.neutral.300");
   padding: design-token("space.0-5") design-token("space.1.5")
     design-token("space.0-5") design-token("space.1");
   display: inline-flex;
@@ -30,7 +30,7 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  color: theme-token("color.primary.600");
+  color: design-token("color.primary.600");
 }
 
 .breadcrumbsContainer {
@@ -44,7 +44,7 @@
   justify-content: space-between;
   gap: design-token("space.1");
   border: design-token("shape.border_width.1") solid
-    theme-token("color.neutral.300");
+    design-token("color.neutral.300");
   padding: calc(
     #{design-token("space.1")} - #{design-token("shape.border_width.1")}
   );
@@ -56,14 +56,14 @@
 }
 
 .triggerPopoverOpen {
-  border-color: theme-token("color.neutral.800");
+  border-color: design-token("color.neutral.800");
 }
 
 .popover {
   border: design-token("shape.border_width.1") solid
-    theme-token("color.neutral.300");
+    design-token("color.neutral.300");
   border-radius: design-token("shape.border_radius.md");
-  background-color: theme-token("color.neutral.000");
+  background-color: design-token("color.neutral.000");
   padding: design-token("space.2");
   box-shadow: design-token("shadow.overlay");
 }

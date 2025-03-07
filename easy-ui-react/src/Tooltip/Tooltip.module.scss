@@ -5,7 +5,7 @@
   @include component-token(
     "tooltip",
     "background",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
   @include component-token(
     "tooltip",
@@ -15,7 +15,7 @@
   @include component-token(
     "tooltip",
     "color",
-    theme-token("color.primary.800")
+    design-token("color.primary.800")
   );
   @include component-token(
     "tooltip",

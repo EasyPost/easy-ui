@@ -13,13 +13,13 @@
   @include component-token(
     "checkbox",
     "color.check",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
   @include component-token("checkbox", "color.background", transparent);
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.neutral.500")
+    design-token("color.neutral.500")
   );
 }
 
@@ -88,7 +88,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.negative.500")
+    design-token("color.negative.500")
   );
 }
 
@@ -96,7 +96,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.neutral.200")
+    design-token("color.neutral.200")
   );
 }
 
@@ -105,12 +105,12 @@
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.primary.500")
+    design-token("color.primary.500")
   );
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.primary.500")
+    design-token("color.primary.500")
   );
 }
 
@@ -119,7 +119,7 @@
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.negative.500")
+    design-token("color.negative.500")
   );
 }
 
@@ -128,12 +128,12 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.neutral.400")
+    design-token("color.neutral.400")
   );
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.neutral.400")
+    design-token("color.neutral.400")
   );
 }
 
@@ -141,7 +141,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.primary.400")
+    design-token("color.primary.400")
   );
 }
 
@@ -150,7 +150,7 @@
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.primary.400")
+    design-token("color.primary.400")
   );
 }
 
@@ -158,7 +158,7 @@
   @include component-token(
     "checkbox",
     "color.border",
-    theme-token("color.negative.600")
+    design-token("color.negative.600")
   );
 }
 
@@ -167,6 +167,6 @@
   @include component-token(
     "checkbox",
     "color.background",
-    theme-token("color.negative.600")
+    design-token("color.negative.600")
   );
 }

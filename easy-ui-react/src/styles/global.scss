@@ -10,7 +10,7 @@
 }
 
 html {
-  font-family: token-helpers.theme-token("font.family");
+  font-family: token-helpers.design-token("font.family");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Deactivate auto-enlargement of small text in Safari */

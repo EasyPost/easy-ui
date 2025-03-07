@@ -4,7 +4,7 @@
   @include component-token(
     "selector-trigger",
     "color",
-    theme-token("color.positive.600")
+    design-token("color.positive.600")
   );
   @include font-style("subtitle1");
   display: flex;

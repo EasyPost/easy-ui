@@ -2,12 +2,12 @@
 @use "token-helpers";
 
 @mixin default-os-style {
-  --os-track-bg: #{token-helpers.theme-token("color.neutral.050")};
-  --os-track-bg-hover: #{token-helpers.theme-token("color.neutral.100")};
-  --os-track-bg-active: #{token-helpers.theme-token("color.neutral.100")};
-  --os-handle-bg: #{token-helpers.theme-token("color.neutral.300")};
-  --os-handle-bg-hover: #{token-helpers.theme-token("color.neutral.400")};
-  --os-handle-bg-active: #{token-helpers.theme-token("color.neutral.500")};
+  --os-track-bg: #{token-helpers.design-token("color.neutral.050")};
+  --os-track-bg-hover: #{token-helpers.design-token("color.neutral.100")};
+  --os-track-bg-active: #{token-helpers.design-token("color.neutral.100")};
+  --os-handle-bg: #{token-helpers.design-token("color.neutral.300")};
+  --os-handle-bg-hover: #{token-helpers.design-token("color.neutral.400")};
+  --os-handle-bg-active: #{token-helpers.design-token("color.neutral.500")};
   --os-track-border-radius: 999px;
   --os-handle-border-radius: 999px;
 
@@ -35,7 +35,7 @@
 
 .os-scrollbar.ezui-os-theme-modal {
   @include default-os-style;
-  --os-handle-bg: #{token-helpers.theme-token("color.neutral.200")};
+  --os-handle-bg: #{token-helpers.design-token("color.neutral.200")};
   --os-size: #{token-helpers.design-token("space.1")};
   --os-padding-perpendicular: 0;
   --os-padding-axis: #{token-helpers.design-token("space.1")};
@@ -44,7 +44,7 @@
 
 .os-scrollbar.ezui-os-theme-drawer {
   @include default-os-style;
-  --os-handle-bg: #{token-helpers.theme-token("color.neutral.200")};
+  --os-handle-bg: #{token-helpers.design-token("color.neutral.200")};
   --os-size: #{token-helpers.design-token("space.1")};
   --os-padding-perpendicular: 0;
   --os-padding-axis: #{token-helpers.design-token("space.1")};

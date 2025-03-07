@@ -18,7 +18,7 @@
   &::before {
     content: "";
     position: absolute;
-    background: theme-token("color.primary.800");
+    background: design-token("color.primary.800");
     opacity: design-token("opacity.underlay");
   }
 }
@@ -78,7 +78,7 @@
   max-width: component-token("drawer", "max-width");
   height: component-token("drawer", "height");
   overflow: hidden;
-  background: theme-token("color.neutral.000");
+  background: design-token("color.neutral.000");
   box-shadow: design-token("shadow.level.3");
   pointer-events: auto;
   position: relative;

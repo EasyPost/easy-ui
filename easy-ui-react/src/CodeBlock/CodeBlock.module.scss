@@ -4,15 +4,15 @@
   @include component-token(
     "card-header",
     "background",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
   @include component-token(
     "card-header",
     "color",
-    theme-token("color.primary.800")
+    design-token("color.primary.800")
   );
   border: design-token("shape.border_width.1") solid
-    theme-token("color.neutral.400");
+    design-token("color.neutral.400");
   border-radius: design-token("shape.border_radius.md");
   overflow: hidden;
 }
@@ -20,7 +20,7 @@
 .header {
   padding: design-token("space.1.5") design-token("space.2");
   border-bottom: design-token("shape.border_width.1") solid
-    theme-token("color.neutral.400");
+    design-token("color.neutral.400");
   background: component-token("card-header", "background");
   color: component-token("card-header", "color");
 }
@@ -34,19 +34,19 @@
   align-self: stretch;
   display: inline-flex;
   width: design-token("shape.border_width.1");
-  background-color: theme-token("color.neutral.400");
+  background-color: design-token("color.neutral.400");
 }
 
 .colorPrimary {
   @include component-token(
     "card-header",
     "background",
-    theme-token("color.primary.700")
+    design-token("color.primary.700")
   );
   @include component-token(
     "card-header",
     "color",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
 }
 
@@ -54,6 +54,6 @@
   @include component-token(
     "card-header",
     "background",
-    theme-token("color.neutral.050")
+    design-token("color.neutral.050")
   );
 }
