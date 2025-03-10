@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.73
+
+### Patch Changes
+
+- 055bd00: fix: remove theme-token helper
+
 ## 1.0.0-alpha.72
 
 ### Patch Changes
