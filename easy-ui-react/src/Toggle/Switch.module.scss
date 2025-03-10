@@ -4,12 +4,12 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.neutral.100")
+    design-token("color.neutral.100")
   );
   @include component-token(
     "switch",
     "color.thumb",
-    theme-token("color.primary.800")
+    design-token("color.primary.800")
   );
   @include component-token("switch", "border_radius", 99px);
 
@@ -33,7 +33,7 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.neutral.200")
+    design-token("color.neutral.200")
   );
 }
 
@@ -41,12 +41,12 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.primary.500")
+    design-token("color.primary.500")
   );
   @include component-token(
     "switch",
     "color.thumb",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
 }
 
@@ -54,7 +54,7 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.primary.600")
+    design-token("color.primary.600")
   );
 }
 
@@ -62,11 +62,11 @@
   @include component-token(
     "switch",
     "color.track",
-    theme-token("color.neutral.050")
+    design-token("color.neutral.050")
   );
   @include component-token(
     "switch",
     "color.thumb",
-    theme-token("color.neutral.300")
+    design-token("color.neutral.300")
   );
 }

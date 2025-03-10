@@ -12,7 +12,7 @@
   &::before {
     content: "";
     position: absolute;
-    background: theme-token("color.primary.800");
+    background: design-token("color.primary.800");
     opacity: design-token("opacity.underlay");
   }
 }
@@ -51,7 +51,7 @@
   max-width: component-token("modal", "max-width");
   width: component-token("modal", "width");
   overflow: hidden;
-  background: theme-token("color.neutral.000");
+  background: design-token("color.neutral.000");
   border-radius: design-token("shape.border_radius.lg");
   box-shadow: design-token("shadow.modal");
   pointer-events: auto;
@@ -62,7 +62,7 @@
   margin: 0;
   padding: design-token("space.5");
   padding-bottom: design-token("space.2");
-  color: theme-token("color.primary.800");
+  color: design-token("color.primary.800");
   &.stuck {
     box-shadow: design-token("shadow.stuck-from-top");
   }

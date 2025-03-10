@@ -22,27 +22,27 @@
   @include component-token(
     "step-button",
     "color-active",
-    theme-token("color.primary.500")
+    design-token("color.primary.500")
   );
   @include component-token(
     "step-button",
     "color-incomplete",
-    theme-token("color.neutral.500")
+    design-token("color.neutral.500")
   );
   @include component-token(
     "step-button",
     "color-complete",
-    theme-token("color.primary.800")
+    design-token("color.primary.800")
   );
   @include component-token(
     "step-button",
     "active-background",
-    theme-token("color.primary.500")
+    design-token("color.primary.500")
   );
   @include component-token(
     "step-button",
     "incomplete-border",
-    theme-token("color.neutral.500")
+    design-token("color.neutral.500")
   );
 }
 
@@ -50,27 +50,27 @@
   @include component-token(
     "step-button",
     "color-active",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
   @include component-token(
     "step-button",
     "color-incomplete",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
   @include component-token(
     "step-button",
     "color-complete",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
   @include component-token(
     "step-button",
     "active-background",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
   @include component-token(
     "step-button",
     "incomplete-border",
-    theme-token("color.neutral.000")
+    design-token("color.neutral.000")
   );
 }
 
