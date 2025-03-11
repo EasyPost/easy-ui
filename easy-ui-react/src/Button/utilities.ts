@@ -50,5 +50,6 @@ export function omitReactAriaSpecificProps(props: object) {
     "onPressStart",
     "onPressEnd",
     "onPressUp",
+    "preventFocusOnPress",
   ]);
 }

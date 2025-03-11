@@ -197,9 +197,9 @@ export const NotificationContext =
  * Alerts display an important message near the top of the page that does not automatically timeout and requires
  * user action to dismiss. The displayed messaged is accompanied by an associated status icon. If the message is
  * not prominent enough to immediately require the user's attention, consider using toasts.
- * 
+ *
  * The following methods are available on the returned notification object:
- * 
+ *
  * ```tsx
  * showPromotionalToast(content: ToastProps): void;
  * showNeutralToast(content: ToastProps): void;
@@ -212,14 +212,14 @@ export const NotificationContext =
  * showWarningAlert(content: AlertProps): void;
  * showErrorAlert(content: AlertProps): void;
  * closeActiveNotification(): void;
- * 
+ *
  * type ToastProps = {
  *   // Notification message
  *   message: ReactNode;
  *   // Notification will render with left aligned status icon
  *   hasIcon?: boolean;
  * }
- * 
+ *
  * type AlertProps = {
  *   // Notification message
  *   message: ReactNode;
@@ -357,7 +357,6 @@ export function NotificationProvider(props: NotificationProviderProps) {
   const state = {
     close: combinedState.close,
     add: combinedState.add,
-    remove: combinedState.remove,
     pauseAll: combinedState.pauseAll,
     resumeAll: combinedState.resumeAll,
     visibleToasts: combinedState.visibleToasts,
