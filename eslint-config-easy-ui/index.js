@@ -1,12 +1,12 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   extends: [
-    "turbo",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:storybook/recommended",
     "plugin:prettier/recommended",
   ],
+  plugins: ["turbo"],
   settings: {
     react: {
       version: "detect",
