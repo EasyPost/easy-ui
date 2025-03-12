@@ -159,16 +159,16 @@ function createEmLikeTransform(unit) {
   };
 }
 
-function escapeQuotes(str) {
-  return str.replace(/(["])/g, "\\$1");
+function wrapString(str) {
+  return str.includes('"') ? `'${str}'` : `"${str}"`;
 }
 
 function getTokenValueType(value) {
   return typeof value === "string"
-    ? `"${escapeQuotes(value)}"`
+    ? wrapString(value)
     : getTypeScriptType(value);
 }
 
 function getTokenValue(value) {
-  return typeof value === "string" ? `"${escapeQuotes(value)}"` : value;
+  return typeof value === "string" ? wrapString(value) : value;
 }
