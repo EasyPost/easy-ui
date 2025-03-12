@@ -1,5 +1,14 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.73
+
+### Patch Changes
+
+- 055bd00: fix: remove theme-token helper
+- e7eabf4: fix: upgrade React Aria
+- Updated dependencies [4dba916]
+  - @easypost/easy-ui-icons@1.0.0-alpha.37
+
 ## 1.0.0-alpha.72
 
 ### Patch Changes
