@@ -3,11 +3,11 @@ import { screen } from "@testing-library/react";
 import React from "react";
 import { render } from "../utilities/test";
 import { Badge } from "./Badge";
-import { SpyInstance, vi } from "vitest";
+import { MockInstance, vi } from "vitest";
 import noop from "lodash/noop";
 
 describe("<Badge />", () => {
-  let consoleWarnSpy: SpyInstance;
+  let consoleWarnSpy: MockInstance;
 
   beforeEach(() => {
     consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(noop);
