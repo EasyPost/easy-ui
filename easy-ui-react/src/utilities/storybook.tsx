@@ -12,12 +12,13 @@ import {
   LINK_BUTTON_COLORS,
   TEXT_BUTTON_COLORS,
 } from "../Button/utilities";
+import { InputType } from "storybook/internal/types";
 
 export function createLabelledOptionsControl(
   opts: Record<string, unknown>,
   control = {},
   restProps = {},
-) {
+): InputType {
   return {
     options: Object.keys(opts),
     mapping: opts,

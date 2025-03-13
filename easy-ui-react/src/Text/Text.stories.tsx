@@ -17,7 +17,7 @@ const meta: Meta<typeof Text> = {
     color: {
       ...createColorTokensControl(),
       table: {
-        type: { summary: null },
+        type: { summary: "<See control for values>" },
       },
     },
   },
