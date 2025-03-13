@@ -23,10 +23,7 @@ export type MenuSectionProps = {
  * @react-stately's Section collection component to control the props that are
  * allowed for the component.
  */
-export function MenuSection(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _props: MenuSectionProps,
-) {
+export function MenuSection(_props: MenuSectionProps) {
   return null;
 }
 Object.assign(MenuSection, Section);

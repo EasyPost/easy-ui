@@ -61,7 +61,6 @@ export const EmptyContent: Story = {
 
 export const TabbedContent: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [page, setPage] = useState("1");
     return (
       <ProductLayout

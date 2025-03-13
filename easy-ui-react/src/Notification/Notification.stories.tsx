@@ -20,7 +20,6 @@ export default meta;
 
 export const Notifications: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const notification = useNotification();
 
     return (
@@ -108,7 +107,6 @@ export const Notifications: Story = {
 
 export const ProgrammaticDismissal: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const notification = useNotification();
 
     return (

@@ -181,7 +181,6 @@ export const Controlled: DrawerTriggerStory = {
 
 export const MenuTrigger: DrawerTriggerStory = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [drawer, setDrawer] = useState<Key | null>(null);
     return (
       <>

@@ -120,7 +120,6 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
 
   const bothIconPropsDefined = iconAtEnd && iconAtStart;
   if (bothIconPropsDefined) {
-    // eslint-disable-next-line no-console
     console.warn("Cannot simultaneously define `iconAtEnd` and `iconAtStart`");
   }
 

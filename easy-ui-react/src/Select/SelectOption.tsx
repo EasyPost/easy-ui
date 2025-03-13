@@ -19,10 +19,7 @@ export type SelectOptionProps = {
  * @react-stately's Item component to control the props that are
  * allowed for the component.
  */
-export function SelectOption<T>(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _props: SelectOptionProps & NoInfer<T>,
-) {
+export function SelectOption<T>(_props: SelectOptionProps & NoInfer<T>) {
   return null;
 }
 

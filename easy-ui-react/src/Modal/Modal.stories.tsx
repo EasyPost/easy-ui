@@ -205,7 +205,6 @@ export const Controlled: ModalTriggerStory = {
 
 export const MenuTrigger: ModalTriggerStory = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [modal, setModal] = useState<Key | null>(null);
     return (
       <>
