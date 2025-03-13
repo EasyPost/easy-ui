@@ -17,13 +17,13 @@
   },
   "scripts": {
     "build": "run-p build:*",
-    "build:tokens": "style-dictionary build",
+    "build:tokens": "style-dictionary build -c ./config.mjs",
     "build:dist": "node ../scripts/copyDistFiles.mjs",
     "clean": "rm -rf .turbo dist node_modules",
     "dev": "nodemon --watch src --watch config.js --exec 'npm run build'"
   },
   "devDependencies": {
     "nodemon": "^3.1.9",
-    "style-dictionary": "^3.9.2"
+    "style-dictionary": "^4.3.3"
   }
 }
