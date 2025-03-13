@@ -139,7 +139,6 @@ export const Composition: Story = {
 
 export const ExampleCheckbox: Story = {
   render: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isSelected, setIsSelected] = useState(false);
     return (
       <Card as="label" variant="outlined" isSelected={isSelected} {...args}>
@@ -173,7 +172,6 @@ export const ExampleCheckbox: Story = {
 
 export const ExampleRadio: Story = {
   render: (args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isSelected, setIsSelected] = useState(false);
     return (
       <div style={{ maxWidth: 400, width: "100%" }}>

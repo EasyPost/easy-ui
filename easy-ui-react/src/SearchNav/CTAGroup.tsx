@@ -27,7 +27,6 @@ export type CTAGroupProps = {
  * efficiently share the same data across various configurations.
  *
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function CTAGroup(_props: CTAGroupProps) {
   const { menuOverlayProps, ctaMenuSymbol, primaryCTAItem, secondaryCTAItems } =
     useInternalSearchNavContext();

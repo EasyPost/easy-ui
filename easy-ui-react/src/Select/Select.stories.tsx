@@ -148,7 +148,6 @@ export const WithSeparator: Story = {
 
 export const ControlledSelection: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [option, setOption] = React.useState<Key>("Option 1");
     return (
       <>

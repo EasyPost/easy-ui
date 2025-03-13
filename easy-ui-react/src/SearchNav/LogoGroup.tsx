@@ -20,7 +20,6 @@ export type LogoGroupProps = {
  * efficiently share the same data across various configurations.
  *
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function LogoGroup(_props: LogoGroupProps) {
   const { logo, title, selector } = useInternalSearchNavContext();
 

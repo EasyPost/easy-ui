@@ -14,7 +14,6 @@ export type TabPanelsItemProps = {
  * This is essentially a re-export of react stately's Item but where this
  * component can control the public interface.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function TabPanelsItem(_props: TabPanelsItemProps): ReactNode {
   return null;
 }

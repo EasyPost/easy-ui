@@ -33,7 +33,6 @@ export function logWarningIfInvalidColorVariantCombination(
     text: TEXT_BUTTON_COLORS,
   };
   if (!validColorVariantCombinations[variant]?.includes(color)) {
-    // eslint-disable-next-line no-console
     console.warn(
       `The color '${color}' is not supported with the '${variant}' variant`,
     );

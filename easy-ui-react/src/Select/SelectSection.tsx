@@ -18,10 +18,7 @@ export type SelectSectionProps = {
  * @react-stately's Section collection component to control the props that are
  * allowed for the component.
  */
-export function SelectSection(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _props: SelectSectionProps,
-) {
+export function SelectSection(_props: SelectSectionProps) {
   return null;
 }
 Object.assign(SelectSection, Section);

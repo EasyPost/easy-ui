@@ -9,8 +9,6 @@ import {
   InlineStoryOnDarkBackgroundDecorator,
 } from "../utilities/storybook";
 
-/* eslint-disable react-hooks/rules-of-hooks */
-
 type Story = StoryObj<typeof Stepper>;
 
 const meta: Meta<typeof Stepper> = {
@@ -42,8 +40,6 @@ const Template = (args: StepperProps) => {
 };
 
 export default meta;
-
-/* eslint-disable react-hooks/rules-of-hooks */
 
 export const HorizontalStepper: Story = {
   render: () => {

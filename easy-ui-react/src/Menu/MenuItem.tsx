@@ -54,10 +54,7 @@ export type MenuItemProps = {
  * @react-stately's Item collection component to control the props that are
  * allowed for the component.
  */
-export function MenuItem<T>(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _props: MenuItemProps & NoInfer<T>,
-) {
+export function MenuItem<T>(_props: MenuItemProps & NoInfer<T>) {
   return null;
 }
 Object.assign(MenuItem, Item);

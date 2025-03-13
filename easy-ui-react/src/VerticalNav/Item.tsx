@@ -42,10 +42,7 @@ type ReactStatelyItemInterface = {
  * We map our Item's label prop to the underlying textValue prop to silence
  * warnings about Aria's accessibility paradigm.
  */
-export function Item<T extends ElementType = "a">(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _props: ItemProps<T>,
-) {
+export function Item<T extends ElementType = "a">(_props: ItemProps<T>) {
   return null;
 }
 

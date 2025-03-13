@@ -134,7 +134,6 @@ export function deepFind(
     children?: ReactNode[],
   ) => boolean,
 ): ReactNode | undefined {
-  // eslint-disable-next-line @typescript-eslint/init-declarations
   let found;
 
   Children.toArray(children).find(
