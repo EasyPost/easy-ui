@@ -72,9 +72,6 @@ export default defineConfig({
     css: true,
     setupFiles: "./vitest.setup.ts",
     exclude: ["src/utilities/test.ts"],
-    // Test workers timing out without this option:
-    // https://vitest.dev/guide/common-errors.html#failed-to-terminate-worker
-    pool: "forks",
   },
 });
 

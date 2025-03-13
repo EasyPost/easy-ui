@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.37
+
+### Minor Changes
+
+- 4dba916: Adds AltRoute icon
+
 ## 1.0.0-alpha.36
 
 ### Minor Changes
