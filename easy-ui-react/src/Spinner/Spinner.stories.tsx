@@ -19,13 +19,13 @@ const meta: Meta<typeof Spinner> = {
     color: {
       ...createColorTokensControl(),
       table: {
-        type: { summary: null },
+        type: { summary: "<See control for values>" },
       },
     },
     size: {
       ...getDesignTokensControl("size.icon.{alias}"),
       table: {
-        type: { summary: null },
+        type: { summary: "<See control for values>" },
       },
     },
   },

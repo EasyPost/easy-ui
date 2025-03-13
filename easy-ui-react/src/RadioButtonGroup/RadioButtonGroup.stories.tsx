@@ -15,7 +15,7 @@ const meta: Meta<typeof RadioButtonGroup> = {
     color: {
       ...createColorTokensControl(),
       table: {
-        type: { summary: null },
+        type: { summary: "<See control for values>" },
       },
     },
   },

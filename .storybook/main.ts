@@ -6,21 +6,21 @@ const config: StorybookConfig = {
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-a11y"),
   ],
-  docs: {
-    autodocs: true,
-  },
-  features: {
-    storyStoreV7: true,
-  },
+
+  docs: {},
+
   framework: {
     name: getAbsolutePath("@storybook/react-vite") as "@storybook/react-vite",
     options: {},
   },
+
   staticDirs: ["./public"],
+
   stories: [
     "../easy-ui-react/src/**/*.mdx",
     "../easy-ui-react/src/**/*.stories.tsx",
   ],
+
   async viteFinal(config) {
     const { mergeConfig } = await import("vite");
     return mergeConfig(config, {
@@ -32,6 +32,10 @@ const config: StorybookConfig = {
         },
       },
     });
+  },
+
+  typescript: {
+    reactDocgen: "react-docgen-typescript",
   },
 };
 

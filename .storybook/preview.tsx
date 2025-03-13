@@ -41,6 +41,7 @@ const preview: Preview = {
       },
     },
   },
+
   decorators: [
     (Story, context) => {
       const background = context.globals.backgrounds?.value;
@@ -54,6 +55,8 @@ const preview: Preview = {
       );
     },
   ],
+
+  tags: ["autodocs"],
 };
 
 export default preview;

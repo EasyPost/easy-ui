@@ -38,7 +38,7 @@ const meta: Meta<typeof Icon> = {
     color: {
       ...createColorTokensControl(),
       table: {
-        type: { summary: null },
+        type: { summary: "<See control for values>" },
       },
     },
     accessibilityLabel: {
