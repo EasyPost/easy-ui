@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui-tokens",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "exports": {
     "./js/*": {
       "types": "./dist/js/*.d.ts",

@@ -1,5 +1,18 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.74
+
+### Minor Changes
+
+- cf80239: updates logo for ForgeLayout
+
+### Patch Changes
+
+- Updated dependencies [e6c7f00]
+- Updated dependencies [cca6e0c]
+  - @easypost/easy-ui-icons@1.0.0-alpha.38
+  - @easypost/easy-ui-tokens@1.0.0-alpha.15
+
 ## 1.0.0-alpha.73
 
 ### Patch Changes
