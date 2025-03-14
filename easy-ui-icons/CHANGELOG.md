@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.38
+
+### Minor Changes
+
+- e6c7f00: Adds Adjust icon
+
 ## 1.0.0-alpha.37
 
 ### Minor Changes

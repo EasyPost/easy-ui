@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.15
+
+### Patch Changes
+
+- cca6e0c: fix: upgrade Style Dictionary
+
 ## 1.0.0-alpha.14
 
 ### Minor Changes
