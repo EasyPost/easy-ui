@@ -58,7 +58,7 @@
     "@storybook/react": "^8.6.4",
     "@storybook/react-vite": "^8.6.4",
     "@storybook/test": "^8.6.10",
-    "@storybook/theming": "^8.6.7",
+    "@storybook/theming": "^8.6.10",
     "@types/node": "^22.13.14",
     "babel-loader": "^10.0.0",
     "eslint": "^9.22.0",
