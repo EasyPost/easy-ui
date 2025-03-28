@@ -75,7 +75,8 @@
     "vitest": "^3.0.8"
   },
   "overrides": {
-    "nwsapi": "2.2.13"
+    "nwsapi": "2.2.13",
+    "prismjs": "^1.30.0"
   },
   "packageManager": "npm@10.2.3"
 }
