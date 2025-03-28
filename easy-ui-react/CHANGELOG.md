@@ -1,5 +1,13 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.75
+
+### Patch Changes
+
+- b5ee2a4: Fixes DataGrid Kebab Menu in Safari
+- 31021c4: Renames .d.ts to .ts to fix types for DataGrid
+- 55a0fcf: Bumps dependencies to fix SVEs
+
 ## 1.0.0-alpha.74
 
 ### Minor Changes
