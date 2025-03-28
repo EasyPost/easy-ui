@@ -101,7 +101,7 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   renderExpandedRow?: (key: Key) => ReactNode;
 
   /** Renders the content of a row cell. */
-  renderRowCell: (cell: unknown, columnKey: Key, row: R) => ReactNode;
+  renderRowCell: (cell: unknown, columnKey: Key, row: Row<C>) => ReactNode;
 
   /** Actions for the row */
   rowActions?: (key: Key) => RowAction[];
