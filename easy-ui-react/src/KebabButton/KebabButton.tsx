@@ -1,7 +1,7 @@
 import React from "react";
 import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
 import { AriaButtonProps } from "react-aria";
-import { UnstyledPressButton } from "../UnstyledButton/UnstyledPressButton";
+import { UnstyledButton } from "../UnstyledButton/UnstyledButton";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 import styles from "./KebabButton.module.scss";
@@ -24,14 +24,10 @@ export const KebabButton = React.forwardRef<null, KebabButtonProps>(
     const { accessibilityLabel = "Actions", ...restProps } = props;
 
     return (
-      <UnstyledPressButton
-        ref={inRef}
-        className={styles.KebabButton}
-        {...restProps}
-      >
+      <UnstyledButton ref={inRef} className={styles.KebabButton} {...restProps}>
         <Text visuallyHidden>{accessibilityLabel}</Text>
         <Icon symbol={MoreVertIcon} />
-      </UnstyledPressButton>
+      </UnstyledButton>
     );
   },
 );
