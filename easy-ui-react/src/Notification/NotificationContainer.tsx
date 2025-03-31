@@ -6,6 +6,7 @@ import {
   NotificationPosition,
   NotificationOffset,
 } from "./Notification";
+import { useNotificationTransitionTracking } from "./NotificationTransition";
 import style from "./Notification.module.scss";
 
 export type NotificationContainerProps = {
@@ -30,8 +31,11 @@ export type NotificationContainerProps = {
  */
 export function NotificationContainer(props: NotificationContainerProps) {
   const { getContainer = null, position = "fixed", offset, state } = props;
+  const { isTransitionPending, onTransitionPendingChange } =
+    useNotificationTransitionTracking();
 
-  const showNotifications = state.visibleToasts.length > 0;
+  const showNotifications =
+    state.visibleToasts.length > 0 || isTransitionPending;
   let requestFailed = false;
   let container = null;
   if (showNotifications && getContainer) {
@@ -66,7 +70,10 @@ export function NotificationContainer(props: NotificationContainerProps) {
       {showNotifications
         ? createPortal(
             <div className={style.container} style={containerStyles}>
-              <NotificationRegion state={state} />
+              <NotificationRegion
+                state={state}
+                onTransitionPendingChange={onTransitionPendingChange}
+              />
             </div>,
             container ?? document.body,
           )

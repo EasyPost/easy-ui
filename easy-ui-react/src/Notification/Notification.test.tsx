@@ -9,17 +9,25 @@ import {
   NotificationProvider,
 } from "./Notification";
 import { TOAST_TIMEOUT_DURATION } from "./NotificationQueue";
-import { mockGetComputedStyle, render, userClick } from "../utilities/test";
+import {
+  disableReactTransitionGroup,
+  enableReactTransitionGroup,
+  mockGetComputedStyle,
+  render,
+  userClick,
+} from "../utilities/test";
 
 describe("<Notification />", () => {
   let restoreGetComputedStyle: () => void;
 
   beforeEach(() => {
+    disableReactTransitionGroup();
     restoreGetComputedStyle = mockGetComputedStyle();
     vi.useFakeTimers();
   });
 
   afterEach(() => {
+    enableReactTransitionGroup();
     vi.useRealTimers();
     restoreGetComputedStyle();
   });
