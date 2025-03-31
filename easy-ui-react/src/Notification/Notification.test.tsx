@@ -27,9 +27,9 @@ describe("<Notification />", () => {
   });
 
   afterEach(() => {
-    enableReactTransitionGroup();
     vi.useRealTimers();
     restoreGetComputedStyle();
+    enableReactTransitionGroup();
   });
 
   it("should render an alert notification", async () => {

@@ -159,14 +159,12 @@ export const Notification = React.forwardRef<
         </div>
       </div>
       {type === "alert" && (
-        <span className={styles.closeButtonContainer}>
-          <UnstyledButton
-            {...closeButtonPropsWithDismiss}
-            className={styles.closeButton}
-          >
-            <Icon size="md" symbol={CloseIcon} />
-          </UnstyledButton>
-        </span>
+        <UnstyledButton
+          {...closeButtonPropsWithDismiss}
+          className={classNames(styles.closeButton)}
+        >
+          <Icon size="md" symbol={CloseIcon} />
+        </UnstyledButton>
       )}
     </div>
   );
