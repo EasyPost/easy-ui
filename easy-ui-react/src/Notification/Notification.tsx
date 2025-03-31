@@ -155,12 +155,14 @@ export function Notification(props: NotificationItemStateProps) {
         </div>
       </div>
       {type === "alert" && (
-        <UnstyledButton
-          {...closeButtonPropsWithDismiss}
-          className={classNames(styles.closeButton)}
-        >
-          <Icon size="md" symbol={CloseIcon} />
-        </UnstyledButton>
+        <span className={styles.closeButtonContainer}>
+          <UnstyledButton
+            {...closeButtonPropsWithDismiss}
+            className={styles.closeButton}
+          >
+            <Icon size="md" symbol={CloseIcon} />
+          </UnstyledButton>
+        </span>
       )}
     </div>
   );
