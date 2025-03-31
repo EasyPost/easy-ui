@@ -14,6 +14,10 @@ export type NotificationRegionProps = AriaToastRegionProps & {
    * interact with the queue object. Consumers do not see this state.
    */
   state: NotificationInternalState;
+
+  /**
+   * Callback function used to track the transition state of the notification.
+   */
   onTransitionPendingChange: NotificationTransitionProps["onTransitionPendingChange"];
 };
 
@@ -23,7 +27,7 @@ export type NotificationRegionProps = AriaToastRegionProps & {
  * a region.
  */
 export function NotificationRegion(props: NotificationRegionProps) {
-  const { state, onTransitionPendingChange = () => {} } = props;
+  const { state, onTransitionPendingChange } = props;
   const ref = React.useRef(null);
   const { regionProps } = useToastRegion(props, state, ref);
   /**

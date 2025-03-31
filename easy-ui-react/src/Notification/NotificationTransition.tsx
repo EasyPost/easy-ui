@@ -5,8 +5,19 @@ import styles from "./NotificationTransition.module.scss";
 type ChildrenFunction<T> = (args: T) => ReactNode;
 
 export type NotificationTransitionProps = {
+  /**
+   * Children function that receives a ref to the node being transitioned.
+   */
   children: ChildrenFunction<{ nodeRef: RefObject<HTMLDivElement> }>;
+
+  /**
+   * Unique key for the transition.
+   */
   transitionKey: Key;
+
+  /**
+   * Callback function used to track the transition state of the notification.
+   */
   onTransitionPendingChange?: (isTransitionPending: boolean) => void;
 };
 
@@ -51,7 +62,8 @@ export function NotificationTransition({
 }
 
 /**
- * Track when a list of transitions are complete.
+ * Track when a list of transitions are complete in a TransitionGroup. Useful
+ * for showing/hiding a notification container while transitions are pending.
  */
 export function useNotificationTransitionTracking() {
   const [transitionsPending, setTransitionsPending] = useState(0);
