@@ -36,13 +36,14 @@
 
 .typeAlert {
   display: flex;
-  width: 100%;
+  width: calc(100% - calc(#{component-token("notification", "margin-x")} * 2));
 }
 
 .Notification {
   /* prettier-ignore */
-  @include component-token("notification", "border_radius", design-token("shape.border_radius.base"));
+  @include component-token("notification", "border_radius", design-token("shape.border_radius.lg"));
   @include component-token("notification", "max-width", 1200px);
+  @include component-token("notification", "margin-x", design-token("space.6"));
   align-items: center;
   justify-content: space-between;
   margin: auto;
@@ -61,12 +62,16 @@
   gap: design-token("space.1");
 }
 
-.closeButton {
+.closeButtonContainer {
+  display: inline-flex;
   padding: design-token("space.0");
   /* prettier-ignore */
   margin: design-token("space.0.5") design-token("space.1") design-token("space.0.5") design-token("space.2");
   background-color: component-token("notification", "color.background");
   color: component-token("notification", "color.text");
+}
+
+.closeButton {
   cursor: pointer;
 }
 
