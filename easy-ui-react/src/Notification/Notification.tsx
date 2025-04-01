@@ -1,4 +1,5 @@
 import React, { ReactNode, useRef, useContext, createContext } from "react";
+import { mergeRefs } from "@react-aria/utils";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
@@ -104,7 +105,10 @@ export type NotificationItemStateProps = AriaToastProps<NotificationProps> & {
  * function that is called when an alert is dismissed. The `state` prop captures stateful information,
  * such as functions that can interact with the queue in a programmatic way.
  */
-export function Notification(props: NotificationItemStateProps) {
+export const Notification = React.forwardRef<
+  HTMLDivElement,
+  NotificationItemStateProps
+>((props, forwardedRef) => {
   const ref = useRef(null);
   const { state, toast: notification } = props;
   const {
@@ -141,7 +145,7 @@ export function Notification(props: NotificationItemStateProps) {
   return (
     <div
       {...notificationPropsWithAdjustedAriaRole}
-      ref={ref}
+      ref={mergeRefs(ref, forwardedRef)}
       className={classNames(
         styles.Notification,
         styles[variationName("status", status)],
@@ -166,7 +170,9 @@ export function Notification(props: NotificationItemStateProps) {
       )}
     </div>
   );
-}
+});
+
+Notification.displayName = "Notification";
 
 function getStatusIcon(status: NotificationStatus) {
   switch (status) {
