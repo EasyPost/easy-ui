@@ -77,7 +77,7 @@
 }
 
 // prettier-ignore
-.variantPositive {
+.variantSuccess {
   @include component-token("badge", "primary.color.background", design-token("color.positive.600"));
   @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
   @include component-token("badge", "secondary.color.background", design-token("color.positive.100"));
