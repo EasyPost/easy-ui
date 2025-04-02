@@ -1,7 +1,7 @@
 @use "../styles/common" as *;
 
 .root {
-  @include font-style("small-button");
+  @include font-style("subtitle2");
   border-radius: design-token("shape.border_radius.lg");
   display: inline-flex;
   // Ensures the background colors do not bleed out of the border radius edges
@@ -31,11 +31,17 @@
 }
 
 // prettier-ignore
-.variantPrimary {
-  @include component-token("badge", "primary.color.background", design-token("color.primary.600"));
-  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+.variantPrimary.hasIconOrSecondaryLabel {
   @include component-token("badge", "secondary.color.background", design-token("color.primary.100"));
   @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
+  @include component-token("badge", "primary.color.background", design-token("color.primary.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantPrimary:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.primary.700"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
 }
 
 // prettier-ignore
@@ -71,7 +77,7 @@
 }
 
 // prettier-ignore
-.variantSuccess {
+.variantPositive {
   @include component-token("badge", "primary.color.background", design-token("color.positive.600"));
   @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
   @include component-token("badge", "secondary.color.background", design-token("color.positive.100"));
@@ -92,4 +98,256 @@
   @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
   @include component-token("badge", "secondary.color.background", design-token("color.negative.100"));
   @include component-token("badge", "secondary.color.text", design-token("color.primary.800"));
+}
+
+// prettier-ignore
+.variantPrimary\.100.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.primary.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.primary.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.primary.900"));
+}
+
+// prettier-ignore
+.variantPrimary\.100:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.primary.100"));
+  @include component-token("badge", "primary.color.text", design-token("color.primary.900"));
+}
+
+// prettier-ignore
+.variantPrimary\.500.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.primary.800"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.primary.500"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantPrimary\.500:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.primary.500"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantPrimary\.700.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.primary.900"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.primary.700"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantPrimary\.700:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.primary.700"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantSecondary\.100.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.secondary.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.secondary.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.secondary.900"));
+}
+
+// prettier-ignore
+.variantSecondary\.100:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.secondary.100"));
+  @include component-token("badge", "primary.color.text", design-token("color.secondary.900"));
+}
+
+// prettier-ignore
+.variantSecondary\.500.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.secondary.800"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.secondary.500"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantSecondary\.500:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.secondary.500"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantSecondary\.700.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.secondary.900"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.secondary.700"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantSecondary\.700:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.secondary.700"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantPositive\.100.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.positive.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.positive.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.positive.900"));
+}
+
+// prettier-ignore
+.variantPositive\.100:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.positive.100"));
+  @include component-token("badge", "primary.color.text", design-token("color.positive.900"));
+}
+
+// prettier-ignore
+.variantPositive\.600.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.positive.800"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.positive.600"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantPositive\.600:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.positive.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantPositive\.700.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.positive.900"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.positive.700"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantPositive\.700:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.positive.700"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantNegative\.100.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.negative.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.negative.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.negative.900"));
+}
+
+// prettier-ignore
+.variantNegative\.100:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.negative.100"));
+  @include component-token("badge", "primary.color.text", design-token("color.negative.900"));
+}
+
+// prettier-ignore
+.variantNegative\.400.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.negative.700"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.negative.400"));
+  @include component-token("badge", "secondary.color.text", design-token("color.negative.900"));
+}
+
+// prettier-ignore
+.variantNegative\.400:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.negative.400"));
+  @include component-token("badge", "primary.color.text", design-token("color.negative.900"));
+}
+
+// prettier-ignore
+.variantNegative\.600.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.negative.800"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.negative.600"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantNegative\.600:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.negative.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantWarning\.100.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.warning.500"));
+  @include component-token("badge", "primary.color.text", design-token("color.warning.900"));
+  @include component-token("badge", "secondary.color.background", design-token("color.warning.100"));
+  @include component-token("badge", "secondary.color.text", design-token("color.warning.900"));
+}
+
+// prettier-ignore
+.variantWarning\.100:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.warning.100"));
+  @include component-token("badge", "primary.color.text", design-token("color.warning.900"));
+}
+
+// prettier-ignore
+.variantWarning\.500.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.warning.700"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.warning.500"));
+  @include component-token("badge", "secondary.color.text", design-token("color.warning.900"));
+}
+
+// prettier-ignore
+.variantWarning\.500:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.warning.500"));
+  @include component-token("badge", "primary.color.text", design-token("color.warning.900"));
+}
+
+// prettier-ignore
+.variantWarning\.600.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.warning.800"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.warning.600"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantWarning\.600:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.warning.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantNeutral\.050.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.500"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.neutral.050"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.900"));
+}
+
+// prettier-ignore
+.variantNeutral\.050:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.050"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.900"));
+}
+
+// prettier-ignore
+.variantNeutral\.500.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.700"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.neutral.500"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantNeutral\.500:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.500"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantNeutral\.600.hasIconOrSecondaryLabel {
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.800"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
+  @include component-token("badge", "secondary.color.background", design-token("color.neutral.600"));
+  @include component-token("badge", "secondary.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantNeutral\.600:not(.hasIconOrSecondaryLabel) {
+  @include component-token("badge", "primary.color.background", design-token("color.neutral.600"));
+  @include component-token("badge", "primary.color.text", design-token("color.neutral.000"));
 }

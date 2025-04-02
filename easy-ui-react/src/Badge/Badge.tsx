@@ -16,17 +16,34 @@ export type BadgeVariant =
   | "gray"
   | "success"
   | "warning"
-  | "danger";
+  | "danger"
+  | "primary.100"
+  | "primary.500"
+  | "primary.700"
+  | "secondary.100"
+  | "secondary.500"
+  | "secondary.700"
+  | "positive.100"
+  | "positive.600"
+  | "positive.700"
+  | "negative.100"
+  | "negative.400"
+  | "negative.600"
+  | "warning.100"
+  | "warning.500"
+  | "warning.600"
+  | "neutral.050"
+  | "neutral.500"
+  | "neutral.600";
 
 export type BadgeProps = {
   /**
-   * Accessible label for the badge if it differs from its content. Required
-   * for icon badges.
+   * Accessible label for the badge if it differs from its content.
    */
   accessibilityLabel?: string;
 
   /** Primary badge label. */
-  children?: ReactNode;
+  children: ReactNode;
 
   /** Badge icon */
   icon?: IconSymbol;
@@ -57,12 +74,6 @@ export type BadgeProps = {
  * ```
  *
  * @example
- * _Simple icon:_
- * ```tsx
- * <Badge accessibilityLabel="Intent of badge" icon={IconSymbol} />
- * ```
- *
- * @example
  * _Detailed text:_
  * ```tsx
  * <Badge secondaryLabel="Last updated: Jan 3. 2023">
@@ -88,39 +99,35 @@ export function Badge(props: BadgeProps) {
   const className = classNames(
     styles.root,
     styles[variationName("variant", variant)],
+    (icon || secondaryLabel) && styles.hasIconOrSecondaryLabel,
   );
 
   // Ideally the below conditions could use discriminated type unions to enforce
   // constraints statically but as of now it makes for too rigorous of an API.
   // Can consider revisiting in the future.
 
-  if (!icon && !children) {
-    console.warn("Badge requires one of children or icon");
+  if (!children) {
+    console.warn("Badge requires children");
   }
 
   if (secondaryLabel && icon) {
     console.warn("secondaryLabel is not supported on a Badge with icon");
   }
 
-  if (icon && !children && !accessibilityLabel) {
-    console.warn("Badge with only icon must have accessibilityLabel");
-  }
-
   return (
     <span className={className} data-testid="root">
       {accessibilityLabel && <Text visuallyHidden>{accessibilityLabel}</Text>}
-      <span className={styles.primary}>
-        {icon ? (
+      {icon && (
+        <span className={styles.primary}>
           <Icon symbol={icon} size="sm" />
-        ) : (
-          <span className={styles.text}>{children}</span>
-        )}
+        </span>
+      )}
+      <span className={icon ? styles.secondary : styles.primary}>
+        <span className={styles.text}>{children}</span>
       </span>
-      {children && (icon || secondaryLabel) && (
+      {secondaryLabel && (
         <span className={styles.secondary}>
-          <span className={styles.text}>
-            {icon ? <>{children}</> : <>{secondaryLabel}</>}
-          </span>
+          <span className={styles.text}>{secondaryLabel}</span>
         </span>
       )}
     </span>
