@@ -57,7 +57,7 @@
     "@storybook/manager-api": "^8.6.4",
     "@storybook/react": "^8.6.4",
     "@storybook/react-vite": "^8.6.4",
-    "@storybook/test": "^8.6.11",
+    "@storybook/test": "^8.6.12",
     "@storybook/theming": "^8.6.11",
     "@types/node": "^22.13.17",
     "babel-loader": "^10.0.0",
