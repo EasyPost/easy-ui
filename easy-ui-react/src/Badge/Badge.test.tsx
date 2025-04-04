@@ -22,11 +22,6 @@ describe("<Badge />", () => {
     expect(screen.getByText("Badge text")).toBeInTheDocument();
   });
 
-  it("should render simple icon", () => {
-    render(<Badge accessibilityLabel="Intent of badge" icon={Anchor} />);
-    expect(screen.getByText(/intent of badge/i)).toBeInTheDocument();
-  });
-
   it("should render detailed icon", () => {
     render(<Badge icon={Anchor}>Badge text</Badge>);
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
@@ -47,17 +42,11 @@ describe("<Badge />", () => {
     );
   });
 
-  it("should warn on missing children or icon", () => {
+  it("should warn on missing children", () => {
+    // @ts-expect-error warning check
     render(<Badge secondaryLabel="Secondary text" />);
     expect(consoleWarnSpy).toBeCalledWith(
-      expect.stringMatching(/requires one of children or icon/),
-    );
-  });
-
-  it("should warn with no accessibility label on icon", () => {
-    render(<Badge icon={Anchor} />);
-    expect(consoleWarnSpy).toBeCalledWith(
-      expect.stringMatching(/must have accessibilityLabel/),
+      expect.stringMatching(/requires children/),
     );
   });
 
@@ -67,7 +56,9 @@ describe("<Badge />", () => {
         accessibilityLabel="Intent of badge"
         secondaryLabel="Secondary text"
         icon={Anchor}
-      />,
+      >
+        Badge text
+      </Badge>,
     );
     expect(consoleWarnSpy).toBeCalledWith(
       expect.stringMatching(/secondaryLabel is not supported/),

@@ -48,19 +48,6 @@ export const SimpleText: Story = {
   },
 };
 
-export const SimpleIcon: Story = {
-  render: Template.bind({}),
-  args: {
-    icon: AnchorIcon,
-    accessibilityLabel: "Text to describe badge",
-  },
-  parameters: {
-    controls: {
-      include: ["accessibilityLabel", "icon", "variant"],
-    },
-  },
-};
-
 export const DetailedIcon: Story = {
   render: Template.bind({}),
   args: {
@@ -98,6 +85,24 @@ export const ColorVariants: Story = {
       <Badge {...args} variant="success" />
       <Badge {...args} variant="warning" />
       <Badge {...args} variant="danger" />
+      <Badge {...args} variant="primary.100" />
+      <Badge {...args} variant="primary.500" />
+      <Badge {...args} variant="primary.700" />
+      <Badge {...args} variant="secondary.100" />
+      <Badge {...args} variant="secondary.500" />
+      <Badge {...args} variant="secondary.700" />
+      <Badge {...args} variant="positive.100" />
+      <Badge {...args} variant="positive.600" />
+      <Badge {...args} variant="positive.700" />
+      <Badge {...args} variant="negative.100" />
+      <Badge {...args} variant="negative.400" />
+      <Badge {...args} variant="negative.600" />
+      <Badge {...args} variant="warning.100" />
+      <Badge {...args} variant="warning.500" />
+      <Badge {...args} variant="warning.600" />
+      <Badge {...args} variant="neutral.050" />
+      <Badge {...args} variant="neutral.500" />
+      <Badge {...args} variant="neutral.600" />
     </>
   ),
   args: {
