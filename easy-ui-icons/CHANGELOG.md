@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.39
+
+### Minor Changes
+
+- e622eea: Adds TrackChanges icon
+
 ## 1.0.0-alpha.38
 
 ### Minor Changes
