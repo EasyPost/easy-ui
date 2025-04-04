@@ -1,5 +1,17 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.76
+
+### Minor Changes
+
+- 35e6d73: feat(Notification): add transitions
+
+### Patch Changes
+
+- c2ea4f7: fix(Notification): border radius
+- Updated dependencies [e622eea]
+  - @easypost/easy-ui-icons@1.0.0-alpha.39
+
 ## 1.0.0-alpha.75
 
 ### Patch Changes
