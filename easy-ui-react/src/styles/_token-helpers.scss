@@ -31,6 +31,6 @@
   @return var(--ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp});
 }
 
-@function invert($token) {
+@function negate($token) {
   @return calc(#{$token} * -1);
 }
