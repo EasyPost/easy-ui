@@ -40,6 +40,7 @@ export type TextWhiteSpace =
   | "pre-wrap"
   | "break-spaces"
   | "pre-line";
+export type FontVariantNumeric = "normal" | "tabular-nums";
 
 export type TextProps = {
   /** Adjusts horizontal alignment of text */
@@ -52,6 +53,8 @@ export type TextProps = {
   children: ReactNode;
   /** Adjust color of text */
   color?: TextColor;
+  /** Adjust the font variant */
+  fontVariantNumeric?: FontVariantNumeric;
   /** HTML id attribute */
   id?: string;
   /** HTML role attribute */
@@ -117,6 +120,7 @@ export function Text({
   breakWord = false,
   children,
   color,
+  fontVariantNumeric,
   id,
   transform = "none",
   truncate = false,
@@ -136,6 +140,8 @@ export function Text({
     visuallyHidden && styles.visuallyHidden,
     transform && styles[variationName("transform", transform)],
     whiteSpace && styles[variationName("whiteSpace", whiteSpace)],
+    fontVariantNumeric &&
+      styles[variationName("fontVariantNumeric", fontVariantNumeric)],
   );
 
   const style = {
