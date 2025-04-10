@@ -15,7 +15,7 @@
 
 `HostedUILayout` will be a compound component consisting of several pieces including `HostedUILayout`, `HostedUILayout.Header`, `HostedUILayout.Content`, and `HostedUILayout.MultipageContainer`.
 
-In structure and style, it will be very similar to the existing `HostedUILayout` with some key differences. For instance, the default presentation for `HostedUILayout` will be the multi-page navigational layout.
+In structure and style, it will be very similar to the existing `NexusLayout` with some key differences. For instance, the default presentation for `HostedUILayout` will be the multi-page navigational layout.
 
 An additional point worth highlighting is that the `MultipageContainer` will be constructed in a way where it can be exported as a stand-alone piece and usable in a non `HostedUILayout` context.
 
@@ -38,6 +38,7 @@ type HostedUILayoutLogoGroupProps = {
 };
 
 type HostedUILayoutContentProps = {
+  /** Content children */
   children: ReactNode;
 };
 
@@ -73,8 +74,8 @@ type HostedUILayoutLinkActionProps = {
   renderBadge?: () => ReactNode;
 } & AriaLinkOptions;
 
-type HostedUILayoutMultipageOuterContainerProps = {
-  /** Multipage outer container children. */
+type HostedUILayoutMultipageContainerProps = {
+  /** Multipage container children. */
   children: ReactNode;
 };
 
@@ -179,7 +180,7 @@ function App() {
         </HostedUILayout.Actions>
       </HostedUILayout.Header>
       <HostedUILayout.Content>
-        <HostedUILayout.MultipageOuterContainer>
+        <HostedUILayout.MultipageContainer>
           <HostedUILayout.MultipageBrandHeader>
             <SomeOtherLogo />
           </HostedUILayout.MultipageBrandHeader>
@@ -221,7 +222,7 @@ function App() {
               <div>Content</div>
             </HostedUILayout.MultipageContent>
           </HostedUILayout.MultipageInnerContainer>
-        </HostedUILayout.MultipageOuterContainer>
+        </HostedUILayout.MultipageContainer>
       </HostedUILayout.Content>
     </HostedUILayout>
   );
