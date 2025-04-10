@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.16
+
+### Minor Changes
+
+- b0b6ef1: feat: add PlanCard
+
 ## 1.0.0-alpha.15
 
 ### Patch Changes
