@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.77
+
+### Minor Changes
+
+- b0b6ef1: feat: add PlanCard
+
+### Patch Changes
+
+- Updated dependencies [b0b6ef1]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.16
+
 ## 1.0.0-alpha.76
 
 ### Minor Changes
