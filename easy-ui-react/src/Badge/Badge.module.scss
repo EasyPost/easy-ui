@@ -8,6 +8,10 @@
   overflow: hidden;
 }
 
+.block {
+  display: flex;
+}
+
 .primary,
 .secondary {
   display: inline-flex;
@@ -22,6 +26,12 @@
 .secondary {
   background: component-token("badge", "secondary.color.background");
   color: component-token("badge", "secondary.color.text");
+}
+
+.block:not(.hasSecondary) .primary,
+.block.hasSecondary .secondary {
+  flex: 1;
+  justify-content: center;
 }
 
 // Wrapper element around the text to normalize the hor and ver padding

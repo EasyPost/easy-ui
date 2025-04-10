@@ -68,6 +68,9 @@ export type CardContainerProps = {
    */
   boxShadow?: ShadowLevel;
 
+  /** Card border color. */
+  borderColor?: ThemeTokenNamespace<"color">;
+
   /**
    * Card border radius.
    */
@@ -135,6 +138,7 @@ function CardContainer(props: CardContainerProps) {
     variant = DEFAULT_VARIANT,
     boxShadow,
     borderRadius = DEFAULT_BORDER_RADIUS,
+    borderColor,
     ...restProps
   } = props;
 
@@ -158,7 +162,7 @@ function CardContainer(props: CardContainerProps) {
       "card",
       "color-border",
       "color",
-      getLeftBorderToken(status),
+      borderColor ? borderColor : getLeftBorderToken(status),
     ),
   };
 

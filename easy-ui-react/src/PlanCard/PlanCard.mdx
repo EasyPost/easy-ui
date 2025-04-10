@@ -1,0 +1,46 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/blocks";
+import { PlanCard } from "./PlanCard";
+import * as PlanCardStories from "./PlanCard.stories";
+
+<Meta of={PlanCardStories} />
+
+# PlanCard
+
+An `<PlanCard />` is a styled container designed to display and compare subscription plan information.
+
+`PlanCard` contains essential building blocks but is highly composable. Any subcomponent can be replaced with alternative versions as the feature developer sees fit. Refer to the code for specific stories to understand what pieces can be replaced.
+
+## Starter
+
+<Canvas of={PlanCardStories.Starter} />
+
+## Essential
+
+<Canvas of={PlanCardStories.Essential} />
+
+## Growth
+
+<Canvas of={PlanCardStories.Growth} />
+
+## Enterprise
+
+<Canvas of={PlanCardStories.Enterprise} />
+
+## Static
+
+<Canvas of={PlanCardStories.Static} />
+
+## Properties
+
+### PlanCard
+
+<ArgTypes of={PlanCard} />
+
+### PlanCard.Button
+
+<ArgTypes of={PlanCard.Button} />
+
+### PlanCard.Link
+
+<ArgTypes of={PlanCard.Link} />

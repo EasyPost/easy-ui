@@ -30,3 +30,7 @@
   $cleanedComponentProp: string.clean-name($componentProp);
   @return var(--ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp});
 }
+
+@function negate($token) {
+  @return calc(#{$token} * -1);
+}

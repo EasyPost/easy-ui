@@ -25,6 +25,12 @@ export type BadgeProps = {
    */
   accessibilityLabel?: string;
 
+  /**
+   * Whether the badge should be displayed as a block element.
+   * @default false
+   */
+  block?: boolean;
+
   /** Primary badge label. */
   children?: ReactNode;
 
@@ -75,10 +81,17 @@ export type BadgeProps = {
  * ```tsx
  * <Badge icon={IconSymbol}>Badge text</Badge>
  * ```
+ *
+ * @example
+ * _Block:_
+ * ```tsx
+ * <Badge block>Badge text</Badge>
+ * ```
  */
 export function Badge(props: BadgeProps) {
   const {
     accessibilityLabel,
+    block = false,
     children,
     secondaryLabel,
     icon,
@@ -88,6 +101,8 @@ export function Badge(props: BadgeProps) {
   const className = classNames(
     styles.root,
     styles[variationName("variant", variant)],
+    block && styles.block,
+    (icon || secondaryLabel) && styles.hasSecondary,
   );
 
   // Ideally the below conditions could use discriminated type unions to enforce

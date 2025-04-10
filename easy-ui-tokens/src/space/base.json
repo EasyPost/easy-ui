@@ -8,6 +8,7 @@
     "1.5": { "value": "12px", "attributes": { "unit": "rem" } },
     "2": { "value": "16px", "attributes": { "unit": "rem" } },
     "3": { "value": "24px", "attributes": { "unit": "rem" } },
+    "3.5": { "value": "28px", "attributes": { "unit": "rem" } },
     "4": { "value": "32px", "attributes": { "unit": "rem" } },
     "4.5": { "value": "36px", "attributes": { "unit": "rem" } },
     "5": { "value": "40px", "attributes": { "unit": "rem" } },

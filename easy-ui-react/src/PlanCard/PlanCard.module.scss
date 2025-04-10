@@ -1,0 +1,36 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.link {
+  @include unstyled.link;
+}
+
+.button {
+  @include unstyled.button;
+}
+
+.link,
+.button {
+  cursor: pointer;
+  border-radius: design-token("shape.border_radius.lg");
+}
+
+.callout {
+  display: flex;
+  flex-direction: column;
+  min-height: design-token("space.3.5");
+}
+
+.illustration {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: invert(design-token("space.2"));
+
+  svg,
+  img {
+    display: block;
+    width: 100%;
+  }
+}
