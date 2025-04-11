@@ -9,8 +9,8 @@ import { ReactNode } from "react";
 import { IconSymbol } from "../types";
 
 /** Denote that an object must contain a key. */
-export type KeyedObject = {
-  readonly key: Key;
+export type KeyedObject<K extends Key = Key> = {
+  readonly key: K;
 };
 
 export type Column = KeyedObject & {
@@ -18,10 +18,8 @@ export type Column = KeyedObject & {
   [property: string]: unknown;
 };
 
-export type Row<C extends Column> = KeyedObject & {
-  /** Must contain a property for each key in column. */
-  [property in C["key"]]: unknown;
-};
+export type Row<D extends Record<string, unknown> = Record<string, unknown>> =
+  KeyedObject & D;
 
 export type MenuRowAction = {
   type: "menu";
@@ -46,29 +44,42 @@ export type ActionRowAction = {
   onAction: () => void;
 };
 
+export type ColumnKey<C extends Column = Column> = C["key"];
+export type RowKey<R extends Row = Row> = R["key"];
+
+export type KeyedSortDescriptor<K extends Key = Key> = Omit<
+  SortDescriptor,
+  "column"
+> & {
+  column: K;
+};
+
 export type RowAction = MenuRowAction | ActionRowAction;
 
-export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
+export type DataGridProps<
+  C extends Column = Column,
+  R extends Row = Row,
+> = AriaLabelingProps & {
   /** Use columns and rows to specify data grid content. */
   children?: never;
 
   /** List of keys for columns to allow sort. */
-  columnKeysAllowingSort?: Key[];
+  columnKeysAllowingSort?: ColumnKey<C>[];
 
   /** Columns for the table. */
   columns: C[];
 
   /** The initial expanded key in the collection (uncontrolled). */
-  defaultExpandedKey?: Key;
+  defaultExpandedKey?: RowKey<R>;
 
   /** The initial selected keys in the collection (uncontrolled). */
-  defaultSelectedKeys?: "all" | Iterable<Key>;
+  defaultSelectedKeys?: "all" | Iterable<RowKey<R>>;
 
   /** A list of row keys to disable from selection. */
-  disabledKeys?: Iterable<Key>;
+  disabledKeys?: Iterable<RowKey<R>>;
 
   /** The currently expanded key in the collection (controlled). */
-  expandedKey?: Key;
+  expandedKey?: RowKey<R>;
 
   /**
    * Variant of the data grid header to use.
@@ -80,37 +91,37 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   maxRows?: number;
 
   /** Handler that is called when a user performs an action on the cell. */
-  onCellAction?: (key: Key) => void;
+  onCellAction?: (key: RowKey<R>) => void;
 
   /** Handler that is called when the expansion changes. */
-  onExpandedChange?: (key: Key) => void;
+  onExpandedChange?: (key: RowKey<R>) => void;
 
   /** Handler that is called when a user performs an action on the row. */
-  onRowAction?: (key: Key) => void;
+  onRowAction?: (key: RowKey<R>) => void;
 
   /** Handler that is called when the selection changes. */
   onSelectionChange?: (keys: Selection) => void;
 
   /** Handler that is called when the sorted column or direction changes. */
-  onSortChange?: (descriptor: SortDescriptor) => void;
+  onSortChange?: (descriptor: KeyedSortDescriptor<ColumnKey<C>>) => void;
 
   /** Renders the content of a column cell. */
   renderColumnCell: (cell: C) => ReactNode;
 
   /** Renders the contents of the expanded row. */
-  renderExpandedRow?: (key: Key) => ReactNode;
+  renderExpandedRow?: (key: RowKey<R>) => ReactNode;
 
   /** Renders the content of a row cell. */
-  renderRowCell: (cell: unknown, columnKey: Key, row: Row<C>) => ReactNode;
+  renderRowCell: (cell: unknown, columnKey: ColumnKey<C>, row: R) => ReactNode;
 
   /** Actions for the row */
-  rowActions?: (key: Key) => RowAction[];
+  rowActions?: (key: RowKey<R>) => RowAction[];
 
   /** Rows for the table. */
-  rows: Row<C>[];
+  rows: R[];
 
   /** The currently selected keys in the collection (controlled). */
-  selectedKeys?: "all" | Iterable<Key>;
+  selectedKeys?: "all" | Iterable<RowKey<R>>;
 
   /** The type of selection that is allowed in the collection. */
   selectionMode?: SelectionMode;
@@ -122,7 +133,7 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   size?: "sm" | "md" | "lg";
 
   /** The current sorted column and direction. */
-  sortDescriptor?: SortDescriptor;
+  sortDescriptor?: KeyedSortDescriptor<ColumnKey<C>>;
 
   /**
    * Renders the content of empty state.

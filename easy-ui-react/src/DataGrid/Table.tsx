@@ -15,18 +15,23 @@ import {
   EXPAND_COLUMN_KEY,
 } from "./constants";
 import { DataGridTableContext } from "./context";
-import { Column, DataGridProps } from "./types";
+import { Column, DataGridProps, Row as RowType } from "./types";
 import { useEdgeInterceptors } from "./useEdgeInterceptors";
 import { useExpandedRow } from "./useExpandedRow";
 import { Spinner } from "../Spinner";
 
 import styles from "./DataGrid.module.scss";
 
-type TableProps<C extends Column> = Omit<DataGridProps<C>, "children"> & {
+type TableProps<C extends Column, R extends RowType> = Omit<
+  DataGridProps<C, R>,
+  "children"
+> & {
   children?: [ReactElement, ReactElement];
 };
 
-export function Table<C extends Column>(props: TableProps<C>) {
+export function Table<C extends Column, R extends RowType>(
+  props: TableProps<C, R>,
+) {
   const {
     headerVariant,
     maxRows = DEFAULT_MAX_ROWS,
