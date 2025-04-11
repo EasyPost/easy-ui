@@ -7,7 +7,7 @@ import { Table } from "./Table";
 import { VisuallyHiddenCellContent } from "./VisuallyHiddenCellContent";
 import { ACTIONS_COLUMN_KEY, EXPAND_COLUMN_KEY } from "./constants";
 import { DataGridContext } from "./context";
-import { Column as ColumnType, DataGridProps } from "./types";
+import { Column as ColumnType, Row as RowType, DataGridProps } from "./types";
 
 /**
  * A `DataGrid` is an interactive table used for working with a large
@@ -44,9 +44,10 @@ import { Column as ColumnType, DataGridProps } from "./types";
  *   )}
  * />
  */
-export function DataGrid<C extends ColumnType = ColumnType>(
-  props: DataGridProps<C>,
-) {
+export function DataGrid<
+  C extends ColumnType = ColumnType,
+  R extends RowType = RowType,
+>(props: DataGridProps<C, R>) {
   const {
     columns: unprocessedColumns,
     columnKeysAllowingSort = [],
@@ -197,8 +198,8 @@ function useProcessedColumns<C extends ColumnType>(
  * @param expandedKey the currently expanded row key
  * @returns processed rows
  */
-function useProcessedRows<C extends ColumnType>(
-  props: Pick<DataGridProps<C>, "renderExpandedRow" | "rows" | "rowActions">,
+function useProcessedRows<C extends ColumnType, R extends RowType>(
+  props: Pick<DataGridProps<C, R>, "renderExpandedRow" | "rows" | "rowActions">,
   expandedKey: Key | null,
 ) {
   const { renderExpandedRow, rows, rowActions } = props;

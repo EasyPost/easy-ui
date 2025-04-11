@@ -18,10 +18,8 @@ export type Column = KeyedObject & {
   [property: string]: unknown;
 };
 
-export type Row<C extends Column> = KeyedObject & {
-  /** Must contain a property for each key in column. */
-  [property in C["key"]]: unknown;
-};
+export type Row<D extends Record<string, unknown> = Record<string, unknown>> =
+  KeyedObject & D;
 
 export type MenuRowAction = {
   type: "menu";
@@ -48,7 +46,10 @@ export type ActionRowAction = {
 
 export type RowAction = MenuRowAction | ActionRowAction;
 
-export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
+export type DataGridProps<
+  C extends Column = Column,
+  R extends Row = Row,
+> = AriaLabelingProps & {
   /** Use columns and rows to specify data grid content. */
   children?: never;
 
@@ -101,13 +102,13 @@ export type DataGridProps<C extends Column = Column> = AriaLabelingProps & {
   renderExpandedRow?: (key: Key) => ReactNode;
 
   /** Renders the content of a row cell. */
-  renderRowCell: (cell: unknown, columnKey: Key, row: Row<C>) => ReactNode;
+  renderRowCell: (cell: unknown, columnKey: Key, row: R) => ReactNode;
 
   /** Actions for the row */
   rowActions?: (key: Key) => RowAction[];
 
   /** Rows for the table. */
-  rows: Row<C>[];
+  rows: R[];
 
   /** The currently selected keys in the collection (controlled). */
   selectedKeys?: "all" | Iterable<Key>;
