@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.78
+
+### Patch Changes
+
+- df594c1: Adds better types for the datagrid component
+
 ## 1.0.0-alpha.77
 
 ### Minor Changes
