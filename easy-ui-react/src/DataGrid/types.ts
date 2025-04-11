@@ -47,6 +47,13 @@ export type ActionRowAction = {
 export type ColumnKey<C extends Column = Column> = C["key"];
 export type RowKey<R extends Row = Row> = R["key"];
 
+export type KeyedSortDescriptor<K extends Key = Key> = Omit<
+  SortDescriptor,
+  "column"
+> & {
+  column: K;
+};
+
 export type RowAction = MenuRowAction | ActionRowAction;
 
 export type DataGridProps<
@@ -96,7 +103,7 @@ export type DataGridProps<
   onSelectionChange?: (keys: Selection) => void;
 
   /** Handler that is called when the sorted column or direction changes. */
-  onSortChange?: (descriptor: SortDescriptor) => void;
+  onSortChange?: (descriptor: KeyedSortDescriptor<ColumnKey<C>>) => void;
 
   /** Renders the content of a column cell. */
   renderColumnCell: (cell: C) => ReactNode;
@@ -126,7 +133,7 @@ export type DataGridProps<
   size?: "sm" | "md" | "lg";
 
   /** The current sorted column and direction. */
-  sortDescriptor?: SortDescriptor;
+  sortDescriptor?: KeyedSortDescriptor<ColumnKey<C>>;
 
   /**
    * Renders the content of empty state.
