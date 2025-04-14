@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
-    "@changesets/cli": "^2.28.1",
+    "@changesets/cli": "^2.29.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.24.0",
     "@storybook/addon-a11y": "^8.6.4",
