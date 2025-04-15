@@ -2,6 +2,8 @@ import DoorOpenIcon from "@easypost/easy-ui-icons/DoorOpen";
 import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
 import SettingsIcon from "@easypost/easy-ui-icons/Settings";
 import AccountBalanceWallet from "@easypost/easy-ui-icons/AccountBalanceWallet";
+import ApartmentIcon from "@easypost/easy-ui-icons/Apartment";
+import TerminalIcon from "@easypost/easy-ui-icons/Terminal";
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
@@ -55,6 +57,20 @@ export const Standard: Story = {
               >
                 Carriers
               </MultipageSection.SidebarNavLink>
+              <MultipageSection.SidebarNavSection title="Sub Account Management">
+                <MultipageSection.SidebarNavLink
+                  href="/3"
+                  iconSymbol={ApartmentIcon}
+                >
+                  Sub Account Details
+                </MultipageSection.SidebarNavLink>
+                <MultipageSection.SidebarNavLink
+                  href="/4"
+                  iconSymbol={TerminalIcon}
+                >
+                  API Keys and Webhooks
+                </MultipageSection.SidebarNavLink>
+              </MultipageSection.SidebarNavSection>
             </MultipageSection.SidebarNav>
           </MultipageSection.Sidebar>
           <MultipageSection.Content>

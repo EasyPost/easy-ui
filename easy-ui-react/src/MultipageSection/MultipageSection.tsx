@@ -5,6 +5,7 @@ import { VerticalStack } from "../VerticalStack";
 import {
   MultipageSectionSidebarNav,
   MultipageSectionSidebarNavLink,
+  MultipageSectionSidebarNavSection,
   useMultipageSectionSidebarNav,
 } from "./MultipageSectionSidebarNav";
 
@@ -260,6 +261,11 @@ MultipageSection.ContentTitle = MultipageSectionContentTitle;
  * Represents the sidebar nav for a `<MultipageSection />`.
  */
 MultipageSection.SidebarNav = MultipageSectionSidebarNav;
+
+/**
+ * Represents a sidebar nav section for a `<MultipageSection />`.
+ */
+MultipageSection.SidebarNavSection = MultipageSectionSidebarNavSection;
 
 /**
  * Represents a sidebar nav link for a `<MultipageSection />`.

@@ -21,6 +21,13 @@ export type MultipageSectionSidebarNavProps = {
   children: ReactNode;
 };
 
+export type MultipageSectionSidebarNavSectionProps = {
+  /** Sidebar nav section title. */
+  title: ReactNode;
+  /** Sidebar nav section children. */
+  children: ReactNode;
+};
+
 export type MultipageSectionSidebarNavLinkProps = {
   /** Nav link icon symbol. */
   iconSymbol: IconSymbol;
@@ -60,6 +67,18 @@ export function MultipageSectionSidebarNav(
         {children}
       </VerticalStack>
     </SidebarNavContext.Provider>
+  );
+}
+
+export function MultipageSectionSidebarNavSection(
+  props: MultipageSectionSidebarNavSectionProps,
+) {
+  const { title, children } = props;
+  return (
+    <VerticalStack gap="2" inlineAlign="start">
+      <Text variant="overline">{title}</Text>
+      {children}
+    </VerticalStack>
   );
 }
 
