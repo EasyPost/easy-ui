@@ -1,0 +1,60 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { HostedUILayout } from "./HostedUILayout";
+import * as HostedUILayoutStories from "./HostedUILayout.stories";
+
+<Meta of={HostedUILayoutStories} />
+
+# HostedUILayout
+
+`HostedUILayout` defines a header and main content area for a HostedUI product page.
+
+`HostedUILayout` is a compound component consisting of `HostedUILayout`, `HostedUILayout.Header`, and `HostedUILayout.Content`.
+
+`HostedUILayout` also provides several components for constructing the header, including `HostedUILayout.LogoContainer` and `HostedUILayout.Actions`.
+
+<Canvas of={HostedUILayoutStories.StandardContent} />
+
+## With MultipageSection
+
+`HostedUILayout` can be combined with `MultipageSection` to render a multipage navigational container.
+
+<Canvas of={HostedUILayoutStories.MultipageContent} />
+
+## Properties
+
+### HostedUILayout
+
+<ArgTypes of={HostedUILayout} />
+
+### HostedUILayout.Header
+
+<ArgTypes of={HostedUILayout.Header} />
+
+### HostedUILayout.Logo
+
+<ArgTypes of={HostedUILayout.Logo} />
+
+### HostedUILayout.LogoContainer
+
+<ArgTypes of={HostedUILayout.LogoContainer} />
+
+### HostedUILayout.Actions
+
+<ArgTypes of={HostedUILayout.Actions} />
+
+### HostedUILayout.MenuAction
+
+<ArgTypes of={HostedUILayout.MenuAction} />
+
+### HostedUILayout.LinkAction
+
+<ArgTypes of={HostedUILayout.LinkAction} />
+
+### HostedUILayout.ActionBadge
+
+<ArgTypes of={HostedUILayout.ActionBadge} />
+
+### HostedUILayout.Content
+
+<ArgTypes of={HostedUILayout.Content} />

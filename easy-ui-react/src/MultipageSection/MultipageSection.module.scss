@@ -1,0 +1,54 @@
+@use "../styles/common" as *;
+
+.MultipageSection {
+  @include component-token("multipage-section", "max-width", 1174px);
+  @include component-token(
+    "multipage-section",
+    "multipage-sidebar-width",
+    195px
+  );
+  @include component-token(
+    "multipage-section",
+    "multipage-brand-header-height",
+    108px
+  );
+
+  display: flex;
+  background: design-token("color.neutral.000");
+  border-radius: design-token("shape.border_radius.lg");
+  box-shadow: design-token("shadow.level.2");
+}
+
+.container,
+.splitContainer {
+  display: flex;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.brandHeader {
+  padding: design-token("space.3");
+  width: 100%;
+  height: component-token("multipage-section", "multipage-brand-header-height");
+  border-bottom: 1px solid design-token("color.neutral.200");
+}
+
+.brandLogo {
+  display: inline-flex;
+}
+
+.sidebar {
+  padding: design-token("space.3");
+  width: 100%;
+  max-width: component-token("multipage-section", "multipage-sidebar-width");
+  border-right: 1px solid design-token("color.neutral.300");
+}
+
+.content {
+  flex: 1;
+  padding: design-token("space.3") design-token("space.4");
+}
