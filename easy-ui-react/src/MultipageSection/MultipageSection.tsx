@@ -275,5 +275,4 @@ MultipageSection.SidebarNavLink = MultipageSectionSidebarNavLink;
 /**
  * Represents a helper hook for retrieving nav state  for a `<MultipageSection />`.
  */
-MultipageSection.useNexusLayoutMultipageSidebarNav =
-  useMultipageSectionSidebarNav;
+MultipageSection.useMultipageSectionSidebarNav = useMultipageSectionSidebarNav;
