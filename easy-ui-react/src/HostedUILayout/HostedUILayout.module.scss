@@ -2,8 +2,7 @@
 @use "../styles/unstyled";
 
 .HostedUILayout {
-  @include component-token("hostedui-layout", "max-width", 1360px);
-  @include component-token("hostedui-layout", "multipage-sidebar-width", 280px);
+  @include component-token("hostedui-layout", "max-width", 1369px);
 
   display: flex;
   flex-direction: column;

@@ -1,11 +1,15 @@
 @use "../styles/common" as *;
 
 .MultipageSection {
-  @include component-token("multipage-section", "max-width", 1174px);
+  @include component-token(
+    "multipage-section",
+    "multipage-content-width",
+    1089px
+  );
   @include component-token(
     "multipage-section",
     "multipage-sidebar-width",
-    195px
+    280px
   );
   @include component-token(
     "multipage-section",
@@ -49,6 +53,8 @@
 }
 
 .content {
-  flex: 1;
-  padding: design-token("space.3") design-token("space.4");
+  padding: design-token("space.3");
+  max-width: component-token("multipage-section", "multipage-content-width");
+  width: 100%;
+  margin: 0 auto;
 }

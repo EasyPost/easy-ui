@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useId, useMemo, useRef } from "react";
+import React, { ReactNode, useContext, useMemo, useRef } from "react";
 import {
   AriaLinkOptions,
   mergeProps,
@@ -57,13 +57,12 @@ export function MultipageSectionSidebarNav(
   props: MultipageSectionSidebarNavProps,
 ) {
   const { selectedHref, children } = props;
-  const titleId = useId();
   const context = useMemo(() => {
     return { selectedHref };
   }, [selectedHref]);
   return (
     <SidebarNavContext.Provider value={context}>
-      <VerticalStack as="nav" gap="2" aria-labelledby={titleId}>
+      <VerticalStack as="nav" gap="2">
         {children}
       </VerticalStack>
     </SidebarNavContext.Provider>

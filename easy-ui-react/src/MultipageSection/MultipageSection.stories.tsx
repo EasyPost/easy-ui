@@ -36,10 +36,10 @@ export const Standard: Story = {
       <MultipageSection.Container>
         <MultipageSection.BrandHeader>
           <MultipageSection.BrandHeaderLogo>
-            <UPSLogoImg />
+            <UPSLogoImg alt="ups" />
           </MultipageSection.BrandHeaderLogo>
           <MultipageSection.BrandHeaderTitle>
-            SomethingRoyal
+            Brand Title
           </MultipageSection.BrandHeaderTitle>
         </MultipageSection.BrandHeader>
         <MultipageSection.SplitContainer>
@@ -135,7 +135,7 @@ export const Layout: Story = {
                 <UPSLogoImg />
               </MultipageSection.BrandHeaderLogo>
               <MultipageSection.BrandHeaderTitle>
-                SomethingRoyal
+                Brand Title
               </MultipageSection.BrandHeaderTitle>
             </MultipageSection.BrandHeader>
             <MultipageSection.SplitContainer>

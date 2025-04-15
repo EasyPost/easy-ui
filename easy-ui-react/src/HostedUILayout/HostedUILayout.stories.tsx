@@ -58,7 +58,7 @@ export const StandardContent: Story = {
   ),
 };
 
-export const MultipageContent: Story = {
+export const WithMultipageSection: Story = {
   render: () => (
     <HostedUILayout>
       <HostedUILayout.Header>
@@ -90,10 +90,10 @@ export const MultipageContent: Story = {
           <MultipageSection.Container>
             <MultipageSection.BrandHeader>
               <MultipageSection.BrandHeaderLogo>
-                <UPSLogoImg />
+                <UPSLogoImg alt="ups" />
               </MultipageSection.BrandHeaderLogo>
               <MultipageSection.BrandHeaderTitle>
-                SomethingRoyal
+                Brand Title
               </MultipageSection.BrandHeaderTitle>
             </MultipageSection.BrandHeader>
             <MultipageSection.SplitContainer>
