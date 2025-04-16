@@ -1,0 +1,53 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.button {
+  @include unstyled.link;
+  @include unstyled.button;
+  cursor: pointer;
+  color: design-token("color.primary.700");
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: design-token("shape.border_radius.lg");
+  padding: design-token("space.0.5");
+  margin: calc(#{design-token("space.0.5")} * -1);
+  outline: none;
+}
+
+.focused,
+[data-focus-visible="true"] {
+  @include native-focus-ring;
+}
+
+.hovered,
+[data-hovered="true"] {
+  background-color: design-token("color.neutral.050");
+}
+
+.selected,
+.open {
+  background-color: design-token("color.primary.700");
+  color: design-token("color.neutral.000");
+}
+
+.badgeContainer {
+  position: absolute;
+  right: design-token("space.0.5");
+  bottom: design-token("space.0.5");
+  display: inline-flex;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: design-token("color.positive.500");
+  border-radius: 100%;
+  color: design-token("color.primary.800");
+  height: design-token("space.1.5");
+  width: design-token("space.1.5");
+}

@@ -1,0 +1,76 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/blocks";
+import { MultipageSection } from "./MultipageSection";
+import * as MultipageSectionStories from "./MultipageSection.stories";
+
+<Meta of={MultipageSectionStories} />
+
+# MultipageSection
+
+`MultipageSection` represents a section for multipage navigation and a content area that is preceded by a branded header.
+
+`MultipageSection` is a compound component consisting of `MultipageSection`, `MultipageSection.Container`, `MultipageSection.BrandHeader`, `MultipageSection.Sidebar`, and `MultipageSection.Content`.
+
+`MultipageSection` also provides components for building the sidebar navigation with `MultipageSection.SidebarNav`.
+
+<Canvas of={MultipageSectionStories.Standard} />
+
+## With HostedUILayout
+
+To build full product pages, it can be combined as the content for layouts such as `HostedUILayout`
+
+<Canvas of={MultipageSectionStories.Layout} />
+
+## Properties
+
+### MultipageSection
+
+<ArgTypes of={MultipageSection} />
+
+### MultipageSection.Container
+
+<ArgTypes of={MultipageSection.Container} />
+
+### MultipageSection.SplitContainer
+
+<ArgTypes of={MultipageSection.SplitContainer} />
+
+### MultipageSection.Sidebar
+
+<ArgTypes of={MultipageSection.Sidebar} />
+
+### MultipageSection.BrandHeader
+
+<ArgTypes of={MultipageSection.BrandHeader} />
+
+### MultipageSection.BrandHeaderLogo
+
+<ArgTypes of={MultipageSection.BrandHeaderLogo} />
+
+### MultipageSection.BrandHeaderTitle
+
+<ArgTypes of={MultipageSection.BrandHeaderTitle} />
+
+### MultipageSection.Content
+
+<ArgTypes of={MultipageSection.Content} />
+
+### MultipageSection.ContentHeader
+
+<ArgTypes of={MultipageSection.ContentHeader} />
+
+### MultipageSection.ContentTitle
+
+<ArgTypes of={MultipageSection.ContentTitle} />
+
+### MultipageSection.SidebarNav
+
+<ArgTypes of={MultipageSection.SidebarNav} />
+
+### MultipageSection.SidebarNavSection
+
+<ArgTypes of={MultipageSection.SidebarNavSection} />
+
+### MultipageSection.SidebarNavLink
+
+<ArgTypes of={MultipageSection.SidebarNavLink} />

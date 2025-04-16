@@ -2,7 +2,7 @@
 
 ## Overview
 
-`HostedUILayout` defines the header, main content, and multi-page content areas of a HostedUI product page.
+`HostedUILayout` defines a header and main content area for a HostedUI product page.
 
 ### Prior Art
 
@@ -13,32 +13,41 @@
 
 ## Design
 
-`HostedUILayout` will be a compound component consisting of several pieces including `HostedUILayout`, `HostedUILayout.Header`, `HostedUILayout.Content`, and `HostedUILayout.MultipageContainer`.
+`HostedUILayout` will be a compound component consisting of several pieces including `HostedUILayout`, `HostedUILayout.Header`, and `HostedUILayout.Content`.
 
-In structure and style, it will be very similar to the existing `NexusLayout` with some key differences. For instance, the default presentation for `HostedUILayout` will be the multi-page navigational layout.
+In structure and style, it will be very similar to the existing `NexusLayout`.
 
-An additional point worth highlighting is that the `MultipageContainer` will be constructed in a way where it can be exported as a stand-alone piece and usable in a non `HostedUILayout` context.
+In addition to creating a `HostedUILayout` component, a `MultipageSection` component will also be built to
+support multi-page navigational layout. The `MultipageSection` component will be designed to be a stand-alone
+component capable of being layered into other product layouts.
 
 ### API
 
 ```ts
+// HostedUI
+
 type HostedUILayoutProps = {
   /** Layout children. */
   children: ReactNode;
 };
 
 type HostedUILayoutHeaderProps = {
-  /** Header children */
+  /** Header children. */
   children: ReactNode;
 };
 
-type HostedUILayoutLogoGroupProps = {
-  /** LogoGroup children */
+type HostedUILayoutLogoContainerProps = {
+  /** Logo container children */
+  children: ReactNode;
+};
+
+type HostedUILayoutLogoProps = {
+  /** Logo children. */
   children: ReactNode;
 };
 
 type HostedUILayoutContentProps = {
-  /** Content children */
+  /** Content children. */
   children: ReactNode;
 };
 
@@ -57,9 +66,9 @@ type HostedUILayoutMenuActionProps = {
   accessibilityLabel?: string;
   /** Icon symbol for the action. */
   iconSymbol: IconSymbol;
-  /** Slot for badge to be rendered. */
+  /** Badge for the action. */
   renderBadge?: () => ReactNode;
-  /** Slot for rendering the menu overlay. */
+  /** Render the menu overlay. */
   children: ReactNode;
 };
 
@@ -74,58 +83,80 @@ type HostedUILayoutLinkActionProps = {
   renderBadge?: () => ReactNode;
 } & AriaLinkOptions;
 
-type HostedUILayoutMultipageContainerProps = {
-  /** Multipage container children. */
+type HostedUILayoutButtonActionProps = {
+  /** Optional custom accessibility label describing the menu action. */
+  accessibilityLabel?: string;
+  /** Action button icon symbol. */
+  iconSymbol: IconSymbol;
+  /** Whether or not action button is selected. */
+  isSelected?: boolean;
+  /** Badge for the action. */
+  renderBadge?: () => ReactNode;
+} & ButtonProps &
+  React.RefAttributes<HTMLButtonElement>;
+
+// MultipageSection
+
+type MultipageSectionProps = {
+  /** MultipageSection children. */
   children: ReactNode;
 };
 
-type HostedUILayoutMultipageInnerContainerProps = {
-  /** Multipage inner container children. */
+type MultipageSectionContainerProps = {
+  /** MultipageSection container children. */
   children: ReactNode;
 };
 
-type HostedUILayoutMultipageBrandHeaderProps = {
-  /** Multipage brand header children. */
+type MultipageSectionSplitContainerProps = {
+  /** MultipageSection split container children. */
   children: ReactNode;
 };
 
-type HostedUILayoutMultipageSidebarProps = {
-  /** Multipage container sidebar children. */
+type MultipageSectionSidebarProps = {
+  /** MultipageSection sidebar children. */
   children: ReactNode;
 };
 
-type HostedUILayoutMultipageContentProps = {
-  /** Multipage container content children. */
+type MultipageSectionBrandHeaderProps = {
+  /** MultipageSection brand header children. */
   children: ReactNode;
 };
 
-type HostedUILayoutMultipageHeaderProps = {
-  /** Multipage container header children. */
+type MultipageSectionBrandHeaderLogoProps = {
+  /** MultipageSection brand header logo children. */
   children: ReactNode;
 };
 
-type HostedUILayoutMultipageTitleProps = {
-  /** Multipage container title text. */
+type MultipageSectionBrandHeaderTitleProps = {
+  /** MultipageSection brand header title children. */
   children: ReactNode;
 };
 
-type HostedUILayoutMultipageSidebarNavProps = {
-  /** Sidebar nav title. */
-  title: ReactNode;
+type MultipageSectionContentProps = {
+  /** MultipageSection content children. */
+  children: ReactNode;
+};
+
+type MultipageSectionContentHeaderProps = {
+  /** MultipageSection container header children. */
+  children: ReactNode;
+};
+
+type MultipageSectionContentTitleProps = {
+  /** MultipageSection content title icon. */
+  titleIcon?: IconSymbol;
+  /** MultipageSection content title text. */
+  children: ReactNode;
+};
+
+type MultipageSectionSidebarNavProps = {
   /** Selected href of sidebar nav link. */
   selectedHref?: AriaLinkOptions["href"];
   /** Multipage container children. */
   children: ReactNode;
 };
 
-type HostedUILayoutMultipageSidebarNavSectionProps = {
-  /** Sidebar nav section title. */
-  title: ReactNode;
-  /** Sidebar nav section children. */
-  children: ReactNode;
-};
-
-type HostedUILayoutMultipageSidebarNavLinkProps = {
+type MultipageSectionSidebarNavLinkProps = {
   /** Nav link icon symbol. */
   iconSymbol: IconSymbol;
   /** Nav link children. */
@@ -139,90 +170,68 @@ _Basic setup:_
 
 ```tsx
 import { HostedUILayout } from "@easypost/easy-ui/HostedUILayout";
+import { MultipageSection } from "@easypost/easy-ui/MultipageSection";
 
 function App() {
   return (
     <HostedUILayout>
       <HostedUILayout.Header>
-        <HostedUILayout.LogoGroup>
-          <EasyPostLogo />
-          <OtherLogo />
-        </HostedUILayout.LogoGroup>
+        <HostedUILayout.LogoContainer>
+          <HostedUILayout.Logo>
+            <SomeLogo />
+          </HostedUILayout.Logo>
+        </HostedUILayout.LogoContainer>
         <HostedUILayout.Actions>
           <HostedUILayout.MenuAction
-            accessibilityLabel="Label"
+            accessibilityLabel="Menu Action"
             iconSymbol={Icon}
-            renderBadge={() => <Badge />}
+            renderBadge={() => <HostedUILayout.ActionBadge />}
           >
             <Menu.Overlay onAction={() => {}}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
+              <Menu.Item>Action 1:1</Menu.Item>
+              <Menu.Item>Action 1:2</Menu.Item>
             </Menu.Overlay>
           </HostedUILayout.MenuAction>
-          <HostedUILayout.MenuAction
-            accessibilityLabel="Label"
+          <HostedUILayout.ButtonAction
+            accessibilityLabel="Button Action"
             iconSymbol={Icon}
-          >
-            <Menu.Overlay onAction={() => {}}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
-            </Menu.Overlay>
-          </HostedUILayout.MenuAction>
-          <HostedUILayout.MenuAction
-            accessibilityLabel="Label"
-            iconSymbol={Icon}
-          >
-            <Menu.Overlay onAction={() => {}}>
-              <Menu.Item>Action 1</Menu.Item>
-              <Menu.Item>Action 2</Menu.Item>
-            </Menu.Overlay>
-          </HostedUILayout.MenuAction>
+            onPress={() => {}}
+          />
         </HostedUILayout.Actions>
       </HostedUILayout.Header>
       <HostedUILayout.Content>
-        <HostedUILayout.MultipageContainer>
-          <HostedUILayout.MultipageBrandHeader>
-            <SomeOtherLogo />
-          </HostedUILayout.MultipageBrandHeader>
-          <HostedUILayout.MultipageInnerContainer>
-            <HostedUILayout.MultipageSidebar>
-              <HostedUILayout.MultipageSidebarNav
-                title={<>Settings</>}
-                selectedHref="/1"
-              >
-                <HostedUILayout.MultipageSidebarNavSection
-                  title={<>General Account Settings</>}
-                >
-                  <HostedUILayout.MultipageSidebarNavLink
-                    key="/1"
-                    href="/1"
-                    iconSymbol={Icon}
-                  >
-                    Wallet
-                  </HostedUILayout.MultipageSidebarNavLink>
-                  <HostedUILayout.MultipageSidebarNavLink
-                    key="/2"
-                    href="/2"
-                    iconSymbol={Icon}
-                  >
-                    Carriers
-                  </HostedUILayout.MultipageSidebarNavLink>
-                </HostedUILayout.MultipageSidebarNavSection>
-              </HostedUILayout.MultipageSidebarNav>
-            </HostedUILayout.MultipageSidebar>
-            <HostedUILayout.MultipageContent>
-              <HostedUILayout.MultipageHeader>
-                <HostedUILayout.MultipageTitle>
-                  Wallet Settings
-                </HostedUILayout.MultipageTitle>
-                <Button size="sm" variant="outlined">
-                  Edit Account Settings
-                </Button>
-              </HostedUILayout.MultipageHeader>
-              <div>Content</div>
-            </HostedUILayout.MultipageContent>
-          </HostedUILayout.MultipageInnerContainer>
-        </HostedUILayout.MultipageContainer>
+        <MultipageSection>
+          <MultipageSection.Container>
+            <MultipageSection.BrandHeader>
+              <MultipageSection.BrandHeaderLogo>
+                <SomeLogo />
+              </MultipageSection.BrandHeaderLogo>
+              <MultipageSection.BrandHeaderTitle>
+                Brand Title
+              </MultipageSection.BrandHeaderTitle>
+            </MultipageSection.BrandHeader>
+            <MultipageSection.SplitContainer>
+              <MultipageSection.Sidebar>
+                <MultipageSection.SidebarNav selectedHref="/1">
+                  <MultipageSection.SidebarNavLink href="/1" iconSymbol={Icon}>
+                    Link 1
+                  </MultipageSection.SidebarNavLink>
+                  <MultipageSection.SidebarNavLink href="/2" iconSymbol={Icon}>
+                    Link 2
+                  </MultipageSection.SidebarNavLink>
+                </MultipageSection.SidebarNav>
+              </MultipageSection.Sidebar>
+              <MultipageSection.Content>
+                <MultipageSection.ContentHeader>
+                  <MultipageSection.ContentTitle titleIcon={Icon}>
+                    Content Title
+                  </MultipageSection.ContentTitle>
+                </MultipageSection.ContentHeader>
+                <div>Content</div>
+              </MultipageSection.Content>
+            </MultipageSection.SplitContainer>
+          </MultipageSection.Container>
+        </MultipageSection>
       </HostedUILayout.Content>
     </HostedUILayout>
   );
@@ -237,13 +246,11 @@ function App() {
 
 - `HostedUILayout.Header` will render as `header`
 - `HostedUILayout.Content` will render as `main`
-- `HostedUILayout.MultipageSidebarNav` will be rendered as `nav`
-- `HostedUILayout.MultipageSidebarNavLink` will render as `<a>`
+- `MultipageSection.SidebarNav` will be rendered as `nav`
+- `MultipageSection.SidebarNavLink` will render as `<a>`
 - Selected nav links will be decorated as `aria-current="page"`
 
 ### Dependencies
 
-- `Card`
-- `Text`
-- `useLink`
-- Will necessitate extending `EasyUIProvider` with navigation hooks to support client-side links. See [client side routing](https://react-spectrum.adobe.com/react-aria/routing.html#routerprovider).
+- Easy UI components including `Text`, `Icon`, `VerticalStack`, `HorizontalStack`, and `Menu`
+- Helper hooks from `react-aria` including `useFocusRing`, `useLink`, and `usePress`
