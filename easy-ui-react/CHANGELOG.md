@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.79
+
+### Minor Changes
+
+- 21cf174: create HostedUILayout and MultiSection components
+
 ## 1.0.0-alpha.78
 
 ### Patch Changes
