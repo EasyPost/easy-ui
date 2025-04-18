@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.80
+
+### Patch Changes
+
+- 49fa62b: fix(PlanCard): use proper token helper
+
 ## 1.0.0-alpha.79
 
 ### Minor Changes
