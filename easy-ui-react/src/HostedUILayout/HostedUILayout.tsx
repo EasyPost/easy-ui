@@ -72,9 +72,12 @@ export const useHostedUILayout = () => {
 /**
  * `HostedUILayout` defines a header and main content area for a HostedUI product page.
  *
+ * @remarks
+ * `HostedUILayout` can be combined with `MultipageSection` to render a multipage navigational container.
+ *
  * @example
  * ```tsx
- * <HostedUILayout>
+ * <HostedUILayout mode="test">
  *   <HostedUILayout.Header>
  *    <HostedUILayout.LogoContainer>
  *      <HostedUILayout.Logo>
