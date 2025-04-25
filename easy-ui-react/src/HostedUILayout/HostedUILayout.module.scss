@@ -22,21 +22,30 @@
   display: inline-flex;
 }
 
+.testModeBanner {
+  width: 100%;
+  background: design-token("color.warning.100");
+  padding: design-token("space.1");
+  border-radius: 0 0 design-token("shape.border_radius.lg")
+    design-token("shape.border_radius.md");
+}
+
 .header {
   z-index: design-token("z-index.nav");
   position: sticky;
   top: 0;
+  min-width: 0;
+  background-color: design-token("color.neutral.050");
+  border-bottom: 1px solid design-token("color.neutral.300");
+  padding: 0 design-token("space.3");
+}
 
+.logoAndActions {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  min-width: 0;
-
-  background-color: design-token("color.neutral.050");
-  border-bottom: 1px solid design-token("color.neutral.300");
   height: design-token("space.7");
-  padding: 0 design-token("space.3");
 }
 
 .content {

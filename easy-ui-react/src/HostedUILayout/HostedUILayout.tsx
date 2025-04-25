@@ -1,6 +1,9 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext, useMemo } from "react";
+import ExperimentIcon from "@easypost/easy-ui-icons/Experiment";
 import { EasyPostLogo } from "../utilities/EasyPostLogo";
 import { HorizontalStack } from "../HorizontalStack";
+import { Text } from "../Text";
+import { Icon } from "../Icon";
 import {
   HostedUILayoutActionBadge,
   HostedUILayoutActions,
@@ -11,7 +14,21 @@ import {
 
 import styles from "./HostedUILayout.module.scss";
 
+export type Mode = "test" | "production";
+
 export type HostedUILayoutProps = {
+  /**
+   * Displays a prominent message with an icon when in test mode.
+   *
+   * @default production
+   */
+  mode?: Mode;
+  /**
+   * Controls whether the EasyPost logo displays
+   *
+   * @default true
+   */
+  shouldDisplayEasyPostLogo?: boolean;
   /** Layout children. */
   children: ReactNode;
 };
@@ -34,6 +51,22 @@ export type HostedUILayoutLogoProps = {
 export type HostedUILayoutContentProps = {
   /** Content children. */
   children: ReactNode;
+};
+
+export type HostedUILayoutContextType = {
+  shouldDisplayEasyPostLogo?: boolean;
+  mode?: Mode;
+};
+
+const HostedUILayoutContext =
+  React.createContext<HostedUILayoutContextType | null>(null);
+
+export const useHostedUILayout = () => {
+  const context = useContext(HostedUILayoutContext);
+  if (!context) {
+    throw new Error("useHostedUILayout must be used within a HostedUILayout");
+  }
+  return context;
 };
 
 /**
@@ -73,13 +106,45 @@ export type HostedUILayoutContentProps = {
  * ```
  */
 export function HostedUILayout(props: HostedUILayoutProps) {
-  const { children } = props;
-  return <div className={styles.HostedUILayout}>{children}</div>;
+  const {
+    children,
+    mode = "production",
+    shouldDisplayEasyPostLogo = true,
+  } = props;
+
+  const context = useMemo(() => {
+    return { mode, shouldDisplayEasyPostLogo };
+  }, [mode, shouldDisplayEasyPostLogo]);
+  return (
+    <HostedUILayoutContext.Provider value={context}>
+      <div className={styles.HostedUILayout}>{children}</div>
+    </HostedUILayoutContext.Provider>
+  );
+}
+
+function TestModeBanner() {
+  return (
+    <div className={styles.testModeBanner} data-testid="test-mode">
+      <HorizontalStack gap="1" blockAlign="center">
+        <Icon symbol={ExperimentIcon} color="primary.700" size="lg" />
+        <Text variant="subtitle1" color="warning.900">
+          This Environment is in Test Mode
+        </Text>
+      </HorizontalStack>
+    </div>
+  );
 }
 
 function HostedUILayoutHeader(props: HostedUILayoutHeaderProps) {
   const { children } = props;
-  return <header className={styles.header}>{children}</header>;
+  const { mode } = useHostedUILayout();
+  const isTestMode = mode === "test";
+  return (
+    <header className={styles.header}>
+      {isTestMode && <TestModeBanner />}
+      <div className={styles.logoAndActions}>{children}</div>
+    </header>
+  );
 }
 
 function HostedUILayoutLogo(props: HostedUILayoutLogoProps) {
@@ -90,11 +155,14 @@ function HostedUILayoutLogo(props: HostedUILayoutLogoProps) {
 
 function HostedUILayoutLogoContainer(props: HostedUILayoutLogoContainerProps) {
   const { children } = props;
+  const { shouldDisplayEasyPostLogo } = useHostedUILayout();
   return (
     <HorizontalStack gap="1" blockAlign="center" align="start" wrap={false}>
-      <HostedUILayoutLogo>
-        <EasyPostLogo />
-      </HostedUILayoutLogo>
+      {shouldDisplayEasyPostLogo && (
+        <HostedUILayoutLogo>
+          <EasyPostLogo />
+        </HostedUILayoutLogo>
+      )}
       {children}
     </HorizontalStack>
   );
