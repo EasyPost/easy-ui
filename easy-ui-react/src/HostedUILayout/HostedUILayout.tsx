@@ -24,7 +24,7 @@ export type HostedUILayoutProps = {
    */
   mode?: Mode;
   /**
-   * Controls whether the EasyPost logo displays
+   * Controls whether the EasyPost logo displays.
    *
    * @default true
    */
