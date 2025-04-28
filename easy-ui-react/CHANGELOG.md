@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.81
+
+### Minor Changes
+
+- 5710284: feat: support test mode and displaying logo for HostedUILayout
+
+### Patch Changes
+
+- Updated dependencies [5710284]
+  - @easypost/easy-ui-icons@1.0.0-alpha.40
+
 ## 1.0.0-alpha.80
 
 ### Patch Changes
