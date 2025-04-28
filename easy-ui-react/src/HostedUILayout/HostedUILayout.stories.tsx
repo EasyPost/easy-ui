@@ -57,6 +57,66 @@ export const StandardContent: Story = {
     </HostedUILayout>
   ),
 };
+export const TestMode: Story = {
+  render: () => (
+    <HostedUILayout mode="test">
+      <HostedUILayout.Header>
+        <HostedUILayout.LogoContainer>
+          <HostedUILayout.Logo>
+            <StripeLogo />
+          </HostedUILayout.Logo>
+        </HostedUILayout.LogoContainer>
+        <HostedUILayout.Actions>
+          <HostedUILayout.ButtonAction
+            accessibilityLabel="Action 1"
+            iconSymbol={DoorOpenIcon}
+            onPress={action("Button clicked!")}
+          />
+        </HostedUILayout.Actions>
+      </HostedUILayout.Header>
+      <HostedUILayout.Content>
+        <div
+          style={{
+            height: 400,
+            background: "white",
+            borderRadius: 8,
+          }}
+        />
+      </HostedUILayout.Content>
+    </HostedUILayout>
+  ),
+};
+export const DisplayEasyPostLogo: Story = {
+  render: () => (
+    <HostedUILayout shouldDisplayEasyPostLogo={false}>
+      <HostedUILayout.Header>
+        <HostedUILayout.LogoContainer>
+          <HostedUILayout.Logo>
+            <StripeLogo />
+          </HostedUILayout.Logo>
+        </HostedUILayout.LogoContainer>
+        <HostedUILayout.Actions>
+          <HostedUILayout.ButtonAction
+            accessibilityLabel="Action 1"
+            iconSymbol={DoorOpenIcon}
+            onPress={action("Button clicked!")}
+          />
+        </HostedUILayout.Actions>
+      </HostedUILayout.Header>
+      <HostedUILayout.Content>
+        <div
+          style={{
+            height: 400,
+            background: "white",
+            borderRadius: 8,
+          }}
+        />
+      </HostedUILayout.Content>
+    </HostedUILayout>
+  ),
+};
+
+DisplayEasyPostLogo.storyName = "Display EasyPost Logo";
 
 export const WithMultipageSection: Story = {
   render: () => (

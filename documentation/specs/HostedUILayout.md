@@ -26,7 +26,19 @@ component capable of being layered into other product layouts.
 ```ts
 // HostedUI
 
-type HostedUILayoutProps = {
+export type HostedUILayoutProps = {
+  /**
+   * Displays a prominent message with an icon when in test mode.
+   *
+   * @default production
+   */
+  mode?: Mode;
+  /**
+   * Controls whether the EasyPost logo displays.
+   *
+   * @default true
+   */
+  shouldDisplayEasyPostLogo?: boolean;
   /** Layout children. */
   children: ReactNode;
 };
@@ -174,7 +186,7 @@ import { MultipageSection } from "@easypost/easy-ui/MultipageSection";
 
 function App() {
   return (
-    <HostedUILayout>
+    <HostedUILayout mode="test">
       <HostedUILayout.Header>
         <HostedUILayout.LogoContainer>
           <HostedUILayout.Logo>

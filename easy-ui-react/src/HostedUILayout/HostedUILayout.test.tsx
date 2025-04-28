@@ -5,16 +5,14 @@ import { Menu } from "../Menu";
 import {
   mockGetComputedStyle,
   mockIntersectionObserver,
-  mockMatchMedia,
   render,
   userClick,
 } from "../utilities/test";
-import { HostedUILayout } from "./HostedUILayout";
+import { HostedUILayout, Mode } from "./HostedUILayout";
 
 describe("<HostedUILayout />", () => {
   let restoreGetComputedStyle: () => void;
   let restoreIntersectionObserver: () => void;
-  let restoreMatchMedia: () => void;
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -29,13 +27,12 @@ describe("<HostedUILayout />", () => {
   });
 
   it("should render a hosted ui layout", async () => {
-    restoreMatchMedia = mockMatchMedia({ getMatches: () => false });
-
     const handleMenuAction = vi.fn();
 
     const { user } = render(
       createHostedUILayout({
         onMenuAction: handleMenuAction,
+        mode: "production",
       }),
     );
 
@@ -47,19 +44,32 @@ describe("<HostedUILayout />", () => {
     await userClick(user, screen.getByRole("menuitem", { name: "Action 1" }));
 
     expect(handleMenuAction).toBeCalled();
+  });
 
-    restoreMatchMedia();
+  it("should render a banner in test mode", () => {
+    render(
+      createHostedUILayout({
+        mode: "test",
+      }),
+    );
+
+    expect(
+      screen.getByText("This Environment is in Test Mode"),
+    ).toBeInTheDocument();
+
+    expect(screen.getByTestId("test-mode")).toBeInTheDocument();
   });
 });
 
 function createHostedUILayout(
   props: {
     onMenuAction?: () => void;
+    mode?: Mode;
   } = {},
 ) {
-  const { onMenuAction = vi.fn() } = props;
+  const { onMenuAction = vi.fn(), mode = "production" } = props;
   return (
-    <HostedUILayout>
+    <HostedUILayout mode={mode}>
       <HostedUILayout.Header>
         <HostedUILayout.LogoContainer>
           <HostedUILayout.Logo>Logo</HostedUILayout.Logo>
