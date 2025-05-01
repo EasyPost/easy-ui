@@ -47,7 +47,7 @@
     "test:watch:react": "npm run test:watch --workspace @easypost/easy-ui"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.10",
+    "@babel/core": "^7.27.1",
     "@changesets/cli": "^2.29.2",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.25.1",
