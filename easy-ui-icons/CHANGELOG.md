@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.41
+
+### Minor Changes
+
+- 58b4d44: Adds code icon
+
 ## 1.0.0-alpha.40
 
 ### Minor Changes
