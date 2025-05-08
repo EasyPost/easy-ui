@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.43
+
+### Patch Changes
+
+- 0cddbc4: Fixes Payments Icon Location
+
 ## 1.0.0-alpha.42
 
 ### Minor Changes
