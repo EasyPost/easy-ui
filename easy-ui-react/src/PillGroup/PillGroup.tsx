@@ -10,6 +10,7 @@ import {
   getComponentToken,
   getResponsiveDesignToken,
   getComponentThemeToken,
+  classNames,
 } from "../utilities/css";
 import {
   InternalPillGroupContext,
@@ -41,6 +42,12 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
     >;
     /** The background of individual pills. Maps to token theme colors. */
     background?: PillBackground;
+    /**
+     * Whether or not individual pills have a border.
+     *
+     * @default false
+     */
+    isBorderless?: boolean;
   };
 
 /**
@@ -102,6 +109,7 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
     children,
     horizontalStackContainerProps = {},
     background = "neutral.000",
+    isBorderless = false,
   } = props;
   const {
     align,
@@ -114,8 +122,9 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
   const context = useMemo(() => {
     return {
       background,
+      isBorderless,
     };
-  }, [background]);
+  }, [background, isBorderless]);
 
   const style = {
     ...getResponsiveDesignToken("pill-group", "gap", "space", gap),
@@ -151,14 +160,16 @@ export type PillProps = {
 
 function Pill(props: PillProps) {
   const { label, icon } = props;
-  const { background } = useInternalPillGroupContext();
+  const { background, isBorderless } = useInternalPillGroupContext();
 
   const style = {
     ...getComponentThemeToken("pill", "background", "color", background),
   } as React.CSSProperties;
 
+  const className = classNames(styles.Pill, isBorderless && styles.borderless);
+
   return (
-    <Tag textValue={label} className={styles.Pill} style={style} {...props}>
+    <Tag textValue={label} className={className} style={style} {...props}>
       {({ allowsRemoving }) => (
         <>
           {icon && <Icon size="xs" symbol={icon} color="primary.700" />}

@@ -90,6 +90,13 @@ export type MultiSelectProps<T extends object> = {
    * The background of individual pills. Maps to token theme colors.
    */
   pillBackground?: PillBackground;
+
+  /**
+   * Whether or not individual pills have a border.
+   *
+   * @default false
+   */
+  isPillBorderless?: boolean;
 };
 
 /**
@@ -153,6 +160,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
     renderPill,
     selectedItems,
     pillBackground,
+    isPillBorderless,
   } = props;
 
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -230,6 +238,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
           onRemove={onRemoveSelectedItem}
           label="Selected items"
           background={pillBackground}
+          isBorderless={isPillBorderless}
         >
           {renderPill}
         </PillGroup>

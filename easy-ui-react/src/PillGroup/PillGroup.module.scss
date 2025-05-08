@@ -14,6 +14,10 @@
   background: component-token("pill", "background");
 }
 
+.borderless {
+  border: none;
+}
+
 .remove {
   @include unstyled.button;
   cursor: pointer;

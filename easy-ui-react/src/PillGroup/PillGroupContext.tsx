@@ -3,6 +3,7 @@ import { PillBackground } from "./PillGroup";
 
 type InternalPillGroupContextType = {
   background: PillBackground;
+  isBorderless: boolean;
 };
 
 export const InternalPillGroupContext =

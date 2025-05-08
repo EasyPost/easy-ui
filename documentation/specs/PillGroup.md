@@ -71,6 +71,12 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
     >;
     /** The background of individual pills. Maps to token theme colors. */
     background?: PillBackground;
+    /**
+     * Whether or not individual pills have a border.
+     *
+     * @default false
+     */
+    isBorderless?: boolean;
   };
 
 export type PillProps = {

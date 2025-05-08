@@ -82,6 +82,9 @@ type MultiSelectProps<T extends object> = {
 
   /** The background of individual pills. Maps to token theme colors. */
   pillBackground?: PillBackground;
+
+  /** Whether or not individual pills have a border. */
+  isPillBorderless?: boolean;
 };
 ```
 
