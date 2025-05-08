@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui-icons",
-  "version": "1.0.0-alpha.41",
+  "version": "1.0.0-alpha.42",
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",
