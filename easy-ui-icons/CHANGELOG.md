@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.44
+
+### Minor Changes
+
+- 80a9b78: Adds SupportAgent, ReceiptLong, Graph3, and BarChart icons
+
 ## 1.0.0-alpha.43
 
 ### Patch Changes
