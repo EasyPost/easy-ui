@@ -87,7 +87,7 @@ export type MultiSelectProps<T extends object> = {
   selectedItems: T[];
 
   /**
-   * The background of individual pills.
+   * The background of individual pills. Maps to token theme colors.
    */
   pillBackground?: PillBackground;
 };

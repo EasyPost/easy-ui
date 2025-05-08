@@ -2,6 +2,7 @@ import React from "react";
 import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
 import { screen } from "@testing-library/react";
 import { PillGroup, usePillListState } from "./PillGroup";
+import { getComponentThemeToken } from "../utilities/css";
 import { render, userClick, userTab, userKeyboard } from "../utilities/test";
 
 describe("<PillGroup />", () => {
@@ -54,6 +55,19 @@ describe("<PillGroup />", () => {
       </PillGroup>,
     );
     expect(screen.getAllByRole("button").length).toBe(2);
+  });
+
+  it("supports background colors", () => {
+    const callbackFn = vi.fn();
+    render(
+      <PillGroup label="Label" onRemove={callbackFn} background="primary.800">
+        <PillGroup.Pill label="Foobaz 123" icon={LocalShippingIcon} />
+        <PillGroup.Pill label="Foobaz 456" icon={LocalShippingIcon} />
+      </PillGroup>,
+    );
+    expect(screen.getByRole("row", { name: "Foobaz 123" })).toHaveStyle(
+      getComponentThemeToken("pill", "background", "color", "primary.800"),
+    );
   });
 
   it("supports onRemove callback function", async () => {

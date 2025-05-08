@@ -39,7 +39,7 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
       HorizontalStackProps,
       "children" | "as"
     >;
-    /** The background of individual pills */
+    /** The background of individual pills. Maps to token theme colors. */
     background?: PillBackground;
   };
 
