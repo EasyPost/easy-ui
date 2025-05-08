@@ -11,6 +11,7 @@
   border: design-token("shape.border_width.1") solid
     design-token("color.gray.400");
   align-items: center;
+  background: component-token("pill", "background");
 }
 
 .remove {
