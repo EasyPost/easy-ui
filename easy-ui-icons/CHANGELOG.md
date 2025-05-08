@@ -1,5 +1,17 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.41
+
+### Minor Changes
+
+- 58b4d44: Adds code icon
+
+## 1.0.0-alpha.40
+
+### Minor Changes
+
+- 5710284: feat: support test mode and displaying logo for HostedUILayout
+
 ## 1.0.0-alpha.39
 
 ### Minor Changes

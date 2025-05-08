@@ -15,6 +15,18 @@ import * as HostedUILayoutStories from "./HostedUILayout.stories";
 
 <Canvas of={HostedUILayoutStories.StandardContent} />
 
+## Test Mode
+
+`HostedUILayout` can display a prominent message for indicating test mode with the `mode="test"` prop.
+
+<Canvas of={HostedUILayoutStories.TestMode} />
+
+## Display EasyPost Logo
+
+By default, `HostedUILayout` displays the EasyPost logo. To prevent the logo from displaying, set the `shouldDisplayEasyPostLogo` prop to `false`.
+
+<Canvas of={HostedUILayoutStories.DisplayEasyPostLogo} />
+
 ## With MultipageSection
 
 `HostedUILayout` can be combined with `MultipageSection` to render a multipage navigational container.
