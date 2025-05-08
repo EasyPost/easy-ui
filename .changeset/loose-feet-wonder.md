@@ -2,4 +2,4 @@
 "@easypost/easy-ui": minor
 ---
 
-feat: support background colors for PillGroup and add pillBackground prop to MultiSelect
+feat: support background colors and borderless config for PillGroup and add pillBackground and isPillBorderless prop to MultiSelect
