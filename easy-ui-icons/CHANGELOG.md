@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.42
+
+### Minor Changes
+
+- a192fc6: Adds Payments and Palette Icons
+
 ## 1.0.0-alpha.41
 
 ### Minor Changes
