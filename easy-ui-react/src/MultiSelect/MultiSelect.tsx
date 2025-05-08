@@ -6,7 +6,7 @@ import { AsyncListData, useAsyncList, useListData } from "react-stately";
 import { Icon } from "../Icon";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { DEFAULT_MAX_ITEMS_UNTIL_SCROLL } from "../Menu/utilities";
-import { PillGroup, PillProps } from "../PillGroup";
+import { PillGroup, PillProps, PillBackground } from "../PillGroup";
 import {
   MultiSelectDropdown,
   MultiSelectDropdownOption,
@@ -85,6 +85,11 @@ export type MultiSelectProps<T extends object> = {
    * the currently selected items.
    */
   selectedItems: T[];
+
+  /**
+   * The background of individual pills.
+   */
+  pillBackground?: PillBackground;
 };
 
 /**
@@ -147,6 +152,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
     placeholder,
     renderPill,
     selectedItems,
+    pillBackground,
   } = props;
 
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -223,6 +229,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
           horizontalStackContainerProps={{ gap: "1" }}
           onRemove={onRemoveSelectedItem}
           label="Selected items"
+          background={pillBackground}
         >
           {renderPill}
         </PillGroup>

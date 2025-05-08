@@ -111,6 +111,12 @@ Use `onRemove` prop of `<PillGroup />` and `usePillListState` for handling remov
 
 <Canvas of={PillStories.Removal} />
 
+## Background
+
+The `background` prop controls the background color for individual pills.
+
+<Canvas of={PillStories.Background} />
+
 ## Properties
 
 ### PillGroup props
@@ -126,6 +132,8 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
       HorizontalStackProps,
       "children" | "as"
     >;
+    /** The background of individual pills */
+    background?: PillBackground;
   };
 
 export type PillProps = {
