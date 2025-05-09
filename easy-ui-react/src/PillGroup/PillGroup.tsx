@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useListData } from "react-stately";
 import type { TagGroupProps, TagListProps } from "react-aria-components";
 import { TagGroup, TagList, Tag, Label, Button } from "react-aria-components";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
-import { IconSymbol } from "../types";
-import { getComponentToken, getResponsiveDesignToken } from "../utilities/css";
+import { IconSymbol, ThemeTokenNamespace } from "../types";
+import {
+  getComponentToken,
+  getResponsiveDesignToken,
+  getComponentThemeToken,
+  classNames,
+} from "../utilities/css";
+import {
+  InternalPillGroupContext,
+  useInternalPillGroupContext,
+} from "./PillGroupContext";
 import styles from "./PillGroup.module.scss";
 import { HorizontalStackProps } from "../HorizontalStack";
+
+export type PillBackground = ThemeTokenNamespace<"color">;
 
 /**
  * Assists in managing state for list data for `<PillGroup />`
@@ -29,6 +40,14 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
       HorizontalStackProps,
       "children" | "as"
     >;
+    /** The background of individual pills. Maps to token theme colors. */
+    background?: PillBackground;
+    /**
+     * Whether or not individual pills have a border.
+     *
+     * @default false
+     */
+    isBorderless?: boolean;
   };
 
 /**
@@ -84,7 +103,14 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
  * ```
  */
 export function PillGroup<T extends object>(props: PillGroupProps<T>) {
-  const { label, items, children, horizontalStackContainerProps = {} } = props;
+  const {
+    label,
+    items,
+    children,
+    horizontalStackContainerProps = {},
+    background = "neutral.000",
+    isBorderless = false,
+  } = props;
   const {
     align,
     blockAlign,
@@ -92,6 +118,13 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
     wrap = true,
     inline,
   } = horizontalStackContainerProps;
+
+  const context = useMemo(() => {
+    return {
+      background,
+      isBorderless,
+    };
+  }, [background, isBorderless]);
 
   const style = {
     ...getResponsiveDesignToken("pill-group", "gap", "space", gap),
@@ -105,14 +138,16 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
     ),
   } as React.CSSProperties;
   return (
-    <TagGroup {...props}>
-      <Text visuallyHidden>
-        <Label>{label}</Label>
-      </Text>
-      <TagList items={items} className={styles.list} style={style}>
-        {children}
-      </TagList>
-    </TagGroup>
+    <InternalPillGroupContext.Provider value={context}>
+      <TagGroup {...props}>
+        <Text visuallyHidden>
+          <Label>{label}</Label>
+        </Text>
+        <TagList items={items} className={styles.list} style={style}>
+          {children}
+        </TagList>
+      </TagGroup>
+    </InternalPillGroupContext.Provider>
   );
 }
 
@@ -125,9 +160,16 @@ export type PillProps = {
 
 function Pill(props: PillProps) {
   const { label, icon } = props;
+  const { background, isBorderless } = useInternalPillGroupContext();
+
+  const style = {
+    ...getComponentThemeToken("pill", "background", "color", background),
+  } as React.CSSProperties;
+
+  const className = classNames(styles.Pill, isBorderless && styles.borderless);
 
   return (
-    <Tag textValue={label} className={styles.Pill} {...props}>
+    <Tag textValue={label} className={className} style={style} {...props}>
       {({ allowsRemoving }) => (
         <>
           {icon && <Icon size="xs" symbol={icon} color="primary.700" />}

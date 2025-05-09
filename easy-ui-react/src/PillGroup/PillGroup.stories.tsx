@@ -102,3 +102,54 @@ export const Removal: Story = {
     );
   },
 };
+
+export const Background: Story = {
+  render: () => {
+    const list = usePillListState([
+      { id: 1, name: "Food" },
+      { id: 2, name: "Travel" },
+      { id: 3, name: "Gaming" },
+      { id: 4, name: "Shopping" },
+    ]);
+
+    return (
+      <PillGroup
+        items={list.items}
+        horizontalStackContainerProps={{
+          gap: "2",
+        }}
+        onRemove={(keys) => list.remove(...keys)}
+        label="News Categories"
+        background="neutral.050"
+      >
+        {(item) => <PillGroup.Pill label={item.name} icon={FedExLogoImg} />}
+      </PillGroup>
+    );
+  },
+};
+
+export const Border: Story = {
+  render: () => {
+    const list = usePillListState([
+      { id: 1, name: "Food" },
+      { id: 2, name: "Travel" },
+      { id: 3, name: "Gaming" },
+      { id: 4, name: "Shopping" },
+    ]);
+
+    return (
+      <PillGroup
+        items={list.items}
+        horizontalStackContainerProps={{
+          gap: "2",
+        }}
+        onRemove={(keys) => list.remove(...keys)}
+        label="News Categories"
+        background="neutral.050"
+        isBorderless
+      >
+        {(item) => <PillGroup.Pill label={item.name} icon={FedExLogoImg} />}
+      </PillGroup>
+    );
+  },
+};

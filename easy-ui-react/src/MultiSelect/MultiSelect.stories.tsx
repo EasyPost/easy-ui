@@ -6,6 +6,7 @@ import {
   FedExLogoImg,
   InlineStoryDecorator,
   UPSLogoImg,
+  createColorTokensControl,
 } from "../utilities/storybook";
 import {
   Item,
@@ -44,6 +45,9 @@ const meta: Meta<typeof MultiSelect> = {
   title: "Components/MultiSelect",
   component: MultiSelect,
   args: {},
+  argTypes: {
+    pillBackground: createColorTokensControl(),
+  },
   decorators: [
     (Story) => (
       <div style={{ display: "inline-flex", width: "100%", maxWidth: 600 }}>
@@ -248,6 +252,94 @@ export const MaxItemsUntilScroll: Story = {
         renderPill={(item) => (
           <MultiSelect.Pill icon={item.icon} label={item.label} />
         )}
+      >
+        {(item) => (
+          <MultiSelect.Option textValue={item.label}>
+            <HorizontalStack gap="1" blockAlign="center">
+              {item.icon && <Icon symbol={item.icon} />}
+              <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
+            </HorizontalStack>
+          </MultiSelect.Option>
+        )}
+      </MultiSelect>
+    );
+  },
+};
+
+export const PillBackground: Story = {
+  args: {
+    pillBackground: "neutral.050",
+  },
+  render: () => {
+    const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+      fruits[0],
+    ]);
+    const { contains } = useFilter({ sensitivity: "base" });
+    const filter = useCallback(
+      (item: Item, filterText: string) => contains(item.label, filterText),
+      [contains],
+    );
+    const list = useListData<Item>({
+      initialSelectedKeys: selectedItems.map((i) => i.key),
+      initialItems: fruits,
+      filter,
+    });
+    return (
+      <MultiSelect
+        dropdownItems={list.items}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+        disabledKeys={selectedItems.map((item) => item.key)}
+        selectedItems={selectedItems}
+        onSelectionChange={setSelectedItems}
+        placeholder="Select a fruit"
+        renderPill={(item) => (
+          <MultiSelect.Pill icon={item.icon} label={item.label} />
+        )}
+        pillBackground="neutral.050"
+      >
+        {(item) => (
+          <MultiSelect.Option textValue={item.label}>
+            <HorizontalStack gap="1" blockAlign="center">
+              {item.icon && <Icon symbol={item.icon} />}
+              <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
+            </HorizontalStack>
+          </MultiSelect.Option>
+        )}
+      </MultiSelect>
+    );
+  },
+};
+
+export const PillBorder: Story = {
+  render: () => {
+    const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+      fruits[0],
+    ]);
+    const { contains } = useFilter({ sensitivity: "base" });
+    const filter = useCallback(
+      (item: Item, filterText: string) => contains(item.label, filterText),
+      [contains],
+    );
+    const list = useListData<Item>({
+      initialSelectedKeys: selectedItems.map((i) => i.key),
+      initialItems: fruits,
+      filter,
+    });
+    return (
+      <MultiSelect
+        dropdownItems={list.items}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+        disabledKeys={selectedItems.map((item) => item.key)}
+        selectedItems={selectedItems}
+        onSelectionChange={setSelectedItems}
+        placeholder="Select a fruit"
+        renderPill={(item) => (
+          <MultiSelect.Pill icon={item.icon} label={item.label} />
+        )}
+        pillBackground="neutral.050"
+        isPillBorderless
       >
         {(item) => (
           <MultiSelect.Option textValue={item.label}>

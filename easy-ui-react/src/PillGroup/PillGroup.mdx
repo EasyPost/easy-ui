@@ -111,6 +111,18 @@ Use `onRemove` prop of `<PillGroup />` and `usePillListState` for handling remov
 
 <Canvas of={PillStories.Removal} />
 
+## Background
+
+The `background` prop controls the background color for individual pills.
+
+<Canvas of={PillStories.Background} />
+
+## Border
+
+The `isBorderless` prop controls whether or not individual pills render with a border.
+
+<Canvas of={PillStories.Border} />
+
 ## Properties
 
 ### PillGroup props
@@ -126,6 +138,14 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
       HorizontalStackProps,
       "children" | "as"
     >;
+    /** The background of individual pills */
+    background?: PillBackground;
+    /**
+     * Whether or not individual pills have a border.
+     *
+     * @default false
+     */
+    isBorderless?: boolean;
   };
 
 export type PillProps = {

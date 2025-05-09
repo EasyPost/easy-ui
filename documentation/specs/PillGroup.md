@@ -36,6 +36,8 @@ For icons and dismissal support, this component will follow existing patterns in
 ### API
 
 ```ts
+export type PillBackground = ThemeTokenNamespace<"color">;
+
 type horizontalStackContainerProps = {
   /** Horizontal alignment of children */
   align?: Align;
@@ -67,6 +69,14 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
       HorizontalStackProps,
       "children" | "as"
     >;
+    /** The background of individual pills. Maps to token theme colors. */
+    background?: PillBackground;
+    /**
+     * Whether or not individual pills have a border.
+     *
+     * @default false
+     */
+    isBorderless?: boolean;
   };
 
 export type PillProps = {
