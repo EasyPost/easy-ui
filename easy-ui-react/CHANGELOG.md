@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.86
+
+### Minor Changes
+
+- 21cb65b: feat: support background colors and borderless config for PillGroup and add pillBackground and isPillBorderless prop to MultiSelect
+
 ## 1.0.0-alpha.85
 
 ### Patch Changes
