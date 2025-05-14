@@ -59,7 +59,7 @@
     "@storybook/react-vite": "^8.6.4",
     "@storybook/test": "^8.6.12",
     "@storybook/theming": "^8.6.12",
-    "@types/node": "^22.15.17",
+    "@types/node": "^22.15.18",
     "babel-loader": "^10.0.0",
     "eslint": "^9.22.0",
     "jsdom": "^26.1.0",
