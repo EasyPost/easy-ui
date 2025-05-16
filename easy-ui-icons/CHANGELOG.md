@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.45
+
+### Minor Changes
+
+- 9933f56: feat: add InkSelection icon
+
 ## 1.0.0-alpha.44
 
 ### Minor Changes
