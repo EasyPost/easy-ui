@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.88
+
+### Minor Changes
+
+- 3d49b6d: feat(Text): add text-wrap support via textWrap prop
+
 ## 1.0.0-alpha.87
 
 ### Patch Changes
