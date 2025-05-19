@@ -103,4 +103,12 @@ describe("<Text />", () => {
       expect.stringContaining("whiteSpacePre-line"),
     );
   });
+
+  it("should apply textWrap", () => {
+    render(<Text textWrap="balance">Here is some text</Text>);
+    expect(screen.getByText("Here is some text")).toHaveAttribute(
+      "class",
+      expect.stringContaining("textWrapBalance"),
+    );
+  });
 });
