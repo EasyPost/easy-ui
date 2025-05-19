@@ -40,6 +40,7 @@ export type TextWhiteSpace =
   | "pre-wrap"
   | "break-spaces"
   | "pre-line";
+export type TextWrap = "wrap" | "nowrap" | "balance" | "pretty" | "stable";
 export type FontVariantNumeric = "normal" | "tabular-nums";
 
 export type TextProps = {
@@ -59,6 +60,8 @@ export type TextProps = {
   id?: string;
   /** HTML role attribute */
   role?: HTMLAttributes<"span">["role"];
+  /** Specify wrapping behavior */
+  textWrap?: TextWrap;
   /** Transform text */
   transform?: TextTransform;
   /** Truncate text overflow with ellipsis */
@@ -122,6 +125,7 @@ export function Text({
   color,
   fontVariantNumeric,
   id,
+  textWrap,
   transform = "none",
   truncate = false,
   variant,
@@ -138,6 +142,7 @@ export function Text({
     breakWord && styles.break,
     truncate && styles.truncate,
     visuallyHidden && styles.visuallyHidden,
+    textWrap && styles[variationName("textWrap", textWrap)],
     transform && styles[variationName("transform", transform)],
     whiteSpace && styles[variationName("whiteSpace", whiteSpace)],
     fontVariantNumeric &&

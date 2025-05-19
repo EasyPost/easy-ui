@@ -73,3 +73,25 @@ export const WhiteSpace: Story = {
     },
   },
 };
+
+export const TextWrap: Story = {
+  render: Template.bind({}),
+  args: {
+    as: "p",
+    variant: "body1",
+    textWrap: "balance",
+    children: (
+      <>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tincidunt
+        vel lorem nec pretium. Vestibulum ante ipsum primis in faucibus orci
+        luctus et ultrices posuere cubilia curae; Morbi sollicitudin ex nec
+        imperdiet pellentesque.
+      </>
+    ),
+  },
+  parameters: {
+    controls: {
+      include: ["textWrap"],
+    },
+  },
+};
