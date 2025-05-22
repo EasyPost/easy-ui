@@ -7,7 +7,7 @@ import { Select, SelectProps } from "./Select";
 
 type Story = StoryObj<typeof Select>;
 
-const Template = (args: SelectProps<object>) => {
+const Template = (args: SelectProps<object, Key>) => {
   return (
     <Select {...args}>
       <Select.Option key="Option 1">Option 1</Select.Option>

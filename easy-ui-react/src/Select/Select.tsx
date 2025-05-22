@@ -10,26 +10,29 @@ import { SelectOverlay } from "./SelectOverlay";
 import { useTriggerWidth } from "../Menu/useTriggerWidth";
 import { logWarningForMissingAriaLabel } from "../InputField/utilities";
 
-export type BaseSelectProps<T> = {
+export type BaseSelectProps<T, K extends Key = Key> = {
   /** Method that is called when the open state of the select field changes. */
   onOpenChange?: (isOpen: boolean) => void;
   /** Sets the open state of the select field. */
   isOpen?: boolean;
   /** The currently selected key in the collection (controlled). */
-  selectedKey?: Key | null;
+  selectedKey?: K | null;
   /** The initial selected key in the collection (uncontrolled). */
-  defaultSelectedKey?: Key;
+  defaultSelectedKey?: K;
   /** Handler that is called when the selection changes. */
-  onSelectionChange?: (key: Key) => void;
+  onSelectionChange?: (key: K) => void;
   /** The contents of the collection. */
   children: CollectionChildren<T>;
   /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */
-  disabledKeys?: Iterable<Key>;
+  disabledKeys?: Iterable<K>;
 };
 
-export type SelectProps<T> = AriaSelectProps<T> &
+export type SelectProps<T, K extends Key> = Omit<
+  AriaSelectProps<T>,
+  keyof BaseSelectProps<T, K>
+> &
   BaseSelectFieldProps &
-  BaseSelectProps<T>;
+  BaseSelectProps<T, K>;
 
 /**
  * The `<Select />` component allows users to select a value from a set of options.
@@ -91,7 +94,9 @@ export type SelectProps<T> = AriaSelectProps<T> &
 * }
 ```
  */
-export function Select<T extends object>(props: SelectProps<T>) {
+export function Select<T extends object, K extends Key>(
+  props: SelectProps<T, K>,
+) {
   const {
     isDisabled,
     validationState,
@@ -106,7 +111,13 @@ export function Select<T extends object>(props: SelectProps<T>) {
   } = props;
 
   const triggerRef = React.useRef(null);
-  const selectState = useSelectState(props);
+
+  // hate to do this, but react-aria doesn't support generics, but it would
+  // really be ideal to have the select be generic. FIXME when react-aria's
+  // types around `Key` are fixed.
+  const castProps = props as SelectProps<object, Key>;
+
+  const selectState = useSelectState(castProps);
 
   logWarningForMissingAriaLabel(label, ariaLabel);
 
@@ -117,7 +128,7 @@ export function Select<T extends object>(props: SelectProps<T>) {
     menuProps: listBoxPropsFromSelect,
     descriptionProps: helperTextProps,
     errorMessageProps: errorTextProps,
-  } = useSelect(props, selectState, triggerRef);
+  } = useSelect(castProps, selectState, triggerRef);
 
   const triggerWidth = useTriggerWidth(triggerRef);
 
