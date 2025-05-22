@@ -12,7 +12,7 @@ import {
 type Story = StoryObj<typeof RadioGroup>;
 type ItemStory = StoryObj<typeof RadioGroup.Item>;
 
-const Template = (args: RadioGroupProps) => {
+const Template = (args: RadioGroupProps<string>) => {
   return (
     <RadioGroup {...args}>
       <RadioGroup.Item value="first">First item</RadioGroup.Item>

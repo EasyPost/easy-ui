@@ -8,12 +8,12 @@ import { RadioGroupItem, RadioGroupItemProps } from "./RadioGroupItem";
 
 import styles from "./RadioGroup.module.scss";
 
-export type RadioGroupProps = AriaLabelingProps & {
+export type RadioGroupProps<K extends string> = AriaLabelingProps & {
   /** Radio buttons to render inside the radio group. */
   children?: ReactNode;
 
   /** The default value (uncontrolled). */
-  defaultValue?: string;
+  defaultValue?: K;
 
   /** Whether the radio is disabled. */
   isDisabled?: boolean;
@@ -31,17 +31,22 @@ export type RadioGroupProps = AriaLabelingProps & {
   name?: string;
 
   /** Handler that is called when the value changes. */
-  onChange?: (value: string) => void;
+  onChange?: (value: K) => void;
 
   /** The current value (controlled). */
-  value?: string;
+  value?: K;
 };
 
-function RadioGroupContainer(props: RadioGroupProps) {
+function RadioGroupContainer<K extends string>(props: RadioGroupProps<K>) {
   const { children, label } = props;
 
-  const state = useRadioGroupState(props);
-  const { radioGroupProps, labelProps } = useRadioGroup(props, state);
+  // hate to do this, but react-aria doesn't support generics, but it would
+  // really be ideal to have the select be generic. FIXME when react-aria's
+  // types around `Key` are fixed.
+  const castProps = props as RadioGroupProps<string>;
+
+  const state = useRadioGroupState(castProps);
+  const { radioGroupProps, labelProps } = useRadioGroup(castProps, state);
 
   return (
     <fieldset className={styles.RadioGroup} {...radioGroupProps}>
@@ -101,7 +106,7 @@ function RadioGroupContainer(props: RadioGroupProps) {
  * </RadioGroup>
  * ```
  */
-export function RadioGroup(props: RadioGroupProps) {
+export function RadioGroup<K extends string>(props: RadioGroupProps<K>) {
   const { children, ...containerProps } = props;
   return (
     <RadioGroupContainer {...containerProps}>

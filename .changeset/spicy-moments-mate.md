@@ -2,4 +2,4 @@
 "@easypost/easy-ui": patch
 ---
 
-Makes the `Select` component accept a generic key
+Makes the `Select` and `RadioGroup` components accept generic keys
