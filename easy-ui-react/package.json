@@ -32,7 +32,7 @@
     "@easypost/easy-ui-icons": "1.0.0-alpha.45",
     "@easypost/easy-ui-tokens": "1.0.0-alpha.16",
     "@react-aria/toast": "^3.0.1",
-    "@react-aria/utils": "^3.28.2",
+    "@react-aria/utils": "^3.29.1",
     "@react-stately/toast": "^3.0.0",
     "@react-types/shared": "^3.28.0",
     "@types/react": "^18.3.1",
