@@ -11,7 +11,7 @@ import { Text } from "../Text";
 import { Button } from "../Button";
 import { Menu } from "../Menu";
 import { StripeLogo, UPSLogoImg, PlaceholderBox } from "../utilities/storybook";
-import { HostedUILayout } from "../HostedUILayout";
+import { CustomerPortalLayout } from "../CustomerPortalLayout";
 import { MultipageSection } from "./MultipageSection";
 
 type Story = StoryObj<typeof MultipageSection>;
@@ -102,32 +102,32 @@ export const Standard: Story = {
 
 export const Layout: Story = {
   render: () => (
-    <HostedUILayout>
-      <HostedUILayout.Header>
-        <HostedUILayout.LogoContainer>
-          <HostedUILayout.Logo>
+    <CustomerPortalLayout>
+      <CustomerPortalLayout.Header>
+        <CustomerPortalLayout.LogoContainer>
+          <CustomerPortalLayout.Logo>
             <StripeLogo />
-          </HostedUILayout.Logo>
-        </HostedUILayout.LogoContainer>
-        <HostedUILayout.Actions>
-          <HostedUILayout.MenuAction
+          </CustomerPortalLayout.Logo>
+        </CustomerPortalLayout.LogoContainer>
+        <CustomerPortalLayout.Actions>
+          <CustomerPortalLayout.MenuAction
             accessibilityLabel="Action 1"
             iconSymbol={SettingsIcon}
-            renderBadge={() => <HostedUILayout.ActionBadge />}
+            renderBadge={() => <CustomerPortalLayout.ActionBadge />}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
               <Menu.Item>Action 1:1</Menu.Item>
               <Menu.Item>Action 1:2</Menu.Item>
             </Menu.Overlay>
-          </HostedUILayout.MenuAction>
-          <HostedUILayout.ButtonAction
+          </CustomerPortalLayout.MenuAction>
+          <CustomerPortalLayout.ButtonAction
             accessibilityLabel="Action 2"
             iconSymbol={DoorOpenIcon}
             onPress={action("Button clicked!")}
           />
-        </HostedUILayout.Actions>
-      </HostedUILayout.Header>
-      <HostedUILayout.Content>
+        </CustomerPortalLayout.Actions>
+      </CustomerPortalLayout.Header>
+      <CustomerPortalLayout.Content>
         <MultipageSection>
           <MultipageSection.Container>
             <MultipageSection.BrandHeader>
@@ -181,7 +181,7 @@ export const Layout: Story = {
             </MultipageSection.SplitContainer>
           </MultipageSection.Container>
         </MultipageSection>
-      </HostedUILayout.Content>
-    </HostedUILayout>
+      </CustomerPortalLayout.Content>
+    </CustomerPortalLayout>
   ),
 };
