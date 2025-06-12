@@ -26,7 +26,7 @@ describe("<CustomerPortalLayout />", () => {
     vi.useRealTimers();
   });
 
-  it("should render a hosted ui layout", async () => {
+  it("should render a customer portal layout", async () => {
     const handleMenuAction = vi.fn();
 
     const { user } = render(
