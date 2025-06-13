@@ -10,13 +10,13 @@ import { Button } from "../Button";
 import { Menu } from "../Menu";
 import { StripeLogo, UPSLogoImg, PlaceholderBox } from "../utilities/storybook";
 import { MultipageSection } from "../MultipageSection";
-import { HostedUILayout } from "./HostedUILayout";
+import { CustomerPortalLayout } from "./CustomerPortalLayout";
 
-type Story = StoryObj<typeof HostedUILayout>;
+type Story = StoryObj<typeof CustomerPortalLayout>;
 
-const meta: Meta<typeof HostedUILayout> = {
-  title: "Components/ProductLayout/HostedUILayout",
-  component: HostedUILayout,
+const meta: Meta<typeof CustomerPortalLayout> = {
+  title: "Components/ProductLayout/CustomerPortalLayout",
+  component: CustomerPortalLayout,
   decorators: [
     (Story) => (
       <div className="full-screen-story product-layout-story">
@@ -30,22 +30,22 @@ export default meta;
 
 export const StandardContent: Story = {
   render: () => (
-    <HostedUILayout>
-      <HostedUILayout.Header>
-        <HostedUILayout.LogoContainer>
-          <HostedUILayout.Logo>
+    <CustomerPortalLayout>
+      <CustomerPortalLayout.Header>
+        <CustomerPortalLayout.LogoContainer>
+          <CustomerPortalLayout.Logo>
             <StripeLogo />
-          </HostedUILayout.Logo>
-        </HostedUILayout.LogoContainer>
-        <HostedUILayout.Actions>
-          <HostedUILayout.ButtonAction
+          </CustomerPortalLayout.Logo>
+        </CustomerPortalLayout.LogoContainer>
+        <CustomerPortalLayout.Actions>
+          <CustomerPortalLayout.ButtonAction
             accessibilityLabel="Action 1"
             iconSymbol={DoorOpenIcon}
             onPress={action("Button clicked!")}
           />
-        </HostedUILayout.Actions>
-      </HostedUILayout.Header>
-      <HostedUILayout.Content>
+        </CustomerPortalLayout.Actions>
+      </CustomerPortalLayout.Header>
+      <CustomerPortalLayout.Content>
         <div
           style={{
             height: 400,
@@ -53,28 +53,28 @@ export const StandardContent: Story = {
             borderRadius: 8,
           }}
         />
-      </HostedUILayout.Content>
-    </HostedUILayout>
+      </CustomerPortalLayout.Content>
+    </CustomerPortalLayout>
   ),
 };
 export const TestMode: Story = {
   render: () => (
-    <HostedUILayout mode="test">
-      <HostedUILayout.Header>
-        <HostedUILayout.LogoContainer>
-          <HostedUILayout.Logo>
+    <CustomerPortalLayout mode="test">
+      <CustomerPortalLayout.Header>
+        <CustomerPortalLayout.LogoContainer>
+          <CustomerPortalLayout.Logo>
             <StripeLogo />
-          </HostedUILayout.Logo>
-        </HostedUILayout.LogoContainer>
-        <HostedUILayout.Actions>
-          <HostedUILayout.ButtonAction
+          </CustomerPortalLayout.Logo>
+        </CustomerPortalLayout.LogoContainer>
+        <CustomerPortalLayout.Actions>
+          <CustomerPortalLayout.ButtonAction
             accessibilityLabel="Action 1"
             iconSymbol={DoorOpenIcon}
             onPress={action("Button clicked!")}
           />
-        </HostedUILayout.Actions>
-      </HostedUILayout.Header>
-      <HostedUILayout.Content>
+        </CustomerPortalLayout.Actions>
+      </CustomerPortalLayout.Header>
+      <CustomerPortalLayout.Content>
         <div
           style={{
             height: 400,
@@ -82,28 +82,28 @@ export const TestMode: Story = {
             borderRadius: 8,
           }}
         />
-      </HostedUILayout.Content>
-    </HostedUILayout>
+      </CustomerPortalLayout.Content>
+    </CustomerPortalLayout>
   ),
 };
 export const DisplayEasyPostLogo: Story = {
   render: () => (
-    <HostedUILayout shouldDisplayEasyPostLogo={false}>
-      <HostedUILayout.Header>
-        <HostedUILayout.LogoContainer>
-          <HostedUILayout.Logo>
+    <CustomerPortalLayout shouldDisplayEasyPostLogo={false}>
+      <CustomerPortalLayout.Header>
+        <CustomerPortalLayout.LogoContainer>
+          <CustomerPortalLayout.Logo>
             <StripeLogo />
-          </HostedUILayout.Logo>
-        </HostedUILayout.LogoContainer>
-        <HostedUILayout.Actions>
-          <HostedUILayout.ButtonAction
+          </CustomerPortalLayout.Logo>
+        </CustomerPortalLayout.LogoContainer>
+        <CustomerPortalLayout.Actions>
+          <CustomerPortalLayout.ButtonAction
             accessibilityLabel="Action 1"
             iconSymbol={DoorOpenIcon}
             onPress={action("Button clicked!")}
           />
-        </HostedUILayout.Actions>
-      </HostedUILayout.Header>
-      <HostedUILayout.Content>
+        </CustomerPortalLayout.Actions>
+      </CustomerPortalLayout.Header>
+      <CustomerPortalLayout.Content>
         <div
           style={{
             height: 400,
@@ -111,8 +111,8 @@ export const DisplayEasyPostLogo: Story = {
             borderRadius: 8,
           }}
         />
-      </HostedUILayout.Content>
-    </HostedUILayout>
+      </CustomerPortalLayout.Content>
+    </CustomerPortalLayout>
   ),
 };
 
@@ -120,32 +120,32 @@ DisplayEasyPostLogo.storyName = "Display EasyPost Logo";
 
 export const WithMultipageSection: Story = {
   render: () => (
-    <HostedUILayout>
-      <HostedUILayout.Header>
-        <HostedUILayout.LogoContainer>
-          <HostedUILayout.Logo>
+    <CustomerPortalLayout>
+      <CustomerPortalLayout.Header>
+        <CustomerPortalLayout.LogoContainer>
+          <CustomerPortalLayout.Logo>
             <StripeLogo />
-          </HostedUILayout.Logo>
-        </HostedUILayout.LogoContainer>
-        <HostedUILayout.Actions>
-          <HostedUILayout.MenuAction
+          </CustomerPortalLayout.Logo>
+        </CustomerPortalLayout.LogoContainer>
+        <CustomerPortalLayout.Actions>
+          <CustomerPortalLayout.MenuAction
             accessibilityLabel="Action 1"
             iconSymbol={SettingsIcon}
-            renderBadge={() => <HostedUILayout.ActionBadge />}
+            renderBadge={() => <CustomerPortalLayout.ActionBadge />}
           >
             <Menu.Overlay onAction={action("Menu item clicked!")}>
               <Menu.Item>Action 1:1</Menu.Item>
               <Menu.Item>Action 1:2</Menu.Item>
             </Menu.Overlay>
-          </HostedUILayout.MenuAction>
-          <HostedUILayout.ButtonAction
+          </CustomerPortalLayout.MenuAction>
+          <CustomerPortalLayout.ButtonAction
             accessibilityLabel="Action 2"
             iconSymbol={DoorOpenIcon}
             onPress={action("Button clicked!")}
           />
-        </HostedUILayout.Actions>
-      </HostedUILayout.Header>
-      <HostedUILayout.Content>
+        </CustomerPortalLayout.Actions>
+      </CustomerPortalLayout.Header>
+      <CustomerPortalLayout.Content>
         <MultipageSection>
           <MultipageSection.Container>
             <MultipageSection.BrandHeader>
@@ -199,7 +199,7 @@ export const WithMultipageSection: Story = {
             </MultipageSection.SplitContainer>
           </MultipageSection.Container>
         </MultipageSection>
-      </HostedUILayout.Content>
-    </HostedUILayout>
+      </CustomerPortalLayout.Content>
+    </CustomerPortalLayout>
   ),
 };

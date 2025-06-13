@@ -1,8 +1,8 @@
-# `HostedUILayout` Component Specification
+# `CustomerPortalLayout` Component Specification
 
 ## Overview
 
-`HostedUILayout` defines a header and main content area for a HostedUI product page.
+`CustomerPortalLayout` defines a header and main content area for a CustomerPortal product page.
 
 ### Prior Art
 
@@ -13,20 +13,20 @@
 
 ## Design
 
-`HostedUILayout` will be a compound component consisting of several pieces including `HostedUILayout`, `HostedUILayout.Header`, and `HostedUILayout.Content`.
+`CustomerPortalLayout` will be a compound component consisting of several pieces including `CustomerPortalLayout`, `CustomerPortalLayout.Header`, and `CustomerPortalLayout.Content`.
 
 In structure and style, it will be very similar to the existing `NexusLayout`.
 
-In addition to creating a `HostedUILayout` component, a `MultipageSection` component will also be built to
+In addition to creating a `CustomerPortalLayout` component, a `MultipageSection` component will also be built to
 support multi-page navigational layout. The `MultipageSection` component will be designed to be a stand-alone
 component capable of being layered into other product layouts.
 
 ### API
 
 ```ts
-// HostedUI
+// CustomerPortal
 
-export type HostedUILayoutProps = {
+export type CustomerPortalLayoutProps = {
   /**
    * Displays a prominent message with an icon when in test mode.
    *
@@ -43,37 +43,37 @@ export type HostedUILayoutProps = {
   children: ReactNode;
 };
 
-type HostedUILayoutHeaderProps = {
+type CustomerPortalLayoutHeaderProps = {
   /** Header children. */
   children: ReactNode;
 };
 
-type HostedUILayoutLogoContainerProps = {
+type CustomerPortalLayoutLogoContainerProps = {
   /** Logo container children */
   children: ReactNode;
 };
 
-type HostedUILayoutLogoProps = {
+type CustomerPortalLayoutLogoProps = {
   /** Logo children. */
   children: ReactNode;
 };
 
-type HostedUILayoutContentProps = {
+type CustomerPortalLayoutContentProps = {
   /** Content children. */
   children: ReactNode;
 };
 
-type HostedUILayoutActionsProps = {
+type CustomerPortalLayoutActionsProps = {
   /** Actions children. */
   children: ReactNode;
 };
 
-type HostedUILayoutActionBadgeProps = {
+type CustomerPortalLayoutActionBadgeProps = {
   /** Badge children. */
   children?: ReactNode;
 };
 
-type HostedUILayoutMenuActionProps = {
+type CustomerPortalLayoutMenuActionProps = {
   /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
   /** Icon symbol for the action. */
@@ -84,7 +84,7 @@ type HostedUILayoutMenuActionProps = {
   children: ReactNode;
 };
 
-type HostedUILayoutLinkActionProps = {
+type CustomerPortalLayoutLinkActionProps = {
   /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
   /** Action link icon symbol. */
@@ -95,7 +95,7 @@ type HostedUILayoutLinkActionProps = {
   renderBadge?: () => ReactNode;
 } & AriaLinkOptions;
 
-type HostedUILayoutButtonActionProps = {
+type CustomerPortalLayoutButtonActionProps = {
   /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
   /** Action button icon symbol. */
@@ -181,37 +181,37 @@ type MultipageSectionSidebarNavLinkProps = {
 _Basic setup:_
 
 ```tsx
-import { HostedUILayout } from "@easypost/easy-ui/HostedUILayout";
+import { CustomerPortalLayout } from "@easypost/easy-ui/CustomerPortalLayout";
 import { MultipageSection } from "@easypost/easy-ui/MultipageSection";
 
 function App() {
   return (
-    <HostedUILayout mode="test">
-      <HostedUILayout.Header>
-        <HostedUILayout.LogoContainer>
-          <HostedUILayout.Logo>
+    <CustomerPortalLayout mode="test">
+      <CustomerPortalLayout.Header>
+        <CustomerPortalLayout.LogoContainer>
+          <CustomerPortalLayout.Logo>
             <SomeLogo />
-          </HostedUILayout.Logo>
-        </HostedUILayout.LogoContainer>
-        <HostedUILayout.Actions>
-          <HostedUILayout.MenuAction
+          </CustomerPortalLayout.Logo>
+        </CustomerPortalLayout.LogoContainer>
+        <CustomerPortalLayout.Actions>
+          <CustomerPortalLayout.MenuAction
             accessibilityLabel="Menu Action"
             iconSymbol={Icon}
-            renderBadge={() => <HostedUILayout.ActionBadge />}
+            renderBadge={() => <CustomerPortalLayout.ActionBadge />}
           >
             <Menu.Overlay onAction={() => {}}>
               <Menu.Item>Action 1:1</Menu.Item>
               <Menu.Item>Action 1:2</Menu.Item>
             </Menu.Overlay>
-          </HostedUILayout.MenuAction>
-          <HostedUILayout.ButtonAction
+          </CustomerPortalLayout.MenuAction>
+          <CustomerPortalLayout.ButtonAction
             accessibilityLabel="Button Action"
             iconSymbol={Icon}
             onPress={() => {}}
           />
-        </HostedUILayout.Actions>
-      </HostedUILayout.Header>
-      <HostedUILayout.Content>
+        </CustomerPortalLayout.Actions>
+      </CustomerPortalLayout.Header>
+      <CustomerPortalLayout.Content>
         <MultipageSection>
           <MultipageSection.Container>
             <MultipageSection.BrandHeader>
@@ -244,8 +244,8 @@ function App() {
             </MultipageSection.SplitContainer>
           </MultipageSection.Container>
         </MultipageSection>
-      </HostedUILayout.Content>
-    </HostedUILayout>
+      </CustomerPortalLayout.Content>
+    </CustomerPortalLayout>
   );
 }
 ```
@@ -256,8 +256,8 @@ function App() {
 
 ### Accessibility
 
-- `HostedUILayout.Header` will render as `header`
-- `HostedUILayout.Content` will render as `main`
+- `CustomerPortalLayout.Header` will render as `header`
+- `CustomerPortalLayout.Content` will render as `main`
 - `MultipageSection.SidebarNav` will be rendered as `nav`
 - `MultipageSection.SidebarNavLink` will render as `<a>`
 - Selected nav links will be decorated as `aria-current="page"`

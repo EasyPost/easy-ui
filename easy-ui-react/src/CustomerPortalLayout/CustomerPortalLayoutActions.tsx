@@ -24,19 +24,19 @@ import { Text } from "../Text";
 import { IconSymbol } from "../types";
 import { classNames } from "../utilities/css";
 
-import styles from "./HostedUILayoutActions.module.scss";
+import styles from "./CustomerPortalLayoutActions.module.scss";
 
-export type HostedUILayoutActionsProps = {
+export type CustomerPortalLayoutActionsProps = {
   /** Actions children. */
   children: ReactNode;
 };
 
-export type HostedUILayoutActionBadgeProps = {
+export type CustomerPortalLayoutActionBadgeProps = {
   /** Badge children. */
   children?: ReactNode;
 };
 
-export type HostedUILayoutMenuActionProps = {
+export type CustomerPortalLayoutMenuActionProps = {
   /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
   /** Icon symbol for the action. */
@@ -47,7 +47,7 @@ export type HostedUILayoutMenuActionProps = {
   children: ReactNode;
 };
 
-export type HostedUILayoutLinkActionProps = {
+export type CustomerPortalLayoutLinkActionProps = {
   /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
   /** Action link icon symbol. */
@@ -58,7 +58,7 @@ export type HostedUILayoutLinkActionProps = {
   renderBadge?: () => ReactNode;
 } & AriaLinkOptions;
 
-export type HostedUILayoutButtonActionProps = {
+export type CustomerPortalLayoutButtonActionProps = {
   /** Optional custom accessibility label describing the menu action. */
   accessibilityLabel?: string;
   /** Action button icon symbol. */
@@ -70,7 +70,9 @@ export type HostedUILayoutButtonActionProps = {
 } & ButtonProps &
   React.RefAttributes<HTMLButtonElement>;
 
-export function HostedUILayoutActions(props: HostedUILayoutActionsProps) {
+export function CustomerPortalLayoutActions(
+  props: CustomerPortalLayoutActionsProps,
+) {
   const { children } = props;
   return (
     <HorizontalStack wrap={false} gap="1" align="end">
@@ -79,7 +81,9 @@ export function HostedUILayoutActions(props: HostedUILayoutActionsProps) {
   );
 }
 
-export function HostedUILayoutMenuAction(props: HostedUILayoutMenuActionProps) {
+export function CustomerPortalLayoutMenuAction(
+  props: CustomerPortalLayoutMenuActionProps,
+) {
   const {
     accessibilityLabel = "Actions",
     iconSymbol,
@@ -117,7 +121,9 @@ export function HostedUILayoutMenuAction(props: HostedUILayoutMenuActionProps) {
   );
 }
 
-export function HostedUILayoutLinkAction(props: HostedUILayoutLinkActionProps) {
+export function CustomerPortalLayoutLinkAction(
+  props: CustomerPortalLayoutLinkActionProps,
+) {
   const {
     accessibilityLabel = "Actions",
     iconSymbol,
@@ -150,8 +156,8 @@ export function HostedUILayoutLinkAction(props: HostedUILayoutLinkActionProps) {
   );
 }
 
-export function HostedUILayoutButtonAction(
-  props: HostedUILayoutButtonActionProps,
+export function CustomerPortalLayoutButtonAction(
+  props: CustomerPortalLayoutButtonActionProps,
 ) {
   const {
     accessibilityLabel = "Actions",
@@ -178,8 +184,8 @@ export function HostedUILayoutButtonAction(
   );
 }
 
-export function HostedUILayoutActionBadge(
-  props: HostedUILayoutActionBadgeProps,
+export function CustomerPortalLayoutActionBadge(
+  props: CustomerPortalLayoutActionBadgeProps,
 ) {
   const { children } = props;
   return <div className={styles.badge}>{children}</div>;

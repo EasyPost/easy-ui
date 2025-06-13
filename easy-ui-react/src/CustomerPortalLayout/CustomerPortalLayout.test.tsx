@@ -8,9 +8,9 @@ import {
   render,
   userClick,
 } from "../utilities/test";
-import { HostedUILayout, Mode } from "./HostedUILayout";
+import { CustomerPortalLayout, Mode } from "./CustomerPortalLayout";
 
-describe("<HostedUILayout />", () => {
+describe("<CustomerPortalLayout />", () => {
   let restoreGetComputedStyle: () => void;
   let restoreIntersectionObserver: () => void;
 
@@ -26,17 +26,17 @@ describe("<HostedUILayout />", () => {
     vi.useRealTimers();
   });
 
-  it("should render a hosted ui layout", async () => {
+  it("should render a customer portal layout", async () => {
     const handleMenuAction = vi.fn();
 
     const { user } = render(
-      createHostedUILayout({
+      createCustomerPortalLayout({
         onMenuAction: handleMenuAction,
         mode: "production",
       }),
     );
 
-    expect(screen.getByText("HostedUI Content")).toBeInTheDocument();
+    expect(screen.getByText("CustomerPortal Content")).toBeInTheDocument();
     expect(screen.getByRole("main")).toBeInTheDocument();
     expect(screen.getByRole("banner")).toBeInTheDocument();
 
@@ -48,7 +48,7 @@ describe("<HostedUILayout />", () => {
 
   it("should render a banner in test mode", () => {
     render(
-      createHostedUILayout({
+      createCustomerPortalLayout({
         mode: "test",
       }),
     );
@@ -61,7 +61,7 @@ describe("<HostedUILayout />", () => {
   });
 });
 
-function createHostedUILayout(
+function createCustomerPortalLayout(
   props: {
     onMenuAction?: () => void;
     mode?: Mode;
@@ -69,31 +69,33 @@ function createHostedUILayout(
 ) {
   const { onMenuAction = vi.fn(), mode = "production" } = props;
   return (
-    <HostedUILayout mode={mode}>
-      <HostedUILayout.Header>
-        <HostedUILayout.LogoContainer>
-          <HostedUILayout.Logo>Logo</HostedUILayout.Logo>
-        </HostedUILayout.LogoContainer>
-        <HostedUILayout.Actions>
-          <HostedUILayout.MenuAction
+    <CustomerPortalLayout mode={mode}>
+      <CustomerPortalLayout.Header>
+        <CustomerPortalLayout.LogoContainer>
+          <CustomerPortalLayout.Logo>Logo</CustomerPortalLayout.Logo>
+        </CustomerPortalLayout.LogoContainer>
+        <CustomerPortalLayout.Actions>
+          <CustomerPortalLayout.MenuAction
             accessibilityLabel="Menu Action"
             iconSymbol={Icon}
-            renderBadge={() => <HostedUILayout.ActionBadge />}
+            renderBadge={() => <CustomerPortalLayout.ActionBadge />}
           >
             <Menu.Overlay onAction={onMenuAction}>
               <Menu.Item>Action 1</Menu.Item>
               <Menu.Item>Action 2</Menu.Item>
             </Menu.Overlay>
-          </HostedUILayout.MenuAction>
-          <HostedUILayout.ButtonAction
+          </CustomerPortalLayout.MenuAction>
+          <CustomerPortalLayout.ButtonAction
             accessibilityLabel="Button Action"
             iconSymbol={Icon}
             onPress={() => {}}
           />
-        </HostedUILayout.Actions>
-      </HostedUILayout.Header>
-      <HostedUILayout.Content>HostedUI Content</HostedUILayout.Content>
-    </HostedUILayout>
+        </CustomerPortalLayout.Actions>
+      </CustomerPortalLayout.Header>
+      <CustomerPortalLayout.Content>
+        CustomerPortal Content
+      </CustomerPortalLayout.Content>
+    </CustomerPortalLayout>
   );
 }
 
