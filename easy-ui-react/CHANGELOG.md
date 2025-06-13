@@ -1,5 +1,15 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.89
+
+### Minor Changes
+
+- 77cd6e9: breaking: rename HostedUILayout to CustomerPortalLayout
+
+### Patch Changes
+
+- 6ed79eb: Makes the `Select` and `RadioGroup` components accept generic keys
+
 ## 1.0.0-alpha.88
 
 ### Minor Changes
