@@ -2,7 +2,7 @@
 @use "../styles/unstyled";
 
 .CustomerPortalLayout {
-  @include component-token("CustomerPortal-layout", "max-width", 1369px);
+  @include component-token("customerportal-layout", "max-width", 1369px);
 
   display: flex;
   flex-direction: column;
@@ -52,7 +52,7 @@
 
 .content {
   padding: design-token("space.3");
-  max-width: component-token("CustomerPortal-layout", "max-width");
+  max-width: component-token("customerportal-layout", "max-width");
   width: 100%;
   margin: 0 auto;
 }
