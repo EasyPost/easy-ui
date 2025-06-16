@@ -1,4 +1,4 @@
-import { mergeRefs } from "@react-aria/utils";
+import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import React, { forwardRef, useContext, useRef } from "react";
 import { Card } from "../Card";
 import { SnippetLanguage, SyntaxHighlighter } from "./SyntaxHighlighter";
@@ -77,13 +77,14 @@ export const CodeSnippet = forwardRef<HTMLDivElement, CodeSnippetProps>(
     const Component = isWithinCodeBlock ? Card.Area : Card;
     const { code, language, maxLines, showLineNumbers } = props;
     const codeBlockRef = useRef<HTMLDivElement | null>(null);
+    const mergedRef = useObjectRef(mergeRefs(ref, codeBlockRef));
     const syntaxTheme = useEasyUiSyntaxHighlighterTheme(maxLines);
     useScrollbar(codeBlockRef);
     return (
       <Component background="primary">
         <div
           className={styles.CodeSnippet}
-          ref={mergeRefs(ref, codeBlockRef)}
+          ref={mergedRef}
           tabIndex={maxLines != null ? 0 : undefined}
         >
           <SyntaxHighlighter

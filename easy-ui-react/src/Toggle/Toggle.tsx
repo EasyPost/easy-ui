@@ -1,4 +1,4 @@
-import { mergeRefs } from "@react-aria/utils";
+import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import { AriaLabelingProps } from "@react-types/shared";
 import React, { ReactNode, forwardRef } from "react";
 import { mergeProps, useFocusRing, useHover, useSwitch } from "react-aria";
@@ -100,6 +100,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
     } = props;
 
     const ref = React.useRef(null);
+    const mergedRef = useObjectRef(mergeRefs(ref, externalRef));
     const state = useToggleState(props);
     const { inputProps: inputPropsFromSwitch } = useSwitch(props, state, ref);
     const { isFocusVisible, focusProps } = useFocusRing();
@@ -117,11 +118,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
 
     return (
       <RootComponent {...rootProps} className={className}>
-        <input
-          {...inputProps}
-          className={styles.input}
-          ref={mergeRefs(ref, externalRef)}
-        />
+        <input {...inputProps} className={styles.input} ref={mergedRef} />
         <Switch
           isDisabled={isDisabled}
           isFocusVisible={isFocusVisible}

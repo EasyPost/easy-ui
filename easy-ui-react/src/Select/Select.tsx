@@ -115,7 +115,9 @@ export function Select<T extends object, K extends Key>(
   // hate to do this, but react-aria doesn't support generics, but it would
   // really be ideal to have the select be generic. FIXME when react-aria's
   // types around `Key` are fixed.
-  const castProps = props as SelectProps<object, Key>;
+  const castProps = props as SelectProps<object, Key> & {
+    onSelectionChange?: (key: Key | null) => void;
+  };
 
   const selectState = useSelectState(castProps);
 

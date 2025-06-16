@@ -1,6 +1,6 @@
 import CheckIcon from "@easypost/easy-ui-icons/Check600";
 import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
-import { mergeRefs } from "@react-aria/utils";
+import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import React, { ReactNode, forwardRef } from "react";
 import { mergeProps, useCheckbox, useFocusRing, useHover } from "react-aria";
 import { ValidationState, useToggleState } from "react-stately";
@@ -131,7 +131,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       ...restProps
     } = props;
 
-    const ref = React.useRef(null);
+    const ref = React.useRef<HTMLInputElement | null>(null);
+    const mergedRef = useObjectRef(mergeRefs(ref, outsideRef));
 
     const state = useToggleState(props);
     const { inputProps: inputPropsFromAria } = useCheckbox(props, state, ref);
@@ -175,11 +176,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     return (
       <span className={className} data-testid="root">
         <RootComponent className={styles.label} {...rootProps}>
-          <input
-            {...inputProps}
-            className={styles.input}
-            ref={mergeRefs(ref, outsideRef)}
-          />
+          <input {...inputProps} className={styles.input} ref={mergedRef} />
           <span className={styles.box}>
             {(isIndeterminate || isSelected) && (
               <span className={styles.check}>
