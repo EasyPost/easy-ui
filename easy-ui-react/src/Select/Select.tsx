@@ -20,7 +20,7 @@ export type BaseSelectProps<T, K extends Key = Key> = {
   /** The initial selected key in the collection (uncontrolled). */
   defaultSelectedKey?: K;
   /** Handler that is called when the selection changes. */
-  onSelectionChange?: (key: K) => void;
+  onSelectionChange?: (key: K | null) => void;
   /** The contents of the collection. */
   children: CollectionChildren<T>;
   /** The option keys that are disabled. These options cannot be selected, focused, or otherwise interacted with. */

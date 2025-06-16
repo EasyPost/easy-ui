@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef, useContext, createContext } from "react";
-import { mergeRefs } from "@react-aria/utils";
+import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
@@ -110,6 +110,7 @@ export const Notification = React.forwardRef<
   NotificationItemStateProps
 >((props, forwardedRef) => {
   const ref = useRef(null);
+  const mergedRef = useObjectRef(mergeRefs(ref, forwardedRef));
   const { state, toast: notification } = props;
   const {
     type = "toast",
@@ -145,7 +146,7 @@ export const Notification = React.forwardRef<
   return (
     <div
       {...notificationPropsWithAdjustedAriaRole}
-      ref={mergeRefs(ref, forwardedRef)}
+      ref={mergedRef}
       className={classNames(
         styles.Notification,
         styles[variationName("status", status)],

@@ -1,4 +1,4 @@
-import { mergeRefs } from "@react-aria/utils";
+import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import React, { forwardRef, useRef } from "react";
 import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { classNames } from "../utilities/css";
@@ -43,6 +43,7 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
     } = props;
 
     const ref = useRef(null);
+    const mergedRef = useObjectRef(mergeRefs(ref, inRef));
     const As = href ? "a" : "button";
     const { buttonProps: elementProps } = useButton(
       { ...props, elementType: As },
@@ -53,7 +54,7 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
       <As
         {...mergeProps(omitReactAriaSpecificProps(restProps), elementProps)}
         disabled={isDisabled}
-        ref={mergeRefs(ref, inRef)}
+        ref={mergedRef}
         className={classNames(styles.UnstyledButton, className)}
       >
         {children}

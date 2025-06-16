@@ -157,7 +157,11 @@ export const ControlledSelection: Story = {
           placeholder="Placeholder text"
           helperText="Helper text"
           selectedKey={option}
-          onSelectionChange={(selected) => setOption(selected)}
+          onSelectionChange={(selected) => {
+            if (selected) {
+              setOption(selected);
+            }
+          }}
         >
           <Select.Option key="Option 1">Option 1</Select.Option>
           <Select.Option key="Option 2">Option 2</Select.Option>
