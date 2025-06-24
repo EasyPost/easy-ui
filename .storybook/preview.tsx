@@ -35,6 +35,8 @@ const preview: Preview = {
           "Getting Started",
           "Changelog",
           "Contributing",
+          "Browser Support",
+          "Foundations",
           "Primitives",
           "Components",
         ],

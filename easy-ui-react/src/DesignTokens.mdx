@@ -1,0 +1,44 @@
+import React from "react";
+import { Meta, Markdown } from "@storybook/blocks";
+
+<Meta title="Foundations/Design Tokens" />
+
+# Design Tokens
+
+Constructing and maintaining cohesive designs is a challenge. Foundational elements such as spacing, color, and typography quickly diverge when underlying values are not catalogued and reused appropriately.
+
+Design tokens are an abstraction of design decisions made to construct and maintain a design system. They can represent anything defined by design: a color as an RGB value, an opacity as a number, an animation ease as Bezier coordinates, a spacing defined as part of a scale.
+
+Design tokens are directly integrated into Easy UI and cover the options of typography, color themes, spacing scales, component states, and more.
+
+### Grouping
+
+Design tokens in Easy UI are grouped into the following categories:
+
+- [Breakpoints](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/breakpoint)
+- [Colors](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/color)
+- [Fonts](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/font)
+- [Opacities](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/opacity)
+- [Shadows](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/shadow)
+- [Shapes](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/shape)
+- [Sizes](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/size)
+- [Spacing](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/space)
+- [Z-Indices](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-tokens/src/z-index)
+
+### Theme-aware Tokens
+
+In addition to base design tokens, Easy UI supports theme-aware tokens, which allow for different values to be applied based on the current theme. This is particularly useful for creating light and dark themes, where colors and other styles may need to change based on the user's preference or system settings.
+
+Theme-aware tokens can be found in the base Easy UI [theme tokens file](https://github.com/EasyPost/easy-ui/blob/main/easy-ui-tokens/src/theme/light.json). It's recommended to use theme-aware tokens when possible to respect seamless changing of themes.
+
+### Usage
+
+To use a design token in your project, you can reference the variable through the SCSS `design-token()` helper:
+
+```css
+@use "@easypost/easy-ui/styles/token-helpers" as *;
+
+.button {
+  color: design-token("color.primary.400");
+}
+```
