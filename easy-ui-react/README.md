@@ -2,19 +2,67 @@
 
 [Easy UI](https://github.com/EasyPost/easy-ui) is a component library designed to help developers create the best experience for shippers who use EasyPost.
 
-## Installation
+## Getting Started
 
-Run the following command using [npm](https://www.npmjs.com/):
+1. Install Easy UI using [npm](https://www.npmjs.com/) or your project's package manager:
 
 ```bash
 npm install @easypost/easy-ui --save
 ```
 
-## Usage
+2. Include the Easy UI CSS file in your app entry point:
 
-1. EasyUI uses Poppins as its primary font. Include Poppins and its declarations in your setup. You can host it yourself or use Google Fonts. All fonts are included in `.storybook/public/fonts/poppins` for self-hosting.
+```js
+import "@easypost/easy-ui/style.css";
+```
+
+3. Render your app inside the Easy UI `Provider`:
+
+```js
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <EasyUIProvider>
+    <App />
+  </EasyUIProvider>,
+);
+```
+
+4. Use Easy UI components:
+
+```js
+import { VerticalStack } from "@easypost/easy-ui/VerticalStack";
+import { Button } from "@easypost/easy-ui/Button";
+
+function App() {
+  return (
+    <VerticalStack>
+      <Button>Click me!</Button>
+    </VerticalStack>
+  );
+}
+```
+
+See our [Storybook](https://main--63f50c7c86f6514d2e0ef4be.chromatic.com/) for detailed component documentation.
+
+### Fonts
+
+Easy UI uses `Poppins` font. You can host it yourself or use Google Fonts. For hosting it yourself, `Poppins` is included in `.storybook/public/fonts/poppins`.
+
+If hosting yourself, include this declaration in your stylesheets, replacing the path with wherever the fonts are located:
 
 ```css
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src:
+    url("/fonts/poppins/poppins-v20-latin-300.woff2") format("woff2"),
+    url("/fonts/poppins/poppins-v20-latin-300.woff") format("woff");
+}
+
 @font-face {
   font-family: "Poppins";
   font-style: normal;
@@ -54,29 +102,6 @@ npm install @easypost/easy-ui --save
     url("/fonts/poppins/poppins-v20-latin-700.woff2") format("woff2"),
     url("/fonts/poppins/poppins-v20-latin-700.woff") format("woff");
 }
-```
-
-2.  Import the CSS directly into your project if your asset packager supports it:
-
-```js
-import "@easypost/easy-ui/style.css";
-```
-
-3.  Include the provider and any relevant components in your project:
-
-```js
-import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
-```
-
-4.  Tell React to render the element in the DOM:
-
-```js
-ReactDOM.render(
-  <EasyUIProvider>
-    <div>{/* More to come */}</div>
-  </EasyUIProvider>,
-  document.querySelector("#app"),
-);
 ```
 
 ### Server Rendering
