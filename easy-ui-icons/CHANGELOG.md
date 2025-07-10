@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.46
+
+### Minor Changes
+
+- 54daa53: Adds Brightness1, Description, Manga, RadioButtonChecked, RadioButtonUnchecked, RemoveSelection, and TableView icons
+
 ## 1.0.0-alpha.45
 
 ### Minor Changes
