@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.47
+
+### Minor Changes
+
+- cadd30e: Add price_change icon
+
 ## 1.0.0-alpha.46
 
 ### Minor Changes
