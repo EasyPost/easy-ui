@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.48
+
+### Minor Changes
+
+- 252b542: Adds Upload Icon
+
 ## 1.0.0-alpha.47
 
 ### Minor Changes
