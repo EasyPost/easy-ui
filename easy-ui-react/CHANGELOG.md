@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.93
+
+### Minor Changes
+
+- 730e13a: feat: support xl size for Modal
+
 ## 1.0.0-alpha.92
 
 ### Patch Changes
