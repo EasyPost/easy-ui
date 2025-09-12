@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.94
+
+### Minor Changes
+
+- 6166055: feat(Modal): add nesting support
+
 ## 1.0.0-alpha.93
 
 ### Minor Changes
