@@ -2,7 +2,6 @@ import React, {
   ReactElement,
   ReactNode,
   cloneElement,
-  useContext,
   useMemo,
   useState,
 } from "react";
@@ -38,11 +37,6 @@ type ModalContainerProps = {
  */
 export function ModalContainer(props: ModalContainerProps) {
   const { children, isDismissable = true, onDismiss = () => {} } = props;
-
-  const existingModalTriggerContext = useContext(ModalTriggerContext);
-  if (existingModalTriggerContext) {
-    throw new Error("Modal.Container must be used outside of a Modal.Trigger");
-  }
 
   const childArray = React.Children.toArray(children);
   if (childArray.length > 1) {

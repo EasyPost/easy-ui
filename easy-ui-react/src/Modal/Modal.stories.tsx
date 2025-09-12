@@ -230,6 +230,100 @@ export const MenuTrigger: ModalTriggerStory = {
   },
 };
 
+export const Nested: ModalTriggerStory = {
+  render: () => {
+    const [modal1, setModal1] = useState(true);
+    const [modal2, setModal2] = useState(false);
+    const [modal3, setModal3] = useState(false);
+    return (
+      <ModalContainer
+        onDismiss={() => {
+          setModal1(false);
+        }}
+      >
+        {modal1 && (
+          <Modal>
+            <Modal.Header>Outer Modal</Modal.Header>
+            <Modal.Body>
+              <PlaceholderBox width="100%" height="300px">
+                Space for content
+              </PlaceholderBox>
+              <ModalContainer
+                onDismiss={() => {
+                  setModal2(false);
+                }}
+              >
+                {modal2 && (
+                  <Modal>
+                    <Modal.Header>Modal 2</Modal.Header>
+                    <Modal.Body>
+                      <PlaceholderBox width="100%" height="200px">
+                        Content 2
+                      </PlaceholderBox>
+                      <ModalContainer
+                        onDismiss={() => {
+                          setModal3(false);
+                        }}
+                      >
+                        {modal3 && (
+                          <Modal>
+                            <Modal.Header>Modal 3</Modal.Header>
+                            <Modal.Body>
+                              <PlaceholderBox width="100%" height="100px">
+                                Content 3
+                              </PlaceholderBox>
+                            </Modal.Body>
+                            <Modal.Footer
+                              primaryAction={{
+                                content: "Close",
+                                onAction: () => {
+                                  setModal3(false);
+                                },
+                              }}
+                            />
+                          </Modal>
+                        )}
+                      </ModalContainer>
+                    </Modal.Body>
+                    <Modal.Footer
+                      primaryAction={{
+                        content: "Open Modal 3",
+                        onAction: () => {
+                          setModal3(true);
+                        },
+                      }}
+                      secondaryAction={{
+                        content: "Close",
+                        onAction: () => {
+                          setModal2(false);
+                        },
+                      }}
+                    />
+                  </Modal>
+                )}
+              </ModalContainer>
+            </Modal.Body>
+            <Modal.Footer
+              primaryAction={{
+                content: "Open Modal 2",
+                onAction: () => {
+                  setModal2(true);
+                },
+              }}
+              secondaryAction={{
+                content: "Close",
+                onAction: () => {
+                  setModal1(false);
+                },
+              }}
+            />
+          </Modal>
+        )}
+      </ModalContainer>
+    );
+  },
+};
+
 function ManageAccountModel({ title }: { title: string }) {
   const modalTriggerState = useModalTrigger();
   return (
