@@ -1,5 +1,17 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.93
+
+### Minor Changes
+
+- 730e13a: feat: support xl size for Modal
+
+### Patch Changes
+
+- 9523c3d: Allow icons for sm Button and add icons
+- Updated dependencies [9523c3d]
+  - @easypost/easy-ui-icons@1.0.0-alpha.49
+
 ## 1.0.0-alpha.92
 
 ### Patch Changes

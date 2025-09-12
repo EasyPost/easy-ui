@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.49
+
+### Patch Changes
+
+- 9523c3d: Allow icons for sm Button and add icons
+
 ## 1.0.0-alpha.48
 
 ### Minor Changes
