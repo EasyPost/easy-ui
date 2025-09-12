@@ -124,12 +124,12 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
   }
 
   const canUseIcon =
-    (iconAtEnd || iconAtStart) &&
-    !bothIconPropsDefined &&
-    variant !== "link" &&
-    size !== "sm";
+    (iconAtEnd || iconAtStart) && !bothIconPropsDefined && variant !== "link";
 
   logWarningIfInvalidColorVariantCombination(color, variant);
+
+  // xs icon is more consistent with non-icon button sm size
+  const iconSize = size === "sm" ? "xs" : "md";
 
   return (
     <UnstyledButton
@@ -145,7 +145,9 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
         isBlock && styles.block,
       )}
     >
-      {iconAtStart && canUseIcon && <Icon symbol={iconAtStart} />}
+      {iconAtStart && canUseIcon && (
+        <Icon symbol={iconAtStart} size={iconSize} />
+      )}
       <span
         className={classNames(
           iconAtStart && canUseIcon && styles.iconAtStart,
@@ -154,7 +156,7 @@ export const Button = forwardRef<null, ButtonProps>((props, inRef) => {
       >
         {children}
       </span>
-      {iconAtEnd && canUseIcon && <Icon symbol={iconAtEnd} />}
+      {iconAtEnd && canUseIcon && <Icon symbol={iconAtEnd} size={iconSize} />}
     </UnstyledButton>
   );
 });
