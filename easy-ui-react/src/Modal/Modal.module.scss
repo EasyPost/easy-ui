@@ -15,12 +15,6 @@
     background: design-token("color.primary.800");
     opacity: design-token("opacity.underlay");
   }
-
-  // React Aria marks parents of nested overlays as hidden. Ensure the
-  // hidden modals don't show in such cases to support nesting
-  &[aria-hidden="true"] {
-    display: none;
-  }
 }
 
 .underlayBg,
