@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.95
+
+### Patch Changes
+
+- ba6929c: fix(Modal): disable hiding parent nested modal
+
 ## 1.0.0-alpha.94
 
 ### Minor Changes
