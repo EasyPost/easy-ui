@@ -1,5 +1,14 @@
+import React, { ReactNode } from "react";
 import { FocusableElement } from "@react-types/shared";
-import { DOMAttributes, RefObject, createContext, useContext } from "react";
+import {
+  DOMAttributes,
+  RefObject,
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 import { OverlayTriggerState } from "react-stately";
 
 export type ModalContextType = {
@@ -15,6 +24,15 @@ export type ModalContextType = {
 type ModalTriggerContextType = {
   isDismissable: boolean;
   state: OverlayTriggerState;
+  hasOpenNestedModal: boolean;
+  setHasOpenNestedModal: (hasOpenNestedModal: boolean) => void;
+};
+
+export type ModalTriggerProviderProps = Pick<
+  ModalTriggerContextType,
+  "state" | "isDismissable"
+> & {
+  children: ReactNode;
 };
 
 export const ModalContext = createContext<ModalContextType | null>(null);
@@ -42,3 +60,30 @@ export const useModalTrigger = () => {
   const modalTriggerContext = useModalTriggerContext();
   return modalTriggerContext.state;
 };
+
+export function ModalTriggerProvider({
+  state,
+  isDismissable,
+  children,
+}: ModalTriggerProviderProps) {
+  const parentContext = useContext(ModalTriggerContext);
+  const [hasOpenNestedModal, setHasOpenNestedModal] = useState(false);
+  const context = useMemo(() => {
+    return { hasOpenNestedModal, setHasOpenNestedModal, state, isDismissable };
+  }, [hasOpenNestedModal, state, isDismissable]);
+
+  useLayoutEffect(() => {
+    if (parentContext && state.isOpen && !parentContext.hasOpenNestedModal) {
+      parentContext.setHasOpenNestedModal(true);
+    }
+    if (parentContext && !state.isOpen && parentContext.hasOpenNestedModal) {
+      parentContext.setHasOpenNestedModal(false);
+    }
+  }, [parentContext, state.isOpen]);
+
+  return (
+    <ModalTriggerContext.Provider value={context}>
+      {children}
+    </ModalTriggerContext.Provider>
+  );
+}

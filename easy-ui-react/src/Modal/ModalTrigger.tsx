@@ -1,8 +1,8 @@
-import React, { ReactElement, cloneElement, useMemo } from "react";
+import React, { ReactElement, cloneElement } from "react";
 import { useOverlayTrigger } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { ModalUnderlay } from "./ModalUnderlay";
-import { ModalTriggerContext } from "./context";
+import { ModalTriggerProvider } from "./context";
 
 export type CloseableModalElement = (close: () => void) => ReactElement;
 
@@ -50,12 +50,8 @@ export function ModalTrigger(props: ModalTriggerProps) {
 
   const [trigger, modal] = children;
 
-  const context = useMemo(() => {
-    return { state, isDismissable };
-  }, [isDismissable, state]);
-
   return (
-    <ModalTriggerContext.Provider value={context}>
+    <ModalTriggerProvider state={state} isDismissable={isDismissable}>
       {cloneElement(trigger, triggerProps)}
       {state.isOpen && (
         <ModalUnderlay {...props} state={state}>
@@ -65,6 +61,6 @@ export function ModalTrigger(props: ModalTriggerProps) {
           )}
         </ModalUnderlay>
       )}
-    </ModalTriggerContext.Provider>
+    </ModalTriggerProvider>
   );
 }

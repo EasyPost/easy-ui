@@ -1,5 +1,5 @@
 import CloseIcon from "@easypost/easy-ui-icons/Close";
-import React from "react";
+import React, { ReactNode } from "react";
 import { HorizontalStack } from "../HorizontalStack";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
@@ -21,12 +21,12 @@ export type ModalHeaderProps = {
   /**
    * The content for the title of the modal.
    */
-  children: string;
+  children: ReactNode;
 
   /**
    * The content for the subtitle of the modal.
    */
-  subtitle?: string;
+  subtitle?: ReactNode;
 
   /**
    * Icon to display at the start of the header title.
