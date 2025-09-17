@@ -11,6 +11,7 @@ import { Modal, ModalContainer, useModalTrigger } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
 import { Menu } from "../Menu";
 import { DropdownButton } from "../DropdownButton";
+import { Select } from "../Select";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
@@ -322,6 +323,29 @@ export const Nested: ModalTriggerStory = {
       </ModalContainer>
     );
   },
+};
+
+export const WithSelect: ModalStory = {
+  render: () => (
+    <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>
+          <Select label="Select an option" placeholder="Select an option">
+            <Select.Option key="option1">Option 1</Select.Option>
+            <Select.Option key="option2">Option 2</Select.Option>
+          </Select>
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
 };
 
 function ManageAccountModel({ title }: { title: string }) {
