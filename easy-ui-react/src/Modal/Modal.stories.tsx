@@ -11,8 +11,6 @@ import { Modal, ModalContainer, useModalTrigger } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
 import { Menu } from "../Menu";
 import { DropdownButton } from "../DropdownButton";
-import { Select } from "../Select";
-import { VerticalStack } from "../VerticalStack";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
@@ -247,15 +245,9 @@ export const Nested: ModalTriggerStory = {
           <Modal>
             <Modal.Header>Outer Modal</Modal.Header>
             <Modal.Body>
-              <VerticalStack gap="2">
-                <PlaceholderBox width="100%" height="300px">
-                  Space for content
-                </PlaceholderBox>
-                <Select selectedKey="1" aria-label="Select inside modal">
-                  <Select.Option key="1">Option 1</Select.Option>
-                  <Select.Option key="2">Option 2</Select.Option>
-                </Select>
-              </VerticalStack>
+              <PlaceholderBox width="100%" height="300px">
+                Space for content
+              </PlaceholderBox>
               <ModalContainer
                 onDismiss={() => {
                   setModal2(false);
@@ -265,18 +257,9 @@ export const Nested: ModalTriggerStory = {
                   <Modal>
                     <Modal.Header>Modal 2</Modal.Header>
                     <Modal.Body>
-                      <VerticalStack gap="2">
-                        <PlaceholderBox width="100%" height="200px">
-                          Content 2
-                        </PlaceholderBox>
-                        <Select
-                          selectedKey="1"
-                          aria-label="Select inside modal"
-                        >
-                          <Select.Option key="1">Option 1</Select.Option>
-                          <Select.Option key="2">Option 2</Select.Option>
-                        </Select>
-                      </VerticalStack>
+                      <PlaceholderBox width="100%" height="200px">
+                        Content 2
+                      </PlaceholderBox>
                       <ModalContainer
                         onDismiss={() => {
                           setModal3(false);
