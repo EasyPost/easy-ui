@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { FocusableElement } from "@react-types/shared";
 import {
   DOMAttributes,
@@ -28,6 +28,13 @@ type ModalTriggerContextType = {
   setHasOpenNestedModal: (hasOpenNestedModal: boolean) => void;
 };
 
+export type ModalTriggerProviderProps = Pick<
+  ModalTriggerContextType,
+  "state" | "isDismissable"
+> & {
+  children: ReactNode;
+};
+
 export const ModalContext = createContext<ModalContextType | null>(null);
 
 export const useModalContext = () => {
@@ -54,43 +61,25 @@ export const useModalTrigger = () => {
   return modalTriggerContext.state;
 };
 
-export type ModalTriggerProviderProps = {
-  /**
-   * Modal state.
-   */
-  state: ModalTriggerContextType["state"];
-
-  /**
-   * Whether or not the modal is dismissable.
-   */
-  isDismissable: ModalTriggerContextType["isDismissable"];
-
-  /**
-   * Modal wrap content.
-   */
-  children: React.ReactNode;
-};
-
-export function ModalTriggerProvider(props: ModalTriggerProviderProps) {
-  const { state, isDismissable, children } = props;
-  const parentModalTriggerContext = useContext(ModalTriggerContext);
+export function ModalTriggerProvider({
+  state,
+  isDismissable,
+  children,
+}: ModalTriggerProviderProps) {
+  const parentContext = useContext(ModalTriggerContext);
   const [hasOpenNestedModal, setHasOpenNestedModal] = useState(false);
-
   const context = useMemo(() => {
     return { hasOpenNestedModal, setHasOpenNestedModal, state, isDismissable };
   }, [hasOpenNestedModal, state, isDismissable]);
 
   useLayoutEffect(() => {
-    if (!parentModalTriggerContext) {
-      return;
+    if (parentContext && state.isOpen && !parentContext.hasOpenNestedModal) {
+      parentContext.setHasOpenNestedModal(true);
     }
-    if (state.isOpen && !parentModalTriggerContext.hasOpenNestedModal) {
-      parentModalTriggerContext.setHasOpenNestedModal(true);
+    if (parentContext && !state.isOpen && parentContext.hasOpenNestedModal) {
+      parentContext.setHasOpenNestedModal(false);
     }
-    if (!state.isOpen && parentModalTriggerContext.hasOpenNestedModal) {
-      parentModalTriggerContext.setHasOpenNestedModal(false);
-    }
-  }, [parentModalTriggerContext, state.isOpen]);
+  }, [parentContext, state.isOpen]);
 
   return (
     <ModalTriggerContext.Provider value={context}>
