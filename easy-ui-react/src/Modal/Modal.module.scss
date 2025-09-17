@@ -9,7 +9,6 @@
   z-index: design-token("z-index.modal");
   display: flex;
   flex-direction: column;
-
   &::before {
     content: "";
     position: absolute;
