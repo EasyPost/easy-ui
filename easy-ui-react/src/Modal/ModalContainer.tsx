@@ -1,14 +1,8 @@
-import React, {
-  ReactElement,
-  ReactNode,
-  cloneElement,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactElement, ReactNode, cloneElement, useState } from "react";
 import { useOverlayTrigger } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { ModalUnderlay } from "./ModalUnderlay";
-import { ModalTriggerContext } from "./context";
+import { ModalTriggerProvider } from "./context";
 
 type ModalContainerProps = {
   /**
@@ -68,17 +62,13 @@ export function ModalContainer(props: ModalContainerProps) {
   });
   const { overlayProps } = useOverlayTrigger({ type: "dialog" }, state);
 
-  const context = useMemo(() => {
-    return { state, isDismissable };
-  }, [state, isDismissable]);
-
   return (
-    <ModalTriggerContext.Provider value={context}>
+    <ModalTriggerProvider state={state} isDismissable={isDismissable}>
       {state.isOpen && (
         <ModalUnderlay state={state} isDismissable={isDismissable}>
           {lastChild ? cloneElement(lastChild, overlayProps) : null}
         </ModalUnderlay>
       )}
-    </ModalTriggerContext.Provider>
+    </ModalTriggerProvider>
   );
 }

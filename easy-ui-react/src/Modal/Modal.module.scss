@@ -9,6 +9,7 @@
   z-index: design-token("z-index.modal");
   display: flex;
   flex-direction: column;
+
   &::before {
     content: "";
     position: absolute;
@@ -23,6 +24,10 @@
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.underlayBgHidden {
+  display: none;
 }
 
 .underlayBox {
