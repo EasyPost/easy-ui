@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui",
-  "version": "1.0.0-alpha.96",
+  "version": "1.0.0-alpha.97",
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",

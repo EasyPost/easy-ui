@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.97
+
+### Patch Changes
+
+- 4aeb5f8: fix(Modal): nested modal unmount cleanup
+
 ## 1.0.0-alpha.96
 
 ### Patch Changes
