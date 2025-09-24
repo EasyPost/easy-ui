@@ -79,6 +79,12 @@ export function ModalTriggerProvider({
     if (parentContext && !state.isOpen && parentContext.hasOpenNestedModal) {
       parentContext.setHasOpenNestedModal(false);
     }
+    return () => {
+      // Ensure that if a nested modal is unmounted its parent isn't left hidden
+      if (parentContext && parentContext.hasOpenNestedModal) {
+        parentContext.setHasOpenNestedModal(false);
+      }
+    };
   }, [parentContext, state.isOpen]);
 
   return (

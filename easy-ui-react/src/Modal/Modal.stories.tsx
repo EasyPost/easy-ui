@@ -261,12 +261,12 @@ export const Nested: ModalTriggerStory = {
                       <PlaceholderBox width="100%" height="200px">
                         Content 2
                       </PlaceholderBox>
-                      <ModalContainer
-                        onDismiss={() => {
-                          setModal3(false);
-                        }}
-                      >
-                        {modal3 && (
+                      {modal3 && (
+                        <ModalContainer
+                          onDismiss={() => {
+                            setModal3(false);
+                          }}
+                        >
                           <Modal>
                             <Modal.Header>Modal 3</Modal.Header>
                             <Modal.Body>
@@ -283,8 +283,8 @@ export const Nested: ModalTriggerStory = {
                               }}
                             />
                           </Modal>
-                        )}
-                      </ModalContainer>
+                        </ModalContainer>
+                      )}
                     </Modal.Body>
                     <Modal.Footer
                       primaryAction={{
