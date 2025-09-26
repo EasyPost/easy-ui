@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.98
+
+### Patch Changes
+
+- 4608dbd: fix(Modal): revert nesting hiding
+
 ## 1.0.0-alpha.97
 
 ### Patch Changes
