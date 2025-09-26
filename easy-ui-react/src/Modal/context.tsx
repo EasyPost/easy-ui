@@ -5,7 +5,6 @@ import {
   RefObject,
   createContext,
   useContext,
-  useLayoutEffect,
   useMemo,
   useState,
 } from "react";
@@ -66,27 +65,10 @@ export function ModalTriggerProvider({
   isDismissable,
   children,
 }: ModalTriggerProviderProps) {
-  const parentContext = useContext(ModalTriggerContext);
   const [hasOpenNestedModal, setHasOpenNestedModal] = useState(false);
   const context = useMemo(() => {
     return { hasOpenNestedModal, setHasOpenNestedModal, state, isDismissable };
   }, [hasOpenNestedModal, state, isDismissable]);
-
-  useLayoutEffect(() => {
-    if (parentContext && state.isOpen && !parentContext.hasOpenNestedModal) {
-      parentContext.setHasOpenNestedModal(true);
-    }
-    if (parentContext && !state.isOpen && parentContext.hasOpenNestedModal) {
-      parentContext.setHasOpenNestedModal(false);
-    }
-    return () => {
-      // Ensure that if a nested modal is unmounted its parent isn't left hidden
-      if (parentContext && parentContext.hasOpenNestedModal) {
-        parentContext.setHasOpenNestedModal(false);
-      }
-    };
-  }, [parentContext, state.isOpen]);
-
   return (
     <ModalTriggerContext.Provider value={context}>
       {children}
