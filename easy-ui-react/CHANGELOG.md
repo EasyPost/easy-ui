@@ -1,5 +1,13 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.99
+
+### Patch Changes
+
+- 318237e: fix(Text): inherit theme font family
+- Updated dependencies [318237e]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.17
+
 ## 1.0.0-alpha.98
 
 ### Patch Changes
