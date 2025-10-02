@@ -31,9 +31,9 @@
 @function font-style-aliases() {
   $aliases: ();
   @each $key, $value in $ezui-tokens {
-    @if string.index($key, "font-style-") and string.index($key, "-family") {
+    @if string.index($key, "font-style-") and string.index($key, "-size") {
       $alias: string.slice($key, string.length("font-style-") + 1);
-      $alias: string.slice($alias, 0, string.index($alias, "-family") - 1);
+      $alias: string.slice($alias, 0, string.index($alias, "-size") - 1);
       $aliases: list.append($aliases, $alias);
     }
   }
