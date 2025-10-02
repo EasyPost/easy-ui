@@ -1,12 +1,15 @@
 import React from "react";
 import { Meta, Canvas } from "@storybook/blocks";
 import { Text } from "./Text";
+import { Provider as EasyUIProvider } from "./Provider";
 
 <Meta title="Foundations/Typography" />
 
 # Typography
 
 Easy UI comes with a set of predefined styles for headings, paragraphs, and other text elements. You can use these styles to maintain consistency across your application.
+
+<EasyUIProvider>
 
 <div className="sb-unstyled">
 
@@ -60,3 +63,5 @@ Easy UI comes with a set of predefined styles for headings, paragraphs, and othe
 </Text>
 
 </div>
+
+</EasyUIProvider>

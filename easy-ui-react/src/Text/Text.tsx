@@ -30,7 +30,7 @@ export type TextColor =
   | "inverse"
   | "primary"
   | "subdued";
-export type TextVariant = DesignTokenNamespace<"font.style", "family">;
+export type TextVariant = DesignTokenNamespace<"font.style", "size">;
 export type TextWeight = "normal" | "medium" | "semibold" | "bold";
 export type TextTransform = "none" | "capitalize" | "uppercase" | "lowercase";
 export type TextWhiteSpace =
