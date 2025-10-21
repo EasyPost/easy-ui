@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { CodeSnippet, CodeSnippetProps } from "./CodeSnippet";
 import { SnippetLanguages, SnippetLanguage } from "./SyntaxHighlighter";

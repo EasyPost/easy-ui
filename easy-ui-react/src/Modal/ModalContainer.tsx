@@ -1,15 +1,8 @@
-import React, {
-  ReactElement,
-  ReactNode,
-  cloneElement,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactElement, ReactNode, cloneElement, useState } from "react";
 import { useOverlayTrigger } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { ModalUnderlay } from "./ModalUnderlay";
-import { ModalTriggerContext } from "./context";
+import { ModalTriggerProvider } from "./context";
 
 type ModalContainerProps = {
   /**
@@ -38,11 +31,6 @@ type ModalContainerProps = {
  */
 export function ModalContainer(props: ModalContainerProps) {
   const { children, isDismissable = true, onDismiss = () => {} } = props;
-
-  const existingModalTriggerContext = useContext(ModalTriggerContext);
-  if (existingModalTriggerContext) {
-    throw new Error("Modal.Container must be used outside of a Modal.Trigger");
-  }
 
   const childArray = React.Children.toArray(children);
   if (childArray.length > 1) {
@@ -74,17 +62,13 @@ export function ModalContainer(props: ModalContainerProps) {
   });
   const { overlayProps } = useOverlayTrigger({ type: "dialog" }, state);
 
-  const context = useMemo(() => {
-    return { state, isDismissable };
-  }, [state, isDismissable]);
-
   return (
-    <ModalTriggerContext.Provider value={context}>
+    <ModalTriggerProvider state={state} isDismissable={isDismissable}>
       {state.isOpen && (
         <ModalUnderlay state={state} isDismissable={isDismissable}>
           {lastChild ? cloneElement(lastChild, overlayProps) : null}
         </ModalUnderlay>
       )}
-    </ModalTriggerContext.Provider>
+    </ModalTriggerProvider>
   );
 }

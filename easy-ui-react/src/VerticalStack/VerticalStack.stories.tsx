@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import ezuiTokens from "@easypost/easy-ui-tokens/js/tokens";
 import React from "react";
 import {

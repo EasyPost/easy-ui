@@ -1,5 +1,5 @@
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
+import { action } from "storybook/actions";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { OverlayLayoutDecorator } from "../utilities/storybook";
 import { Menu } from "../Menu";

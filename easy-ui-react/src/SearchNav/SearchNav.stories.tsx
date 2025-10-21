@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
+import { Meta, StoryObj } from "@storybook/react-vite";
+import { action } from "storybook/actions";
 import React from "react";
 import Campaign from "@easypost/easy-ui-icons/Campaign";
 import Help from "@easypost/easy-ui-icons/Help";

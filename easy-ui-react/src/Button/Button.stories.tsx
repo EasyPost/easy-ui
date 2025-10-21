@@ -2,8 +2,8 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
+import { action } from "storybook/actions";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import {
   InlineStoryDecorator,

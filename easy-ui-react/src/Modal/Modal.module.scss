@@ -25,6 +25,10 @@
   bottom: 0;
 }
 
+.underlayBgHidden {
+  display: none;
+}
+
 .underlayBox {
   position: relative;
   display: flex;
@@ -136,4 +140,8 @@
 
 .sizeLg {
   @include component-token("modal", "max-width", 788px);
+}
+
+.sizeXl {
+  @include component-token("modal", "max-width", 1000px);
 }

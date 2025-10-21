@@ -1,5 +1,5 @@
-import { action } from "@storybook/addon-actions";
-import { Preview } from "@storybook/react";
+import { action } from "storybook/actions";
+import { Preview } from "@storybook/react-vite";
 import React from "react";
 import { Provider as EasyUIProvider } from "../easy-ui-react/src/Provider";
 import { backgrounds, gridCellSize, theme } from "./theme";
@@ -14,20 +14,20 @@ const preview: Preview = {
       },
     },
     viewport: {
-      viewports,
+      options: viewports,
     },
     docs: {
       theme,
     },
     backgrounds: {
-      values: Object.entries(backgrounds).map(([name, value]) => ({
-        name,
-        value,
-      })),
       grid: {
         cellSize: gridCellSize,
         opacity: 0.25,
       },
+      options: Object.entries(backgrounds).map(([name, value]) => ({
+        name,
+        value,
+      })),
     },
     options: {
       storySort: {

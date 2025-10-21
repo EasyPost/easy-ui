@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import CalendarMonthIcon from "@easypost/easy-ui-icons/CalendarMonth";
 import React from "react";
 import { Key } from "react-aria";

@@ -1,5 +1,55 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.99
+
+### Patch Changes
+
+- 318237e: fix(Text): inherit theme font family
+- Updated dependencies [318237e]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.17
+
+## 1.0.0-alpha.98
+
+### Patch Changes
+
+- 4608dbd: fix(Modal): revert nesting hiding
+
+## 1.0.0-alpha.97
+
+### Patch Changes
+
+- 4aeb5f8: fix(Modal): nested modal unmount cleanup
+
+## 1.0.0-alpha.96
+
+### Patch Changes
+
+- 7670391: fix(Modal): hide parent of nested modal
+
+## 1.0.0-alpha.95
+
+### Patch Changes
+
+- ba6929c: fix(Modal): disable hiding parent nested modal
+
+## 1.0.0-alpha.94
+
+### Minor Changes
+
+- 6166055: feat(Modal): add nesting support
+
+## 1.0.0-alpha.93
+
+### Minor Changes
+
+- 730e13a: feat: support xl size for Modal
+
+### Patch Changes
+
+- 9523c3d: Allow icons for sm Button and add icons
+- Updated dependencies [9523c3d]
+  - @easypost/easy-ui-icons@1.0.0-alpha.49
+
 ## 1.0.0-alpha.92
 
 ### Patch Changes

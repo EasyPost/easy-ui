@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { ComponentProps, useState } from "react";
 import { TabNav, TabNavProps } from "./TabNav";
 

@@ -1,5 +1,5 @@
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
+import { action } from "storybook/actions";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { Key, useState } from "react";
 import { Button } from "../Button";
 import {
@@ -11,6 +11,7 @@ import { Modal, ModalContainer, useModalTrigger } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
 import { Menu } from "../Menu";
 import { DropdownButton } from "../DropdownButton";
+import { Select } from "../Select";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
@@ -228,6 +229,123 @@ export const MenuTrigger: ModalTriggerStory = {
       </>
     );
   },
+};
+
+export const Nested: ModalTriggerStory = {
+  render: () => {
+    const [modal1, setModal1] = useState(true);
+    const [modal2, setModal2] = useState(false);
+    const [modal3, setModal3] = useState(false);
+    return (
+      <ModalContainer
+        onDismiss={() => {
+          setModal1(false);
+        }}
+      >
+        {modal1 && (
+          <Modal>
+            <Modal.Header>Outer Modal</Modal.Header>
+            <Modal.Body>
+              <PlaceholderBox width="100%" height="300px">
+                Space for content
+              </PlaceholderBox>
+              <ModalContainer
+                onDismiss={() => {
+                  setModal2(false);
+                }}
+              >
+                {modal2 && (
+                  <Modal>
+                    <Modal.Header>Modal 2</Modal.Header>
+                    <Modal.Body>
+                      <PlaceholderBox width="100%" height="200px">
+                        Content 2
+                      </PlaceholderBox>
+                      {modal3 && (
+                        <ModalContainer
+                          onDismiss={() => {
+                            setModal3(false);
+                          }}
+                        >
+                          <Modal>
+                            <Modal.Header>Modal 3</Modal.Header>
+                            <Modal.Body>
+                              <PlaceholderBox width="100%" height="100px">
+                                Content 3
+                              </PlaceholderBox>
+                            </Modal.Body>
+                            <Modal.Footer
+                              primaryAction={{
+                                content: "Close",
+                                onAction: () => {
+                                  setModal3(false);
+                                },
+                              }}
+                            />
+                          </Modal>
+                        </ModalContainer>
+                      )}
+                    </Modal.Body>
+                    <Modal.Footer
+                      primaryAction={{
+                        content: "Open Modal 3",
+                        onAction: () => {
+                          setModal3(true);
+                        },
+                      }}
+                      secondaryAction={{
+                        content: "Close",
+                        onAction: () => {
+                          setModal2(false);
+                        },
+                      }}
+                    />
+                  </Modal>
+                )}
+              </ModalContainer>
+            </Modal.Body>
+            <Modal.Footer
+              primaryAction={{
+                content: "Open Modal 2",
+                onAction: () => {
+                  setModal2(true);
+                },
+              }}
+              secondaryAction={{
+                content: "Close",
+                onAction: () => {
+                  setModal1(false);
+                },
+              }}
+            />
+          </Modal>
+        )}
+      </ModalContainer>
+    );
+  },
+};
+
+export const WithSelect: ModalStory = {
+  render: () => (
+    <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>
+          <Select label="Select an option" placeholder="Select an option">
+            <Select.Option key="option1">Option 1</Select.Option>
+            <Select.Option key="option2">Option 2</Select.Option>
+          </Select>
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
 };
 
 function ManageAccountModel({ title }: { title: string }) {

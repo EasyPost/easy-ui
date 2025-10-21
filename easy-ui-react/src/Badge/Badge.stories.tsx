@@ -2,7 +2,7 @@ import AnchorIcon from "@easypost/easy-ui-icons/Anchor";
 import CheckIcon from "@easypost/easy-ui-icons/Check";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
 import WarningIcon from "@easypost/easy-ui-icons/Warning";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import {
   InlineStoryDecorator,
