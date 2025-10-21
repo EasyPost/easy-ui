@@ -1,5 +1,5 @@
 import React from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import { today, getLocalTimeZone } from "@internationalized/date";
 import { DateRange } from "@react-types/calendar";
 import { InputDecorator } from "../utilities/storybook";

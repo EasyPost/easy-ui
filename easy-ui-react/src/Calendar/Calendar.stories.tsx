@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocale } from "react-aria";
 import { DateValue } from "@react-types/calendar";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import { InlineStoryDecorator } from "../utilities/storybook";
 import {
   today,

@@ -1,5 +1,5 @@
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
+import { action } from "storybook/actions";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { Key, useState } from "react";
 import { Button } from "../Button";
 import {

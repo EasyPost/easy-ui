@@ -1,7 +1,7 @@
 import AddIcon from "@easypost/easy-ui-icons/Add";
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
+import { action } from "storybook/actions";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import {
   InlineStoryDecorator,

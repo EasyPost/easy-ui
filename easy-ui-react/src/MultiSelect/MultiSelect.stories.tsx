@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useCallback } from "react";
 import { HorizontalStack } from "../HorizontalStack";
 import { Icon } from "../Icon";

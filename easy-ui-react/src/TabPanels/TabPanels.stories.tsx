@@ -1,7 +1,7 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { TabPanels, TabPanelsProps } from "./TabPanels";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 
 type Story = StoryObj<typeof TabPanels>;
 
