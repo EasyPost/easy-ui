@@ -1,4 +1,4 @@
-import { create } from "@storybook/theming";
+import { create } from "storybook/theming";
 import tokens from "../easy-ui-tokens/dist/js/tokens";
 
 export const gridCellSize = 8;

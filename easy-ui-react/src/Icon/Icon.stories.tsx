@@ -2,7 +2,7 @@ import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
 import WarningIcon from "@easypost/easy-ui-icons/Warning";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import {
   createColorTokensControl,

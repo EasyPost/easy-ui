@@ -1,5 +1,5 @@
 import React from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import LocalShippingIcon from "@easypost/easy-ui-icons/LocalShipping";
 import { InlineStoryDecorator, FedExLogoImg } from "../utilities/storybook";
 import { PillGroup, PillGroupProps, usePillListState } from "./PillGroup";

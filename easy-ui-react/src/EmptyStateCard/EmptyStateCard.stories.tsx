@@ -1,5 +1,5 @@
 import React from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import { EmptyStateCard, EmptyStateCardProps } from "./EmptyStateCard";
 import { Button } from "../Button";
 import { PlaceholderBox } from "../utilities/storybook";

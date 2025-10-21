@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { createColorTokensControl } from "../utilities/storybook";
 import { RadioButtonGroup, RadioButtonGroupProps } from "./RadioButtonGroup";

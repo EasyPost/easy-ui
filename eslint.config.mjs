@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -16,4 +19,5 @@ export default [
     ignores: ["**/node_modules", "**/dist", "!**/.storybook"],
   },
   ...compat.extends("@easypost/eslint-config-easy-ui"),
+  ...storybook.configs["flat/recommended"],
 ];

@@ -1,5 +1,5 @@
 import SearchIcon from "@easypost/easy-ui-icons/Search";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { Button } from "../Button";
 import { DataGrid } from "../DataGrid";

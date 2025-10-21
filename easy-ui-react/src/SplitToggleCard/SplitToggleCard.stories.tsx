@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState, useId } from "react";
 import { SplitToggleCard, SplitToggleCardProps } from "./SplitToggleCard";
 import { Text } from "../Text";

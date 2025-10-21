@@ -1,6 +1,6 @@
 import AccountBalanceIcon from "@easypost/easy-ui-icons/AccountBalance";
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
+import { action } from "storybook/actions";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState } from "react";
 import { HorizontalGrid } from "../HorizontalGrid";
 import { HorizontalStack } from "../HorizontalStack";

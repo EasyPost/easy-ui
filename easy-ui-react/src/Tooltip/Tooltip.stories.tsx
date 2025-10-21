@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import { startCase } from "lodash";
 import React from "react";
 import { Button } from "../Button";
