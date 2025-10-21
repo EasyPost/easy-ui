@@ -133,7 +133,7 @@ import VisibilityOffIcon from "@easypost/easy-ui-icons/VisibilityOff";
 import WarningIcon from "@easypost/easy-ui-icons/Warning";
 import WebhookIcon from "@easypost/easy-ui-icons/Webhook";
 import WidgetsIcon from "@easypost/easy-ui-icons/Widgets";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import {
   createColorTokensControl,
