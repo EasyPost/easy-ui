@@ -12,7 +12,7 @@ import { useModalTrigger } from "./context";
 
 import styles from "./Modal.module.scss";
 
-type ModalSize = "sm" | "md" | "lg";
+type ModalSize = "sm" | "md" | "lg" | "xl";
 
 export type ModalProps = {
   /**

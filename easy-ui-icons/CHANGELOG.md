@@ -1,5 +1,29 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.49
+
+### Patch Changes
+
+- 9523c3d: Allow icons for sm Button and add icons
+
+## 1.0.0-alpha.48
+
+### Minor Changes
+
+- 252b542: Adds Upload Icon
+
+## 1.0.0-alpha.47
+
+### Minor Changes
+
+- cadd30e: Add price_change icon
+
+## 1.0.0-alpha.46
+
+### Minor Changes
+
+- 54daa53: Adds Brightness1, Description, Manga, RadioButtonChecked, RadioButtonUnchecked, RemoveSelection, and TableView icons
+
 ## 1.0.0-alpha.45
 
 ### Minor Changes

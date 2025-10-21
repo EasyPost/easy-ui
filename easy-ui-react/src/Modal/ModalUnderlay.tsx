@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
 import { Overlay, useModalOverlay } from "react-aria";
 import { OverlayTriggerState } from "react-stately";
+import { classNames } from "../utilities/css";
+import { useModalTriggerContext } from "./context";
 
 import styles from "./Modal.module.scss";
 
@@ -35,10 +37,16 @@ export function ModalUnderlay(props: ModalUnderlayProps) {
     state,
     ref,
   );
+  const { hasOpenNestedModal } = useModalTriggerContext();
+
+  const className = classNames(
+    styles.underlayBg,
+    hasOpenNestedModal && styles.underlayBgHidden,
+  );
 
   return (
     <Overlay>
-      <div className={styles.underlayBg} {...underlayProps}>
+      <div className={className} {...underlayProps}>
         <div {...modalProps} ref={ref} className={styles.underlayBox}>
           <div className={styles.underlayEdge} />
           {children}

@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui-tokens",
-  "version": "1.0.0-alpha.16",
+  "version": "1.0.0-alpha.17",
   "exports": {
     "./js/*": {
       "types": "./dist/js/*.d.ts",
@@ -24,6 +24,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
-    "style-dictionary": "^5.0.0"
+    "style-dictionary": "^5.0.1"
   }
 }

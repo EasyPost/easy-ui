@@ -84,7 +84,7 @@ type ModalProps = {
    *
    * @default lg
    */
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
 };
 
 type ModalHeaderProps = {
