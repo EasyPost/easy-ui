@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.100
+
+### Patch Changes
+
+- c384358: Adds icon gallery story
+
 ## 1.0.0-alpha.99
 
 ### Patch Changes
