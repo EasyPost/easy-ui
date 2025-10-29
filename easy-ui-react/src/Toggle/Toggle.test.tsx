@@ -62,4 +62,30 @@ describe("<Toggle />", () => {
     await selectCheckbox(user, screen.getByRole("switch"));
     expect(screen.getByRole("switch")).toBeChecked();
   });
+
+  it("should apply the primary variant class by default", () => {
+    const { container } = render(<Toggle>Toggle item</Toggle>);
+    expect(container.querySelector("span")).toHaveAttribute(
+      "class",
+      expect.stringContaining("variantPrimary"),
+    );
+  });
+
+  it("should apply the success variant class", () => {
+    const { container } = render(
+      <Toggle variant="success">Toggle item</Toggle>,
+    );
+    expect(container.querySelector("span")).toHaveAttribute(
+      "class",
+      expect.stringContaining("variantSuccess"),
+    );
+  });
+
+  it("should apply the danger variant class", () => {
+    const { container } = render(<Toggle variant="danger">Toggle item</Toggle>);
+    expect(container.querySelector("span")).toHaveAttribute(
+      "class",
+      expect.stringContaining("variantDanger"),
+    );
+  });
 });

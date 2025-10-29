@@ -40,21 +40,8 @@
 .selected {
   @include component-token(
     "switch",
-    "color.track",
-    design-token("color.primary.500")
-  );
-  @include component-token(
-    "switch",
     "color.thumb",
     design-token("color.neutral.000")
-  );
-}
-
-.selected.hovered:not(.disabled) {
-  @include component-token(
-    "switch",
-    "color.track",
-    design-token("color.primary.600")
   );
 }
 
@@ -68,5 +55,56 @@
     "switch",
     "color.thumb",
     design-token("color.neutral.300")
+  );
+}
+
+// Primary Variants
+.variantPrimary.selected:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    design-token("color.primary.500")
+  );
+}
+
+.variantPrimary.selected.hovered:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    design-token("color.primary.600")
+  );
+}
+
+// Success Variants
+.variantSuccess.selected:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    design-token("color.positive.600")
+  );
+}
+
+.variantSuccess.selected.hovered:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    design-token("color.positive.700")
+  );
+}
+
+// Danger Variants
+.variantDanger.selected:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    design-token("color.negative.600")
+  );
+}
+
+.variantDanger.selected.hovered:not(.disabled) {
+  @include component-token(
+    "switch",
+    "color.track",
+    design-token("color.negative.700")
   );
 }

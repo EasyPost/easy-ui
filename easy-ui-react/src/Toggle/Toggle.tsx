@@ -8,6 +8,7 @@ import { classNames } from "../utilities/css";
 import { Switch } from "./Switch";
 
 import styles from "./Toggle.module.scss";
+import { getTextColorFromProps } from "./utils";
 
 export type ToggleProps = AriaLabelingProps & {
   /**
@@ -49,6 +50,11 @@ export type ToggleProps = AriaLabelingProps & {
    * The value of the toggle, used when submitting an HTML form.
    */
   value?: string;
+
+  /**
+   * The color variant for the background of the switch when enabled
+   */
+  variant?: "primary" | "success" | "danger";
 };
 
 /**
@@ -106,9 +112,14 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
     const { isFocusVisible, focusProps } = useFocusRing();
     const { isHovered, hoverProps } = useHover(props);
     const isSelected = state.isSelected;
+    const variant = props.variant ?? "primary";
 
     const className = classNames(styles.Toggle, !children && styles.standalone);
-    const textColor = isDisabled ? "neutral.300" : "primary.800";
+    const textColor = getTextColorFromProps({
+      variant,
+      isDisabled: !!isDisabled,
+      isSelected,
+    });
 
     const RootComponent = children ? "label" : "span";
     const rootProps = children ? hoverProps : {};
@@ -124,6 +135,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
           isFocusVisible={isFocusVisible}
           isHovered={isHovered}
           isSelected={isSelected}
+          variant={variant}
         />
         {children && (
           <span className={styles.text}>

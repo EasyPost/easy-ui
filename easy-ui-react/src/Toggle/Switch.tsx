@@ -1,9 +1,14 @@
 import React from "react";
-import { classNames } from "../utilities/css";
+import { classNames, variationName } from "../utilities/css";
 
 import styles from "./Switch.module.scss";
 
 export type SwitchProps = {
+  /**
+   * The color variant for the background of the switch when enabled
+   */
+  variant: "primary" | "success" | "danger";
+
   /**
    * Whether the switch should be disabled.
    */
@@ -29,11 +34,12 @@ export type SwitchProps = {
  * A custom-styled control for displaying an "on/off" state.
  */
 export function Switch(props: SwitchProps) {
-  const { isDisabled, isFocusVisible, isHovered, isSelected } = props;
+  const { isDisabled, isFocusVisible, isHovered, isSelected, variant } = props;
 
   const className = classNames(
     styles.Switch,
     isDisabled && styles.disabled,
+    styles[variationName("variant", variant)],
     isFocusVisible && styles.focusVisible,
     isHovered && styles.hovered,
     isSelected && styles.selected,
