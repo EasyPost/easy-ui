@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.101
+
+### Minor Changes
+
+- cbda521: Adds `variant` prop to `Toggle` component
+
 ## 1.0.0-alpha.100
 
 ### Patch Changes
