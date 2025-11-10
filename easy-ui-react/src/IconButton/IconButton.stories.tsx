@@ -66,6 +66,11 @@ export const Inverse: Story = {
   decorators: [InlineStoryOnDarkBackgroundDecorator],
 };
 
+export const Small: Story = {
+  render: () => <IconButton size="sm" {...sharedIconButtonProps} />,
+  decorators: [InlineStoryDecorator],
+};
+
 export const Disabled: Story = {
   render: () => (
     <>
