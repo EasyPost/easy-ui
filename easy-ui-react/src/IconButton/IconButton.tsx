@@ -10,7 +10,7 @@ import styles from "./IconButton.module.scss";
 import { UnstyledButton } from "../UnstyledButton";
 
 export type IconButtonVariant = "filled" | "outlined";
-export type ButtonSize = "sm" | "md";
+export type IconButtonSize = "sm" | "md";
 
 export type IconButtonProps = AriaButtonProps & {
   /** Button color */
@@ -20,7 +20,7 @@ export type IconButtonProps = AriaButtonProps & {
   /** Icon symbol */
   icon: IconSymbol;
   /** Button size */
-  size?: ButtonSize;
+  size?: IconButtonSize;
   /** Description of icon */
   accessibilityLabel: string;
   /** Disables button */
