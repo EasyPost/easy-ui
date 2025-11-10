@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.102
+
+### Minor Changes
+
+- 8c6fa83: Adds size prop to `IconButton`
+
 ## 1.0.0-alpha.101
 
 ### Minor Changes
