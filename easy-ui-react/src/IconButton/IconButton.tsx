@@ -10,6 +10,7 @@ import styles from "./IconButton.module.scss";
 import { UnstyledButton } from "../UnstyledButton";
 
 export type IconButtonVariant = "filled" | "outlined";
+export type ButtonSize = "sm" | "md";
 
 export type IconButtonProps = AriaButtonProps & {
   /** Button color */
@@ -18,6 +19,8 @@ export type IconButtonProps = AriaButtonProps & {
   variant?: IconButtonVariant;
   /** Icon symbol */
   icon: IconSymbol;
+  /** Button size */
+  size?: ButtonSize;
   /** Description of icon */
   accessibilityLabel: string;
   /** Disables button */
@@ -91,12 +94,16 @@ export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
     color = "primary",
     variant = "filled",
     icon,
+    size = "md",
     accessibilityLabel,
     isDisabled = false,
     ...restProps
   } = props;
 
   logWarningIfInvalidColorVariantCombination(color, variant);
+
+  // xs icon is more consistent with non-icon button sm size
+  const iconSize = size === "sm" ? "xs" : "md";
 
   return (
     <UnstyledButton
@@ -106,11 +113,12 @@ export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
         styles.IconButton,
         styles[variationName("variant", variant)],
         styles[variationName("color", color)],
+        styles[variationName("size", size)],
       )}
       {...restProps}
     >
       <Text visuallyHidden>{accessibilityLabel}</Text>
-      <Icon symbol={icon} />
+      <Icon symbol={icon} size={iconSize} />
     </UnstyledButton>
   );
 });

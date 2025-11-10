@@ -52,4 +52,32 @@ describe("<IconButton />", () => {
     );
     expect(screen.getByRole("button")).toBeDisabled();
   });
+
+  it("should apply the medium size class by default", () => {
+    render(<IconButton icon={ArrowBackIcon} accessibilityLabel="Back" />);
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeMd"),
+    );
+  });
+
+  it("should apply the small size class", () => {
+    render(
+      <IconButton size="sm" icon={ArrowBackIcon} accessibilityLabel="Back" />,
+    );
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+  });
+
+  it("should apply the medium size class", () => {
+    render(
+      <IconButton size="md" icon={ArrowBackIcon} accessibilityLabel="Back" />,
+    );
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeMd"),
+    );
+  });
 });

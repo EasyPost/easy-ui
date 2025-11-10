@@ -44,3 +44,21 @@
   padding: design-token("space.1.5");
   @include Button.variantFilled;
 }
+
+.sizeMd {
+  @include font-style("button");
+}
+
+.sizeSm {
+  @include font-style("small-button");
+}
+
+.sizeSm.variantFilled {
+  padding: design-token("space.1");
+}
+
+.sizeSm.variantOutlined {
+  padding: calc(
+    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+  );
+}
