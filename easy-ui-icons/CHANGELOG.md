@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.50
+
+### Minor Changes
+
+- 1960b84: Adds DisabledByDefault and MarkEmailUnread icons
+
 ## 1.0.0-alpha.49
 
 ### Patch Changes
