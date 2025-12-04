@@ -78,6 +78,21 @@
     "color.neutral.050": { "value": "{color.gray.050}" },
     "color.neutral.025": { "value": "{color.gray.025}" },
     "color.neutral.000": { "value": "{color.gray.000}" },
-    "font.family": { "value": "{font.family.sans}" }
+    "font.family": { "value": "{font.family.sans}" },
+    "component.button.primary.filled.font.color": {
+      "value": "{theme.light.color.neutral.000}"
+    },
+    "component.button.primary.filled.active.font.color": {
+      "value": "{theme.light.color.neutral.000}"
+    },
+    "component.button.primary.resting.color": {
+      "value": "{theme.light.color.primary.500}"
+    },
+    "component.button.primary.hover.focus.color": {
+      "value": "{theme.light.color.primary.600}"
+    },
+    "component.button.primary.active.color": {
+      "value": "{theme.light.color.primary.700}"
+    }
   }
 }

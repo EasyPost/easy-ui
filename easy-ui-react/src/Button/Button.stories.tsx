@@ -15,6 +15,8 @@ import {
   getTextButtonsColorMapping,
 } from "../utilities/storybook";
 import { Button, ButtonProps } from "./Button";
+import { ThemeProvider } from "../Theme";
+import { VerticalStack } from "../VerticalStack";
 
 type Story = StoryObj<typeof Button>;
 
@@ -45,6 +47,36 @@ const meta: Meta<typeof Button> = {
 };
 
 export default meta;
+
+export const OverrideWithTheme: Story = {
+  render: () => (
+    <>
+      <VerticalStack gap="2">
+        <div>
+          <ThemeProvider
+            theme={() => ({
+              "component.button.primary.filled.font.color":
+                "var(--ezui-color-neutral-900)",
+              "component.button.primary.filled.active.font.color":
+                "var(--ezui-color-neutral-900)",
+              "component.button.primary.resting.color":
+                "var(--ezui-color-yellow-500)",
+              "component.button.primary.hover.focus.color":
+                "var(--ezui-color-yellow-600)",
+              "component.button.primary.active.color":
+                "var(--ezui-color-yellow-700)",
+            })}
+          >
+            <Button color="primary">Overridden</Button>
+          </ThemeProvider>
+        </div>
+        <div>
+          <Button color="primary">Standard</Button>
+        </div>
+      </VerticalStack>
+    </>
+  ),
+};
 
 export const Filled: Story = {
   render: Template.bind({}),

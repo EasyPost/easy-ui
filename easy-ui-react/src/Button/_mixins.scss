@@ -135,11 +135,11 @@
 
 // prettier-ignore
 @mixin colorPrimary {
-  @include component-token("button", "filled.font.color", design-token("color.neutral.000"));
-  @include component-token("button", "filled.active.font.color", design-token("color.neutral.000"));
-  @include component-token("button", "resting.color", design-token("color.primary.500"));
-  @include component-token("button", "hover.focus.color", design-token("color.primary.600"));
-  @include component-token("button", "active.color", design-token("color.primary.700"));
+  @include component-token("button", "filled.font.color", design-token("component.button.primary.filled.font.color"));
+  @include component-token("button", "filled.active.font.color", design-token("component.button.primary.filled.active.font.color"));
+  @include component-token("button", "resting.color", design-token("component.button.primary.resting.color"));
+  @include component-token("button", "hover.focus.color", design-token("component.button.primary.hover.focus.color"));
+  @include component-token("button", "active.color", design-token("component.button.primary.active.color"));
 }
 
 // prettier-ignore
