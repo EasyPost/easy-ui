@@ -19,14 +19,11 @@ A `<Modal />` is a page overlay that displays information and blocks interaction
   <Modal>
     <Modal.Header>H4 Title</Modal.Header>
     <Modal.Body>Modal content</Modal.Body>
-    <Modal.Footer
-      primaryAction={{
-        content: "Button 1",
-        onAction: () => {},
-        isDisabled: false,
-        color: "primary",
-      }}
-    />
+    <Modal.Footer>
+      <HorizontalStack align="end">
+        <Button>Continue</Button>
+      </HorizontalStack>
+    </Modal.Footer>
   </Modal>
 </Modal.Trigger>
 ```
@@ -48,15 +45,17 @@ _Modal with close function injected:_
     <Modal>
       <Modal.Header>H4 Title</Modal.Header>
       <Modal.Body>Modal content</Modal.Body>
-      <Modal.Footer
-        primaryAction={{
-          content: "Button 1",
-          onAction: () => {
-            // do something
-            close();
-          },
-        }}
-      />
+      <Modal.Footer>
+        <HorizontalStack align="end">
+          <Button
+            onPress={() => {
+              close();
+            }}
+          >
+            Continue
+          </Button>
+        </HorizontalStack>
+      </Modal.Footer>
     </Modal>
   )}
 </Modal.Trigger>

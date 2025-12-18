@@ -43,12 +43,11 @@ export type ModalProps = {
  *   <Modal>
  *     <Modal.Header>H4 Title</Modal.Header>
  *     <Modal.Body>Modal content</Modal.Body>
- *     <Modal.Footer
- *       primaryAction={{
- *         content: "Button 1",
- *         onAction: () => {},
- *       }}
- *     />
+ *     <Modal.Footer>
+ *       <HorizontalStack align="end">
+ *         <Button>Continue</Button>
+ *       </HorizontalStack>
+ *     </Modal.Footer>
  *   </Modal>
  * </Modal.Trigger>
  */

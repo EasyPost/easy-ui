@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
 import { Button } from "../Button";
+import { HorizontalStack } from "../HorizontalStack";
 import {
   mockGetComputedStyle,
   mockIntersectionObserver,
@@ -110,14 +111,15 @@ describe("<Modal />", () => {
         <Modal>
           <Modal.Header>Header</Modal.Header>
           <Modal.Body>Content</Modal.Body>
-          <Modal.Footer
-            primaryAction={{
-              content: "Modal Action Button",
-              onAction: () => {
+          <Modal.Footer>
+            <Button
+              onPress={() => {
                 modalTrigger.close();
-              },
-            }}
-          />
+              }}
+            >
+              Modal Action Button
+            </Button>
+          </Modal.Footer>
         </Modal>
       );
     }
@@ -142,6 +144,63 @@ describe("<Modal />", () => {
       </ModalContainer>,
     );
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("should render a Modal with Footer actions", async () => {
+    function ModalWithFooterActions({
+      onPrimaryAction,
+      onSecondaryAction,
+    }: {
+      onPrimaryAction: () => void;
+      onSecondaryAction: () => void;
+    }) {
+      return (
+        <Modal.Trigger>
+          <Button>Open modal</Button>
+          <Modal>
+            <Modal.Header>Header</Modal.Header>
+            <Modal.Body>Content</Modal.Body>
+            <Modal.Footer
+              primaryAction={{
+                content: "Primary Action",
+                onAction: onPrimaryAction,
+              }}
+              secondaryAction={{
+                content: "Secondary Action",
+                onAction: onSecondaryAction,
+              }}
+            />
+          </Modal>
+        </Modal.Trigger>
+      );
+    }
+
+    const handlePrimaryAction = vi.fn();
+    const handleSecondaryAction = vi.fn();
+
+    const { user } = render(
+      <ModalWithFooterActions
+        onPrimaryAction={handlePrimaryAction}
+        onSecondaryAction={handleSecondaryAction}
+      />,
+    );
+
+    const openButton = screen.getByRole("button", { name: "Open modal" });
+    await userClick(user, openButton);
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    await userClick(
+      user,
+      screen.getByRole("button", { name: "Primary Action" }),
+    );
+    expect(handlePrimaryAction).toBeCalled();
+
+    await userClick(
+      user,
+      screen.getByRole("button", { name: "Secondary Action" }),
+    );
+    expect(handleSecondaryAction).toBeCalled();
   });
 });
 
@@ -180,19 +239,19 @@ function renderModal({
             H4 Title
           </Modal.Header>
           <Modal.Body>Modal content</Modal.Body>
-          <Modal.Footer
-            primaryAction={{
-              content: "Button 1",
-              onAction: () => {
-                onPrimaryAction();
-                close();
-              },
-            }}
-            secondaryAction={{
-              content: "Button 2",
-              onAction: onSecondaryAction,
-            }}
-          />
+          <Modal.Footer>
+            <HorizontalStack align="space-between">
+              <Button
+                onPress={() => {
+                  onPrimaryAction();
+                  close();
+                }}
+              >
+                Button 1
+              </Button>
+              <Button onPress={onSecondaryAction}>Button 2</Button>
+            </HorizontalStack>
+          </Modal.Footer>
         </Modal>
       )}
     </Modal.Trigger>,
