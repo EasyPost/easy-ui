@@ -23,12 +23,12 @@ type ModalFooterSlotProps = {
 // Existing constrained API - for backwards compatibility
 type ModalFooterActionsProps = {
   /**
-   * Primary action slot.
+   * Primary action slot, for when no `children` is provided.
    */
   primaryAction: LegacyAction;
 
   /**
-   * Secondary action slot.
+   * Secondary action slot, for when no `children` is provided.
    */
   secondaryAction?: LegacyAction;
 };
