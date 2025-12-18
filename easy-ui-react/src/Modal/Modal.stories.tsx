@@ -12,6 +12,7 @@ import { ModalTrigger } from "./ModalTrigger";
 import { Menu } from "../Menu";
 import { DropdownButton } from "../DropdownButton";
 import { Select } from "../Select";
+import { HorizontalStack } from "../HorizontalStack";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
@@ -343,6 +344,34 @@ export const WithSelect: ModalStory = {
             onAction: action("Button 1 clicked!"),
           }}
         />
+      </Modal>
+    </Modal.Trigger>
+  ),
+};
+
+export const WithFooterSlot: ModalStory = {
+  render: () => (
+    <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>
+          <Select label="Select an option" placeholder="Select an option">
+            <Select.Option key="option1">Option 1</Select.Option>
+            <Select.Option key="option2">Option 2</Select.Option>
+          </Select>
+        </Modal.Body>
+        <Modal.Footer>
+          <HorizontalStack gap="2" align="space-between">
+            <Button variant="outlined" color="support">
+              Back
+            </Button>
+            <HorizontalStack gap="2">
+              <Button variant="outlined">Skip for now</Button>
+              <Button>Continue</Button>
+            </HorizontalStack>
+          </HorizontalStack>
+        </Modal.Footer>
       </Modal>
     </Modal.Trigger>
   ),
