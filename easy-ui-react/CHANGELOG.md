@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.104
+
+### Minor Changes
+
+- 2afdfb2: feat(Modal): support footer slot
+
 ## 1.0.0-alpha.103
 
 ### Patch Changes
