@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.105
+
+### Patch Changes
+
+- bbff9fe: fix: make Theme type partial for override
+
 ## 1.0.0-alpha.104
 
 ### Minor Changes
