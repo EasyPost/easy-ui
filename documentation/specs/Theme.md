@@ -13,7 +13,8 @@ export type Theme = {
 export type ColorScheme = "light" | "dark" | "system" | "inverted";
 export type ThemeableColorScheme = Extract<ColorScheme, "light" | "dark">;
 export type ThemePreferences = { colorScheme: ThemeableColorScheme };
-export type ThemeCreator = (preferences: ThemePreferences) => Theme;
+export type ThemeOverride = Partial<Theme>;
+export type ThemeCreator = (preferences: ThemePreferences) => ThemeOverride;
 
 type ThemeProvider = {
   /** Component tree to apply specified theme. */
