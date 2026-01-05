@@ -69,7 +69,7 @@ export function getFilledButtonsColorMapping() {
       table: {
         type: {
           summary:
-            '"primary" | "secondary" | "success" | "warning" | "neutral"',
+            '"primary" | "secondary" | "success" | "warning" | "neutral" | "brand"',
         },
         defaultValue: { summary: "primary" },
       },
@@ -86,7 +86,7 @@ export function getOutlinedButtonsColorMapping() {
       table: {
         type: {
           summary:
-            '"primary" | "secondary" | "support" | "warning" | "inverse"',
+            '"primary" | "secondary" | "support" | "warning" | "inverse" | "brand"',
         },
         defaultValue: { summary: "primary" },
       },
@@ -102,7 +102,7 @@ export function getLinkButtonsColorMapping() {
     {
       table: {
         type: {
-          summary: '"primary" | "secondary"',
+          summary: '"primary" | "secondary" | "brand"',
         },
         defaultValue: { summary: "primary" },
       },
@@ -118,7 +118,7 @@ export function getTextButtonsColorMapping() {
     {
       table: {
         type: {
-          summary: '"primary" | "secondary"',
+          summary: '"primary" | "secondary" | "brand"',
         },
         defaultValue: { summary: "primary" },
       },

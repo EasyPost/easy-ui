@@ -28,7 +28,8 @@ const invertedColorSchemes: Record<ColorScheme, ColorScheme> = {
 
 export type ThemeableColorScheme = Extract<ColorScheme, "light" | "dark">;
 export type ThemePreferences = { colorScheme: ThemeableColorScheme };
-export type ThemeCreator = (preferences: ThemePreferences) => Theme;
+export type ThemeOverride = Partial<Theme>;
+export type ThemeCreator = (preferences: ThemePreferences) => ThemeOverride;
 
 export type ThemeProviderProps = {
   /** Component tree to apply specified theme. */
@@ -212,7 +213,7 @@ function ColorSchemeContextProvider({
   );
 }
 
-function getThemeInstanceVariables(theme: Theme) {
+function getThemeInstanceVariables(theme: ThemeOverride) {
   return Object.fromEntries(
     Object.entries(theme).map(([key, value]) => {
       const property = tokenSafeKebabCase(key);
@@ -221,7 +222,7 @@ function getThemeInstanceVariables(theme: Theme) {
   );
 }
 
-function renderThemeVariables(theme: Theme) {
+function renderThemeVariables(theme: ThemeOverride) {
   const variables = getThemeInstanceVariables(theme);
   const css = Object.entries(variables)
     .map((entry) => entry.join(": ") + ";")

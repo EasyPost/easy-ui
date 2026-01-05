@@ -78,6 +78,11 @@
     "color.neutral.050": { "value": "{color.gray.050}" },
     "color.neutral.025": { "value": "{color.gray.025}" },
     "color.neutral.000": { "value": "{color.gray.000}" },
-    "font.family": { "value": "{font.family.sans}" }
+    "font.family": { "value": "{font.family.sans}" },
+    "button.brand.filled.font.color": { "value": "{color.gray.000}" },
+    "button.brand.filled.active.font.color": { "value": "{color.gray.000}" },
+    "button.brand.resting.color": { "value": "{color.blue.500}" },
+    "button.brand.hover.focus.color": { "value": "{color.blue.600}" },
+    "button.brand.active.color": { "value": "{color.blue.700}" }
   }
 }

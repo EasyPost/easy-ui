@@ -15,7 +15,8 @@ export type ButtonColor =
   | "warning"
   | "neutral"
   | "support"
-  | "inverse";
+  | "inverse"
+  | "brand";
 
 export type ButtonVariant = "filled" | "outlined" | "link" | "text";
 export type ButtonSize = "sm" | "md";

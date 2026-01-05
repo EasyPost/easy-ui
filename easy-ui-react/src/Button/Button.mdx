@@ -42,6 +42,37 @@ Use `variant="text"` to render a text variant.
 
 <Controls of={ButtonStories.Text} include={["color"]} />
 
+## Custom Brand Colors
+
+Use `color="brand"` along with overrides in a wrapped `<ThemeProvider>` to render custom brand colors.
+
+This can be used in applications to create buttons for custom brands.
+
+```jsx
+function NortonButton(buttonProps: Omit<ButtonProps, "color">) {
+  return (
+    <ThemeProvider
+      theme={() => ({
+        "button.brand.filled.font.color":
+          "var(--ezui-theme-light-color-neutral-900)",
+        "button.brand.filled.active.font.color":
+          "var(--ezui-theme-light-color-neutral-900)",
+        "button.brand.resting.color": "var(--ezui-theme-light-color-warning-500)",
+        "button.brand.hover.focus.color":
+          "var(--ezui-theme-light-color-warning-600)",
+        "button.brand.active.color": "var(--ezui-theme-light-color-warning-700)",
+      })}
+    >
+      <Button {...buttonProps} color="brand" />
+    </ThemeProvider>
+  );
+}
+```
+
+<Canvas of={ButtonStories.CustomBrandColors} />
+
+<Controls of={ButtonStories.CustomBrandColors} />
+
 ## Icons
 
 Use `iconAtStart` or `iconAtEnd` to render an icon.

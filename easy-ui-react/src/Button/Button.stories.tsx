@@ -2,9 +2,10 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
-import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
+import { action } from "storybook/actions";
+import { ThemeProvider } from "../Theme";
 import {
   InlineStoryDecorator,
   InlineStoryOnDarkBackgroundDecorator,
@@ -15,6 +16,7 @@ import {
   getTextButtonsColorMapping,
 } from "../utilities/storybook";
 import { Button, ButtonProps } from "./Button";
+import { VerticalStack } from "../VerticalStack";
 
 type Story = StoryObj<typeof Button>;
 
@@ -91,6 +93,43 @@ export const Text: Story = {
 
 Text.argTypes = {
   color: getTextButtonsColorMapping(),
+};
+
+export const CustomBrandColors: Story = {
+  render: (args: ButtonProps) => (
+    <ThemeProvider
+      theme={() => ({
+        "button.brand.filled.font.color":
+          "var(--ezui-theme-light-color-neutral-900)",
+        "button.brand.filled.active.font.color":
+          "var(--ezui-theme-light-color-neutral-900)",
+        "button.brand.resting.color":
+          "var(--ezui-theme-light-color-warning-500)",
+        "button.brand.hover.focus.color":
+          "var(--ezui-theme-light-color-warning-600)",
+        "button.brand.active.color":
+          "var(--ezui-theme-light-color-warning-700)",
+      })}
+    >
+      <VerticalStack gap="2">
+        <div>
+          <Button variant="filled" {...args} />
+        </div>
+        <div>
+          <Button variant="outlined" {...args} />
+        </div>
+        <div>
+          <Button variant="link" {...args} />
+        </div>
+        <div>
+          <Button variant="text" {...args} />
+        </div>
+      </VerticalStack>
+    </ThemeProvider>
+  ),
+  args: {
+    color: "brand",
+  },
 };
 
 export const Icons: Story = {
