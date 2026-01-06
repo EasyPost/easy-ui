@@ -2,9 +2,10 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
-import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
+import { action } from "storybook/actions";
+import { ThemeProvider } from "../Theme";
 import {
   InlineStoryDecorator,
   InlineStoryOnDarkBackgroundDecorator,
@@ -153,6 +154,42 @@ export const Disabled: Story = {
 export const ClickEvent: Story = {
   render: () => <Button onPress={action("clicked!")} />,
   decorators: [InlineStoryDecorator],
+};
+
+export const CustomBrandColors: Story = {
+  render: (args: ButtonProps) => (
+    <ThemeProvider
+      theme={() => ({
+        "color.primary.900": "var(--ezui-color-yellow-900)",
+        "color.primary.800": "var(--ezui-color-yellow-800)",
+        "color.primary.700": "var(--ezui-color-yellow-700)",
+        "color.primary.600": "var(--ezui-color-yellow-600)",
+        "color.primary.500": "var(--ezui-color-yellow-500)",
+        "color.primary.400": "var(--ezui-color-yellow-400)",
+        "color.primary.300": "var(--ezui-color-yellow-300)",
+        "color.primary.200": "var(--ezui-color-yellow-200)",
+        "color.primary.100": "var(--ezui-color-yellow-100)",
+        "color.primary.050": "var(--ezui-color-yellow-050)",
+        "color.primary.025": "var(--ezui-color-yellow-025)",
+        "color.on-primary.900": "var(--ezui-color-gray-900)",
+        "color.on-primary.800": "var(--ezui-color-gray-900)",
+        "color.on-primary.700": "var(--ezui-color-gray-900)",
+        "color.on-primary.600": "var(--ezui-color-gray-900)",
+        "color.on-primary.500": "var(--ezui-color-gray-900)",
+        "color.on-primary.400": "var(--ezui-color-gray-000)",
+        "color.on-primary.300": "var(--ezui-color-gray-000)",
+        "color.on-primary.200": "var(--ezui-color-gray-000)",
+        "color.on-primary.100": "var(--ezui-color-gray-000)",
+        "color.on-primary.050": "var(--ezui-color-gray-000)",
+        "color.on-primary.025": "var(--ezui-color-gray-000)",
+      })}
+    >
+      <Button {...args} />
+    </ThemeProvider>
+  ),
+  args: {
+    color: "primary",
+  },
 };
 
 export const Controls: Story = {
