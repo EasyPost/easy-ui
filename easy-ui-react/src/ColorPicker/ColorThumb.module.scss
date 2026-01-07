@@ -1,0 +1,22 @@
+@use "../styles/common" as *;
+
+.ColorThumb {
+  border: 2px solid white;
+  box-shadow:
+    0 0 0 1px black,
+    inset 0 0 0 1px black;
+  width: design-token("space.2");
+  height: design-token("space.2");
+  border-radius: 50%;
+  box-sizing: border-box;
+
+  &[data-focus-visible] {
+    width: design-token("space.3");
+    height: design-token("space.3");
+  }
+
+  &[data-disabled] {
+    background: gray !important;
+    opacity: 0.5;
+  }
+}
