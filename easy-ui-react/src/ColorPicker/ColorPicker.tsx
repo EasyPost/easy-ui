@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import {
   ColorPicker as AriaColorPicker,
   ColorPickerProps as AriaColorPickerProps,
+  Color as AriaColor,
   ColorPickerStateContext,
   DialogTrigger,
   Popover,
@@ -10,6 +11,8 @@ import { ColorArea } from "./ColorArea";
 import { ColorSlider } from "./ColorSlider";
 
 import styles from "./ColorPicker.module.scss";
+
+export type Color = AriaColor;
 
 export type ColorPickerProps = {
   /** The current value (controlled). */

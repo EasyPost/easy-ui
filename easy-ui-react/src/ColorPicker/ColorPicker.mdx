@@ -13,6 +13,88 @@ A `<ColorPicker />` allows users to select a color with a color picker.
 
 <Controls of={ColorPickerStories.Default} />
 
+## Rendering
+
+A `<ColorPicker >` can be attached to any pressable element through `<ColorPicker.Trigger />`.
+
+```tsx
+<ColorPicker>
+  <ColorPicker.Trigger>
+    <Button>Pick a color</Button>
+  </ColorPicker.Trigger>
+</ColorPicker>
+```
+
+## Retrieving a Selected Color
+
+### Controlled Component
+
+You can retrieve the selected color through `value` and `onChange` props by making the component controlled.
+
+```tsx
+import { ColorPicker, Color } from "@easypost/easy-ui/ColorPicker";
+
+function ControlledColorPicker() {
+  const [color, setColor] = React.useState<Color | null>(null);
+
+  // Use the selected color
+  console.log(color.toString("css"));
+
+  return (
+    <ColorPicker value={color} onChange={setColor}>
+      <ColorPicker.Trigger>
+        <Button>Pick a color</Button>
+      </ColorPicker.Trigger>
+    </ColorPicker>
+  );
+}
+```
+
+### useColorPickerState Hook
+
+You can also retrieve the selected color using the `useColorPickerState` hook.
+
+```tsx
+import { useColorPickerState } from "@easypost/easy-ui/ColorPicker";
+
+function SelectedColor() {
+  const { color } = useColorPickerState();
+  return (
+    <Text variant="subtitle1">
+      Selected Color: {color ? color.toString("css") : "None"}
+    </Text>
+  );
+}
+
+function AppColorPicker() {
+  <ColorPicker>
+    <SelectedColor />
+    <ColorPicker.Trigger>
+      <Button>Pick a color</Button>
+    </ColorPicker.Trigger>
+  </ColorPicker>;
+}
+```
+
+### Render Prop
+
+You can also retrieve the selected color using the render prop pattern.
+
+```tsx
+<ColorPicker>
+  {({ color }) => (
+    <VerticalStack inlineAlign="start" gap="2">
+      <Text variant="subtitle1">
+        Selected Color: {color ? color.toString("css") : "None"}
+      </Text>
+      <ColorPicker.Trigger>
+        <Button>Pick a color</Button>
+      </ColorPicker.Trigger>
+    </VerticalStack>
+  )}
+</ColorPicker>
+```
+
 ## Properties
 
 <ArgTypes of={ColorPicker} exclude={["children"]} />

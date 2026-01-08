@@ -11,7 +11,71 @@ A `<ColorPickerInputField />` allows users to select a color with a color picker
 
 <Canvas of={ColorPickerInputFieldStories.Default} />
 
-<Controls of={ColorPickerInputFieldStories.Default} />
+## Rendering
+
+A `<ColorPickerInputField />` is a standalone component that matches the API of Easy UI's other `InputField`s.
+
+```tsx
+import { ColorPickerInputField, Color } from "@easypost/easy-ui/ColorPicker";
+
+function StandaloneColorPickerInputField() {
+  const [color, setColor] = React.useState<Color | null>(null);
+
+  // Use the selected color
+  console.log(color.toString("css"));
+
+  return (
+    <ColorPickerInputField
+      label="Primary color"
+      value={color}
+      onChange={setColor}
+      helperText="Select a color"
+      validationState="valid"
+      errorText="Invalid color"
+      isDisabled={false}
+      isReadOnly={false}
+      isRequired={false}
+      autoFocus
+    />
+  );
+}
+```
+
+## Small
+
+<Canvas of={ColorPickerInputFieldStories.Small} />
+
+## Large
+
+<Canvas of={ColorPickerInputFieldStories.Large} />
+
+## Disabled
+
+<Canvas of={ColorPickerInputFieldStories.Disabled} />
+
+## ReadOnly
+
+<Canvas of={ColorPickerInputFieldStories.ReadOnly} />
+
+## Required
+
+<Canvas of={ColorPickerInputFieldStories.Required} />
+
+## AutoFocus
+
+<Canvas of={ColorPickerInputFieldStories.AutoFocus} />
+
+## Error
+
+<Canvas of={ColorPickerInputFieldStories.Error} />
+
+## EmphasizedLabel
+
+<Canvas of={ColorPickerInputFieldStories.EmphasizedLabel} />
+
+## VisuallyHiddenLabel
+
+<Canvas of={ColorPickerInputFieldStories.VisuallyHiddenLabel} />
 
 ## Properties
 

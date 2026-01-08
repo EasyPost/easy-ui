@@ -28,7 +28,7 @@ export const Default: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     helperText: "Select a primary color",
   },
 };
@@ -37,7 +37,7 @@ export const Small: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     helperText: "Select a primary color",
     size: "sm",
   },
@@ -47,7 +47,7 @@ export const Large: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     helperText: "Select a primary color",
     size: "lg",
   },
@@ -57,7 +57,7 @@ export const Disabled: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     helperText: "Select a primary color",
     isDisabled: true,
   },
@@ -67,7 +67,7 @@ export const ReadOnly: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     helperText: "Select a primary color",
     isReadOnly: true,
   },
@@ -77,7 +77,7 @@ export const Required: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     helperText: "Select a primary color",
     isRequired: true,
   },
@@ -87,7 +87,7 @@ export const AutoFocus: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     helperText: "Select a primary color",
     autoFocus: true,
   },
@@ -97,7 +97,7 @@ export const Error: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     validationState: "invalid",
     errorText: "Invalid color",
   },
@@ -107,7 +107,7 @@ export const EmphasizedLabel: Story = {
   render: Template.bind({}),
   args: {
     defaultValue: "#ff0000",
-    label: <>Primary color</>,
+    label: "Primary color",
     isLabelEmphasized: true,
   },
 };

@@ -23,19 +23,6 @@ export default meta;
 export const Default: Story = {
   render: (args) => (
     <ColorPicker {...args}>
-      <ColorPicker.Trigger>
-        <Button>Pick a color</Button>
-      </ColorPicker.Trigger>
-    </ColorPicker>
-  ),
-  args: {
-    defaultValue: "#00ff00",
-  },
-};
-
-export const SelectedColor: Story = {
-  render: (args) => (
-    <ColorPicker {...args}>
       <VerticalStack inlineAlign="start" gap="2">
         <SelectedColorText />
         <ColorPicker.Trigger>
