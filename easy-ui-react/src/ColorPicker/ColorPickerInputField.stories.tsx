@@ -73,6 +73,26 @@ export const ReadOnly: Story = {
   },
 };
 
+export const Required: Story = {
+  render: Template.bind({}),
+  args: {
+    defaultValue: "#ff0000",
+    label: <>Primary color</>,
+    helperText: "Select a primary color",
+    isRequired: true,
+  },
+};
+
+export const AutoFocus: Story = {
+  render: Template.bind({}),
+  args: {
+    defaultValue: "#ff0000",
+    label: <>Primary color</>,
+    helperText: "Select a primary color",
+    autoFocus: true,
+  },
+};
+
 export const Error: Story = {
   render: Template.bind({}),
   args: {

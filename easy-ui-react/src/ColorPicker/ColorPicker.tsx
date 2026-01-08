@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   ColorPicker as AriaColorPicker,
   ColorPickerProps as AriaColorPickerProps,
+  ColorPickerStateContext,
   DialogTrigger,
   Popover,
 } from "react-aria-components";
@@ -10,17 +11,32 @@ import { ColorSlider } from "./ColorSlider";
 
 import styles from "./ColorPicker.module.scss";
 
-export type ColorPickerProps = AriaColorPickerProps;
+export type ColorPickerProps = {
+  /** The current value (controlled). */
+  value?: AriaColorPickerProps["value"];
+  /** The default value (uncontrolled). */
+  defaultValue?: AriaColorPickerProps["defaultValue"];
+  /** Handler that is called when the value changes. */
+  onChange?: AriaColorPickerProps["onChange"];
+  /** The children of the component. A function may be provided to alter the children based on component state. */
+  children: AriaColorPickerProps["children"];
+};
 
+/**
+ * A `<ColorPicker />` allows users to select a color with a color picker.
+ *
+ * @example
+ * <ColorPicker>
+ *   <ColorPickerTrigger>
+ *     <Button>Pick a color</Button>
+ *   </ColorPickerTrigger>
+ * </ColorPicker>
+ */
 export function ColorPicker(props: ColorPickerProps) {
   return <AriaColorPicker {...props} />;
 }
 
-export function ColorPickerTrigger({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function ColorPickerTrigger({ children }: { children: React.ReactNode }) {
   return (
     <DialogTrigger>
       {children}
@@ -34,4 +50,22 @@ export function ColorPickerTrigger({
       </Popover>
     </DialogTrigger>
   );
+}
+
+/**
+ * Attaches a `<ColorPicker />` to a pressiable trigger element.
+ */
+ColorPicker.Trigger = ColorPickerTrigger;
+
+/**
+ * Returns the internal state of the nearest `<ColorPicker />` component.
+ */
+export function useColorPickerState() {
+  const colorPickerStateContext = useContext(ColorPickerStateContext);
+  if (!colorPickerStateContext) {
+    throw new Error(
+      "useColorPickerState must be used within a ColorPicker component",
+    );
+  }
+  return colorPickerStateContext;
 }

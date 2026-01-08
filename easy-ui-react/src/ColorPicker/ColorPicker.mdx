@@ -1,0 +1,18 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/addon-docs/blocks";
+import { ColorPicker } from "./ColorPicker";
+import * as ColorPickerStories from "./ColorPicker.stories";
+
+<Meta of={ColorPickerStories} />
+
+# ColorPicker
+
+A `<ColorPicker />` allows users to select a color with a color picker.
+
+<Canvas of={ColorPickerStories.Default} />
+
+<Controls of={ColorPickerStories.Default} />
+
+## Properties
+
+<ArgTypes of={ColorPicker} exclude={["children"]} />

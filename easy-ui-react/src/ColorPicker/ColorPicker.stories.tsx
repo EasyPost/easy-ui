@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
-import { ColorPicker, ColorPickerTrigger } from "./ColorPicker";
-import { VerticalStack } from "../VerticalStack";
 import { Button } from "../Button";
 import { Text } from "../Text";
+import { VerticalStack } from "../VerticalStack";
+import { ColorPicker, useColorPickerState } from "./ColorPicker";
 
 type Story = StoryObj<typeof ColorPicker>;
 
@@ -23,19 +23,37 @@ export default meta;
 export const Default: Story = {
   render: (args) => (
     <ColorPicker {...args}>
-      {({ color }) => (
-        <VerticalStack inlineAlign="start" gap="2">
-          <Text variant="subtitle1">
-            Selected Color: {color ? color.toString("css") : "None"}
-          </Text>
-          <ColorPickerTrigger>
-            <Button>Pick a color</Button>
-          </ColorPickerTrigger>
-        </VerticalStack>
-      )}
+      <ColorPicker.Trigger>
+        <Button>Pick a color</Button>
+      </ColorPicker.Trigger>
     </ColorPicker>
   ),
   args: {
     defaultValue: "#00ff00",
   },
 };
+
+export const SelectedColor: Story = {
+  render: (args) => (
+    <ColorPicker {...args}>
+      <VerticalStack inlineAlign="start" gap="2">
+        <SelectedColorText />
+        <ColorPicker.Trigger>
+          <Button>Pick a color</Button>
+        </ColorPicker.Trigger>
+      </VerticalStack>
+    </ColorPicker>
+  ),
+  args: {
+    defaultValue: "#00ff00",
+  },
+};
+
+function SelectedColorText() {
+  const { color } = useColorPickerState();
+  return (
+    <Text variant="subtitle1">
+      Selected Color: {color ? color.toString("css") : "None"}
+    </Text>
+  );
+}
