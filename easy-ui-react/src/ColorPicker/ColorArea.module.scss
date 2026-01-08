@@ -2,9 +2,8 @@
 
 .ColorArea {
   width: 100%;
-  max-width: calc(var(--spacing) * 56);
-  aspect-ratio: 1/1;
-  border-radius: var(--radius);
+  aspect-ratio: 1 / 1;
+  border-radius: design-token("shape.border_radius.md");
   flex-shrink: 0;
 
   &[data-disabled] {

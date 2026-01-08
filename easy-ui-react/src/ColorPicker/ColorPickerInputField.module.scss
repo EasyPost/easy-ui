@@ -1,0 +1,83 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+@use "../InputField/_mixins" as InputField;
+
+.ColorPickerInput {
+  @include InputField.root;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  @include InputField.input;
+  padding-left: calc(design-token("space.3") + 20px);
+}
+
+.sizeSm .input {
+  @include InputField.inputSm;
+  padding-left: calc(design-token("space.2") + 16px);
+}
+
+.sizeLg .input {
+  @include InputField.inputLg;
+  padding-left: calc(design-token("space.4") + 28px);
+}
+
+.error .input {
+  @include InputField.error;
+}
+
+.swatchContainer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: design-token("space.1.5");
+  z-index: 1;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.swatchButton {
+  @include unstyled.button;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &[data-focus-visible] {
+    @include native-focus-ring;
+  }
+}
+
+.sizeSm .swatchContainer {
+  left: design-token("space.1");
+}
+
+.sizeLg .swatchContainer {
+  left: design-token("space.2");
+}
+
+.swatch {
+  width: design-token("space.3");
+  height: design-token("space.3");
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  border-radius: design-token("shape.border_radius.sm");
+}
+
+.sizeSm .swatch {
+  width: 18px;
+  height: 18px;
+}
+
+.sizeLg .swatch {
+  width: design-token("space.4");
+  height: design-token("space.4");
+  border-radius: design-token("shape.border_radius.md");
+}

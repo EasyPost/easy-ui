@@ -1,21 +1,14 @@
 @use "../styles/common" as *;
 
 .ColorSlider {
-  display: grid;
-  grid-template-areas:
-    "label output"
-    "track track";
-  grid-template-columns: 1fr auto;
-  gap: design-token("space.0.5");
-
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  max-width: 300px;
 }
 
 .track {
-  grid-area: track;
-  border-radius: var(--radius);
   height: design-token("space.3");
+  border-radius: design-token("shape.border_radius.md");
 }
 
 .thumb {

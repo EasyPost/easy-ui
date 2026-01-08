@@ -1,16 +1,15 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
-import { ColorPickerField, ColorPickerFieldProps } from "./ColorPickerField";
+import { ColorPicker, ColorPickerTrigger } from "./ColorPicker";
+import { VerticalStack } from "../VerticalStack";
+import { Button } from "../Button";
+import { Text } from "../Text";
 
-type Story = StoryObj<typeof ColorPickerField>;
+type Story = StoryObj<typeof ColorPicker>;
 
-const Template = (props: ColorPickerFieldProps) => {
-  return <ColorPickerField {...props} />;
-};
-
-const meta: Meta<typeof ColorPickerField> = {
-  title: "Components/ColorPickerField",
-  component: ColorPickerField,
+const meta: Meta<typeof ColorPicker> = {
+  title: "Components/ColorPicker/ColorPicker",
+  component: ColorPicker,
   args: {},
   parameters: {
     controls: {
@@ -22,8 +21,21 @@ const meta: Meta<typeof ColorPickerField> = {
 export default meta;
 
 export const Default: Story = {
-  render: Template.bind({}),
+  render: (args) => (
+    <ColorPicker {...args}>
+      {({ color }) => (
+        <VerticalStack inlineAlign="start" gap="2">
+          <Text variant="subtitle1">
+            Selected Color: {color ? color.toString("css") : "None"}
+          </Text>
+          <ColorPickerTrigger>
+            <Button>Pick a color</Button>
+          </ColorPickerTrigger>
+        </VerticalStack>
+      )}
+    </ColorPicker>
+  ),
   args: {
-    defaultValue: "#ff0000",
+    defaultValue: "#00ff00",
   },
 };
