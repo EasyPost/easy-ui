@@ -10,7 +10,9 @@
 }
 
 .label {
-  margin-bottom: design-token("space.1");
+  margin-bottom: design-token("space.0.5");
+  // Defer to inner Text for line-height
+  line-height: 0;
 }
 
 .input {
@@ -162,6 +164,8 @@
 
 .caption {
   margin-top: design-token("space.0.5");
+  // Defer to inner Text for line-height
+  line-height: 0;
 }
 
 .textStartInput {

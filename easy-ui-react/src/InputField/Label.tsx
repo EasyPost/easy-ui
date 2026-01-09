@@ -3,6 +3,7 @@ import { Text } from "../Text";
 import { InputSize } from "./InputField";
 import styles from "./InputField.module.scss";
 import { classNames } from "../utilities/css";
+import { Label as AriaLabel } from "react-aria-components";
 
 export type LabelProps = {
   /**
@@ -47,10 +48,10 @@ export function Label(props: LabelProps) {
   const as = isLabelEmphasized ? "strong" : "span";
   const color = hasError ? "danger" : undefined;
   return (
-    <label {...labelProps} className={classNames(styles.label)}>
+    <AriaLabel {...labelProps} className={classNames(styles.label)}>
       <Text variant={textVariant} as={as} color={color}>
         {children}
       </Text>
-    </label>
+    </AriaLabel>
   );
 }

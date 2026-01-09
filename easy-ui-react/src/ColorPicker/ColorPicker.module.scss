@@ -1,0 +1,16 @@
+@use "../styles/common" as *;
+
+.popover {
+  min-width: 220px;
+  max-height: inherit;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.2");
+
+  padding: design-token("space.2");
+  background: design-token("color.neutral.000");
+  box-shadow: design-token("shadow.level.2");
+  border-radius: design-token("shape.border_radius.lg");
+}

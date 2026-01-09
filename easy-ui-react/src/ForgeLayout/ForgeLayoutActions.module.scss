@@ -18,12 +18,12 @@
 }
 
 .focused,
-[data-focus-visible="true"] {
+.button[data-focus-visible="true"] {
   @include native-focus-ring;
 }
 
 .hovered,
-[data-hovered="true"] {
+.button[data-hovered="true"] {
   background-color: design-token("color.neutral.050");
 }
 
