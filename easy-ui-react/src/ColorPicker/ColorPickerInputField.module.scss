@@ -67,7 +67,7 @@
 .swatch {
   width: design-token("space.3");
   height: design-token("space.3");
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset #{design-token("shadow.level.1")};
   border-radius: design-token("shape.border_radius.sm");
 }
 
