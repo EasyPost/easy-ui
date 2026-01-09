@@ -1,0 +1,111 @@
+import React from "react";
+import { Canvas, Meta, Controls } from "@storybook/addon-docs/blocks";
+import * as ThemeStories from "./Theme.stories";
+
+<Meta of={ThemeStories} />
+
+# ThemeProvider
+
+A `<ThemeProvider />` enables users to customize the theming of their application. It allows for defining colors and typography that can be used throughout an application or section.
+
+See `easy-ui-tokens/src/theme/light.json` for all available theme-aware design tokens.
+
+## Custom Theme
+
+By default, the root `<EasyUIProvider />` includes a default EasyPost theme.
+
+You can customize the root theme by redefining the configuration at the root:
+
+```tsx
+<EasyUIProvider
+  theme={() => ({
+    "color.primary.900": "hsl(220, 50%, 10%)",
+    // ...
+  })}
+>
+  <App />
+</EasyUIProvider>
+```
+
+Or you can customize parts of an application with a nested `<ThemeProvider />`:
+
+```tsx
+function GreenBrand({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider
+      theme={() => ({
+        "color.primary.900": "hsl(150, 50%, 0%)",
+        "color.primary.800": "hsl(150, 50%, 10%)",
+        "color.primary.700": "hsl(150, 50%, 20%)",
+        "color.primary.600": "hsl(150, 50%, 30%)",
+        "color.primary.500": "hsl(150, 50%, 40%)",
+        "color.primary.400": "hsl(150, 50%, 50%)",
+        "color.primary.300": "hsl(150, 50%, 60%)",
+        "color.primary.200": "hsl(150, 50%, 70%)",
+        "color.primary.100": "hsl(150, 50%, 80%)",
+        "color.primary.050": "hsl(150, 50%, 90%)",
+        "color.primary.025": "hsl(150, 50%, 95%)",
+      })}
+    >
+      {children}
+    </ThemeProvider>
+  );
+}
+
+function GreenButton(buttonProps: ButtonProps) {
+  return (
+    <GreenBrand>
+      <Button color="primary" {...buttonProps} />
+    </GreenBrand>
+  );
+}
+```
+
+<Canvas of={ThemeStories.Default} />
+
+## Dark or Light Mode
+
+`ThemeProvider` has built in support for dark and light themes using the `colorScheme` prop:
+
+```tsx
+// Force dark mode
+<ThemeProvider colorScheme="dark">
+  <div />
+</ThemeProvider>
+```
+
+Theme configuration can define `colorScheme` aware configuration:
+
+```tsx
+function GreenBrand({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider
+      theme={({ colorScheme }) => ({
+        "color.primary.900": `hsl(150, 50%, ${colorScheme === "light" ? "0" : "95"}%)`,
+        "color.primary.800": `hsl(150, 50%, ${colorScheme === "light" ? "10" : "90"}%)`,
+        "color.primary.700": `hsl(150, 50%, ${colorScheme === "light" ? "20" : "80"}%)`,
+        "color.primary.600": `hsl(150, 50%, ${colorScheme === "light" ? "30" : "70"}%)`,
+        "color.primary.500": `hsl(150, 50%, ${colorScheme === "light" ? "40" : "60"}%)`,
+        "color.primary.400": `hsl(150, 50%, ${colorScheme === "light" ? "50" : "50"}%)`,
+        "color.primary.300": `hsl(150, 50%, ${colorScheme === "light" ? "60" : "40"}%)`,
+        "color.primary.200": `hsl(150, 50%, ${colorScheme === "light" ? "70" : "30"}%)`,
+        "color.primary.100": `hsl(150, 50%, ${colorScheme === "light" ? "80" : "20"}%)`,
+        "color.primary.050": `hsl(150, 50%, ${colorScheme === "light" ? "90" : "10"}%)`,
+        "color.primary.025": `hsl(150, 50%, ${colorScheme === "light" ? "95" : "5"}%)`,
+      })}
+    >
+      {children}
+    </ThemeProvider>
+  );
+}
+
+function GreenBrandButton(buttonProps: ButtonProps) {
+  return (
+    <GreenBrand>
+      <Button color="primary" {...buttonProps} />
+    </GreenBrand>
+  );
+}
+```
+
+<Canvas of={ThemeStories.DarkOrLightMode} />
