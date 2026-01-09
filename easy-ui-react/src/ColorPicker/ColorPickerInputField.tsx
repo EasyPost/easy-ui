@@ -14,7 +14,7 @@ import { ColorPicker, ColorPickerProps } from "./ColorPicker";
 
 import styles from "./ColorPickerInputField.module.scss";
 
-export type ColorPickerInputFieldProps = ColorPickerProps & {
+export type ColorPickerInputFieldProps = Omit<ColorPickerProps, "children"> & {
   /**
    * Size affects the overall size of the input, but it also influences the size of
    * iconAtStart and iconAtEnd.
