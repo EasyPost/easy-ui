@@ -73,7 +73,7 @@ function buildSvg() {
 async function getSvgFilenameFromJson(filename: string) {
   const jsonFileContents = await fs.promises.readFile(filename, "utf8");
   const { name, style, source } = JSON.parse(jsonFileContents);
-  return path.join(
+  const rootPath = path.join(
     __dirname,
     "..",
     "node_modules",
@@ -81,6 +81,21 @@ async function getSvgFilenameFromJson(filename: string) {
     style,
     `${name}.svg`,
   );
+  const rootPathExists = await fileExists(rootPath);
+  if (rootPathExists) {
+    return rootPath;
+  }
+  const localPath = path.join(
+    __dirname,
+    "./node_modules",
+    source,
+    style,
+    `${name}.svg`,
+  );
+  if (!(await fileExists(localPath))) {
+    throw new Error(`Could not find SVG file at: ${rootPath} or ${localPath}`);
+  }
+  return localPath;
 }
 
 // it's much faster and easier to generate these typings by hand than run them
@@ -100,4 +115,13 @@ async function generateSvgTypeFile(svgName: string) {
     `,
     { parser: "typescript" },
   );
+}
+
+async function fileExists(path: string) {
+  try {
+    await fs.promises.access(path, fs.constants.F_OK);
+    return true;
+  } catch {
+    return false;
+  }
 }
