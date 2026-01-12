@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.106
+
+### Minor Changes
+
+- bb59dde: feat: Add ColorPicker
+
 ## 1.0.0-alpha.105
 
 ### Patch Changes
