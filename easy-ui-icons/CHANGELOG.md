@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.51
+
+### Minor Changes
+
+- 8890c0b: feat: add more icons
+
 ## 1.0.0-alpha.50
 
 ### Minor Changes
