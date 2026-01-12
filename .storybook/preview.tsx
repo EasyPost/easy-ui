@@ -45,13 +45,9 @@ const preview: Preview = {
   },
 
   decorators: [
-    (Story, context) => {
-      const background = context.globals.backgrounds?.value;
+    (Story) => {
       return (
-        <EasyUIProvider
-          navigate={action("Navigation")}
-          colorScheme={background === "#1c222d" ? "dark" : "light"}
-        >
+        <EasyUIProvider navigate={action("Navigation")}>
           <Story />
         </EasyUIProvider>
       );
