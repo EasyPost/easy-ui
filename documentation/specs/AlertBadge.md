@@ -5,6 +5,7 @@
 An AlertBadge is a visual notification "badge"/"bubble" to indicate supporting information or actions required.
 
 ### Use Cases
+
 - Indicating user action is required
 - Categorizing information
 - Getting a user's attention
@@ -140,9 +141,9 @@ export function AlertBadge(props: AlertBadgeProps) {
 
   return (
     <span className={styles.container}>
-      <Text visuallyHidden>{accessibilityLabel}</Text>
       {children}
       <span className={className} data-testid="root">
+        <Text visuallyHidden>{accessibilityLabel}</Text>
         <span className={styles.badge} role="status">
           {icon && <Icon symbol={icon} size="2xs" />}
         </span>
