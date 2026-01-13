@@ -1,0 +1,57 @@
+@use "../styles/common" as *;
+
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.root {
+  position: absolute;
+}
+
+.badge {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: design-token("space.2");
+  height: design-token("space.2");
+  background: component-token("alert-badge", "badge.color.background");
+  color: component-token("alert-badge", "badge.color.text");
+}
+
+.bottom {
+  bottom: calc(#{design-token("space.1")} * -1);
+}
+
+.top {
+  top: calc(#{design-token("space.1")} * -1);
+}
+
+.right {
+  right: calc(#{design-token("space.1")} * -1);
+}
+
+// prettier-ignore
+.variantPrimary {
+  @include component-token("alert-badge", "badge.color.background", design-token("color.primary.500"));
+  @include component-token("alert-badge", "badge.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantSecondary {
+  @include component-token("alert-badge", "badge.color.background", design-token("color.secondary.500"));
+  @include component-token("alert-badge", "badge.color.text", design-token("color.neutral.000"));
+}
+
+// prettier-ignore
+.variantSuccess {
+  @include component-token("alert-badge", "badge.color.background", design-token("color.positive.500"));
+  @include component-token("alert-badge", "badge.color.text", design-token("color.primary.800"));
+}
+
+// prettier-ignore
+.variantDanger {
+  @include component-token("alert-badge", "badge.color.background", design-token("color.negative.600"));
+  @include component-token("alert-badge", "badge.color.text", design-token("color.neutral.000"));
+}
