@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.110
+
+### Minor Changes
+
+- 0fa20fa: feat: Add AlertBadge
+
 ## 1.0.0-alpha.109
 
 ### Patch Changes
