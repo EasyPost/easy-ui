@@ -2,4 +2,4 @@
 "@easypost/easy-ui": minor
 ---
 
-Add AlertBadge
+feat: Add AlertBadge
