@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.52
+
+### Minor Changes
+
+- 4096185: Adds Tenancy icon
+
 ## 1.0.0-alpha.51
 
 ### Minor Changes
