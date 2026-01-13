@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.108
+
+### Patch Changes
+
+- 7a4c6db: fix(ColorPicker): add index file
+
 ## 1.0.0-alpha.107
 
 ### Patch Changes
