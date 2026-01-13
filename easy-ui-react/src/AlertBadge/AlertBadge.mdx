@@ -1,0 +1,44 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/addon-docs/blocks";
+import { AlertBadge } from "./AlertBadge";
+import * as AlertBadgeStories from "./AlertBadge.stories";
+
+<Meta of={AlertBadgeStories} />
+
+# AlertBadge
+
+## Variants
+
+Variants control the color of the `<AlertBadge />`, indicates different statuses. `"primary" | "secondary" | "success" | "danger"<default>`
+
+<Canvas of={AlertBadgeStories.Variants} />
+
+<Controls of={AlertBadgeStories.Variants} />
+
+## Placement
+
+Determine where the `<AlertBadge />` will show up on the attached component. `"top right"<default> | "bottom right"`
+
+<Canvas of={AlertBadgeStories.Placement} />
+
+<Controls of={AlertBadgeStories.Placement} />
+
+## Icons
+
+An `<AlertBadge />` can contain a single icon using the `icon` property. The `icon` property accepts any icon symbol from `@easypost/easy-ui-icons`.
+
+<Canvas of={AlertBadgeStories.Icon} />
+
+<Controls of={AlertBadgeStories.Icon} />
+
+## With Tooltip
+
+`<AlertBadge />` will not interfere with Tooltip placement of target component.
+
+<Canvas of={AlertBadgeStories.WithTooltip} />
+
+<Controls of={AlertBadgeStories.WithTooltip} />
+
+## Properties
+
+<ArgTypes of={AlertBadge} />
