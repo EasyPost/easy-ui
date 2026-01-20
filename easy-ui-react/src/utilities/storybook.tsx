@@ -69,7 +69,7 @@ export function getFilledButtonsColorMapping() {
       table: {
         type: {
           summary:
-            '"primary" | "secondary" | "success" | "warning" | "neutral"',
+            '"primary" | "secondary" | "success" | "warning" | "neutral" | "inverse"',
         },
         defaultValue: { summary: "primary" },
       },
