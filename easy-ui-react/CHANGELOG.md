@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.111
+
+### Minor Changes
+
+- 9bcd135: feat(Button): add support for inverse filled color
+
 ## 1.0.0-alpha.110
 
 ### Minor Changes
