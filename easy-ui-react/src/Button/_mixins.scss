@@ -187,6 +187,8 @@
 
 // prettier-ignore
 @mixin colorInverse {
+  @include component-token("button", "filled.font.color", design-token("color.neutral.800"));
+  @include component-token("button", "filled.active.font.color", design-token("color.primary.800"));
   @include component-token("button", "resting.color", design-token("color.neutral.000"));
   @include component-token("button", "hover.focus.color", design-token("color.neutral.100"));
   @include component-token("button", "active.color", design-token("color.neutral.200"));

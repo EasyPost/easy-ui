@@ -8,6 +8,7 @@ export const FILLED_BUTTON_COLORS = [
   "success",
   "warning",
   "neutral",
+  "inverse",
 ];
 
 export const OUTLINED_BUTTON_COLORS = [
