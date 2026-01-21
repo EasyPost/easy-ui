@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.53
+
+### Minor Changes
+
+- 3971a09: feat: add icons (upload_file, save)
+
 ## 1.0.0-alpha.52
 
 ### Minor Changes
