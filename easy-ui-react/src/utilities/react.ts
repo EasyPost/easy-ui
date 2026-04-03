@@ -60,7 +60,7 @@ export function filterChildrenByDisplayName(
 ) {
   const elements = flattenChildren(children).filter((n) =>
     isElement(n),
-  ) as ReactElement<any>[];
+  ) as ReactElement[];
   return elements.filter((e) => {
     const elementType = e.type as NamedExoticComponent;
     return elementType.displayName === displayName;
@@ -68,7 +68,7 @@ export function filterChildrenByDisplayName(
 }
 
 export function getDisplayNameFromReactNode(component: ReactNode) {
-  const componentAsElement = component as ReactElement<any>;
+  const componentAsElement = component as ReactElement;
   if (isValidElement(componentAsElement)) {
     const componentType = componentAsElement.type as NamedExoticComponent;
     return componentType.displayName;

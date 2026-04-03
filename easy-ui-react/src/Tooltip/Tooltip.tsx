@@ -28,7 +28,7 @@ const CLOSE_DELAY = 250;
 
 export type TooltipProps = {
   /** The element that will activate to tooltip. */
-  children: ReactElement<any>;
+  children: ReactElement;
 
   /** The content to display within the tooltip. */
   content: ReactNode;
@@ -124,8 +124,8 @@ export function Tooltip(props: TooltipProps) {
 
   return (
     <>
-      {React.cloneElement(children, {
-        ...mergeProps(triggerProps, children.props),
+      {React.cloneElement(children as ReactElement<Record<string, unknown>>, {
+        ...mergeProps(triggerProps, children.props as Record<string, unknown>),
         ref: triggerRef,
       })}
       {tooltipTriggerState.isOpen && (

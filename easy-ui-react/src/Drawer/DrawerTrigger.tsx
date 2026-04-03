@@ -4,13 +4,13 @@ import { useOverlayTriggerState } from "react-stately";
 import { DrawerUnderlay } from "./DrawerUnderlay";
 import { DrawerTriggerContext } from "./context";
 
-export type CloseableDrawerElement = (close: () => void) => ReactElement<any>;
+export type CloseableDrawerElement = (close: () => void) => ReactElement;
 
 export type DrawerTriggerProps = {
   /**
    * Content of modal trigger. Must be exactly two elements.
    */
-  children: [ReactElement<any>, CloseableDrawerElement | ReactElement<any>];
+  children: [ReactElement, CloseableDrawerElement | ReactElement];
 
   /**
    * Whether the modal is open by default (uncontrolled).

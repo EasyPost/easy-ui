@@ -16,7 +16,7 @@ type TabPanelsPanelsProps = {
    * The contents of each tab. Item keys should match the key of the
    * corresponding `<Item>` within the `<TabPanels.Tabs>` element.
    */
-  children: ReactElement<any> | ReactElement<any>[];
+  children: ReactElement | ReactElement[];
 };
 
 type TabPanelProps = AriaTabPanelProps & {
@@ -77,7 +77,7 @@ function TabPanelsPanel({ state, ...props }: TabPanelProps) {
     React.cloneElement(children, {
       ref,
       ...tabPanelProps,
-      ...(children as ReactElement<any>).props,
+      ...((children as ReactElement).props as Record<string, unknown>),
     })
   ) : (
     <div ref={ref} {...tabPanelProps}>

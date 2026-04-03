@@ -14,7 +14,7 @@ export type ProductLayoutTabbedContentProps = AriaLabelingProps & {
    * The tabs to display for nested content. Uses a `<TabNav />` and should
    * contain an array of `<TabNav.Item />`s.
    */
-  tabs: ReactElement<any>[];
+  tabs: ReactElement[];
 };
 
 export function ProductLayoutTabbedContent(

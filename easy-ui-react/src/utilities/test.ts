@@ -14,7 +14,7 @@ declare global {
 /**
  * Render a react element for testing. Passes in vitest's timers for user-event.
  */
-export function render(jsx: ReactElement<any>) {
+export function render(jsx: ReactElement) {
   return {
     user: userEvent.setup({
       advanceTimers: vi.advanceTimersByTime.bind(vi),

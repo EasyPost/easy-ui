@@ -26,7 +26,7 @@ type TableProps<C extends Column, R extends RowType> = Omit<
   DataGridProps<C, R>,
   "children"
 > & {
-  children?: [ReactElement<any>, ReactElement<any>];
+  children?: [ReactElement, ReactElement];
 };
 
 export function Table<C extends Column, R extends RowType>(
@@ -46,7 +46,7 @@ export function Table<C extends Column, R extends RowType>(
   const innerContainerRef = useRef<HTMLDivElement | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
   const state = useTableState({
-    ...props,
+    ...(props as Parameters<typeof useTableState>[0]),
     selectionMode,
     selectionBehavior: "toggle",
     showSelectionCheckboxes: selectionMode !== "none",

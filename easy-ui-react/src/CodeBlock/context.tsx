@@ -1,9 +1,10 @@
 import { ReactElement, createContext, useContext } from "react";
+import { CodeSnippetProps } from "../CodeSnippet";
 import { SnippetLanguage } from "../CodeSnippet/SyntaxHighlighter";
 
 export type CodeBlockContextType = {
   languages: SnippetLanguage[];
-  snippet: ReactElement<any>;
+  snippet: ReactElement<CodeSnippetProps>;
   language: SnippetLanguage;
   onLanguageChange: (language: SnippetLanguage) => void;
 };
