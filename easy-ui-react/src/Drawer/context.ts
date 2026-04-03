@@ -6,8 +6,8 @@ export type DrawerContextType = {
   dialogProps: DOMAttributes<FocusableElement>;
   titleProps: DOMAttributes<FocusableElement>;
   isHeaderStuck: boolean;
-  bodyRef: RefObject<HTMLDivElement>;
-  headerInterceptorRef: RefObject<HTMLDivElement>;
+  bodyRef: RefObject<HTMLDivElement | null>;
+  headerInterceptorRef: RefObject<HTMLDivElement | null>;
 };
 
 type DrawerTriggerContextType = {

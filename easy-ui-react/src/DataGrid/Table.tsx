@@ -26,7 +26,7 @@ type TableProps<C extends Column, R extends RowType> = Omit<
   DataGridProps<C, R>,
   "children"
 > & {
-  children?: [ReactElement, ReactElement];
+  children?: [ReactElement<any>, ReactElement<any>];
 };
 
 export function Table<C extends Column, R extends RowType>(

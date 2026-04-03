@@ -11,7 +11,7 @@ export function getLogoGroupChildren(logoGroup: ReactNode) {
   if (logoGroupDisplayName !== "SearchNav.LogoGroup") {
     throw new Error("SearchNav must contain SearchNav.LogoGroup.");
   }
-  const logoGroupElement = logoGroup as ReactElement;
+  const logoGroupElement = logoGroup as ReactElement<any>;
   const logoGroupChildren = flattenChildren(logoGroupElement.props.children);
   const logoDisplayName = getDisplayNameFromReactNode(logoGroupChildren[0]);
   if (logoDisplayName !== "SearchNav.Logo") {
@@ -36,7 +36,7 @@ export function getLogoGroupChildren(logoGroup: ReactNode) {
     ) === "SearchNav.Selector"
   ) {
     selector = logoGroupChildren[logoGroupChildren.length - 1];
-    const selectorElem = selector as ReactElement;
+    const selectorElem = selector as ReactElement<any>;
     selectorChildren = flattenChildren(selectorElem.props.children);
   }
 
@@ -63,7 +63,7 @@ export function getCTAGroupChildren(ctaGroup: ReactNode) {
   let secondaryCTAItems;
   let primaryCTAItem;
   if (getDisplayNameFromReactNode(ctaGroup) === "SearchNav.CTAGroup") {
-    const ctaGroupElement = ctaGroup as ReactElement;
+    const ctaGroupElement = ctaGroup as ReactElement<any>;
     secondaryCTAItems = filterChildrenByDisplayName(
       ctaGroupElement.props.children,
       "SearchNav.SecondaryCTAItem",
@@ -92,7 +92,7 @@ export function getCTAGroupChildren(ctaGroup: ReactNode) {
 export function getSelectorLabel(selector: ReactNode) {
   let selectorLabel;
   if (selector) {
-    const selectorElem = selector as ReactElement;
+    const selectorElem = selector as ReactElement<any>;
     const { "aria-label": label } = selectorElem.props;
     selectorLabel = label;
   }

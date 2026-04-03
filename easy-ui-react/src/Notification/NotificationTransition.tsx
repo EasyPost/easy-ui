@@ -8,7 +8,7 @@ export type NotificationTransitionProps = {
   /**
    * Children function that receives a ref to the node being transitioned.
    */
-  children: ChildrenFunction<{ nodeRef: RefObject<HTMLDivElement> }>;
+  children: ChildrenFunction<{ nodeRef: RefObject<HTMLDivElement | null> }>;
 
   /**
    * Unique key for the transition.

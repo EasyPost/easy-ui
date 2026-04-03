@@ -32,7 +32,7 @@ export function flattenChildren(
         acc.push.apply(
           acc,
           flattenChildren(
-            node.props.children,
+            (node.props as { children?: ReactNode }).children,
             depth + 1,
             keys.concat(node.key || nodeIndex),
           ),
@@ -60,7 +60,7 @@ export function filterChildrenByDisplayName(
 ) {
   const elements = flattenChildren(children).filter((n) =>
     isElement(n),
-  ) as ReactElement[];
+  ) as ReactElement<any>[];
   return elements.filter((e) => {
     const elementType = e.type as NamedExoticComponent;
     return elementType.displayName === displayName;
@@ -68,7 +68,7 @@ export function filterChildrenByDisplayName(
 }
 
 export function getDisplayNameFromReactNode(component: ReactNode) {
-  const componentAsElement = component as ReactElement;
+  const componentAsElement = component as ReactElement<any>;
   if (isValidElement(componentAsElement)) {
     const componentType = componentAsElement.type as NamedExoticComponent;
     return componentType.displayName;

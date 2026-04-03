@@ -4,13 +4,13 @@ import { useOverlayTriggerState } from "react-stately";
 import { ModalUnderlay } from "./ModalUnderlay";
 import { ModalTriggerProvider } from "./context";
 
-export type CloseableModalElement = (close: () => void) => ReactElement;
+export type CloseableModalElement = (close: () => void) => ReactElement<any>;
 
 export type ModalTriggerProps = {
   /**
    * Content of modal trigger. Must be exactly two elements.
    */
-  children: [ReactElement, CloseableModalElement | ReactElement];
+  children: [ReactElement<any>, CloseableModalElement | ReactElement<any>];
 
   /**
    * Whether the modal is open by default (uncontrolled).

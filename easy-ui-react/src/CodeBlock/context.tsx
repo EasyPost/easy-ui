@@ -3,7 +3,7 @@ import { SnippetLanguage } from "../CodeSnippet/SyntaxHighlighter";
 
 export type CodeBlockContextType = {
   languages: SnippetLanguage[];
-  snippet: ReactElement;
+  snippet: ReactElement<any>;
   language: SnippetLanguage;
   onLanguageChange: (language: SnippetLanguage) => void;
 };

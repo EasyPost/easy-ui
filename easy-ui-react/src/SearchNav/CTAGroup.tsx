@@ -38,7 +38,7 @@ export function CTAGroup(_props: CTAGroupProps) {
       <div className={classNames(styles.ctaGroup, styles.ctaGroupExpanded)}>
         {secondaryCTAItems?.map((item, index) => {
           const isLastChild = index === totalItems - 1;
-          const itemEle = item as ReactElement;
+          const itemEle = item as ReactElement<any>;
           return (
             <Fragment key={itemEle.key}>
               {itemEle}
@@ -64,7 +64,7 @@ export function CTAGroup(_props: CTAGroupProps) {
           <Menu.Overlay placement="bottom right" {...menuOverlayProps}>
             <Menu.Section aria-label="Nav actions">
               {secondaryCTAItems?.map((item) => {
-                const itemEle = item as ReactElement;
+                const itemEle = item as ReactElement<any>;
                 return (
                   <Menu.Item
                     key={getFlattenedKey(itemEle.key)}

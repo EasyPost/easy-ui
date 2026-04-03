@@ -28,7 +28,7 @@ const CLOSE_DELAY = 250;
 
 export type TooltipProps = {
   /** The element that will activate to tooltip. */
-  children: ReactElement;
+  children: ReactElement<any>;
 
   /** The content to display within the tooltip. */
   content: ReactNode;

@@ -67,7 +67,7 @@ export function CondensedSearchNav() {
               <Menu.Overlay placement="bottom left" {...menuOverlayProps}>
                 <Menu.Section aria-label={selectorLabel}>
                   {selectorChildren?.map((item) => {
-                    const itemEle = item as ReactElement;
+                    const itemEle = item as ReactElement<any>;
                     return (
                       <Menu.Item key={getFlattenedKey(itemEle.key)}>
                         {itemEle.props.children}
@@ -77,7 +77,7 @@ export function CondensedSearchNav() {
                 </Menu.Section>
                 <Menu.Section aria-label="Nav actions">
                   {secondaryCTAItems?.map((item) => {
-                    const itemEle = item as ReactElement;
+                    const itemEle = item as ReactElement<any>;
                     return (
                       <Menu.Item
                         key={getFlattenedKey(itemEle.key)}

@@ -28,7 +28,7 @@ export type EasyUIRouterProviderProps = {
 
 export type ProviderProps = {
   /** Component tree  */
-  children: ReactElement;
+  children: ReactElement<any>;
   /** Theme to apply to Easy UI. Use `createTheme()` to build theme object.  */
   theme?: ThemeCreator;
   /** Color scheme to apply to Easy UI.  */

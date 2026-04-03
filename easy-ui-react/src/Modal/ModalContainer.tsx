@@ -37,7 +37,7 @@ export function ModalContainer(props: ModalContainerProps) {
     throw new Error("Only a single child can be passed to ModalContainer.");
   }
 
-  const [lastChild, setLastChild] = useState<ReactElement | null>(null);
+  const [lastChild, setLastChild] = useState<ReactElement<any> | null>(null);
 
   // React.Children.toArray mutates the children, and we need them to be stable
   // between renders so that the lastChild comparison works.

@@ -4,7 +4,7 @@ import { useInternalMenuContext } from "./MenuContext";
 
 export type MenuTriggerProps = {
   /** The element that will activate the menu. */
-  children: ReactElement;
+  children: ReactElement<any>;
 };
 
 export function MenuTrigger(props: MenuTriggerProps) {

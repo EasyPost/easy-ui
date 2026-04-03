@@ -5,7 +5,7 @@ import { ResponsiveProp } from "./utilities/css";
 export type DesignTokens = typeof tokens;
 export type DesignTokenAliases = keyof DesignTokens;
 
-export type Falsy = boolean | undefined | null | 0;
+export type Falsy = boolean | undefined | null | 0 | 0n;
 
 export type Heading = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 

@@ -46,7 +46,7 @@ export const SupplementaryAction = forwardRef<
 }) as {
   <T extends ElementType = "button">(
     props: SupplementaryActionProps<T> & { ref?: DOMRef },
-  ): ReactElement;
+  ): ReactElement<any>;
   displayName?: string;
 };
 

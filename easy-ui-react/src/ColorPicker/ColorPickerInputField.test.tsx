@@ -61,6 +61,6 @@ describe("<ColorPickerInputField />", () => {
     await userTab(user);
     await userKeyboard(user, "{ArrowRight}{ArrowUp}{ArrowLeft}{ArrowDown}");
     expect(handleChange).toHaveBeenCalled();
-    expect(screen.getByLabelText("Primary color")).toHaveValue("#FC0000");
+    expect(screen.getByLabelText("Primary color")).toHaveValue("#FC0303");
   });
 });

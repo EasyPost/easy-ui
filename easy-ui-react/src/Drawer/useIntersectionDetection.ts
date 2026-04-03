@@ -8,8 +8,8 @@ import { RefObject, useEffect, useState } from "react";
  * @returns when element is intersecting
  */
 export function useIntersectionDetection(
-  targetRef: RefObject<HTMLDivElement>,
-  scrollRef: RefObject<HTMLDivElement>,
+  targetRef: RefObject<HTMLDivElement | null>,
+  scrollRef: RefObject<HTMLDivElement | null>,
 ) {
   const [isStuck, setIsStuck] = useState(false);
 

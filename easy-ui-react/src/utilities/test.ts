@@ -7,12 +7,14 @@ import { vi } from "vitest";
 declare global {
   // eslint-disable-next-line no-var
   var jest: object;
+  // eslint-disable-next-line no-var
+  var IS_REACT_ACT_ENVIRONMENT: boolean;
 }
 
 /**
  * Render a react element for testing. Passes in vitest's timers for user-event.
  */
-export function render(jsx: ReactElement) {
+export function render(jsx: ReactElement<any>) {
   return {
     user: userEvent.setup({
       advanceTimers: vi.advanceTimersByTime.bind(vi),

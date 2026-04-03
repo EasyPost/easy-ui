@@ -25,8 +25,8 @@ type MultiSelectDropdownProps<T extends object> = {
   children: React.ReactNode | ((item: T) => React.ReactNode);
   isLoading?: AsyncListData<T>["isLoading"];
   maxItemsUntilScroll?: MenuOverlayProps<T>["maxItemsUntilScroll"];
-  menuRef: RefObject<HTMLDivElement>;
-  triggerRef: RefObject<HTMLDivElement>;
+  menuRef: RefObject<HTMLDivElement | null>;
+  triggerRef: RefObject<HTMLDivElement | null>;
   width: number;
 };
 
@@ -106,7 +106,7 @@ function ScrollContainer({
   scrollRef,
   children,
 }: {
-  scrollRef: RefObject<HTMLDivElement>;
+  scrollRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
 }) {
   useScrollbar(scrollRef, "ezui-os-theme-overlay");
