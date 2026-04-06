@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.113
+
+### Minor Changes
+
+- df25640: feat: support React 19
+
 ## 1.0.0-alpha.112
 
 ### Patch Changes
