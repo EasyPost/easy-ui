@@ -1,4 +1,4 @@
-import React, { useState, ReactElement } from "react";
+import React, { useState, ReactElement, ReactNode } from "react";
 import Close from "@easypost/easy-ui-icons/Close";
 import MenuSymbol from "@easypost/easy-ui-icons/Menu";
 import Search from "@easypost/easy-ui-icons/Search";
@@ -67,7 +67,9 @@ export function CondensedSearchNav() {
               <Menu.Overlay placement="bottom left" {...menuOverlayProps}>
                 <Menu.Section aria-label={selectorLabel}>
                   {selectorChildren?.map((item) => {
-                    const itemEle = item as ReactElement;
+                    const itemEle = item as ReactElement<
+                      Record<string, ReactNode>
+                    >;
                     return (
                       <Menu.Item key={getFlattenedKey(itemEle.key)}>
                         {itemEle.props.children}
@@ -77,14 +79,16 @@ export function CondensedSearchNav() {
                 </Menu.Section>
                 <Menu.Section aria-label="Nav actions">
                   {secondaryCTAItems?.map((item) => {
-                    const itemEle = item as ReactElement;
+                    const itemEle = item as ReactElement<
+                      Record<string, unknown>
+                    >;
                     return (
                       <Menu.Item
                         key={getFlattenedKey(itemEle.key)}
-                        href={itemEle.props.href}
-                        target={itemEle.props.target}
+                        href={itemEle.props.href as string}
+                        target={itemEle.props.target as string}
                       >
-                        {itemEle.props.label}
+                        {itemEle.props.label as ReactNode}
                       </Menu.Item>
                     );
                   })}

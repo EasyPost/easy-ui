@@ -1,7 +1,7 @@
 import { useResizeObserver } from "@react-aria/utils";
 import { RefObject, useState } from "react";
 
-export function useElementWidth(elementRef: RefObject<HTMLDivElement>) {
+export function useElementWidth(elementRef: RefObject<HTMLDivElement | null>) {
   const [width, setWidth] = useState(0);
 
   useResizeObserver({

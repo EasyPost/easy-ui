@@ -124,8 +124,8 @@ export function Tooltip(props: TooltipProps) {
 
   return (
     <>
-      {React.cloneElement(children, {
-        ...mergeProps(triggerProps, children.props),
+      {React.cloneElement(children as ReactElement<Record<string, unknown>>, {
+        ...mergeProps(triggerProps, children.props as Record<string, unknown>),
         ref: triggerRef,
       })}
       {tooltipTriggerState.isOpen && (

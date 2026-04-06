@@ -17,7 +17,7 @@ export default defineConfig({
     removeReactAttributes({
       attributes: ["data-testid"],
     }),
-    react({ jsxRuntime: "classic" }),
+    react({ jsxRuntime: "automatic" }),
     viteStaticCopy({
       targets: [
         { src: "package.json", dest: ".", transform: cleanPkgJsonForDist },

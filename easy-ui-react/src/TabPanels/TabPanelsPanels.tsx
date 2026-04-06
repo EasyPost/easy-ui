@@ -77,7 +77,7 @@ function TabPanelsPanel({ state, ...props }: TabPanelProps) {
     React.cloneElement(children, {
       ref,
       ...tabPanelProps,
-      ...(children as ReactElement).props,
+      ...((children as ReactElement).props as Record<string, unknown>),
     })
   ) : (
     <div ref={ref} {...tabPanelProps}>

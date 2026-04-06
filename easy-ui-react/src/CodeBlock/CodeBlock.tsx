@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from "react";
+import React, { ReactElement, ReactNode, useMemo } from "react";
 import { CodeSnippet, CodeSnippetProps } from "../CodeSnippet";
 import { SnippetLanguage } from "../CodeSnippet/SyntaxHighlighter";
 import { HorizontalStack } from "../HorizontalStack";
@@ -120,7 +120,10 @@ export function CodeBlock(props: CodeBlockProps) {
   const { children, language, onLanguageChange } = props;
 
   const snippets = useMemo(() => {
-    return filterChildrenByDisplayName(children, "CodeBlock.Snippet");
+    return filterChildrenByDisplayName(
+      children,
+      "CodeBlock.Snippet",
+    ) as ReactElement<CodeSnippetProps>[];
   }, [children]);
 
   const headers = useMemo(() => {

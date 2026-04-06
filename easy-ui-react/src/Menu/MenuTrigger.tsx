@@ -10,6 +10,12 @@ export type MenuTriggerProps = {
 export function MenuTrigger(props: MenuTriggerProps) {
   const { children } = props;
   const { triggerRef, menuTriggerProps } = useInternalMenuContext();
-  const clonedProps = mergeProps(menuTriggerProps, children.props);
-  return React.cloneElement(children, { ...clonedProps, ref: triggerRef });
+  const clonedProps = mergeProps(
+    menuTriggerProps,
+    children.props as Record<string, unknown>,
+  );
+  return React.cloneElement(children as ReactElement<Record<string, unknown>>, {
+    ...clonedProps,
+    ref: triggerRef,
+  });
 }

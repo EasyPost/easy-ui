@@ -64,14 +64,14 @@ export function CTAGroup(_props: CTAGroupProps) {
           <Menu.Overlay placement="bottom right" {...menuOverlayProps}>
             <Menu.Section aria-label="Nav actions">
               {secondaryCTAItems?.map((item) => {
-                const itemEle = item as ReactElement;
+                const itemEle = item as ReactElement<Record<string, unknown>>;
                 return (
                   <Menu.Item
                     key={getFlattenedKey(itemEle.key)}
-                    href={itemEle.props.href}
-                    target={itemEle.props.target}
+                    href={itemEle.props.href as string}
+                    target={itemEle.props.target as string}
                   >
-                    {itemEle.props.label}
+                    {itemEle.props.label as ReactNode}
                   </Menu.Item>
                 );
               })}

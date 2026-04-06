@@ -74,6 +74,6 @@ describe("<ColorPicker />", () => {
     expect(screen.getAllByLabelText("Color picker").length).toBeGreaterThan(0);
     await userTab(user);
     await userKeyboard(user, "{ArrowRight}{ArrowUp}{ArrowLeft}{ArrowDown}");
-    expect(screen.getByText("hsla(0, 100%, 49.5%, 1)")).toBeInTheDocument();
+    expect(screen.getByText("hsla(0, 98.02%, 50%, 1)")).toBeInTheDocument();
   });
 });

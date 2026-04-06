@@ -67,6 +67,6 @@ function findSectionTitleInChildren(children: ReactNode) {
   const firstTitleOrSectionType =
     firstTitleOrSection.type as NamedExoticComponent;
   return firstTitleOrSectionType.displayName === "FormLayout.Title"
-    ? firstTitleOrSection.props.children
+    ? (firstTitleOrSection.props as { children?: ReactNode }).children
     : null;
 }

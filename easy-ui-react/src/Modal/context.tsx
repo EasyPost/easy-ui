@@ -15,9 +15,9 @@ export type ModalContextType = {
   titleProps: DOMAttributes<FocusableElement>;
   isHeaderStuck: boolean;
   isFooterStuck: boolean;
-  bodyRef: RefObject<HTMLDivElement>;
-  headerInterceptorRef: RefObject<HTMLDivElement>;
-  footerInterceptorRef: RefObject<HTMLDivElement>;
+  bodyRef: RefObject<HTMLDivElement | null>;
+  headerInterceptorRef: RefObject<HTMLDivElement | null>;
+  footerInterceptorRef: RefObject<HTMLDivElement | null>;
 };
 
 type ModalTriggerContextType = {

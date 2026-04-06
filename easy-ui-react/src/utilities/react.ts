@@ -32,7 +32,7 @@ export function flattenChildren(
         acc.push.apply(
           acc,
           flattenChildren(
-            node.props.children,
+            (node.props as { children?: ReactNode }).children,
             depth + 1,
             keys.concat(node.key || nodeIndex),
           ),
