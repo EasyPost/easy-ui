@@ -51,7 +51,10 @@ export default defineConfig({
       cssFileName: "style",
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: (id) =>
+        ["react", "react-dom"].some(
+          (pkg) => id === pkg || id.startsWith(`${pkg}/`),
+        ),
       output: [
         {
           format: "cjs",
