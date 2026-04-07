@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.114
+
+### Patch Changes
+
+- 4af3b89: fix: React 19 JSX runtime import
+
 ## 1.0.0-alpha.113
 
 ### Minor Changes
