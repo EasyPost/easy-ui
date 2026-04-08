@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.115
+
+### Patch Changes
+
+- 5b35b66: fix(AlertBadge): return type
+
 ## 1.0.0-alpha.114
 
 ### Patch Changes
