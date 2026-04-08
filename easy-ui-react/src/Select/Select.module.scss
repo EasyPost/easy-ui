@@ -13,6 +13,7 @@
 
 .listbox {
   @include Menu.menu;
+  outline: none;
 }
 
 .listboxList,
@@ -68,10 +69,6 @@
 
 .separator::after {
   @include Menu.separator;
-}
-
-.listbox {
-  outline: none;
 }
 
 .fieldRoot {

@@ -115,13 +115,13 @@ describe("<Select />", () => {
         ],
       }),
     );
-  
+
     await clickElement(user, screen.getByRole("button"));
-  
+
     expect(screen.getByText("First description")).toBeInTheDocument();
     expect(screen.getByText("Second description")).toBeInTheDocument();
   });
-  
+
   it("should render selected option description in the closed field", () => {
     render(
       getSelect({
@@ -136,7 +136,7 @@ describe("<Select />", () => {
         ],
       }),
     );
-  
+
     expect(screen.getAllByText("Option 1")[0]).toBeInTheDocument();
     expect(screen.getByText("First description")).toBeInTheDocument();
   });

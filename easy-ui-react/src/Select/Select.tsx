@@ -95,7 +95,7 @@ export type SelectProps<T, K extends Key> = Omit<
  * ```
  */
 export function Select<T extends object, K extends Key>(
-  props: SelectProps<T, K>
+  props: SelectProps<T, K>,
 ) {
   const {
     isDisabled,
