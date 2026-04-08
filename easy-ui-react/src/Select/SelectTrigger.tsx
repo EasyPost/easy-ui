@@ -1,4 +1,4 @@
-import React, { DOMAttributes, ReactNode } from "react";
+import React, { ReactNode, DOMAttributes } from "react";
 import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
 import { FocusableElement } from "@react-types/shared";
 import { useInternalSelectContext } from "./SelectContext";
@@ -65,9 +65,9 @@ export function SelectTrigger(props: SelectTriggerProps) {
         />
       )}
       <UnstyledButton {...triggerProps} ref={triggerRef} className={className}>
-        <span {...valueProps} className={styles.selectFieldText}>
+        <div {...valueProps} className={styles.selectFieldText}>
           {children}
-        </span>
+        </div>
       </UnstyledButton>
       <InputIcon
         alignment="end"

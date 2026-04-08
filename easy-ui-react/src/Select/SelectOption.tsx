@@ -3,7 +3,6 @@ import { useOption } from "react-aria";
 import { Item, Node, SelectState } from "react-stately";
 import { Text } from "../Text";
 import { NoInfer } from "../types";
-
 import styles from "./Select.module.scss";
 
 export type SelectOptionProps = {
@@ -11,6 +10,10 @@ export type SelectOptionProps = {
   "aria-label"?: string;
   /** Rendered contents of the option or child options. */
   children: ReactNode;
+  /** Secondary text shown under the main option text. */
+  description?: ReactNode;
+  /** Plain text value for accessibility and typeahead. */
+  textValue?: string;
 };
 
 /**
@@ -41,6 +44,9 @@ export function SelectOptionContent<T>({
     ref,
   );
 
+  const description = (item.props as SelectOptionProps | undefined)
+    ?.description;
+
   return (
     <li
       {...optionProps}
@@ -51,9 +57,16 @@ export function SelectOptionContent<T>({
       data-is-selected={isSelected}
     >
       <div className={styles.optionContent}>
-        <Text variant="body1" truncate>
+        <Text variant="body2" truncate>
           {item.rendered}
         </Text>
+        {description && (
+          <span className={styles.optionDescription}>
+            <Text variant="caption" color="neutral.600" truncate>
+              {description}
+            </Text>
+          </span>
+        )}
       </div>
     </li>
   );

@@ -8,6 +8,7 @@ type InternalSelectContextType = {
   triggerRef: MutableRefObject<null>;
   selectState: SelectState<unknown>;
   triggerWidth: number | null;
+  isDescriptive?: boolean;
 };
 
 export const InternalSelectContext =

@@ -43,59 +43,59 @@ export type SelectProps<T, K extends Key> = Omit<
  *
  * @example
  * _Simple controlled selection:_
-*```tsx
-* import { Select } from "@easypost/easy-ui/Select";
-*
-* export function Component() {
-*  const [selectedOption, setSelectedOption] = React.useState("Option 1");
-*
-*  return (
-*    <Select
-*      label="Label"
-*      selectedKey={selectedOption}
-*      onSelectionChange={(selected) => setSelectedOption(selected)}
-*      helperText="Helper text"
-*    >
-*      <Select.Option key="Option 1">Option 1</Select.Option>
-*      <Select.Option key="Option 2">Option 2</Select.Option>
-*      <Select.Option key="Option 3">Option 3</Select.Option>
-*    </Select>
-*  );
-* }
-```
-*
-* @example
-* _Simple controlled selection with separator:_
-*```tsx
-* import { Select } from "@easypost/easy-ui/Select";
-*
-* export function Component() {
-*  const [selectedOption, setSelectedOption] = React.useState("Option 1");
-*
-*  return (
-*    <Select
-*      label="Label"
-*      selectedKey={selectedOption}
-*      onSelectionChange={(selected) => setSelectedOption(selected)}
-*      helperText="Helper text"
-*    >
-*      <Select.Section aria-label="Primary options">
-*       <Select.Option key="Option 1">Option 1</Select.Option>
-*       <Select.Option key="Option 2">Option 2</Select.Option>
-*       <Select.Option key="Option 3">Option 3</Select.Option>
-*       </Select.Section>
-*      <Select.Section aria-label="Secondary options">
-*       <Select.Option key="Option 4">Option 4</Select.Option>
-*       <Select.Option key="Option 5">Option 5</Select.Option>
-*       <Select.Option key="Option 6">Option 6</Select.Option>
-*       </Select.Section>
-*    </Select>
-*  );
-* }
-```
+ *```tsx
+ * import { Select } from "@easypost/easy-ui/Select";
+ *
+ * export function Component() {
+ *  const [selectedOption, setSelectedOption] = React.useState("Option 1");
+ *
+ *  return (
+ *    <Select
+ *      label="Label"
+ *      selectedKey={selectedOption}
+ *      onSelectionChange={(selected) => setSelectedOption(selected)}
+ *      helperText="Helper text"
+ *    >
+ *      <Select.Option key="Option 1">Option 1</Select.Option>
+ *      <Select.Option key="Option 2">Option 2</Select.Option>
+ *      <Select.Option key="Option 3">Option 3</Select.Option>
+ *    </Select>
+ *  );
+ * }
+ * ```
+ *
+ * @example
+ * _Simple controlled selection with separator:_
+ *```tsx
+ * import { Select } from "@easypost/easy-ui/Select";
+ *
+ * export function Component() {
+ *  const [selectedOption, setSelectedOption] = React.useState("Option 1");
+ *
+ *  return (
+ *    <Select
+ *      label="Label"
+ *      selectedKey={selectedOption}
+ *      onSelectionChange={(selected) => setSelectedOption(selected)}
+ *      helperText="Helper text"
+ *    >
+ *      <Select.Section aria-label="Primary options">
+ *       <Select.Option key="Option 1">Option 1</Select.Option>
+ *       <Select.Option key="Option 2">Option 2</Select.Option>
+ *       <Select.Option key="Option 3">Option 3</Select.Option>
+ *      </Select.Section>
+ *      <Select.Section aria-label="Secondary options">
+ *       <Select.Option key="Option 4">Option 4</Select.Option>
+ *       <Select.Option key="Option 5">Option 5</Select.Option>
+ *       <Select.Option key="Option 6">Option 6</Select.Option>
+ *      </Select.Section>
+ *    </Select>
+ *  );
+ * }
+ * ```
  */
 export function Select<T extends object, K extends Key>(
-  props: SelectProps<T, K>,
+  props: SelectProps<T, K>
 ) {
   const {
     isDisabled,
@@ -108,6 +108,7 @@ export function Select<T extends object, K extends Key>(
     helperText,
     placeholder,
     iconAtStart,
+    isDescriptive = false,
   } = props;
 
   const triggerRef = React.useRef(null);
@@ -141,8 +142,15 @@ export function Select<T extends object, K extends Key>(
       triggerRef,
       selectState,
       triggerWidth,
+      isDescriptive,
     };
-  }, [triggerProps, listBoxPropsFromSelect, selectState, triggerWidth]);
+  }, [
+    triggerProps,
+    listBoxPropsFromSelect,
+    selectState,
+    triggerWidth,
+    isDescriptive,
+  ]);
 
   return (
     <InternalSelectContext.Provider value={context}>
@@ -156,6 +164,7 @@ export function Select<T extends object, K extends Key>(
         helperText={helperText}
         placeholder={placeholder}
         iconAtStart={iconAtStart}
+        isDescriptive={isDescriptive}
         labelProps={labelProps}
         valueProps={valueProps}
         helperTextProps={helperTextProps}
@@ -165,6 +174,7 @@ export function Select<T extends object, K extends Key>(
     </InternalSelectContext.Provider>
   );
 }
+
 /**
  * Represents a section in a `<Select />`.
  *

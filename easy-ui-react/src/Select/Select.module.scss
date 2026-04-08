@@ -6,6 +6,7 @@
   position: fixed;
   inset: 0;
 }
+
 .listboxRoot {
   @include Menu.root;
 }
@@ -19,38 +20,59 @@
   @include Menu.menuList;
 }
 
+.listboxList {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.option {
+  text-decoration: none;
+  outline: none;
+
+  &:not([data-is-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  &[data-is-focused="true"] .optionContent {
+    @include Menu.itemDataFocused;
+  }
+
+  &[data-is-disabled="true"] .optionContent {
+    @include Menu.itemDataDisabled;
+  }
+}
+
 .optionContent,
 .separator {
   @include Menu.itemContent;
 }
 
-.option {
-  text-decoration: none;
-}
-
 .optionContent {
   @include Menu.itemContentColor;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+  padding-top: design-token("space.1");
+  padding-bottom: design-token("space.1");
+}
+
+.optionDescription {
+  width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.separator::after {
+  @include Menu.separator;
 }
 
 .listbox,
 .option {
   outline: none;
-}
-
-.option:not([data-is-disabled="true"]) {
-  cursor: pointer;
-}
-
-.option[data-is-focused="true"] .optionContent {
-  @include Menu.itemDataFocused;
-}
-
-.option[data-is-disabled="true"] .optionContent {
-  @include Menu.itemDataDisabled;
-}
-
-.separator::after {
-  @include Menu.separator;
 }
 
 .fieldRoot {
@@ -60,6 +82,8 @@
 .selectField {
   display: flex;
   align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
   @include Input.input;
 
   &:hover {
@@ -93,8 +117,29 @@
 
 .selectFieldText {
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  width: 100%;
+  text-align: left;
+  gap: 0;
+}
+
+.selectedDescription {
+  width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .listboxOpen {
   border-color: component-token("inputfield", "color.border.engaged");
+}
+
+// Override the absolute-positioned end icon to vertically center
+// when the trigger grows taller (e.g. descriptive two-line mode)
+.selectFieldIconContainer > :last-child {
+  top: 50%;
+  transform: translateY(-50%);
 }
