@@ -44,7 +44,7 @@ export type AlertBadgeProps = {
   show: boolean;
 };
 
-export function AlertBadge(props: AlertBadgeProps) {
+export function AlertBadge(props: AlertBadgeProps): React.JSX.Element {
   const {
     accessibilityLabel = "Alert Badge",
     placement = DEFAULT_PLACEMENT,
@@ -61,7 +61,7 @@ export function AlertBadge(props: AlertBadgeProps) {
   );
 
   if (!show) {
-    return children;
+    return <>{children}</>;
   }
 
   return (
