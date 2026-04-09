@@ -108,7 +108,6 @@ export function Select<T extends object, K extends Key>(
     helperText,
     placeholder,
     iconAtStart,
-    isDescriptive = false,
   } = props;
 
   const triggerRef = React.useRef(null);
@@ -142,15 +141,8 @@ export function Select<T extends object, K extends Key>(
       triggerRef,
       selectState,
       triggerWidth,
-      isDescriptive,
     };
-  }, [
-    triggerProps,
-    listBoxPropsFromSelect,
-    selectState,
-    triggerWidth,
-    isDescriptive,
-  ]);
+  }, [triggerProps, listBoxPropsFromSelect, selectState, triggerWidth]);
 
   return (
     <InternalSelectContext.Provider value={context}>
@@ -164,7 +156,6 @@ export function Select<T extends object, K extends Key>(
         helperText={helperText}
         placeholder={placeholder}
         iconAtStart={iconAtStart}
-        isDescriptive={isDescriptive}
         labelProps={labelProps}
         valueProps={valueProps}
         helperTextProps={helperTextProps}

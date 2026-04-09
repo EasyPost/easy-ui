@@ -54,11 +54,6 @@ export type BaseSelectFieldProps = {
   placeholder?: string;
   /** Left aligned icon on the select field. */
   iconAtStart?: IconSymbol;
-  /**
-   * Whether the select field options include descriptive secondary text.
-   * @default false
-   */
-  isDescriptive?: boolean;
 };
 
 type SelectFieldAttributeProps = {

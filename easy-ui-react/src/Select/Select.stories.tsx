@@ -197,7 +197,6 @@ export const WithSecondaryText: Story = {
         label="Rate adjustment"
         selectedKey={selectedKey}
         onSelectionChange={(selected) => setSelectedKey(selected)}
-        isDescriptive
       >
         <Select.Option
           key="standard"
