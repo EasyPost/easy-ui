@@ -187,3 +187,41 @@ export const DisabledSelect: Story = {
     isDisabled: true,
   },
 };
+
+export const WithSecondaryText: Story = {
+  render: () => {
+    const [selectedKey, setSelectedKey] = React.useState<Key>("standard");
+
+    return (
+      <Select
+        label="Rate adjustment"
+        selectedKey={selectedKey}
+        onSelectionChange={(selected) => setSelectedKey(selected)}
+      >
+        <Select.Option
+          key="standard"
+          textValue="Standard Adjustment"
+          description="One Rate Adjustment criteria is followed and added to all qualifying shipments"
+        >
+          Standard Adjustment
+        </Select.Option>
+
+        <Select.Option
+          key="cumulative"
+          textValue="Cumulative Adjustment"
+          description="Multiple Rate Adjustments are added together to create one total rate markup amount"
+        >
+          Cumulative Adjustment
+        </Select.Option>
+
+        <Select.Option
+          key="hierarchical"
+          textValue="Hierarchical Adjustment"
+          description="One Rate Adjustment will be added based on a priority order of possible Rate Adjustments"
+        >
+          Hierarchical Adjustment
+        </Select.Option>
+      </Select>
+    );
+  },
+};

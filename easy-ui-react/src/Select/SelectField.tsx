@@ -92,6 +92,9 @@ export function SelectField(props: SelectFieldProps) {
   const showHelperText = !showErrorText && helperText;
   const captionProps = showHelperText ? helperTextProps : errorTextProps;
   const captionText = showHelperText ? helperText : errorText;
+  const selectedDescription = (
+    selectState.selectedItem?.props as { description?: ReactNode } | undefined
+  )?.description;
 
   return (
     <div className={classNames(styles.fieldRoot)}>
@@ -119,7 +122,18 @@ export function SelectField(props: SelectFieldProps) {
         size={size}
       >
         {selectState.selectedItem ? (
-          selectState.selectedItem.rendered
+          <>
+            <Text variant="body2" truncate>
+              {selectState.selectedItem.rendered}
+            </Text>
+            {selectedDescription && (
+              <span className={styles.selectedDescription}>
+                <Text variant="caption" color="neutral.600" truncate>
+                  {selectedDescription}
+                </Text>
+              </span>
+            )}
+          </>
         ) : (
           <Text color="neutral.600">{placeholder}</Text>
         )}

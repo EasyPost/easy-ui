@@ -1,5 +1,5 @@
 import React from "react";
-import { Canvas, Meta, ArgTypes } from "@storybook/addon-docs/blocks";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/addon-docs/blocks";
 import { Select } from "./Select";
 import * as SelectStories from "./Select.stories";
 
@@ -75,6 +75,12 @@ Options can be disabled via the `disabledKeys` prop.
 Use `isDisabled` to disabled the field entirely.
 
 <Canvas of={SelectStories.DisabledSelect} />
+
+## With Secondary Text
+
+Each option can render a secondary description. The selected value in the closed field also shows the same secondary text.
+
+<Canvas of={SelectStories.WithSecondaryText} />
 
 ## Properties
 

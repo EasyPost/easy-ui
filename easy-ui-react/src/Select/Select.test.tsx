@@ -102,6 +102,44 @@ describe("<Select />", () => {
     await clickElement(user, screen.queryAllByRole("option")[0]);
     expect(handleSelectionChange).toHaveBeenCalledTimes(1);
   });
+  it("should render option descriptions in the dropdown", async () => {
+    const { user } = render(
+      getSelect({
+        options: [
+          <Select.Option key="1" description="First description">
+            Option 1
+          </Select.Option>,
+          <Select.Option key="2" description="Second description">
+            Option 2
+          </Select.Option>,
+        ],
+      }),
+    );
+
+    await clickElement(user, screen.getByRole("button"));
+
+    expect(screen.getByText("First description")).toBeInTheDocument();
+    expect(screen.getByText("Second description")).toBeInTheDocument();
+  });
+
+  it("should render selected option description in the closed field", () => {
+    render(
+      getSelect({
+        selectProps: { defaultSelectedKey: "1" },
+        options: [
+          <Select.Option key="1" description="First description">
+            Option 1
+          </Select.Option>,
+          <Select.Option key="2" description="Second description">
+            Option 2
+          </Select.Option>,
+        ],
+      }),
+    );
+
+    expect(screen.getAllByText("Option 1")[0]).toBeInTheDocument();
+    expect(screen.getByText("First description")).toBeInTheDocument();
+  });
 });
 
 function getSelect({
