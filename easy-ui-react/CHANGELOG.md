@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.116
+
+### Minor Changes
+
+- 6ca337d: add support for secondary text on select items
+
 ## 1.0.0-alpha.115
 
 ### Patch Changes
