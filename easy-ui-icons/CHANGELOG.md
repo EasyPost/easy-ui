@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.54
+
+### Minor Changes
+
+- bb76d34: feat: add LaptopChromebook icon
+
 ## 1.0.0-alpha.53
 
 ### Minor Changes
