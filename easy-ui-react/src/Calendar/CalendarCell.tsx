@@ -30,26 +30,31 @@ export function CalendarCell({ state, date }: CalendarCellProps) {
   } = useCalendarCell({ date }, state, ref);
   const isRangeCalendar = has(state, "highlightedRange");
   const rangeState = state as unknown as RangeCalendarState;
-  const singleState = state as unknown as CalendarState;
   const isNextMonth = date.compare(state.visibleRange.end) > 0;
   const isPreviousMonth = date.compare(state.visibleRange.start) < 0;
 
-  const handleMonthNavigation = () => {
-    if (state.isDisabled || isUnavailable || state.isReadOnly) return;
-    if (isNextMonth && !isUnavailable) {
+  const handleMonthNavigation = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Handle month navigation for dates outside current month
+    if (
+      isNextMonth &&
+      !isUnavailable &&
+      !state.isDisabled &&
+      !state.isReadOnly
+    ) {
       state.focusNextPage();
-    }
-    if (isPreviousMonth && !isUnavailable) {
+    } else if (
+      isPreviousMonth &&
+      !isUnavailable &&
+      !state.isDisabled &&
+      !state.isReadOnly
+    ) {
       state.focusPreviousPage();
     }
-    if (!state.isInvalid(date)) {
-      if (isRangeCalendar) {
-        if (!rangeState.anchorDate) {
-          rangeState.setValue(rangeState.highlightedRange);
-        }
-      } else {
-        singleState.setValue(date);
-      }
+
+    // Call react-aria's onClick handler to properly handle date selection
+    if (buttonProps.onClick) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      buttonProps.onClick(e as any);
     }
   };
 
