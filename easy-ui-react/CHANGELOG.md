@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.118
+
+### Patch Changes
+
+- 69d990f: Fixes CalendarCell date range selection
+
 ## 1.0.0-alpha.117
 
 ### Patch Changes
