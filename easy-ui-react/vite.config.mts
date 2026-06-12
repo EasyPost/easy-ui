@@ -45,16 +45,20 @@ export default defineConfig({
       entry: buildEntryObject([
         ...glob.sync("src/**/index.ts"),
         ...glob.sync("src/utilities/*.ts", {
-          ignore: ["**/test.ts", "**/*.test.ts"],
+          ignore: ["**/*.test.ts"],
         }),
       ]),
       cssFileName: "style",
     },
     rollupOptions: {
       external: (id) =>
-        ["react", "react-dom"].some(
-          (pkg) => id === pkg || id.startsWith(`${pkg}/`),
-        ),
+        [
+          "react",
+          "react-dom",
+          "vitest",
+          "@testing-library/react",
+          "@testing-library/user-event",
+        ].some((pkg) => id === pkg || id.startsWith(`${pkg}/`)),
       output: [
         {
           format: "cjs",
