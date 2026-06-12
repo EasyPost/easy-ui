@@ -88,8 +88,9 @@ describe("<Tooltip />", () => {
 
 // Helpers for interacting with tooltip trigger
 //
-// TODO: Look into why hover() and tab() has to be wrapped in act() since this
-//       shouldn't be necessary. Perhaps something being done in Aria
+// user-event interactions wrap themselves in act(), so they must not be nested
+// inside another act() call. Only the synchronous timer flush, which drives the
+// tooltip's open/close delay state updates, needs to be wrapped.
 
 export async function hoverOverTooltipTrigger(
   user: UserEvent,
@@ -97,19 +98,19 @@ export async function hoverOverTooltipTrigger(
   { runTimers = true } = {},
 ) {
   fireEvent.mouseMove(document.body);
-  await act(async () => {
-    await userHover(user, el);
-    if (runTimers) {
+  await userHover(user, el);
+  if (runTimers) {
+    act(() => {
       vi.runAllTimers();
-    }
-  });
+    });
+  }
 }
 
 async function tabToTooltipTrigger(user: UserEvent, { runTimers = true } = {}) {
-  await act(async () => {
-    await userTab(user);
-    if (runTimers) {
+  await userTab(user);
+  if (runTimers) {
+    act(() => {
       vi.runAllTimers();
-    }
-  });
+    });
+  }
 }
