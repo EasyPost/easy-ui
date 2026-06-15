@@ -1,15 +1,8 @@
-import { act, render as renderWithTestingLib } from "@testing-library/react";
+import { render as renderWithTestingLib } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ReactElement } from "react";
 import { config as reactTransitionGroupConfig } from "react-transition-group";
 import { vi } from "vitest";
-
-declare global {
-  // eslint-disable-next-line no-var
-  var jest: object;
-  // eslint-disable-next-line no-var
-  var IS_REACT_ACT_ENVIRONMENT: boolean;
-}
 
 /**
  * Render a react element for testing. Passes in vitest's timers for user-event.
@@ -28,16 +21,22 @@ export function render(jsx: ReactElement) {
  * user-event with `vi.useFakeTimers()`
  *
  * See https://github.com/testing-library/react-testing-library/issues/1195
+ *
+ * Note: relies on the test runner's `beforeAll` global, so it must be called
+ * from a vitest/jest environment that exposes globals.
  */
 export function installJestCompatibleFakeTimers() {
   beforeAll(() => {
-    const _jest = globalThis.jest;
-    globalThis.jest = {
-      ...globalThis.jest,
+    const globalWithJest = globalThis as typeof globalThis & {
+      jest?: Record<string, unknown>;
+    };
+    const _jest = globalWithJest.jest;
+    globalWithJest.jest = {
+      ...globalWithJest.jest,
       advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
     };
     return () => {
-      globalThis.jest = _jest;
+      globalWithJest.jest = _jest;
     };
   });
 }
@@ -63,7 +62,11 @@ export function mockIntersectionObserver() {
 }
 
 export function installScrollToMock() {
+  const originalScrollTo = Element.prototype.scrollTo;
   Element.prototype.scrollTo = () => {};
+  return () => {
+    Element.prototype.scrollTo = originalScrollTo;
+  };
 }
 
 export function mockMatchMedia({
@@ -95,27 +98,19 @@ export function silenceConsoleError() {
 }
 
 export async function userClick(user: UserEvent, element: Element) {
-  await act(async () => {
-    await user.click(element);
-  });
+  await user.click(element);
 }
 
 export async function userKeyboard(user: UserEvent, text: string) {
-  await act(async () => {
-    await user.keyboard(text);
-  });
+  await user.keyboard(text);
 }
 
 export async function userHover(user: UserEvent, element: Element) {
-  await act(async () => {
-    await user.hover(element);
-  });
+  await user.hover(element);
 }
 
 export async function userTab(user: UserEvent) {
-  await act(async () => {
-    await user.tab();
-  });
+  await user.tab();
 }
 
 export async function userType(
@@ -123,9 +118,7 @@ export async function userType(
   element: Element,
   text: string,
 ) {
-  await act(async () => {
-    await user.type(element, text);
-  });
+  await user.type(element, text);
 }
 
 export async function selectCheckbox(user: UserEvent, el: HTMLElement) {
