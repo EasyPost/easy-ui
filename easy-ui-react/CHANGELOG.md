@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.119
+
+### Patch Changes
+
+- 1774142: fix: expose test utilities as published entry point
+
 ## 1.0.0-alpha.118
 
 ### Patch Changes
