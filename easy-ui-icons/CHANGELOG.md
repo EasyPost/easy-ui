@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.55
+
+### Minor Changes
+
+- 89dd83d: adds box icon
+
 ## 1.0.0-alpha.54
 
 ### Minor Changes
