@@ -19,6 +19,8 @@ export type ModalTriggerProps = {
 
   /**
    * Whether or not the modal can be dismissed.
+   *
+   * @default true
    */
   isDismissable?: boolean;
 

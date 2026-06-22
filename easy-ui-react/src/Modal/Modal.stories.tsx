@@ -1,6 +1,7 @@
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { Key, useState } from "react";
+import React, { Key, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import { Button } from "../Button";
 import {
   EasyPostLogo,
@@ -376,6 +377,248 @@ export const WithFooterSlot: ModalStory = {
     </Modal.Trigger>
   ),
 };
+
+export const WithThirdPartyModal: ModalStory = {
+  render: () => (
+    <Modal.Trigger
+      onOpenChange={action("Modal open state changed!")}
+      isDismissable={false}
+    >
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>Easy UI Modal</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">
+            Use the button below to open a third-party modal on top of this one.
+            Then try tabbing through its form fields to observe how focus
+            trapping behaves when a non–Easy UI modal is layered on top.
+          </PlaceholderBox>
+          <ThirdPartyModal />
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Demonstrates a third-party modal (a native `<dialog>` opened via " +
+          "`showModal()`, which manages its own top-layer and focus) rendered " +
+          "on top of an Easy UI Modal. Useful for testing how Easy UI's focus " +
+          "trapping interacts with a third-party modal layered above it.",
+      },
+    },
+  },
+};
+
+/**
+ * A stand-in for a third-party modal that is not built with Easy UI. It uses
+ * the native `<dialog>` element's `showModal()`, which renders into the
+ * browser's top-layer and applies its own focus trapping — mirroring how many
+ * third-party libraries behave when they open on top of our Modal.
+ */
+function ThirdPartyModal() {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  return (
+    <>
+      <Button variant="outlined" onPress={() => dialogRef.current?.showModal()}>
+        Open third-party modal
+      </Button>
+      <dialog
+        ref={dialogRef}
+        aria-labelledby="third-party-modal-title"
+        style={{
+          border: "1px solid #ccc",
+          borderRadius: 8,
+          padding: 24,
+          minWidth: 320,
+        }}
+      >
+        <form
+          method="dialog"
+          onSubmit={action("Third-party form submitted!")}
+          style={{ display: "flex", flexDirection: "column", gap: 12 }}
+        >
+          <h2 id="third-party-modal-title" style={{ margin: 0 }}>
+            Third-party modal
+          </h2>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            Name
+            <input name="name" type="text" placeholder="Enter your name" />
+          </label>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            Email
+            <input name="email" type="email" placeholder="Enter your email" />
+          </label>
+          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+            <button type="button" onClick={() => dialogRef.current?.close()}>
+              Cancel
+            </button>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </dialog>
+    </>
+  );
+}
+
+export const WithCustomThirdPartyModal: ModalStory = {
+  render: () => (
+    <Modal.Trigger
+      onOpenChange={action("Modal open state changed!")}
+      isDismissable={true}
+    >
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>Easy UI Modal</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">
+            Use the button below to open a custom (non-native) third-party modal
+            on top of this one. Then try tabbing through its form fields, or
+            clicking into an input, to observe whether the underlying Easy UI
+            modal steals focus back.
+          </PlaceholderBox>
+          <CustomThirdPartyModal />
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Demonstrates a custom third-party modal — a conventional " +
+          "`position: fixed` overlay portaled to `document.body` with its own " +
+          "JS focus management, rather than the native `<dialog>` top-layer. " +
+          "Because its focusable elements live outside Easy UI's `FocusScope`, " +
+          "this reproduces the reported bug where the underlying Easy UI modal " +
+          "steals focus back from the third-party modal's inputs.",
+      },
+    },
+  },
+};
+
+/**
+ * A stand-in for a third-party modal that does NOT use the native `<dialog>`
+ * element. Instead it follows the conventional pattern many libraries use: a
+ * `position: fixed` overlay rendered through a React portal into
+ * `document.body`, with focus moved to the dialog on open via a ref.
+ *
+ * Because the overlay is portaled outside the Easy UI Modal's DOM subtree, its
+ * focusable elements fall outside react-aria's `FocusScope`. This is the case
+ * that can surface the focus-stealing bug, where the underlying Easy UI modal's
+ * focus containment pulls focus back out of this modal.
+ */
+function CustomThirdPartyModal() {
+  const [isOpen, setIsOpen] = useState(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      headingRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  return (
+    <>
+      <Button variant="outlined" onPress={() => setIsOpen(true)}>
+        Open custom third-party modal
+      </Button>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0, 0, 0, 0.5)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 9999,
+            }}
+            onClick={() => setIsOpen(false)}
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="custom-third-party-modal-title"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: "#fff",
+                border: "1px solid #ccc",
+                borderRadius: 8,
+                padding: 24,
+                minWidth: 320,
+              }}
+            >
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  action("Custom third-party form submitted!")();
+                  setIsOpen(false);
+                }}
+                style={{ display: "flex", flexDirection: "column", gap: 12 }}
+              >
+                <h2
+                  id="custom-third-party-modal-title"
+                  ref={headingRef}
+                  tabIndex={-1}
+                  style={{ margin: 0 }}
+                >
+                  Custom third-party modal
+                </h2>
+                <label
+                  style={{ display: "flex", flexDirection: "column", gap: 4 }}
+                >
+                  Name
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="Enter your name"
+                  />
+                </label>
+                <label
+                  style={{ display: "flex", flexDirection: "column", gap: 4 }}
+                >
+                  Email
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                  />
+                </label>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 8,
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <button type="button" onClick={() => setIsOpen(false)}>
+                    Cancel
+                  </button>
+                  <button type="submit">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body,
+        )}
+    </>
+  );
+}
 
 function ManageAccountModel({ title }: { title: string }) {
   const modalTriggerState = useModalTrigger();
