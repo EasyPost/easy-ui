@@ -13,6 +13,7 @@ import { ModalTrigger } from "./ModalTrigger";
 import { Menu } from "../Menu";
 import { DropdownButton } from "../DropdownButton";
 import { Select } from "../Select";
+import { Text } from "../Text";
 import { HorizontalStack } from "../HorizontalStack";
 
 type ModalStory = StoryObj<typeof Modal>;
@@ -485,12 +486,12 @@ function FakeCardField({
           Autofill
         </button>
       </div>
-      <PlaceholderBox width="100%">
+      <Text>
         Click <strong>Autofill</strong> to open a third-party overlay (portaled
         into `document.body`, like Stripe Link). Its email input focuses fine —
         then click anywhere in the overlay outside the input and it locks up
         (the modal `inert`s it). Toggle `allowsThirdPartyOverlays` to fix it.
-      </PlaceholderBox>
+      </Text>
       {isOverlayOpen && (
         <AutofillOverlay
           onClose={() => setIsOverlayOpen(false)}
@@ -511,35 +512,11 @@ function AutofillOverlay({
   const [locked, setLocked] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const [status, setStatus] = useState("");
 
   // Focus the email field when the overlay opens (and after it re-mounts).
   React.useEffect(() => {
     inputRef.current?.focus();
   }, [locked]);
-
-  // Surface whether the modal's `ariaHideOutside` has `inert`'d this overlay,
-  // so the lock-up is visible without devtools.
-  React.useEffect(() => {
-    let raf = 0;
-    const tick = () => {
-      const el = rootRef.current;
-      if (el) {
-        const isInert =
-          el.hasAttribute("inert") ||
-          Boolean(el.closest("[inert]")) ||
-          el.getAttribute("aria-hidden") === "true";
-        setStatus(
-          isInert
-            ? "LOCKED — overlay is inert; the input can't be focused or clicked."
-            : "OK — overlay is interactive.",
-        );
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
 
   return ReactDOM.createPortal(
     <div
@@ -603,7 +580,6 @@ function AutofillOverlay({
             style={{ padding: 8 }}
           />
         </label>
-        <p style={{ marginTop: 12, fontSize: 12, color: "#666" }}>{status}</p>
       </div>
     </div>,
     document.body,

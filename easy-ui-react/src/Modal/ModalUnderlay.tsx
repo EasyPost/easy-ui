@@ -43,6 +43,13 @@ type ModalUnderlayProps = {
   allowsThirdPartyOverlays?: boolean;
 };
 
+type ModalUnderlayContentProps = {
+  modalProps: DOMAttributes;
+  underlayProps: DOMAttributes;
+  modalRef: RefObject<HTMLDivElement | null>;
+  children: ReactNode;
+};
+
 export function ModalUnderlay(props: ModalUnderlayProps) {
   // Branch into sibling components so each calls its hooks unconditionally.
   return props.allowsThirdPartyOverlays ? (
@@ -118,13 +125,6 @@ function ThirdPartyOverlayUnderlay(props: ModalUnderlayProps) {
     </ModalUnderlayContent>
   );
 }
-
-type ModalUnderlayContentProps = {
-  modalProps: DOMAttributes;
-  underlayProps: DOMAttributes;
-  modalRef: RefObject<HTMLDivElement | null>;
-  children: ReactNode;
-};
 
 /**
  * Shared underlay markup for both underlay variants. The variants differ only
