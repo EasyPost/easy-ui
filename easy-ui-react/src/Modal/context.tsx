@@ -1,11 +1,15 @@
-import React, { ReactNode } from "react";
 import { FocusableElement } from "@react-types/shared";
-import {
+import React, {
   DOMAttributes,
+  ReactNode,
   RefObject,
   createContext,
+  useCallback,
   useContext,
+  useId,
+  useLayoutEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { OverlayTriggerState } from "react-stately";
@@ -24,7 +28,7 @@ type ModalTriggerContextType = {
   isDismissable: boolean;
   state: OverlayTriggerState;
   hasOpenNestedModal: boolean;
-  setHasOpenNestedModal: (hasOpenNestedModal: boolean) => void;
+  setNestedModalOpen: (id: string, open: boolean) => void;
 };
 
 export type ModalTriggerProviderProps = Pick<
@@ -65,10 +69,42 @@ export function ModalTriggerProvider({
   isDismissable,
   children,
 }: ModalTriggerProviderProps) {
-  const [hasOpenNestedModal, setHasOpenNestedModal] = useState(false);
-  const context = useMemo(() => {
-    return { hasOpenNestedModal, setHasOpenNestedModal, state, isDismissable };
-  }, [hasOpenNestedModal, state, isDismissable]);
+  const id = useId();
+  const idRef = useRef(id);
+  const [, forceRerender] = useState([]);
+  const nestedModalSetRef = useRef<Set<string>>(new Set());
+  const parentContext = useContext(ModalTriggerContext);
+  const openNestedModalCount = nestedModalSetRef.current.size;
+  const hasOpenNestedModal = openNestedModalCount > 0;
+
+  const setNestedModalOpen = useCallback((id: string, isOpen: boolean) => {
+    if (isOpen && !nestedModalSetRef.current.has(id)) {
+      nestedModalSetRef.current.add(id);
+      forceRerender([]);
+    }
+    if (!isOpen && nestedModalSetRef.current.has(id)) {
+      nestedModalSetRef.current.delete(id);
+      forceRerender([]);
+    }
+  }, []);
+
+  const context = useMemo(
+    () => ({ state, hasOpenNestedModal, setNestedModalOpen, isDismissable }),
+    [state, hasOpenNestedModal, setNestedModalOpen, isDismissable],
+  );
+
+  useLayoutEffect(() => {
+    if (!parentContext) {
+      return;
+    }
+    const id = idRef.current;
+    const isOpen = state.isOpen || hasOpenNestedModal;
+    parentContext.setNestedModalOpen(id, isOpen);
+    return () => {
+      parentContext.setNestedModalOpen(id, false);
+    };
+  }, [parentContext, state.isOpen, hasOpenNestedModal]);
+
   return (
     <ModalTriggerContext.Provider value={context}>
       {children}
