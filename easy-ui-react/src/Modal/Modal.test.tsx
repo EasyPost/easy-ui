@@ -202,6 +202,16 @@ describe("<Modal />", () => {
     );
     expect(handleSecondaryAction).toBeCalled();
   });
+
+  it("should hide outside content while open by default", () => {
+    renderModalWithOutsideContent();
+    expect(isElementHidden(screen.getByTestId("outside-content"))).toBe(true);
+  });
+
+  it("should not hide outside content when allowsThirdPartyOverlays is set", () => {
+    renderModalWithOutsideContent({ allowsThirdPartyOverlays: true });
+    expect(isElementHidden(screen.getByTestId("outside-content"))).toBe(false);
+  });
 });
 
 const CustomSymbol = (props: object) => <span {...props} />;
@@ -269,4 +279,32 @@ async function renderAndOpenModal(args = {}) {
   await userClick(user, openButton);
   expect(screen.queryByRole("dialog")).toBeInTheDocument();
   return response;
+}
+
+// react-aria's `ariaHideOutside` hides outside content via `inert` (or
+// `aria-hidden` where `inert` is unsupported), applied to an ancestor.
+function isElementHidden(element: Element) {
+  return Boolean(
+    element.closest("[inert]") || element.closest('[aria-hidden="true"]'),
+  );
+}
+
+function renderModalWithOutsideContent({
+  allowsThirdPartyOverlays,
+}: Partial<ModalTriggerProps> = {}) {
+  return render(
+    <>
+      <div data-testid="outside-content">Outside content</div>
+      <Modal.Trigger
+        defaultOpen
+        allowsThirdPartyOverlays={allowsThirdPartyOverlays}
+      >
+        <Button>Open modal</Button>
+        <Modal>
+          <Modal.Header>Header</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      </Modal.Trigger>
+    </>,
+  );
 }

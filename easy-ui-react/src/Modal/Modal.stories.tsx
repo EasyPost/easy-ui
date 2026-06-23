@@ -1,8 +1,14 @@
-import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { Key, useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import { CardElement, Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import React, { Key, useMemo, useState } from "react";
+import { action } from "storybook/actions";
+import { Text } from "../Text";
 import { Button } from "../Button";
+import { DropdownButton } from "../DropdownButton";
+import { HorizontalStack } from "../HorizontalStack";
+import { Menu } from "../Menu";
+import { Select } from "../Select";
 import {
   EasyPostLogo,
   PlaceholderBox,
@@ -10,14 +16,14 @@ import {
 } from "../utilities/storybook";
 import { Modal, ModalContainer, useModalTrigger } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
-import { Menu } from "../Menu";
-import { DropdownButton } from "../DropdownButton";
-import { Select } from "../Select";
-import { Text } from "../Text";
-import { HorizontalStack } from "../HorizontalStack";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
+
+type StripeStory = StoryObj<{
+  publishableKey: string;
+  allowsThirdPartyOverlays: boolean;
+}>;
 
 const meta: Meta<typeof Modal> = {
   title: "Components/Modal",
@@ -379,210 +385,143 @@ export const WithFooterSlot: ModalStory = {
   ),
 };
 
-type AllowsOverlaysStory = StoryObj<{ allowsThirdPartyOverlays: boolean }>;
-
 /**
- * Dependency-free reproduction of the Stripe Link/autofill bug. A synthetic
- * third-party overlay is portaled into `document.body` (outside the modal),
- * exactly like Stripe injects its Link overlay. While the modal traps focus
- * (the default), the modal's `ariaHideOutside` marks that overlay `inert`,
- * which blurs its input and makes it unclickable — the reported lock-up.
+ * Embeds the real Stripe `CardElement` inside an Easy UI `Modal`, mirroring
+ * easypost-web-app's `stripe_card_modal.jsx`. This loads real Stripe.js, which
+ * injects the actual Stripe Elements + Link / autofill iframes — so it can
+ * reproduce the real focus bug (Easy UI's `ariaHideOutside` inerts the injected
+ * Link overlay).
  *
- * To mirror the exact symptom: the overlay works at first (it opens tagged with
- * `data-react-aria-top-layer`, so `ariaHideOutside` leaves it alone), then when
- * you click anywhere in it outside the input it re-mounts as a fresh, UNTAGGED
- * node — simulating the third-party widget swapping in a new frame — and that
- * new node is what `ariaHideOutside` `inert`s, locking it up.
- *
- * Toggle the `allowsThirdPartyOverlays` control on to apply the Easy UI Modal
- * fix and confirm the overlay stays usable.
+ * Paste a test publishable key (`pk_test_...`) into the `publishableKey`
+ * control, open the modal, and trigger Link/autofill. Watch the status line:
+ * when the Link overlay opens it shows `inert`/aria-hidden frames. Toggle
+ * `allowsThirdPartyOverlays` on to apply the Easy UI Modal fix.
  */
-export const WithThirdPartyAutofillOverlay: AllowsOverlaysStory = {
+export const WithStripeCardElement: StripeStory = {
   render: (args) => (
-    <ThirdPartyAutofillModal
+    <StripeCardElementStory
+      publishableKey={args.publishableKey}
       allowsThirdPartyOverlays={args.allowsThirdPartyOverlays}
     />
   ),
   args: {
-    allowsThirdPartyOverlays: false,
+    publishableKey: "",
+    allowsThirdPartyOverlays: true,
   },
   argTypes: {
+    publishableKey: {
+      control: "text",
+      description: "Stripe test publishable key (pk_test_...)",
+    },
     allowsThirdPartyOverlays: {
       control: "boolean",
       description:
         "Easy UI Modal prop: when on, the modal stops focus-trapping and " +
-        "background aria-hiding, so the third-party overlay stays usable.",
+        "background aria-hiding, so the Stripe Link overlay stays usable.",
     },
   },
   parameters: {
-    controls: { include: ["allowsThirdPartyOverlays"] },
+    controls: { include: ["publishableKey", "allowsThirdPartyOverlays"] },
     docs: {
       description: {
         story:
-          "Dependency-free repro of the Stripe Link lock-up. A third-party " +
-          "overlay portaled into `document.body` works until you click outside " +
-          "its input, at which point the modal's `ariaHideOutside` `inert`s it. " +
-          "Toggle `allowsThirdPartyOverlays` to apply the fix.",
+          "Real Stripe CardElement inside an Easy UI Modal (mirrors EPWA's " +
+          "stripe_card_modal.jsx). Provide a key, open the modal, and trigger " +
+          "Stripe Link/autofill. With `allowsThirdPartyOverlays` off (default) " +
+          "the Link overlay locks up (inert) — toggle it on to confirm the fix. " +
+          "The status line surfaces whether the Stripe/Link frames are `inert`.",
       },
     },
   },
 };
 
-function ThirdPartyAutofillModal({
+function StripeCardElementStory({
+  publishableKey,
   allowsThirdPartyOverlays,
 }: {
+  publishableKey: string;
   allowsThirdPartyOverlays: boolean;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Memoize so we create one Stripe instance per key, not per render.
+  const stripePromise = useMemo(
+    () => (publishableKey ? loadStripe(publishableKey) : null),
+    [publishableKey],
+  );
+
   return (
-    <Modal.Trigger allowsThirdPartyOverlays={allowsThirdPartyOverlays}>
-      <Button>Open modal</Button>
-      <Modal>
-        <Modal.Header>Payment details</Modal.Header>
-        <Modal.Body>
-          <FakeCardField allowsThirdPartyOverlays={allowsThirdPartyOverlays} />
-        </Modal.Body>
-        <Modal.Footer
-          primaryAction={{
-            content: "Save",
-            onAction: action("Save clicked!"),
-          }}
-        />
-      </Modal>
-    </Modal.Trigger>
+    <>
+      <Button onPress={() => setIsOpen(true)}>Open modal</Button>
+      <ModalContainer
+        onDismiss={() => setIsOpen(false)}
+        allowsThirdPartyOverlays={allowsThirdPartyOverlays}
+      >
+        {isOpen &&
+          (stripePromise ? (
+            <Elements stripe={stripePromise}>
+              <StripeCardModalContent />
+            </Elements>
+          ) : (
+            <Modal>
+              <Modal.Header>Stripe publishable key required</Modal.Header>
+              <Modal.Body>
+                <Text>
+                  Paste a test publishable key (`pk_test_…`) into the
+                  &quot;publishableKey&quot; control in the Controls panel, then
+                  reopen this modal. The real Stripe `CardElement` will mount
+                  and you can trigger Link / autofill to reproduce the focus
+                  bug.
+                </Text>
+              </Modal.Body>
+              <Modal.Footer
+                primaryAction={{
+                  content: "Close",
+                  onAction: () => setIsOpen(false),
+                }}
+              />
+            </Modal>
+          ))}
+      </ModalContainer>
+    </>
   );
 }
 
-function FakeCardField({
-  allowsThirdPartyOverlays,
-}: {
-  allowsThirdPartyOverlays: boolean;
-}) {
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+function StripeCardModalContent() {
+  const modalTriggerState = useModalTrigger();
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          border: "1px solid #ccc",
-          borderRadius: 8,
-          padding: "8px 12px",
+    <Modal>
+      <Modal.Header
+        iconAtEnd={{
+          accessibilityLabel: "Stripe Logo",
+          symbol: StripeLogo,
+          size: "2xl",
         }}
       >
-        <span style={{ color: "#888", letterSpacing: 2 }}>
-          •••• •••• •••• ••••
-        </span>
-        <button
-          type="button"
-          onClick={() => setIsOverlayOpen(true)}
+        New Credit Card Account
+      </Modal.Header>
+      <Modal.Body>
+        <div
           style={{
-            border: "none",
-            background: "none",
-            color: "#3b5bff",
-            cursor: "pointer",
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 12,
           }}
         >
-          Autofill
-        </button>
-      </div>
-      <Text>
-        Click <strong>Autofill</strong> to open a third-party overlay (portaled
-        into `document.body`, like Stripe Link). Its email input focuses fine —
-        then click anywhere in the overlay outside the input and it locks up
-        (the modal `inert`s it). Toggle `allowsThirdPartyOverlays` to fix it.
-      </Text>
-      {isOverlayOpen && (
-        <AutofillOverlay
-          onClose={() => setIsOverlayOpen(false)}
-          allowsThirdPartyOverlays={allowsThirdPartyOverlays}
-        />
-      )}
-    </div>
-  );
-}
-
-function AutofillOverlay({
-  onClose,
-  allowsThirdPartyOverlays,
-}: {
-  onClose: () => void;
-  allowsThirdPartyOverlays: boolean;
-}) {
-  const [locked, setLocked] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  // Focus the email field when the overlay opens (and after it re-mounts).
-  React.useEffect(() => {
-    inputRef.current?.focus();
-  }, [locked]);
-
-  return ReactDOM.createPortal(
-    <div
-      // The node React appends to <body>. Re-mounting it as a fresh, UNTAGGED
-      // node (via the changing key) when the user clicks outside the input
-      // simulates the third-party widget swapping in a new frame — the new node
-      // is what the modal's `ariaHideOutside` marks `inert`, locking it up.
-      key={locked ? "locked" : "initial"}
-      ref={rootRef}
-      data-react-aria-top-layer={locked ? undefined : "true"}
-      onMouseDown={onClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0, 0, 0, 0.4)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 9999,
-      }}
-    >
-      <div
-        onMouseDown={(e) => {
-          // Keep panel clicks from dismissing via the backdrop. In the buggy
-          // (default) modal, clicking anywhere other than the input drops the
-          // top-layer tag — simulating the third-party widget swapping in a new
-          // frame — which the modal then `inert`s, locking it up. With the fix
-          // on, the overlay stays tagged (a well-behaved overlay), so it keeps
-          // working and react-aria never treats clicks on it as "outside".
-          e.stopPropagation();
-          if (
-            !allowsThirdPartyOverlays &&
-            e.target !== inputRef.current &&
-            !locked
-          ) {
-            setLocked(true);
-          }
+          <CardElement options={{ hidePostalCode: true }} />
+        </div>
+      </Modal.Body>
+      <Modal.Footer
+        primaryAction={{
+          content: "Save Card",
+          onAction: action("Save Card clicked!"),
         }}
-        style={{
-          background: "#fff",
-          borderRadius: 12,
-          padding: 24,
-          width: 320,
-          boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
+        secondaryAction={{
+          content: "Cancel",
+          onAction: modalTriggerState.close,
         }}
-      >
-        <h2 style={{ margin: "0 0 12px", fontSize: 16 }}>Autofill with Link</h2>
-        <label
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-            fontSize: 13,
-          }}
-        >
-          Email
-          <input
-            ref={inputRef}
-            type="email"
-            placeholder="you@example.com"
-            style={{ padding: 8 }}
-          />
-        </label>
-      </div>
-    </div>,
-    document.body,
+      />
+    </Modal>
   );
 }
 
