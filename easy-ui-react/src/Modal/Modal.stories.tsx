@@ -877,7 +877,10 @@ function CustomThirdPartyModal({ topLayer = false }: { topLayer?: boolean }) {
   );
 }
 
-type StripeStory = StoryObj<{ publishableKey: string }>;
+type StripeStory = StoryObj<{
+  publishableKey: string;
+  allowsThirdPartyOverlays: boolean;
+}>;
 
 /**
  * Embeds the real Stripe `CardElement` inside an Easy UI `Modal`, mirroring
@@ -894,27 +897,37 @@ type StripeStory = StoryObj<{ publishableKey: string }>;
  */
 export const WithStripeCardElement: StripeStory = {
   render: (args) => (
-    <StripeCardElementStory publishableKey={args.publishableKey} />
+    <StripeCardElementStory
+      publishableKey={args.publishableKey}
+      allowsThirdPartyOverlays={args.allowsThirdPartyOverlays}
+    />
   ),
   args: {
     publishableKey: "pk_p59fpoe9eLIPbPIVoJPhOkN1EGB1q",
+    allowsThirdPartyOverlays: true,
   },
   argTypes: {
     publishableKey: {
       control: "text",
       description: "Stripe test publishable key (pk_test_...)",
     },
+    allowsThirdPartyOverlays: {
+      control: "boolean",
+      description:
+        "Easy UI Modal prop: disables focus trapping + background aria-hiding " +
+        "so the Stripe Link overlay stays usable. Toggle on to fix the lock-up.",
+    },
   },
   parameters: {
-    controls: { include: ["publishableKey"] },
+    controls: { include: ["publishableKey", "allowsThirdPartyOverlays"] },
     docs: {
       description: {
         story:
           "Real Stripe CardElement inside an Easy UI Modal (mirrors EPWA's " +
-          "stripe_card_modal.jsx). Provide a `pk_test_...` key via the " +
-          "publishableKey control, then trigger Stripe Link/autofill to " +
-          "reproduce the focus steal. The status line surfaces whether the " +
-          "Stripe/Link frames have been `inert`'d by react-aria.",
+          "stripe_card_modal.jsx). Provide a key, open the modal, and trigger " +
+          "Stripe Link/autofill. With `allowsThirdPartyOverlays` off (default) " +
+          "the Link overlay locks up (inert) — toggle it on to confirm the fix. " +
+          "The status line surfaces whether the Stripe/Link frames are `inert`.",
       },
     },
   },
@@ -922,8 +935,10 @@ export const WithStripeCardElement: StripeStory = {
 
 function StripeCardElementStory({
   publishableKey,
+  allowsThirdPartyOverlays,
 }: {
   publishableKey: string;
+  allowsThirdPartyOverlays: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -936,7 +951,10 @@ function StripeCardElementStory({
   return (
     <>
       <Button onPress={() => setIsOpen(true)}>Open modal</Button>
-      <ModalContainer onDismiss={() => setIsOpen(false)}>
+      <ModalContainer
+        onDismiss={() => setIsOpen(false)}
+        allowsThirdPartyOverlays={allowsThirdPartyOverlays}
+      >
         {isOpen &&
           (stripePromise ? (
             <Elements stripe={stripePromise}>

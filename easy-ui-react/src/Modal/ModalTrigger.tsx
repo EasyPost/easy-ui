@@ -25,6 +25,15 @@ export type ModalTriggerProps = {
   isDismissable?: boolean;
 
   /**
+   * Disables focus trapping and background aria-hiding so the modal can host
+   * third-party overlays (e.g. Stripe Link/autofill, reCAPTCHA) that render
+   * outside the modal. Use sparingly — see `ModalUnderlay` for the tradeoffs.
+   *
+   * @default false
+   */
+  allowsThirdPartyOverlays?: boolean;
+
+  /**
    * Whether the modal is open by default (controlled).
    */
   isOpen?: boolean;
