@@ -35,8 +35,9 @@ type ModalUnderlayProps = {
    * Link/autofill or reCAPTCHA — which render themselves into the document
    * *outside* the modal. react-aria's focus trap and `inert` would otherwise
    * blur and lock up those overlays. This trades away the modal's focus
-   * containment and background hiding, so reach for it only when a third-party
-   * overlay requires it.
+   * containment, background hiding, and close-on-interact-outside (Esc and
+   * explicit close still work), so reach for it only when a third-party overlay
+   * requires it.
    *
    * @default false
    */
@@ -83,10 +84,12 @@ function FocusTrappingUnderlay(props: ModalUnderlayProps) {
 
 /**
  * Like `FocusTrappingUnderlay`, but built from the lower-level overlay hooks so
- * it can omit the two behaviors that fight third-party overlays:
+ * it can omit the behaviors that fight third-party overlays:
  * - no `ariaHideOutside`, so overlays injected outside the modal aren't
- *   `inert`'d (which would make them unclickable), and
- * - no forced focus containment, so focus can't be stolen back from them.
+ *   `inert`'d (which would make them unclickable),
+ * - no forced focus containment, so focus can't be stolen back from them, and
+ * - no close-on-interact-outside, so clicking the overlay (which is outside the
+ *   modal box) doesn't dismiss the modal.
  *
  * `Overlay` still restores focus to the trigger when the modal closes.
  */
@@ -100,6 +103,11 @@ function ThirdPartyOverlayUnderlay(props: ModalUnderlayProps) {
       onClose: state.close,
       isDismissable,
       isKeyboardDismissDisabled: !isDismissable,
+      // Pointer interactions outside the modal box are almost always the
+      // third-party overlay this mode exists to support (it renders outside the
+      // modal), so don't treat them as a dismiss. Esc and explicit close still
+      // work.
+      shouldCloseOnInteractOutside: () => false,
     },
     ref,
   );
