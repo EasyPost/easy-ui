@@ -438,7 +438,7 @@ function ThirdPartyAutofillModal({
       <Modal>
         <Modal.Header>Payment details</Modal.Header>
         <Modal.Body>
-          <FakeCardField />
+          <FakeCardField allowsThirdPartyOverlays={allowsThirdPartyOverlays} />
         </Modal.Body>
         <Modal.Footer
           primaryAction={{
@@ -451,7 +451,11 @@ function ThirdPartyAutofillModal({
   );
 }
 
-function FakeCardField() {
+function FakeCardField({
+  allowsThirdPartyOverlays,
+}: {
+  allowsThirdPartyOverlays: boolean;
+}) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -488,13 +492,22 @@ function FakeCardField() {
         (the modal `inert`s it). Toggle `allowsThirdPartyOverlays` to fix it.
       </PlaceholderBox>
       {isOverlayOpen && (
-        <AutofillOverlay onClose={() => setIsOverlayOpen(false)} />
+        <AutofillOverlay
+          onClose={() => setIsOverlayOpen(false)}
+          allowsThirdPartyOverlays={allowsThirdPartyOverlays}
+        />
       )}
     </div>
   );
 }
 
-function AutofillOverlay({ onClose }: { onClose: () => void }) {
+function AutofillOverlay({
+  onClose,
+  allowsThirdPartyOverlays,
+}: {
+  onClose: () => void;
+  allowsThirdPartyOverlays: boolean;
+}) {
   const [locked, setLocked] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -550,10 +563,18 @@ function AutofillOverlay({ onClose }: { onClose: () => void }) {
     >
       <div
         onMouseDown={(e) => {
-          // Keep panel clicks from dismissing via the backdrop; clicking
-          // anywhere other than the input "locks up" the overlay (the bug).
+          // Keep panel clicks from dismissing via the backdrop. In the buggy
+          // (default) modal, clicking anywhere other than the input drops the
+          // top-layer tag — simulating the third-party widget swapping in a new
+          // frame — which the modal then `inert`s, locking it up. With the fix
+          // on, the overlay stays tagged (a well-behaved overlay), so it keeps
+          // working and react-aria never treats clicks on it as "outside".
           e.stopPropagation();
-          if (e.target !== inputRef.current && !locked) {
+          if (
+            !allowsThirdPartyOverlays &&
+            e.target !== inputRef.current &&
+            !locked
+          ) {
             setLocked(true);
           }
         }}
