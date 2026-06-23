@@ -1,9 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { CardElement, Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import React, { Key, useMemo, useState } from "react";
+import React, { Key, useState } from "react";
 import { action } from "storybook/actions";
-import { Text } from "../Text";
 import { Button } from "../Button";
 import { DropdownButton } from "../DropdownButton";
 import { HorizontalStack } from "../HorizontalStack";
@@ -19,11 +16,6 @@ import { ModalTrigger } from "./ModalTrigger";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
-
-type StripeStory = StoryObj<{
-  publishableKey: string;
-  allowsThirdPartyOverlays: boolean;
-}>;
 
 const meta: Meta<typeof Modal> = {
   title: "Components/Modal",
@@ -384,146 +376,6 @@ export const WithFooterSlot: ModalStory = {
     </Modal.Trigger>
   ),
 };
-
-/**
- * Embeds the real Stripe `CardElement` inside an Easy UI `Modal`, mirroring
- * easypost-web-app's `stripe_card_modal.jsx`. This loads real Stripe.js, which
- * injects the actual Stripe Elements + Link / autofill iframes — so it can
- * reproduce the real focus bug (Easy UI's `ariaHideOutside` inerts the injected
- * Link overlay).
- *
- * Paste a test publishable key (`pk_test_...`) into the `publishableKey`
- * control, open the modal, and trigger Link/autofill. Watch the status line:
- * when the Link overlay opens it shows `inert`/aria-hidden frames. Toggle
- * `allowsThirdPartyOverlays` on to apply the Easy UI Modal fix.
- */
-export const WithStripeCardElement: StripeStory = {
-  render: (args) => (
-    <StripeCardElementStory
-      publishableKey={args.publishableKey}
-      allowsThirdPartyOverlays={args.allowsThirdPartyOverlays}
-    />
-  ),
-  args: {
-    publishableKey: "",
-    allowsThirdPartyOverlays: true,
-  },
-  argTypes: {
-    publishableKey: {
-      control: "text",
-      description: "Stripe test publishable key (pk_test_...)",
-    },
-    allowsThirdPartyOverlays: {
-      control: "boolean",
-      description:
-        "Easy UI Modal prop: when on, the modal stops focus-trapping and " +
-        "background aria-hiding, so the Stripe Link overlay stays usable.",
-    },
-  },
-  parameters: {
-    controls: { include: ["publishableKey", "allowsThirdPartyOverlays"] },
-    docs: {
-      description: {
-        story:
-          "Real Stripe CardElement inside an Easy UI Modal (mirrors EPWA's " +
-          "stripe_card_modal.jsx). Provide a key, open the modal, and trigger " +
-          "Stripe Link/autofill. With `allowsThirdPartyOverlays` off (default) " +
-          "the Link overlay locks up (inert) — toggle it on to confirm the fix. " +
-          "The status line surfaces whether the Stripe/Link frames are `inert`.",
-      },
-    },
-  },
-};
-
-function StripeCardElementStory({
-  publishableKey,
-  allowsThirdPartyOverlays,
-}: {
-  publishableKey: string;
-  allowsThirdPartyOverlays: boolean;
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Memoize so we create one Stripe instance per key, not per render.
-  const stripePromise = useMemo(
-    () => (publishableKey ? loadStripe(publishableKey) : null),
-    [publishableKey],
-  );
-
-  return (
-    <>
-      <Button onPress={() => setIsOpen(true)}>Open modal</Button>
-      <ModalContainer
-        onDismiss={() => setIsOpen(false)}
-        allowsThirdPartyOverlays={allowsThirdPartyOverlays}
-      >
-        {isOpen &&
-          (stripePromise ? (
-            <Elements stripe={stripePromise}>
-              <StripeCardModalContent />
-            </Elements>
-          ) : (
-            <Modal>
-              <Modal.Header>Stripe publishable key required</Modal.Header>
-              <Modal.Body>
-                <Text>
-                  Paste a test publishable key (`pk_test_…`) into the
-                  &quot;publishableKey&quot; control in the Controls panel, then
-                  reopen this modal. The real Stripe `CardElement` will mount
-                  and you can trigger Link / autofill to reproduce the focus
-                  bug.
-                </Text>
-              </Modal.Body>
-              <Modal.Footer
-                primaryAction={{
-                  content: "Close",
-                  onAction: () => setIsOpen(false),
-                }}
-              />
-            </Modal>
-          ))}
-      </ModalContainer>
-    </>
-  );
-}
-
-function StripeCardModalContent() {
-  const modalTriggerState = useModalTrigger();
-  return (
-    <Modal>
-      <Modal.Header
-        iconAtEnd={{
-          accessibilityLabel: "Stripe Logo",
-          symbol: StripeLogo,
-          size: "2xl",
-        }}
-      >
-        New Credit Card Account
-      </Modal.Header>
-      <Modal.Body>
-        <div
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: 8,
-            padding: 12,
-          }}
-        >
-          <CardElement options={{ hidePostalCode: true }} />
-        </div>
-      </Modal.Body>
-      <Modal.Footer
-        primaryAction={{
-          content: "Save Card",
-          onAction: action("Save Card clicked!"),
-        }}
-        secondaryAction={{
-          content: "Cancel",
-          onAction: modalTriggerState.close,
-        }}
-      />
-    </Modal>
-  );
-}
 
 function ManageAccountModel({ title }: { title: string }) {
   const modalTriggerState = useModalTrigger();
