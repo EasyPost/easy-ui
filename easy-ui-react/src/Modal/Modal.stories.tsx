@@ -1,7 +1,9 @@
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { Key, useRef, useState } from "react";
+import React, { Key, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
+import { CardElement, Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { Button } from "../Button";
 import {
   EasyPostLogo,
@@ -510,6 +512,255 @@ export const WithCustomThirdPartyModal: ModalStory = {
   },
 };
 
+export const WithCustomThirdPartyModalFixed: ModalStory = {
+  render: () => (
+    <Modal.Trigger
+      onOpenChange={action("Modal open state changed!")}
+      isDismissable={true}
+    >
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>Easy UI Modal</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">
+            Same custom (non-native) third-party modal as the previous story,
+            but its overlay is marked with `data-react-aria-top-layer`. Tabbing
+            and clicking into its inputs now works — Easy UI no longer steals
+            focus back.
+          </PlaceholderBox>
+          <CustomThirdPartyModal topLayer />
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The fix for the previous story. The custom overlay is marked with " +
+          "`data-react-aria-top-layer`, the escape hatch react-aria's " +
+          "`FocusScope` checks to always allow focus to move into an element. " +
+          "With it, the underlying Easy UI Modal's focus containment leaves the " +
+          "third-party modal's inputs alone.",
+      },
+    },
+  },
+};
+
+export const WithIframeThirdPartyModal: ModalStory = {
+  render: () => (
+    <Modal.Trigger
+      onOpenChange={action("Modal open state changed!")}
+      isDismissable={false}
+    >
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>Easy UI Modal</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">
+            Faithful repro of the real Stripe Link/autofill bug. This overlay is
+            a cross-origin iframe portaled to `document.body` while the Easy UI
+            modal is open. Opening it triggers Easy UI&apos;s `ariaHideOutside`
+            (from `useModalOverlay`), which sets `inert` on everything outside
+            the modal — including this overlay. `inert` blurs the iframe, and
+            the modal&apos;s focus containment then pulls focus back. Watch the
+            status line under the button: it reports `inert=true` and the
+            iframe&apos;s field can&apos;t be used. This is the actual
+            mechanism; the FocusScope `data-react-aria-top-layer` check is a red
+            herring.
+          </PlaceholderBox>
+          <IframeThirdPartyModal attr="none" />
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Faithful repro of the real cause: Easy UI's `ariaHideOutside` (via " +
+          "`useModalOverlay`) sets `inert` on third-party overlays injected into " +
+          "`document.body` after the modal opens. `inert` blurs the iframe, then " +
+          "focus containment restores focus to the Easy UI modal. The status " +
+          "line surfaces the live `inert`/`aria-hidden` state so the mechanism " +
+          "is visible without devtools. See the Fixed story for the remedy.",
+      },
+    },
+  },
+};
+
+export const WithIframeThirdPartyModalFixed: ModalStory = {
+  render: () => (
+    <Modal.Trigger
+      onOpenChange={action("Modal open state changed!")}
+      isDismissable={false}
+    >
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>Easy UI Modal</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">
+            The fix: `data-react-aria-top-layer=&quot;true&quot;` is set on the{" "}
+            <strong>portal root</strong> — the node appended to `document.body`,
+            which is exactly the node Easy UI&apos;s `ariaHideOutside` observer
+            evaluates. With it, the overlay is kept visible (never `inert`), so
+            the iframe holds focus. The status line reports `inert=false` and
+            the field is usable. In a real app you can&apos;t edit Stripe&apos;s
+            injected node, so the equivalent remedy is `keepVisible()` from
+            `@react-aria/overlays` (or an Easy UI Modal opt-out).
+          </PlaceholderBox>
+          <IframeThirdPartyModal attr="root" />
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Remedy: tagging the portal root (the node added to `document.body`) " +
+          'with `data-react-aria-top-layer="true"` makes `ariaHideOutside` keep ' +
+          "the overlay visible, so it is never `inert`'d and the iframe keeps " +
+          "focus. In a real third-party integration where you can't tag the " +
+          "injected node, use `keepVisible()` from `@react-aria/overlays`.",
+      },
+    },
+  },
+};
+
+/**
+ * Iframe-based stand-in for Stripe Link/autofill. To mirror Stripe faithfully
+ * the iframe is CROSS-ORIGIN: it loads a `data:` URL, which the browser gives
+ * an opaque origin, so the host page cannot reach into `contentDocument` (just
+ * like a real Stripe frame). The iframe focuses its own first field via an
+ * inline script on load, since the parent can't do it across the origin
+ * boundary.
+ *
+ * The real bug is NOT the FocusScope top-layer check — it's `ariaHideOutside`
+ * (pulled in by Easy UI's Modal via `useModalOverlay`). When this overlay is
+ * portaled into `document.body` while the modal is open, `ariaHideOutside`'s
+ * MutationObserver sets `inert` on it. `inert` blurs the iframe, and the
+ * modal's focus containment then restores focus into the Easy UI modal.
+ *
+ * `attr` controls the fix:
+ * - "none": nothing tagged → `ariaHideOutside` inerts the overlay → broken.
+ * - "root": `data-react-aria-top-layer="true"` on the PORTAL ROOT (the node
+ *   appended to `document.body`, which is what the observer evaluates) → the
+ *   overlay is kept visible → the iframe keeps focus.
+ *
+ * The status readout polls whether the iframe is currently inside an `inert` or
+ * `aria-hidden` subtree, making the mechanism visible without devtools.
+ */
+function IframeThirdPartyModal({ attr }: { attr: "none" | "root" }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [status, setStatus] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!isOpen) {
+      setStatus(null);
+      return;
+    }
+    let raf = 0;
+    const tick = () => {
+      const f = iframeRef.current;
+      if (f) {
+        const inert = Boolean(f.closest("[inert]"));
+        const hidden = Boolean(f.closest('[aria-hidden="true"]'));
+        setStatus(
+          inert || hidden
+            ? `BROKEN — Easy UI hid the overlay (inert=${inert}, aria-hidden=${hidden}); the iframe can't hold focus.`
+            : "OK — overlay is visible and interactive.",
+        );
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [isOpen]);
+
+  // Cross-origin document (opaque origin via data: URL). The inline script
+  // focuses the first field on load because the parent cannot reach in.
+  const html = `<!DOCTYPE html><html><body style="margin:0;font-family:sans-serif">
+    <h2 style="margin:0 0 12px">Third-party modal (cross-origin iframe)</h2>
+    <form style="display:flex;flex-direction:column;gap:12px">
+      <label style="display:flex;flex-direction:column;gap:4px">Name
+        <input id="name" type="text" placeholder="Enter your name" />
+      </label>
+      <label style="display:flex;flex-direction:column;gap:4px">Email
+        <input type="email" placeholder="Enter your email" />
+      </label>
+    </form>
+    <script>window.addEventListener("load",function(){document.getElementById("name").focus();});<\/script>
+  </body></html>`;
+  const src = `data:text/html,${encodeURIComponent(html)}`;
+
+  return (
+    <>
+      <Button variant="outlined" onPress={() => setIsOpen(true)}>
+        Open iframe third-party modal
+      </Button>
+      {status && <p style={{ marginTop: 8, fontSize: 12 }}>{status}</p>}
+      {isOpen &&
+        ReactDOM.createPortal(
+          <div
+            // PORTAL ROOT — the node React appends to document.body, and the node
+            // Easy UI's `ariaHideOutside` observer evaluates. Tagging it with
+            // data-react-aria-top-layer="true" keeps the overlay visible;
+            // without the tag the overlay (and its iframe) get inert'd.
+            data-react-aria-top-layer={attr === "root" ? "true" : undefined}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0, 0, 0, 0.5)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 9999,
+            }}
+            onClick={() => setIsOpen(false)}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: "#fff",
+                border: "1px solid #ccc",
+                borderRadius: 8,
+                padding: 12,
+              }}
+            >
+              <iframe
+                ref={iframeRef}
+                title="Third-party modal"
+                src={src}
+                style={{ width: 360, height: 240, border: "none" }}
+              />
+            </div>
+          </div>,
+          document.body,
+        )}
+    </>
+  );
+}
+
 /**
  * A stand-in for a third-party modal that does NOT use the native `<dialog>`
  * element. Instead it follows the conventional pattern many libraries use: a
@@ -520,8 +771,13 @@ export const WithCustomThirdPartyModal: ModalStory = {
  * focusable elements fall outside react-aria's `FocusScope`. This is the case
  * that can surface the focus-stealing bug, where the underlying Easy UI modal's
  * focus containment pulls focus back out of this modal.
+ *
+ * Pass `topLayer` to mark the overlay with `data-react-aria-top-layer`, which
+ * tells react-aria's `FocusScope` to always allow focus to move into this
+ * element — the supported escape hatch for third-party overlays, and the fix
+ * for the focus-stealing bug.
  */
-function CustomThirdPartyModal() {
+function CustomThirdPartyModal({ topLayer = false }: { topLayer?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -539,6 +795,7 @@ function CustomThirdPartyModal() {
       {isOpen &&
         ReactDOM.createPortal(
           <div
+            data-react-aria-top-layer={topLayer ? "true" : undefined}
             style={{
               position: "fixed",
               inset: 0,
@@ -617,6 +874,154 @@ function CustomThirdPartyModal() {
           document.body,
         )}
     </>
+  );
+}
+
+type StripeStory = StoryObj<{ publishableKey: string }>;
+
+/**
+ * Embeds the real Stripe `CardElement` inside an Easy UI `Modal`, mirroring
+ * easypost-web-app's `stripe_card_modal.jsx`. This loads real Stripe.js, which
+ * injects the actual Stripe Elements + Link / autofill iframes — so it can
+ * reproduce the real focus-stealing bug (Easy UI's `ariaHideOutside` inerts the
+ * injected Link overlay, blurring it and bouncing focus back into the modal).
+ *
+ * Paste a test publishable key (`pk_test_...`) into the `publishableKey`
+ * control, then open the modal and trigger Link/autofill (focus the card field
+ * as a returning Link user, or use the Link button in the field). Watch the
+ * status line: when the Link overlay opens, its frame shows `inert`/aria-hidden
+ * and can't be typed into.
+ */
+export const WithStripeCardElement: StripeStory = {
+  render: (args) => (
+    <StripeCardElementStory publishableKey={args.publishableKey} />
+  ),
+  args: {
+    publishableKey: "pk_p59fpoe9eLIPbPIVoJPhOkN1EGB1q",
+  },
+  argTypes: {
+    publishableKey: {
+      control: "text",
+      description: "Stripe test publishable key (pk_test_...)",
+    },
+  },
+  parameters: {
+    controls: { include: ["publishableKey"] },
+    docs: {
+      description: {
+        story:
+          "Real Stripe CardElement inside an Easy UI Modal (mirrors EPWA's " +
+          "stripe_card_modal.jsx). Provide a `pk_test_...` key via the " +
+          "publishableKey control, then trigger Stripe Link/autofill to " +
+          "reproduce the focus steal. The status line surfaces whether the " +
+          "Stripe/Link frames have been `inert`'d by react-aria.",
+      },
+    },
+  },
+};
+
+function StripeCardElementStory({
+  publishableKey,
+}: {
+  publishableKey: string;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Memoize so we create one Stripe instance per key, not per render.
+  const stripePromise = useMemo(
+    () => (publishableKey ? loadStripe(publishableKey) : null),
+    [publishableKey],
+  );
+
+  return (
+    <>
+      <Button onPress={() => setIsOpen(true)}>Open modal</Button>
+      <ModalContainer onDismiss={() => setIsOpen(false)}>
+        {isOpen &&
+          (stripePromise ? (
+            <Elements stripe={stripePromise}>
+              <StripeCardModalContent />
+            </Elements>
+          ) : (
+            <Modal>
+              <Modal.Header>Stripe publishable key required</Modal.Header>
+              <Modal.Body>
+                <PlaceholderBox width="100%">
+                  Paste a test publishable key (`pk_test_…`) into the
+                  &quot;publishableKey&quot; control in the Controls panel, then
+                  reopen this modal. The real Stripe `CardElement` will mount
+                  and you can trigger Link / autofill to reproduce the focus
+                  bug.
+                </PlaceholderBox>
+              </Modal.Body>
+            </Modal>
+          ))}
+      </ModalContainer>
+    </>
+  );
+}
+
+function StripeCardModalContent() {
+  const modalTriggerState = useModalTrigger();
+  const [status, setStatus] = useState<string | null>(null);
+
+  // Surface whether react-aria's `ariaHideOutside` has hidden any Stripe/Link
+  // frame (the Link overlay is injected outside the modal, so it gets inert'd).
+  React.useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      const frames = Array.from(
+        document.querySelectorAll<HTMLIFrameElement>(
+          'iframe[name^="__privateStripe"], iframe[src*="stripe.com"]',
+        ),
+      );
+      const inert = frames.filter((f) => f.closest("[inert]")).length;
+      const hidden = frames.filter((f) =>
+        f.closest('[aria-hidden="true"]'),
+      ).length;
+      setStatus(
+        `Stripe frames: ${frames.length}, inert: ${inert}, aria-hidden: ${hidden}`,
+      );
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <Modal>
+      <Modal.Header
+        iconAtEnd={{
+          accessibilityLabel: "Stripe Logo",
+          symbol: StripeLogo,
+          size: "2xl",
+        }}
+      >
+        New Credit Card Account
+      </Modal.Header>
+      <Modal.Body>
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 12,
+          }}
+        >
+          <CardElement options={{ hidePostalCode: true }} />
+        </div>
+        {status && <p style={{ marginTop: 8, fontSize: 12 }}>{status}</p>}
+      </Modal.Body>
+      <Modal.Footer
+        primaryAction={{
+          content: "Save Card",
+          onAction: action("Save Card clicked!"),
+        }}
+        secondaryAction={{
+          content: "Cancel",
+          onAction: modalTriggerState.close,
+        }}
+      />
+    </Modal>
   );
 }
 
