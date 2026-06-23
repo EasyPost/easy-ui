@@ -1,11 +1,7 @@
+import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { Key, useState } from "react";
-import { action } from "storybook/actions";
 import { Button } from "../Button";
-import { DropdownButton } from "../DropdownButton";
-import { HorizontalStack } from "../HorizontalStack";
-import { Menu } from "../Menu";
-import { Select } from "../Select";
 import {
   EasyPostLogo,
   PlaceholderBox,
@@ -13,6 +9,10 @@ import {
 } from "../utilities/storybook";
 import { Modal, ModalContainer, useModalTrigger } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
+import { Menu } from "../Menu";
+import { DropdownButton } from "../DropdownButton";
+import { Select } from "../Select";
+import { HorizontalStack } from "../HorizontalStack";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
