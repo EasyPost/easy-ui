@@ -120,23 +120,32 @@ export const useModalTrigger = () => {
   return modalTriggerContext.state;
 };
 
-export function ModalTriggerProvider({
-  state,
-  isDismissable,
+/**
+ * Resolves a modal's nesting connections and wires up parent/child registration,
+ * returning the nesting values for the trigger context. A connection can be
+ * configured from either end — the parent's `childNestingBehavior` (cascades) or
+ * the child's `selfNestingBehavior` (local, wins for its own connection) — and
+ * resolves to `stack`, `stack-shared-backdrop`, or `replace`. See
+ * {@link ModalNestingBehavior}.
+ */
+function useModalNesting({
   childNestingBehavior,
   selfNestingBehavior,
-  children,
-}: ModalTriggerProviderProps) {
+  isOpen,
+}: {
+  childNestingBehavior: ModalNestingBehavior | undefined;
+  selfNestingBehavior: ModalNestingBehavior | undefined;
+  isOpen: boolean;
+}) {
   const parentContext = useContext(ModalTriggerContext);
   const [replacingChildCount, setReplacingChildCount] = useState(0);
 
-  // The connection between two modals can be configured from either end: the
-  // parent's `childNestingBehavior` (which cascades) or the child's
-  // `selfNestingBehavior` (local, and wins for its own connection). Both fall
-  // back to the parent's resolved `childNestingBehavior`, then `stack`.
-  const resolvedChildNestingBehavior =
+  // Both behaviors fall back to the parent's resolved `childNestingBehavior`
+  // (which cascades), then `stack`. The child's `selfNestingBehavior` wins for
+  // its own connection to the parent.
+  const childNesting =
     childNestingBehavior ?? parentContext?.childNestingBehavior ?? "stack";
-  const resolvedSelfNestingBehavior =
+  const selfNesting =
     selfNestingBehavior ?? parentContext?.childNestingBehavior ?? "stack";
 
   // The provider tree mirrors the modal tree, and a modal's underlay only
@@ -169,34 +178,44 @@ export function ModalTriggerProvider({
   // depending on the full context would re-fire this effect and flicker the
   // modal.
   const parentRegisterNested = parentContext?.registerNested;
-  const replacesParent = resolvedSelfNestingBehavior === "replace";
+  const selfReplacesParent = selfNesting === "replace";
   useEffect(() => {
-    if (!parentRegisterNested || !state.isOpen) {
+    if (!parentRegisterNested || !isOpen) {
       return;
     }
-    return parentRegisterNested(replacesParent);
-  }, [parentRegisterNested, state.isOpen, replacesParent]);
+    return parentRegisterNested(selfReplacesParent);
+  }, [parentRegisterNested, isOpen, selfReplacesParent]);
 
-  const hasReplacingChild = replacingChildCount > 0;
-  const context = useMemo(() => {
-    return {
+  return useMemo(
+    () => ({
       isNested,
-      hasReplacingChild,
-      childNestingBehavior: resolvedChildNestingBehavior,
-      selfNestingBehavior: resolvedSelfNestingBehavior,
+      hasReplacingChild: replacingChildCount > 0,
+      childNestingBehavior: childNesting,
+      selfNestingBehavior: selfNesting,
       registerNested,
-      state,
-      isDismissable,
-    };
-  }, [
-    isNested,
-    hasReplacingChild,
-    resolvedChildNestingBehavior,
-    resolvedSelfNestingBehavior,
-    registerNested,
-    state,
-    isDismissable,
-  ]);
+    }),
+    [isNested, replacingChildCount, childNesting, selfNesting, registerNested],
+  );
+}
+
+export function ModalTriggerProvider({
+  state,
+  isDismissable,
+  childNestingBehavior,
+  selfNestingBehavior,
+  children,
+}: ModalTriggerProviderProps) {
+  const nesting = useModalNesting({
+    childNestingBehavior,
+    selfNestingBehavior,
+    isOpen: state.isOpen,
+  });
+
+  const context = useMemo(
+    () => ({ ...nesting, state, isDismissable }),
+    [nesting, state, isDismissable],
+  );
+
   return (
     <ModalTriggerContext.Provider value={context}>
       {children}
