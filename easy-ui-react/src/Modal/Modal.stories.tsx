@@ -233,12 +233,16 @@ export const MenuTrigger: ModalTriggerStory = {
 };
 
 export const Nested: ModalTriggerStory = {
-  render: () => {
+  render: (args) => {
     const [modal1, setModal1] = useState(true);
     const [modal2, setModal2] = useState(false);
     const [modal3, setModal3] = useState(false);
     return (
+      // `childNestingBehavior` is set only on the outermost modal; it cascades to
+      // the nested modals below. Modal 2 overrides its own connection to the
+      // outer modal with `selfNestingBehavior="replace"`.
       <ModalContainer
+        childNestingBehavior={args.childNestingBehavior}
         onDismiss={() => {
           setModal1(false);
         }}
@@ -251,6 +255,7 @@ export const Nested: ModalTriggerStory = {
                 Space for content
               </PlaceholderBox>
               <ModalContainer
+                selfNestingBehavior="replace"
                 onDismiss={() => {
                   setModal2(false);
                 }}
@@ -263,6 +268,13 @@ export const Nested: ModalTriggerStory = {
                       <PlaceholderBox width="100%" height="200px">
                         Content 2
                       </PlaceholderBox>
+                      <Select
+                        label="Select an option"
+                        placeholder="Select an option"
+                      >
+                        <Select.Option key="option1">Option 1</Select.Option>
+                        <Select.Option key="option2">Option 2</Select.Option>
+                      </Select>
                       {modal3 && (
                         <ModalContainer
                           onDismiss={() => {
@@ -324,6 +336,18 @@ export const Nested: ModalTriggerStory = {
         )}
       </ModalContainer>
     );
+  },
+  args: {
+    childNestingBehavior: "stack-shared-backdrop",
+  },
+  argTypes: {
+    childNestingBehavior: {
+      control: "select",
+      options: ["stack", "stack-shared-backdrop", "replace"],
+    },
+  },
+  parameters: {
+    controls: { include: ["childNestingBehavior"] },
   },
 };
 

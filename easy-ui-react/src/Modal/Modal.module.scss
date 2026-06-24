@@ -29,6 +29,12 @@
   display: none;
 }
 
+// Suppresses only the dark overlay so the modal box stays visible and
+// interactive, unlike `underlayBgHidden` which hides the whole modal.
+.underlayBgNoBackdrop::before {
+  display: none;
+}
+
 .underlayBox {
   position: relative;
   display: flex;

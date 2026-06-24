@@ -133,6 +133,53 @@ Use this sparingly. It trades away the modal's focus containment and background 
 </Modal.Trigger>
 ```
 
+## Nesting behavior
+
+When modals nest, the connection between a parent modal and its nested child can present in one of three ways:
+
+- `stack` (the default) — both modals keep their own backdrops; modals simply stack.
+- `stack-shared-backdrop` — the nested modal suppresses its backdrop, so only the lowest modal's backdrop shows.
+- `replace` — the nested modal hides the modal beneath it, so only the topmost modal is visible.
+
+You configure that connection from either end, on `<Modal.Trigger />` or `<ModalContainer />`:
+
+- **`childNestingBehavior`** is set on the parent. It applies to its nested children and **cascades** down the tree, so setting it once at the top governs the whole stack. A descendant that doesn't set its own inherits it.
+- **`selfNestingBehavior`** is set on the child. It applies only to that modal's connection to its parent, is **local** (does not cascade), and **overrides** the parent's `childNestingBehavior` for that one connection.
+
+```tsx
+{/* Set once at the top; the whole nested stack shares a single backdrop. */}
+<Modal.Trigger childNestingBehavior="stack-shared-backdrop">
+  <Button>Open modal</Button>
+  <Modal>
+    <Modal.Header>Title</Modal.Header>
+    <Modal.Body>{/* nested modals stay visible with a single backdrop */}</Modal.Body>
+  </Modal>
+</Modal.Trigger>
+```
+
+### Configuring a single nested modal
+
+When you can't (or don't want to) change the parent — for example one nested modal deep in a larger tree of modals that should take over its parent — set `selfNestingBehavior` on the nested modal instead. It changes only that modal's connection to its parent, without touching the parent's configuration.
+
+```tsx
+<Modal.Trigger>
+  <Button>Open parent</Button>
+  <Modal>
+    <Modal.Header>Parent</Modal.Header>
+    <Modal.Body>
+      {/* This nested modal takes over the parent without touching the parent. */}
+      <Modal.Trigger selfNestingBehavior="replace">
+        <Button>Open nested</Button>
+        <Modal>
+          <Modal.Header>Nested</Modal.Header>
+          <Modal.Body>{/* … */}</Modal.Body>
+        </Modal>
+      </Modal.Trigger>
+    </Modal.Body>
+  </Modal>
+</Modal.Trigger>
+```
+
 ## Properties
 
 ### Modal.Trigger

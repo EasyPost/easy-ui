@@ -2,7 +2,7 @@ import React, { ReactElement, cloneElement } from "react";
 import { useOverlayTrigger } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { ModalUnderlay } from "./ModalUnderlay";
-import { ModalTriggerProvider } from "./context";
+import { ModalNestingBehavior, ModalTriggerProvider } from "./context";
 
 export type CloseableModalElement = (close: () => void) => ReactElement;
 
@@ -34,6 +34,25 @@ export type ModalTriggerProps = {
   allowsThirdPartyOverlays?: boolean;
 
   /**
+   * Controls how this modal's nested children stack relative to it, and cascades
+   * to descendant modals. `stack` gives each child its own backdrop,
+   * `stack-shared-backdrop` makes children share this modal's backdrop, and
+   * `replace` hides this modal while a child is open. When unset, it inherits the
+   * nearest ancestor modal's value (or `stack` at the root).
+   */
+  childNestingBehavior?: ModalNestingBehavior;
+
+  /**
+   * Controls how this modal stacks relative to its parent, overriding the
+   * parent's `childNestingBehavior` for just this modal. `stack` keeps both
+   * backdrops, `stack-shared-backdrop` suppresses this modal's backdrop, and
+   * `replace` hides the parent while this modal is open. Local to this modal — it
+   * does not cascade. Useful for surgically changing one nested modal in a larger
+   * tree without touching its parent.
+   */
+  selfNestingBehavior?: ModalNestingBehavior;
+
+  /**
    * Whether the modal is open by default (controlled).
    */
   isOpen?: boolean;
@@ -45,7 +64,13 @@ export type ModalTriggerProps = {
 };
 
 export function ModalTrigger(props: ModalTriggerProps) {
-  const { children, isDismissable = true, ...inTriggerProps } = props;
+  const {
+    children,
+    isDismissable = true,
+    childNestingBehavior,
+    selfNestingBehavior,
+    ...inTriggerProps
+  } = props;
 
   const state = useOverlayTriggerState(inTriggerProps);
   const { triggerProps, overlayProps } = useOverlayTrigger(
@@ -62,7 +87,12 @@ export function ModalTrigger(props: ModalTriggerProps) {
   const [trigger, modal] = children;
 
   return (
-    <ModalTriggerProvider state={state} isDismissable={isDismissable}>
+    <ModalTriggerProvider
+      state={state}
+      isDismissable={isDismissable}
+      childNestingBehavior={childNestingBehavior}
+      selfNestingBehavior={selfNestingBehavior}
+    >
       {cloneElement(trigger, triggerProps)}
       {state.isOpen && (
         <ModalUnderlay {...props} state={state}>
