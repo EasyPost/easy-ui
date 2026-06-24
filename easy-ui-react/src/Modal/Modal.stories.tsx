@@ -254,6 +254,7 @@ export const Nested: ModalTriggerStory = {
                 onDismiss={() => {
                   setModal2(false);
                 }}
+                allowsThirdPartyOverlays
               >
                 {modal2 && (
                   <Modal>

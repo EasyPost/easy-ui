@@ -212,7 +212,43 @@ describe("<Modal />", () => {
     renderModalWithOutsideContent({ allowsThirdPartyOverlays: true });
     expect(isElementHidden(screen.getByTestId("outside-content"))).toBe(false);
   });
+
+  it("should keep a nested allowsThirdPartyOverlays modal interactive when opened inside a standard modal", async () => {
+    const { user } = render(<NestedThirdPartyModal />);
+    await userClick(user, screen.getByRole("button", { name: "Open inner" }));
+
+    // The outer (standard) modal applies `ariaHideOutside`, which would
+    // otherwise `inert` the nested third-party modal — making it unclickable
+    // and causing pointer events to fall through and dismiss it.
+    expect(isElementHidden(screen.getByTestId("inner-content"))).toBe(false);
+    expect(
+      screen.getByRole("button", { name: "Inner action" }),
+    ).toBeInTheDocument();
+  });
 });
+
+function NestedThirdPartyModal() {
+  return (
+    <Modal.Trigger defaultOpen>
+      <Button>Open outer</Button>
+      <Modal>
+        <Modal.Header>Outer</Modal.Header>
+        <Modal.Body>
+          <Modal.Trigger allowsThirdPartyOverlays>
+            <Button>Open inner</Button>
+            <Modal>
+              <Modal.Header>Inner</Modal.Header>
+              <Modal.Body>
+                <div data-testid="inner-content">Inner content</div>
+                <Button>Inner action</Button>
+              </Modal.Body>
+            </Modal>
+          </Modal.Trigger>
+        </Modal.Body>
+      </Modal>
+    </Modal.Trigger>
+  );
+}
 
 const CustomSymbol = (props: object) => <span {...props} />;
 

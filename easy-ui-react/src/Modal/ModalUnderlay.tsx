@@ -48,6 +48,13 @@ type ModalUnderlayContentProps = {
   underlayProps: DOMAttributes;
   modalRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
+
+  /**
+   * Marks the modal box as a top layer so a surrounding Easy UI modal's
+   * `ariaHideOutside` keeps it (and any third-party overlays it hosts) visible
+   * and interactive instead of `inert`'ing it.
+   */
+  isTopLayer?: boolean;
 };
 
 export function ModalUnderlay(props: ModalUnderlayProps) {
@@ -120,6 +127,7 @@ function ThirdPartyOverlayUnderlay(props: ModalUnderlayProps) {
       modalProps={overlayProps}
       underlayProps={underlayProps}
       modalRef={ref}
+      isTopLayer
     >
       {children}
     </ModalUnderlayContent>
@@ -135,6 +143,7 @@ function ModalUnderlayContent({
   underlayProps,
   modalRef,
   children,
+  isTopLayer = false,
 }: ModalUnderlayContentProps) {
   const { hasOpenNestedModal } = useModalTriggerContext();
 
@@ -146,7 +155,18 @@ function ModalUnderlayContent({
   return (
     <Overlay>
       <div className={className} {...underlayProps}>
-        <div {...modalProps} ref={modalRef} className={styles.underlayBox}>
+        <div
+          {...modalProps}
+          ref={modalRef}
+          className={styles.underlayBox}
+          // When this modal hosts third-party overlays, an outer Easy UI modal's
+          // `ariaHideOutside` would otherwise `inert` this modal — making it
+          // non-interactive and letting clicks fall through to the content
+          // beneath, which dismisses it. Tagging the box as a top layer keeps it
+          // (and its ancestors) visible and exempt from interact-outside, while
+          // the untagged underlay still dismisses on a backdrop click.
+          data-react-aria-top-layer={isTopLayer ? "true" : undefined}
+        >
           <div className={styles.underlayEdge} />
           {children}
           <div className={styles.underlayEdge} />
