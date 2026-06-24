@@ -16,6 +16,15 @@ type ModalContainerProps = {
   isDismissable?: boolean;
 
   /**
+   * Disables focus trapping and background aria-hiding so the modal can host
+   * third-party overlays (e.g. Stripe Link/autofill, reCAPTCHA) that render
+   * outside the modal. Use sparingly — see `ModalUnderlay` for the tradeoffs.
+   *
+   * @default false
+   */
+  allowsThirdPartyOverlays?: boolean;
+
+  /**
    * Handler that is called when the overlay is closed.
    */
   onDismiss?: () => void;
@@ -30,7 +39,12 @@ type ModalContainerProps = {
  * element or when the trigger unmounts while the modal is open.
  */
 export function ModalContainer(props: ModalContainerProps) {
-  const { children, isDismissable = true, onDismiss = () => {} } = props;
+  const {
+    children,
+    isDismissable = true,
+    allowsThirdPartyOverlays = false,
+    onDismiss = () => {},
+  } = props;
 
   const childArray = React.Children.toArray(children);
   if (childArray.length > 1) {
@@ -65,7 +79,11 @@ export function ModalContainer(props: ModalContainerProps) {
   return (
     <ModalTriggerProvider state={state} isDismissable={isDismissable}>
       {state.isOpen && (
-        <ModalUnderlay state={state} isDismissable={isDismissable}>
+        <ModalUnderlay
+          state={state}
+          isDismissable={isDismissable}
+          allowsThirdPartyOverlays={allowsThirdPartyOverlays}
+        >
           {lastChild ? cloneElement(lastChild, overlayProps) : null}
         </ModalUnderlay>
       )}
