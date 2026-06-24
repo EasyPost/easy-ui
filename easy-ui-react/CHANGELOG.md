@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.121
+
+### Minor Changes
+
+- e47ec8f: Add `allowsThirdPartyOverlays` to `Modal.Trigger` and `ModalContainer`. When enabled, the modal stops trapping focus and stops applying `aria-hidden`/`inert` to the rest of the page, so third-party overlays that render outside the modal (e.g. Stripe Link/autofill, reCAPTCHA) remain focusable and clickable instead of locking up.
+
 ## 1.0.0-alpha.120
 
 ### Patch Changes
