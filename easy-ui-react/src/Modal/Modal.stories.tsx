@@ -1,6 +1,8 @@
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { Key, useState } from "react";
+import { CardElement, Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import React, { Key, useMemo, useState } from "react";
 import { Button } from "../Button";
 import {
   EasyPostLogo,
@@ -12,6 +14,7 @@ import { ModalTrigger } from "./ModalTrigger";
 import { Menu } from "../Menu";
 import { DropdownButton } from "../DropdownButton";
 import { Select } from "../Select";
+import { Text } from "../Text";
 import { HorizontalStack } from "../HorizontalStack";
 
 type ModalStory = StoryObj<typeof Modal>;
@@ -232,13 +235,35 @@ export const MenuTrigger: ModalTriggerStory = {
   },
 };
 
-export const Nested: ModalTriggerStory = {
-  render: () => {
+type NestedModalStory = StoryObj<
+  React.ComponentProps<typeof ModalTrigger> & { publishableKey: string }
+>;
+
+export const Nested: NestedModalStory = {
+  render: (args) => {
     const [modal1, setModal1] = useState(true);
     const [modal2, setModal2] = useState(false);
     const [modal3, setModal3] = useState(false);
+
+    // Load real Stripe.js (one instance per key) so Modal 2 can mount the real
+    // `CardElement` and inject Stripe's Link / autofill overlays — the
+    // third-party overlays that `allowsThirdPartyOverlays` keeps usable.
+    const { publishableKey } = args;
+    const stripePromise = useMemo(
+      () => (publishableKey ? loadStripe(publishableKey) : null),
+      [publishableKey],
+    );
+
     return (
+      // `childNestingBehavior` is set only on the outermost modal; it cascades to
+      // the nested modals below. Modal 2 overrides its own connection to the
+      // outer modal with `selfNestingBehavior="replace"`.
+      //
+      // Modal 2 sets `allowsThirdPartyOverlays`; this focus-trapping outer modal
+      // automatically relaxes while it's open so Modal 2's Stripe Link / autofill
+      // overlay isn't inert'd or robbed of focus.
       <ModalContainer
+        childNestingBehavior={args.childNestingBehavior}
         onDismiss={() => {
           setModal1(false);
         }}
@@ -250,10 +275,16 @@ export const Nested: ModalTriggerStory = {
               <PlaceholderBox width="100%" height="300px">
                 Space for content
               </PlaceholderBox>
+              <Select label="Select an option" placeholder="Select an option">
+                <Select.Option key="option1">Option 1</Select.Option>
+                <Select.Option key="option2">Option 2</Select.Option>
+              </Select>
               <ModalContainer
+                selfNestingBehavior="replace"
                 onDismiss={() => {
                   setModal2(false);
                 }}
+                allowsThirdPartyOverlays
               >
                 {modal2 && (
                   <Modal>
@@ -262,6 +293,33 @@ export const Nested: ModalTriggerStory = {
                       <PlaceholderBox width="100%" height="200px">
                         Content 2
                       </PlaceholderBox>
+                      <Select
+                        label="Select an option"
+                        placeholder="Select an option"
+                      >
+                        <Select.Option key="option1">Option 1</Select.Option>
+                        <Select.Option key="option2">Option 2</Select.Option>
+                      </Select>
+                      {stripePromise ? (
+                        <Elements stripe={stripePromise}>
+                          <div
+                            style={{
+                              border: "1px solid #ccc",
+                              borderRadius: 8,
+                              padding: 12,
+                            }}
+                          >
+                            <CardElement options={{ hidePostalCode: true }} />
+                          </div>
+                        </Elements>
+                      ) : (
+                        <Text color="neutral.500" variant="body2">
+                          Paste a Stripe test publishable key (pk_test_…) into
+                          the &quot;publishableKey&quot; control, then reopen
+                          this modal to mount the real Stripe CardElement and
+                          trigger Link / autofill.
+                        </Text>
+                      )}
                       {modal3 && (
                         <ModalContainer
                           onDismiss={() => {
@@ -271,6 +329,17 @@ export const Nested: ModalTriggerStory = {
                           <Modal>
                             <Modal.Header>Modal 3</Modal.Header>
                             <Modal.Body>
+                              <Select
+                                label="Select an option"
+                                placeholder="Select an option"
+                              >
+                                <Select.Option key="option1">
+                                  Option 1
+                                </Select.Option>
+                                <Select.Option key="option2">
+                                  Option 2
+                                </Select.Option>
+                              </Select>
                               <PlaceholderBox width="100%" height="100px">
                                 Content 3
                               </PlaceholderBox>
@@ -323,6 +392,26 @@ export const Nested: ModalTriggerStory = {
         )}
       </ModalContainer>
     );
+  },
+  args: {
+    childNestingBehavior: "stack-shared-backdrop",
+    publishableKey: "",
+  },
+  argTypes: {
+    childNestingBehavior: {
+      control: "select",
+      options: ["stack", "stack-shared-backdrop", "replace"],
+    },
+    publishableKey: {
+      control: "text",
+      description:
+        "Stripe test publishable key (pk_test_…). Mounts the real Stripe " +
+        "CardElement in Modal 2 so its Link / autofill third-party overlay " +
+        "can be exercised against `allowsThirdPartyOverlays`.",
+    },
+  },
+  parameters: {
+    controls: { include: ["childNestingBehavior", "publishableKey"] },
   },
 };
 
