@@ -76,6 +76,20 @@ type ModalTriggerContextType = {
    * open/close/unmount.
    */
   registerNested: (replaces: boolean) => () => void;
+  /**
+   * Whether an open descendant modal (at any depth) hosts third-party overlays
+   * (`allowsThirdPartyOverlays`). A focus-trapping modal reads this to stop
+   * hiding/trapping the page while such a descendant is open, so the descendant's
+   * injected overlay (e.g. Stripe Link) isn't `inert`'d or robbed of focus.
+   */
+  hasOpenThirdPartyDescendant: boolean;
+  /**
+   * Registers that this modal's subtree contains an open third-party-overlay
+   * modal, propagating up to every ancestor. Returns a cleanup that unregisters
+   * it. Like {@link registerNested}, callers invoke this from an effect tied to
+   * open state so the count stays accurate across open/close/unmount.
+   */
+  registerThirdPartyOverlay: () => () => void;
 };
 
 export type ModalTriggerProviderProps = Pick<
@@ -95,6 +109,13 @@ export type ModalTriggerProviderProps = Pick<
    * connection. Defaults to the parent's `childNestingBehavior`.
    */
   selfNestingBehavior?: ModalNestingBehavior;
+  /**
+   * Whether this modal hosts third-party overlays itself. Used to register this
+   * modal's subtree with focus-trapping ancestors so they can relax while it's
+   * open. This is the underlay's behavior; the provider only needs it to drive
+   * registration.
+   */
+  allowsThirdPartyOverlays?: boolean;
 };
 
 export const ModalContext = createContext<ModalContextType | null>(null);
@@ -134,14 +155,17 @@ export const useModalTrigger = () => {
 function useModalNesting({
   childNestingBehavior,
   selfNestingBehavior,
+  allowsThirdPartyOverlays,
   isOpen,
 }: {
   childNestingBehavior: ModalNestingBehavior | undefined;
   selfNestingBehavior: ModalNestingBehavior | undefined;
+  allowsThirdPartyOverlays: boolean;
   isOpen: boolean;
 }) {
   const parentContext = useContext(ModalTriggerContext);
   const [replacingChildCount, setReplacingChildCount] = useState(0);
+  const [thirdPartyDescendantCount, setThirdPartyDescendantCount] = useState(0);
 
   // Both behaviors fall back to the parent's resolved `childNestingBehavior`
   // (which cascades), then `stack`. The child's `selfNestingBehavior` wins for
@@ -196,6 +220,43 @@ function useModalNesting({
     return parentRegisterNested(selfReplacesParent);
   }, [parentRegisterNested, isOpen, selfReplacesParent]);
 
+  // Counts open third-party-overlay modals anywhere in this modal's subtree. A
+  // counter (not a boolean) keeps independent descendants from clobbering each
+  // other; functional updates avoid stale reads across calls.
+  const registerThirdPartyOverlay = useCallback(() => {
+    setThirdPartyDescendantCount((count) => count + 1);
+    let released = false;
+    return () => {
+      if (released) {
+        return;
+      }
+      released = true;
+      setThirdPartyDescendantCount((count) => Math.max(0, count - 1));
+    };
+  }, []);
+
+  // Propagate third-party-overlay presence up the whole ancestor chain: this
+  // modal registers with its parent when it either hosts a third-party overlay
+  // itself or already has one open in its subtree. Bubbling means every
+  // focus-trapping ancestor — not just the nearest — sees it and can relax,
+  // which matters because react-aria keeps only the topmost `ariaHideOutside`
+  // observer active (see ModalUnderlay). Layout effect for the same
+  // flush-before-paint reasons as the `replace` registration above.
+  const parentRegisterThirdPartyOverlay =
+    parentContext?.registerThirdPartyOverlay;
+  const hasThirdPartyInSubtree =
+    allowsThirdPartyOverlays || thirdPartyDescendantCount > 0;
+  useLayoutEffect(() => {
+    if (
+      !parentRegisterThirdPartyOverlay ||
+      !isOpen ||
+      !hasThirdPartyInSubtree
+    ) {
+      return;
+    }
+    return parentRegisterThirdPartyOverlay();
+  }, [parentRegisterThirdPartyOverlay, isOpen, hasThirdPartyInSubtree]);
+
   return useMemo(
     () => ({
       isNested,
@@ -203,8 +264,18 @@ function useModalNesting({
       childNestingBehavior: childNesting,
       selfNestingBehavior: selfNesting,
       registerNested,
+      hasOpenThirdPartyDescendant: thirdPartyDescendantCount > 0,
+      registerThirdPartyOverlay,
     }),
-    [isNested, replacingChildCount, childNesting, selfNesting, registerNested],
+    [
+      isNested,
+      replacingChildCount,
+      childNesting,
+      selfNesting,
+      registerNested,
+      thirdPartyDescendantCount,
+      registerThirdPartyOverlay,
+    ],
   );
 }
 
@@ -213,11 +284,13 @@ export function ModalTriggerProvider({
   isDismissable,
   childNestingBehavior,
   selfNestingBehavior,
+  allowsThirdPartyOverlays = false,
   children,
 }: ModalTriggerProviderProps) {
   const nesting = useModalNesting({
     childNestingBehavior,
     selfNestingBehavior,
+    allowsThirdPartyOverlays,
     isOpen: state.isOpen,
   });
 

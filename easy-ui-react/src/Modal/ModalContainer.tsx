@@ -103,6 +103,7 @@ export function ModalContainer(props: ModalContainerProps) {
       isDismissable={isDismissable}
       childNestingBehavior={childNestingBehavior}
       selfNestingBehavior={selfNestingBehavior}
+      allowsThirdPartyOverlays={allowsThirdPartyOverlays}
     >
       {state.isOpen && (
         <ModalUnderlay

@@ -1,10 +1,8 @@
-import React, { ReactNode, RefObject, useRef } from "react";
-import {
-  Overlay,
-  useModalOverlay,
-  useOverlay,
-  usePreventScroll,
-} from "react-aria";
+import React, { ReactNode, RefObject, useEffect, useRef } from "react";
+import { Overlay, useOverlay, usePreventScroll } from "react-aria";
+// `react-aria` doesn't re-export `ariaHideOutside`; the relaxable variant calls
+// it directly so it can gate page-hiding on an open third-party descendant.
+import { ariaHideOutside } from "@react-aria/overlays";
 import { DOMAttributes } from "@react-types/shared";
 import { OverlayTriggerState } from "react-stately";
 import { classNames } from "../utilities/css";
@@ -65,10 +63,20 @@ type ModalUnderlayContentProps = {
    * variant, which doesn't run `ariaHideOutside` itself.
    */
   keepVisibleUnderModal?: boolean;
+
+  /**
+   * Drives focus containment on the underlay's `Overlay`. The standard variant
+   * toggles this as a third-party descendant opens and closes; the third-party
+   * variant leaves it at its default (it never contains focus).
+   */
+  shouldContainFocus?: boolean;
 };
 
 export function ModalUnderlay(props: ModalUnderlayProps) {
-  // Branch into sibling components so each calls its hooks unconditionally.
+  // Branch into sibling components so each calls its hooks unconditionally. The
+  // branch keys off the stable `allowsThirdPartyOverlays` prop only, so a modal
+  // never swaps variants at runtime (which would remount its children — and any
+  // third-party overlay).
   return props.allowsThirdPartyOverlays ? (
     <ThirdPartyOverlayUnderlay {...props} />
   ) : (
@@ -77,29 +85,52 @@ export function ModalUnderlay(props: ModalUnderlayProps) {
 }
 
 /**
- * Standard modal behavior: traps focus and hides the rest of the page via
- * react-aria's `useModalOverlay` (which applies `aria-hidden`/`inert` outside
- * the modal).
+ * Standard modal behavior: traps focus and hides the rest of the page
+ * (`aria-hidden`/`inert`). It reproduces `useModalOverlay` from the lower-level
+ * hooks rather than calling it directly so both behaviors can be toggled off in
+ * place — no remount — while an `allowsThirdPartyOverlays` descendant is open.
+ *
+ * That relaxation is automatic and necessary: react-aria keeps only the
+ * *topmost* `ariaHideOutside` observer active, and a third-party descendant uses
+ * `useOverlay` (no `ariaHideOutside`), so it never takes that observer over. Left
+ * trapping, this modal's observer would `inert` the descendant's injected
+ * overlay (e.g. Stripe Link) and its focus trap would steal focus back. Skipping
+ * `ariaHideOutside` also tears down this modal's observer so an outer ancestor's
+ * observer (if any) takes back over — every focus-trapping ancestor relaxes in
+ * turn. With no third-party descendant open (`shouldTrap` true), this is
+ * behaviorally identical to `useModalOverlay`.
  */
 function FocusTrappingUnderlay(props: ModalUnderlayProps) {
   const { state, children, isDismissable = true } = props;
+  const { hasOpenThirdPartyDescendant } = useModalTriggerContext();
+  const shouldTrap = !hasOpenThirdPartyDescendant;
 
   const ref = useRef<HTMLDivElement>(null);
-  const { modalProps, underlayProps } = useModalOverlay(
+  const { overlayProps, underlayProps } = useOverlay(
     {
+      isOpen: state.isOpen,
+      onClose: state.close,
       isDismissable,
       isKeyboardDismissDisabled: !isDismissable,
       shouldCloseOnInteractOutside,
     },
-    state,
     ref,
   );
+  usePreventScroll({ isDisabled: !state.isOpen });
+
+  // Mirror `useModalOverlay`'s page-hiding, but only while trapping.
+  useEffect(() => {
+    if (state.isOpen && shouldTrap && ref.current) {
+      return ariaHideOutside([ref.current], { shouldUseInert: true });
+    }
+  }, [state.isOpen, shouldTrap]);
 
   return (
     <ModalUnderlayContent
-      modalProps={modalProps}
+      modalProps={overlayProps}
       underlayProps={underlayProps}
       modalRef={ref}
+      shouldContainFocus={shouldTrap}
     >
       {children}
     </ModalUnderlayContent>
@@ -156,6 +187,7 @@ function ModalUnderlayContent({
   modalRef,
   children,
   keepVisibleUnderModal = false,
+  shouldContainFocus = false,
 }: ModalUnderlayContentProps) {
   const { isNested, hasReplacingChild, selfNestingBehavior } =
     useModalTriggerContext();
@@ -174,7 +206,7 @@ function ModalUnderlayContent({
   );
 
   return (
-    <Overlay>
+    <Overlay shouldContainFocus={shouldContainFocus}>
       <div className={className} {...underlayProps}>
         <div
           {...modalProps}

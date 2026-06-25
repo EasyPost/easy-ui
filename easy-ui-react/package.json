@@ -29,6 +29,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@react-aria/overlays": "^3.31.0",
     "@easypost/easy-ui-icons": "1.0.0-alpha.55",
     "@easypost/easy-ui-tokens": "1.0.0-alpha.17",
     "@react-aria/toast": "^3.0.9",
@@ -51,6 +52,8 @@
     "react-is": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
+    "@stripe/react-stripe-js": "^6.6.0",
+    "@stripe/stripe-js": "^9.8.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.2",

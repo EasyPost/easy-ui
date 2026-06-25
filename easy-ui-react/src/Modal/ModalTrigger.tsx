@@ -67,6 +67,7 @@ export function ModalTrigger(props: ModalTriggerProps) {
   const {
     children,
     isDismissable = true,
+    allowsThirdPartyOverlays = false,
     childNestingBehavior,
     selfNestingBehavior,
     ...inTriggerProps
@@ -92,6 +93,7 @@ export function ModalTrigger(props: ModalTriggerProps) {
       isDismissable={isDismissable}
       childNestingBehavior={childNestingBehavior}
       selfNestingBehavior={selfNestingBehavior}
+      allowsThirdPartyOverlays={allowsThirdPartyOverlays}
     >
       {cloneElement(trigger, triggerProps)}
       {state.isOpen && (

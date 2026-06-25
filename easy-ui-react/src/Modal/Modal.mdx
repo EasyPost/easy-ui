@@ -133,6 +133,31 @@ Use this sparingly. It trades away the modal's focus containment and background 
 </Modal.Trigger>
 ```
 
+### Nesting a third-party overlay under another modal
+
+A modal with `allowsThirdPartyOverlays` doesn't run focus trapping or background hiding itself, but a **surrounding** focus-trapping modal would — and react-aria keeps the surrounding modal's page-hiding active even while the nested one is open, which would re-`inert` the third-party overlay (e.g. Stripe Link) and steal focus back.
+
+This is handled automatically: a focus-trapping modal relaxes its focus trap and background hiding for as long as it has an open `allowsThirdPartyOverlays` descendant (at any depth), then restores them when that descendant closes. You only need to set `allowsThirdPartyOverlays` on the modal that hosts the overlay — no configuration is required on its ancestors.
+
+```tsx
+{/* The outer modal relaxes automatically while the nested Stripe modal is open. */}
+<Modal.Trigger>
+  <Button>Open</Button>
+  <Modal>
+    <Modal.Header>Billing</Modal.Header>
+    <Modal.Body>
+      <Modal.Trigger allowsThirdPartyOverlays>
+        <Button>Add card</Button>
+        <Modal>
+          <Modal.Header>New Credit Card</Modal.Header>
+          <Modal.Body>{/* Stripe CardElement, etc. */}</Modal.Body>
+        </Modal>
+      </Modal.Trigger>
+    </Modal.Body>
+  </Modal>
+</Modal.Trigger>
+```
+
 ## Nesting behavior
 
 When modals nest, the connection between a parent modal and its nested child can present in one of three ways:

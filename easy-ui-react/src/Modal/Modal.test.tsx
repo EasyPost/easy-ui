@@ -1,5 +1,5 @@
-import { screen } from "@testing-library/react";
-import React from "react";
+import { act, screen } from "@testing-library/react";
+import React, { useState } from "react";
 import { vi } from "vitest";
 import { Button } from "../Button";
 import { HorizontalStack } from "../HorizontalStack";
@@ -294,7 +294,108 @@ describe("<Modal />", () => {
     await userClick(user, screen.getByTestId("third-party"));
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
+
+  it("does not inert a node injected after a nested third-party modal opens", async () => {
+    render(
+      <Modal.Trigger defaultOpen>
+        <Button>Open outer</Button>
+        <Modal>
+          <Modal.Header>Outer</Modal.Header>
+          <Modal.Body>
+            <Modal.Trigger defaultOpen allowsThirdPartyOverlays>
+              <Button>Open inner</Button>
+              <Modal>
+                <Modal.Header>Inner</Modal.Header>
+                <Modal.Body>Inner content</Modal.Body>
+              </Modal>
+            </Modal.Trigger>
+          </Modal.Body>
+        </Modal>
+      </Modal.Trigger>,
+    );
+
+    // Simulate a third-party (e.g. Stripe Link) overlay injected into the body
+    // *after* the modals open. A standard outer modal automatically stops hiding
+    // the page while its `allowsThirdPartyOverlays` descendant is open, so the
+    // injected overlay isn't `inert`'d/`aria-hidden` (which would lock it up).
+    const injected = await injectBodyNode();
+    expect(isElementHidden(injected)).toBe(false);
+  });
+
+  it("still hides outside content when no third-party descendant is open", async () => {
+    render(
+      <>
+        <div data-testid="outside-content">Outside content</div>
+        <Modal.Trigger defaultOpen>
+          <Button>Open modal</Button>
+          <Modal>
+            <Modal.Header>Header</Modal.Header>
+            <Modal.Body>Content</Modal.Body>
+          </Modal>
+        </Modal.Trigger>
+      </>,
+    );
+
+    // With no third-party descendant open, a modal behaves exactly like a
+    // standard focus-trapping modal: it hides the rest of the page.
+    expect(isElementHidden(screen.getByTestId("outside-content"))).toBe(true);
+  });
+
+  it("resumes hiding the page after the nested third-party modal closes", async () => {
+    const { user } = render(<ToggleableNestedThirdPartyModal />);
+
+    await userClick(user, screen.getByRole("button", { name: "Open inner" }));
+    const whileOpen = await injectBodyNode();
+    expect(isElementHidden(whileOpen)).toBe(false);
+
+    await userClick(user, screen.getByRole("button", { name: "Close inner" }));
+    const afterClose = await injectBodyNode();
+    // The outer modal traps again once the third-party descendant is gone.
+    expect(isElementHidden(afterClose)).toBe(true);
+  });
 });
+
+// Appends a node to <body> after the modals are open (mimicking a third-party
+// script like Stripe) and lets react-aria's `ariaHideOutside` MutationObserver
+// react before we assert.
+async function injectBodyNode() {
+  const node = document.createElement("div");
+  await act(async () => {
+    document.body.appendChild(node);
+    await Promise.resolve();
+  });
+  return node;
+}
+
+function ToggleableNestedThirdPartyModal() {
+  const [isInnerOpen, setIsInnerOpen] = useState(false);
+  return (
+    <Modal.Trigger defaultOpen>
+      <Button>Open outer</Button>
+      <Modal>
+        <Modal.Header>Outer</Modal.Header>
+        <Modal.Body>
+          <Button onPress={() => setIsInnerOpen(true)}>Open inner</Button>
+          <ModalContainer
+            allowsThirdPartyOverlays
+            onDismiss={() => setIsInnerOpen(false)}
+          >
+            {isInnerOpen && (
+              <Modal>
+                <Modal.Header>Inner</Modal.Header>
+                <Modal.Body>
+                  <Button onPress={() => setIsInnerOpen(false)}>
+                    Close inner
+                  </Button>
+                </Modal.Body>
+              </Modal>
+            )}
+          </ModalContainer>
+        </Modal.Body>
+      </Modal>
+    </Modal.Trigger>
+  );
+}
 
 function NestedThirdPartyModal() {
   return (
