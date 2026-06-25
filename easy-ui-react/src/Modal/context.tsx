@@ -6,10 +6,13 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
+// SSR-safe `useLayoutEffect`: behaves as `useLayoutEffect` on the client and
+// no-ops without warning on the server, where `ModalTriggerProvider` still
+// renders.
+import { useLayoutEffect } from "@react-aria/utils";
 import { OverlayTriggerState } from "react-stately";
 
 /**
@@ -177,9 +180,16 @@ function useModalNesting({
   // than the whole parent context, whose identity changes as its state updates —
   // depending on the full context would re-fire this effect and flicker the
   // modal.
+  //
+  // This must be a layout effect, not a passive one. When this modal closes, the
+  // cleanup unhides the parent (the parent is kept mounted but `display: none`
+  // while replaced). A passive cleanup runs *after* the browser paints, so the
+  // frame between this modal unmounting and the parent unhiding shows neither —
+  // a visible flash. A layout cleanup runs synchronously during commit and the
+  // parent's unhide is flushed before paint, closing that gap.
   const parentRegisterNested = parentContext?.registerNested;
   const selfReplacesParent = selfNesting === "replace";
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!parentRegisterNested || !isOpen) {
       return;
     }
