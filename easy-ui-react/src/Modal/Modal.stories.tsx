@@ -254,6 +254,10 @@ export const Nested: ModalTriggerStory = {
               <PlaceholderBox width="100%" height="300px">
                 Space for content
               </PlaceholderBox>
+              <Select label="Select an option" placeholder="Select an option">
+                <Select.Option key="option1">Option 1</Select.Option>
+                <Select.Option key="option2">Option 2</Select.Option>
+              </Select>
               <ModalContainer
                 selfNestingBehavior="replace"
                 onDismiss={() => {
@@ -284,6 +288,17 @@ export const Nested: ModalTriggerStory = {
                           <Modal>
                             <Modal.Header>Modal 3</Modal.Header>
                             <Modal.Body>
+                              <Select
+                                label="Select an option"
+                                placeholder="Select an option"
+                              >
+                                <Select.Option key="option1">
+                                  Option 1
+                                </Select.Option>
+                                <Select.Option key="option2">
+                                  Option 2
+                                </Select.Option>
+                              </Select>
                               <PlaceholderBox width="100%" height="100px">
                                 Content 3
                               </PlaceholderBox>

@@ -12,6 +12,16 @@ import { useModalTriggerContext } from "./context";
 
 import styles from "./Modal.module.scss";
 
+// Marks every Easy UI modal box. A modal ignores interact-outside events that
+// land inside another (nested) Easy UI modal's box, so opening or clicking a
+// nested modal never dismisses the one beneath it. Backdrop clicks land outside
+// the box and still dismiss.
+const MODAL_BOX_ATTRIBUTE = "data-easy-ui-modal-box";
+
+function shouldCloseOnInteractOutside(target: Element) {
+  return !target.closest(`[${MODAL_BOX_ATTRIBUTE}]`);
+}
+
 type ModalUnderlayProps = {
   /**
    * Modal state.
@@ -50,11 +60,11 @@ type ModalUnderlayContentProps = {
   children: ReactNode;
 
   /**
-   * Marks the modal box as a top layer so a surrounding Easy UI modal's
-   * `ariaHideOutside` keeps it (and any third-party overlays it hosts) visible
-   * and interactive instead of `inert`'ing it.
+   * Keeps this modal box visible when a surrounding Easy UI modal's
+   * `ariaHideOutside` would otherwise `inert` it. Needed by the third-party
+   * variant, which doesn't run `ariaHideOutside` itself.
    */
-  isTopLayer?: boolean;
+  keepVisibleUnderModal?: boolean;
 };
 
 export function ModalUnderlay(props: ModalUnderlayProps) {
@@ -79,6 +89,7 @@ function FocusTrappingUnderlay(props: ModalUnderlayProps) {
     {
       isDismissable,
       isKeyboardDismissDisabled: !isDismissable,
+      shouldCloseOnInteractOutside,
     },
     state,
     ref,
@@ -117,6 +128,7 @@ function ThirdPartyOverlayUnderlay(props: ModalUnderlayProps) {
       onClose: state.close,
       isDismissable,
       isKeyboardDismissDisabled: !isDismissable,
+      shouldCloseOnInteractOutside,
     },
     ref,
   );
@@ -127,7 +139,7 @@ function ThirdPartyOverlayUnderlay(props: ModalUnderlayProps) {
       modalProps={overlayProps}
       underlayProps={underlayProps}
       modalRef={ref}
-      isTopLayer
+      keepVisibleUnderModal
     >
       {children}
     </ModalUnderlayContent>
@@ -143,7 +155,7 @@ function ModalUnderlayContent({
   underlayProps,
   modalRef,
   children,
-  isTopLayer = false,
+  keepVisibleUnderModal = false,
 }: ModalUnderlayContentProps) {
   const { isNested, hasReplacingChild, selfNestingBehavior } =
     useModalTriggerContext();
@@ -168,13 +180,19 @@ function ModalUnderlayContent({
           {...modalProps}
           ref={modalRef}
           className={styles.underlayBox}
-          // When this modal hosts third-party overlays, an outer Easy UI modal's
-          // `ariaHideOutside` would otherwise `inert` this modal — making it
-          // non-interactive and letting clicks fall through to the content
-          // beneath, which dismisses it. Tagging the box as a top layer keeps it
-          // (and its ancestors) visible and exempt from interact-outside, while
-          // the untagged underlay still dismisses on a backdrop click.
-          data-react-aria-top-layer={isTopLayer ? "true" : undefined}
+          // Marks this as an Easy UI modal box so a surrounding Easy UI modal's
+          // interact-outside ignores clicks inside it (see
+          // `shouldCloseOnInteractOutside`): opening or clicking a nested modal
+          // won't dismiss the one beneath, while backdrop clicks still do.
+          {...{ [MODAL_BOX_ATTRIBUTE]: "true" }}
+          // Modals that host third-party overlays don't run `ariaHideOutside`
+          // themselves, so a surrounding standard modal would otherwise `inert`
+          // this one. `data-live-announcer` is honored by react-aria's
+          // `ariaHideOutside` to keep an element visible — and, unlike
+          // `data-react-aria-top-layer`, it does NOT make react-aria treat clicks
+          // inside this modal as "not outside," so nested overlays (e.g. Select)
+          // still dismiss correctly.
+          data-live-announcer={keepVisibleUnderModal ? "true" : undefined}
         >
           <div className={styles.underlayEdge} />
           {children}

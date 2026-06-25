@@ -10,6 +10,7 @@ import {
   userClick,
   userKeyboard,
 } from "../utilities/test";
+import { Select } from "../Select";
 import { Modal, ModalContainer, ModalProps, useModalTrigger } from "./Modal";
 import { ModalHeaderProps } from "./ModalHeader";
 import { ModalTriggerProps } from "./ModalTrigger";
@@ -225,6 +226,74 @@ describe("<Modal />", () => {
       screen.getByRole("button", { name: "Inner action" }),
     ).toBeInTheDocument();
   });
+
+  it("should dismiss a Select on outside click within an allowsThirdPartyOverlays modal", async () => {
+    const { user } = render(<ModalWithSelect />);
+
+    await userClick(user, screen.getByRole("button", { name: /fruit/i }));
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+
+    // Click elsewhere inside the modal (not the listbox, not the backdrop). The
+    // modal box used to be tagged `data-react-aria-top-layer`, which made
+    // react-aria treat clicks inside the modal as "not outside" so the Select
+    // never closed.
+    await userClick(user, screen.getByTestId("modal-content"));
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+  });
+
+  it("should dismiss an allowsThirdPartyOverlays modal when interacting outside it", async () => {
+    const { user } = render(
+      <>
+        <button data-testid="outside">Outside</button>
+        <Modal.Trigger defaultOpen allowsThirdPartyOverlays>
+          <Button>Open modal</Button>
+          <Modal>
+            <Modal.Header>Header</Modal.Header>
+            <Modal.Body>Content</Modal.Body>
+          </Modal>
+        </Modal.Trigger>
+      </>,
+    );
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    await userClick(user, screen.getByTestId("outside"));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("should not dismiss the outer modal when interacting with a nested modal", async () => {
+    const { user } = render(<NestedDismissModals />);
+
+    expect(screen.getByTestId("outer-content")).toBeInTheDocument();
+    await userClick(user, screen.getByTestId("inner-content"));
+
+    // Clicking inside the nested modal must not dismiss the modal beneath it.
+    expect(screen.getByTestId("outer-content")).toBeInTheDocument();
+    expect(screen.getByTestId("inner-content")).toBeInTheDocument();
+  });
+
+  it("should not dismiss the modal when interacting with a third-party top-layer overlay", async () => {
+    const { user } = render(
+      <>
+        <div data-react-aria-top-layer="true">
+          <button data-testid="third-party">Third-party field</button>
+        </div>
+        <Modal.Trigger defaultOpen allowsThirdPartyOverlays>
+          <Button>Open modal</Button>
+          <Modal>
+            <Modal.Header>Header</Modal.Header>
+            <Modal.Body>Content</Modal.Body>
+          </Modal>
+        </Modal.Trigger>
+      </>,
+    );
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    // react-aria ignores interact-outside on `[data-react-aria-top-layer]`, so a
+    // genuine third-party overlay (e.g. Stripe) doesn't dismiss the modal.
+    await userClick(user, screen.getByTestId("third-party"));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
 });
 
 function NestedThirdPartyModal() {
@@ -241,6 +310,47 @@ function NestedThirdPartyModal() {
               <Modal.Body>
                 <div data-testid="inner-content">Inner content</div>
                 <Button>Inner action</Button>
+              </Modal.Body>
+            </Modal>
+          </Modal.Trigger>
+        </Modal.Body>
+      </Modal>
+    </Modal.Trigger>
+  );
+}
+
+function ModalWithSelect() {
+  return (
+    <Modal.Trigger defaultOpen allowsThirdPartyOverlays>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>Header</Modal.Header>
+        <Modal.Body>
+          <div data-testid="modal-content">Modal content</div>
+          <Select label="Fruit" placeholder="Pick a fruit">
+            <Select.Option key="apple">Apple</Select.Option>
+            <Select.Option key="banana">Banana</Select.Option>
+          </Select>
+        </Modal.Body>
+      </Modal>
+    </Modal.Trigger>
+  );
+}
+
+function NestedDismissModals() {
+  return (
+    <Modal.Trigger defaultOpen>
+      <Button>Open outer</Button>
+      <Modal>
+        <Modal.Header>Outer</Modal.Header>
+        <Modal.Body>
+          <div data-testid="outer-content">Outer content</div>
+          <Modal.Trigger defaultOpen allowsThirdPartyOverlays>
+            <Button>Open inner</Button>
+            <Modal>
+              <Modal.Header>Inner</Modal.Header>
+              <Modal.Body>
+                <div data-testid="inner-content">Inner content</div>
               </Modal.Body>
             </Modal>
           </Modal.Trigger>
