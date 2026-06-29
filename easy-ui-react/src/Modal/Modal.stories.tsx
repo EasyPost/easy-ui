@@ -1,9 +1,12 @@
-import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { CardElement, Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import React, { Key, useMemo, useState } from "react";
+import React, { Key, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { action } from "storybook/actions";
 import { Button } from "../Button";
+import { DropdownButton } from "../DropdownButton";
+import { HorizontalStack } from "../HorizontalStack";
+import { Menu } from "../Menu";
+import { Select } from "../Select";
 import {
   EasyPostLogo,
   PlaceholderBox,
@@ -11,11 +14,6 @@ import {
 } from "../utilities/storybook";
 import { Modal, ModalContainer, useModalTrigger } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
-import { Menu } from "../Menu";
-import { DropdownButton } from "../DropdownButton";
-import { Select } from "../Select";
-import { Text } from "../Text";
-import { HorizontalStack } from "../HorizontalStack";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
@@ -235,24 +233,12 @@ export const MenuTrigger: ModalTriggerStory = {
   },
 };
 
-type NestedModalStory = StoryObj<
-  React.ComponentProps<typeof ModalTrigger> & { publishableKey: string }
->;
-
-export const Nested: NestedModalStory = {
+export const Nested: ModalTriggerStory = {
   render: (args) => {
     const [modal1, setModal1] = useState(true);
     const [modal2, setModal2] = useState(false);
     const [modal3, setModal3] = useState(false);
-
-    // Load real Stripe.js (one instance per key) so Modal 2 can mount the real
-    // `CardElement` and inject Stripe's Link / autofill overlays — the
-    // third-party overlays that `allowsThirdPartyOverlays` keeps usable.
-    const { publishableKey } = args;
-    const stripePromise = useMemo(
-      () => (publishableKey ? loadStripe(publishableKey) : null),
-      [publishableKey],
-    );
+    const [modalThirdParty, setModalThirdParty] = useState(false);
 
     return (
       // `childNestingBehavior` is set only on the outermost modal; it cascades to
@@ -260,10 +246,12 @@ export const Nested: NestedModalStory = {
       // outer modal with `selfNestingBehavior="replace"`.
       //
       // Modal 2 sets `allowsThirdPartyOverlays`; this focus-trapping outer modal
-      // automatically relaxes while it's open so Modal 2's Stripe Link / autofill
-      // overlay isn't inert'd or robbed of focus.
+      // automatically relaxes while it's open so the third-party overlay that
+      // Modal 2 injects into the body isn't inert'd or robbed of focus. Toggle
+      // the `allowsThirdPartyOverlays` control off to watch that overlay lock up.
       <ModalContainer
         childNestingBehavior={args.childNestingBehavior}
+        isDismissable={false}
         onDismiss={() => {
           setModal1(false);
         }}
@@ -281,10 +269,11 @@ export const Nested: NestedModalStory = {
               </Select>
               <ModalContainer
                 selfNestingBehavior="replace"
+                isDismissable={false}
                 onDismiss={() => {
                   setModal2(false);
                 }}
-                allowsThirdPartyOverlays
+                allowsThirdPartyOverlays={args.allowsThirdPartyOverlays}
               >
                 {modal2 && (
                   <Modal>
@@ -300,25 +289,15 @@ export const Nested: NestedModalStory = {
                         <Select.Option key="option1">Option 1</Select.Option>
                         <Select.Option key="option2">Option 2</Select.Option>
                       </Select>
-                      {stripePromise ? (
-                        <Elements stripe={stripePromise}>
-                          <div
-                            style={{
-                              border: "1px solid #ccc",
-                              borderRadius: 8,
-                              padding: 12,
-                            }}
-                          >
-                            <CardElement options={{ hidePostalCode: true }} />
-                          </div>
-                        </Elements>
-                      ) : (
-                        <Text color="neutral.500" variant="body2">
-                          Paste a Stripe test publishable key (pk_test_…) into
-                          the &quot;publishableKey&quot; control, then reopen
-                          this modal to mount the real Stripe CardElement and
-                          trigger Link / autofill.
-                        </Text>
+                      <Button onClick={() => setModalThirdParty(true)}>
+                        Open Third-party Overlay
+                      </Button>
+                      {modalThirdParty && (
+                        <ThirdPartyOverlaySimulator
+                          onDismiss={() => {
+                            setModalThirdParty(false);
+                          }}
+                        />
                       )}
                       {modal3 && (
                         <ModalContainer
@@ -395,25 +374,102 @@ export const Nested: NestedModalStory = {
   },
   args: {
     childNestingBehavior: "stack-shared-backdrop",
-    publishableKey: "",
+    allowsThirdPartyOverlays: true,
   },
   argTypes: {
     childNestingBehavior: {
       control: "select",
       options: ["stack", "stack-shared-backdrop", "replace"],
     },
-    publishableKey: {
-      control: "text",
+    allowsThirdPartyOverlays: {
+      control: "boolean",
       description:
-        "Stripe test publishable key (pk_test_…). Mounts the real Stripe " +
-        "CardElement in Modal 2 so its Link / autofill third-party overlay " +
-        "can be exercised against `allowsThirdPartyOverlays`.",
+        "Set on Modal 2. When on, the outer modal relaxes its focus trap and " +
+        "background hiding while Modal 2 is open, so the simulated third-party " +
+        "overlay stays usable. Turn it off to watch the overlay lock up (can't " +
+        "type or click).",
     },
   },
   parameters: {
-    controls: { include: ["childNestingBehavior", "publishableKey"] },
+    controls: { include: ["childNestingBehavior", "allowsThirdPartyOverlays"] },
   },
 };
+
+/**
+ * Simulates a third-party widget (e.g. Stripe Link / autofill) that injects an
+ * interactive overlay into `document.body` — outside the modal's DOM — after the
+ * modal opens. A surrounding focus-trapping modal would `inert` it and steal its
+ * focus; Easy UI relaxes automatically while an `allowsThirdPartyOverlays`
+ * descendant is open, keeping it usable. Try typing in the field and clicking
+ * the button.
+ */
+function ThirdPartyOverlaySimulator({ onDismiss }: { onDismiss?: () => void }) {
+  // Mimics a third-party widget (e.g. Stripe Link / autofill) that injects an
+  // interactive overlay into `document.body` — outside the modal — after the
+  // modal opens. The modals in this story are non-dismissable so clicking here
+  // doesn't close them (real third-party overlays render in iframes, whose
+  // events don't reach the page; non-dismissable sidesteps that without the
+  // iframe's quirks). It is NOT `data-react-aria-top-layer`, so a non-relaxed
+  // modal still `inert`s it — that's the lock-up.
+  const ref = useRef<HTMLDivElement>(null);
+
+  return createPortal(
+    <div
+      ref={ref}
+      data-testid="third-party-overlay"
+      style={{
+        position: "fixed",
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        // Above the modal (`z-index.modal` is 1300) so it's visible on top, the
+        // way Stripe Link renders in the browser's top layer.
+        zIndex: 9999,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "rgba(0, 0, 0, 0.2)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: 260,
+          padding: 16,
+          background: "white",
+          border: "2px solid #635bff",
+          gap: 8,
+          borderRadius: 8,
+          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <strong>Simulated third-party overlay</strong>
+          <button
+            type="button"
+            aria-label="Close overlay"
+            onClick={onDismiss}
+            style={{ border: "none", background: "none", cursor: "pointer" }}
+          >
+            ✕
+          </button>
+        </div>
+        <small>Injected into document.body, like Stripe Link</small>
+        <input aria-label="Third-party field" placeholder="Type here…" />
+      </div>
+    </div>,
+    document.body,
+  );
+}
 
 export const WithSelect: ModalStory = {
   render: () => (
