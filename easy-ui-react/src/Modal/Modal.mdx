@@ -121,18 +121,20 @@ By default, a `<Modal />` traps focus and hides the rest of the page from assist
 
 Wrap the `<Modal />` in a `<Modal.ThirdPartyOverlayBoundary />` and pass a `selector` matching the nodes the widget appends to `document.body`. The boundary exempts those nodes from the modal's focus trap and background hiding so they stay usable, while the modal stays mounted and keeps its focus containment for everything else. Closing on interaction outside, scroll locking, and restoring focus to the trigger on close are all preserved.
 
-Use this sparingly. Reach for it only when a modal must host a third-party overlay that requires it.
+The boundary doesn't rely on a ref or its position in the tree—it watches `document.body` for matching nodes directly—so you can wrap the `<Modal />` itself or wrap the surrounding `<Modal.Trigger />` / `<ModalContainer />`. Wrapping the `<Modal />` directly keeps the boundary scoped to that one modal.
+
+Use this sparingly. Reach for it only when a modal must host a third-party overlay that requires it, and give each boundary a selector specific to the widget that modal hosts.
 
 ```tsx
-<Modal.ThirdPartyOverlayBoundary selector='iframe[name^="__privateStripe"]'>
-  <Modal.Trigger>
-    <Button>Add card</Button>
+<Modal.Trigger>
+  <Button>Add card</Button>
+  <Modal.ThirdPartyOverlayBoundary selector='iframe[name^="__privateStripe"]'>
     <Modal>
       <Modal.Header>New Credit Card</Modal.Header>
       <Modal.Body>{/* Stripe CardElement, etc. */}</Modal.Body>
     </Modal>
-  </Modal.Trigger>
-</Modal.ThirdPartyOverlayBoundary>
+  </Modal.ThirdPartyOverlayBoundary>
+</Modal.Trigger>
 ```
 
 ## Properties

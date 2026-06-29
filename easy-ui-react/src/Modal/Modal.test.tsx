@@ -211,6 +211,39 @@ describe("<Modal />", () => {
     );
     expect(screen.getByText("card form")).toBeInTheDocument();
   });
+
+  it("should render a Modal wrapped directly by Modal.ThirdPartyOverlayBoundary", () => {
+    render(
+      <Modal.Trigger defaultOpen>
+        <Button>Open modal</Button>
+        <Modal.ThirdPartyOverlayBoundary selector='iframe[name^="__privateStripe"]'>
+          <Modal>
+            <Modal.Header>Header</Modal.Header>
+            <Modal.Body>Direct wrap content</Modal.Body>
+          </Modal>
+        </Modal.ThirdPartyOverlayBoundary>
+      </Modal.Trigger>,
+    );
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Direct wrap content")).toBeInTheDocument();
+  });
+
+  it("should forward parent-injected props onto a directly-wrapped child", () => {
+    // Mirrors how Modal.Trigger / ModalContainer clone their modal child to
+    // inject overlay props: the boundary must pass them through transparently.
+    const element = (
+      <Modal.ThirdPartyOverlayBoundary selector='iframe[name^="__privateStripe"]'>
+        <div data-testid="wrapped" />
+      </Modal.ThirdPartyOverlayBoundary>
+    );
+    render(
+      React.cloneElement(
+        element as React.ReactElement<Record<string, unknown>>,
+        { id: "injected" },
+      ),
+    );
+    expect(screen.getByTestId("wrapped")).toHaveAttribute("id", "injected");
+  });
 });
 
 const CustomSymbol = (props: object) => <span {...props} />;
