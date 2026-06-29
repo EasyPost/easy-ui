@@ -51,6 +51,49 @@ export const unmarkElementAsTopLayer = (node: HTMLElement): boolean => {
   return false;
 };
 
+/**
+ * Refcounted ownership of the top-layer tag.
+ *
+ * The overlay scan is page-wide (`document.body.querySelectorAll`), so two
+ * boundaries with the same selector both match — and both tag — the same
+ * body-level node. Each tracks the node in its own set, so without coordination
+ * the first one to unmount would strip a tag the other still needs, letting
+ * react-aria re-`inert` the node and re-lock the overlay. Refcounting fixes
+ * that: the tag is applied on the first claim and reverted only when the last
+ * claimant releases. A `WeakMap` keeps no detached nodes alive — entries vanish
+ * with the node.
+ */
+const topLayerClaims = new WeakMap<HTMLElement, number>();
+
+/**
+ * Claim the top-layer exemption for a node, applying the tag on the first claim.
+ * Re-asserts the tag on every claim (react-aria may have re-applied `inert`
+ * since); returns whether the tag actually changed.
+ */
+export const claimTopLayer = (node: HTMLElement): boolean => {
+  topLayerClaims.set(node, (topLayerClaims.get(node) ?? 0) + 1);
+  return markElementAsTopLayer(node);
+};
+
+/**
+ * Release one claim on a node. Reverts the node (and returns `true`) only when
+ * the last claimant releases; while other claimants remain, the tag is left in
+ * place and this returns `false`.
+ */
+export const releaseTopLayer = (node: HTMLElement): boolean => {
+  const count = topLayerClaims.get(node) ?? 0;
+  if (count <= 1) {
+    topLayerClaims.delete(node);
+    return unmarkElementAsTopLayer(node);
+  }
+  topLayerClaims.set(node, count - 1);
+  return false;
+};
+
+/** Current number of live claims on a node (`0` if none). */
+export const topLayerClaimCount = (node: HTMLElement): number =>
+  topLayerClaims.get(node) ?? 0;
+
 /** Climb to the element that is a direct child of `<body>`. */
 export const bodyLevelAncestor = (el: HTMLElement): HTMLElement => {
   let node = el;

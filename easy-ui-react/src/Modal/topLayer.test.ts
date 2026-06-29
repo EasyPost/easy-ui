@@ -1,7 +1,10 @@
 import {
   TOP_LAYER_ATTR,
   bodyLevelAncestor,
+  claimTopLayer,
   markElementAsTopLayer,
+  releaseTopLayer,
+  topLayerClaimCount,
   unmarkElementAsTopLayer,
 } from "./topLayer";
 
@@ -56,6 +59,38 @@ describe("topLayer", () => {
 
       expect(el.hasAttribute("aria-hidden")).toBe(false);
       expect(el.inert).toBeFalsy();
+    });
+  });
+
+  describe("claimTopLayer / releaseTopLayer", () => {
+    test("tags on the first claim", () => {
+      const el = document.createElement("div");
+      claimTopLayer(el);
+      expect(el.getAttribute(TOP_LAYER_ATTR)).toBe("true");
+      expect(topLayerClaimCount(el)).toBe(1);
+    });
+
+    test("reverts only when the last claimant releases", () => {
+      const el = document.createElement("div");
+      claimTopLayer(el);
+      claimTopLayer(el);
+      expect(topLayerClaimCount(el)).toBe(2);
+
+      // first release: another claimant remains, so the tag stays
+      expect(releaseTopLayer(el)).toBe(false);
+      expect(el.getAttribute(TOP_LAYER_ATTR)).toBe("true");
+      expect(topLayerClaimCount(el)).toBe(1);
+
+      // last release: now it reverts
+      expect(releaseTopLayer(el)).toBe(true);
+      expect(el.hasAttribute(TOP_LAYER_ATTR)).toBe(false);
+      expect(topLayerClaimCount(el)).toBe(0);
+    });
+
+    test("releasing an unclaimed node is a no-op", () => {
+      const el = document.createElement("div");
+      expect(releaseTopLayer(el)).toBe(false);
+      expect(topLayerClaimCount(el)).toBe(0);
     });
   });
 

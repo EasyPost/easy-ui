@@ -1,8 +1,10 @@
 import * as React from "react";
 import {
   bodyLevelAncestor,
+  claimTopLayer,
   markElementAsTopLayer,
-  unmarkElementAsTopLayer,
+  releaseTopLayer,
+  topLayerClaimCount,
 } from "./topLayer";
 
 type IgnoreRefs = React.RefObject<HTMLElement> | React.RefObject<HTMLElement>[];
@@ -130,8 +132,14 @@ export const useThirdPartyOverlays = ({
       });
 
       containers.forEach((container) => {
-        markElementAsTopLayer(container);
-        taggedNodes.add(container);
+        if (taggedNodes.has(container)) {
+          // already our claim — re-assert the tag in case react-aria re-applied
+          // inert/aria-hidden since the last scan
+          markElementAsTopLayer(container);
+        } else {
+          taggedNodes.add(container);
+          claimTopLayer(container);
+        }
       });
       setIsOverlayOpen(overlayVisible);
     };
@@ -163,18 +171,26 @@ export const useThirdPartyOverlays = ({
       }
       observer.disconnect();
 
-      // Revert every node we tagged. If focus is currently inside one (e.g. the
-      // user closed the modal while a Stripe Link/OTP iframe was focused), blur
-      // it first: leaving focus in a top-layer subtree as the scope unmounts is
-      // exactly what sends react-aria's focus restore into a loop. Blurring
-      // drops focus to <body>, from which react-aria restores to the trigger
-      // cleanly.
+      // Release every node we claimed. Refcounting means a node shared with
+      // another mounted boundary keeps its tag until that boundary releases too
+      // — only the final claimant actually reverts it. If focus is inside a node
+      // we're truly reverting (e.g. the user closed the modal while a Stripe
+      // Link/OTP iframe was focused), blur it first: leaving focus in a
+      // top-layer subtree as the scope unmounts is exactly what sends
+      // react-aria's focus restore into a loop. Blurring drops focus to <body>,
+      // from which react-aria restores to the trigger cleanly. We skip the blur
+      // while another boundary still claims the node, since it stays live.
       const active = document.activeElement;
       taggedNodes.forEach((node) => {
-        if (active instanceof HTMLElement && node.contains(active)) {
+        const isLastClaim = topLayerClaimCount(node) <= 1;
+        if (
+          isLastClaim &&
+          active instanceof HTMLElement &&
+          node.contains(active)
+        ) {
           active.blur();
         }
-        unmarkElementAsTopLayer(node);
+        releaseTopLayer(node);
       });
       taggedNodes.clear();
     };
