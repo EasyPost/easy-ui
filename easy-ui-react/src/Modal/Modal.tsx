@@ -9,6 +9,7 @@ import { ModalContext } from "./context";
 import { useIntersectionDetection } from "./useIntersectionDetection";
 import { ModalContainer } from "./ModalContainer";
 import { useModalTrigger } from "./context";
+import { ThirdPartyOverlayBoundary } from "./ThirdPartyOverlayBoundary";
 
 import styles from "./Modal.module.scss";
 
@@ -120,5 +121,10 @@ Modal.Body = ModalBody;
  * Represents the footer of a `<Modal />`.
  */
 Modal.Footer = ModalFooter;
+
+/**
+ * Represents a boundary for third-party overlays within a `<Modal />`.
+ */
+Modal.ThirdPartyOverlayBoundary = ThirdPartyOverlayBoundary;
 
 export { ModalContainer, useModalTrigger };

@@ -212,6 +212,15 @@ describe("<Modal />", () => {
     renderModalWithOutsideContent({ allowsThirdPartyOverlays: true });
     expect(isElementHidden(screen.getByTestId("outside-content"))).toBe(false);
   });
+
+  it("should render Modal.ThirdPartyOverlayBoundary's children", () => {
+    render(
+      <Modal.ThirdPartyOverlayBoundary selector='iframe[name^="__privateStripe"]'>
+        <span>card form</span>
+      </Modal.ThirdPartyOverlayBoundary>,
+    );
+    expect(screen.getByText("card form")).toBeInTheDocument();
+  });
 });
 
 const CustomSymbol = (props: object) => <span {...props} />;

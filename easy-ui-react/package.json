@@ -35,6 +35,7 @@
     "@react-aria/utils": "^3.32.0",
     "@react-stately/toast": "^3.1.2",
     "@react-types/shared": "^3.32.1",
+    "@testing-library/react-hooks": "^8.0.1",
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.3.0",
     "overlayscrollbars-react": "^0.5.6",
