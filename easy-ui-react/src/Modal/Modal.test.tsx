@@ -203,14 +203,46 @@ describe("<Modal />", () => {
     expect(handleSecondaryAction).toBeCalled();
   });
 
-  it("should hide outside content while open by default", () => {
-    renderModalWithOutsideContent();
-    expect(isElementHidden(screen.getByTestId("outside-content"))).toBe(true);
+  it("should render Modal.ThirdPartyOverlayBoundary's children", () => {
+    render(
+      <Modal.ThirdPartyOverlayBoundary selector='iframe[name^="__privateStripe"]'>
+        <span>card form</span>
+      </Modal.ThirdPartyOverlayBoundary>,
+    );
+    expect(screen.getByText("card form")).toBeInTheDocument();
   });
 
-  it("should not hide outside content when allowsThirdPartyOverlays is set", () => {
-    renderModalWithOutsideContent({ allowsThirdPartyOverlays: true });
-    expect(isElementHidden(screen.getByTestId("outside-content"))).toBe(false);
+  it("should render a Modal wrapped directly by Modal.ThirdPartyOverlayBoundary", () => {
+    render(
+      <Modal.Trigger defaultOpen>
+        <Button>Open modal</Button>
+        <Modal.ThirdPartyOverlayBoundary selector='iframe[name^="__privateStripe"]'>
+          <Modal>
+            <Modal.Header>Header</Modal.Header>
+            <Modal.Body>Direct wrap content</Modal.Body>
+          </Modal>
+        </Modal.ThirdPartyOverlayBoundary>
+      </Modal.Trigger>,
+    );
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Direct wrap content")).toBeInTheDocument();
+  });
+
+  it("should forward parent-injected props onto a directly-wrapped child", () => {
+    // Mirrors how Modal.Trigger / ModalContainer clone their modal child to
+    // inject overlay props: the boundary must pass them through transparently.
+    const element = (
+      <Modal.ThirdPartyOverlayBoundary selector='iframe[name^="__privateStripe"]'>
+        <div data-testid="wrapped" />
+      </Modal.ThirdPartyOverlayBoundary>
+    );
+    render(
+      React.cloneElement(
+        element as React.ReactElement<Record<string, unknown>>,
+        { id: "injected" },
+      ),
+    );
+    expect(screen.getByTestId("wrapped")).toHaveAttribute("id", "injected");
   });
 });
 
@@ -279,32 +311,4 @@ async function renderAndOpenModal(args = {}) {
   await userClick(user, openButton);
   expect(screen.queryByRole("dialog")).toBeInTheDocument();
   return response;
-}
-
-// react-aria's `ariaHideOutside` hides outside content via `inert` (or
-// `aria-hidden` where `inert` is unsupported), applied to an ancestor.
-function isElementHidden(element: Element) {
-  return Boolean(
-    element.closest("[inert]") || element.closest('[aria-hidden="true"]'),
-  );
-}
-
-function renderModalWithOutsideContent({
-  allowsThirdPartyOverlays,
-}: Partial<ModalTriggerProps> = {}) {
-  return render(
-    <>
-      <div data-testid="outside-content">Outside content</div>
-      <Modal.Trigger
-        defaultOpen
-        allowsThirdPartyOverlays={allowsThirdPartyOverlays}
-      >
-        <Button>Open modal</Button>
-        <Modal>
-          <Modal.Header>Header</Modal.Header>
-          <Modal.Body>Content</Modal.Body>
-        </Modal>
-      </Modal.Trigger>
-    </>,
-  );
 }
