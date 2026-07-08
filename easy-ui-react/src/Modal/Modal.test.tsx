@@ -353,6 +353,127 @@ describe("<Modal />", () => {
     // The outer modal traps again once the third-party descendant is gone.
     expect(isElementHidden(afterClose)).toBe(true);
   });
+
+  it("moves focus into the dialog when it opens", async () => {
+    const { user } = render(<FocusModal />);
+
+    await userClick(user, screen.getByRole("button", { name: "Open modal" }));
+    await flushFocus();
+
+    // The refactor moved focus management from `Overlay`'s built-in
+    // `FocusScope` to our own; autofocus must still land inside the dialog.
+    const dialog = screen.getByRole("dialog");
+    expect(dialog.contains(document.activeElement)).toBe(true);
+  });
+
+  it("restores focus to the trigger when the dialog closes", async () => {
+    const { user } = render(<FocusModal />);
+    const trigger = screen.getByRole("button", { name: "Open modal" });
+
+    await userClick(user, trigger);
+    await userKeyboard(user, "{Escape}");
+    await flushFocus();
+
+    // Our `FocusScope` keeps `restoreFocus`, so focus returns to the trigger.
+    expect(trigger).toHaveFocus();
+  });
+
+  it("contains focus within the dialog by default", async () => {
+    const { user } = render(<FocusModal />);
+
+    await userClick(user, screen.getByRole("button", { name: "Open modal" }));
+    await flushFocus();
+
+    // Focusing an element outside the modal is pulled back in: the standard
+    // modal traps focus (`contain`).
+    const dialog = screen.getByRole("dialog");
+    focusOutside(screen.getByTestId("outside"));
+    expect(screen.getByTestId("outside")).not.toHaveFocus();
+    expect(dialog.contains(document.activeElement)).toBe(true);
+  });
+
+  it("relaxes focus containment while a third-party-overlay descendant is open", async () => {
+    const { user } = render(<RelaxableFocusModal />);
+
+    await userClick(user, screen.getByRole("button", { name: "Open inner" }));
+    await flushFocus();
+
+    // With an `allowsThirdPartyOverlays` descendant open, the outer modal stops
+    // containing focus, so focus can reach content outside the modal (e.g. a
+    // third-party overlay injected into the body) and isn't yanked back.
+    focusOutside(screen.getByTestId("outside"));
+    expect(screen.getByTestId("outside")).toHaveFocus();
+  });
+
+  it("resumes focus containment after the third-party-overlay descendant closes", async () => {
+    const { user } = render(<RelaxableFocusModal />);
+
+    await userClick(user, screen.getByRole("button", { name: "Open inner" }));
+    await userClick(user, screen.getByRole("button", { name: "Close inner" }));
+    await flushFocus();
+
+    // Once the third-party descendant is gone, the outer modal traps again.
+    const dialog = screen.getByRole("dialog");
+    focusOutside(screen.getByTestId("outside"));
+    expect(screen.getByTestId("outside")).not.toHaveFocus();
+    expect(dialog.contains(document.activeElement)).toBe(true);
+  });
+
+  it("restores focus to the trigger when a third-party-overlay modal closes", async () => {
+    const { user } = render(
+      <Modal.Trigger allowsThirdPartyOverlays>
+        <Button>Open modal</Button>
+        {(close) => (
+          <Modal>
+            <Modal.Header>Header</Modal.Header>
+            <Modal.Body>
+              <Button onPress={close}>Dismiss</Button>
+            </Modal.Body>
+          </Modal>
+        )}
+      </Modal.Trigger>,
+    );
+    const trigger = screen.getByRole("button", { name: "Open modal" });
+
+    await userClick(user, trigger);
+    await userClick(user, screen.getByRole("button", { name: "Dismiss" }));
+    await flushFocus();
+
+    // A third-party modal never contains focus, but its `FocusScope` still keeps
+    // `restoreFocus`, so focus returns to the trigger on close.
+    expect(trigger).toHaveFocus();
+  });
+
+  it("keeps focus in the topmost modal when a replacing child is open", async () => {
+    const { user } = render(
+      <Modal.Trigger defaultOpen childNestingBehavior="replace">
+        <Button>Open outer</Button>
+        <Modal>
+          <Modal.Header>Outer</Modal.Header>
+          <Modal.Body>
+            <Modal.Trigger allowsThirdPartyOverlays>
+              <Button>Open inner</Button>
+              <Modal>
+                <Modal.Header>Inner</Modal.Header>
+                <Modal.Body>
+                  <button data-testid="inner-content">Inner content</button>
+                </Modal.Body>
+              </Modal>
+            </Modal.Trigger>
+          </Modal.Body>
+        </Modal>
+      </Modal.Trigger>,
+    );
+
+    await userClick(user, screen.getByRole("button", { name: "Open inner" }));
+    await flushFocus();
+
+    // The replacing child is the visible, topmost modal, so focus lives inside
+    // it rather than the hidden parent.
+    const inner = screen.getByTestId("inner-content").closest("[role=dialog]");
+    expect(inner).not.toBeNull();
+    expect(inner?.contains(document.activeElement)).toBe(true);
+  });
 });
 
 // Appends a node to <body> after the modals are open (mimicking a third-party
@@ -458,6 +579,74 @@ function NestedDismissModals() {
         </Modal.Body>
       </Modal>
     </Modal.Trigger>
+  );
+}
+
+// Flushes any deferred focus movement (react-aria autofocus/restore can run in a
+// microtask or animation frame) so focus assertions observe the settled state.
+async function flushFocus() {
+  await act(async () => {
+    vi.runOnlyPendingTimers();
+    await Promise.resolve();
+  });
+}
+
+// Moves focus to an element outside the modal. `FocusScope`'s containment reacts
+// to the resulting `focusin` synchronously, so wrapping in `act` is enough to
+// observe whether focus was pulled back in.
+function focusOutside(element: HTMLElement) {
+  act(() => {
+    element.focus();
+  });
+}
+
+// A standard (focus-trapping) modal with a focusable sibling outside it, used to
+// exercise autofocus, focus restoration, and focus containment.
+function FocusModal({ isDismissable }: Partial<ModalTriggerProps> = {}) {
+  return (
+    <>
+      <button data-testid="outside">Outside</button>
+      <Modal.Trigger isDismissable={isDismissable}>
+        <Button>Open modal</Button>
+        <Modal>
+          <Modal.Header>Header</Modal.Header>
+          <Modal.Body>
+            <button data-testid="inside-first">Inside first</button>
+            <button data-testid="inside-second">Inside second</button>
+          </Modal.Body>
+        </Modal>
+      </Modal.Trigger>
+    </>
+  );
+}
+
+// A standard outer modal hosting a nested `allowsThirdPartyOverlays` modal, plus
+// a focusable sibling outside both. Opening the inner modal makes the outer modal
+// relax its focus trap; closing it makes the outer modal trap again.
+function RelaxableFocusModal() {
+  return (
+    <>
+      <button data-testid="outside">Outside</button>
+      <Modal.Trigger defaultOpen>
+        <Button>Open outer</Button>
+        <Modal>
+          <Modal.Header>Outer</Modal.Header>
+          <Modal.Body>
+            <Modal.Trigger allowsThirdPartyOverlays>
+              <Button>Open inner</Button>
+              {(close) => (
+                <Modal>
+                  <Modal.Header>Inner</Modal.Header>
+                  <Modal.Body>
+                    <Button onPress={close}>Close inner</Button>
+                  </Modal.Body>
+                </Modal>
+              )}
+            </Modal.Trigger>
+          </Modal.Body>
+        </Modal>
+      </Modal.Trigger>
+    </>
   );
 }
 
