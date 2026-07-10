@@ -35,8 +35,7 @@ export type ModalTriggerProps = {
 
   /**
    * Controls how this modal's nested children stack relative to it, and cascades
-   * to descendant modals. `stack` gives each child its own backdrop,
-   * `stack-shared-backdrop` makes children share this modal's backdrop, and
+   * to descendant modals. `stack` gives each child its own backdrop, and
    * `replace` hides this modal while a child is open. When unset, it inherits the
    * nearest ancestor modal's value (or `stack` at the root).
    */
@@ -45,10 +44,9 @@ export type ModalTriggerProps = {
   /**
    * Controls how this modal stacks relative to its parent, overriding the
    * parent's `childNestingBehavior` for just this modal. `stack` keeps both
-   * backdrops, `stack-shared-backdrop` suppresses this modal's backdrop, and
-   * `replace` hides the parent while this modal is open. Local to this modal — it
-   * does not cascade. Useful for surgically changing one nested modal in a larger
-   * tree without touching its parent.
+   * backdrops, and `replace` hides the parent while this modal is open. Local to
+   * this modal — it does not cascade. Useful for surgically changing one nested
+   * modal in a larger tree without touching its parent.
    */
   selfNestingBehavior?: ModalNestingBehavior;
 

@@ -373,13 +373,13 @@ export const Nested: ModalTriggerStory = {
     );
   },
   args: {
-    childNestingBehavior: "stack-shared-backdrop",
+    childNestingBehavior: "stack",
     allowsThirdPartyOverlays: true,
   },
   argTypes: {
     childNestingBehavior: {
       control: "select",
-      options: ["stack", "stack-shared-backdrop", "replace"],
+      options: ["stack", "replace"],
     },
     allowsThirdPartyOverlays: {
       control: "boolean",

@@ -160,10 +160,9 @@ This is handled automatically: a focus-trapping modal relaxes its focus trap and
 
 ## Nesting behavior
 
-When modals nest, the connection between a parent modal and its nested child can present in one of three ways:
+When modals nest, the connection between a parent modal and its nested child can present in one of two ways:
 
 - `stack` (the default) — both modals keep their own backdrops; modals simply stack.
-- `stack-shared-backdrop` — the nested modal suppresses its backdrop, so only the lowest modal's backdrop shows.
 - `replace` — the nested modal hides the modal beneath it, so only the topmost modal is visible.
 
 You configure that connection from either end, on `<Modal.Trigger />` or `<ModalContainer />`:
@@ -172,12 +171,12 @@ You configure that connection from either end, on `<Modal.Trigger />` or `<Modal
 - **`selfNestingBehavior`** is set on the child. It applies only to that modal's connection to its parent, is **local** (does not cascade), and **overrides** the parent's `childNestingBehavior` for that one connection.
 
 ```tsx
-{/* Set once at the top; the whole nested stack shares a single backdrop. */}
-<Modal.Trigger childNestingBehavior="stack-shared-backdrop">
+{/* Set once at the top; every nested modal replaces the one beneath it. */}
+<Modal.Trigger childNestingBehavior="replace">
   <Button>Open modal</Button>
   <Modal>
     <Modal.Header>Title</Modal.Header>
-    <Modal.Body>{/* nested modals stay visible with a single backdrop */}</Modal.Body>
+    <Modal.Body>{/* each nested modal takes over the one beneath it */}</Modal.Body>
   </Modal>
 </Modal.Trigger>
 ```

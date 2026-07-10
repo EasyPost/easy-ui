@@ -22,15 +22,10 @@ import { OverlayTriggerState } from "react-stately";
  * `selfNestingBehavior` (set on the child, local) — and resolves to:
  *
  * - `stack` — both modals keep their own backdrops; modals simply stack.
- * - `stack-shared-backdrop` — the nested modal suppresses its backdrop, so only
- *   the lowest modal's backdrop shows.
  * - `replace` — the nested modal hides the modal beneath it, so only the topmost
  *   modal is visible.
  */
-export type ModalNestingBehavior =
-  | "stack"
-  | "stack-shared-backdrop"
-  | "replace";
+export type ModalNestingBehavior = "stack" | "replace";
 
 export type ModalContextType = {
   dialogProps: DOMAttributes<FocusableElement>;
@@ -45,12 +40,6 @@ export type ModalContextType = {
 type ModalTriggerContextType = {
   isDismissable: boolean;
   state: OverlayTriggerState;
-  /**
-   * Whether this modal is nested under an open ancestor modal. Combined with
-   * `selfNestingBehavior`, this decides whether the modal suppresses its own
-   * backdrop.
-   */
-  isNested: boolean;
   /**
    * Whether this modal currently has one or more open nested modals whose
    * connection resolved to `replace`. When true, this modal hides itself so the
@@ -149,8 +138,7 @@ export const useModalTrigger = () => {
  * returning the nesting values for the trigger context. A connection can be
  * configured from either end — the parent's `childNestingBehavior` (cascades) or
  * the child's `selfNestingBehavior` (local, wins for its own connection) — and
- * resolves to `stack`, `stack-shared-backdrop`, or `replace`. See
- * {@link ModalNestingBehavior}.
+ * resolves to `stack` or `replace`. See {@link ModalNestingBehavior}.
  */
 function useModalNesting({
   childNestingBehavior,
@@ -174,11 +162,6 @@ function useModalNesting({
     childNestingBehavior ?? parentContext?.childNestingBehavior ?? "stack";
   const selfNesting =
     selfNestingBehavior ?? parentContext?.childNestingBehavior ?? "stack";
-
-  // The provider tree mirrors the modal tree, and a modal's underlay only
-  // renders while open, so a present parent context means this modal is nested
-  // under an open ancestor.
-  const isNested = parentContext != null;
 
   // A counter (rather than a boolean) keeps sibling nested modals independent:
   // closing one replacing modal must not un-hide this modal while another is
@@ -259,7 +242,6 @@ function useModalNesting({
 
   return useMemo(
     () => ({
-      isNested,
       hasReplacingChild: replacingChildCount > 0,
       childNestingBehavior: childNesting,
       selfNestingBehavior: selfNesting,
@@ -268,7 +250,6 @@ function useModalNesting({
       registerThirdPartyOverlay,
     }),
     [
-      isNested,
       replacingChildCount,
       childNesting,
       selfNesting,

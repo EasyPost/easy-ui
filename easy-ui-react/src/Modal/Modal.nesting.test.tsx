@@ -37,7 +37,6 @@ describe("<Modal /> nesting behavior", () => {
     // backdrops on top of each other.
     expect(getBackdrops()).toHaveLength(2);
     expect(isBackdropHidden("Outer")).toBe(false);
-    expect(isBackdropSuppressed("Outer")).toBe(false);
     expect(getVisibleBackdrops()).toHaveLength(2);
   });
 
@@ -108,50 +107,26 @@ describe("<Modal /> nesting behavior", () => {
     expect(isBackdropHidden("Outer")).toBe(false);
   });
 
-  it("should keep all modals visible and show only the lowest backdrop when childNestingBehavior is stack-shared-backdrop", async () => {
-    const { user } = render(
-      <NestingBehaviorNested outerBehavior="stack-shared-backdrop" />,
-    );
-
-    // The lowest (root) modal keeps its backdrop.
-    expect(isBackdropSuppressed("Outer")).toBe(false);
-
-    await userClick(user, screen.getByRole("button", { name: "Open inner" }));
-
-    // The outer modal stays visible (not hidden) and keeps its backdrop, while
-    // the nested modal stays visible but suppresses its own backdrop.
-    expect(isBackdropHidden("Outer")).toBe(false);
-    expect(isBackdropSuppressed("Outer")).toBe(false);
-    expect(isBackdropSuppressed("Inner")).toBe(true);
-    expect(screen.getByTestId("inner-content")).toBeInTheDocument();
-  });
-
   it("should cascade childNestingBehavior to descendant modals that don't set their own", async () => {
-    const { user } = render(
-      <NestingBehaviorNested outerBehavior="stack-shared-backdrop" />,
-    );
+    const { user } = render(<NestingBehaviorNested outerBehavior="replace" />);
 
     await userClick(user, screen.getByRole("button", { name: "Open inner" }));
 
-    // The nested modal inherits `stack-shared-backdrop` from its ancestor.
-    expect(isBackdropSuppressed("Inner")).toBe(true);
+    // The nested modal inherits `replace` from its ancestor, hiding the parent
+    // beneath it.
+    expect(isBackdropHidden("Outer")).toBe(true);
   });
 
   it("should let a descendant override an inherited childNestingBehavior via selfNestingBehavior", async () => {
     const { user } = render(
-      <NestingBehaviorNested
-        outerBehavior="stack-shared-backdrop"
-        innerBehavior="stack"
-      />,
+      <NestingBehaviorNested outerBehavior="replace" innerBehavior="stack" />,
     );
 
     await userClick(user, screen.getByRole("button", { name: "Open inner" }));
 
-    // Ancestor keeps the lowest backdrop, but the descendant's own value wins so
-    // it renders its own backdrop.
-    expect(isBackdropSuppressed("Outer")).toBe(false);
-    expect(isBackdropSuppressed("Inner")).toBe(false);
-    expect(isBackdropHidden("Inner")).toBe(false);
+    // The ancestor cascades `replace`, but the descendant's own `stack` wins for
+    // its connection, so the parent stays visible behind it.
+    expect(isBackdropHidden("Outer")).toBe(false);
   });
 
   it("should not hide the parent by default when a nested modal opens", async () => {
@@ -183,21 +158,6 @@ describe("<Modal /> nesting behavior", () => {
 
     // Closing the nested modal restores the parent.
     expect(isBackdropHidden("Outer")).toBe(false);
-  });
-
-  it("should suppress only its own backdrop when a nested modal sets selfNestingBehavior stack-shared-backdrop", async () => {
-    const { user } = render(
-      <ReplaceParentNested innerSelfBehavior="stack-shared-backdrop" />,
-    );
-
-    await userClick(user, screen.getByRole("button", { name: "Open inner" }));
-
-    // The nested modal shares the parent's backdrop: the parent stays visible
-    // with its backdrop, and only the nested modal suppresses its own.
-    expect(isBackdropHidden("Outer")).toBe(false);
-    expect(isBackdropSuppressed("Outer")).toBe(false);
-    expect(isBackdropSuppressed("Inner")).toBe(true);
-    expect(screen.getByTestId("inner-content")).toBeInTheDocument();
   });
 });
 
@@ -367,7 +327,6 @@ function ReplaceParentNested({
 // match on the embedded local name rather than an exact class.
 const UNDERLAY_CLASS = "underlayBg";
 const UNDERLAY_HIDDEN_CLASS = "underlayBgHidden";
-const UNDERLAY_NO_BACKDROP_CLASS = "underlayBgNoBackdrop";
 
 function getBackdrops() {
   // The modifier classes share the `underlayBg` prefix, so each backdrop element
@@ -392,10 +351,4 @@ function getBackdrop(headerText: string) {
 // `replace` hides the whole modal (box and backdrop) via `display: none`.
 function isBackdropHidden(headerText: string) {
   return getBackdrop(headerText).className.includes(UNDERLAY_HIDDEN_CLASS);
-}
-
-// `stack-shared-backdrop` suppresses only the dark overlay while keeping the
-// modal box visible, unlike `underlayBgHidden` which hides the whole modal.
-function isBackdropSuppressed(headerText: string) {
-  return getBackdrop(headerText).className.includes(UNDERLAY_NO_BACKDROP_CLASS);
 }

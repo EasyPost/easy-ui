@@ -190,20 +190,14 @@ function ModalUnderlayContent({
   keepVisibleUnderModal = false,
   shouldContainFocus = false,
 }: ModalUnderlayContentProps) {
-  const { isNested, hasReplacingChild, selfNestingBehavior } =
-    useModalTriggerContext();
+  const { hasReplacingChild } = useModalTriggerContext();
 
   // A nested modal whose connection to this one resolved to `replace` hides this
   // modal entirely (tracked as `hasReplacingChild`), so only the topmost modal
-  // is visible. When this modal's own connection to its parent resolves to
-  // `stack-shared-backdrop`, it suppresses its own backdrop so only the lowest
-  // modal's backdrop shows. `stack` does neither.
+  // is visible. `stack` does nothing here — both modals keep their backdrops.
   const className = classNames(
     styles.underlayBg,
     hasReplacingChild && styles.underlayBgHidden,
-    isNested &&
-      selfNestingBehavior === "stack-shared-backdrop" &&
-      styles.underlayBgNoBackdrop,
   );
 
   return (
