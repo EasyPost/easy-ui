@@ -9,6 +9,7 @@ import { ModalContext } from "./context";
 import { useIntersectionDetection } from "./useIntersectionDetection";
 import { ModalContainer } from "./ModalContainer";
 import { useModalTrigger } from "./context";
+import type { ModalNestingBehavior } from "./context";
 
 import styles from "./Modal.module.scss";
 
@@ -122,3 +123,4 @@ Modal.Body = ModalBody;
 Modal.Footer = ModalFooter;
 
 export { ModalContainer, useModalTrigger };
+export type { ModalNestingBehavior };

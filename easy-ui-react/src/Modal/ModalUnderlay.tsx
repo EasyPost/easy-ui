@@ -1,16 +1,24 @@
-import React, { ReactNode, RefObject, useRef } from "react";
-import {
-  Overlay,
-  useModalOverlay,
-  useOverlay,
-  usePreventScroll,
-} from "react-aria";
+import React, { ReactNode, RefObject, useEffect, useRef } from "react";
+import { FocusScope, Overlay, useOverlay, usePreventScroll } from "react-aria";
+// `react-aria` doesn't re-export `ariaHideOutside`; the relaxable variant calls
+// it directly so it can gate page-hiding on an open third-party descendant.
+import { ariaHideOutside } from "@react-aria/overlays";
 import { DOMAttributes } from "@react-types/shared";
 import { OverlayTriggerState } from "react-stately";
 import { classNames } from "../utilities/css";
 import { useModalTriggerContext } from "./context";
 
 import styles from "./Modal.module.scss";
+
+// Marks every Easy UI modal box. A modal ignores interact-outside events that
+// land inside another (nested) Easy UI modal's box, so opening or clicking a
+// nested modal never dismisses the one beneath it. Backdrop clicks land outside
+// the box and still dismiss.
+const MODAL_BOX_ATTRIBUTE = "data-easy-ui-modal-box";
+
+function shouldCloseOnInteractOutside(target: Element) {
+  return !target.closest(`[${MODAL_BOX_ATTRIBUTE}]`);
+}
 
 type ModalUnderlayProps = {
   /**
@@ -48,10 +56,27 @@ type ModalUnderlayContentProps = {
   underlayProps: DOMAttributes;
   modalRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
+
+  /**
+   * Keeps this modal box visible when a surrounding Easy UI modal's
+   * `ariaHideOutside` would otherwise `inert` it. Needed by the third-party
+   * variant, which doesn't run `ariaHideOutside` itself.
+   */
+  keepVisibleUnderModal?: boolean;
+
+  /**
+   * Drives focus containment on the underlay's `Overlay`. The standard variant
+   * toggles this as a third-party descendant opens and closes; the third-party
+   * variant leaves it at its default (it never contains focus).
+   */
+  shouldContainFocus?: boolean;
 };
 
 export function ModalUnderlay(props: ModalUnderlayProps) {
-  // Branch into sibling components so each calls its hooks unconditionally.
+  // Branch into sibling components so each calls its hooks unconditionally. The
+  // branch keys off the stable `allowsThirdPartyOverlays` prop only, so a modal
+  // never swaps variants at runtime (which would remount its children — and any
+  // third-party overlay).
   return props.allowsThirdPartyOverlays ? (
     <ThirdPartyOverlayUnderlay {...props} />
   ) : (
@@ -60,28 +85,52 @@ export function ModalUnderlay(props: ModalUnderlayProps) {
 }
 
 /**
- * Standard modal behavior: traps focus and hides the rest of the page via
- * react-aria's `useModalOverlay` (which applies `aria-hidden`/`inert` outside
- * the modal).
+ * Standard modal behavior: traps focus and hides the rest of the page
+ * (`aria-hidden`/`inert`). It reproduces `useModalOverlay` from the lower-level
+ * hooks rather than calling it directly so both behaviors can be toggled off in
+ * place — no remount — while an `allowsThirdPartyOverlays` descendant is open.
+ *
+ * That relaxation is automatic and necessary: react-aria keeps only the
+ * *topmost* `ariaHideOutside` observer active, and a third-party descendant uses
+ * `useOverlay` (no `ariaHideOutside`), so it never takes that observer over. Left
+ * trapping, this modal's observer would `inert` the descendant's injected
+ * overlay (e.g. Stripe Link) and its focus trap would steal focus back. Skipping
+ * `ariaHideOutside` also tears down this modal's observer so an outer ancestor's
+ * observer (if any) takes back over — every focus-trapping ancestor relaxes in
+ * turn. With no third-party descendant open (`shouldTrap` true), this is
+ * behaviorally identical to `useModalOverlay`.
  */
 function FocusTrappingUnderlay(props: ModalUnderlayProps) {
   const { state, children, isDismissable = true } = props;
+  const { hasOpenThirdPartyDescendant } = useModalTriggerContext();
+  const shouldTrap = !hasOpenThirdPartyDescendant;
 
   const ref = useRef<HTMLDivElement>(null);
-  const { modalProps, underlayProps } = useModalOverlay(
+  const { overlayProps, underlayProps } = useOverlay(
     {
+      isOpen: state.isOpen,
+      onClose: state.close,
       isDismissable,
       isKeyboardDismissDisabled: !isDismissable,
+      shouldCloseOnInteractOutside,
     },
-    state,
     ref,
   );
+  usePreventScroll({ isDisabled: !state.isOpen });
+
+  // Mirror `useModalOverlay`'s page-hiding, but only while trapping.
+  useEffect(() => {
+    if (state.isOpen && shouldTrap && ref.current) {
+      return ariaHideOutside([ref.current], { shouldUseInert: true });
+    }
+  }, [state.isOpen, shouldTrap]);
 
   return (
     <ModalUnderlayContent
-      modalProps={modalProps}
+      modalProps={overlayProps}
       underlayProps={underlayProps}
       modalRef={ref}
+      shouldContainFocus={shouldTrap}
     >
       {children}
     </ModalUnderlayContent>
@@ -89,16 +138,17 @@ function FocusTrappingUnderlay(props: ModalUnderlayProps) {
 }
 
 /**
- * Like `FocusTrappingUnderlay`, but built from the lower-level overlay hooks so
- * it can omit the two behaviors that fight third-party overlays:
- * - no `ariaHideOutside`, so overlays injected outside the modal aren't
- *   `inert`'d (which would make them unclickable), and
- * - no forced focus containment, so focus can't be stolen back from them.
+ * For modals that intentionally host third-party overlays (e.g. Stripe
+ * Link/autofill) injected *outside* the modal. It drops the two behaviors that
+ * fight those overlays:
+ * - no `ariaHideOutside`, so injected overlays aren't `inert`'d (unclickable),
+ *   and
+ * - no focus containment — `ModalUnderlayContent` leaves `shouldContainFocus`
+ *   at its default `false`, so the shared `FocusScope` doesn't trap, and focus
+ *   can't be stolen back from the overlay.
  *
- * `Overlay` still restores focus to the trigger when the modal closes.
- * close-on-interact-outside is preserved; react-aria already ignores clicks on
- * `[data-react-aria-top-layer]` elements, so a properly tagged third-party
- * overlay won't dismiss the modal.
+ * Focus is still restored to the trigger on close (the `FocusScope` keeps
+ * `restoreFocus`). close-on-interact-outside is preserved.
  */
 function ThirdPartyOverlayUnderlay(props: ModalUnderlayProps) {
   const { state, children, isDismissable = true } = props;
@@ -110,6 +160,7 @@ function ThirdPartyOverlayUnderlay(props: ModalUnderlayProps) {
       onClose: state.close,
       isDismissable,
       isKeyboardDismissDisabled: !isDismissable,
+      shouldCloseOnInteractOutside,
     },
     ref,
   );
@@ -120,6 +171,7 @@ function ThirdPartyOverlayUnderlay(props: ModalUnderlayProps) {
       modalProps={overlayProps}
       underlayProps={underlayProps}
       modalRef={ref}
+      keepVisibleUnderModal
     >
       {children}
     </ModalUnderlayContent>
@@ -135,23 +187,55 @@ function ModalUnderlayContent({
   underlayProps,
   modalRef,
   children,
+  keepVisibleUnderModal = false,
+  shouldContainFocus = false,
 }: ModalUnderlayContentProps) {
-  const { hasOpenNestedModal } = useModalTriggerContext();
+  const { hasReplacingChild } = useModalTriggerContext();
 
+  // A nested modal whose connection to this one resolved to `replace` hides this
+  // modal entirely (tracked as `hasReplacingChild`), so only the topmost modal
+  // is visible. `stack` does nothing here — both modals keep their backdrops.
   const className = classNames(
     styles.underlayBg,
-    hasOpenNestedModal && styles.underlayBgHidden,
+    hasReplacingChild && styles.underlayBgHidden,
   );
 
   return (
-    <Overlay>
-      <div className={className} {...underlayProps}>
-        <div {...modalProps} ref={modalRef} className={styles.underlayBox}>
-          <div className={styles.underlayEdge} />
-          {children}
-          <div className={styles.underlayEdge} />
+    // We manage focus with our own `FocusScope` instead of `Overlay`'s, because
+    // every Easy UI `Modal` calls react-aria's `useDialog`, which force-enables
+    // `Overlay`'s focus containment (via `useOverlayFocusContain`) regardless of
+    // `shouldContainFocus`. With `disableFocusManagement`, `Overlay` still
+    // portals and restores nothing itself; our `FocusScope`'s `contain` prop is
+    // the single, reactive source of truth — and toggling a prop (unlike
+    // wrapping/unwrapping a `FocusScope`) doesn't remount children, so a modal
+    // can relax focus in place when a third-party descendant opens.
+    <Overlay disableFocusManagement>
+      <FocusScope contain={shouldContainFocus} restoreFocus>
+        <div className={className} {...underlayProps}>
+          <div
+            {...modalProps}
+            ref={modalRef}
+            className={styles.underlayBox}
+            // Marks this as an Easy UI modal box so a surrounding Easy UI modal's
+            // interact-outside ignores clicks inside it (see
+            // `shouldCloseOnInteractOutside`): opening or clicking a nested modal
+            // won't dismiss the one beneath, while backdrop clicks still do.
+            {...{ [MODAL_BOX_ATTRIBUTE]: "true" }}
+            // Modals that host third-party overlays don't run `ariaHideOutside`
+            // themselves, so a surrounding standard modal would otherwise `inert`
+            // this one. `data-live-announcer` is honored by react-aria's
+            // `ariaHideOutside` to keep an element visible — and, unlike
+            // `data-react-aria-top-layer`, it does NOT make react-aria treat clicks
+            // inside this modal as "not outside," so nested overlays (e.g. Select)
+            // still dismiss correctly.
+            data-live-announcer={keepVisibleUnderModal ? "true" : undefined}
+          >
+            <div className={styles.underlayEdge} />
+            {children}
+            <div className={styles.underlayEdge} />
+          </div>
         </div>
-      </div>
+      </FocusScope>
     </Overlay>
   );
 }

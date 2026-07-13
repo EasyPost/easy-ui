@@ -1,7 +1,12 @@
-import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { Key, useState } from "react";
+import React, { Key, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { action } from "storybook/actions";
 import { Button } from "../Button";
+import { DropdownButton } from "../DropdownButton";
+import { HorizontalStack } from "../HorizontalStack";
+import { Menu } from "../Menu";
+import { Select } from "../Select";
 import {
   EasyPostLogo,
   PlaceholderBox,
@@ -9,10 +14,6 @@ import {
 } from "../utilities/storybook";
 import { Modal, ModalContainer, useModalTrigger } from "./Modal";
 import { ModalTrigger } from "./ModalTrigger";
-import { Menu } from "../Menu";
-import { DropdownButton } from "../DropdownButton";
-import { Select } from "../Select";
-import { HorizontalStack } from "../HorizontalStack";
 
 type ModalStory = StoryObj<typeof Modal>;
 type ModalTriggerStory = StoryObj<typeof ModalTrigger>;
@@ -233,12 +234,24 @@ export const MenuTrigger: ModalTriggerStory = {
 };
 
 export const Nested: ModalTriggerStory = {
-  render: () => {
+  render: (args) => {
     const [modal1, setModal1] = useState(true);
     const [modal2, setModal2] = useState(false);
     const [modal3, setModal3] = useState(false);
+    const [modalThirdParty, setModalThirdParty] = useState(false);
+
     return (
+      // `childNestingBehavior` is set only on the outermost modal; it cascades to
+      // the nested modals below. Modal 2 overrides its own connection to the
+      // outer modal with `selfNestingBehavior="replace"`.
+      //
+      // Modal 2 sets `allowsThirdPartyOverlays`; this focus-trapping outer modal
+      // automatically relaxes while it's open so the third-party overlay that
+      // Modal 2 injects into the body isn't inert'd or robbed of focus. Toggle
+      // the `allowsThirdPartyOverlays` control off to watch that overlay lock up.
       <ModalContainer
+        childNestingBehavior={args.childNestingBehavior}
+        isDismissable={false}
         onDismiss={() => {
           setModal1(false);
         }}
@@ -250,10 +263,17 @@ export const Nested: ModalTriggerStory = {
               <PlaceholderBox width="100%" height="300px">
                 Space for content
               </PlaceholderBox>
+              <Select label="Select an option" placeholder="Select an option">
+                <Select.Option key="option1">Option 1</Select.Option>
+                <Select.Option key="option2">Option 2</Select.Option>
+              </Select>
               <ModalContainer
+                selfNestingBehavior="replace"
+                isDismissable={false}
                 onDismiss={() => {
                   setModal2(false);
                 }}
+                allowsThirdPartyOverlays={args.allowsThirdPartyOverlays}
               >
                 {modal2 && (
                   <Modal>
@@ -262,6 +282,23 @@ export const Nested: ModalTriggerStory = {
                       <PlaceholderBox width="100%" height="200px">
                         Content 2
                       </PlaceholderBox>
+                      <Select
+                        label="Select an option"
+                        placeholder="Select an option"
+                      >
+                        <Select.Option key="option1">Option 1</Select.Option>
+                        <Select.Option key="option2">Option 2</Select.Option>
+                      </Select>
+                      <Button onClick={() => setModalThirdParty(true)}>
+                        Open Third-party Overlay
+                      </Button>
+                      {modalThirdParty && (
+                        <ThirdPartyOverlaySimulator
+                          onDismiss={() => {
+                            setModalThirdParty(false);
+                          }}
+                        />
+                      )}
                       {modal3 && (
                         <ModalContainer
                           onDismiss={() => {
@@ -271,6 +308,17 @@ export const Nested: ModalTriggerStory = {
                           <Modal>
                             <Modal.Header>Modal 3</Modal.Header>
                             <Modal.Body>
+                              <Select
+                                label="Select an option"
+                                placeholder="Select an option"
+                              >
+                                <Select.Option key="option1">
+                                  Option 1
+                                </Select.Option>
+                                <Select.Option key="option2">
+                                  Option 2
+                                </Select.Option>
+                              </Select>
                               <PlaceholderBox width="100%" height="100px">
                                 Content 3
                               </PlaceholderBox>
@@ -324,7 +372,104 @@ export const Nested: ModalTriggerStory = {
       </ModalContainer>
     );
   },
+  args: {
+    childNestingBehavior: "stack",
+    allowsThirdPartyOverlays: true,
+  },
+  argTypes: {
+    childNestingBehavior: {
+      control: "select",
+      options: ["stack", "replace"],
+    },
+    allowsThirdPartyOverlays: {
+      control: "boolean",
+      description:
+        "Set on Modal 2. When on, the outer modal relaxes its focus trap and " +
+        "background hiding while Modal 2 is open, so the simulated third-party " +
+        "overlay stays usable. Turn it off to watch the overlay lock up (can't " +
+        "type or click).",
+    },
+  },
+  parameters: {
+    controls: { include: ["childNestingBehavior", "allowsThirdPartyOverlays"] },
+  },
 };
+
+/**
+ * Simulates a third-party widget (e.g. Stripe Link / autofill) that injects an
+ * interactive overlay into `document.body` — outside the modal's DOM — after the
+ * modal opens. A surrounding focus-trapping modal would `inert` it and steal its
+ * focus; Easy UI relaxes automatically while an `allowsThirdPartyOverlays`
+ * descendant is open, keeping it usable. Try typing in the field and clicking
+ * the button.
+ */
+function ThirdPartyOverlaySimulator({ onDismiss }: { onDismiss?: () => void }) {
+  // Mimics a third-party widget (e.g. Stripe Link / autofill) that injects an
+  // interactive overlay into `document.body` — outside the modal — after the
+  // modal opens. The modals in this story are non-dismissable so clicking here
+  // doesn't close them (real third-party overlays render in iframes, whose
+  // events don't reach the page; non-dismissable sidesteps that without the
+  // iframe's quirks). It is NOT `data-react-aria-top-layer`, so a non-relaxed
+  // modal still `inert`s it — that's the lock-up.
+  const ref = useRef<HTMLDivElement>(null);
+
+  return createPortal(
+    <div
+      ref={ref}
+      data-testid="third-party-overlay"
+      style={{
+        position: "fixed",
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        // Above the modal (`z-index.modal` is 1300) so it's visible on top, the
+        // way Stripe Link renders in the browser's top layer.
+        zIndex: 9999,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "rgba(0, 0, 0, 0.2)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: 260,
+          padding: 16,
+          background: "white",
+          border: "2px solid #635bff",
+          gap: 8,
+          borderRadius: 8,
+          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <strong>Simulated third-party overlay</strong>
+          <button
+            type="button"
+            aria-label="Close overlay"
+            onClick={onDismiss}
+            style={{ border: "none", background: "none", cursor: "pointer" }}
+          >
+            ✕
+          </button>
+        </div>
+        <small>Injected into document.body, like Stripe Link</small>
+        <input aria-label="Third-party field" placeholder="Type here…" />
+      </div>
+    </div>,
+    document.body,
+  );
+}
 
 export const WithSelect: ModalStory = {
   render: () => (
