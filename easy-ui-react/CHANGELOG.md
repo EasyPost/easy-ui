@@ -1,5 +1,18 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.122
+
+### Minor Changes
+
+- f17a7b7: Add `childNestingBehavior` and `selfNestingBehavior` props to `Modal.Trigger` and `ModalContainer` to control how modals stack when nested. The connection between a parent and a nested child can resolve to `stack` (both keep their backdrops — the default) or `replace` (the nested modal hides the modal beneath it).
+
+  Configure it from either end: `childNestingBehavior` is set on the parent, applies to its children, and cascades down the tree; `selfNestingBehavior` is set on the child, applies only to its own connection to its parent, does not cascade, and overrides the parent's `childNestingBehavior` for that connection. `selfNestingBehavior` is useful for surgically changing one nested modal in a large tree without touching its parent.
+
+### Patch Changes
+
+- f17a7b7: Fix third-party overlays (e.g. Stripe Link/autofill) locking up when their modal (`allowsThirdPartyOverlays`) is nested inside another modal. A surrounding focus-trapping modal kept hiding the page (`inert`) and containing focus, which re-broke the injected overlay. A modal now automatically relaxes its focus trap and background hiding while it has an open `allowsThirdPartyOverlays` descendant, then restores them when that descendant closes. Modals without such a descendant are unaffected.
+- f17a7b7: Fix react-aria overlays (e.g. `Select`, `Menu`) not closing on outside click when rendered inside a `Modal` that uses `allowsThirdPartyOverlays`. The modal box was tagged `data-react-aria-top-layer`, which made react-aria treat every click inside the modal as "not outside" for all overlays. Modals now keep nested overlays dismissable while preserving the third-party overlay behavior: the modal stays visible under a surrounding modal, clicking a nested modal no longer dismisses the one beneath it, and genuine third-party overlays (e.g. Stripe) still don't dismiss the modal.
+
 ## 1.0.0-alpha.121
 
 ### Minor Changes
