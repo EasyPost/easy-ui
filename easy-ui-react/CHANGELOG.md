@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.123
+
+### Patch Changes
+
+- 04c7aab: Select now keeps its size after you choose a value, so medium and large fields stay the same height instead of shrinking a step
+- bb3e69e: the Select now keeps its size after you choose a value when there is no secondary text. if the selected option has secondary text, it shrinks slightly to match our Figma designs
+
 ## 1.0.0-alpha.122
 
 ### Minor Changes
