@@ -57,7 +57,7 @@ export function SelectOptionContent<T>({
       data-is-selected={isSelected}
     >
       <div className={styles.optionContent}>
-        <Text variant="body2" truncate>
+        <Text variant={description ? "body2" : "body1"} truncate>
           {item.rendered}
         </Text>
         {description && (
