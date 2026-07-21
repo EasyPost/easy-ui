@@ -123,7 +123,9 @@ export function SelectField(props: SelectFieldProps) {
       >
         {selectState.selectedItem ? (
           <>
-            <Text truncate>{selectState.selectedItem.rendered}</Text>
+            <Text variant={selectedDescription ? "body2" : undefined} truncate>
+              {selectState.selectedItem.rendered}
+            </Text>
             {selectedDescription && (
               <span className={styles.selectedDescription}>
                 <Text variant="caption" color="neutral.600" truncate>
