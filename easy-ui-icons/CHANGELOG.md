@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.56
+
+### Minor Changes
+
+- 3e27655: add SubdirectoryArrowRight icon
+
 ## 1.0.0-alpha.55
 
 ### Minor Changes
