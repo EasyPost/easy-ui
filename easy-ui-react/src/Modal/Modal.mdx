@@ -140,7 +140,9 @@ A modal with `allowsThirdPartyOverlays` doesn't run focus trapping or background
 This is handled automatically: a focus-trapping modal relaxes its focus trap and background hiding for as long as it has an open `allowsThirdPartyOverlays` descendant (at any depth), then restores them when that descendant closes. You only need to set `allowsThirdPartyOverlays` on the modal that hosts the overlay — no configuration is required on its ancestors.
 
 ```tsx
-{/* The outer modal relaxes automatically while the nested Stripe modal is open. */}
+{
+  /* The outer modal relaxes automatically while the nested Stripe modal is open. */
+}
 <Modal.Trigger>
   <Button>Open</Button>
   <Modal>
@@ -155,7 +157,7 @@ This is handled automatically: a focus-trapping modal relaxes its focus trap and
       </Modal.Trigger>
     </Modal.Body>
   </Modal>
-</Modal.Trigger>
+</Modal.Trigger>;
 ```
 
 ## Nesting behavior
@@ -171,14 +173,18 @@ You configure that connection from either end, on `<Modal.Trigger />` or `<Modal
 - **`selfNestingBehavior`** is set on the child. It applies only to that modal's connection to its parent, is **local** (does not cascade), and **overrides** the parent's `childNestingBehavior` for that one connection.
 
 ```tsx
-{/* Set once at the top; every nested modal replaces the one beneath it. */}
+{
+  /* Set once at the top; every nested modal replaces the one beneath it. */
+}
 <Modal.Trigger childNestingBehavior="replace">
   <Button>Open modal</Button>
   <Modal>
     <Modal.Header>Title</Modal.Header>
-    <Modal.Body>{/* each nested modal takes over the one beneath it */}</Modal.Body>
+    <Modal.Body>
+      {/* each nested modal takes over the one beneath it */}
+    </Modal.Body>
   </Modal>
-</Modal.Trigger>
+</Modal.Trigger>;
 ```
 
 ### Configuring a single nested modal
