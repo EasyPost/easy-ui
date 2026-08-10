@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.125
+
+### Minor Changes
+
+- 767417c: add 2xl size to Modal
+
 ## 1.0.0-alpha.124
 
 ### Patch Changes
