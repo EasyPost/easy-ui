@@ -153,3 +153,7 @@
 .sizeXl {
   @include component-token("modal", "max-width", 1000px);
 }
+
+.size2xl {
+  @include component-token("modal", "max-width", 1270px);
+}
