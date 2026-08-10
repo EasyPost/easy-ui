@@ -13,7 +13,7 @@ import type { ModalNestingBehavior } from "./context";
 
 import styles from "./Modal.module.scss";
 
-type ModalSize = "sm" | "md" | "lg" | "xl";
+type ModalSize = "sm" | "md" | "lg" | "xl" | "2xl";
 
 export type ModalProps = {
   /**
