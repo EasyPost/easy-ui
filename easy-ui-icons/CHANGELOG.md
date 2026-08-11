@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.57
+
+### Minor Changes
+
+- 69cd2c9: add DragIndicator icon
+
 ## 1.0.0-alpha.56
 
 ### Minor Changes
