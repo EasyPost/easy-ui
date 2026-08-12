@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.58
+
+### Minor Changes
+
+- 2f7a82d: add Compress and Expand icons
+
 ## 1.0.0-alpha.57
 
 ### Minor Changes
