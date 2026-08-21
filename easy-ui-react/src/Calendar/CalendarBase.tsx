@@ -1,10 +1,9 @@
 import React, { ReactNode, HTMLAttributes } from "react";
-import { AriaButtonProps } from "react-aria";
+import { AriaButtonProps, DateValue } from "react-aria";
 import { VerticalStack } from "../VerticalStack";
 import { Text } from "../Text";
-import { CalendarState, RangeCalendarState } from "@react-stately/calendar";
+import { CalendarState, RangeCalendarState } from "react-stately";
 import { RefObject } from "@react-types/shared";
-import { DateValue } from "@react-types/calendar";
 import { CalendarHeader } from "./CalendarHeader";
 import { CalendarGrid } from "./CalendarGrid";
 import styles from "./Calendar.module.scss";

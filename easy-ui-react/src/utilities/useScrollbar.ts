@@ -16,8 +16,13 @@ export function useScrollbar(
     defer: false,
   });
   useEffect(() => {
-    if (scrollRef.current) {
-      initialize({ target: scrollRef.current });
+    const el = scrollRef.current;
+    // React Aria builds collections by rendering children into a detached
+    // fragment owned by an inert document. Elements there have no
+    // `defaultView`, which OverlayScrollbars dereferences, so skip those
+    // passes and wait for the render into the live document.
+    if (el && el.ownerDocument.defaultView) {
+      initialize({ target: el });
     }
   }, [initialize, scrollRef]);
 }

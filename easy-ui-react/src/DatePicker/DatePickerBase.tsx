@@ -3,9 +3,9 @@ import {
   AriaButtonProps,
   AriaDatePickerProps,
   AriaDialogProps,
+  DateValue,
 } from "react-aria";
 import { DatePickerState, DateRangePickerState } from "react-stately";
-import { DateValue } from "@react-types/calendar";
 import { FocusableElement, GroupDOMAttributes } from "@react-types/shared";
 import { DatePickerTrigger } from "./DatePickerTrigger";
 import { DatePickerOverlay } from "./DatePickerOverlay";

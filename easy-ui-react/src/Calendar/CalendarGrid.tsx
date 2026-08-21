@@ -1,7 +1,7 @@
 import React from "react";
 import { useCalendarGrid, useLocale } from "react-aria";
 import { getWeeksInMonth } from "@internationalized/date";
-import { CalendarState, RangeCalendarState } from "@react-stately/calendar";
+import { CalendarState, RangeCalendarState } from "react-stately";
 import { CalendarDate, isSameMonth } from "@internationalized/date";
 import { Text } from "../Text";
 import { CalendarCell } from "./CalendarCell";

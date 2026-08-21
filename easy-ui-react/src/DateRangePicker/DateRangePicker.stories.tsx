@@ -1,7 +1,7 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import { today, getLocalTimeZone } from "@internationalized/date";
-import { DateRange } from "@react-types/calendar";
+import { DateRange } from "react-aria";
 import { InputDecorator } from "../utilities/storybook";
 import { DateRangePicker, DateRangePickerProps } from "./DateRangePicker";
 
@@ -56,7 +56,7 @@ export const DatesAvailability: Story = {
 
 export const ControlledSelection: Story = {
   render: () => {
-    const [date, setDate] = React.useState<DateRange>();
+    const [date, setDate] = React.useState<DateRange | null>(null);
     return (
       <DateRangePicker
         value={date}
@@ -69,7 +69,7 @@ export const ControlledSelection: Story = {
 
 export const InvalidSelection: Story = {
   render: () => {
-    const [date, setDate] = React.useState<DateRange>({
+    const [date, setDate] = React.useState<DateRange | null>({
       start: today(getLocalTimeZone()).subtract({ days: 7 }),
       end: today(getLocalTimeZone()),
     });
