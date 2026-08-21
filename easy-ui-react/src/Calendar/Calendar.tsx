@@ -1,8 +1,7 @@
 import React from "react";
-import { useCalendar, useLocale } from "react-aria";
+import { useCalendar, useLocale, DateValue, MappedDateValue } from "react-aria";
 import { useCalendarState } from "react-stately";
 import { createCalendar } from "@internationalized/date";
-import { DateValue, MappedDateValue } from "@react-types/calendar";
 import { CalendarBase, CalendarBaseStateProps } from "./CalendarBase";
 
 export type CalendarProps = CalendarBaseStateProps & {

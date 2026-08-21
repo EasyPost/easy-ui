@@ -1,13 +1,12 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { useLocale } from "react-aria";
+import { useLocale, DateValue, MappedDateValue } from "react-aria";
 import {
   today,
   getLocalTimeZone,
   isWeekend,
   endOfWeek,
 } from "@internationalized/date";
-import { DateValue, MappedDateValue } from "@react-types/calendar";
 import { InputDecorator } from "../utilities/storybook";
 import { DatePicker, DatePickerProps } from "./DatePicker";
 

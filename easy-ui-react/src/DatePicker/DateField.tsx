@@ -1,12 +1,11 @@
 import React from "react";
-import { useDateField, useDateSegment, useLocale } from "react-aria";
+import { useDateField, useDateSegment, useLocale, DateValue } from "react-aria";
 import {
   useDateFieldState,
   DateFieldState,
   DateSegment as DateSegmentType,
 } from "react-stately";
 import { createCalendar } from "@internationalized/date";
-import { DateValue } from "@react-types/calendar";
 import { HorizontalStack } from "../HorizontalStack";
 import { classNames } from "../utilities/css";
 

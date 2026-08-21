@@ -1,12 +1,20 @@
 import React from "react";
-import { useRangeCalendar, useLocale } from "react-aria";
+import {
+  useRangeCalendar,
+  useLocale,
+  DateValue,
+  MappedDateValue,
+  DateRange,
+} from "react-aria";
 import { useRangeCalendarState } from "react-stately";
 import { RangeValue } from "@react-types/shared";
-import { createCalendar } from "@internationalized/date";
-import { DateValue, MappedDateValue, DateRange } from "@react-types/calendar";
+import { CalendarDate, createCalendar } from "@internationalized/date";
 import { CalendarBase, CalendarBaseStateProps } from "../Calendar/CalendarBase";
 
-export type RangeCalendarProps = CalendarBaseStateProps & {
+export type RangeCalendarProps = Omit<
+  CalendarBaseStateProps,
+  "isDateUnavailable"
+> & {
   /**
    * The current value (controlled).
    */
@@ -19,6 +27,17 @@ export type RangeCalendarProps = CalendarBaseStateProps & {
    * Handler that is called when the value changes.
    */
   onChange?: (value: RangeValue<MappedDateValue<DateValue>>) => void;
+  /**
+   * Callback that is called for each date of the calendar. If
+   * it returns true, then the date is unavailable.
+   *
+   * `anchorDate` is the date the in-progress range is anchored to, or `null`
+   * when no range is being selected.
+   */
+  isDateUnavailable?: (
+    date: DateValue,
+    anchorDate: CalendarDate | null,
+  ) => boolean;
 };
 
 /**

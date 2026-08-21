@@ -7,7 +7,7 @@ import {
   today,
   getLocalTimeZone,
 } from "@internationalized/date";
-import { DateValue } from "@react-types/calendar";
+import { DateValue } from "react-aria";
 import { render } from "../utilities/test";
 import { DatePicker } from "./DatePicker";
 import { clickElement } from "../RangeCalendar/RangeCalendar.test";
