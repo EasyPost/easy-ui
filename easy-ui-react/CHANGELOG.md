@@ -1,5 +1,28 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.128
+
+### Minor Changes
+
+- 3381387: update React Aria packages to latest
+
+  React Aria consolidated its individual `@react-aria/*` and `@react-stately/*`
+  packages into the `react-aria` and `react-stately` monopackages, so imports now
+  come from those directly. `RangeCalendar`'s `isDateUnavailable` now receives the
+  in-progress range's anchor date as a second argument.
+
+### Patch Changes
+
+- 3381387: fix global style leak from CustomerPortalLayout action buttons
+
+  `CustomerPortalLayoutActions` styled its hover and focus states with bare
+  `[data-hovered="true"]` and `[data-focus-visible="true"]` selectors. CSS Modules
+  only scope class names, so those rules shipped unscoped in `style.css` and
+  applied a grey background and focus ring to _any_ React Aria element in the
+  document — most visibly the `MultiSelect` input and its dropdown options. The
+  selectors are now scoped to the component's own button, matching
+  `ForgeLayoutActions`.
+
 ## 1.0.0-alpha.127
 
 ### Patch Changes
