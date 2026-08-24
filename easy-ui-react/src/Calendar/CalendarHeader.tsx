@@ -1,13 +1,11 @@
 import React, { AriaAttributes } from "react";
-import { CalendarState, RangeCalendarState } from "@react-stately/calendar";
-import { useDateFormatter } from "@react-aria/i18n";
-import { AriaButtonProps } from "react-aria";
+import { CalendarState, RangeCalendarState } from "react-stately";
+import { AriaButtonProps, useDateFormatter, VisuallyHidden } from "react-aria";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 import { HorizontalStack } from "../HorizontalStack";
 import DoubleArrowLeftIcon from "@easypost/easy-ui-icons/KeyboardDoubleArrowLeft";
 import DoubleArrowRightIcon from "@easypost/easy-ui-icons/KeyboardDoubleArrowRight";
-import { VisuallyHidden } from "@react-aria/visually-hidden";
 import { UnstyledButton } from "../UnstyledButton";
 
 import styles from "./CalendarHeader.module.scss";

@@ -1,7 +1,7 @@
 import React from "react";
 import { has } from "lodash";
 import { useCalendarCell, useLocale } from "react-aria";
-import { CalendarState, RangeCalendarState } from "@react-stately/calendar";
+import { CalendarState, RangeCalendarState } from "react-stately";
 import { CalendarDate, isSameDay, getDayOfWeek } from "@internationalized/date";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";

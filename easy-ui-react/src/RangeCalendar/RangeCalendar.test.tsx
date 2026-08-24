@@ -3,7 +3,7 @@ import { vi } from "vitest";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
 import { screen } from "@testing-library/react";
 import { CalendarDate } from "@internationalized/date";
-import { DateValue } from "@react-types/calendar";
+import { DateValue } from "react-aria";
 import { render, userClick } from "../utilities/test";
 import { RangeCalendar } from "./RangeCalendar";
 

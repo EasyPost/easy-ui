@@ -28,8 +28,15 @@ export function TabPanelsTabs(props: TabPanelsTabsProps) {
   const { tabProps, setTabListState } = useTabPanels();
   const ref = React.useRef(null);
   const mergedProps = mergeProps(tabProps, props);
-  const state = useTabListState(mergedProps);
-  const { tabListProps } = useTabList(mergedProps, state, ref);
+  // react-aria narrowed `selectedKey` to `Key | undefined`. Our public API
+  // accepts `null` to mean "no selection", which react-aria now spells as
+  // `undefined`.
+  const listProps = {
+    ...mergedProps,
+    selectedKey: mergedProps.selectedKey ?? undefined,
+  };
+  const state = useTabListState(listProps);
+  const { tabListProps } = useTabList(listProps, state, ref);
 
   useEffect(
     () => {

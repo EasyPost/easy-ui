@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
-import { useDatePicker } from "react-aria";
+import { useDatePicker, DateValue, MappedDateValue } from "react-aria";
 import { useDatePickerState } from "react-stately";
-import { DateValue, MappedDateValue } from "@react-types/calendar";
 import { DatePickerBase } from "./DatePickerBase";
 import { Calendar } from "../Calendar";
 
