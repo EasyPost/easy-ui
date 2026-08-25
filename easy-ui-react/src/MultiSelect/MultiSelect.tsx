@@ -250,6 +250,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
       <div className={styles.comboBoxContainer}>
         <ComboBox
           className={styles.comboBox}
+          menuTrigger="focus"
           allowsEmptyCollection
           aria-label="Available items"
           selectedKey={tempSelectedKey}
