@@ -29,6 +29,12 @@ describe("<MultiSelect />", () => {
     expect(screen.getByRole("listbox")).toBeInTheDocument();
   });
 
+  it("should open dropdown when focusing the input", async () => {
+    const { user } = render(getMultiSelect());
+    await userClick(user, screen.getByRole("combobox"));
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+  });
+
   it("should filter dropdown with input interaction", async () => {
     const { user } = render(getMultiSelect());
     await user.type(screen.getByRole("combobox"), "ban");
