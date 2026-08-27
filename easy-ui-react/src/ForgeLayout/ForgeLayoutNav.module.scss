@@ -13,6 +13,48 @@
   z-index: calc(#{design-token("z-index.nav")} + 1);
 }
 
+/**
+ * The rail takes no explicit width. With labels hidden, the logo narrowed to
+ * its glyph, and section titles replaced by rules, every child is one icon
+ * wide, so the card sizes itself to the icon plus its existing padding.
+ */
+.navRail {
+  flex: none;
+}
+
+/**
+ * Sizes the glyph to a nav icon, so it and the links form a single column and
+ * nothing is left to center within the rail. The glyph's `viewBox` is square to
+ * match, which scales the artwork uniformly, and carries the offset that centers
+ * the artwork within the box.
+ */
+.logoGlyph {
+  width: design-token("size.icon.md");
+  height: design-token("size.icon.md");
+}
+
+/**
+ * Stands in for the section title, which `visually-hidden` takes out of flow
+ * entirely. Matching the title's line height keeps the links below it at the
+ * same position across nav states.
+ */
+.divider {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  height: design-token("font.style.overline.line_height");
+}
+
+.divider::before {
+  content: "";
+  flex: 1;
+  // Reaches halfway into the card's padding, so the rule reads as a break
+  // across the rail while staying clear of its border.
+  margin-inline: calc(#{design-token("space.1")} * -1);
+  height: design-token("shape.border_width.1");
+  background-color: design-token("color.neutral.200");
+}
+
 .link {
   display: inline-flex;
   align-items: center;
@@ -20,6 +62,30 @@
   color: design-token("color.primary.700");
   gap: design-token("space.1");
   outline: none;
+}
+
+.linkRail {
+  position: relative;
+  gap: 0;
+  justify-content: center;
+}
+
+.badgeContainer {
+  display: inline-flex;
+  /**
+   * The link's gap lands on the badge's anchor, and badges built to overlay
+   * something straddle that anchor rather than following it. A second step of
+   * the same size gives the label the clearance it has from its icon.
+   *
+   * Inert when railed, where the badge is placed off `right` instead.
+   */
+  margin-inline-start: design-token("space.1");
+}
+
+.badgeContainerRail {
+  position: absolute;
+  top: calc(#{design-token("space.0.5")} * -1);
+  right: calc(#{design-token("space.0.5")} * -1);
 }
 
 .focused {

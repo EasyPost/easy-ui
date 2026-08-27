@@ -1,4 +1,11 @@
-import React, { ReactNode, useContext, useMemo } from "react";
+import React, {
+  ReactNode,
+  useCallback,
+  useContext,
+  useId,
+  useMemo,
+  useState,
+} from "react";
 import { classNames, variationName } from "../utilities/css";
 import {
   ForgeLayoutActionBadge,
@@ -23,12 +30,29 @@ import {
   ForgeLayoutSearch,
   ForgeLayoutModeSwitcher,
 } from "./ForgeLayoutControls";
+import { ForgeLayoutNavToggle } from "./ForgeLayoutNavToggle";
 
 import styles from "./ForgeLayout.module.scss";
 
 export type Mode = "test" | "production";
 
-export type NavState = "expanded" | "collapsed";
+/**
+ * Display state of the nav menu.
+ *
+ * - `expanded` renders the nav at full width with labelled links.
+ * - `rail` renders the nav as a narrow, icon-only rail. This is the state
+ *   design refers to as "collapsed".
+ * - `collapsed` removes the nav entirely for distraction-free content.
+ */
+export type NavState = "expanded" | "rail" | "collapsed";
+
+/**
+ * Nav states that `ForgeLayout.Controls` can be gated on.
+ *
+ * `rail` is deliberately excluded. A rail is a nav-only concern, so it shares
+ * `expanded`'s header semantics rather than introducing a third branch.
+ */
+export type NavVisibilityState = Exclude<NavState, "rail">;
 
 export type ForgeLayoutProps = {
   /** Layout children. */
@@ -42,11 +66,28 @@ export type ForgeLayoutProps = {
   mode?: Mode;
 
   /**
-   * Display state of the nav menu.
+   * Display state of the nav menu. Pass this to control the nav state.
+   * Use `defaultNavState` instead to leave the state uncontrolled.
    *
    * @default expanded
    */
   navState?: NavState;
+
+  /**
+   * Initial display state of the nav menu when left uncontrolled.
+   *
+   * @default expanded
+   */
+  defaultNavState?: NavState;
+
+  /**
+   * Called when the nav state changes, such as when a
+   * `ForgeLayout.NavToggle` is pressed.
+   *
+   * Persisting the nav state across sessions is left to the consuming
+   * application.
+   */
+  onNavStateChange?: (navState: NavState) => void;
 
   /**
    * Background decoration for layout.
@@ -63,7 +104,11 @@ export type ForgeLayoutContentProps = {
 
 export type ForgeLayoutContextType = {
   mode?: Mode;
-  navState?: NavState;
+  navState: NavState;
+  /** Sets the nav state, notifying `onNavStateChange` of the new value. */
+  setNavState: (navState: NavState) => void;
+  /** `id` of the nav element, for `aria-controls` on nav toggles. */
+  navId: string;
 };
 
 const ForgeLayoutContext = React.createContext<ForgeLayoutContextType | null>(
@@ -83,7 +128,7 @@ export const useForgeLayout = () => {
  *
  * @example
  * ```tsx
- * <ForgeLayout mode="test" navState="expanded">
+ * <ForgeLayout mode="test" defaultNavState="expanded">
  *   <ForgeLayout.Nav>
  *     <ForgeLayout.NavLink href="/1" iconSymbol={Icon}>
  *       Item 1
@@ -118,6 +163,7 @@ export const useForgeLayout = () => {
  *       </ForgeLayout.BreadcrumbsNavigation>
  *     </ForgeLayout.Controls>
  *     <ForgeLayout.Controls visibleWhenNavStateIs="expanded">
+ *       <ForgeLayout.NavToggle />
  *       <ForgeLayout.ModeSwitcher onModeChange={action("Mode changed!")} />
  *       <ForgeLayout.Search value={"search"} onChange={() => {}} />
  *     </ForgeLayout.Controls>
@@ -156,9 +202,17 @@ export function ForgeLayout(props: ForgeLayoutProps) {
   const {
     backgroundDecoration = "01",
     mode = "production",
-    navState = "expanded",
+    navState: controlledNavState,
+    defaultNavState = "expanded",
+    onNavStateChange,
     children,
   } = props;
+  const [navState, setNavState] = useNavState(
+    controlledNavState,
+    defaultNavState,
+    onNavStateChange,
+  );
+  const navId = useId();
   const className = classNames(
     styles.ForgeLayout,
     styles[variationName("mode", mode)],
@@ -169,8 +223,8 @@ export function ForgeLayout(props: ForgeLayoutProps) {
     styles[variationName("backgroundDecoration", backgroundDecoration)],
   );
   const context = useMemo(() => {
-    return { mode, navState };
-  }, [mode, navState]);
+    return { mode, navState, setNavState, navId };
+  }, [mode, navState, setNavState, navId]);
   return (
     <ForgeLayoutContext.Provider value={context}>
       <div className={bgClassName} />
@@ -179,6 +233,31 @@ export function ForgeLayout(props: ForgeLayoutProps) {
       </div>
     </ForgeLayoutContext.Provider>
   );
+}
+
+/**
+ * Resolves the nav state from either a controlled `navState` prop or internal
+ * state, always notifying `onNavStateChange` of requested changes.
+ */
+function useNavState(
+  controlledNavState: NavState | undefined,
+  defaultNavState: NavState,
+  onNavStateChange: ((navState: NavState) => void) | undefined,
+) {
+  const [uncontrolledNavState, setUncontrolledNavState] =
+    useState(defaultNavState);
+  const isControlled = controlledNavState !== undefined;
+  const navState = isControlled ? controlledNavState : uncontrolledNavState;
+  const setNavState = useCallback(
+    (nextNavState: NavState) => {
+      if (!isControlled) {
+        setUncontrolledNavState(nextNavState);
+      }
+      onNavStateChange?.(nextNavState);
+    },
+    [isControlled, onNavStateChange],
+  );
+  return [navState, setNavState] as const;
 }
 
 function ForgeLayoutBody(props: ForgeLayoutContentProps) {
@@ -220,6 +299,12 @@ ForgeLayout.Header = ForgeLayoutHeader;
  * Represents the controls of a `<ForgeLayout />`.
  */
 ForgeLayout.Controls = ForgeLayoutControls;
+
+/**
+ * Represents a control for toggling the nav between its expanded and rail
+ * states in a `<ForgeLayout />`.
+ */
+ForgeLayout.NavToggle = ForgeLayoutNavToggle;
 
 /**
  * Represents the breadcrumbs and navigation in a `<ForgeLayout />`.

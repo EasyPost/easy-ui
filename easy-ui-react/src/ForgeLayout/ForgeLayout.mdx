@@ -33,6 +33,81 @@ import * as ForgeLayoutStories from "./ForgeLayout.stories";
 
 <Controls of={ForgeLayoutStories.Collapsed} include={["navState"]} />
 
+## Railed Navigation
+
+`ForgeLayout` supports a narrow, icon-only nav with the `navState="rail"` prop.
+
+Design calls this state "Collapsed". `ForgeLayout` calls it `rail`, because `navState="collapsed"` already means the nav is gone entirely. The three states are:
+
+| `navState`  | Nav                    | Header               |
+| ----------- | ---------------------- | -------------------- |
+| `expanded`  | Full width with labels | Product controls     |
+| `rail`      | Icon-only              | Product controls     |
+| `collapsed` | Not rendered           | Breadcrumbs and back |
+
+Railing the nav is a nav-only concern, so `ForgeLayout.Controls` treats `rail` the same as `expanded`. Controls gated on `visibleWhenNavStateIs="expanded"` stay put when the nav rails.
+
+Railed links hide their labels, so each one gets a tooltip. `ForgeLayout.NavLink` builds it from `children` when those are plain text, and from `label` otherwise. Badges belong in `renderBadge` rather than `children`, so they can overlay the icon once the label is gone. `renderBadge` receives the nav state, so a badge that carries text next to a label can fall back to a dot on the icon.
+
+<Canvas of={ForgeLayoutStories.Rail} />
+
+<Controls of={ForgeLayoutStories.Rail} include={["defaultNavState"]} />
+
+### Toggling the nav
+
+`ForgeLayout.NavToggle` is a standalone control, so it can go wherever a product needs it—typically at the start of a `ForgeLayout.Controls`. It renders nothing when the nav is `collapsed`, since there is no nav to toggle.
+
+Pass `navState` to control the state, or `defaultNavState` to leave it uncontrolled. `onNavStateChange` reports every change. Persisting a person's choice across sessions is up to the consuming application.
+
+```tsx
+<ForgeLayout
+  navState={navState}
+  onNavStateChange={(nextNavState) => {
+    localStorage.setItem("navState", nextNavState);
+    setNavState(nextNavState);
+  }}
+>
+  <ForgeLayout.Nav
+    selectedHref={pathname}
+    renderLogo={({ navState }) =>
+      navState === "rail" ? <ProductGlyph /> : <ProductLogo />
+    }
+  >
+    <ForgeLayout.NavLink
+      href="/insurance"
+      iconSymbol={ShieldIcon}
+      renderBadge={({ navState }) =>
+        navState === "rail" ? (
+          <AlertBadge show={hasAlerts}>{null}</AlertBadge>
+        ) : (
+          <Badge variant="danger">{alertCount}</Badge>
+        )
+      }
+    >
+      Guard Insurance
+    </ForgeLayout.NavLink>
+  </ForgeLayout.Nav>
+  <ForgeLayout.Header>
+    <ForgeLayout.Controls visibleWhenNavStateIs="expanded">
+      <ForgeLayout.NavToggle />
+      <ForgeLayout.ModeSwitcher onModeChange={() => {}} />
+    </ForgeLayout.Controls>
+  </ForgeLayout.Header>
+  <ForgeLayout.Content>Page Content</ForgeLayout.Content>
+</ForgeLayout>
+```
+
+### Adding a rail to an existing layout
+
+This story mirrors the Forge app's layout, including the four places adding a rail needs care. Switch pages within the story to see each one.
+
+- **Page config outranks preference.** Pages that pin `navState="collapsed"` have to keep winning, or a drill-in page renders as a rail and loses its breadcrumbs.
+- **Badges move out of `children`.** A badge nested in `children` disappears when the nav rails. `renderBadge` keeps it over the icon.
+- **Ungrouped controls still fit.** `ForgeLayout.NavToggle` sets `flex: none`, so it holds its footprint whether or not `areControlsGrouped` is set.
+- **Grids sized for their old contents.** Controls wrapped in a `HorizontalGrid` with a fixed `columns` count push a new child onto another row. Keep the toggle outside the grid, or widen the count.
+
+<Canvas of={ForgeLayoutStories.ForgeApp} />
+
 ## Properties
 
 ### ForgeLayout
