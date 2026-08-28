@@ -1,12 +1,5 @@
-import { mergeRefs, useObjectRef } from "@react-aria/utils";
-import omit from "lodash/omit";
-import React, {
-  ReactNode,
-  forwardRef,
-  useContext,
-  useMemo,
-  useRef,
-} from "react";
+import { useObjectRef } from "@react-aria/utils";
+import React, { ReactNode, forwardRef, useContext, useMemo } from "react";
 import {
   AriaLinkOptions,
   mergeProps,
@@ -14,7 +7,6 @@ import {
   useHover,
   useLink,
 } from "react-aria";
-import { omitReactAriaSpecificProps } from "../Button/utilities";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { Tooltip } from "../Tooltip";
@@ -176,7 +168,7 @@ export function ForgeLayoutNavLink(props: ForgeLayoutNavLinkProps) {
   const { label, children } = props;
 
   if (navState !== "rail") {
-    return <ForgeLayoutNavLinkAnchor {...props} />;
+    return <ForgeLayoutNavLinkAnchor navLinkProps={props} />;
   }
 
   const tooltipContent =
@@ -185,12 +177,12 @@ export function ForgeLayoutNavLink(props: ForgeLayoutNavLinkProps) {
   // Without plain text to show, a tooltip would have nothing to render. The
   // link keeps its accessible name either way.
   if (!tooltipContent) {
-    return <ForgeLayoutNavLinkAnchor {...props} />;
+    return <ForgeLayoutNavLinkAnchor navLinkProps={props} />;
   }
 
   return (
     <Tooltip content={tooltipContent} placement={RAIL_TOOLTIP_PLACEMENT}>
-      <ForgeLayoutNavLinkAnchor {...props} />
+      <ForgeLayoutNavLinkAnchor navLinkProps={props} />
     </Tooltip>
   );
 }
@@ -201,22 +193,26 @@ export function ForgeLayoutNavLink(props: ForgeLayoutNavLinkProps) {
  * @remarks
  * Split out as a `forwardRef` component so `Tooltip` can attach its trigger
  * ref without displacing the ref `useLink` needs.
+ *
+ * The nav link's own props arrive under `navLinkProps` rather than spread, so
+ * that anything `Tooltip` injects into its trigger lands in `triggerProps`
+ * instead. Keeping the two apart means `useLink` owns the nav link's props
+ * outright and only the tooltip's props are forwarded to the anchor, so no
+ * handler can be applied twice.
  */
 const ForgeLayoutNavLinkAnchor = forwardRef<
   HTMLAnchorElement,
-  ForgeLayoutNavLinkProps
->((props, inRef) => {
-  const { href, iconSymbol, label, renderBadge, children, ...restProps } =
-    props;
+  { navLinkProps: ForgeLayoutNavLinkProps }
+>(({ navLinkProps, ...triggerProps }, inRef) => {
+  const { href, iconSymbol, label, renderBadge, children } = navLinkProps;
   const { navState } = useForgeLayout();
   const { selectedHref } = useForgeLayoutNav();
   const isRail = navState === "rail";
 
-  const localRef = useRef(null);
-  const ref = useObjectRef(mergeRefs(localRef, inRef));
-  const { linkProps } = useLink(props, ref);
-  const { focusProps, isFocusVisible } = useFocusRing(props);
-  const { hoverProps, isHovered } = useHover(props);
+  const ref = useObjectRef(inRef);
+  const { linkProps } = useLink(navLinkProps, ref);
+  const { focusProps, isFocusVisible } = useFocusRing(navLinkProps);
+  const { hoverProps, isHovered } = useHover(navLinkProps);
   const isSelected = href === selectedHref;
   const className = classNames(
     styles.link,
@@ -229,12 +225,7 @@ const ForgeLayoutNavLinkAnchor = forwardRef<
     <a
       ref={ref}
       className={className}
-      {...mergeProps(
-        hoverProps,
-        focusProps,
-        linkProps,
-        omitNavLinkProps(restProps),
-      )}
+      {...mergeProps(hoverProps, focusProps, linkProps, triggerProps)}
       aria-current={isSelected ? "page" : undefined}
     >
       <Icon symbol={iconSymbol} />
@@ -259,45 +250,6 @@ const ForgeLayoutNavLinkAnchor = forwardRef<
 });
 
 ForgeLayoutNavLinkAnchor.displayName = "ForgeLayoutNavLinkAnchor";
-
-/**
- * Every prop `useLink` folds into `linkProps` itself, plus its react-aria-only
- * options.
- */
-const USE_LINK_PROPS = [
-  // FocusableProps
-  "autoFocus",
-  "onFocus",
-  "onBlur",
-  "onFocusChange",
-  "onKeyDown",
-  "onKeyUp",
-  // LinkDOMProps
-  "href",
-  "hrefLang",
-  "target",
-  "rel",
-  "download",
-  "ping",
-  "referrerPolicy",
-  "routerOptions",
-  // AriaLinkOptions
-  "isDisabled",
-  "elementType",
-];
-
-/**
- * Narrows the props forwarded to the anchor down to what `Tooltip` injects into
- * its trigger, such as pointer handlers and `aria-describedby`.
- *
- * @remarks
- * `useLink` already carries the rest, so forwarding them again would double up
- * event handlers. Some, like `routerOptions`, aren't valid DOM attributes
- * either.
- */
-function omitNavLinkProps(props: object) {
-  return omit(omitReactAriaSpecificProps(props), USE_LINK_PROPS);
-}
 
 function Logo({ isGlyphOnly = false }: { isGlyphOnly?: boolean }) {
   const glyph = (
