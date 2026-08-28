@@ -56,6 +56,40 @@ Use `href` to for navigation.
 
 <Canvas of={ButtonStories.Href} />
 
+### Client-side routing
+
+Pass a `navigate` function to `<Provider />` and a `<Button />` with an `href`
+navigates through your app's router instead of doing a full page load. Links to
+other origins, links with `target="_blank"`, and modifier-clicked links continue
+to load normally.
+
+```tsx
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+import { useNavigate, useHref } from "react-router";
+
+function App({ children }) {
+  return (
+    <EasyUIProvider navigate={useNavigate()} useHref={useHref}>
+      {children}
+    </EasyUIProvider>
+  );
+}
+
+// navigates client-side
+<Button href="/shipments">Shipments</Button>;
+
+// pass router-specific options through `routerOptions`
+<Button href="/shipments" routerOptions={{ replace: true }}>
+  Shipments
+</Button>;
+```
+
+The example below is wired to a fake router that records where it was asked to
+navigate rather than loading a page. The router also prepends `/base-path`
+through `useHref`, so each `href` in the markup is the one the router resolved.
+
+<Canvas of={ButtonStories.ClientSideRouting} />
+
 ## Small
 
 Use `size="sm"` to render a smaller `<Button />`.

@@ -1,11 +1,14 @@
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { Decorator } from "@storybook/react";
-import React, { ComponentProps, ReactNode, SVGProps } from "react";
+import React, { ComponentProps, ReactNode, SVGProps, useState } from "react";
 import type { Placement as AriaPlacement } from "react-aria";
 import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
 import { SortDescriptor } from "react-stately";
 import { Menu } from "../Menu";
+import { Provider } from "../Provider";
+import { Text } from "../Text";
+import { VerticalStack } from "../VerticalStack";
 import {
   FILLED_BUTTON_COLORS,
   OUTLINED_BUTTON_COLORS,
@@ -403,6 +406,50 @@ export function FakeSidebarNav() {
 // TabNav shouldn't use `button`s in production.
 export function FakeClientSideRouterLink(props: ComponentProps<"button">) {
   return <button {...props} />;
+}
+
+export type FakeClientSideRouterProps = {
+  /** Base path the fake router prepends to the hrefs it renders. */
+  basePath?: string;
+  /** Path the fake router starts on. */
+  initialPath?: string;
+  /** Story content. Receives the path the fake router is currently on. */
+  children: ReactNode | ((path: string) => ReactNode);
+};
+
+/**
+ * Renders story content within a `<Provider />` that is configured with a fake
+ * client-side router.
+ *
+ * Navigations update React state instead of loading a page, standing in for
+ * what a real router does with something like react-router's `useNavigate()`.
+ * The fake router also prepends a base path through `useHref` so that the
+ * hrefs it resolves are visible in the rendered markup.
+ */
+export function FakeClientSideRouter({
+  basePath = "/base-path",
+  initialPath = "/",
+  children,
+}: FakeClientSideRouterProps) {
+  const [path, setPath] = useState(initialPath);
+  const [options, setOptions] = useState<string>();
+  return (
+    <Provider
+      navigate={(to, routerOptions) => {
+        setPath(to);
+        setOptions(routerOptions ? JSON.stringify(routerOptions) : undefined);
+      }}
+      useHref={(href) => `${basePath}${href}`}
+    >
+      <VerticalStack gap="2">
+        {typeof children === "function" ? children(path) : children}
+        <Text variant="body2" color="neutral.500">
+          {`Router is on ${basePath}${path}`}
+          {options ? ` with options ${options}` : ""}
+        </Text>
+      </VerticalStack>
+    </Provider>
+  );
 }
 
 export function helpMenuItems() {

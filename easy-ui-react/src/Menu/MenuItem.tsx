@@ -1,3 +1,4 @@
+import { RouterOptions } from "@react-types/shared";
 import omit from "lodash/omit";
 import React, {
   ComponentPropsWithoutRef,
@@ -46,6 +47,9 @@ export type MenuItemProps = {
 
   /** If `href` is provided, the target window for the link. */
   target?: string;
+
+  /** If `href` is provided, options for the client-side router set on `<Provider />`. */
+  routerOptions?: RouterOptions;
 };
 
 /**
@@ -83,7 +87,17 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
   const props = mergeProps(
     menuItemProps,
     href
-      ? omit(item.props, ["aria-label", "as", "children", "closeOnSelect"])
+      ? // `href` and `routerOptions` are intentionally omitted; `useMenuItem()`
+        // already resolves `href` through the client-side router provided to
+        // `<Provider />`, and re-applying the raw value here would undo it
+        omit(item.props, [
+          "aria-label",
+          "as",
+          "children",
+          "closeOnSelect",
+          "href",
+          "routerOptions",
+        ])
       : item.key === SELECT_ALL_KEY
         ? { "aria-checked": isSelectAllSelected(state) }
         : {},

@@ -2,10 +2,13 @@ import AddIcon from "@easypost/easy-ui-icons/Add";
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import InfoIcon from "@easypost/easy-ui-icons/Info";
+import { RouterOptions } from "@react-types/shared";
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
+import { HorizontalStack } from "../HorizontalStack";
 import {
+  FakeClientSideRouter,
   InlineStoryDecorator,
   InlineStoryOnDarkBackgroundDecorator,
   createLabelledOptionsControl,
@@ -17,6 +20,10 @@ import {
 import { Button, ButtonProps } from "./Button";
 
 type Story = StoryObj<typeof Button>;
+
+// React Aria resolves `RouterOptions` to `never` until an app augments
+// `RouterConfig` with its router's option type, so options need a cast here
+const replace = { replace: true } as unknown as RouterOptions;
 
 const Template = (args: ButtonProps) => <Button {...args} />;
 
@@ -113,6 +120,25 @@ export const Href: Story = {
     </>
   ),
   decorators: [InlineStoryDecorator],
+};
+
+export const ClientSideRouting: Story = {
+  render: () => (
+    <FakeClientSideRouter>
+      <HorizontalStack gap="2" wrap>
+        <Button href="/shipments">Shipments</Button>
+        <Button variant="outlined" href="/shipments" routerOptions={replace}>
+          Shipments, replacing history
+        </Button>
+        <Button variant="outlined" href="https://www.easypost.com/">
+          Another origin, loads normally
+        </Button>
+        <Button variant="outlined" href="/shipments" target="_blank">
+          New tab, loads normally
+        </Button>
+      </HorizontalStack>
+    </FakeClientSideRouter>
+  ),
 };
 
 export const Small: Story = {

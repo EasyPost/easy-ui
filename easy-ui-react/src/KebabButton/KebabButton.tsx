@@ -4,12 +4,14 @@ import { AriaButtonProps } from "react-aria";
 import { UnstyledButton } from "../UnstyledButton/UnstyledButton";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
+import { RouterLinkProps } from "../utilities/router";
 import styles from "./KebabButton.module.scss";
 
-export type KebabButtonProps = AriaButtonProps & {
-  /** Optional custom accessibility label describing the action. */
-  accessibilityLabel?: string;
-};
+export type KebabButtonProps = AriaButtonProps &
+  RouterLinkProps & {
+    /** Optional custom accessibility label describing the action. */
+    accessibilityLabel?: string;
+  };
 
 /**
  * Typically used as a trigger to display a set of options

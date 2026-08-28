@@ -4,6 +4,7 @@ import type { Selection } from "react-stately";
 import React from "react";
 import { DropdownButton } from "../DropdownButton";
 import {
+  FakeClientSideRouter,
   OverlayLayoutDecorator,
   overlayPlacements,
 } from "../utilities/storybook";
@@ -225,6 +226,35 @@ export const MixedItemTypes: Story = {
       </Menu.Overlay>
     ),
   },
+};
+
+// Items render as regular anchors with regular hrefs; the router configured on
+// `<Provider />` is what keeps clicking them from loading a new page.
+export const ClientSideRouting: Story = {
+  render: () => (
+    <FakeClientSideRouter>
+      <Menu>
+        <Menu.Trigger>
+          <DropdownButton>Click me</DropdownButton>
+        </Menu.Trigger>
+        <Menu.Overlay onAction={action("onAction")}>
+          <Menu.Item key="shipments" href="/shipments">
+            Shipments
+          </Menu.Item>
+          <Menu.Item key="trackers" href="/trackers">
+            Trackers
+          </Menu.Item>
+          <Menu.Item
+            key="docs"
+            href="https://www.easypost.com/docs/api"
+            target="_blank"
+          >
+            Docs, loads normally
+          </Menu.Item>
+        </Menu.Overlay>
+      </Menu>
+    </FakeClientSideRouter>
+  ),
 };
 
 export const CustomPlacement: StoryObj<MenuOverlayProps<unknown>> = {

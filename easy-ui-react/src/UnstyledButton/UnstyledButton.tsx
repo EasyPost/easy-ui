@@ -2,16 +2,18 @@ import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import React, { forwardRef, useRef } from "react";
 import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { classNames } from "../utilities/css";
+import { RouterLinkProps, useRouterLinkProps } from "../utilities/router";
 import { omitReactAriaSpecificProps } from "../Button/utilities";
 
 import styles from "./UnstyledButton.module.scss";
 
-export type UnstyledButtonProps = AriaButtonProps<"button"> & {
-  /* Classname to apply styles to button */
-  className?: string;
-  /** Link's destination */
-  href?: string;
-};
+export type UnstyledButtonProps = AriaButtonProps<"button"> &
+  RouterLinkProps & {
+    /* Classname to apply styles to button */
+    className?: string;
+    /** Link's destination */
+    href?: string;
+  };
 
 /**
  * An internal button component that does the heavy lifting with regards to behavior
@@ -50,9 +52,18 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
       ref,
     );
 
+    // `useButton()` renders `href` as a plain attribute, so client-side
+    // navigation has to be wired up separately. This is a noop until a
+    // `navigate` function is passed to `<Provider />`.
+    const routerLinkProps = useRouterLinkProps(props);
+
     return (
       <As
-        {...mergeProps(omitReactAriaSpecificProps(restProps), elementProps)}
+        {...mergeProps(
+          omitReactAriaSpecificProps(restProps),
+          elementProps,
+          routerLinkProps,
+        )}
         disabled={isDisabled}
         ref={mergedRef}
         className={classNames(styles.UnstyledButton, className)}

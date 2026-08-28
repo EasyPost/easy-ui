@@ -58,6 +58,32 @@ A `<Menu />` can include links by using the `href` property, and it can include 
 
 <Canvas of={MenuStories.MixedItemTypes} />
 
+## Client-side routing
+
+Pass a `navigate` function to `<Provider />` and link items navigate through your app's router instead of doing a full page load. Their `href`s are resolved through the provider's `useHref`.
+
+```tsx
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+import { useNavigate, useHref } from "react-router";
+
+<EasyUIProvider navigate={useNavigate()} useHref={useHref}>
+  <Menu>
+    <Menu.Trigger>
+      <DropdownButton>Click me</DropdownButton>
+    </Menu.Trigger>
+    <Menu.Overlay onAction={onAction}>
+      <Menu.Item key="shipments" href="/shipments">
+        Shipments
+      </Menu.Item>
+    </Menu.Overlay>
+  </Menu>
+</EasyUIProvider>;
+```
+
+The example below is wired to a fake router. Its items are regular links with regular `href`s—the router is what keeps them from loading a new page.
+
+<Canvas of={MenuStories.ClientSideRouting} />
+
 ## Custom Placement
 
 A `<Menu />` can be placed on different edges of its trigger element. See the controls for valid values. Ensure any deviation from the default value is coordinated with design to prevent unexpected user experience.

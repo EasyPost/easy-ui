@@ -4,6 +4,7 @@ import { Icon } from "../Icon";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { AriaButtonProps } from "react-aria";
+import { RouterLinkProps } from "../utilities/router";
 import { logWarningIfInvalidColorVariantCombination } from "./utilities";
 
 import styles from "./Button.module.scss";
@@ -20,26 +21,27 @@ export type ButtonColor =
 export type ButtonVariant = "filled" | "outlined" | "link" | "text";
 export type ButtonSize = "sm" | "md";
 
-export type ButtonProps = AriaButtonProps & {
-  /** Button color */
-  color?: ButtonColor;
-  /** Button variant */
-  variant?: ButtonVariant;
-  /** Button size */
-  size?: ButtonSize;
-  /** Disables button */
-  isDisabled?: boolean;
-  /** Button will grow to width of container */
-  isBlock?: boolean;
-  /** Positions icon symbol before children */
-  iconAtStart?: IconSymbol;
-  /** Positions icon symbol after children */
-  iconAtEnd?: IconSymbol;
-  /** Content inside button  */
-  children?: ReactNode;
-  /** Link's destination */
-  href?: string;
-};
+export type ButtonProps = AriaButtonProps &
+  RouterLinkProps & {
+    /** Button color */
+    color?: ButtonColor;
+    /** Button variant */
+    variant?: ButtonVariant;
+    /** Button size */
+    size?: ButtonSize;
+    /** Disables button */
+    isDisabled?: boolean;
+    /** Button will grow to width of container */
+    isBlock?: boolean;
+    /** Positions icon symbol before children */
+    iconAtStart?: IconSymbol;
+    /** Positions icon symbol after children */
+    iconAtEnd?: IconSymbol;
+    /** Content inside button  */
+    children?: ReactNode;
+    /** Link's destination */
+    href?: string;
+  };
 
 /**
  * A `<Button />` enables users to take an action or transition to other pages.

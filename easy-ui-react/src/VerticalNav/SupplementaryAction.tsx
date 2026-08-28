@@ -7,23 +7,26 @@ import React, {
   ReactNode,
   forwardRef,
 } from "react";
+import { mergeProps } from "react-aria";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
+import { RouterLinkProps, useRouterLinkProps } from "../utilities/router";
 
 import styles from "./SupplementaryAction.module.scss";
 
 export type SupplementaryActionProps<T extends ElementType = "button"> =
-  ComponentProps<T> & {
-    /**
-     * Custom element to render the supplementary action as.
-     */
-    as?: T;
+  ComponentProps<T> &
+    RouterLinkProps & {
+      /**
+       * Custom element to render the supplementary action as.
+       */
+      as?: T;
 
-    /**
-     * Text content to render in the supplementary action.
-     */
-    children: ReactNode;
-  };
+      /**
+       * Text content to render in the supplementary action.
+       */
+      children: ReactNode;
+    };
 
 /**
  * Represents a default supplementary action for a vertical navigation. Renders
@@ -36,9 +39,22 @@ export const SupplementaryAction = forwardRef<
   HTMLButtonElement,
   SupplementaryActionProps
 >((props, ref) => {
-  const { as: As = "button", children, ...elementProps } = props;
+  const {
+    as: As = "button",
+    children,
+    routerOptions: _routerOptions,
+    ...elementProps
+  } = props;
+  const routerLinkProps = useRouterLinkProps(
+    props,
+    (As as ElementType) === "a",
+  );
   return (
-    <As ref={ref} className={styles.SupplementaryAction} {...elementProps}>
+    <As
+      ref={ref}
+      className={styles.SupplementaryAction}
+      {...mergeProps(elementProps, routerLinkProps)}
+    >
       <Text variant="subtitle2">{children}</Text>
       <Icon symbol={ArrowForwardIosIcon} size="xs" />
     </As>

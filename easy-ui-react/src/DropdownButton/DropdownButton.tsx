@@ -5,21 +5,23 @@ import { ButtonColor } from "../Button";
 import { logWarningIfInvalidColorVariantCombination } from "../Button/utilities";
 import { Icon } from "../Icon";
 import { classNames, variationName } from "../utilities/css";
+import { RouterLinkProps } from "../utilities/router";
 import styles from "./DropdownButton.module.scss";
 import { UnstyledButton } from "../UnstyledButton";
 
 export type DropdownButtonVariant = "filled" | "outlined";
 
-export type DropdownButtonProps = AriaButtonProps & {
-  /** Button color */
-  color?: ButtonColor;
-  /** Button variant */
-  variant?: DropdownButtonVariant;
-  /** Disables button */
-  isDisabled?: boolean;
-  /** Content inside button  */
-  children?: ReactNode;
-};
+export type DropdownButtonProps = AriaButtonProps &
+  RouterLinkProps & {
+    /** Button color */
+    color?: ButtonColor;
+    /** Button variant */
+    variant?: DropdownButtonVariant;
+    /** Disables button */
+    isDisabled?: boolean;
+    /** Content inside button  */
+    children?: ReactNode;
+  };
 
 /**
  * Typically used as a trigger to display a set of options for

@@ -84,6 +84,23 @@ export type ProviderProps = {
 *  );
 *}
 *```
+* @example
+* _Client-side routing_
+```tsx
+* import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+* import { useNavigate, useHref } from "react-router";
+*
+* function App({ children }) {
+*  // any Easy UI component rendering an anchor—`<Button href />`,
+*  // `<TabNav.Item />`, `<VerticalNav.Item />`, `<Menu.Item href />`—now
+*  // navigates through the router instead of doing a full page load
+*  return (
+*      <EasyUIProvider navigate={useNavigate()} useHref={useHref}>
+*        {children}
+*      </EasyUIProvider>
+*  );
+*}
+*```
  */
 export function Provider({
   children,

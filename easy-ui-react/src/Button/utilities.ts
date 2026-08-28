@@ -51,5 +51,6 @@ export function omitReactAriaSpecificProps(props: object) {
     "onPressEnd",
     "onPressUp",
     "preventFocusOnPress",
+    "routerOptions",
   ]);
 }

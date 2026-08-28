@@ -1,29 +1,31 @@
 import { ComponentProps, ElementType, ReactNode } from "react";
 import { Item as ReactStatelyItem } from "react-stately";
 import { IconSymbol } from "../types";
+import { RouterLinkProps } from "../utilities/router";
 
-export type ItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
-  /**
-   * Custom element to render the item as.
-   */
-  as?: T;
+export type ItemProps<T extends ElementType = "a"> = ComponentProps<T> &
+  RouterLinkProps & {
+    /**
+     * Custom element to render the item as.
+     */
+    as?: T;
 
-  /**
-   * Nested subnavigation for the navigation item.
-   */
-  children?: ReactNode;
+    /**
+     * Nested subnavigation for the navigation item.
+     */
+    children?: ReactNode;
 
-  /**
-   * Icon symbol of the navigation item. This is only applicable on top-level
-   * navigation items.
-   */
-  icon?: IconSymbol;
+    /**
+     * Icon symbol of the navigation item. This is only applicable on top-level
+     * navigation items.
+     */
+    icon?: IconSymbol;
 
-  /**
-   * Label shown on the navigation item.
-   */
-  label: string;
-};
+    /**
+     * Label shown on the navigation item.
+     */
+    label: string;
+  };
 
 export type ItemPropsForStately = ItemProps & { textValue: string };
 
