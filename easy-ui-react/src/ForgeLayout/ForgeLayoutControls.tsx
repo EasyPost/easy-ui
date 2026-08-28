@@ -4,7 +4,7 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 import SearchIcon from "@easypost/easy-ui-icons/Search";
 import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
 import { useForgeLayout } from "./ForgeLayout";
-import type { NavState } from "./ForgeLayout";
+import type { NavState, NavVisibilityState } from "./ForgeLayout";
 import { useForgeLayoutHeader } from "./ForgeLayoutHeader";
 import { UnstyledButton } from "../UnstyledButton";
 import type { UnstyledButtonProps } from "../UnstyledButton";
@@ -37,17 +37,28 @@ export type ForgeLayoutControlsProps = {
   /**
    * Display state of the nav menu for when these controls show.
    *
+   * A railed nav is treated as `expanded` here, since railing the nav is a
+   * nav-only concern and shouldn't change what the header holds.
+   *
    * @default expanded
    */
-  visibleWhenNavStateIs?: NavState;
+  visibleWhenNavStateIs?: NavVisibilityState;
 };
+
+/**
+ * Resolves a nav state down to the states controls can be gated on, so a
+ * railed nav keeps whatever the header shows when expanded.
+ */
+function toNavVisibilityState(navState: NavState): NavVisibilityState {
+  return navState === "rail" ? "expanded" : navState;
+}
 
 export function ForgeLayoutControls(props: ForgeLayoutControlsProps) {
   const { navState } = useForgeLayout();
   const { areControlsGrouped } = useForgeLayoutHeader();
   const { children, visibleWhenNavStateIs = "expanded" } = props;
 
-  if (navState !== visibleWhenNavStateIs) {
+  if (toNavVisibilityState(navState) !== visibleWhenNavStateIs) {
     return null;
   }
 

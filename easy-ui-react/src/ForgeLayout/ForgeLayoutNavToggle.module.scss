@@ -1,0 +1,25 @@
+@use "../styles/common" as *;
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+
+  color: design-token("color.primary.600");
+  border-radius: design-token("shape.border_radius.md");
+  padding: design-token("space.0.5");
+  cursor: pointer;
+  outline: none;
+
+  // Sits above the header background decoration, matching the other controls.
+  z-index: design-token("z-index.nav");
+}
+
+.hovered {
+  background-color: design-token("color.neutral.050");
+}
+
+.focused {
+  @include native-focus-ring;
+}
