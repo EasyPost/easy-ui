@@ -209,8 +209,15 @@ describe("<ForgeLayout />", () => {
       "should pass link props through once when %s",
       async (navState) => {
         const handleFocus = vi.fn();
+        const handleClick = vi.fn();
+        const handlePress = vi.fn();
         const { user } = render(
-          createNavLinkLayout({ navState, onFocus: handleFocus }),
+          createNavLinkLayout({
+            navState,
+            onFocus: handleFocus,
+            onClick: handleClick,
+            onPress: handlePress,
+          }),
         );
         const link = screen.getByRole("link", { name: "Nav Link" });
         expect(link).toHaveAttribute("target", "_blank");
@@ -218,6 +225,9 @@ describe("<ForgeLayout />", () => {
         await user.tab();
         expect(link).toHaveFocus();
         expect(handleFocus).toHaveBeenCalledTimes(1);
+        await userClick(user, link);
+        expect(handleClick).toHaveBeenCalledTimes(1);
+        expect(handlePress).toHaveBeenCalledTimes(1);
       },
     );
   });
@@ -441,8 +451,10 @@ function createForgeLayout(
 function createNavLinkLayout(props: {
   navState: NavState;
   onFocus: () => void;
+  onClick?: () => void;
+  onPress?: () => void;
 }) {
-  const { navState, onFocus } = props;
+  const { navState, onFocus, onClick, onPress } = props;
   return (
     <ForgeLayout navState={navState}>
       <ForgeLayout.Nav selectedHref="/1">
@@ -451,6 +463,8 @@ function createNavLinkLayout(props: {
           target="_blank"
           iconSymbol={Icon}
           onFocus={onFocus}
+          onClick={onClick}
+          onPress={onPress}
         >
           Nav Link
         </ForgeLayout.NavLink>
