@@ -87,6 +87,13 @@
 
 .header {
   margin: 0;
+
+  // the body is positioned (for its intersection interceptor), which paints it
+  // above static siblings. position the header too, on a higher layer, so its
+  // scroll shadow lands on top of the body instead of under it
+  position: relative;
+  z-index: 1;
+
   &.stuck {
     box-shadow: design-token("shadow.stuck-from-top");
   }

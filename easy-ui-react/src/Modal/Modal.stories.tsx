@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { Key, useRef, useState } from "react";
+import React, { Key, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { action } from "storybook/actions";
 import { Button } from "../Button";
@@ -493,6 +493,65 @@ export const WithSelect: ModalStory = {
     </Modal.Trigger>
   ),
 };
+
+/**
+ * When the body scrolls, the header and footer grow a shadow to separate them
+ * from the scrolling content. Those shadows must paint *above* the body, which
+ * is easy to get wrong—the body's content is positioned, so it can cover them.
+ *
+ * This story fills the body with opaque, full-bleed content and opens
+ * mid-scroll, so both shadows are stuck at once and land directly over that
+ * content. The shadows should read as two unbroken lines; if the body paints
+ * over them, they disappear behind the gray blocks and the white `Select`.
+ */
+export const ScrollShadows: ModalStory = {
+  render: () => (
+    <Modal.Trigger defaultOpen>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%" height={300}>
+            Scroll up to bring the header shadow over this block
+          </PlaceholderBox>
+          <Select label="Select an option" placeholder="Select an option">
+            <Select.Option key="option1">Option 1</Select.Option>
+            <Select.Option key="option2">Option 2</Select.Option>
+          </Select>
+          <PlaceholderBox width="100%" height={300}>
+            <ScrollIntoView />
+            Both shadows should be visible over this block
+          </PlaceholderBox>
+          <Select label="Select an option" placeholder="Select an option">
+            <Select.Option key="option1">Option 1</Select.Option>
+            <Select.Option key="option2">Option 2</Select.Option>
+          </Select>
+          <PlaceholderBox width="100%" height={300}>
+            Scroll down to bring the footer shadow over this block
+          </PlaceholderBox>
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
+      </Modal>
+    </Modal.Trigger>
+  ),
+};
+
+/**
+ * Scrolls its scroll container so this point sits in the middle of it, putting
+ * the surrounding content under both the header and the footer.
+ */
+function ScrollIntoView() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    ref.current?.scrollIntoView({ block: "center" });
+  }, []);
+  return <div ref={ref} />;
+}
 
 export const WithFooterSlot: ModalStory = {
   render: () => (
