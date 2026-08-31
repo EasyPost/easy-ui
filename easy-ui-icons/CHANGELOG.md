@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.59
+
+### Minor Changes
+
+- c2ff73d: Adds LeftPanelClose and LeftPanelOpen icons
+
 ## 1.0.0-alpha.58
 
 ### Minor Changes
