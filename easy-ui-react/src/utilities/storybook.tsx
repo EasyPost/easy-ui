@@ -424,7 +424,8 @@ export type FakeClientSideRouterProps = {
  * Navigations update React state instead of loading a page, standing in for
  * what a real router does with something like react-router's `useNavigate()`.
  * The fake router also prepends a base path through `useHref` so that the
- * hrefs it resolves are visible in the rendered markup.
+ * hrefs it resolves are visible in the rendered markup. Only root-relative
+ * hrefs are prepended, leaving links to other origins intact.
  */
 export function FakeClientSideRouter({
   basePath = "/base-path",
@@ -439,7 +440,7 @@ export function FakeClientSideRouter({
         setPath(to);
         setOptions(routerOptions ? JSON.stringify(routerOptions) : undefined);
       }}
-      useHref={(href) => `${basePath}${href}`}
+      useHref={(href) => (href.startsWith("/") ? `${basePath}${href}` : href)}
     >
       <VerticalStack gap="2">
         {typeof children === "function" ? children(path) : children}

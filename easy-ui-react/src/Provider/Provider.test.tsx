@@ -1,6 +1,6 @@
 import { RouterOptions } from "@react-types/shared";
 import { screen } from "@testing-library/react";
-import React, { ReactElement } from "react";
+import React, { ComponentProps, ReactElement } from "react";
 import { vi } from "vitest";
 import { Button } from "../Button";
 import { IconButton } from "../IconButton";
@@ -25,6 +25,7 @@ describe("<Provider />", () => {
   let restoreIntersectionObserver: () => void;
 
   beforeEach(() => {
+    customNavigate.mockClear();
     vi.useFakeTimers();
     restoreGetComputedStyle = mockGetComputedStyle();
     restoreIntersectionObserver = mockIntersectionObserver();
@@ -115,6 +116,63 @@ describe("<Provider />", () => {
       expect(navigate).not.toHaveBeenCalled();
     });
 
+    it("should not client navigate from a disabled <Button />", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <Button href="/somewhere" isDisabled>
+          Go
+        </Button>,
+        navigate,
+      );
+      const button = screen.getByRole("button", { name: /go/i });
+      expect(button).not.toHaveAttribute("href");
+      await user.click(button);
+      expect(navigate).not.toHaveBeenCalled();
+    });
+
+    it("should not client navigate from a <Button /> that downloads", async () => {
+      // the link falls through to a full page load, which jsdom logs as
+      // unimplemented
+      const restoreConsoleError = suppressConsoleError();
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <Button href="/report.csv" download>
+          Go
+        </Button>,
+        navigate,
+      );
+      await user.click(screen.getByRole("button", { name: /go/i }));
+      expect(navigate).not.toHaveBeenCalled();
+      restoreConsoleError();
+    });
+
+    it("should not client navigate from a <Button /> whose handler prevents default", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <Button href="/somewhere" onClick={(e) => e.preventDefault()}>
+          Go
+        </Button>,
+        navigate,
+      );
+      await user.click(screen.getByRole("button", { name: /go/i }));
+      expect(navigate).not.toHaveBeenCalled();
+    });
+
+    it("should client navigate once from a <Button /> with an onPress handler", async () => {
+      const navigate = vi.fn();
+      const onPress = vi.fn();
+      const { user } = renderWithNavigate(
+        <Button href="/somewhere" onPress={onPress}>
+          Go
+        </Button>,
+        navigate,
+      );
+      await user.click(screen.getByRole("button", { name: /go/i }));
+      expect(onPress).toHaveBeenCalledTimes(1);
+      expect(navigate).toHaveBeenCalledTimes(1);
+      expect(navigate).toHaveBeenCalledWith("/somewhere", undefined);
+    });
+
     it("should client navigate from an <IconButton />", async () => {
       const navigate = vi.fn();
       const { user } = renderWithNavigate(
@@ -172,6 +230,70 @@ describe("<Provider />", () => {
       await user.click(screen.getByRole("menuitem", { name: /go/i }));
       expect(navigate).toHaveBeenCalledWith("/somewhere", undefined);
     });
+
+    it("should client navigate from a <VerticalNav.SupplementaryAction />", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <VerticalNav
+          aria-label="Nav"
+          selectedKey="1"
+          supplementaryAction={
+            <VerticalNav.SupplementaryAction as="a" href="/somewhere">
+              Go
+            </VerticalNav.SupplementaryAction>
+          }
+        >
+          <VerticalNav.Item key="1" label="Item 1" href="/1" />
+        </VerticalNav>,
+        navigate,
+      );
+      await user.click(screen.getByRole("link", { name: /go/i }));
+      expect(navigate).toHaveBeenCalledWith("/somewhere", undefined);
+    });
+  });
+
+  // components rendering a custom link component are left alone; the link
+  // component is expected to handle client-side navigation itself, and it may
+  // accept hrefs that only it understands, such as next/link's URL objects
+  describe("custom link components", () => {
+    it("should not client navigate from a <TabNav.Item />", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <TabNav aria-label="Nav">
+          <TabNav.Item as={CustomLink} href="/somewhere">
+            Go
+          </TabNav.Item>
+        </TabNav>,
+        navigate,
+        (href) => `/base${href}`,
+      );
+      const link = screen.getByRole("link", { name: /go/i });
+      expect(link).toHaveAttribute("href", "/somewhere");
+      await user.click(link);
+      expect(navigate).not.toHaveBeenCalled();
+      expect(customNavigate).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not client navigate from a <VerticalNav.Item />", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <VerticalNav aria-label="Nav" selectedKey="1">
+          <VerticalNav.Item
+            key="1"
+            as={CustomLink}
+            label="Go"
+            href="/somewhere"
+          />
+        </VerticalNav>,
+        navigate,
+        (href) => `/base${href}`,
+      );
+      const link = screen.getByRole("link", { name: /go/i });
+      expect(link).toHaveAttribute("href", "/somewhere");
+      await user.click(link);
+      expect(navigate).not.toHaveBeenCalled();
+      expect(customNavigate).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("useHref", () => {
@@ -213,6 +335,28 @@ describe("<Provider />", () => {
     });
   });
 });
+
+const customNavigate = vi.fn();
+
+/** Stands in for a link component such as `next/link`. */
+function CustomLink({
+  href,
+  children,
+  ...linkProps
+}: ComponentProps<"a"> & { href: string }) {
+  return (
+    <a
+      {...linkProps}
+      href={href}
+      onClick={(e) => {
+        e.preventDefault();
+        customNavigate(href);
+      }}
+    >
+      {children}
+    </a>
+  );
+}
 
 function suppressConsoleError() {
   const spy = vi.spyOn(console, "error").mockImplementation(() => {});

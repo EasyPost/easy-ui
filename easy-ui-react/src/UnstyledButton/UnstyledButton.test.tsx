@@ -50,6 +50,17 @@ describe("<UnstyledButton />", () => {
     expect(screen.getByRole("button")).toBeDisabled();
   });
 
+  it("should render a disabled anchor tag without an href", () => {
+    render(
+      <UnstyledButton href="https://www.easypost.com/" isDisabled>
+        Testing
+      </UnstyledButton>,
+    );
+    expect(screen.getByText(/testing/i).closest("a")).not.toHaveAttribute(
+      "href",
+    );
+  });
+
   it("should apply the default class", () => {
     render(
       <UnstyledButton className="colorPrimary_123">Button</UnstyledButton>,

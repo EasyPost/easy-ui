@@ -54,8 +54,10 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
 
     // `useButton()` renders `href` as a plain attribute, so client-side
     // navigation has to be wired up separately. This is a noop until a
-    // `navigate` function is passed to `<Provider />`.
-    const routerLinkProps = useRouterLinkProps(props);
+    // `navigate` function is passed to `<Provider />`. Disabled buttons are left
+    // out; `useButton()` withholds their `href` and re-adding it here would make
+    // them navigable.
+    const routerLinkProps = useRouterLinkProps(props, !isDisabled);
 
     return (
       <As

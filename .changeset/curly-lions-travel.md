@@ -21,10 +21,16 @@ provider's `navigate` function and resolve their `href` through its `useHref`.
 These components also accept `routerOptions` for passing router-specific options
 through to `navigate`.
 
-This is backwards compatible. Without a `navigate` function React Aria's router
-context reports itself as native and the new click handling is a noop, so links
-behave exactly as before. Links to other origins, links with `target="_blank"`,
-download links, and modifier-clicked links continue to load normally even when a
-`navigate` function is configured. The `as`/`hrefComponent` props remain
-supported for components that need a specific link component, and take
+Apps that don't pass `navigate` are unaffected. React Aria's router context
+reports itself as native, the new click handling is a noop, and links behave
+exactly as before.
+
+Apps that already pass `navigate` keep working, but the links listed above stop
+doing a full page load. Same-origin links, including hash-only ones, are handed
+to `navigate`, so a link that has to reach the server—a download, a sign out, a
+path served by another app on the same origin—needs to say so. Links to other
+origins, links with `target="_blank"` or `download`, modifier-clicked links, and
+links whose `onClick` calls `preventDefault()` continue to load natively. So do
+disabled links, which render without an `href`. The `as`/`hrefComponent` props
+remain supported for components that need a specific link component, and take
 precedence over the provider's router.

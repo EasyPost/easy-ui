@@ -29,12 +29,13 @@ export type RouterLinkProps = Pick<
  * behave exactly as it did before. This makes the hook safe to add to existing
  * components without changing their default behavior.
  *
- * Pass `isEnabled: false` for polymorphic components rendering something other
- * than a native anchor. A custom element such as `next/link` is expected to
- * handle client-side navigation itself.
+ * Pass `isEnabled: false` when the element shouldn't be linked at all—a
+ * polymorphic component rendering something other than a native anchor, whose
+ * custom element such as `next/link` handles client-side navigation itself, or
+ * a disabled element, which React Aria renders without an `href`.
  *
  * @param props link props from the consuming component
- * @param isEnabled whether the underlying element is a native anchor
+ * @param isEnabled whether the underlying element is an enabled native anchor
  * @returns DOM props to merge onto an anchor element
  *
  * @example
