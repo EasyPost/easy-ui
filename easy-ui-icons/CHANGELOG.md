@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.60
+
+### Minor Changes
+
+- b1fa75a: add bookmark and store icons
+
 ## 1.0.0-alpha.59
 
 ### Minor Changes
