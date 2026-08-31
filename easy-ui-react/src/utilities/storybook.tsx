@@ -5,8 +5,8 @@ import type { Placement as AriaPlacement } from "react-aria";
 import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
 import { SortDescriptor } from "react-stately";
+import { RouterProvider } from "@react-aria/utils";
 import { Menu } from "../Menu";
-import { Provider } from "../Provider";
 import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
 import {
@@ -418,14 +418,17 @@ export type FakeClientSideRouterProps = {
 };
 
 /**
- * Renders story content within a `<Provider />` that is configured with a fake
- * client-side router.
+ * Renders story content within a fake client-side router.
  *
  * Navigations update React state instead of loading a page, standing in for
  * what a real router does with something like react-router's `useNavigate()`.
  * The fake router also prepends a base path through `useHref` so that the
  * hrefs it resolves are visible in the rendered markup. Only root-relative
  * hrefs are prepended, leaving links to other origins intact.
+ *
+ * Apps supply their router to `<Provider navigate useHref />`, which renders
+ * the router provider used here. Stories are already wrapped in a `<Provider />`
+ * by Storybook's preview, so this helper renders the router provider on its own.
  */
 export function FakeClientSideRouter({
   basePath = "/base-path",
@@ -435,7 +438,7 @@ export function FakeClientSideRouter({
   const [path, setPath] = useState(initialPath);
   const [options, setOptions] = useState<string>();
   return (
-    <Provider
+    <RouterProvider
       navigate={(to, routerOptions) => {
         setPath(to);
         setOptions(routerOptions ? JSON.stringify(routerOptions) : undefined);
@@ -449,7 +452,7 @@ export function FakeClientSideRouter({
           {options ? ` with options ${options}` : ""}
         </Text>
       </VerticalStack>
-    </Provider>
+    </RouterProvider>
   );
 }
 
