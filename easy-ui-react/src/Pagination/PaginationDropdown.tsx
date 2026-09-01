@@ -44,7 +44,7 @@ export function PaginationDropdown(props: PaginationDropdownProps) {
         </UnstyledButton>
       </Menu.Trigger>
       <Menu.Overlay onAction={(key) => onSelect(Number(key))}>
-        {numberToArray(count).map((pageNumber) => (
+        {Array.from({ length: count }, (_, i) => i + 1).map((pageNumber) => (
           <Menu.Item key={pageNumber} aria-label={`${pageNumber} of ${count}`}>
             <Text
               variant="body2"
@@ -55,10 +55,6 @@ export function PaginationDropdown(props: PaginationDropdownProps) {
       </Menu.Overlay>
     </Menu>
   );
-}
-
-function numberToArray(num: number) {
-  return Array.from({ length: num }, (_, i) => i + 1);
 }
 
 PaginationDropdown.displayName = "Pagination.Dropdown";

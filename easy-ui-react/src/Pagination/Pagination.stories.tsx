@@ -72,3 +72,82 @@ export const Disabled: Story = {
     </Pagination>
   ),
 };
+
+export const Numbered: Story = {
+  render: () => {
+    const [page, setPage] = React.useState(1);
+    return (
+      <Pagination
+        label="Example Numbered Pagination"
+        page={page}
+        count={5}
+        onPageChange={setPage}
+      />
+    );
+  },
+};
+
+export const NumberedWithFirstLast: Story = {
+  render: () => {
+    const [page, setPage] = React.useState(1);
+    return (
+      <Pagination
+        label="Example Numbered Pagination with First and Last"
+        page={page}
+        count={20}
+        onPageChange={setPage}
+        showFirstLast
+      />
+    );
+  },
+};
+
+export const NumberedSmall: Story = {
+  render: () => {
+    const [page, setPage] = React.useState(6);
+    return (
+      <Pagination
+        label="Example Small Numbered Pagination"
+        page={page}
+        count={20}
+        onPageChange={setPage}
+        showFirstLast
+        size="sm"
+      />
+    );
+  },
+};
+
+export const NumberedDisabled: Story = {
+  render: () => (
+    <Pagination
+      label="Example Disabled Numbered Pagination"
+      page={3}
+      count={20}
+      onPageChange={() => console.log("Page change")}
+      showFirstLast
+      isDisabled
+    />
+  ),
+};
+
+export const NumberedWithRowsPerPage: Story = {
+  render: () => {
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(50);
+    return (
+      <Pagination
+        label="Example Numbered Pagination with Rows Per Page"
+        page={page}
+        count={20}
+        onPageChange={setPage}
+        showFirstLast
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={(next) => {
+          setRowsPerPage(next);
+          setPage(1);
+        }}
+      />
+    );
+  },
+};

@@ -17,6 +17,30 @@ A `<Pagination />` supports a dropdown menu for users to select specific page by
 
 <Canvas of={PaginationStories.WithPageDropdown} />
 
+## Numbered
+
+A `<Pagination />` renders numbered pages with previous/next controls when `page`, `count`, and `onPageChange` are provided. The window stays centered on the active page and collapses hidden pages behind a static ellipsis. Size the window with `visiblePageCount`.
+
+<Canvas of={PaginationStories.Numbered} />
+
+## Numbered with First and Last
+
+Set `showFirstLast` to add First and Last jump buttons to numbered pagination. Prefer this for large page counts: the hidden pages sit behind a non-interactive ellipsis, so First/Last let keyboard and screen-reader users jump to the ends instead of stepping one page at a time.
+
+<Canvas of={PaginationStories.NumberedWithFirstLast} />
+
+## Small
+
+Numbered pagination supports a compact size through `size="sm"`.
+
+<Canvas of={PaginationStories.NumberedSmall} />
+
+## Rows Per Page
+
+Provide `rowsPerPage` and `onRowsPerPageChange` to render a Rows Per Page control alongside numbered pagination. Customize the choices with `rowsPerPageOptions`.
+
+<Canvas of={PaginationStories.NumberedWithRowsPerPage} />
+
 ## Disabled
 
 A `<Pagination />` can be disabled using `isDisabled`.

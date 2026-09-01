@@ -38,3 +38,85 @@
   border-right: design-token("shape.border_width.1") solid
     design-token("color.neutral.200");
 }
+
+.numbered .item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: design-token("space.5");
+  height: design-token("space.5");
+  padding: 0 design-token("space.1.5");
+  color: design-token("color.primary.700");
+  background-color: design-token("color.neutral.000");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.200");
+  border-radius: design-token("shape.border_radius.md");
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.400");
+    cursor: default;
+  }
+
+  &:hover:not(:disabled):not(.selected) {
+    background-color: design-token("color.neutral.100");
+  }
+}
+
+.numbered .selected {
+  color: design-token("color.neutral.000");
+  background-color: design-token("color.primary.500");
+  border-color: design-token("color.primary.500");
+}
+
+.numbered .itemSm {
+  min-width: design-token("space.4");
+  height: design-token("space.4");
+  padding: 0 design-token("space.1");
+}
+
+// Static, non-interactive truncation indicator.
+.numbered .ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: design-token("space.4");
+  user-select: none;
+}
+
+// Rows Per Page control — sits in the grid's right track, pinned to the far
+// edge while the nav stays centered in the middle track.
+.rowsPerPage {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: design-token("space.1");
+  white-space: nowrap;
+}
+
+.rowsPerPageButton {
+  padding: design-token("space.0.5") design-token("space.1");
+  color: design-token("color.primary.700");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.200");
+  border-radius: design-token("shape.border_radius.md");
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.400");
+  }
+
+  &:hover:not(:disabled) {
+    background-color: design-token("color.neutral.100");
+  }
+}
+
+.rowsPerPageButtonSm {
+  padding: design-token("space.0.25") design-token("space.1");
+}
