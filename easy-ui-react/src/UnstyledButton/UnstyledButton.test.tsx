@@ -1,5 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { vi } from "vitest";
 import { Icon } from "../Icon";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import { UnstyledButton } from "./UnstyledButton";
@@ -59,6 +61,24 @@ describe("<UnstyledButton />", () => {
     expect(screen.getByText(/testing/i).closest("a")).not.toHaveAttribute(
       "href",
     );
+  });
+
+  it("should call onClick once per click", async () => {
+    const handleClick = vi.fn();
+    render(<UnstyledButton onClick={handleClick}>Testing</UnstyledButton>);
+    await userEvent.click(screen.getByRole("button"));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("should call onClick once per click on an anchor tag", async () => {
+    const handleClick = vi.fn((e: React.MouseEvent) => e.preventDefault());
+    render(
+      <UnstyledButton href="/somewhere" onClick={handleClick}>
+        Testing
+      </UnstyledButton>,
+    );
+    await userEvent.click(screen.getByText(/testing/i));
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it("should apply the default class", () => {

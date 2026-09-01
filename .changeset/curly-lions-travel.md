@@ -21,6 +21,11 @@ provider's `navigate` function and resolve their `href` through its `useHref`.
 These components also accept `routerOptions` for passing router-specific options
 through to `navigate`.
 
+Separately, `onClick` on `<Button />` and everything else built on
+`<UnstyledButton />` fired twice per click, because React Aria's `useButton()`
+already calls it and the original handler was spread onto the element alongside
+it. It now fires once.
+
 Apps that don't pass `navigate` are unaffected. React Aria's router context
 reports itself as native, the new click handling is a noop, and links behave
 exactly as before.

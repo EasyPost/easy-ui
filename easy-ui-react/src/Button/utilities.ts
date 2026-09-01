@@ -42,9 +42,15 @@ export function logWarningIfInvalidColorVariantCombination(
 
 /**
  * Removes aria-specific props from being applied to button DOM element.
+ *
+ * @remarks
+ * `onClick` is included because `useButton()` hands it to `usePress()`, which
+ * calls it from the `onClick` it returns. Spreading the original alongside that
+ * one would fire the consumer's handler twice per click.
  */
 export function omitReactAriaSpecificProps(props: object) {
   return omit(props, [
+    "onClick",
     "onPress",
     "onPressChange",
     "onPressStart",
