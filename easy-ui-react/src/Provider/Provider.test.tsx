@@ -5,6 +5,7 @@ import { vi } from "vitest";
 import { Button } from "../Button";
 import { IconButton } from "../IconButton";
 import { Menu } from "../Menu";
+import { SearchNav } from "../SearchNav";
 import { TabNav } from "../TabNav";
 import { VerticalNav } from "../VerticalNav";
 import {
@@ -158,6 +159,32 @@ describe("<Provider />", () => {
       expect(navigate).not.toHaveBeenCalled();
     });
 
+    it("should not client navigate from a <Button /> whose handler prevents default on Enter", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <Button href="/somewhere" onClick={(e) => e.preventDefault()}>
+          Go
+        </Button>,
+        navigate,
+      );
+      await user.tab();
+      await user.keyboard("{Enter}");
+      expect(navigate).not.toHaveBeenCalled();
+    });
+
+    it("should not client navigate from a <Button /> whose handler prevents default on Space", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <Button href="/somewhere" onClick={(e) => e.preventDefault()}>
+          Go
+        </Button>,
+        navigate,
+      );
+      await user.tab();
+      await user.keyboard(" ");
+      expect(navigate).not.toHaveBeenCalled();
+    });
+
     it("should client navigate once from a <Button /> with an onPress handler", async () => {
       const navigate = vi.fn();
       const onPress = vi.fn();
@@ -231,6 +258,37 @@ describe("<Provider />", () => {
       expect(navigate).toHaveBeenCalledWith("/somewhere", undefined);
     });
 
+    it("should client navigate from a <SearchNav /> CTA", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(searchNavWithCTA(), navigate);
+      // the CTA renders in the desktop layout, which a media query hides in
+      // jsdom's default viewport
+      await user.click(
+        screen.getByRole("button", { name: /docs/i, hidden: true }),
+      );
+      expect(navigate).toHaveBeenCalledWith("/somewhere", routerOptions);
+    });
+
+    // `<SearchNav />` rebuilds its CTAs as menu items in two places: the CTA
+    // group's own overflow menu, and the condensed nav that replaces the whole
+    // bar on small screens. Both render at once and are shown by media query,
+    // so both trigger buttons are in the DOM and the hidden one still needs
+    // asserting
+    it.each([
+      ["a <SearchNav.CTAGroup /> menu item", 0],
+      ["a condensed <SearchNav /> menu item", 1],
+    ])("should forward routerOptions from %s", async (_, triggerIndex) => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(searchNavWithCTA(), navigate);
+      const triggers = screen.getAllByRole("button", {
+        name: "menu",
+        hidden: true,
+      });
+      await user.click(triggers[triggerIndex]);
+      await user.click(screen.getByRole("menuitem", { name: /docs/i }));
+      expect(navigate).toHaveBeenCalledWith("/somewhere", routerOptions);
+    });
+
     it("should client navigate from a <VerticalNav.SupplementaryAction />", async () => {
       const navigate = vi.fn();
       const { user } = renderWithNavigate(
@@ -295,7 +353,10 @@ describe("<Provider />", () => {
       expect(customNavigate).toHaveBeenCalledTimes(1);
     });
 
-    it("should not client navigate from a <Menu.Item />", async () => {
+    // `<Menu.Item />` is the exception. `useMenuItem()` reads the item from the
+    // collection rather than from the props it's handed, so its click handling
+    // can't be opted out of; only the rendered `href` is left as written
+    it("should give a <Menu.Item /> hrefComponent the unresolved href", async () => {
       const navigate = vi.fn();
       const { user } = renderWithNavigate(
         <Menu>
@@ -303,7 +364,7 @@ describe("<Provider />", () => {
             <Button>Open</Button>
           </Menu.Trigger>
           <Menu.Overlay onAction={vi.fn()}>
-            <Menu.Item key="1" href="/somewhere" hrefComponent={CustomLink}>
+            <Menu.Item key="1" href="/somewhere" hrefComponent={ChainingLink}>
               Go
             </Menu.Item>
           </Menu.Overlay>
@@ -315,8 +376,9 @@ describe("<Provider />", () => {
       const link = screen.getByRole("menuitem", { name: /go/i });
       expect(link).toHaveAttribute("href", "/somewhere");
       await user.click(link);
-      expect(navigate).not.toHaveBeenCalled();
-      expect(customNavigate).toHaveBeenCalledTimes(1);
+      expect(customNavigate).toHaveBeenCalledWith("/somewhere");
+      // the provider's router runs too, on the unresolved href
+      expect(navigate).toHaveBeenCalledWith("/somewhere", undefined);
     });
   });
 
@@ -401,6 +463,53 @@ function CustomLink({
     >
       {children}
     </a>
+  );
+}
+
+/**
+ * Stands in for a link component that chains the `onClick` it's handed before
+ * navigating, the way `next/link` does. Anything merged onto it by Easy UI runs
+ * on the click, so a component that means to hand navigation off to the link
+ * component has to keep its own handlers off it in the first place.
+ */
+function ChainingLink({
+  href,
+  children,
+  onClick,
+  ...linkProps
+}: ComponentProps<"a"> & { href: string }) {
+  return (
+    <a
+      {...linkProps}
+      href={href}
+      onClick={(e) => {
+        onClick?.(e);
+        e.preventDefault();
+        customNavigate(href);
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+function searchNavWithCTA() {
+  return (
+    <SearchNav>
+      <SearchNav.LogoGroup>
+        <SearchNav.Logo>
+          <img alt="some logo" />
+        </SearchNav.Logo>
+      </SearchNav.LogoGroup>
+      <SearchNav.CTAGroup>
+        <SearchNav.SecondaryCTAItem
+          key="Docs"
+          label="Docs"
+          href="/somewhere"
+          routerOptions={routerOptions}
+        />
+      </SearchNav.CTAGroup>
+    </SearchNav>
   );
 }
 

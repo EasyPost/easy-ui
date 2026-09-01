@@ -74,18 +74,8 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
     selectionManager: { selectionMode },
   } = state;
   const { closeOnSelect, href, hrefComponent } = item.props;
-
-  // A custom `hrefComponent` handles navigation itself, so `useMenuItem()` is
-  // kept from seeing the `href`. Left alone it would resolve the href through
-  // `<Provider useHref />` and hand clicks to the provider's `navigate`, both of
-  // which fight the link component. Selection and closing on select read from
-  // the collection, so they're unaffected.
-  const menuItem = hrefComponent
-    ? { ...item, props: omit(item.props, ["href", "routerOptions"]) }
-    : item;
-
   const { menuItemProps, isFocused, isSelected, isDisabled } = useMenuItem(
-    { ...menuItem, closeOnSelect },
+    { ...item, closeOnSelect },
     state,
     ref,
   );
@@ -107,7 +97,9 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
           // client-side router, and re-applying the raw one here would undo it.
           // A custom `hrefComponent` keeps the raw value; it resolves its own
           // hrefs and may accept ones only it understands, such as next/link's
-          // URL objects
+          // URL objects. Note that `useMenuItem()` reads the item straight from
+          // the collection, so it still hands the click to the provider's
+          // `navigate`—pair `hrefComponent` with a router, not instead of one
           ...(hrefComponent ? [] : ["href"]),
         ])
       : item.key === SELECT_ALL_KEY

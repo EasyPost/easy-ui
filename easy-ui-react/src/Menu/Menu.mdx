@@ -84,7 +84,7 @@ The example below is wired to a fake router. Its items are regular links with re
 
 <Canvas of={MenuStories.ClientSideRouting} />
 
-An item with an `hrefComponent` is left alone. The link component receives the `href` as written and is expected to handle navigation itself.
+An item with an `hrefComponent` receives the `href` as written rather than the one `useHref` resolved, since the link component resolves its own. Unlike `TabNav.Item` and `VerticalNav.Item`, though, a menu item can't opt out of the provider's router—React Aria's menu item handles links internally—so a link component that navigates on its own will navigate twice. Use `hrefComponent` or `navigate`, not both.
 
 ## Custom Placement
 

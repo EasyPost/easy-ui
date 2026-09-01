@@ -16,7 +16,8 @@ export type EasyUIRouterProviderProps = {
 
   /**
    * An optional prop that converts a router-specific href to a native HTML
-   * href, e.g. prepending a base path.
+   * href, e.g. prepending a base path. Only applied alongside `navigate`; on its
+   * own there is no router to resolve hrefs for and it is ignored.
    */
   useHref?: (href: Href) => string;
 
