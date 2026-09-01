@@ -294,6 +294,30 @@ describe("<Provider />", () => {
       expect(navigate).not.toHaveBeenCalled();
       expect(customNavigate).toHaveBeenCalledTimes(1);
     });
+
+    it("should not client navigate from a <Menu.Item />", async () => {
+      const navigate = vi.fn();
+      const { user } = renderWithNavigate(
+        <Menu>
+          <Menu.Trigger>
+            <Button>Open</Button>
+          </Menu.Trigger>
+          <Menu.Overlay onAction={vi.fn()}>
+            <Menu.Item key="1" href="/somewhere" hrefComponent={CustomLink}>
+              Go
+            </Menu.Item>
+          </Menu.Overlay>
+        </Menu>,
+        navigate,
+        (href) => `/base${href}`,
+      );
+      await user.click(screen.getByRole("button", { name: /open/i }));
+      const link = screen.getByRole("menuitem", { name: /go/i });
+      expect(link).toHaveAttribute("href", "/somewhere");
+      await user.click(link);
+      expect(navigate).not.toHaveBeenCalled();
+      expect(customNavigate).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("useHref", () => {
@@ -318,6 +342,28 @@ describe("<Provider />", () => {
         (href) => `/base${href}`,
       );
       expect(screen.getByRole("link", { name: /go/i })).toHaveAttribute(
+        "href",
+        "/base/somewhere",
+      );
+    });
+
+    it("should prepend a base path to a <Menu.Item /> href", async () => {
+      const { user } = renderWithNavigate(
+        <Menu>
+          <Menu.Trigger>
+            <Button>Open</Button>
+          </Menu.Trigger>
+          <Menu.Overlay onAction={vi.fn()}>
+            <Menu.Item key="1" href="/somewhere">
+              Go
+            </Menu.Item>
+          </Menu.Overlay>
+        </Menu>,
+        vi.fn(),
+        (href) => `/base${href}`,
+      );
+      await user.click(screen.getByRole("button", { name: /open/i }));
+      expect(screen.getByRole("menuitem", { name: /go/i })).toHaveAttribute(
         "href",
         "/base/somewhere",
       );

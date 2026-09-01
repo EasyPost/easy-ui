@@ -84,6 +84,8 @@ The example below is wired to a fake router. Its items are regular links with re
 
 <Canvas of={MenuStories.ClientSideRouting} />
 
+An item with an `hrefComponent` is left alone. The link component receives the `href` as written and is expected to handle navigation itself.
+
 ## Custom Placement
 
 A `<Menu />` can be placed on different edges of its trigger element. See the controls for valid values. Ensure any deviation from the default value is coordinated with design to prevent unexpected user experience.

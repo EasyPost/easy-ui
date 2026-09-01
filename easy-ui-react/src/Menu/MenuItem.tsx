@@ -73,9 +73,19 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
   const {
     selectionManager: { selectionMode },
   } = state;
-  const { closeOnSelect, href } = item.props;
+  const { closeOnSelect, href, hrefComponent } = item.props;
+
+  // A custom `hrefComponent` handles navigation itself, so `useMenuItem()` is
+  // kept from seeing the `href`. Left alone it would resolve the href through
+  // `<Provider useHref />` and hand clicks to the provider's `navigate`, both of
+  // which fight the link component. Selection and closing on select read from
+  // the collection, so they're unaffected.
+  const menuItem = hrefComponent
+    ? { ...item, props: omit(item.props, ["href", "routerOptions"]) }
+    : item;
+
   const { menuItemProps, isFocused, isSelected, isDisabled } = useMenuItem(
-    { ...item, closeOnSelect },
+    { ...menuItem, closeOnSelect },
     state,
     ref,
   );
@@ -87,16 +97,18 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
   const props = mergeProps(
     menuItemProps,
     href
-      ? // `href` and `routerOptions` are intentionally omitted; `useMenuItem()`
-        // already resolves `href` through the client-side router provided to
-        // `<Provider />`, and re-applying the raw value here would undo it
-        omit(item.props, [
+      ? omit(item.props, [
           "aria-label",
           "as",
           "children",
           "closeOnSelect",
-          "href",
           "routerOptions",
+          // a native anchor takes the href `useMenuItem()` resolved through the
+          // client-side router, and re-applying the raw one here would undo it.
+          // A custom `hrefComponent` keeps the raw value; it resolves its own
+          // hrefs and may accept ones only it understands, such as next/link's
+          // URL objects
+          ...(hrefComponent ? [] : ["href"]),
         ])
       : item.key === SELECT_ALL_KEY
         ? { "aria-checked": isSelectAllSelected(state) }
