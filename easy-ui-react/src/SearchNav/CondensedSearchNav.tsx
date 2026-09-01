@@ -1,3 +1,4 @@
+import { RouterOptions } from "@react-types/shared";
 import React, { useState, ReactElement, ReactNode } from "react";
 import Close from "@easypost/easy-ui-icons/Close";
 import MenuSymbol from "@easypost/easy-ui-icons/Menu";
@@ -87,6 +88,9 @@ export function CondensedSearchNav() {
                         key={getFlattenedKey(itemEle.key)}
                         href={itemEle.props.href as string}
                         target={itemEle.props.target as string}
+                        routerOptions={
+                          itemEle.props.routerOptions as RouterOptions
+                        }
                       >
                         {itemEle.props.label as ReactNode}
                       </Menu.Item>

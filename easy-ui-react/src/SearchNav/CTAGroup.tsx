@@ -1,3 +1,4 @@
+import { RouterOptions } from "@react-types/shared";
 import React, { ReactNode, Fragment, ReactElement } from "react";
 import Help from "@easypost/easy-ui-icons/Help";
 import { Separator } from "./Separator";
@@ -70,6 +71,7 @@ export function CTAGroup(_props: CTAGroupProps) {
                     key={getFlattenedKey(itemEle.key)}
                     href={itemEle.props.href as string}
                     target={itemEle.props.target as string}
+                    routerOptions={itemEle.props.routerOptions as RouterOptions}
                   >
                     {itemEle.props.label as ReactNode}
                   </Menu.Item>
