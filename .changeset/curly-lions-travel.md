@@ -19,7 +19,18 @@ provider's `navigate` function and resolve their `href` through its `useHref`.
 `href`; it now respects `useHref` as well.
 
 These components also accept `routerOptions` for passing router-specific options
-through to `navigate`.
+through to `navigate`. Following React Aria, `routerOptions` is typed as `never`
+until an app declares what its router accepts:
+
+```tsx
+import type { NavigateOptions } from "react-router";
+
+declare module "@react-types/shared" {
+  interface RouterConfig {
+    routerOptions: NavigateOptions;
+  }
+}
+```
 
 Separately, `onClick` on `<Button />` and everything else built on
 `<UnstyledButton />` fired twice per click, because React Aria's `useButton()`

@@ -77,11 +77,30 @@ function App({ children }) {
 
 // navigates client-side
 <Button href="/shipments">Shipments</Button>;
+```
 
-// pass router-specific options through `routerOptions`
+To pass router-specific options through `routerOptions`, first tell TypeScript
+what your router accepts. `routerOptions` is typed as `never` until you declare
+it, since Easy UI can't know which router you're using. Add this once, anywhere
+in your app:
+
+```tsx
+import type { NavigateOptions } from "react-router";
+
+declare module "@react-types/shared" {
+  interface RouterConfig {
+    routerOptions: NavigateOptions;
+  }
+}
+```
+
+`routerOptions` is then typed as your router's options and handed to `navigate`
+as its second argument:
+
+```tsx
 <Button href="/shipments" routerOptions={{ replace: true }}>
   Shipments
-</Button>;
+</Button>
 ```
 
 The example below is wired to a fake router that records where it was asked to
