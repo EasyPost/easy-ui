@@ -47,8 +47,13 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
     const ref = useRef(null);
     const mergedRef = useObjectRef(mergeRefs(ref, inRef));
     const As = href ? "a" : "button";
+    // `onClick` is withheld from `useButton()` so that it stays a plain DOM
+    // handler and nothing else calls it. `usePress()` invokes any `onClick` it
+    // is handed, which would fire the consumer's handler a second time, and on
+    // keyboard activation it invokes it with a synthesized event, where
+    // `preventDefault()` can't reach the real click that the router reads.
     const { buttonProps: elementProps } = useButton(
-      { ...props, elementType: As },
+      { ...props, onClick: undefined, elementType: As },
       ref,
     );
 
