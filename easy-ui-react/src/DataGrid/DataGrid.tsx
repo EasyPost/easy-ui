@@ -4,7 +4,7 @@ import { Cell, Column, Row, TableBody, TableHeader } from "react-stately";
 import { ActionsCellContent } from "./ActionsCellContent";
 import { DataGridFooter } from "./Footer";
 import { DataGridPagination } from "./DataGridPagination";
-import { DataGridRowsPerPageMenu } from "./RowsPerPageMenu";
+import { DataGridRowsPerPage } from "./DataGridRowsPerPage";
 import { ExpandCellContent } from "./ExpandCellContent";
 import { Table } from "./Table";
 import { VisuallyHiddenCellContent } from "./VisuallyHiddenCellContent";
@@ -192,7 +192,7 @@ DataGrid.Pagination = DataGridPagination;
  * @remarks
  * Typically placed in the end region of a `<DataGrid.Footer />`.
  */
-DataGrid.RowsPerPageMenu = DataGridRowsPerPageMenu;
+DataGrid.RowsPerPage = DataGridRowsPerPage;
 
 /**
  * Modifies the passed in columns to include support for Easy UI requirements.

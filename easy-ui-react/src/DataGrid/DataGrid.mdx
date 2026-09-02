@@ -262,7 +262,7 @@ In the example below, to make the status text green or red depending on whether 
 
 `renderFooter` controls what goes inside. `<DataGrid.Footer />` lays that content out into `start`, `center`, and `end` regions, which are positional rather than named after what they hold — the footer carries no assumptions about how a consumer pages through the grid.
 
-`<DataGrid.Pagination />` and `<DataGrid.RowsPerPageMenu />` cover the common case. Both are fully controlled.
+`<DataGrid.Pagination />` and `<DataGrid.RowsPerPage />` cover the common case. Both are fully controlled.
 
 ```tsx
 const [page, setPage] = useState(1);
@@ -278,7 +278,7 @@ const [rowsPerPage, setRowsPerPage] = useState(50);
     <DataGrid.Footer
       center={<DataGrid.Pagination page={page} count={10} onChange={setPage} />}
       end={
-        <DataGrid.RowsPerPageMenu
+        <DataGrid.RowsPerPage
           rowsPerPage={rowsPerPage}
           options={[25, 50, 100]}
           onChange={setRowsPerPage}
@@ -319,6 +319,6 @@ The regions accept anything, so a footer needn't paginate at all.
 
 <ArgTypes of={DataGrid.Pagination} />
 
-### DataGrid.RowsPerPageMenu
+### DataGrid.RowsPerPage
 
-<ArgTypes of={DataGrid.RowsPerPageMenu} />
+<ArgTypes of={DataGrid.RowsPerPage} />

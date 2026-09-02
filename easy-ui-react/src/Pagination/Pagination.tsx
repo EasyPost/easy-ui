@@ -12,6 +12,7 @@ import {
   PaginationNavButton,
 } from "./PaginationPagedButtons";
 import { PaginationPages, PaginationPagesProps } from "./PaginationPages";
+import { PaginationRowsPerPage } from "./PaginationRowsPerPage";
 import { getDisplayNameFromReactNode } from "../utilities/react";
 import { classNames, variationName } from "../utilities/css";
 import styles from "./Pagination.module.scss";
@@ -242,3 +243,12 @@ export function Pagination(props: PaginationProps) {
 
 Pagination.Dropdown = PaginationDropdown;
 Pagination.Pages = PaginationPages;
+
+/**
+ * A menu for choosing how many rows a page shows.
+ *
+ * @remarks
+ * Rendered on its own alongside a `<Pagination />` rather than inside one,
+ * which only accepts a scheme as its child.
+ */
+Pagination.RowsPerPage = PaginationRowsPerPage;

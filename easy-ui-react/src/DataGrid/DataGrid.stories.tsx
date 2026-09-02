@@ -407,7 +407,7 @@ function WithFooterTemplate(args: Partial<DataGridProps>) {
             <DataGrid.Pagination page={page} count={10} onChange={setPage} />
           }
           end={
-            <DataGrid.RowsPerPageMenu
+            <DataGrid.RowsPerPage
               rowsPerPage={rowsPerPage}
               options={[25, 50, 100]}
               onChange={setRowsPerPage}

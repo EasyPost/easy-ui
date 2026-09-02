@@ -22,7 +22,7 @@ export type DataGridFooterProps = {
  * @remarks
  * `<DataGrid.Footer />` is deliberately unaware of what it lays out, so the
  * data grid isn't tied to any one pagination scheme. Pass any content into its
- * regions; `<DataGrid.Pagination />` and `<DataGrid.RowsPerPageMenu />` cover
+ * regions; `<DataGrid.Pagination />` and `<DataGrid.RowsPerPage />` cover
  * the standard controls.
  *
  * The center region stays centered within the grid regardless of how wide the
@@ -33,7 +33,7 @@ export type DataGridFooterProps = {
  *   renderFooter={() => (
  *     <DataGrid.Footer
  *       center={<DataGrid.Pagination {...paginationProps} />}
- *       end={<DataGrid.RowsPerPageMenu {...rowsPerPageProps} />}
+ *       end={<DataGrid.RowsPerPage {...rowsPerPageProps} />}
  *     />
  *   )}
  * />

@@ -85,6 +85,26 @@ export const WithPageNumbersSmall: Story = {
   render: () => <PageNumbersExample size="sm" />,
 };
 
+function RowsPerPageExample({ size }: { size?: PaginationSize }) {
+  const [rowsPerPage, setRowsPerPage] = React.useState(50);
+  return (
+    <Pagination.RowsPerPage
+      rowsPerPage={rowsPerPage}
+      options={[25, 50, 100]}
+      onChange={setRowsPerPage}
+      size={size}
+    />
+  );
+}
+
+export const WithRowsPerPage: Story = {
+  render: () => <RowsPerPageExample />,
+};
+
+export const WithRowsPerPageSmall: Story = {
+  render: () => <RowsPerPageExample size="sm" />,
+};
+
 export const Disabled: Story = {
   render: () => (
     <Pagination

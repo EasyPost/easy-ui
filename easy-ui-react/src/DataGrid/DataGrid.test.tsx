@@ -332,7 +332,7 @@ describe("<DataGrid />", () => {
         renderFooter: () => (
           <DataGrid.Footer
             end={
-              <DataGrid.RowsPerPageMenu
+              <DataGrid.RowsPerPage
                 rowsPerPage={50}
                 options={[25, 50, 100]}
                 onChange={handleChange}

@@ -1,20 +1,18 @@
 @use "../styles/common" as *;
 
-.RowsPerPageMenu {
+// The gap between the label and the trigger reads as the same tight pairing at
+// either size, so it doesn't scale
+.RowsPerPage {
   display: flex;
   align-items: center;
   gap: design-token("space.0.5");
 }
 
 .trigger {
-  @include font-style("body2");
-
   box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: design-token("space.1");
-  height: 24px;
-  padding: 0 design-token("space.1");
   color: design-token("color.neutral.900");
   background: design-token("color.neutral.000");
   border: design-token("shape.border_width.1") solid
@@ -34,4 +32,21 @@
   &:hover:not(:disabled):not(:active) {
     color: design-token("color.primary.500");
   }
+}
+
+// The size classes land on the trigger itself, since it's the only part of the
+// control that scales. `<UnstyledButton />` only inherits font size and line
+// height, so the type is set here rather than on the label's ancestor.
+.sizeSm {
+  @include font-style("body2");
+
+  height: design-token("space.3");
+  padding: 0 design-token("space.1.5");
+}
+
+.sizeMd {
+  @include font-style("body1");
+
+  height: design-token("space.5");
+  padding: 0 design-token("space.2");
 }

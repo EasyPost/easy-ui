@@ -8,6 +8,7 @@ import {
   userClick,
 } from "../utilities/test";
 import { Pagination, PaginationProps } from "./Pagination";
+import { PaginationRowsPerPageProps } from "./PaginationRowsPerPage";
 
 describe("<Pagination />", () => {
   let restoreGetComputedStyle: () => void;
@@ -246,6 +247,76 @@ describe("<Pagination />", () => {
   });
 });
 
+describe("<Pagination.RowsPerPage />", () => {
+  let restoreGetComputedStyle: () => void;
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    restoreGetComputedStyle = mockGetComputedStyle();
+  });
+
+  afterEach(() => {
+    restoreGetComputedStyle();
+    vi.useRealTimers();
+  });
+
+  it("should render the label alongside the current count", () => {
+    render(createRowsPerPage());
+    expect(screen.getByText("Rows Per Page:")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /rows per page: 50/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("should support a custom label", () => {
+    render(createRowsPerPage({ label: "Per page:" }));
+    expect(
+      screen.getByRole("button", { name: /per page: 50/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("should select another count", async () => {
+    const handleChange = vi.fn();
+    const { user } = render(createRowsPerPage({ onChange: handleChange }));
+    await userClick(user, screen.getByRole("button"));
+    expect(screen.getAllByRole("menuitemradio").length).toBe(3);
+    await userClick(user, screen.getByRole("menuitemradio", { name: "100" }));
+    expect(handleChange).toHaveBeenCalledWith(100);
+  });
+
+  it("should render at the medium size by default", () => {
+    render(createRowsPerPage());
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeMd"),
+    );
+  });
+
+  it("should render at the small size", () => {
+    render(createRowsPerPage({ size: "sm" }));
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+  });
+
+  it("should render as disabled", () => {
+    render(createRowsPerPage({ isDisabled: true }));
+    expect(screen.getByRole("button")).toBeDisabled();
+  });
+});
+
 function createPagination(props: PaginationProps) {
   return <Pagination {...props} />;
+}
+
+function createRowsPerPage(props: Partial<PaginationRowsPerPageProps> = {}) {
+  return (
+    <Pagination.RowsPerPage
+      rowsPerPage={50}
+      options={[25, 50, 100]}
+      onChange={() => {}}
+      {...props}
+    />
+  );
 }

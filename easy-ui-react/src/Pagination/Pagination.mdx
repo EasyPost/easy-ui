@@ -33,6 +33,14 @@ The numbered scheme comes in two sizes through `size`. `md` is the default; `sm`
 
 <Canvas of={PaginationStories.WithPageNumbersSmall} />
 
+## With Rows Per Page
+
+`<Pagination.RowsPerPage />` is a fully controlled menu for choosing how many rows a page shows. It renders on its own alongside a `<Pagination />` rather than inside one, which only accepts a scheme as its child, and it takes the same `size` values so the two line up.
+
+<Canvas of={PaginationStories.WithRowsPerPage} />
+
+<Canvas of={PaginationStories.WithRowsPerPageSmall} />
+
 ## Disabled
 
 A `<Pagination />` can be disabled using `isDisabled`.
@@ -52,3 +60,7 @@ A `<Pagination />` can be disabled using `isDisabled`.
 ### Pagination.Pages
 
 <ArgTypes of={Pagination.Pages} />
+
+### Pagination.RowsPerPage
+
+<ArgTypes of={Pagination.RowsPerPage} />

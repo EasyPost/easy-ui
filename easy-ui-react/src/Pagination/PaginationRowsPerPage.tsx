@@ -5,10 +5,12 @@ import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
+import { classNames, variationName } from "../utilities/css";
+import type { PaginationSize } from "./Pagination";
 
-import styles from "./RowsPerPageMenu.module.scss";
+import styles from "./PaginationRowsPerPage.module.scss";
 
-export type DataGridRowsPerPageMenuProps = {
+export type PaginationRowsPerPageProps = {
   /** The number of rows currently shown per page. */
   rowsPerPage: number;
 
@@ -24,32 +26,41 @@ export type DataGridRowsPerPageMenuProps = {
    */
   label?: string;
 
+  /**
+   * Size of the control. Matches the sizes of the numbered `<Pagination />`
+   * scheme so the two can sit side by side.
+   * @default md
+   */
+  size?: PaginationSize;
+
   /** Whether the menu should be disabled. */
   isDisabled?: boolean;
 };
 
 /**
- * A fully controlled menu for choosing how many rows a data grid page shows.
+ * A fully controlled menu for choosing how many rows a page shows.
  *
  * @remarks
- * Intended for the end region of a `<DataGrid.Footer />`, though it carries no
- * dependency on the footer and can be placed anywhere.
+ * Rendered on its own rather than as a child of `<Pagination />`, which only
+ * accepts a scheme. It lives here because page size is a pagination concern and
+ * its sizes are drawn to match the numbered scheme's.
  *
  * @example
  * ```tsx
- * <DataGrid.RowsPerPageMenu
+ * <Pagination.RowsPerPage
  *   rowsPerPage={rowsPerPage}
  *   options={[25, 50, 100]}
  *   onChange={setRowsPerPage}
  * />
  * ```
  */
-export function DataGridRowsPerPageMenu(props: DataGridRowsPerPageMenuProps) {
+export function PaginationRowsPerPage(props: PaginationRowsPerPageProps) {
   const {
     rowsPerPage,
     options,
     onChange,
     label = "Rows Per Page:",
+    size = "md",
     isDisabled,
   } = props;
 
@@ -61,19 +72,28 @@ export function DataGridRowsPerPageMenu(props: DataGridRowsPerPageMenuProps) {
   const triggerLabelledBy = `${labelId} ${valueId}`;
 
   return (
-    <div className={styles.RowsPerPageMenu}>
-      <Text id={labelId} variant="body2" color="neutral.900">
+    <div className={styles.RowsPerPage}>
+      <Text
+        id={labelId}
+        variant={size === "sm" ? "body2" : "body1"}
+        color="neutral.900"
+      >
         {label}
       </Text>
       <Menu isDisabled={isDisabled}>
         <Menu.Trigger>
           <UnstyledButton
-            className={styles.trigger}
+            className={classNames(
+              styles.trigger,
+              styles[variationName("size", size)],
+            )}
             aria-labelledby={triggerLabelledBy}
             isDisabled={isDisabled}
           >
             <span id={valueId}>{rowsPerPage}</span>
-            <Icon symbol={ExpandMore400} size="xs" />
+            {/* Design holds the chevron at 24px in both sizes, which is the
+                icon's own default */}
+            <Icon symbol={ExpandMore400} size="md" />
           </UnstyledButton>
         </Menu.Trigger>
         <Menu.Overlay
@@ -110,4 +130,4 @@ function getSelectedKey(keys: "all" | Set<Key>): Key | null {
   return key ?? null;
 }
 
-DataGridRowsPerPageMenu.displayName = "DataGrid.RowsPerPageMenu";
+PaginationRowsPerPage.displayName = "Pagination.RowsPerPage";
