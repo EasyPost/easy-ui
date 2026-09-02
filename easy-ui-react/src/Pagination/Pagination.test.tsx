@@ -120,6 +120,87 @@ describe("<Pagination />", () => {
     ).toThrow("children must be Pagination.Dropdown");
     restoreConsoleError();
   });
+
+  it("should render pagination component with pages", () => {
+    render(
+      createPagination({
+        label: "Example Pagination",
+        children: <Pagination.Pages onSelect={() => {}} page={1} count={10} />,
+      }),
+    );
+    expect(
+      screen.getByRole("button", { name: "Page 1 of 10" }),
+    ).toHaveAttribute("aria-current", "page");
+    expect(
+      screen.getByRole("button", { name: "Page 6 of 10" }),
+    ).toBeInTheDocument();
+    // Pages beyond the range around the current page are truncated
+    expect(
+      screen.queryByRole("button", { name: "Page 7 of 10" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("could select a page from the pages", async () => {
+    const handleSelect = vi.fn();
+    const { user } = render(
+      createPagination({
+        label: "Example Pagination",
+        children: (
+          <Pagination.Pages onSelect={handleSelect} page={1} count={10} />
+        ),
+      }),
+    );
+    await userClick(user, screen.getByRole("button", { name: "Page 3 of 10" }));
+    expect(handleSelect).toHaveBeenCalledWith(3);
+  });
+
+  it("should jump to the first and last page", async () => {
+    const handleFirst = vi.fn();
+    const handleLast = vi.fn();
+    const { user } = render(
+      createPagination({
+        label: "Example Pagination",
+        onFirst: handleFirst,
+        onLast: handleLast,
+        hasFirst: true,
+        hasLast: true,
+        children: <Pagination.Pages onSelect={() => {}} page={5} count={10} />,
+      }),
+    );
+    await userClick(user, screen.getByRole("button", { name: /first/i }));
+    expect(handleFirst).toHaveBeenCalled();
+    await userClick(user, screen.getByRole("button", { name: /last/i }));
+    expect(handleLast).toHaveBeenCalled();
+  });
+
+  it("should omit the first and last buttons without their handlers", () => {
+    render(
+      createPagination({
+        label: "Example Pagination",
+        children: <Pagination.Pages onSelect={() => {}} page={5} count={10} />,
+      }),
+    );
+    expect(
+      screen.queryByRole("button", { name: /first/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /last/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("should render pages as disabled", () => {
+    render(
+      createPagination({
+        label: "Example Pagination",
+        isDisabled: true,
+        hasFirst: true,
+        onFirst: () => {},
+        children: <Pagination.Pages onSelect={() => {}} page={5} count={10} />,
+      }),
+    );
+    expect(screen.getByRole("button", { name: /first/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Page 5 of 10" })).toBeDisabled();
+  });
 });
 
 function createPagination(props: PaginationProps) {

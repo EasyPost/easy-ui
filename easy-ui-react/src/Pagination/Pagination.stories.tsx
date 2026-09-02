@@ -54,6 +54,30 @@ export const WithPageDropdown: Story = {
   },
 };
 
+export const WithPageNumbers: Story = {
+  render: () => {
+    const [page, setPage] = React.useState(1);
+    const totalPage = 10;
+    const hasPrevious = page > 1;
+    const hasNext = totalPage > page;
+    return (
+      <Pagination
+        label="Example Pagination with Page Numbers"
+        onFirst={() => setPage(1)}
+        onPrevious={() => setPage((prev) => prev - 1)}
+        onNext={() => setPage((prev) => prev + 1)}
+        onLast={() => setPage(totalPage)}
+        hasFirst={hasPrevious}
+        hasPrevious={hasPrevious}
+        hasNext={hasNext}
+        hasLast={hasNext}
+      >
+        <Pagination.Pages count={totalPage} page={page} onSelect={setPage} />
+      </Pagination>
+    );
+  },
+};
+
 export const Disabled: Story = {
   render: () => (
     <Pagination

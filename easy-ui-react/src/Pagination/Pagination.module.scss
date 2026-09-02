@@ -38,3 +38,81 @@
   border-right: design-token("shape.border_width.1") solid
     design-token("color.neutral.200");
 }
+
+// The numbered scheme spaces its controls apart instead of fusing them into a
+// single pill, so it opts out of the shared arrow/menu button chrome entirely
+.paged {
+  display: flex;
+  align-items: center;
+  gap: design-token("space.1.5");
+}
+
+.pageRow {
+  display: flex;
+  align-items: center;
+  gap: design-token("space.0.5");
+}
+
+.pagedButton {
+  @include font-style("subtitle2");
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  color: design-token("color.primary.800");
+  border-radius: design-token("shape.border_radius.md");
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+.jumpButton {
+  min-width: 54px;
+}
+
+.navButton,
+.jumpButton {
+  background: design-token("color.neutral.000");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.200");
+
+  &:disabled {
+    color: design-token("color.neutral.300");
+    background: design-token("color.neutral.025");
+    border-color: design-token("color.neutral.100");
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: design-token("color.primary.500");
+  }
+}
+
+// There's no left-facing chevron in the icon set, so the next chevron is flipped
+.navButtonPrevious {
+  transform: rotate(180deg);
+}
+
+.pageButton {
+  background: design-token("color.neutral.000");
+
+  &:disabled {
+    color: design-token("color.neutral.300");
+  }
+
+  &:hover:not(:disabled):not(:active):not(.pageButtonCurrent) {
+    background: design-token("color.neutral.050");
+  }
+}
+
+.pageButtonCurrent {
+  color: design-token("color.neutral.000");
+  background: design-token("color.primary.500");
+}
+
+.ellipsis {
+  color: design-token("color.neutral.500");
+}

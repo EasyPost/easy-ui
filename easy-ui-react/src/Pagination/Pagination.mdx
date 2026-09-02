@@ -13,9 +13,19 @@ A `<Pagination />` component enabled the user to divide large amounts of content
 
 ## With Page Dropdown
 
-A `<Pagination />` supports a dropdown menu for users to select specific page by including `<Pagination.Dropdown />` as children. `<Pagination.Dropdown />` is the only children `<Pagination />` accept.
+A `<Pagination />` supports a dropdown menu for users to select specific page by including `<Pagination.Dropdown />` as children.
 
 <Canvas of={PaginationStories.WithPageDropdown} />
+
+## With Page Numbers
+
+A `<Pagination />` supports a numbered scheme where each nearby page gets its own button by including `<Pagination.Pages />` as children. Pages that fall outside the range around the current page are truncated with an ellipsis; tune how many pages surround the current one with `siblingCount`, and pin pages to the ends of the range with `boundaryCount`.
+
+Supplying `onFirst` and `onLast` adds buttons for jumping to either end. They're only available in this scheme.
+
+`<Pagination.Dropdown />` and `<Pagination.Pages />` are the only children `<Pagination />` accepts, and which one is supplied determines the scheme that renders.
+
+<Canvas of={PaginationStories.WithPageNumbers} />
 
 ## Disabled
 
@@ -32,3 +42,7 @@ A `<Pagination />` can be disabled using `isDisabled`.
 ### Pagination.Dropdown
 
 <ArgTypes of={Pagination.Dropdown} />
+
+### Pagination.Pages
+
+<ArgTypes of={Pagination.Pages} />
