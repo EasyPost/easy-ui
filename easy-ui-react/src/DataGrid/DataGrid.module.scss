@@ -50,6 +50,10 @@
   // which is `color.neutral.300` at a quarter, so every sticky edge of the grid
   // reads at the weight the footer's real shadow does.
   @include component-token("data-grid", "sticky-shadow-opacity", 0.25);
+  // A dark header is a hard edge against the rows, which swamps a shadow this
+  // light, so the header carries its own weight. `.headerSecondary` is light
+  // enough not to need it and drops back to the weight of the other edges.
+  @include component-token("data-grid", "header-shadow-opacity", 0.45);
   @include component-token(
     "data-grid",
     "sticky-shadow-color",
@@ -130,6 +134,11 @@
 }
 
 .headerSecondary {
+  @include component-token(
+    "data-grid",
+    "header-shadow-opacity",
+    component-token("data-grid", "sticky-shadow-opacity")
+  );
   @include component-token(
     "data-grid",
     "header-bg",

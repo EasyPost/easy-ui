@@ -63,7 +63,10 @@
 }
 
 .shadowBottom [data-ezui-data-grid-shadow="bottom"] {
-  @include DataGrid.shadow(bottom);
+  @include DataGrid.shadow(
+    bottom,
+    $opacity: component-token("data-grid", "header-shadow-opacity")
+  );
 }
 
 .shadowRight [data-ezui-data-grid-shadow="side"] {

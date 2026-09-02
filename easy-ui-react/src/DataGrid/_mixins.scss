@@ -1,6 +1,9 @@
 @use "../styles/common" as *;
 
-@mixin shadow($direction) {
+@mixin shadow(
+  $direction,
+  $opacity: component-token("data-grid", "sticky-shadow-opacity")
+) {
   @if $direction == top {
     bottom: 100%;
     left: 0;
@@ -37,6 +40,6 @@
       component-token("data-grid", "sticky-shadow-color"),
       transparent
     );
-    opacity: component-token("data-grid", "sticky-shadow-opacity");
+    opacity: $opacity;
   }
 }
