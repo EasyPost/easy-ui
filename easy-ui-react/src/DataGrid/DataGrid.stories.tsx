@@ -2,11 +2,12 @@ import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React from "react";
+import React, { useState } from "react";
 import { Key } from "react-aria";
 import { useAsyncList } from "react-stately";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
+import { Text } from "../Text";
 import {
   PlaceholderBox,
   createNaiveSortingFunction,
@@ -324,6 +325,41 @@ export const LoadingState: Story = {
   },
 };
 
+export const WithFooter: Story = {
+  render: WithFooterTemplate.bind({}),
+  args: {
+    "aria-label": "Example data grid with a footer",
+    maxRows: 4,
+  },
+  parameters: {
+    controls: {
+      include: ["maxRows", "size"],
+    },
+  },
+};
+
+export const WithCustomFooter: Story = {
+  render: Template.bind({}),
+  args: {
+    "aria-label": "Example data grid with a custom footer",
+    maxRows: 4,
+    renderFooter: () => (
+      <DataGrid.Footer
+        start={<Text variant="body2">6 results</Text>}
+        end={<Text variant="body2">Updated just now</Text>}
+      />
+    ),
+  },
+};
+
+export const FooterWithEmptyState: Story = {
+  render: WithFooterTemplate.bind({}),
+  args: {
+    "aria-label": "Example data grid with a footer and no data",
+    rows: [],
+  },
+};
+
 function WithSortTemplate(args: Partial<DataGridProps>) {
   // https://react-spectrum.adobe.com/react-stately/useAsyncList.html
   const list = useAsyncList({
@@ -347,6 +383,38 @@ function WithSortTemplate(args: Partial<DataGridProps>) {
       sortDescriptor={list.sortDescriptor}
       onSortChange={list.sort}
       columnKeysAllowingSort={columns.map((c) => c.key)}
+      {...args}
+    />
+  );
+}
+
+function WithFooterTemplate(args: Partial<DataGridProps>) {
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
+  return (
+    <DataGrid
+      columns={columns}
+      rows={rows}
+      renderColumnCell={(column) => (
+        <span style={{ whiteSpace: "nowrap" }}>{String(column.name)}</span>
+      )}
+      renderRowCell={(item) => (
+        <span style={{ whiteSpace: "nowrap" }}>{String(item)}</span>
+      )}
+      renderFooter={() => (
+        <DataGrid.Footer
+          center={
+            <DataGrid.Pagination page={page} count={10} onChange={setPage} />
+          }
+          end={
+            <DataGrid.RowsPerPageMenu
+              rowsPerPage={rowsPerPage}
+              options={[25, 50, 100]}
+              onChange={setRowsPerPage}
+            />
+          }
+        />
+      )}
       {...args}
     />
   );

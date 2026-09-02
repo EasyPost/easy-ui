@@ -1,0 +1,37 @@
+@use "../styles/common" as *;
+
+.RowsPerPageMenu {
+  display: flex;
+  align-items: center;
+  gap: design-token("space.0.5");
+}
+
+.trigger {
+  @include font-style("body2");
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: design-token("space.1");
+  height: 24px;
+  padding: 0 design-token("space.1");
+  color: design-token("color.neutral.900");
+  background: design-token("color.neutral.000");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.200");
+  border-radius: design-token("shape.border_radius.md");
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.300");
+    background: design-token("color.neutral.025");
+    border-color: design-token("color.neutral.100");
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: design-token("color.primary.500");
+  }
+}

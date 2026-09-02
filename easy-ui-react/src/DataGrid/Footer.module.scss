@@ -1,0 +1,54 @@
+@use "../styles/common" as *;
+@use "mixins" as DataGrid;
+
+.shell {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  z-index: component-token("data-grid", "footer-z-index");
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: component-token("data-grid", "footer-width");
+  // Once the footer's content needs more room than the scrollport has, the
+  // footer widens and scrolls along with the rows rather than squeezing its
+  // regions into each other
+  min-width: min-content;
+  min-height: component-token("data-grid", "footer-row-height");
+  background: component-token("data-grid", "footer-bg");
+  border-top: component-token("data-grid", "border-width") solid
+    component-token("data-grid", "border-color");
+}
+
+.shadowTop [data-ezui-data-grid-shadow="top"] {
+  @include DataGrid.shadow(top, $backdrop: true);
+}
+
+.DataGridFooter {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: design-token("space.1.5");
+  width: 100%;
+  padding: 0 design-token("space.2");
+}
+
+// The footer is a single-row bar, so its regions keep their content on one line
+// and let the shell grow instead of wrapping into each other
+.region {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.start {
+  justify-content: flex-start;
+}
+
+.center {
+  justify-content: center;
+}
+
+.end {
+  justify-content: flex-end;
+}

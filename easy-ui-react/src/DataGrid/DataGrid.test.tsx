@@ -236,6 +236,121 @@ describe("<DataGrid />", () => {
       screen.getByRole("status", { name: /loading/i }),
     ).toBeInTheDocument();
   });
+
+  it("should render a footer", () => {
+    render(
+      createDataGrid({
+        renderFooter: () => (
+          <DataGrid.Footer
+            start={<span>Start</span>}
+            center={<span>Center</span>}
+            end={<span>End</span>}
+          />
+        ),
+      }),
+    );
+    expect(screen.getByText("Start")).toBeInTheDocument();
+    expect(screen.getByText("Center")).toBeInTheDocument();
+    expect(screen.getByText("End")).toBeInTheDocument();
+    expect(getOuterContainer()).toHaveAttribute(
+      "class",
+      expect.stringContaining("hasFooter"),
+    );
+  });
+
+  it("should render the footer outside of the grid", () => {
+    render(
+      createDataGrid({
+        renderFooter: () => <DataGrid.Footer center={<span>Center</span>} />,
+      }),
+    );
+    // Interactive footer content must sit outside the grid so it doesn't
+    // interfere with the grid's own focus management
+    expect(getFooter()).toBeInTheDocument();
+    expect(screen.getByRole("grid")).not.toContainElement(getFooter());
+  });
+
+  it("should keep the footer mounted through the empty state", () => {
+    render(
+      createDataGrid({
+        rows: [],
+        renderFooter: () => <DataGrid.Footer center={<span>Center</span>} />,
+      }),
+    );
+    expect(screen.getByText("Center")).toBeInTheDocument();
+  });
+
+  it("should keep the footer mounted through the loading state", () => {
+    render(
+      createDataGrid({
+        isLoading: true,
+        renderFooter: () => <DataGrid.Footer center={<span>Center</span>} />,
+      }),
+    );
+    expect(screen.getByText("Center")).toBeInTheDocument();
+  });
+
+  it("should not render a footer without renderFooter", () => {
+    render(createDataGrid());
+    expect(getOuterContainer()).not.toHaveAttribute(
+      "class",
+      expect.stringContaining("hasFooter"),
+    );
+  });
+
+  it("should support pagination in the footer", async () => {
+    const handleChange = vi.fn();
+    const { user } = render(
+      createDataGrid({
+        renderFooter: () => (
+          <DataGrid.Footer
+            center={
+              <DataGrid.Pagination
+                page={1}
+                count={10}
+                onChange={handleChange}
+              />
+            }
+          />
+        ),
+      }),
+    );
+    await userClick(user, screen.getByRole("button", { name: "Page 3 of 10" }));
+    expect(handleChange).toHaveBeenCalledWith(3);
+
+    // The first page is current, so there's nowhere earlier to go
+    expect(screen.getByRole("button", { name: /first/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /previous/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /next/i })).toBeEnabled();
+    expect(screen.getByRole("button", { name: /last/i })).toBeEnabled();
+  });
+
+  it("should support a rows per page menu in the footer", async () => {
+    const handleChange = vi.fn();
+    const { user } = render(
+      createDataGrid({
+        renderFooter: () => (
+          <DataGrid.Footer
+            end={
+              <DataGrid.RowsPerPageMenu
+                rowsPerPage={50}
+                options={[25, 50, 100]}
+                onChange={handleChange}
+              />
+            }
+          />
+        ),
+      }),
+    );
+    const trigger = screen.getByRole("button", {
+      name: /rows per page: 50/i,
+    });
+    await userClick(user, trigger);
+    expect(screen.getAllByRole("menuitemradio").length).toBe(3);
+
+    await userClick(user, screen.getByRole("menuitemradio", { name: "100" }));
+    expect(handleChange).toHaveBeenCalledWith(100);
+  });
 });
 
 const columns = [
@@ -275,6 +390,12 @@ function getOuterContainer() {
 
 function getInnerContainer() {
   return screen.getByRole("grid").parentElement as HTMLElement;
+}
+
+function getFooter() {
+  return getInnerContainer().querySelector(
+    "[data-ezui-data-grid-footer]",
+  ) as HTMLElement;
 }
 
 function getHead() {

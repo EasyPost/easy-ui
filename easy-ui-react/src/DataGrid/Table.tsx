@@ -15,9 +15,11 @@ import {
   EXPAND_COLUMN_KEY,
 } from "./constants";
 import { DataGridTableContext } from "./context";
+import { FooterShell } from "./Footer";
 import { Column, DataGridProps, Row as RowType } from "./types";
 import { useEdgeInterceptors } from "./useEdgeInterceptors";
 import { useExpandedRow } from "./useExpandedRow";
+import { useFooterWidth } from "./useFooterWidth";
 import { Spinner } from "../Spinner";
 
 import styles from "./DataGrid.module.scss";
@@ -39,8 +41,11 @@ export function Table<C extends Column, R extends RowType>(
     selectionMode,
     size = DEFAULT_SIZE,
     renderEmptyState = () => "No Data",
+    renderFooter,
     isLoading = false,
   } = props;
+
+  const hasFooter = Boolean(renderFooter);
 
   const outerContainerRef = useRef<HTMLDivElement | null>(null);
   const innerContainerRef = useRef<HTMLDivElement | null>(null);
@@ -59,8 +64,17 @@ export function Table<C extends Column, R extends RowType>(
   });
   const [
     renderInterceptors,
-    { isTopEdgeUnderScroll, isLeftEdgeUnderScroll, isRightEdgeUnderScroll },
+    {
+      isTopEdgeUnderScroll,
+      isBottomEdgeUnderScroll,
+      isLeftEdgeUnderScroll,
+      isRightEdgeUnderScroll,
+    },
   ] = useEdgeInterceptors(outerContainerRef);
+  const { footerStyle } = useFooterWidth({
+    containerRef: outerContainerRef,
+    isEnabled: hasFooter,
+  });
 
   const { collection } = state;
   const { columns } = collection;
@@ -73,6 +87,7 @@ export function Table<C extends Column, R extends RowType>(
   const dataGridClassName = classNames(
     styles.DataGrid,
     styles[variationName("size", size)],
+    hasFooter && styles.hasFooter,
   );
 
   const tableClassName = classNames(
@@ -89,6 +104,7 @@ export function Table<C extends Column, R extends RowType>(
   const style = {
     ...getComponentToken("data-grid", "max-rows", String(maxRows)),
     ...expandedRowStyle,
+    ...footerStyle,
   } as CSSProperties;
 
   const context = useMemo(() => {
@@ -99,6 +115,7 @@ export function Table<C extends Column, R extends RowType>(
       hasRowActions,
       hasOnRowAction,
       isTopEdgeUnderScroll,
+      isBottomEdgeUnderScroll,
       isLeftEdgeUnderScroll,
       isRightEdgeUnderScroll,
     };
@@ -109,6 +126,7 @@ export function Table<C extends Column, R extends RowType>(
     hasRowActions,
     hasOnRowAction,
     isTopEdgeUnderScroll,
+    isBottomEdgeUnderScroll,
     isLeftEdgeUnderScroll,
     isRightEdgeUnderScroll,
   ]);
@@ -168,6 +186,7 @@ export function Table<C extends Column, R extends RowType>(
             </ExpandedRowContent>
           )}
           {renderInterceptors()}
+          {renderFooter && <FooterShell>{renderFooter()}</FooterShell>}
         </div>
       </div>
     </DataGridTableContext.Provider>

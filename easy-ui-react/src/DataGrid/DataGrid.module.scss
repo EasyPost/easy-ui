@@ -13,6 +13,15 @@
   );
   @include component-token("data-grid", "header-row-height", 48px);
   @include component-token("data-grid", "body-row-height", 48px);
+  // Zero until a footer is rendered, at which point `.hasFooter` gives it the
+  // footer's height so `max-rows` still counts visible body rows
+  @include component-token("data-grid", "footer-row-height", 0px);
+  @include component-token("data-grid", "footer-width", 100%);
+  @include component-token(
+    "data-grid",
+    "footer-bg",
+    design-token("color.neutral.000")
+  );
   @include component-token("data-grid", "expand-btn-size", 24px);
   @include component-token(
     "data-grid",
@@ -56,6 +65,7 @@
   @include component-token("data-grid", "expanded-row-z-index", 3);
   @include component-token("data-grid", "column-z-index", 4);
   @include component-token("data-grid", "column-stuck-z-index", 5);
+  @include component-token("data-grid", "footer-z-index", 6);
   @include component-token("data-grid", "sticky-left-offset", -16px);
   @include component-token("data-grid", "sticky-right-offset", -12px);
   @include component-token("data-grid", "action-cell-width", 44px);
@@ -68,6 +78,7 @@
   max-height: calc(
     (component-token("data-grid", "border-width") * 2) +
       component-token("data-grid", "header-row-height") +
+      component-token("data-grid", "footer-row-height") +
       (
         component-token("data-grid", "body-row-height") *
           component-token("data-grid", "max-rows")
@@ -80,6 +91,11 @@
   [data-ezui-data-grid-shadow] {
     position: absolute;
   }
+}
+
+// Per design, the footer's height is fixed and doesn't scale with `size`
+.hasFooter {
+  @include component-token("data-grid", "footer-row-height", 54px);
 }
 
 .sizeSm {

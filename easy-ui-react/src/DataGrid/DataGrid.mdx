@@ -256,8 +256,69 @@ In the example below, to make the status text green or red depending on whether 
 
 <Controls of={DataGridStories.LoadingState} />
 
+## Footer
+
+`DataGrid` supports rendering a footer through the `renderFooter` prop. The footer sticks to the bottom of the data grid the same way the column header sticks to the top, staying in place as rows scroll underneath and casting a shadow over them once there's anything to scroll. It stays mounted through the empty and loading states.
+
+`renderFooter` controls what goes inside. `<DataGrid.Footer />` lays that content out into `start`, `center`, and `end` regions, which are positional rather than named after what they hold — the footer carries no assumptions about how a consumer pages through the grid.
+
+`<DataGrid.Pagination />` and `<DataGrid.RowsPerPageMenu />` cover the common case. Both are fully controlled.
+
+```tsx
+const [page, setPage] = useState(1);
+const [rowsPerPage, setRowsPerPage] = useState(50);
+
+<DataGrid
+  aria-label="Data grid with a footer"
+  columns={columns}
+  rows={rows}
+  renderColumnCell={(column) => <span>{String(column.name)}</span>}
+  renderRowCell={(item) => <span>{String(item)}</span>}
+  renderFooter={() => (
+    <DataGrid.Footer
+      center={<DataGrid.Pagination page={page} count={10} onChange={setPage} />}
+      end={
+        <DataGrid.RowsPerPageMenu
+          rowsPerPage={rowsPerPage}
+          options={[25, 50, 100]}
+          onChange={setRowsPerPage}
+        />
+      }
+    />
+  )}
+/>;
+```
+
+<Canvas of={DataGridStories.WithFooter} />
+
+<Controls of={DataGridStories.WithFooter} />
+
+Unlike the rest of the data grid, the footer's height is fixed and doesn't scale with `size`. `maxRows` still counts body rows, so adding a footer grows the data grid rather than eating into the rows it shows.
+
+### With a Custom Footer
+
+The regions accept anything, so a footer needn't paginate at all.
+
+<Canvas of={DataGridStories.WithCustomFooter} />
+
+### Footer with an Empty State
+
+<Canvas of={DataGridStories.FooterWithEmptyState} />
+
 ## Properties
 
 ### DataGrid
 
 <ArgTypes of={DataGrid} />
+
+### DataGrid.Footer
+
+<ArgTypes of={DataGrid.Footer} />
+
+### DataGrid.Pagination
+
+<ArgTypes of={DataGrid.Pagination} />
+
+### DataGrid.RowsPerPageMenu
+
+<ArgTypes of={DataGrid.RowsPerPageMenu} />

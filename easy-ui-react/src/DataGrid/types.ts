@@ -142,6 +142,17 @@ export type DataGridProps<
   renderEmptyState?: () => ReactNode;
 
   /**
+   * Renders a footer that sticks to the bottom of the data grid.
+   *
+   * @remarks
+   * The data grid supplies the sticky container, its top border, and the shadow
+   * it casts over rows scrolling underneath. What goes inside is up to the
+   * consumer; `<DataGrid.Footer />` lays content out into start, center, and
+   * end regions. The footer stays mounted through empty and loading states.
+   */
+  renderFooter?: () => ReactNode;
+
+  /**
    * Whether the table is currently loading.
    * @default false
    */

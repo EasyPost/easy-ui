@@ -2,6 +2,9 @@ import { Key } from "@react-types/shared";
 import React, { useCallback, useMemo, useState } from "react";
 import { Cell, Column, Row, TableBody, TableHeader } from "react-stately";
 import { ActionsCellContent } from "./ActionsCellContent";
+import { DataGridFooter } from "./Footer";
+import { DataGridPagination } from "./DataGridPagination";
+import { DataGridRowsPerPageMenu } from "./RowsPerPageMenu";
 import { ExpandCellContent } from "./ExpandCellContent";
 import { Table } from "./Table";
 import { VisuallyHiddenCellContent } from "./VisuallyHiddenCellContent";
@@ -164,6 +167,32 @@ export function DataGrid<
     </DataGridContext.Provider>
   );
 }
+
+/**
+ * Lays footer content out into start, center, and end regions.
+ *
+ * @remarks
+ * Pass to a `<DataGrid />` through `renderFooter`. The regions are positional
+ * rather than named after what they hold, so the footer isn't tied to any one
+ * scheme for paging through the grid.
+ */
+DataGrid.Footer = DataGridFooter;
+
+/**
+ * A pagination preset for use within a `<DataGrid.Footer />`.
+ *
+ * @remarks
+ * Derives its button states from the current page and page count.
+ */
+DataGrid.Pagination = DataGridPagination;
+
+/**
+ * A menu for choosing how many rows a `<DataGrid />` page shows.
+ *
+ * @remarks
+ * Typically placed in the end region of a `<DataGrid.Footer />`.
+ */
+DataGrid.RowsPerPageMenu = DataGridRowsPerPageMenu;
 
 /**
  * Modifies the passed in columns to include support for Easy UI requirements.
