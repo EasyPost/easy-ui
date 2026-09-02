@@ -63,7 +63,7 @@
 }
 
 .shadowBottom [data-ezui-data-grid-shadow="bottom"] {
-  @include DataGrid.shadow(bottom, $backdrop: true);
+  @include DataGrid.shadow(bottom);
 }
 
 .shadowRight [data-ezui-data-grid-shadow="side"] {

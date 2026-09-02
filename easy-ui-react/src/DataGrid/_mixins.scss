@@ -1,6 +1,6 @@
 @use "../styles/common" as *;
 
-@mixin shadow($direction, $backdrop: false) {
+@mixin shadow($direction) {
   @if $direction == top {
     bottom: 100%;
     left: 0;
@@ -25,7 +25,6 @@
     @error "Unknown direction #{$direction}.";
   }
 
-  &::before,
   &::after {
     content: "";
     position: absolute;
@@ -33,17 +32,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-  }
-  @if $backdrop {
-    &::before {
-      background-image: linear-gradient(
-        to #{$direction},
-        component-token("data-grid", "cell-bg") 65%,
-        transparent
-      );
-    }
-  }
-  &::after {
     background-image: linear-gradient(
       to #{$direction},
       component-token("data-grid", "sticky-shadow-color"),

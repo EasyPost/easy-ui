@@ -44,11 +44,16 @@
     design-token("color.neutral.100")
   );
   @include component-token("data-grid", "sticky-shadow-size", 8px);
-  @include component-token("data-grid", "sticky-shadow-opacity", 0.35);
+  // The header and frozen columns can't carry the `shadow.stuck-from-*` tokens:
+  // they're cast by table cells, and box shadows don't paint on those once the
+  // table's borders are collapsed. Their gradient band mimics the token instead,
+  // which is `color.neutral.300` at a quarter, so every sticky edge of the grid
+  // reads at the weight the footer's real shadow does.
+  @include component-token("data-grid", "sticky-shadow-opacity", 0.25);
   @include component-token(
     "data-grid",
     "sticky-shadow-color",
-    design-token("color.neutral.500")
+    design-token("color.neutral.300")
   );
   @include component-token(
     "data-grid",
