@@ -358,12 +358,13 @@ describe("<Provider />", () => {
     // can't be opted out of; only the rendered `href` is left as written
     it("should give a <Menu.Item /> hrefComponent the unresolved href", async () => {
       const navigate = vi.fn();
+      const onAction = vi.fn();
       const { user } = renderWithNavigate(
         <Menu>
           <Menu.Trigger>
             <Button>Open</Button>
           </Menu.Trigger>
-          <Menu.Overlay onAction={vi.fn()}>
+          <Menu.Overlay onAction={onAction}>
             <Menu.Item key="1" href="/somewhere" hrefComponent={ChainingLink}>
               Go
             </Menu.Item>
@@ -379,6 +380,32 @@ describe("<Provider />", () => {
       expect(customNavigate).toHaveBeenCalledWith("/somewhere");
       // the provider's router runs too, on the unresolved href
       expect(navigate).toHaveBeenCalledWith("/somewhere", undefined);
+      expect(onAction).toHaveBeenCalledTimes(1);
+    });
+
+    // a link component that replaces the `onClick` it's handed instead of
+    // chaining it takes the menu item's own click handling down with it
+    it("should not run a <Menu.Item /> action when its hrefComponent replaces onClick", async () => {
+      const navigate = vi.fn();
+      const onAction = vi.fn();
+      const { user } = renderWithNavigate(
+        <Menu>
+          <Menu.Trigger>
+            <Button>Open</Button>
+          </Menu.Trigger>
+          <Menu.Overlay onAction={onAction}>
+            <Menu.Item key="1" href="/somewhere" hrefComponent={CustomLink}>
+              Go
+            </Menu.Item>
+          </Menu.Overlay>
+        </Menu>,
+        navigate,
+      );
+      await user.click(screen.getByRole("button", { name: /open/i }));
+      await user.click(screen.getByRole("menuitem", { name: /go/i }));
+      expect(customNavigate).toHaveBeenCalledWith("/somewhere");
+      expect(navigate).not.toHaveBeenCalled();
+      expect(onAction).not.toHaveBeenCalled();
     });
   });
 
