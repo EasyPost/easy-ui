@@ -27,6 +27,18 @@ Supplying `onFirst` and `onLast` adds buttons for jumping to either end. They're
 
 <Canvas of={PaginationStories.WithPageNumbers} />
 
+## With Page Numbers Only
+
+Every control around the page numbers is optional, so a short run of pages can stand on its own by leaving the handlers off.
+
+<Canvas of={PaginationStories.WithPageNumbersOnly} />
+
+## With Page Numbers and Nav Buttons
+
+Supplying only `onPrevious` and `onNext` steps a page at a time without the jump buttons. Raising `siblingCount` past the number of pages keeps the whole run in view rather than truncating it.
+
+<Canvas of={PaginationStories.WithPageNumbersAndNavButtons} />
+
 ## Sizes
 
 The numbered scheme comes in two sizes through `size`. `md` is the default; `sm` is the compact bar used in places like a `<DataGrid />` footer. `size` has no effect on the dropdown scheme, which has a single size.

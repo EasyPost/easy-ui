@@ -85,6 +85,41 @@ export const WithPageNumbersSmall: Story = {
   render: () => <PageNumbersExample size="sm" />,
 };
 
+export const WithPageNumbersOnly: Story = {
+  render: () => {
+    const [page, setPage] = React.useState(1);
+    return (
+      <Pagination label="Example Pagination with Page Numbers Only">
+        <Pagination.Pages count={3} page={page} onSelect={setPage} />
+      </Pagination>
+    );
+  },
+};
+
+export const WithPageNumbersAndNavButtons: Story = {
+  render: () => {
+    const [page, setPage] = React.useState(1);
+    const totalPage = 8;
+    return (
+      <Pagination
+        label="Example Pagination with Page Numbers and Nav Buttons"
+        onPrevious={() => setPage((prev) => prev - 1)}
+        onNext={() => setPage((prev) => prev + 1)}
+        hasPrevious={page > 1}
+        hasNext={totalPage > page}
+      >
+        {/* Enough siblings to keep every page in the run, so nothing truncates */}
+        <Pagination.Pages
+          count={totalPage}
+          page={page}
+          siblingCount={3}
+          onSelect={setPage}
+        />
+      </Pagination>
+    );
+  },
+};
+
 function RowsPerPageExample({ size }: { size?: PaginationSize }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(50);
   return (

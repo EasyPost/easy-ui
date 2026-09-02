@@ -189,6 +189,67 @@ describe("<Pagination />", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("should omit the previous and next buttons without their handlers", () => {
+    render(
+      createPagination({
+        label: "Example Pagination",
+        children: <Pagination.Pages onSelect={() => {}} page={5} count={10} />,
+      }),
+    );
+    expect(
+      screen.queryByRole("button", { name: /previous/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /next/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Page 5 of 10" }),
+    ).toBeInTheDocument();
+  });
+
+  it("should step a page at a time without the jump buttons", async () => {
+    const handleNext = vi.fn();
+    const handlePrevious = vi.fn();
+    const { user } = render(
+      createPagination({
+        label: "Example Pagination",
+        onPrevious: handlePrevious,
+        onNext: handleNext,
+        hasPrevious: true,
+        hasNext: true,
+        children: <Pagination.Pages onSelect={() => {}} page={5} count={10} />,
+      }),
+    );
+    await userClick(user, screen.getByRole("button", { name: /previous/i }));
+    expect(handlePrevious).toHaveBeenCalled();
+    await userClick(user, screen.getByRole("button", { name: /next/i }));
+    expect(handleNext).toHaveBeenCalled();
+    expect(
+      screen.queryByRole("button", { name: /first/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("should render every page when the sibling count covers the range", () => {
+    render(
+      createPagination({
+        label: "Example Pagination",
+        children: (
+          <Pagination.Pages
+            onSelect={() => {}}
+            page={1}
+            count={8}
+            siblingCount={3}
+          />
+        ),
+      }),
+    );
+    for (let page = 1; page <= 8; page++) {
+      expect(
+        screen.getByRole("button", { name: `Page ${page} of 8` }),
+      ).toBeInTheDocument();
+    }
+  });
+
   it("should render pages at the medium size by default", () => {
     render(
       createPagination({

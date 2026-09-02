@@ -42,11 +42,13 @@ export type PaginationProps = {
    */
   hasLast?: boolean;
   /**
-   * Callback when previous button is clicked.
+   * Callback when previous button is clicked. In the numbered scheme, supplying
+   * this renders a previous page button; the dropdown scheme always has one.
    */
   onPrevious?: () => void;
   /**
-   * Callback when next button is clicked.
+   * Callback when next button is clicked. In the numbered scheme, supplying
+   * this renders a next page button; the dropdown scheme always has one.
    */
   onNext?: () => void;
   /**
@@ -191,23 +193,30 @@ export function Pagination(props: PaginationProps) {
             First
           </PaginationJumpButton>
         )}
-        <PaginationNavButton
-          direction="previous"
-          size={size}
-          aria-label="Previous"
-          onPress={onPrevious}
-          isDisabled={!hasPrevious || isDisabled}
-        />
+        {/* Per design, a short run of pages can stand on its own, so the
+            chevrons come and go with their handlers the way the jump buttons
+            do rather than always being part of the scheme */}
+        {onPrevious && (
+          <PaginationNavButton
+            direction="previous"
+            size={size}
+            aria-label="Previous"
+            onPress={onPrevious}
+            isDisabled={!hasPrevious || isDisabled}
+          />
+        )}
         {cloneElement(children as ReactElement<PaginationPagesProps>, {
           isDisabled,
         })}
-        <PaginationNavButton
-          direction="next"
-          size={size}
-          aria-label="Next"
-          onPress={onNext}
-          isDisabled={!hasNext || isDisabled}
-        />
+        {onNext && (
+          <PaginationNavButton
+            direction="next"
+            size={size}
+            aria-label="Next"
+            onPress={onNext}
+            isDisabled={!hasNext || isDisabled}
+          />
+        )}
         {onLast && (
           <PaginationJumpButton
             onPress={onLast}
