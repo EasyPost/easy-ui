@@ -48,18 +48,30 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
     const ref = useRef(null);
     const mergedRef = useObjectRef(mergeRefs(ref, inRef));
     const As = href ? "a" : "button";
+
     // `useButton()` hands `onClick` to `usePress()`, which calls it from the
     // `onClick` it returns, so exactly one of that path and the DOM spread below
     // can carry the consumer's handler—both would fire it twice per click.
     //
-    // Which one depends on the element. On a `<button>`, `usePress()` prevents
-    // the default keyboard behavior, so there is no native click on Enter or
-    // Space and `onClick` only arrives through `usePress()`. An anchor keeps its
-    // native click, and there `usePress()` is the wrong path: on keyboard
-    // activation it synthesizes an event, and `preventDefault()` on that fake
-    // event can't stop the real click the router reads.
+    // Which one depends on whether the element still fires a native click on
+    // Enter or Space. Where it does, `onClick` has to stay a plain DOM handler:
+    // `usePress()` would call it with an event it synthesized, and
+    // `preventDefault()` on that fake event can't stop the real click, whether
+    // that click navigates or submits a form. Where it doesn't, `usePress()` is
+    // the only path left, and withholding `onClick` from it would mean the
+    // handler never runs from the keyboard at all.
+    //
+    // React Aria suppresses the native click for a plain `<button>` only.
+    // Anchors keep theirs, and so do submit and reset buttons, whose whole
+    // purpose is the default the click carries.
+    const keepsNativeClick =
+      Boolean(href) || props.type === "submit" || props.type === "reset";
     const { buttonProps: elementProps } = useButton(
-      { ...props, onClick: href ? undefined : props.onClick, elementType: As },
+      {
+        ...props,
+        onClick: keepsNativeClick ? undefined : props.onClick,
+        elementType: As,
+      },
       ref,
     );
 
@@ -74,7 +86,7 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
       <As
         {...mergeProps(
           omitReactAriaSpecificProps(
-            href ? restProps : omit(restProps, "onClick"),
+            keepsNativeClick ? restProps : omit(restProps, "onClick"),
           ),
           elementProps,
           routerLinkProps,

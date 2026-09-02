@@ -103,6 +103,30 @@ describe("<UnstyledButton />", () => {
     );
   });
 
+  // a call count alone can't tell a handler that ran against the real click
+  // apart from one that ran against an event React Aria synthesized, so this
+  // asserts what `preventDefault()` was supposed to accomplish
+  describe.each(["submit", "reset"] as const)("on a %s button", (type) => {
+    it.each(["{Enter}", " "])(
+      "should let onClick prevent the default on %s",
+      async (key) => {
+        const handleDefault = vi.fn((e: React.FormEvent) => e.preventDefault());
+        const handleClick = vi.fn((e: React.MouseEvent) => e.preventDefault());
+        render(
+          <form onSubmit={handleDefault} onReset={handleDefault}>
+            <UnstyledButton type={type} onClick={handleClick}>
+              Testing
+            </UnstyledButton>
+          </form>,
+        );
+        await userEvent.tab();
+        await userEvent.keyboard(key);
+        expect(handleClick).toHaveBeenCalledTimes(1);
+        expect(handleDefault).not.toHaveBeenCalled();
+      },
+    );
+  });
+
   it("should apply the default class", () => {
     render(
       <UnstyledButton className="colorPrimary_123">Button</UnstyledButton>,
