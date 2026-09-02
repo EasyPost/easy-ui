@@ -1,5 +1,4 @@
 @use "../styles/common" as *;
-@use "mixins" as DataGrid;
 
 .shell {
   position: sticky;
@@ -20,15 +19,13 @@
     component-token("data-grid", "border-color");
 }
 
-.shadowTop [data-ezui-data-grid-shadow="top"] {
-  @include DataGrid.shadow(top, $backdrop: true);
-
-  // The shadow is absolutely positioned, so its containing block is the shell's
-  // padding box, which the top border pushes down a hair. Left alone, the band's
-  // darkest row lands on the border and paints over it, so the shadow ends in
-  // nothing but the bar. Pulling it up by the border width lands it on the
-  // border-box edge instead, matching the header, which has no border to clear.
-  margin-bottom: component-token("data-grid", "border-width");
+// The footer casts the design system's stuck-from-bottom shadow rather than the
+// grid's own gradient band. It's a real blur, so it decays to transparent over
+// the rows instead of stacking a hard-edged ramp on a white backdrop, and the
+// footer is one full-width element, so a box shadow lands cleanly on it in a way
+// the header's per-cell shadows can't. Same treatment as `<Modal />`'s footer.
+.shadowTop {
+  box-shadow: design-token("shadow.stuck-from-bottom");
 }
 
 .DataGridFooter {

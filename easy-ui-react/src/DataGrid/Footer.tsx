@@ -71,7 +71,6 @@ export function FooterShell({ children }: FooterShellProps) {
   return (
     <div className={className} data-ezui-data-grid-footer="true">
       {children}
-      <div data-ezui-data-grid-shadow="top" />
     </div>
   );
 }
