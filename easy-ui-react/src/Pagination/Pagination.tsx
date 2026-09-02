@@ -7,9 +7,17 @@ import {
   PaginationDropdown,
   PaginationDropdownProps,
 } from "./PaginationDropdown";
+import {
+  PaginationJumpButton,
+  PaginationNavButton,
+} from "./PaginationPagedButtons";
+import { PaginationPages, PaginationPagesProps } from "./PaginationPages";
+import { PaginationRowsPerPage } from "./PaginationRowsPerPage";
 import { getDisplayNameFromReactNode } from "../utilities/react";
-import { classNames } from "../utilities/css";
+import { classNames, variationName } from "../utilities/css";
 import styles from "./Pagination.module.scss";
+
+export type PaginationSize = "sm" | "md";
 
 export type PaginationProps = {
   /**
@@ -23,26 +31,56 @@ export type PaginationProps = {
    */
   hasNext?: boolean;
   /**
-   * Callback when previous button is clicked.
+   * Whether there is a first page to jump to. Only relevant alongside
+   * `onFirst`.
+   * @default false
+   */
+  hasFirst?: boolean;
+  /**
+   * Whether there is a last page to jump to. Only relevant alongside `onLast`.
+   * @default false
+   */
+  hasLast?: boolean;
+  /**
+   * Callback when previous button is clicked. In the numbered scheme, supplying
+   * this renders a previous page button; the dropdown scheme always has one.
    */
   onPrevious?: () => void;
   /**
-   * Callback when next button is clicked.
+   * Callback when next button is clicked. In the numbered scheme, supplying
+   * this renders a next page button; the dropdown scheme always has one.
    */
   onNext?: () => void;
+  /**
+   * Callback when the first page button is clicked. Supplying this renders a
+   * first page button; it's only available in the numbered scheme.
+   */
+  onFirst?: () => void;
+  /**
+   * Callback when the last page button is clicked. Supplying this renders a
+   * last page button; it's only available in the numbered scheme.
+   */
+  onLast?: () => void;
   /**
    * Accessible label for Pagination, used for aria-label.
    */
   label: string;
   /**
+   * Size of the pagination controls. Only relevant in the numbered scheme;
+   * the dropdown scheme has a single size.
+   * @default md
+   */
+  size?: PaginationSize;
+  /**
    * Whether the Pagination component should be disabled.
    */
   isDisabled?: boolean;
   /**
-   * The children of `<Pagination />` component only
-   * accept `<Pagination.Dropdown />`.
+   * The children of `<Pagination />` component only accept
+   * `<Pagination.Dropdown />` or `<Pagination.Pages />`. Which one is supplied
+   * determines the scheme the pagination renders in.
    */
-  children?: ReactElement<PaginationDropdownProps>;
+  children?: ReactElement<PaginationDropdownProps | PaginationPagesProps>;
 };
 
 /**
@@ -81,6 +119,24 @@ export type PaginationProps = {
  * ```
  *
  * @example
+ * _With Pages:_
+ * ```tsx
+ * <Pagination
+ *  label="Example with Pages"
+ *  onFirst={handleFirst}
+ *  onPrevious={handlePrevious}
+ *  onNext={handleNext}
+ *  onLast={handleLast}
+ *  hasFirst
+ *  hasPrevious
+ *  hasNext
+ *  hasLast
+ * >
+ *  <Pagination.Pages count={10} page={4} onSelect={handleSelect} />
+ * </Pagination>
+ * ```
+ *
+ * @example
  * _Disabled:_
  * ```tsx
  * <Pagination label="Example Disabled" isDisabled />
@@ -90,22 +146,87 @@ export function Pagination(props: PaginationProps) {
   const {
     hasPrevious = false,
     hasNext = false,
+    hasFirst = false,
+    hasLast = false,
     onPrevious,
     onNext,
+    onFirst,
+    onLast,
     label,
+    size = "md",
     isDisabled,
     children,
   } = props;
-  const className = classNames(
-    styles.pagination,
-    isDisabled && styles.disabled,
-  );
+
+  const childDisplayName = children
+    ? getDisplayNameFromReactNode(children)
+    : null;
 
   if (
     children &&
-    getDisplayNameFromReactNode(children) !== PaginationDropdown.displayName
+    childDisplayName !== PaginationDropdown.displayName &&
+    childDisplayName !== PaginationPages.displayName
   ) {
-    throw new Error(`children must be ${PaginationDropdown.displayName}`);
+    throw new Error(
+      `children must be ${PaginationDropdown.displayName} or ${PaginationPages.displayName}`,
+    );
+  }
+
+  // The scheme is inferred from the child rather than configured, since the two
+  // schemes differ only in how they let the user reach a page
+  const isPaged = childDisplayName === PaginationPages.displayName;
+  const className = classNames(
+    styles.pagination,
+    isPaged && styles.paged,
+    isPaged && styles[variationName("size", size)],
+    isDisabled && styles.disabled,
+  );
+
+  if (isPaged) {
+    return (
+      <nav aria-label={label} className={className}>
+        {onFirst && (
+          <PaginationJumpButton
+            onPress={onFirst}
+            isDisabled={!hasFirst || isDisabled}
+          >
+            First
+          </PaginationJumpButton>
+        )}
+        {/* Per design, a short run of pages can stand on its own, so the
+            chevrons come and go with their handlers the way the jump buttons
+            do rather than always being part of the scheme */}
+        {onPrevious && (
+          <PaginationNavButton
+            direction="previous"
+            size={size}
+            aria-label="Previous"
+            onPress={onPrevious}
+            isDisabled={!hasPrevious || isDisabled}
+          />
+        )}
+        {cloneElement(children as ReactElement<PaginationPagesProps>, {
+          isDisabled,
+        })}
+        {onNext && (
+          <PaginationNavButton
+            direction="next"
+            size={size}
+            aria-label="Next"
+            onPress={onNext}
+            isDisabled={!hasNext || isDisabled}
+          />
+        )}
+        {onLast && (
+          <PaginationJumpButton
+            onPress={onLast}
+            isDisabled={!hasLast || isDisabled}
+          >
+            Last
+          </PaginationJumpButton>
+        )}
+      </nav>
+    );
   }
 
   return (
@@ -130,3 +251,13 @@ export function Pagination(props: PaginationProps) {
 }
 
 Pagination.Dropdown = PaginationDropdown;
+Pagination.Pages = PaginationPages;
+
+/**
+ * A menu for choosing how many rows a page shows.
+ *
+ * @remarks
+ * Rendered on its own alongside a `<Pagination />` rather than inside one,
+ * which only accepts a scheme as its child.
+ */
+Pagination.RowsPerPage = PaginationRowsPerPage;

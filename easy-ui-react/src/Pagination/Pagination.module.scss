@@ -38,3 +38,143 @@
   border-right: design-token("shape.border_width.1") solid
     design-token("color.neutral.200");
 }
+
+// The numbered scheme spaces its controls apart instead of fusing them into a
+// single pill, so it opts out of the shared arrow/menu button chrome entirely
+.paged {
+  display: flex;
+  align-items: center;
+  gap: component-token("pagination", "control-gap");
+}
+
+// The page numbers read as one tight run at either size, so this gap only has
+// to keep adjacent squares from fusing. It's the gaps between the scheme's
+// groups that scale.
+.pageRow {
+  display: flex;
+  align-items: center;
+  gap: design-token("space.0.5");
+}
+
+// Shared box and type for every cell in the scheme, including the ellipsis,
+// which isn't a control and so gets none of the behavior below
+.pagedButton {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: component-token("pagination", "control-size");
+  height: component-token("pagination", "control-size");
+  color: design-token("color.primary.800");
+  border-radius: design-token("shape.border_radius.md");
+}
+
+// A label can outgrow the square, so the buttons carrying one keep it off the
+// edge. The chevron buttons hold their square, since an icon can't outgrow it.
+.jumpButton,
+.pageButton {
+  padding: 0 design-token("space.0.5");
+}
+
+.jumpButton {
+  min-width: component-token("pagination", "jump-control-width");
+}
+
+.navButton,
+.jumpButton {
+  background: design-token("color.neutral.000");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.200");
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.300");
+    background: design-token("color.neutral.025");
+    border-color: design-token("color.neutral.100");
+  }
+
+  // Hovering tints the box the way the page buttons beside it do rather than
+  // pulling the label toward blue, which reads louder than a control that only
+  // steps or jumps the page warrants
+  &:hover:not(:disabled):not(:active) {
+    background: design-token("color.neutral.050");
+  }
+}
+
+// There's no left-facing chevron in the icon set, so the next chevron is flipped
+.navButtonPrevious {
+  transform: rotate(180deg);
+}
+
+.pageButton {
+  background: design-token("color.neutral.000");
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.300");
+  }
+
+  &:hover:not(:disabled):not(:active):not(.pageButtonCurrent) {
+    background: design-token("color.neutral.050");
+  }
+}
+
+.pageButtonCurrent {
+  color: design-token("color.neutral.000");
+  background: design-token("color.primary.500");
+}
+
+// Both sizes are described in one place each so the parts of the scheme grow
+// together. Only the numbered scheme is sized; the dropdown scheme has a single
+// size in design.
+.sizeSm {
+  @include component-token(
+    "pagination",
+    "control-size",
+    design-token("space.3")
+  );
+  @include component-token(
+    "pagination",
+    "jump-control-width",
+    design-token("space.7")
+  );
+  @include component-token(
+    "pagination",
+    "control-gap",
+    design-token("space.1.5")
+  );
+}
+
+.sizeMd {
+  @include component-token(
+    "pagination",
+    "control-size",
+    design-token("space.5")
+  );
+  @include component-token(
+    "pagination",
+    "jump-control-width",
+    design-token("space.9")
+  );
+  @include component-token(
+    "pagination",
+    "control-gap",
+    design-token("space.2")
+  );
+}
+
+// `<UnstyledButton />` only inherits font size and line height, so the buttons
+// take their type directly rather than through the nav
+.sizeSm .pagedButton {
+  @include font-style("small-button");
+}
+
+.sizeMd .pagedButton {
+  @include font-style("button");
+}

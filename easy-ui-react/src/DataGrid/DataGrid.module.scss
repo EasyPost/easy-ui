@@ -13,6 +13,15 @@
   );
   @include component-token("data-grid", "header-row-height", 48px);
   @include component-token("data-grid", "body-row-height", 48px);
+  // Zero until a footer is rendered, at which point `.hasFooter` gives it the
+  // footer's height so `max-rows` still counts visible body rows
+  @include component-token("data-grid", "footer-row-height", 0px);
+  @include component-token("data-grid", "footer-width", 100%);
+  @include component-token(
+    "data-grid",
+    "footer-bg",
+    design-token("color.neutral.000")
+  );
   @include component-token("data-grid", "expand-btn-size", 24px);
   @include component-token(
     "data-grid",
@@ -35,11 +44,20 @@
     design-token("color.neutral.100")
   );
   @include component-token("data-grid", "sticky-shadow-size", 8px);
-  @include component-token("data-grid", "sticky-shadow-opacity", 0.5);
+  // The header and frozen columns can't carry the `shadow.stuck-from-*` tokens:
+  // they're cast by table cells, and box shadows don't paint on those once the
+  // table's borders are collapsed. Their gradient band mimics the token instead,
+  // which is `color.neutral.300` at a quarter, so every sticky edge of the grid
+  // reads at the weight the footer's real shadow does.
+  @include component-token("data-grid", "sticky-shadow-opacity", 0.25);
+  // A dark header is a hard edge against the rows, which swamps a shadow this
+  // light, so the header carries its own weight. `.headerSecondary` is light
+  // enough not to need it and drops back to the weight of the other edges.
+  @include component-token("data-grid", "header-shadow-opacity", 0.65);
   @include component-token(
     "data-grid",
     "sticky-shadow-color",
-    design-token("color.neutral.500")
+    design-token("color.neutral.300")
   );
   @include component-token(
     "data-grid",
@@ -56,6 +74,7 @@
   @include component-token("data-grid", "expanded-row-z-index", 3);
   @include component-token("data-grid", "column-z-index", 4);
   @include component-token("data-grid", "column-stuck-z-index", 5);
+  @include component-token("data-grid", "footer-z-index", 6);
   @include component-token("data-grid", "sticky-left-offset", -16px);
   @include component-token("data-grid", "sticky-right-offset", -12px);
   @include component-token("data-grid", "action-cell-width", 44px);
@@ -68,6 +87,7 @@
   max-height: calc(
     (component-token("data-grid", "border-width") * 2) +
       component-token("data-grid", "header-row-height") +
+      component-token("data-grid", "footer-row-height") +
       (
         component-token("data-grid", "body-row-height") *
           component-token("data-grid", "max-rows")
@@ -80,6 +100,11 @@
   [data-ezui-data-grid-shadow] {
     position: absolute;
   }
+}
+
+// Per design, the footer's height is fixed and doesn't scale with `size`
+.hasFooter {
+  @include component-token("data-grid", "footer-row-height", 54px);
 }
 
 .sizeSm {
@@ -109,6 +134,11 @@
 }
 
 .headerSecondary {
+  @include component-token(
+    "data-grid",
+    "header-shadow-opacity",
+    component-token("data-grid", "sticky-shadow-opacity")
+  );
   @include component-token(
     "data-grid",
     "header-bg",

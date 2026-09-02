@@ -24,6 +24,7 @@ type DataGridTableContextType = {
   hasRowActions: boolean;
   hasOnRowAction: boolean;
   isTopEdgeUnderScroll: boolean;
+  isBottomEdgeUnderScroll: boolean;
   isLeftEdgeUnderScroll: boolean;
   isRightEdgeUnderScroll: boolean;
 };

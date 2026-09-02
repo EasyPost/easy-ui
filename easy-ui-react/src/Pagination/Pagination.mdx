@@ -13,9 +13,45 @@ A `<Pagination />` component enabled the user to divide large amounts of content
 
 ## With Page Dropdown
 
-A `<Pagination />` supports a dropdown menu for users to select specific page by including `<Pagination.Dropdown />` as children. `<Pagination.Dropdown />` is the only children `<Pagination />` accept.
+A `<Pagination />` supports a dropdown menu for users to select specific page by including `<Pagination.Dropdown />` as children.
 
 <Canvas of={PaginationStories.WithPageDropdown} />
+
+## With Page Numbers
+
+A `<Pagination />` supports a numbered scheme where each nearby page gets its own button by including `<Pagination.Pages />` as children. Pages that fall outside the range around the current page are truncated with an ellipsis; tune how many pages surround the current one with `siblingCount`, and pin pages to the ends of the range with `boundaryCount`.
+
+Supplying `onFirst` and `onLast` adds buttons for jumping to either end. They're only available in this scheme.
+
+`<Pagination.Dropdown />` and `<Pagination.Pages />` are the only children `<Pagination />` accepts, and which one is supplied determines the scheme that renders.
+
+<Canvas of={PaginationStories.WithPageNumbers} />
+
+## With Page Numbers Only
+
+Every control around the page numbers is optional, so a short run of pages can stand on its own by leaving the handlers off.
+
+<Canvas of={PaginationStories.WithPageNumbersOnly} />
+
+## With Page Numbers and Nav Buttons
+
+Supplying only `onPrevious` and `onNext` steps a page at a time without the jump buttons. Raising `siblingCount` past the number of pages keeps the whole run in view rather than truncating it.
+
+<Canvas of={PaginationStories.WithPageNumbersAndNavButtons} />
+
+## Sizes
+
+The numbered scheme comes in two sizes through `size`. `md` is the default; `sm` is the compact bar used in places like a `<DataGrid />` footer. `size` has no effect on the dropdown scheme, which has a single size.
+
+<Canvas of={PaginationStories.WithPageNumbersSmall} />
+
+## With Rows Per Page
+
+`<Pagination.RowsPerPage />` is a fully controlled menu for choosing how many rows a page shows. It renders on its own alongside a `<Pagination />` rather than inside one, which only accepts a scheme as its child, and it takes the same `size` values so the two line up.
+
+<Canvas of={PaginationStories.WithRowsPerPage} />
+
+<Canvas of={PaginationStories.WithRowsPerPageSmall} />
 
 ## Disabled
 
@@ -32,3 +68,11 @@ A `<Pagination />` can be disabled using `isDisabled`.
 ### Pagination.Dropdown
 
 <ArgTypes of={Pagination.Dropdown} />
+
+### Pagination.Pages
+
+<ArgTypes of={Pagination.Pages} />
+
+### Pagination.RowsPerPage
+
+<ArgTypes of={Pagination.RowsPerPage} />

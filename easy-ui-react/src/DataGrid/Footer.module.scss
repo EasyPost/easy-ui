@@ -1,0 +1,58 @@
+@use "../styles/common" as *;
+
+.shell {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  z-index: component-token("data-grid", "footer-z-index");
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: component-token("data-grid", "footer-width");
+  // Once the footer's content needs more room than the scrollport has, the
+  // footer widens and scrolls along with the rows rather than squeezing its
+  // regions into each other
+  min-width: min-content;
+  min-height: component-token("data-grid", "footer-row-height");
+  background: component-token("data-grid", "footer-bg");
+  border-top: component-token("data-grid", "border-width") solid
+    component-token("data-grid", "border-color");
+}
+
+// The footer casts the design system's stuck-from-bottom shadow rather than the
+// grid's own gradient band. It's a real blur, so it decays to transparent over
+// the rows instead of stacking a hard-edged ramp on a white backdrop, and the
+// footer is one full-width element, so a box shadow lands cleanly on it in a way
+// the header's per-cell shadows can't. Same treatment as `<Modal />`'s footer.
+.shadowTop {
+  box-shadow: design-token("shadow.stuck-from-bottom");
+}
+
+.DataGridFooter {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: design-token("space.1.5");
+  width: 100%;
+  padding: 0 design-token("space.2");
+}
+
+// The footer is a single-row bar, so its regions keep their content on one line
+// and let the shell grow instead of wrapping into each other
+.region {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.start {
+  justify-content: flex-start;
+}
+
+.center {
+  justify-content: center;
+}
+
+.end {
+  justify-content: flex-end;
+}
