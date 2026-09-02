@@ -76,7 +76,7 @@ export function PaginationRowsPerPage(props: PaginationRowsPerPageProps) {
       <Text
         id={labelId}
         variant={size === "sm" ? "body2" : "body1"}
-        color="neutral.900"
+        color="neutral.800"
       >
         {label}
       </Text>
