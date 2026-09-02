@@ -29,8 +29,9 @@
     border-color: design-token("color.neutral.100");
   }
 
+  // Tints the box on hover, the same as the pagination controls it sits beside
   &:hover:not(:disabled):not(:active) {
-    color: design-token("color.primary.500");
+    background: design-token("color.neutral.050");
   }
 }
 

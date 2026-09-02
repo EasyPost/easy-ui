@@ -96,8 +96,11 @@
     border-color: design-token("color.neutral.100");
   }
 
+  // Hovering tints the box the way the page buttons beside it do rather than
+  // pulling the label toward blue, which reads louder than a control that only
+  // steps or jumps the page warrants
   &:hover:not(:disabled):not(:active) {
-    color: design-token("color.primary.500");
+    background: design-token("color.neutral.050");
   }
 }
 
