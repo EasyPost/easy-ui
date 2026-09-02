@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
-import { Pagination } from "./Pagination";
+import { Pagination, PaginationSize } from "./Pagination";
 
 type Story = StoryObj<typeof Pagination>;
 
@@ -54,28 +54,35 @@ export const WithPageDropdown: Story = {
   },
 };
 
+function PageNumbersExample({ size }: { size?: PaginationSize }) {
+  const [page, setPage] = React.useState(1);
+  const totalPage = 10;
+  const hasPrevious = page > 1;
+  const hasNext = totalPage > page;
+  return (
+    <Pagination
+      label="Example Pagination with Page Numbers"
+      size={size}
+      onFirst={() => setPage(1)}
+      onPrevious={() => setPage((prev) => prev - 1)}
+      onNext={() => setPage((prev) => prev + 1)}
+      onLast={() => setPage(totalPage)}
+      hasFirst={hasPrevious}
+      hasPrevious={hasPrevious}
+      hasNext={hasNext}
+      hasLast={hasNext}
+    >
+      <Pagination.Pages count={totalPage} page={page} onSelect={setPage} />
+    </Pagination>
+  );
+}
+
 export const WithPageNumbers: Story = {
-  render: () => {
-    const [page, setPage] = React.useState(1);
-    const totalPage = 10;
-    const hasPrevious = page > 1;
-    const hasNext = totalPage > page;
-    return (
-      <Pagination
-        label="Example Pagination with Page Numbers"
-        onFirst={() => setPage(1)}
-        onPrevious={() => setPage((prev) => prev - 1)}
-        onNext={() => setPage((prev) => prev + 1)}
-        onLast={() => setPage(totalPage)}
-        hasFirst={hasPrevious}
-        hasPrevious={hasPrevious}
-        hasNext={hasNext}
-        hasLast={hasNext}
-      >
-        <Pagination.Pages count={totalPage} page={page} onSelect={setPage} />
-      </Pagination>
-    );
-  },
+  render: () => <PageNumbersExample />,
+};
+
+export const WithPageNumbersSmall: Story = {
+  render: () => <PageNumbersExample size="sm" />,
 };
 
 export const Disabled: Story = {

@@ -188,6 +188,49 @@ describe("<Pagination />", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("should render pages at the medium size by default", () => {
+    render(
+      createPagination({
+        label: "Example Pagination",
+        children: <Pagination.Pages onSelect={() => {}} page={5} count={10} />,
+      }),
+    );
+    expect(screen.getByRole("navigation")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeMd"),
+    );
+  });
+
+  it("should render pages at the small size", () => {
+    render(
+      createPagination({
+        label: "Example Pagination",
+        size: "sm",
+        children: <Pagination.Pages onSelect={() => {}} page={5} count={10} />,
+      }),
+    );
+    expect(screen.getByRole("navigation")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+  });
+
+  it("should not size the dropdown scheme", () => {
+    render(
+      createPagination({
+        label: "Example Pagination",
+        size: "sm",
+        children: (
+          <Pagination.Dropdown onSelect={() => {}} page={1} count={10} />
+        ),
+      }),
+    );
+    expect(screen.getByRole("navigation")).not.toHaveAttribute(
+      "class",
+      expect.stringContaining("size"),
+    );
+  });
+
   it("should render pages as disabled", () => {
     render(
       createPagination({

@@ -13,8 +13,10 @@ import {
 } from "./PaginationPagedButtons";
 import { PaginationPages, PaginationPagesProps } from "./PaginationPages";
 import { getDisplayNameFromReactNode } from "../utilities/react";
-import { classNames } from "../utilities/css";
+import { classNames, variationName } from "../utilities/css";
 import styles from "./Pagination.module.scss";
+
+export type PaginationSize = "sm" | "md";
 
 export type PaginationProps = {
   /**
@@ -60,6 +62,12 @@ export type PaginationProps = {
    * Accessible label for Pagination, used for aria-label.
    */
   label: string;
+  /**
+   * Size of the pagination controls. Only relevant in the numbered scheme;
+   * the dropdown scheme has a single size.
+   * @default md
+   */
+  size?: PaginationSize;
   /**
    * Whether the Pagination component should be disabled.
    */
@@ -142,6 +150,7 @@ export function Pagination(props: PaginationProps) {
     onFirst,
     onLast,
     label,
+    size = "md",
     isDisabled,
     children,
   } = props;
@@ -166,6 +175,7 @@ export function Pagination(props: PaginationProps) {
   const className = classNames(
     styles.pagination,
     isPaged && styles.paged,
+    isPaged && styles[variationName("size", size)],
     isDisabled && styles.disabled,
   );
 
@@ -182,6 +192,7 @@ export function Pagination(props: PaginationProps) {
         )}
         <PaginationNavButton
           direction="previous"
+          size={size}
           aria-label="Previous"
           onPress={onPrevious}
           isDisabled={!hasPrevious || isDisabled}
@@ -191,6 +202,7 @@ export function Pagination(props: PaginationProps) {
         })}
         <PaginationNavButton
           direction="next"
+          size={size}
           aria-label="Next"
           onPress={onNext}
           isDisabled={!hasNext || isDisabled}

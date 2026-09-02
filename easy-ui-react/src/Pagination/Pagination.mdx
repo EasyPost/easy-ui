@@ -27,6 +27,12 @@ Supplying `onFirst` and `onLast` adds buttons for jumping to either end. They're
 
 <Canvas of={PaginationStories.WithPageNumbers} />
 
+## Sizes
+
+The numbered scheme comes in two sizes through `size`. `md` is the default; `sm` is the compact bar used in places like a `<DataGrid />` footer. `size` has no effect on the dropdown scheme, which has a single size.
+
+<Canvas of={PaginationStories.WithPageNumbersSmall} />
+
 ## Disabled
 
 A `<Pagination />` can be disabled using `isDisabled`.

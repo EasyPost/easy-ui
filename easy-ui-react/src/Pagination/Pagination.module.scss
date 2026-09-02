@@ -44,34 +44,37 @@
 .paged {
   display: flex;
   align-items: center;
-  gap: design-token("space.1.5");
+  gap: component-token("pagination", "control-gap");
 }
 
 .pageRow {
   display: flex;
   align-items: center;
-  gap: design-token("space.0.5");
+  gap: component-token("pagination", "page-gap");
 }
 
+// Shared box and type for every cell in the scheme, including the ellipsis,
+// which isn't a control and so gets none of the behavior below
 .pagedButton {
-  @include font-style("subtitle2");
-
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 24px;
-  height: 24px;
+  min-width: component-token("pagination", "control-size");
+  height: component-token("pagination", "control-size");
   color: design-token("color.primary.800");
   border-radius: design-token("shape.border_radius.md");
+}
 
-  &:not(:disabled) {
-    cursor: pointer;
-  }
+// A label can outgrow the square, so the buttons carrying one keep it off the
+// edge. The chevron buttons hold their square, since an icon can't outgrow it.
+.jumpButton,
+.pageButton {
+  padding: 0 design-token("space.0.5");
 }
 
 .jumpButton {
-  min-width: 54px;
+  min-width: component-token("pagination", "jump-control-width");
 }
 
 .navButton,
@@ -79,6 +82,10 @@
   background: design-token("color.neutral.000");
   border: design-token("shape.border_width.1") solid
     design-token("color.neutral.200");
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
 
   &:disabled {
     color: design-token("color.neutral.300");
@@ -99,6 +106,10 @@
 .pageButton {
   background: design-token("color.neutral.000");
 
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
   &:disabled {
     color: design-token("color.neutral.300");
   }
@@ -113,6 +124,35 @@
   background: design-token("color.primary.500");
 }
 
-.ellipsis {
-  color: design-token("color.neutral.500");
+// Both sizes are described in one place each so the parts of the scheme grow
+// together. Only the numbered scheme is sized; the dropdown scheme has a single
+// size in design.
+.sizeSm {
+  @include component-token("pagination", "control-size", 24px);
+  @include component-token("pagination", "jump-control-width", 54px);
+  @include component-token(
+    "pagination",
+    "control-gap",
+    design-token("space.1.5")
+  );
+  @include component-token("pagination", "page-gap", design-token("space.0.5"));
+}
+
+.sizeMd {
+  @include component-token("pagination", "control-size", 38px);
+  @include component-token("pagination", "jump-control-width", 72px);
+  // Design's larger gaps sit between steps of the space scale, so they're
+  // spelled out rather than rounded to a token
+  @include component-token("pagination", "control-gap", 18px);
+  @include component-token("pagination", "page-gap", 6px);
+}
+
+// `<UnstyledButton />` only inherits font size and line height, so the buttons
+// take their type directly rather than through the nav
+.sizeSm .pagedButton {
+  @include font-style("small-button");
+}
+
+.sizeMd .pagedButton {
+  @include font-style("button");
 }

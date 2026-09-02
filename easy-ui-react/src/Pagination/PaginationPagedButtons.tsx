@@ -3,11 +3,13 @@ import React from "react";
 import { Icon } from "../Icon";
 import { UnstyledButton, UnstyledButtonProps } from "../UnstyledButton";
 import { classNames } from "../utilities/css";
+import type { PaginationSize } from "./Pagination";
 
 import styles from "./Pagination.module.scss";
 
 type PaginationNavButtonProps = Omit<UnstyledButtonProps, "children"> & {
   direction: "previous" | "next";
+  size?: PaginationSize;
 };
 
 /**
@@ -15,7 +17,10 @@ type PaginationNavButtonProps = Omit<UnstyledButtonProps, "children"> & {
  * pagination scheme.
  */
 export function PaginationNavButton(props: PaginationNavButtonProps) {
-  const { direction, ...buttonProps } = props;
+  const { direction, size = "md", ...buttonProps } = props;
+  // The chevron is sized in React rather than CSS, so it has to branch on the
+  // size the rest of the scheme reads from component tokens
+  const iconSize = size === "sm" ? "xs" : "md";
   return (
     <UnstyledButton
       {...buttonProps}
@@ -25,7 +30,7 @@ export function PaginationNavButton(props: PaginationNavButtonProps) {
         direction === "previous" && styles.navButtonPrevious,
       )}
     >
-      <Icon symbol={ChevronRight400} size="xs" />
+      <Icon symbol={ChevronRight400} size={iconSize} />
     </UnstyledButton>
   );
 }
@@ -77,11 +82,10 @@ export function PaginationPageButton(props: PaginationPageButtonProps) {
  * Non-interactive marker standing in for a truncated run of pages.
  */
 export function PaginationEllipsis() {
+  // Takes the buttons' box and type so it lines up with them, but none of their
+  // chrome or affordances, since there's nothing here to press
   return (
-    <span
-      aria-hidden="true"
-      className={classNames(styles.pagedButton, styles.ellipsis)}
-    >
+    <span aria-hidden="true" className={styles.pagedButton}>
       &hellip;
     </span>
   );

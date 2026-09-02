@@ -57,6 +57,8 @@ export function DataGridPagination(props: DataGridPaginationProps) {
   return (
     <Pagination
       label={label}
+      // The footer bar is a fixed height that the smaller controls are drawn to
+      size="sm"
       isDisabled={isDisabled}
       hasFirst={hasPrevious}
       hasPrevious={hasPrevious}
