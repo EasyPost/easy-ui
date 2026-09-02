@@ -29,9 +29,29 @@ Each `TabNav` should have a unique label. To add the label, add the `aria-label`
 
 <Canvas of={TabNavStories.Default} />
 
+## Client-side routing
+
+Pass a `navigate` function to `<Provider />` and `TabNav.Item`s navigate through your app's router instead of doing a full page load:
+
+```tsx
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+import { useNavigate, useHref } from "react-router";
+
+<EasyUIProvider navigate={useNavigate()} useHref={useHref}>
+  <TabNav aria-label="Nav">
+    <TabNav.Item href="/billing">Billing</TabNav.Item>
+  </TabNav>
+</EasyUIProvider>;
+```
+
+The example below is wired to a fake router. Its items are regular links with
+regular `href`s—the router is what keeps them from loading a new page.
+
+<Canvas of={TabNavStories.ClientSideRouting} />
+
 ## Custom Link Component
 
-A `TabNav` can render custom link components for use in apps that have client-side navigation components, such as Next's `Link` component.
+A `TabNav` can render custom link components for use in apps that have client-side navigation components, such as Next's `Link` component. Use this when an item needs a specific link component rather than the router configured on `<Provider />`.
 
 Use the `as` prop to pass in a custom component.
 

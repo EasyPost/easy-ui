@@ -11,7 +11,7 @@ import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
-import { EasyPostFullLogo } from "../utilities/storybook";
+import { EasyPostFullLogo, FakeClientSideRouter } from "../utilities/storybook";
 import { ListVerticalNavProps } from "./ListVerticalNav";
 import { TreeVerticalNavProps } from "./TreeVerticalNav";
 import { ExpandableVerticalNav, VerticalNav } from "./VerticalNav";
@@ -159,6 +159,35 @@ export const WithinACard: TreeStory = {
   },
   decorators: [FakeCardDecorator],
 };
+
+// Items render as regular anchors with regular hrefs; the router configured on
+// `<Provider />` is what keeps clicking them from loading a new page.
+export const ClientSideRouting: ListStory = {
+  render: (args) => (
+    <FakeClientSideRouter initialPath={itemPath("1")}>
+      {(path) => (
+        <div style={{ width: 215, background: "#fff" }}>
+          <VerticalNav {...args} selectedKey={path}>
+            {[MenuBookIcon, LocalPostOfficeIcon, LocalShippingIcon].map(
+              (icon, i) => (
+                <VerticalNav.Item
+                  key={itemPath(String(i + 1))}
+                  icon={icon}
+                  label={`Item ${i + 1}`}
+                  href={itemPath(String(i + 1))}
+                />
+              ),
+            )}
+          </VerticalNav>
+        </div>
+      )}
+    </FakeClientSideRouter>
+  ),
+};
+
+function itemPath(key: string) {
+  return `/item-${key}`;
+}
 
 function getExpandableChildren() {
   return [

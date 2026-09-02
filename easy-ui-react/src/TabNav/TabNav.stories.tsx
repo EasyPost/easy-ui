@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { ComponentProps, useState } from "react";
+import { FakeClientSideRouter } from "../utilities/storybook";
 import { TabNav, TabNavProps } from "./TabNav";
 
 type Story = StoryObj<typeof TabNav>;
@@ -13,6 +14,10 @@ export default meta;
 
 export const Default: Story = {
   render: DefaultTemplate.bind({}),
+};
+
+export const ClientSideRouting: Story = {
+  render: ClientSideRoutingTemplate.bind({}),
 };
 
 export const CustomLink: Story = {
@@ -54,6 +59,28 @@ function DefaultTemplate(args: TabNavProps) {
   );
 }
 
+// Items render as regular anchors with regular hrefs; the router configured on
+// `<Provider />` is what keeps clicking them from loading a new page.
+function ClientSideRoutingTemplate(args: Partial<TabNavProps>) {
+  return (
+    <FakeClientSideRouter initialPath={settingsPath(tabs[0][1])}>
+      {(path) => (
+        <TabNav aria-label="Account" {...args}>
+          {tabs.map(([label, location]) => (
+            <TabNav.Item
+              key={location}
+              href={settingsPath(location)}
+              isCurrentPage={path === settingsPath(location)}
+            >
+              {label}
+            </TabNav.Item>
+          ))}
+        </TabNav>
+      )}
+    </FakeClientSideRouter>
+  );
+}
+
 function CustomLinkTemplate(args: Partial<TabNavProps>) {
   const [page, setPage] = useState("billing");
   return (
@@ -77,6 +104,10 @@ function CustomLinkTemplate(args: Partial<TabNavProps>) {
 // TabNav shouldn't use `button`s in production.
 function FakeClientSideRouterLink(props: ComponentProps<"button">) {
   return <button {...props} />;
+}
+
+function settingsPath(location: string) {
+  return `/settings/${location}`;
 }
 
 function $window() {

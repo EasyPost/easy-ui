@@ -3,6 +3,7 @@ import { mergeProps, useHover } from "react-aria";
 import { ListState, Node } from "react-stately";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
+import { useRouterLinkProps } from "../utilities/router";
 import { ItemPropsForStately } from "./Item";
 import { SubnavItemDot } from "./SubnavItemDot";
 import { useVerticalNavType } from "./context";
@@ -23,10 +24,15 @@ export function SubnavItem(props: SubnavItemProps) {
     label,
     icon,
     textValue: _textValue,
+    routerOptions: _routerOptions,
     ...linkProps
   } = item.props as ItemPropsForStately;
   const isSelected = state.selectionManager.isSelected(item.key);
   const { hoverProps, isHovered } = useHover({});
+  const routerLinkProps = useRouterLinkProps(
+    item.props as ItemPropsForStately,
+    As === "a",
+  );
   const className = classNames(
     styles.SubnavItem,
     isSelected && styles.selected,
@@ -40,7 +46,7 @@ export function SubnavItem(props: SubnavItemProps) {
       <As
         className={styles.link}
         aria-current={isSelected ? "true" : undefined}
-        {...mergeProps(hoverProps, linkProps)}
+        {...mergeProps(hoverProps, linkProps, routerLinkProps)}
       >
         {(type === "list" || level > 1) && (
           <SubnavItemDot isCozy={type === "list"} isVisible={isSelected} />

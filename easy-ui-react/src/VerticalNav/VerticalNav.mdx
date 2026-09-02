@@ -138,9 +138,31 @@ _Example structure_:
 
 <Canvas of={VerticalNavStories.WithinACard} />
 
+## Client-side routing
+
+Pass a `navigate` function to `<Provider />` and `VerticalNav.Item`s navigate
+through your app's router instead of doing a full page load:
+
+```tsx
+import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+import { useNavigate, useHref } from "react-router";
+
+<EasyUIProvider navigate={useNavigate()} useHref={useHref}>
+  <VerticalNav aria-label="Nav">
+    <VerticalNav.Item key="1" href="/1" label="Item 1" />
+  </VerticalNav>
+</EasyUIProvider>;
+```
+
+The example below is wired to a fake router. Its items are regular links with
+regular `href`s—the router is what keeps them from loading a new page.
+
+<Canvas of={VerticalNavStories.ClientSideRouting} />
+
 ## Polymorphic items
 
-`VerticalNav.Item` are polymorphic items. For example, they can support client-side links:
+`VerticalNav.Item` are polymorphic items. Use the `as` prop when an item needs a
+specific link component rather than the router configured on `<Provider />`:
 
 _Example polymorphic items_:
 

@@ -6,26 +6,28 @@ import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
+import { RouterLinkProps } from "../utilities/router";
 import styles from "./IconButton.module.scss";
 import { UnstyledButton } from "../UnstyledButton";
 
 export type IconButtonVariant = "filled" | "outlined";
 export type IconButtonSize = "sm" | "md";
 
-export type IconButtonProps = AriaButtonProps & {
-  /** Button color */
-  color?: ButtonColor;
-  /** Button variant */
-  variant?: IconButtonVariant;
-  /** Icon symbol */
-  icon: IconSymbol;
-  /** Button size */
-  size?: IconButtonSize;
-  /** Description of icon */
-  accessibilityLabel: string;
-  /** Disables button */
-  isDisabled?: boolean;
-};
+export type IconButtonProps = AriaButtonProps &
+  RouterLinkProps & {
+    /** Button color */
+    color?: ButtonColor;
+    /** Button variant */
+    variant?: IconButtonVariant;
+    /** Icon symbol */
+    icon: IconSymbol;
+    /** Button size */
+    size?: IconButtonSize;
+    /** Description of icon */
+    accessibilityLabel: string;
+    /** Disables button */
+    isDisabled?: boolean;
+  };
 
 /**
  * Button element that represents its behavior with a contextually

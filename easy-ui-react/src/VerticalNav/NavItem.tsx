@@ -4,6 +4,7 @@ import { mergeProps, useHover } from "react-aria";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";
+import { useRouterLinkProps } from "../utilities/router";
 import { ItemPropsForStately } from "./Item";
 
 import styles from "./NavItem.module.scss";
@@ -32,9 +33,14 @@ export function NavItem(props: NavItemProps) {
     icon,
     label,
     textValue: _textValue,
+    routerOptions: _routerOptions,
     ...linkProps
   } = item.props as ItemPropsForStately;
   const { hoverProps, isHovered } = useHover({});
+  const routerLinkProps = useRouterLinkProps(
+    item.props as ItemPropsForStately,
+    As === "a",
+  );
   const className = classNames(
     styles.NavItem,
     isHovered && styles.hovered,
@@ -47,7 +53,7 @@ export function NavItem(props: NavItemProps) {
           className={styles.link}
           aria-current={isSelected ? "true" : undefined}
           aria-expanded={isExpanded ? "true" : undefined}
-          {...mergeProps(hoverProps, linkProps)}
+          {...mergeProps(hoverProps, linkProps, routerLinkProps)}
         >
           {icon && <Icon symbol={icon} />}
           <Text variant="subtitle2">{label}</Text>

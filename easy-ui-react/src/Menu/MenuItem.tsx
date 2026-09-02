@@ -1,3 +1,4 @@
+import { RouterOptions } from "@react-types/shared";
 import omit from "lodash/omit";
 import React, {
   ComponentPropsWithoutRef,
@@ -46,6 +47,9 @@ export type MenuItemProps = {
 
   /** If `href` is provided, the target window for the link. */
   target?: string;
+
+  /** If `href` is provided, options for the client-side router set on `<Provider />`. */
+  routerOptions?: RouterOptions;
 };
 
 /**
@@ -69,7 +73,7 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
   const {
     selectionManager: { selectionMode },
   } = state;
-  const { closeOnSelect, href } = item.props;
+  const { closeOnSelect, href, hrefComponent } = item.props;
   const { menuItemProps, isFocused, isSelected, isDisabled } = useMenuItem(
     { ...item, closeOnSelect },
     state,
@@ -83,7 +87,21 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
   const props = mergeProps(
     menuItemProps,
     href
-      ? omit(item.props, ["aria-label", "as", "children", "closeOnSelect"])
+      ? omit(item.props, [
+          "aria-label",
+          "as",
+          "children",
+          "closeOnSelect",
+          "routerOptions",
+          // a native anchor takes the href `useMenuItem()` resolved through the
+          // client-side router, and re-applying the raw one here would undo it.
+          // A custom `hrefComponent` keeps the raw value; it resolves its own
+          // hrefs and may accept ones only it understands, such as next/link's
+          // URL objects. Note that `useMenuItem()` reads the item straight from
+          // the collection, so it still hands the click to the provider's
+          // `navigate`—pair `hrefComponent` with a router, not instead of one
+          ...(hrefComponent ? [] : ["href"]),
+        ])
       : item.key === SELECT_ALL_KEY
         ? { "aria-checked": isSelectAllSelected(state) }
         : {},

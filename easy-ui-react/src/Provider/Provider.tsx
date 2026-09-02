@@ -16,7 +16,8 @@ export type EasyUIRouterProviderProps = {
 
   /**
    * An optional prop that converts a router-specific href to a native HTML
-   * href, e.g. prepending a base path.
+   * href, e.g. prepending a base path. Only applied alongside `navigate`; on its
+   * own there is no router to resolve hrefs for and it is ignored.
    */
   useHref?: (href: Href) => string;
 
@@ -79,6 +80,23 @@ export type ProviderProps = {
 *          getContainer: () => document.getElementById("nav-container")
 *        }}
 *      >
+*        {children}
+*      </EasyUIProvider>
+*  );
+*}
+*```
+* @example
+* _Client-side routing_
+```tsx
+* import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
+* import { useNavigate, useHref } from "react-router";
+*
+* function App({ children }) {
+*  // any Easy UI component rendering an anchor—`<Button href />`,
+*  // `<TabNav.Item />`, `<VerticalNav.Item />`, `<Menu.Item href />`—now
+*  // navigates through the router instead of doing a full page load
+*  return (
+*      <EasyUIProvider navigate={useNavigate()} useHref={useHref}>
 *        {children}
 *      </EasyUIProvider>
 *  );
