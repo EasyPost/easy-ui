@@ -47,10 +47,13 @@
   gap: component-token("pagination", "control-gap");
 }
 
+// The page numbers read as one tight run at either size, so this gap only has
+// to keep adjacent squares from fusing. It's the gaps between the scheme's
+// groups that scale.
 .pageRow {
   display: flex;
   align-items: center;
-  gap: component-token("pagination", "page-gap");
+  gap: design-token("space.0.5");
 }
 
 // Shared box and type for every cell in the scheme, including the ellipsis,
@@ -128,23 +131,39 @@
 // together. Only the numbered scheme is sized; the dropdown scheme has a single
 // size in design.
 .sizeSm {
-  @include component-token("pagination", "control-size", 24px);
-  @include component-token("pagination", "jump-control-width", 54px);
+  @include component-token(
+    "pagination",
+    "control-size",
+    design-token("space.3")
+  );
+  @include component-token(
+    "pagination",
+    "jump-control-width",
+    design-token("space.7")
+  );
   @include component-token(
     "pagination",
     "control-gap",
     design-token("space.1.5")
   );
-  @include component-token("pagination", "page-gap", design-token("space.0.5"));
 }
 
 .sizeMd {
-  @include component-token("pagination", "control-size", 38px);
-  @include component-token("pagination", "jump-control-width", 72px);
-  // Design's larger gaps sit between steps of the space scale, so they're
-  // spelled out rather than rounded to a token
-  @include component-token("pagination", "control-gap", 18px);
-  @include component-token("pagination", "page-gap", 6px);
+  @include component-token(
+    "pagination",
+    "control-size",
+    design-token("space.5")
+  );
+  @include component-token(
+    "pagination",
+    "jump-control-width",
+    design-token("space.9")
+  );
+  @include component-token(
+    "pagination",
+    "control-gap",
+    design-token("space.2")
+  );
 }
 
 // `<UnstyledButton />` only inherits font size and line height, so the buttons
