@@ -81,6 +81,28 @@ describe("<UnstyledButton />", () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
+  // `onClick` reaches a button and an anchor by different routes, so each
+  // element type needs its own keyboard coverage
+  describe.each([
+    ["a button", undefined],
+    ["an anchor tag", "/somewhere"],
+  ])("on %s", (_, href) => {
+    it.each(["{Enter}", " "])(
+      "should call onClick once per %s press",
+      async (key) => {
+        const handleClick = vi.fn((e: React.MouseEvent) => e.preventDefault());
+        render(
+          <UnstyledButton href={href} onClick={handleClick}>
+            Testing
+          </UnstyledButton>,
+        );
+        await userEvent.tab();
+        await userEvent.keyboard(key);
+        expect(handleClick).toHaveBeenCalledTimes(1);
+      },
+    );
+  });
+
   it("should apply the default class", () => {
     render(
       <UnstyledButton className="colorPrimary_123">Button</UnstyledButton>,

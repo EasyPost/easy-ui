@@ -1,4 +1,5 @@
 import { mergeRefs, useObjectRef } from "@react-aria/utils";
+import omit from "lodash/omit";
 import React, { forwardRef, useRef } from "react";
 import { AriaButtonProps, mergeProps, useButton } from "react-aria";
 import { classNames } from "../utilities/css";
@@ -47,13 +48,18 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
     const ref = useRef(null);
     const mergedRef = useObjectRef(mergeRefs(ref, inRef));
     const As = href ? "a" : "button";
-    // `onClick` is withheld from `useButton()` so that it stays a plain DOM
-    // handler and nothing else calls it. `usePress()` invokes any `onClick` it
-    // is handed, which would fire the consumer's handler a second time, and on
-    // keyboard activation it invokes it with a synthesized event, where
-    // `preventDefault()` can't reach the real click that the router reads.
+    // `useButton()` hands `onClick` to `usePress()`, which calls it from the
+    // `onClick` it returns, so exactly one of that path and the DOM spread below
+    // can carry the consumer's handler—both would fire it twice per click.
+    //
+    // Which one depends on the element. On a `<button>`, `usePress()` prevents
+    // the default keyboard behavior, so there is no native click on Enter or
+    // Space and `onClick` only arrives through `usePress()`. An anchor keeps its
+    // native click, and there `usePress()` is the wrong path: on keyboard
+    // activation it synthesizes an event, and `preventDefault()` on that fake
+    // event can't stop the real click the router reads.
     const { buttonProps: elementProps } = useButton(
-      { ...props, onClick: undefined, elementType: As },
+      { ...props, onClick: href ? undefined : props.onClick, elementType: As },
       ref,
     );
 
@@ -67,7 +73,9 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
     return (
       <As
         {...mergeProps(
-          omitReactAriaSpecificProps(restProps),
+          omitReactAriaSpecificProps(
+            href ? restProps : omit(restProps, "onClick"),
+          ),
           elementProps,
           routerLinkProps,
         )}

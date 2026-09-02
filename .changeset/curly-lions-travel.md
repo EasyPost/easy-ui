@@ -35,8 +35,9 @@ declare module "@react-types/shared" {
 Separately, `onClick` on `<Button />` and everything else built on
 `<UnstyledButton />` fired twice per click, because React Aria's `useButton()`
 already calls it and the original handler was spread onto the element alongside
-it. It now fires once, as a plain DOM handler, so `preventDefault()` reaches the
-real click on both pointer and keyboard activation.
+it. It now fires exactly once per activation, pointer or keyboard. On links it
+stays a plain DOM handler, so `preventDefault()` reaches the real click the
+router reads.
 
 Apps that don't pass `navigate` are unaffected. React Aria's router context
 reports itself as native, the new click handling is a noop, and links behave
