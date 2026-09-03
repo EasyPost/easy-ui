@@ -87,7 +87,7 @@
   height: design-token("space.3");
 }
 
-.multiSelectSizeSm {
+.sizeSm {
   min-height: component-token("inputfield", "max-height-sm");
   padding: calc(
       #{design-token("space.0.5")} - #{design-token("shape.border_width.1")}
@@ -101,7 +101,7 @@
   }
 }
 
-.multiSelectSizeLg {
+.sizeLg {
   min-height: design-token("space.7");
   padding: calc(
       #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}

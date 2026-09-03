@@ -252,7 +252,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
       ref={rootRef}
       className={classNames(
         styles.MultiSelect,
-        styles[variationName("multiSelectSize", size)],
+        styles[variationName("size", size)],
       )}
     >
       {iconAtStart && (

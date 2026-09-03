@@ -11,6 +11,7 @@ import {
   getResponsiveDesignToken,
   getComponentThemeToken,
   classNames,
+  variationName,
 } from "../utilities/css";
 import {
   InternalPillGroupContext,
@@ -179,7 +180,7 @@ function Pill(props: PillProps) {
   const className = classNames(
     styles.Pill,
     isBorderless && styles.borderless,
-    size === "sm" && styles.small,
+    styles[variationName("size", size)],
   );
 
   return (

@@ -70,6 +70,30 @@ describe("<PillGroup />", () => {
     );
   });
 
+  it("propagates size to pills, applying the sm class at size='sm'", () => {
+    render(
+      <PillGroup label="Label" size="sm">
+        <PillGroup.Pill label="Foobaz 123" />
+      </PillGroup>,
+    );
+    expect(screen.getByRole("row", { name: "Foobaz 123" })).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+  });
+
+  it("does not apply the sm class at the default md size", () => {
+    render(
+      <PillGroup label="Label">
+        <PillGroup.Pill label="Foobaz 123" />
+      </PillGroup>,
+    );
+    expect(screen.getByRole("row", { name: "Foobaz 123" })).not.toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+  });
+
   it("supports onRemove callback function", async () => {
     const callbackFn = vi.fn();
     const { user } = render(
