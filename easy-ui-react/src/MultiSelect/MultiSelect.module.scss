@@ -14,7 +14,10 @@
   align-items: center;
   gap: design-token("space.2");
 
-  padding: calc(#{design-token("space.1")} - 1px) design-token("space.2");
+  padding: calc(
+      #{design-token("space.1")} - #{design-token("shape.border_width.1")}
+    )
+    design-token("space.2");
   background-color: component-token("inputfield", "color.background");
   border: design-token("shape.border_width.1") solid
     component-token("inputfield", "color.border.resting");
@@ -26,6 +29,13 @@
     box-shadow: component-token("inputfield", "box_shadow");
     border-color: component-token("inputfield", "color.border.engaged");
   }
+}
+
+.iconAtStart {
+  display: inline-flex;
+  align-items: center;
+  color: component-token("inputfield", "color.text.gray.resting");
+  pointer-events: none;
 }
 
 .comboBoxContainer {
@@ -75,4 +85,26 @@
   justify-content: center;
   width: design-token("space.3");
   height: design-token("space.3");
+}
+
+.multiSelectSizeSm {
+  min-height: component-token("inputfield", "max-height-sm");
+  padding: calc(
+      #{design-token("space.0.5")} - #{design-token("shape.border_width.1")}
+    )
+    design-token("space.1.5");
+
+  .input {
+    @include font-style("body2");
+    padding: design-token("space.0.5") 0;
+    margin: calc(#{design-token("space.0.5")} * -1) 0;
+  }
+}
+
+.multiSelectSizeLg {
+  min-height: design-token("space.7");
+  padding: calc(
+      #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
+    )
+    design-token("space.1.5");
 }

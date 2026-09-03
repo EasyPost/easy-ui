@@ -21,6 +21,8 @@ import { HorizontalStackProps } from "../HorizontalStack";
 
 export type PillBackground = ThemeTokenNamespace<"color">;
 
+export type PillSize = "sm" | "md";
+
 /**
  * Assists in managing state for list data for `<PillGroup />`
  *
@@ -48,6 +50,12 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
      * @default false
      */
     isBorderless?: boolean;
+    /**
+     * Size of individual pills.
+     *
+     * @default md
+     */
+    size?: PillSize;
   };
 
 /**
@@ -110,6 +118,7 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
     horizontalStackContainerProps = {},
     background = "neutral.000",
     isBorderless = false,
+    size = "md",
   } = props;
   const {
     align,
@@ -123,8 +132,9 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
     return {
       background,
       isBorderless,
+      size,
     };
-  }, [background, isBorderless]);
+  }, [background, isBorderless, size]);
 
   const style = {
     ...getResponsiveDesignToken("pill-group", "gap", "space", gap),
@@ -160,20 +170,27 @@ export type PillProps = {
 
 function Pill(props: PillProps) {
   const { label, icon } = props;
-  const { background, isBorderless } = useInternalPillGroupContext();
+  const { background, isBorderless, size } = useInternalPillGroupContext();
 
   const style = {
     ...getComponentThemeToken("pill", "background", "color", background),
   } as React.CSSProperties;
 
-  const className = classNames(styles.Pill, isBorderless && styles.borderless);
+  const className = classNames(
+    styles.Pill,
+    isBorderless && styles.borderless,
+    size === "sm" && styles.small,
+  );
 
   return (
     <Tag textValue={label} className={className} style={style} {...props}>
       {({ allowsRemoving }) => (
         <>
           {icon && <Icon size="xs" symbol={icon} color="primary.700" />}
-          <Text color="primary.800" variant="subtitle2">
+          <Text
+            color="primary.800"
+            variant={size === "sm" ? "caption" : "subtitle2"}
+          >
             {label}
           </Text>
           {allowsRemoving && (

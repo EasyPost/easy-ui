@@ -61,6 +61,20 @@ export const ImageSymbol: Story = {
   },
 };
 
+export const Small: Story = {
+  render: Template.bind({}),
+  args: {
+    size: "sm",
+    children: (
+      <>
+        <PillGroup.Pill label="First Last #123" icon={LocalShippingIcon} />
+        <PillGroup.Pill label="First Last #456" icon={LocalShippingIcon} />
+        <PillGroup.Pill label="First Last #789" icon={LocalShippingIcon} />
+      </>
+    ),
+  },
+};
+
 export const Positioning: Story = {
   args: {
     children: (

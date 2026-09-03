@@ -18,6 +18,12 @@
   border: none;
 }
 
+.small {
+  padding: calc(
+    #{design-token("space.0.5")} - #{design-token("shape.border_width.1")}
+  );
+}
+
 .remove {
   @include unstyled.button;
   cursor: pointer;

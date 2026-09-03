@@ -7,6 +7,8 @@ import { Icon } from "../Icon";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { DEFAULT_MAX_ITEMS_UNTIL_SCROLL } from "../Menu/utilities";
 import { PillGroup, PillProps, PillBackground } from "../PillGroup";
+import { IconSymbol } from "../types";
+import { classNames, variationName } from "../utilities/css";
 import {
   MultiSelectDropdown,
   MultiSelectDropdownOption,
@@ -18,6 +20,8 @@ import styles from "./MultiSelect.module.scss";
 import { Text } from "../Text";
 
 export type Item = { key: Key } & PillProps;
+
+export type MultiSelectSize = "sm" | "md" | "lg";
 
 export type MultiSelectProps<T extends object> = {
   /**
@@ -37,6 +41,11 @@ export type MultiSelectProps<T extends object> = {
    * from a ComboBox component and represent the available options for selection.
    */
   dropdownItems: ComboBoxProps<T>["items"];
+
+  /**
+   * Left aligned icon on the multi-select field.
+   */
+  iconAtStart?: IconSymbol;
 
   /**
    * The current input value in the multi-select input field. This is used to filter or search
@@ -85,6 +94,13 @@ export type MultiSelectProps<T extends object> = {
    * the currently selected items.
    */
   selectedItems: T[];
+
+  /**
+   * Size affects the overall size of the multi-select field, and it also
+   * influences the size of the selected item pills.
+   * @default md
+   */
+  size?: MultiSelectSize;
 
   /**
    * The background of individual pills. Maps to token theme colors.
@@ -151,6 +167,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
     children,
     disabledKeys,
     dropdownItems = [],
+    iconAtStart,
     inputValue,
     isLoading,
     maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
@@ -159,6 +176,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
     placeholder,
     renderPill,
     selectedItems,
+    size = "md",
     pillBackground,
     isPillBorderless,
   } = props;
@@ -230,7 +248,18 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
   };
 
   return (
-    <div ref={rootRef} className={styles.MultiSelect}>
+    <div
+      ref={rootRef}
+      className={classNames(
+        styles.MultiSelect,
+        styles[variationName("multiSelectSize", size)],
+      )}
+    >
+      {iconAtStart && (
+        <span className={styles.iconAtStart}>
+          <Icon symbol={iconAtStart} />
+        </span>
+      )}
       {selectedItems.length > 0 ? (
         <PillGroup
           items={selectedItems}
@@ -239,6 +268,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
           label="Selected items"
           background={pillBackground}
           isBorderless={isPillBorderless}
+          size={size === "sm" ? "sm" : "md"}
         >
           {renderPill}
         </PillGroup>

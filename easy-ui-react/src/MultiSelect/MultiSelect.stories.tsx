@@ -1,3 +1,4 @@
+import CalendarMonthIcon from "@easypost/easy-ui-icons/CalendarMonth";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useCallback } from "react";
 import { HorizontalStack } from "../HorizontalStack";
@@ -175,6 +176,125 @@ export const WithIcons: Story = {
               {item.icon && <Icon symbol={item.icon} />}
               <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
             </HorizontalStack>
+          </MultiSelect.Option>
+        )}
+      </MultiSelect>
+    );
+  },
+};
+
+export const WithStartIcon: Story = {
+  render: () => {
+    const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+      fruits[0],
+    ]);
+    const { contains } = useFilter({ sensitivity: "base" });
+    const filter = useCallback(
+      (item: Item, filterText: string) => contains(item.label, filterText),
+      [contains],
+    );
+    const list = useListData<Item>({
+      initialSelectedKeys: selectedItems.map((i) => i.key),
+      initialItems: fruits,
+      filter,
+    });
+    return (
+      <MultiSelect
+        iconAtStart={CalendarMonthIcon}
+        dropdownItems={list.items}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+        selectedItems={selectedItems}
+        onSelectionChange={setSelectedItems}
+        placeholder="Select a fruit"
+        maxItemsUntilScroll={10}
+        renderPill={(item) => (
+          <MultiSelect.Pill icon={item.icon} label={item.label} />
+        )}
+      >
+        {(item) => (
+          <MultiSelect.Option textValue={item.label}>
+            <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
+          </MultiSelect.Option>
+        )}
+      </MultiSelect>
+    );
+  },
+};
+
+export const SmallMultiSelect: Story = {
+  render: () => {
+    const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+      fruits[0],
+    ]);
+    const { contains } = useFilter({ sensitivity: "base" });
+    const filter = useCallback(
+      (item: Item, filterText: string) => contains(item.label, filterText),
+      [contains],
+    );
+    const list = useListData<Item>({
+      initialSelectedKeys: selectedItems.map((i) => i.key),
+      initialItems: fruits,
+      filter,
+    });
+    return (
+      <MultiSelect
+        size="sm"
+        iconAtStart={CalendarMonthIcon}
+        dropdownItems={list.items}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+        selectedItems={selectedItems}
+        onSelectionChange={setSelectedItems}
+        placeholder="Select a fruit"
+        maxItemsUntilScroll={10}
+        renderPill={(item) => (
+          <MultiSelect.Pill icon={item.icon} label={item.label} />
+        )}
+      >
+        {(item) => (
+          <MultiSelect.Option textValue={item.label}>
+            <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
+          </MultiSelect.Option>
+        )}
+      </MultiSelect>
+    );
+  },
+};
+
+export const LargeMultiSelect: Story = {
+  render: () => {
+    const [selectedItems, setSelectedItems] = React.useState<Item[]>([
+      fruits[0],
+    ]);
+    const { contains } = useFilter({ sensitivity: "base" });
+    const filter = useCallback(
+      (item: Item, filterText: string) => contains(item.label, filterText),
+      [contains],
+    );
+    const list = useListData<Item>({
+      initialSelectedKeys: selectedItems.map((i) => i.key),
+      initialItems: fruits,
+      filter,
+    });
+    return (
+      <MultiSelect
+        size="lg"
+        iconAtStart={CalendarMonthIcon}
+        dropdownItems={list.items}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+        selectedItems={selectedItems}
+        onSelectionChange={setSelectedItems}
+        placeholder="Select a fruit"
+        maxItemsUntilScroll={10}
+        renderPill={(item) => (
+          <MultiSelect.Pill icon={item.icon} label={item.label} />
+        )}
+      >
+        {(item) => (
+          <MultiSelect.Option textValue={item.label}>
+            <MultiSelect.OptionText>{item.label}</MultiSelect.OptionText>
           </MultiSelect.Option>
         )}
       </MultiSelect>

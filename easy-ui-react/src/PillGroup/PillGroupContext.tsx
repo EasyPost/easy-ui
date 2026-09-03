@@ -1,9 +1,10 @@
 import { createContext, useContext } from "react";
-import { PillBackground } from "./PillGroup";
+import { PillBackground, PillSize } from "./PillGroup";
 
 type InternalPillGroupContextType = {
   background: PillBackground;
   isBorderless: boolean;
+  size: PillSize;
 };
 
 export const InternalPillGroupContext =

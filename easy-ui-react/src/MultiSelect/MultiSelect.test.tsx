@@ -1,7 +1,9 @@
+import CalendarMonthIcon from "@easypost/easy-ui-icons/CalendarMonth";
 import { getByRole, screen } from "@testing-library/react";
 import { UserEvent } from "@testing-library/user-event";
 import React, { useCallback, useState } from "react";
 import { vi } from "vitest";
+import { IconSymbol } from "../types";
 import { mockGetComputedStyle, render, userClick } from "../utilities/test";
 import { Item, MultiSelect, useFilter, useListData } from "./MultiSelect";
 
@@ -60,6 +62,17 @@ describe("<MultiSelect />", () => {
     await clearSelectedItem(user, "Apple");
     expect(screen.queryByText("No selected items")).toBeInTheDocument();
   });
+
+  it("should render iconAtStart", async () => {
+    render(getMultiSelect({ iconAtStart: CalendarMonthIcon }));
+    // The dropdown-arrow icon renders by default; iconAtStart adds a second.
+    expect(screen.getAllByRole("img", { hidden: true })).toHaveLength(2);
+  });
+
+  it("should not render a start icon by default", async () => {
+    render(getMultiSelect());
+    expect(screen.getAllByRole("img", { hidden: true })).toHaveLength(1);
+  });
 });
 
 const fruits = [
@@ -87,8 +100,10 @@ const fruits = [
 
 const getMultiSelect = ({
   initialSelectedItems = [],
+  iconAtStart,
 }: {
   initialSelectedItems?: Item[];
+  iconAtStart?: IconSymbol;
 } = {}) => {
   function MultiSelectTest() {
     const [selectedItems, setSelectedItems] =
@@ -106,6 +121,7 @@ const getMultiSelect = ({
     return (
       <MultiSelect
         dropdownItems={list.items}
+        iconAtStart={iconAtStart}
         inputValue={list.filterText}
         onInputChange={list.setFilterText}
         selectedItems={selectedItems}
