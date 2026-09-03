@@ -57,6 +57,15 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
      * @default md
      */
     size?: PillSize;
+    /**
+     * When true, the group and list use `display: contents` so the pills
+     * participate directly in the parent's layout flow (e.g. an input field
+     * with inline tags). Intended for internal composition.
+     *
+     * @default false
+     * @private
+     */
+    isFlattened?: boolean;
   };
 
 /**
@@ -120,6 +129,7 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
     background = "neutral.000",
     isBorderless = false,
     size = "md",
+    isFlattened = false,
   } = props;
   const {
     align,
@@ -150,11 +160,18 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
   } as React.CSSProperties;
   return (
     <InternalPillGroupContext.Provider value={context}>
-      <TagGroup {...props}>
+      <TagGroup
+        {...props}
+        className={isFlattened ? styles.flattened : undefined}
+      >
         <Text visuallyHidden>
           <Label>{label}</Label>
         </Text>
-        <TagList items={items} className={styles.list} style={style}>
+        <TagList
+          items={items}
+          className={classNames(styles.list, isFlattened && styles.flattened)}
+          style={style}
+        >
           {children}
         </TagList>
       </TagGroup>

@@ -37,3 +37,10 @@
   min-width: 0;
   @include responsive-prop("pill-group", "gap", gap);
 }
+
+// Dissolve the group and list boxes so pills join the parent's flex flow
+// (e.g. inline with a MultiSelect's leading icon and input). Defined after
+// `.list` so `display: contents` wins over its `display: flex`.
+.flattened {
+  display: contents;
+}

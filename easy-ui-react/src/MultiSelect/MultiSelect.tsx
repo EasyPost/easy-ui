@@ -4,6 +4,7 @@ import { Key, useFilter, VisuallyHidden } from "react-aria";
 import { Button, ComboBox, ComboBoxProps, Input } from "react-aria-components";
 import { AsyncListData, useAsyncList, useListData } from "react-stately";
 import { Icon } from "../Icon";
+import { mapIconSize } from "../InputField/utilities";
 import { MenuOverlayProps } from "../Menu/MenuOverlay";
 import { DEFAULT_MAX_ITEMS_UNTIL_SCROLL } from "../Menu/utilities";
 import { PillGroup, PillProps, PillBackground } from "../PillGroup";
@@ -257,7 +258,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
     >
       {iconAtStart && (
         <span className={styles.iconAtStart}>
-          <Icon symbol={iconAtStart} />
+          <Icon symbol={iconAtStart} size={mapIconSize(size)} />
         </span>
       )}
       {selectedItems.length > 0 ? (
@@ -269,6 +270,7 @@ export function MultiSelect<T extends Item>(props: MultiSelectProps<T>) {
           background={pillBackground}
           isBorderless={isPillBorderless}
           size={size === "sm" ? "sm" : "md"}
+          isFlattened
         >
           {renderPill}
         </PillGroup>

@@ -12,12 +12,12 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  gap: design-token("space.2");
+  gap: design-token("space.1");
 
   padding: calc(
       #{design-token("space.1")} - #{design-token("shape.border_width.1")}
     )
-    design-token("space.2");
+    design-token("space.1.5");
   background-color: component-token("inputfield", "color.background");
   border: design-token("shape.border_width.1") solid
     component-token("inputfield", "color.border.resting");
