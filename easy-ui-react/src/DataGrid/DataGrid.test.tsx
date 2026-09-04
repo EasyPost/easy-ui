@@ -252,10 +252,7 @@ describe("<DataGrid />", () => {
     expect(screen.getByText("Start")).toBeInTheDocument();
     expect(screen.getByText("Center")).toBeInTheDocument();
     expect(screen.getByText("End")).toBeInTheDocument();
-    expect(getOuterContainer()).toHaveAttribute(
-      "class",
-      expect.stringContaining("hasFooter"),
-    );
+    expect(getFooter()).toBeInTheDocument();
   });
 
   it("should render the footer outside of the grid", () => {
@@ -268,6 +265,18 @@ describe("<DataGrid />", () => {
     // interfere with the grid's own focus management
     expect(getFooter()).toBeInTheDocument();
     expect(screen.getByRole("grid")).not.toContainElement(getFooter());
+  });
+
+  it("should render the footer outside of the scroll container", () => {
+    render(
+      createDataGrid({
+        renderFooter: () => <DataGrid.Footer center={<span>Center</span>} />,
+      }),
+    );
+    // The footer is a sibling of the scroll container, not a sticky child of it,
+    // so the grid's scroll geometry stays the rows' own
+    expect(getScrollContainer()).not.toContainElement(getFooter());
+    expect(getOuterContainer()).toContainElement(getFooter());
   });
 
   it("should keep the footer mounted through the empty state", () => {
@@ -292,10 +301,7 @@ describe("<DataGrid />", () => {
 
   it("should not render a footer without renderFooter", () => {
     render(createDataGrid());
-    expect(getOuterContainer()).not.toHaveAttribute(
-      "class",
-      expect.stringContaining("hasFooter"),
-    );
+    expect(getFooter()).not.toBeInTheDocument();
   });
 
   it("should support pagination in the footer", async () => {
@@ -384,7 +390,13 @@ function createDataGrid(props: Partial<DataGridProps> = {}) {
   );
 }
 
+// The frame owns the component tokens and size classes, and holds the scroll
+// container and the footer as siblings
 function getOuterContainer() {
+  return getScrollContainer().parentElement as HTMLElement;
+}
+
+function getScrollContainer() {
   return getInnerContainer().parentElement as HTMLElement;
 }
 
@@ -393,7 +405,7 @@ function getInnerContainer() {
 }
 
 function getFooter() {
-  return getInnerContainer().querySelector(
+  return getOuterContainer().querySelector(
     "[data-ezui-data-grid-footer]",
   ) as HTMLElement;
 }

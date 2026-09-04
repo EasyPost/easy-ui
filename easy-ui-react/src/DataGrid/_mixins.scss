@@ -1,5 +1,16 @@
 @use "../styles/common" as *;
 
+// Per design, the grid scrolls without drawing scrollbars. Wheel, trackpad, and
+// keyboard scrolling are untouched; the sticky edge shadows are what signal
+// there's more to reach in either axis.
+@mixin hide-scrollbars {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @mixin shadow(
   $direction,
   $opacity: component-token("data-grid", "sticky-shadow-opacity")

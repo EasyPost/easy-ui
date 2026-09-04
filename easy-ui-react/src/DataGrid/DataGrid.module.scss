@@ -1,4 +1,5 @@
 @use "../styles/common" as *;
+@use "mixins" as DataGrid;
 
 .DataGrid {
   @include component-token(
@@ -13,10 +14,6 @@
   );
   @include component-token("data-grid", "header-row-height", 48px);
   @include component-token("data-grid", "body-row-height", 48px);
-  // Zero until a footer is rendered, at which point `.hasFooter` gives it the
-  // footer's height so `max-rows` still counts visible body rows
-  @include component-token("data-grid", "footer-row-height", 0px);
-  @include component-token("data-grid", "footer-width", 100%);
   @include component-token(
     "data-grid",
     "footer-bg",
@@ -74,7 +71,6 @@
   @include component-token("data-grid", "expanded-row-z-index", 3);
   @include component-token("data-grid", "column-z-index", 4);
   @include component-token("data-grid", "column-stuck-z-index", 5);
-  @include component-token("data-grid", "footer-z-index", 6);
   @include component-token("data-grid", "sticky-left-offset", -16px);
   @include component-token("data-grid", "sticky-right-offset", -12px);
   @include component-token("data-grid", "action-cell-width", 44px);
@@ -83,11 +79,22 @@
   border: component-token("data-grid", "border-width") solid
     component-token("data-grid", "border-color");
   border-radius: design-token("shape.border_radius.lg");
+  // The frame draws the grid's edge, so it clips its children to the radius.
+  // The scroll container and the footer stack inside it as plain blocks.
+  overflow: hidden;
+
+  [data-ezui-data-grid-shadow] {
+    position: absolute;
+  }
+}
+
+// Only the header and rows scroll. Keeping the footer out of this element is
+// what keeps the scrollbars, and the scroll geometry they report, tied to the
+// rows alone.
+.scrollContainer {
   /* stylelint-disable scss/operator-no-newline-after */
   max-height: calc(
-    (component-token("data-grid", "border-width") * 2) +
-      component-token("data-grid", "header-row-height") +
-      component-token("data-grid", "footer-row-height") +
+    component-token("data-grid", "header-row-height") +
       (
         component-token("data-grid", "body-row-height") *
           component-token("data-grid", "max-rows")
@@ -96,15 +103,11 @@
   /* stylelint-enable scss/operator-no-newline-after */
   overflow: auto;
   position: relative;
+  // Contains the grid's internal stacking (cells, frozen columns, expanded
+  // rows) so the footer only has to follow it in the document to paint above it
+  isolation: isolate;
 
-  [data-ezui-data-grid-shadow] {
-    position: absolute;
-  }
-}
-
-// Per design, the footer's height is fixed and doesn't scale with `size`
-.hasFooter {
-  @include component-token("data-grid", "footer-row-height", 54px);
+  @include DataGrid.hide-scrollbars;
 }
 
 .sizeSm {
