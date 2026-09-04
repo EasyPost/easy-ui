@@ -5,7 +5,7 @@
 .Tabs {
   @include Tabs.border-tokens;
   @include component-token("tab-nav", "indicator-height", 1px);
-  @include component-token("tab-nav", "indicator-width", 0);
+  @include component-token("tab-nav", "indicator-width", 0px);
   @include component-token("tab-nav", "indicator-position", 0);
   @include component-token(
     "tab-nav",
@@ -66,14 +66,19 @@
   left: 0;
   bottom: 0;
   height: component-token("tab-nav", "indicator-height");
-  width: 1px;
+
+  // the width is set directly rather than by scaling a 1px element. scaling a
+  // 1px element is subject to device pixel rounding: the 1px box is snapped to
+  // a whole device pixel before the scale is applied, so at a device pixel
+  // ratio that isn't a whole number — e.g. a 2x display at 67% browser zoom —
+  // the underline renders proportionally short or long
+  width: component-token("tab-nav", "indicator-width");
 
   background: component-token("tab-nav", "current-page-color");
-  transform: translateX(#{component-token("tab-nav", "indicator-position")})
-    scaleX(#{component-token("tab-nav", "indicator-width")});
+  transform: translateX(#{component-token("tab-nav", "indicator-position")});
   transform-origin: left;
 
-  transition-property: transform;
+  transition-property: transform, width;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
 }
