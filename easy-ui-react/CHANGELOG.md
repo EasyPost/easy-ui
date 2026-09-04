@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.132
+
+### Minor Changes
+
+- 5768bed: Add iconAtStart and size prop (sm/md/lg) to MultiSelect, matching the API Select already has. The size also scales the selected pills, so a small field gets smaller pills.PillGroup now takes a size prop (sm/md) to support that
+
 ## 1.0.0-alpha.131
 
 ### Minor Changes
