@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.133
+
+### Patch Changes
+
+- 5e435e6: Fix `TabNav` and `TabPanels` underline rendering at the wrong width on fractional device pixel ratios
+
 ## 1.0.0-alpha.132
 
 ### Minor Changes
