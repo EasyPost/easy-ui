@@ -1,9 +1,17 @@
+import CalendarMonthIcon from "@easypost/easy-ui-icons/CalendarMonth";
 import { getByRole, screen } from "@testing-library/react";
 import { UserEvent } from "@testing-library/user-event";
 import React, { useCallback, useState } from "react";
 import { vi } from "vitest";
+import { IconSymbol } from "../types";
 import { mockGetComputedStyle, render, userClick } from "../utilities/test";
-import { Item, MultiSelect, useFilter, useListData } from "./MultiSelect";
+import {
+  Item,
+  MultiSelect,
+  MultiSelectSize,
+  useFilter,
+  useListData,
+} from "./MultiSelect";
 
 describe("<MultiSelect />", () => {
   let restoreGetComputedStyle: () => void;
@@ -60,6 +68,62 @@ describe("<MultiSelect />", () => {
     await clearSelectedItem(user, "Apple");
     expect(screen.queryByText("No selected items")).toBeInTheDocument();
   });
+
+  it("should render iconAtStart", async () => {
+    render(getMultiSelect({ iconAtStart: CalendarMonthIcon }));
+    // The dropdown-arrow icon renders by default; iconAtStart adds a second.
+    expect(screen.getAllByRole("img", { hidden: true })).toHaveLength(2);
+  });
+
+  it("should not render a start icon by default", async () => {
+    render(getMultiSelect());
+    expect(screen.getAllByRole("img", { hidden: true })).toHaveLength(1);
+  });
+
+  it("should apply the size class for size='sm'", async () => {
+    const { container } = render(getMultiSelect({ size: "sm" }));
+    expect(container.firstChild).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+  });
+
+  it("should apply the size class for size='lg'", async () => {
+    const { container } = render(getMultiSelect({ size: "lg" }));
+    expect(container.firstChild).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeLg"),
+    );
+  });
+
+  it("should not apply a size class for the default md size", async () => {
+    const { container } = render(getMultiSelect());
+    expect(container.firstChild).not.toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+    expect(container.firstChild).not.toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeLg"),
+    );
+  });
+
+  it("should render smaller selected pills only for size='sm'", async () => {
+    const sm = render(
+      getMultiSelect({ size: "sm", initialSelectedItems: [fruits[0]] }),
+    );
+    expect(getSelectedItem("Apple")).toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+    sm.unmount();
+
+    render(getMultiSelect({ size: "md", initialSelectedItems: [fruits[0]] }));
+    expect(getSelectedItem("Apple")).not.toHaveAttribute(
+      "class",
+      expect.stringContaining("sizeSm"),
+    );
+  });
 });
 
 const fruits = [
@@ -87,8 +151,12 @@ const fruits = [
 
 const getMultiSelect = ({
   initialSelectedItems = [],
+  iconAtStart,
+  size,
 }: {
   initialSelectedItems?: Item[];
+  iconAtStart?: IconSymbol;
+  size?: MultiSelectSize;
 } = {}) => {
   function MultiSelectTest() {
     const [selectedItems, setSelectedItems] =
@@ -106,12 +174,14 @@ const getMultiSelect = ({
     return (
       <MultiSelect
         dropdownItems={list.items}
+        iconAtStart={iconAtStart}
         inputValue={list.filterText}
         onInputChange={list.setFilterText}
         selectedItems={selectedItems}
         onSelectionChange={setSelectedItems}
         placeholder="Select a fruit"
         maxItemsUntilScroll={10}
+        size={size}
         renderPill={(item) => (
           <MultiSelect.Pill icon={item.icon} label={item.label} />
         )}

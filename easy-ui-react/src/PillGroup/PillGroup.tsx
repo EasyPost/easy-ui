@@ -11,6 +11,7 @@ import {
   getResponsiveDesignToken,
   getComponentThemeToken,
   classNames,
+  variationName,
 } from "../utilities/css";
 import {
   InternalPillGroupContext,
@@ -20,6 +21,8 @@ import styles from "./PillGroup.module.scss";
 import { HorizontalStackProps } from "../HorizontalStack";
 
 export type PillBackground = ThemeTokenNamespace<"color">;
+
+export type PillSize = "sm" | "md";
 
 /**
  * Assists in managing state for list data for `<PillGroup />`
@@ -48,6 +51,21 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
      * @default false
      */
     isBorderless?: boolean;
+    /**
+     * Size of individual pills.
+     *
+     * @default md
+     */
+    size?: PillSize;
+    /**
+     * When true, the group and list use `display: contents` so the pills
+     * participate directly in the parent's layout flow (e.g. an input field
+     * with inline tags). Intended for internal composition.
+     *
+     * @default false
+     * @private
+     */
+    isFlattened?: boolean;
   };
 
 /**
@@ -110,6 +128,8 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
     horizontalStackContainerProps = {},
     background = "neutral.000",
     isBorderless = false,
+    size = "md",
+    isFlattened = false,
   } = props;
   const {
     align,
@@ -123,8 +143,9 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
     return {
       background,
       isBorderless,
+      size,
     };
-  }, [background, isBorderless]);
+  }, [background, isBorderless, size]);
 
   const style = {
     ...getResponsiveDesignToken("pill-group", "gap", "space", gap),
@@ -139,11 +160,18 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
   } as React.CSSProperties;
   return (
     <InternalPillGroupContext.Provider value={context}>
-      <TagGroup {...props}>
+      <TagGroup
+        {...props}
+        className={isFlattened ? styles.flattened : undefined}
+      >
         <Text visuallyHidden>
           <Label>{label}</Label>
         </Text>
-        <TagList items={items} className={styles.list} style={style}>
+        <TagList
+          items={items}
+          className={classNames(styles.list, isFlattened && styles.flattened)}
+          style={style}
+        >
           {children}
         </TagList>
       </TagGroup>
@@ -160,20 +188,27 @@ export type PillProps = {
 
 function Pill(props: PillProps) {
   const { label, icon } = props;
-  const { background, isBorderless } = useInternalPillGroupContext();
+  const { background, isBorderless, size } = useInternalPillGroupContext();
 
   const style = {
     ...getComponentThemeToken("pill", "background", "color", background),
   } as React.CSSProperties;
 
-  const className = classNames(styles.Pill, isBorderless && styles.borderless);
+  const className = classNames(
+    styles.Pill,
+    isBorderless && styles.borderless,
+    styles[variationName("size", size)],
+  );
 
   return (
     <Tag textValue={label} className={className} style={style} {...props}>
       {({ allowsRemoving }) => (
         <>
           {icon && <Icon size="xs" symbol={icon} color="primary.700" />}
-          <Text color="primary.800" variant="subtitle2">
+          <Text
+            color="primary.800"
+            variant={size === "sm" ? "caption" : "subtitle2"}
+          >
             {label}
           </Text>
           {allowsRemoving && (

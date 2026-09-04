@@ -123,6 +123,12 @@ The `isBorderless` prop controls whether or not individual pills render with a b
 
 <Canvas of={PillStories.Border} />
 
+## Size
+
+The `size` prop controls the size of individual pills. Supported sizes are `sm` and `md` (default).
+
+<Canvas of={PillStories.Small} />
+
 ## Properties
 
 ### PillGroup props
@@ -146,6 +152,12 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
      * @default false
      */
     isBorderless?: boolean;
+    /**
+     * Size of individual pills.
+     *
+     * @default md
+     */
+    size?: PillSize;
   };
 
 export type PillProps = {
