@@ -258,7 +258,7 @@ In the example below, to make the status text green or red depending on whether 
 
 ## Footer
 
-`DataGrid` supports rendering a footer through the `renderFooter` prop. The footer sticks to the bottom of the data grid the same way the column header sticks to the top, staying in place as rows scroll underneath and casting a shadow over them once there's anything to scroll. It stays mounted through the empty and loading states.
+`DataGrid` supports rendering a footer through the `renderFooter` prop. The footer is a bar at the foot of the grid's frame, outside the region that scrolls, so the rows scroll above it and it casts a shadow over them once there's anything below the fold. `maxRows` still counts body rows with a footer present. It stays mounted through the empty and loading states.
 
 `renderFooter` controls what goes inside. `<DataGrid.Footer />` lays that content out into `start`, `center`, and `end` regions, which are positional rather than named after what they hold — the footer carries no assumptions about how a consumer pages through the grid.
 
