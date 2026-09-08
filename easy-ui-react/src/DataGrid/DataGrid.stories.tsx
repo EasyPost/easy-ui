@@ -1,8 +1,9 @@
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
+import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { ReactNode, useState } from "react";
+import React, { CSSProperties, ReactNode, useState } from "react";
 import { Key } from "react-aria";
 import { useAsyncList } from "react-stately";
 import { Icon } from "../Icon";
@@ -81,6 +82,40 @@ const rows = [
 const manyRows = Array.from({ length: 4 }, (_, i) =>
   rows.map((row) => ({ ...row, key: `${row.key}-${i}` })),
 ).flat();
+
+// Wider than the frame as well as taller than it, so an auto height data grid
+// has to scroll both axes at once
+const wideColumns = [
+  ...columns,
+  { key: "team", name: "Team" },
+  { key: "location", name: "Location" },
+  { key: "phone", name: "Phone" },
+  { key: "carrier", name: "Preferred Carrier" },
+  { key: "shipments", name: "Shipments" },
+  { key: "spend", name: "Monthly Spend" },
+  { key: "createdAt", name: "Created" },
+];
+
+const manyWideRows = Array.from({ length: 60 }, (_, i) => {
+  const row = rows[i % rows.length];
+  return {
+    ...row,
+    key: `wide-${i}`,
+    name: `${row.name} ${i + 1}`,
+    team: ["Fulfillment", "Support", "Finance", "Engineering"][i % 4],
+    location: [
+      "San Francisco, CA",
+      "Austin, TX",
+      "Brooklyn, NY",
+      "Boulder, CO",
+    ][i % 4],
+    phone: `+1 (555) ${String(100 + i).padStart(4, "0")}`,
+    carrier: ["USPS", "UPS", "FedEx", "DHL Express"][i % 4],
+    shipments: String(120 + i * 7),
+    spend: `$${(1200 + i * 37).toLocaleString("en-US")}`,
+    createdAt: `2023-${String((i % 12) + 1).padStart(2, "0")}-14`,
+  };
+});
 
 const Template = (args: Partial<DataGridProps>) => {
   return (
@@ -408,6 +443,28 @@ export const AutoHeightFillingItsContainer: Story = {
   },
 };
 
+/**
+ * Both axes scrolling at once inside an auto height: more columns than fit
+ * across the frame and more rows than fit down it, with a sticky selection
+ * column and a footer along for the ride.
+ */
+export const AutoHeightScrollingBothAxes: Story = {
+  render: AutoHeightTemplate.bind({}),
+  args: {
+    "aria-label":
+      "Example data grid sized to its container scrolling both axes",
+    maxRows: "auto",
+    columns: wideColumns,
+    rows: manyWideRows,
+    selectionMode: "multiple",
+  },
+  parameters: {
+    controls: {
+      include: ["maxRows", "size", "selectionMode"],
+    },
+  },
+};
+
 function WithSortTemplate(args: Partial<DataGridProps>) {
   // https://react-spectrum.adobe.com/react-stately/useAsyncList.html
   const list = useAsyncList({
@@ -485,6 +542,44 @@ function AutoHeightFillTemplate(args: Partial<DataGridProps>) {
 }
 
 /**
+ * Draws the container so a story can show what the auto height is measuring
+ * itself against. The dashed outline is the space the container offers, and the
+ * tint stays visible wherever the data grid doesn't take all of it.
+ *
+ * @remarks
+ * The highlight is an `outline` and a background rather than a border or
+ * padding, so drawing it doesn't change the height being demonstrated. The
+ * caption sits outside the box for the same reason.
+ */
+function HighlightedContainer({
+  caption,
+  children,
+  style,
+}: {
+  caption: string;
+  children: ReactNode;
+  style?: CSSProperties;
+}) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <Text variant="body2" color="gray.resting">
+        {caption}
+      </Text>
+      <div
+        style={{
+          height: 320,
+          outline: `2px dashed ${tokens["color.blue.400"]}`,
+          background: tokens["color.blue.025"],
+          ...style,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/**
  * Stands in for a page shell: one ancestor establishes a height and the levels
  * beneath it pass that height down through flex without restating it. This is
  * the layout `maxRows="auto"` is meant for, and the data grid shrinks to its
@@ -492,7 +587,10 @@ function AutoHeightFillTemplate(args: Partial<DataGridProps>) {
  */
 function FluidHeightLayout({ children }: { children: ReactNode }) {
   return (
-    <div style={{ height: 320, display: "flex", flexDirection: "column" }}>
+    <HighlightedContainer
+      caption="Outlined box is the container's 320px of space. The data grid scrolls within it, and any tint left showing is space it chose not to take."
+      style={{ display: "flex", flexDirection: "column" }}
+    >
       <div
         style={{
           display: "flex",
@@ -505,7 +603,7 @@ function FluidHeightLayout({ children }: { children: ReactNode }) {
       >
         {children}
       </div>
-    </div>
+    </HighlightedContainer>
   );
 }
 
@@ -516,8 +614,11 @@ function FluidHeightLayout({ children }: { children: ReactNode }) {
  */
 function StretchedHeightLayout({ children }: { children: ReactNode }) {
   return (
-    <div style={{ height: 320, display: "grid", gridTemplateRows: "1fr" }}>
+    <HighlightedContainer
+      caption="Same 320px container, but it stretches its child, so the data grid takes all of the space and no tint shows through."
+      style={{ display: "grid", gridTemplateRows: "1fr" }}
+    >
       {children}
-    </div>
+    </HighlightedContainer>
   );
 }

@@ -310,6 +310,8 @@ The regions accept anything, so a footer needn't paginate at all.
 
 `maxRows` takes `auto` in place of a row count, which bounds the data grid by the height its container makes available and scrolls the rows within it. This suits a data grid in a fluid layout, where the room it has to work with comes from the page rather than from a number settled on in advance.
 
+The dashed outline in the stories below marks the container's space, so it's visible what the data grid is sizing itself against.
+
 <Canvas of={DataGridStories.AutoHeight} />
 
 <Controls of={DataGridStories.AutoHeight} />
@@ -356,6 +358,12 @@ A container that stretches the data grid rather than letting it shrink turns the
   <DataGrid maxRows="auto" {...props} />
 </div>
 ```
+
+### Scrolling Both Axes
+
+Content wider than the frame scrolls horizontally within the same bound. The rows scroll under the column headers and past the sticky selection column, while the footer holds the bottom of the frame and keeps its own width rather than stretching to the width of the table.
+
+<Canvas of={DataGridStories.AutoHeightScrollingBothAxes} />
 
 ## Properties
 
