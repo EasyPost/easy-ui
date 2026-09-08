@@ -54,7 +54,8 @@ const rows = [
   defaultExpandedKey={1}
   expandedKey={1}
   onExpandedChange={(key) => {}}
-  // Customize how many rows show before scroll
+  // Customize how many rows show before scroll, or use "auto" to fit the
+  // height the container makes available
   maxRows={7}
   // Enable selection. Can be "multiple" or "single"
   selectionMode="multiple"
@@ -304,6 +305,57 @@ The regions accept anything, so a footer needn't paginate at all.
 ### Footer with an Empty State
 
 <Canvas of={DataGridStories.FooterWithEmptyState} />
+
+## Auto Height
+
+`maxRows` takes `auto` in place of a row count, which bounds the data grid by the height its container makes available and scrolls the rows within it. This suits a data grid in a fluid layout, where the room it has to work with comes from the page rather than from a number settled on in advance.
+
+<Canvas of={DataGridStories.AutoHeight} />
+
+<Controls of={DataGridStories.AutoHeight} />
+
+An auto height data grid shrinks to its rows when they don't fill the space it's offered, so it never draws an empty region beneath the last row.
+
+<Canvas of={DataGridStories.AutoHeightWithFewRows} />
+
+Some ancestor has to establish a height for `auto` to have space to work from. It needn't be the data grid's parent; a height set once at the top of a layout carries down through flex and grid tracks.
+
+```tsx
+// The height is established once, and the levels beneath it pass it down
+<div style={{ height: "100dvh", display: "flex", flexDirection: "column" }}>
+  <PageHeader />
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      flex: "1 1 auto",
+      minHeight: 0,
+    }}
+  >
+    <DataGrid maxRows="auto" {...props} />
+  </div>
+</div>
+```
+
+Two things to watch for in the surrounding layout:
+
+- Flex and grid items between that height and the data grid need `min-height: 0`. They floor at their content height otherwise, which lets the data grid run past the bottom of the layout instead of scrolling inside it.
+- A plain block container holding a sibling above the data grid measures `auto` against the container's whole height rather than the room left over, which overflows it. Laying that container out as a flex column or a grid resolves it.
+
+With no height established anywhere above it, `auto` has nothing to bound the data grid by, and it falls back to drawing every row.
+
+### Filling a Container
+
+A container that stretches the data grid rather than letting it shrink turns the auto height into a fill. The rows take the extra room and the footer holds the bottom of the layout however few rows there are, which is what a data grid anchored to the foot of a page wants.
+
+<Canvas of={DataGridStories.AutoHeightFillingItsContainer} />
+
+```tsx
+// A single track stretches the data grid to the full height of the container
+<div style={{ height: "100dvh", display: "grid", gridTemplateRows: "1fr" }}>
+  <DataGrid maxRows="auto" {...props} />
+</div>
+```
 
 ## Properties
 

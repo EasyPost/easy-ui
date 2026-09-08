@@ -87,8 +87,20 @@ export type DataGridProps<
    */
   headerVariant?: "primary" | "secondary" | "emphasized";
 
-  /** Constrains the height of the data grid to a set number of rows. */
-  maxRows?: number;
+  /**
+   * Constrains the height of the data grid to a set number of rows, or to the
+   * height its container makes available with `auto`.
+   *
+   * @remarks
+   * `auto` keeps the data grid within the space its container offers and
+   * scrolls the rows inside that space, which suits a data grid that should
+   * fill a fluid layout rather than a fixed count of rows. It shrinks to its
+   * rows when they don't fill that space, so it never draws an empty region
+   * beneath them. Some ancestor has to establish a height for there to be
+   * space to work from; with none, the data grid falls back to drawing every
+   * row.
+   */
+  maxRows?: number | "auto";
 
   /** Handler that is called when a user performs an action on the cell. */
   onCellAction?: (key: RowKey<R>) => void;

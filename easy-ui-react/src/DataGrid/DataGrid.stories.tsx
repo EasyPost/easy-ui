@@ -2,7 +2,7 @@ import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Key } from "react-aria";
 import { useAsyncList } from "react-stately";
 import { Icon } from "../Icon";
@@ -75,6 +75,12 @@ const rows = [
     lastActive: "2023-06-06",
   },
 ];
+
+// More rows than the auto height stories' layout has room for, so the data grid
+// has something to scroll within the space it's given
+const manyRows = Array.from({ length: 4 }, (_, i) =>
+  rows.map((row) => ({ ...row, key: `${row.key}-${i}` })),
+).flat();
 
 const Template = (args: Partial<DataGridProps>) => {
   return (
@@ -360,6 +366,48 @@ export const FooterWithEmptyState: Story = {
   },
 };
 
+export const AutoHeight: Story = {
+  render: AutoHeightTemplate.bind({}),
+  args: {
+    "aria-label": "Example data grid sized to its container",
+    maxRows: "auto",
+    rows: manyRows,
+  },
+  parameters: {
+    controls: {
+      include: ["maxRows", "size"],
+    },
+  },
+};
+
+export const AutoHeightWithFewRows: Story = {
+  render: AutoHeightTemplate.bind({}),
+  args: {
+    "aria-label": "Example data grid sized to its container with few rows",
+    maxRows: "auto",
+    rows: rows.slice(0, 2),
+  },
+  parameters: {
+    controls: {
+      include: ["maxRows", "size"],
+    },
+  },
+};
+
+export const AutoHeightFillingItsContainer: Story = {
+  render: AutoHeightFillTemplate.bind({}),
+  args: {
+    "aria-label": "Example data grid filling its container",
+    maxRows: "auto",
+    rows: rows.slice(0, 2),
+  },
+  parameters: {
+    controls: {
+      include: ["maxRows", "size"],
+    },
+  },
+};
+
 function WithSortTemplate(args: Partial<DataGridProps>) {
   // https://react-spectrum.adobe.com/react-stately/useAsyncList.html
   const list = useAsyncList({
@@ -417,5 +465,59 @@ function WithFooterTemplate(args: Partial<DataGridProps>) {
       )}
       {...args}
     />
+  );
+}
+
+function AutoHeightTemplate(args: Partial<DataGridProps>) {
+  return (
+    <FluidHeightLayout>
+      <WithFooterTemplate {...args} />
+    </FluidHeightLayout>
+  );
+}
+
+function AutoHeightFillTemplate(args: Partial<DataGridProps>) {
+  return (
+    <StretchedHeightLayout>
+      <WithFooterTemplate {...args} />
+    </StretchedHeightLayout>
+  );
+}
+
+/**
+ * Stands in for a page shell: one ancestor establishes a height and the levels
+ * beneath it pass that height down through flex without restating it. This is
+ * the layout `maxRows="auto"` is meant for, and the data grid shrinks to its
+ * rows here when they don't fill the space.
+ */
+function FluidHeightLayout({ children }: { children: ReactNode }) {
+  return (
+    <div style={{ height: 320, display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flex: "1 1 auto",
+          // Flex items floor at their content height without this, which would
+          // let the data grid run past the bottom of the layout
+          minHeight: 0,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * A container that stretches the data grid rather than letting it shrink, which
+ * turns the auto height into a fill: the rows take the extra room and the footer
+ * stays at the bottom of the layout however few rows there are.
+ */
+function StretchedHeightLayout({ children }: { children: ReactNode }) {
+  return (
+    <div style={{ height: 320, display: "grid", gridTemplateRows: "1fr" }}>
+      {children}
+    </div>
   );
 }

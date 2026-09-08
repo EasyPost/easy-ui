@@ -46,6 +46,33 @@ describe("<DataGrid />", () => {
     expect(getOuterContainer()).toHaveStyle(
       getComponentToken("data-grid", "max-rows", "8"),
     );
+    expect(getOuterContainer().className).not.toContain("maxRowsAuto");
+  });
+
+  it("should support an auto height", () => {
+    render(createDataGrid({ maxRows: "auto" }));
+    expect(getOuterContainer()).toHaveAttribute(
+      "class",
+      expect.stringContaining("maxRowsAuto"),
+    );
+    // The container's height stands in for the row count, so the token that the
+    // row count drives is left unset for the styles to fall back on
+    expect(
+      getOuterContainer().style.getPropertyValue(getMaxRowsTokenName()),
+    ).toBe("");
+  });
+
+  it("should keep the footer out of the scroll container at an auto height", () => {
+    render(
+      createDataGrid({
+        maxRows: "auto",
+        renderFooter: () => <DataGrid.Footer center={<span>Center</span>} />,
+      }),
+    );
+    // The frame lays itself out as a flex column at an auto height, which only
+    // works while the footer is a sibling of the region that scrolls
+    expect(getScrollContainer()).not.toContainElement(getFooter());
+    expect(getOuterContainer()).toContainElement(getFooter());
   });
 
   it("should support a header variant", () => {
@@ -408,6 +435,15 @@ function getFooter() {
   return getOuterContainer().querySelector(
     "[data-ezui-data-grid-footer]",
   ) as HTMLElement;
+}
+
+// Reads the custom property name off of the token helper rather than spelling it
+// out, so these tests don't pin down how tokens are named
+function getMaxRowsTokenName() {
+  const [name] = Object.keys(
+    getComponentToken("data-grid", "max-rows", "ignored"),
+  );
+  return name;
 }
 
 function getHead() {
