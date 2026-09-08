@@ -72,6 +72,8 @@ export function Table<C extends Column, R extends RowType>(
   const { collection } = state;
   const { columns } = collection;
 
+  const isAutoHeight = maxRows === "auto";
+
   const hasSelection = columns.some((c) => c.props.isSelectionCell);
   const hasExpansion = columns.some((c) => c.key === EXPAND_COLUMN_KEY);
   const hasRowActions = columns.some((c) => c.key === ACTIONS_COLUMN_KEY);
@@ -80,6 +82,7 @@ export function Table<C extends Column, R extends RowType>(
   const dataGridClassName = classNames(
     styles.DataGrid,
     styles[variationName("size", size)],
+    isAutoHeight && styles.maxRowsAuto,
   );
 
   const tableClassName = classNames(
@@ -94,7 +97,13 @@ export function Table<C extends Column, R extends RowType>(
   );
 
   const style = {
-    ...getComponentToken("data-grid", "max-rows", String(maxRows)),
+    // An auto height data grid takes its bound from its container rather than a
+    // row count, so it leaves this token unset for the styles to fall back on
+    ...getComponentToken(
+      "data-grid",
+      "max-rows",
+      isAutoHeight ? undefined : String(maxRows),
+    ),
     ...expandedRowStyle,
   } as CSSProperties;
 

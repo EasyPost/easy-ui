@@ -19,6 +19,10 @@
   min-height: calc(
     design-token("space.6") + component-token("data-grid", "border-width")
   );
+  // The frame lays itself out as a flex column when the grid takes its height
+  // from its container, and the bar holds onto its own height there instead of
+  // surrendering it to the rows
+  flex-shrink: 0;
   // Content too wide for the frame stays reachable rather than being clipped by
   // the frame's radius. Height stays auto, so this never scrolls vertically.
   overflow-x: auto;

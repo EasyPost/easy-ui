@@ -110,6 +110,34 @@
   @include DataGrid.hide-scrollbars;
 }
 
+// `maxRows="auto"` bounds the grid by the space its container offers instead of
+// a row count. Laying the frame out as a flex column is what makes that work
+// without measuring anything: the footer takes its height off the top of the
+// space, the rows scroll in what's left, and the browser does the subtraction.
+.maxRowsAuto {
+  display: flex;
+  flex-direction: column;
+  // Shrink into the room a flex container leaves over, but never grow into it,
+  // so a grid holding a few rows stays only as tall as those rows
+  flex: 0 1 auto;
+  // Flex and grid items floor at their content height by default, which is what
+  // would otherwise stop the frame shrinking far enough for the rows to scroll
+  min-height: 0;
+  // Bounds the frame in a container that sizes itself rather than its children.
+  // Resolves to no bound at all when no ancestor establishes a height, which
+  // falls the grid back to drawing every row.
+  max-height: 100%;
+
+  .scrollContainer {
+    // The container's height stands in for the row count as the grid's bound
+    max-height: none;
+    min-height: 0;
+    // Takes up whatever height the frame is given past its rows, so the footer
+    // stays at the foot of the frame when a container stretches it taller
+    flex: 1 1 auto;
+  }
+}
+
 .sizeSm {
   @include component-token("data-grid", "header-row-height", 32px);
   @include component-token("data-grid", "body-row-height", 32px);
