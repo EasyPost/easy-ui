@@ -1,5 +1,11 @@
 # @easypost/easy-ui-icons
 
+## 1.0.0-alpha.61
+
+### Minor Changes
+
+- 42e6e1f: add Send and Bolt icons
+
 ## 1.0.0-alpha.60
 
 ### Minor Changes

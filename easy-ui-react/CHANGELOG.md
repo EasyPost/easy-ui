@@ -1,5 +1,14 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.133
+
+### Patch Changes
+
+- b5e3e0b: Fix `DataGrid` painting hairline seams between header columns on fractional device pixel ratios
+- 5e435e6: Fix `TabNav` and `TabPanels` underline rendering at the wrong width on fractional device pixel ratios
+- Updated dependencies [42e6e1f]
+  - @easypost/easy-ui-icons@1.0.0-alpha.61
+
 ## 1.0.0-alpha.132
 
 ### Minor Changes
