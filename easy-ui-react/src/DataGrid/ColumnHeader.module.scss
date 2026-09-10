@@ -4,11 +4,32 @@
 .ColumnHeader {
   position: sticky;
   top: 0;
-  background: component-token("data-grid", "header-bg");
   color: component-token("data-grid", "header-text");
   outline: none;
   padding: 0 design-token("space.2");
   z-index: component-token("data-grid", "column-z-index");
+
+  // the background is painted by an overlay that bleeds past the cell's side
+  // edges rather than by the cell itself. columns are laid out at fractional
+  // widths, and at a device pixel ratio that isn't a whole number — e.g. a 2x
+  // display at 67% browser zoom — neither cell fully covers the device pixel
+  // their shared edge lands in, so the rows behind the header show through as a
+  // hairline seam between the columns. bleeding the backgrounds into each other
+  // covers that pixel from both sides. the overlap can't be seen: every cell in
+  // the row paints the same color, and the bleed at the two ends of the row is
+  // clipped by the grid's own scroll container. 2px covers a whole device pixel
+  // down to a ratio of 0.5, i.e. a 1x display zoomed out to 50%
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -2px;
+    right: -2px;
+    background: component-token("data-grid", "header-bg");
+    pointer-events: none;
+    z-index: -1;
+  }
 }
 
 .content {
