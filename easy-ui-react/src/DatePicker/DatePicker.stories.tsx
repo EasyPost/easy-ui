@@ -8,6 +8,7 @@ import {
   endOfWeek,
 } from "@internationalized/date";
 import { InputDecorator } from "../utilities/storybook";
+import { TextField } from "../TextField";
 import { DatePicker, DatePickerProps } from "./DatePicker";
 
 type Story = StoryObj<typeof DatePicker>;
@@ -32,6 +33,16 @@ export const DefaultValue: Story = {
   args: {
     defaultValue: today(getLocalTimeZone()),
   },
+};
+
+export const Label: Story = {
+  render: () => (
+    <>
+      <TextField label="Text field" placeholder="Placeholder text" />
+      <DatePicker label="Date picker" />
+      <DatePicker size="sm" label="Small date picker" />
+    </>
+  ),
 };
 
 export const Sizes: Story = {
