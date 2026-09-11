@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/react-vite";
 import { today, getLocalTimeZone } from "@internationalized/date";
 import { DateRange } from "react-aria";
 import { InputDecorator } from "../utilities/storybook";
+import { TextField } from "../TextField";
 import { DateRangePicker, DateRangePickerProps } from "./DateRangePicker";
 
 type Story = StoryObj<typeof DateRangePicker>;
@@ -30,6 +31,16 @@ export const DefaultValue: Story = {
       end: today(getLocalTimeZone()),
     },
   },
+};
+
+export const Label: Story = {
+  render: () => (
+    <>
+      <TextField label="Text field" placeholder="Placeholder text" />
+      <DateRangePicker label="Date range picker" />
+      <DateRangePicker size="sm" label="Small date range picker" />
+    </>
+  ),
 };
 
 export const Sizes: Story = {
