@@ -9,7 +9,7 @@ import { DatePickerState, DateRangePickerState } from "react-stately";
 import { FocusableElement, GroupDOMAttributes } from "@react-types/shared";
 import { DatePickerTrigger } from "./DatePickerTrigger";
 import { DatePickerOverlay } from "./DatePickerOverlay";
-import { Text } from "../Text";
+import { Label } from "../InputField/Label";
 import { logWarningForMissingAriaLabel } from "../InputField/utilities";
 import { classNames, variationName } from "../utilities/css";
 import styles from "./DatePicker.module.scss";
@@ -50,7 +50,7 @@ export function DatePickerBase(props: DatePickerProps) {
     children,
     state,
   } = props;
-  const { size } = triggerProps;
+  const { size, isInvalid } = triggerProps;
   const triggerRef = React.useRef(null);
 
   logWarningForMissingAriaLabel(label, ariaLabel);
@@ -62,13 +62,9 @@ export function DatePickerBase(props: DatePickerProps) {
   return (
     <div className={className}>
       {label && (
-        <Text
-          {...labelProps}
-          variant={size === "sm" ? "body2" : "body1"}
-          color="primary.800"
-        >
+        <Label fieldSize={size} hasError={isInvalid} {...labelProps}>
           {label}
-        </Text>
+        </Label>
       )}
       <DatePickerTrigger
         {...triggerProps}
