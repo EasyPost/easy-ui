@@ -179,11 +179,18 @@ try {
     await scatter
       .getByText("Selected cohort: a-ground", { exact: true })
       .waitFor();
-    if (name === "desktop")
+    if (name === "desktop") {
+      // The pointer can remain over the plot after its table scrolls into view.
+      // Capture the keyboard-selected table with the prior tooltip dismissed.
+      await page.mouse.move(0, 0);
+      await scatter
+        .getByText("2,400 parcels", { exact: true })
+        .waitFor({ state: "hidden" });
       await scatter.screenshot({
         path: `${screenshotDir}/analytics-data-table.png`,
         animations: "disabled",
       });
+    }
     await scatter.getByText("View data table", { exact: true }).click();
 
     const lightweight = page.getByRole("region", {
