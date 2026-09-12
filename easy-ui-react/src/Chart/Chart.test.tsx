@@ -196,6 +196,7 @@ it("supports keyboard zoom controls and respects reduced motion", async () => {
         option: {
           ...fixture.option,
           animation: true,
+          series: [{ type: "bar", data: [1], animation: true }],
           dataZoom: [{ type: "slider" }],
         },
       }),
@@ -203,6 +204,10 @@ it("supports keyboard zoom controls and respects reduced motion", async () => {
     await screen.findByRole("img");
     expect(
       setOption.mock.calls[setOption.mock.calls.length - 1][0].animation,
+    ).toBe(false);
+    expect(
+      setOption.mock.calls[setOption.mock.calls.length - 1][0].series[0]
+        .animation,
     ).toBe(false);
     screen.getByRole("button", { name: "Zoom in" }).focus();
     await user.keyboard("{Enter}");

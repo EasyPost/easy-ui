@@ -54,6 +54,29 @@ export function themedOption(
         : merge({}, axis, value);
   if (option.xAxis) result.xAxis = withAxis(option.xAxis);
   if (option.yAxis) result.yAxis = withAxis(option.yAxis);
-  if (reducedMotion) result.animation = false;
+  if (option.baseOption) {
+    result.baseOption = themedOption(
+      element,
+      option.baseOption as ChartOption,
+      reducedMotion,
+    );
+  }
+  if (reducedMotion) disableAnimation(result);
   return result;
+}
+
+function disableAnimation(option: ChartOption) {
+  option.animation = false;
+  const series = Array.isArray(option.series)
+    ? option.series
+    : option.series
+      ? [option.series]
+      : [];
+  for (const item of series) item.animation = false;
+  if (option.baseOption) disableAnimation(option.baseOption as ChartOption);
+  for (const media of option.media ?? []) {
+    if (media.option) disableAnimation(media.option as ChartOption);
+  }
+  for (const frame of option.options ?? [])
+    disableAnimation(frame as ChartOption);
 }
