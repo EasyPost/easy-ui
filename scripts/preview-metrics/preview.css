@@ -54,3 +54,61 @@ h1 {
 .metric-examples {
   margin-top: 48px;
 }
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+.comparison-grid h2,
+[aria-label="Compact trend examples"] h2 {
+  margin: 0 0 6px;
+}
+.panel-note {
+  margin: 0 0 22px;
+  font-size: 12px;
+  color: #50647e;
+  line-height: 1.6;
+}
+.target-stack {
+  display: grid;
+  gap: 24px;
+}
+.sparkline-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.sparkline-table th,
+.sparkline-table td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid #e4e9f1;
+}
+.sparkline-table thead th {
+  color: #50647e;
+  font-size: 11px;
+  font-weight: 500;
+}
+.sparkline-table td:nth-child(2) {
+  font-variant-numeric: tabular-nums;
+}
+.sparkline-table td:last-child {
+  width: 30%;
+}
+[aria-label="Analytical chart examples"] {
+  margin-top: 48px;
+}
+@media (max-width: 720px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  .sparkline-table {
+    font-size: 11px;
+  }
+  .sparkline-table th,
+  .sparkline-table td {
+    padding: 8px 4px;
+  }
+}

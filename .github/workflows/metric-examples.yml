@@ -7,6 +7,8 @@ on:
       - "easy-ui-react/src/Theme/**"
       - "easy-ui-react/src/MetricCard/**"
       - "easy-ui-react/src/Sparkline/**"
+      - "easy-ui-react/src/BarList/**"
+      - "easy-ui-react/src/BulletChart/**"
       - "scripts/preview-metrics/**"
       - ".github/workflows/metric-examples.yml"
 
@@ -27,6 +29,7 @@ jobs:
           node-version: "20.x"
       - run: npm ci --no-audit --no-fund
       - run: npm run build
+      - run: npm run measure
       - run: npx playwright install --with-deps chromium
       - run: npm run capture
       - uses: actions/upload-artifact@v4

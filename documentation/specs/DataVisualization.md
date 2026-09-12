@@ -21,7 +21,7 @@ The recurring visual language is restrained: white cards, blue/navy marks, light
 
 ## Analytical scope in this PR
 
-The contribution includes a reusable `Chart` backed by Apache ECharts 6.1.0, plus complementary `MetricCard` and `Sparkline` components. KPI summaries alone do not address the analytical requirement.
+The contribution includes a reusable `Chart` backed by Apache ECharts 6.1.0, plus complementary `MetricCard`, `Sparkline`, `BarList`, and `BulletChart` components. KPI summaries alone do not address the analytical requirement.
 
 | Implemented example                                             | Shipping question                                                             |
 | --------------------------------------------------------------- | ----------------------------------------------------------------------------- |
@@ -37,11 +37,26 @@ The contribution includes a reusable `Chart` backed by Apache ECharts 6.1.0, plu
 
 All fixtures are synthetic. Plots and their exact-value tables share source records. Sankey inflows and outflows balance at each carrier. Bubble area encodes count. The line example preserves gaps and true timestamp spacing. The heatmap leaves unavailable cells blank and includes their null values in the table.
 
+## Lightweight portfolio
+
+Compact indicators also deserve a complete set of examples. These components import no analytical engine:
+
+| Component   | Use                                                                        |
+| ----------- | -------------------------------------------------------------------------- |
+| MetricCard  | Exact KPI, period, comparison baseline, and optional trend                 |
+| Sparkline   | Equal-bucket trends in cards or report rows, including flat zeros and gaps |
+| BarList     | Category comparisons with a common zero baseline and visible exact values  |
+| BulletChart | One measure against a target on an explicit zero-based scale               |
+
+The PR preview leads with the lightweight gallery and retains all nine analytical examples below it. `?portfolio=lightweight` exercises a page without analytical imports or engine requests. Applications should choose the smallest component that answers the question; `Chart` remains available for richer axes, layouts, interactions, and signed data.
+
+The reproducible Vite measurement (`scripts/preview-metrics/measure-bundles.mjs`) retains all exported components, includes their transitive Easy UI primitives, and excludes React, global styles, token definitions, fonts, and application fixtures. The original MetricCard/Sparkline pair measured **13.8 KB gzip JavaScript / 2.5 KB gzip component CSS**; all four lightweight components measured **14.5 KB / 2.8 KB**. The expansion adds approximately **0.7 KB JavaScript / 0.35 KB CSS gzip** in this measurement. Actual consumer output depends on shared imports and bundler settings.
+
 ## Integration choice and tradeoffs
 
 Use one maintained analytical engine rather than implementing axes, layouts, tooltips, and Sankey geometry within Easy UI. Apache ECharts supports the standard and specialist families in the requested scope. The adapter deliberately exposes its typed `EChartsOption` API; applications can compose series and use the engine's other built-in charts without waiting for another Easy UI wrapper. Easy UI owns the surrounding presentation, lifecycle, and data access. Applications own data queries, aggregation, definitions, scales, coverage, formatting, and persisted filter state.
 
-ECharts is an optional peer (`^6.1.0`) and a pinned development dependency. The package marks it external and dynamically imports it when a ready chart mounts. This preserves ordinary Easy UI imports and CommonJS/ESM compatibility without requiring the engine for KPI cards. The full analytical engine measured about 1.14 MB minified / 382 KB gzip in the isolated Vite production preview. This is a conscious bundle-cost tradeoff for broad chart support; analytical routes should remain lazy-loaded.
+ECharts is an optional peer (`^6.1.0`) and a pinned development dependency. The package marks it external and dynamically imports it when a ready chart mounts. This preserves ordinary Easy UI imports and CommonJS/ESM compatibility without requiring the engine for KPI cards. The full analytical engine measured about 1.14 MB minified / 382 KB gzip in the isolated Vite production preview. This is a conscious bundle-cost tradeoff for broad chart support; analytical routes should remain lazy-loaded. This transfer size is reasonable for a dedicated analytical screen, but does not measure parsing, layout, data transfer, or time to interaction on a user device. Those should be profiled with representative application data before setting a performance budget.
 
 ECharts' [modular imports](https://echarts.apache.org/handbook/en/basics/import/) remain a future optimization if narrower installations justify managing per-family registrations. This PR uses the complete lazy engine so native option types accurately represent available capabilities. It does not ship a second chart engine. [SVG/canvas guidance](https://echarts.apache.org/handbook/en/best-practices/canvas-vs-svg/) informs the SVG default and optional canvas renderer.
 

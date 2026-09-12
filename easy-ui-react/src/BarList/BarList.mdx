@@ -1,0 +1,22 @@
+import { ArgTypes, Canvas, Meta } from "@storybook/addon-docs/blocks";
+import { BarList } from "./BarList";
+import * as Stories from "./BarList.stories";
+
+<Meta of={Stories} />
+
+# BarList
+
+A compact category comparison for cards, sidebars, and reports. Native HTML/CSS; no chart engine. Import from `@easypost/easy-ui/BarList`.
+
+<Canvas of={Stories.Default} />
+
+All bars share a zero baseline and scale to the largest available value in this list. Supply finite, non-negative magnitudes and stable IDs. Order is preserved: sort in the application when showing a ranking. The exact formatted value and category are always visible and readable as a semantic list. No hover, animation, or keyboard interaction is needed to recover the data.
+
+Zero is an observed value. Null, negative, and non-finite values display `emptyLabel` and do not affect the scale. Empty input displays the same localized message.
+
+<Canvas of={Stories.ZeroAndMissing} />
+<Canvas of={Stories.NoData} />
+
+Use `Chart` for signed values, shared axes across panels, grouped/stacked bars, filtering, or drill-down. Applications own units, sorting, aggregation, and surrounding loading/error states.
+
+<ArgTypes of={BarList} />

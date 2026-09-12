@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { preview } from "vite";
 import { chromium } from "playwright";
 
@@ -9,6 +9,14 @@ const server = await preview({
 const browser = await chromium.launch();
 const errors = [];
 const results = [];
+const manifest = JSON.parse(await readFile("dist/.vite/manifest.json", "utf8"));
+const analyticalAssets = Object.values(manifest)
+  .filter((asset) => asset.isDynamicEntry)
+  .map((asset) => asset.file);
+assert.ok(
+  analyticalAssets.length >= 2,
+  "Analytical examples and engine must be separate dynamic entries",
+);
 
 try {
   await mkdir("screenshots", { recursive: true });
@@ -81,7 +89,7 @@ try {
     await page.keyboard.press("Enter");
     await page.waitForFunction((before) => {
       const chart = document.querySelector(
-        '[aria-label="On-time delivery"] svg',
+        '[aria-label="On-time delivery"] [data-chart-state="ready"] svg',
       );
       return chart?.innerHTML !== before;
     }, beforeZoom);
@@ -125,6 +133,28 @@ try {
       });
     await scatter.getByText("View data table", { exact: true }).click();
 
+    const lightweight = page.getByRole("region", {
+      name: "Lightweight chart examples",
+      exact: true,
+    });
+    await lightweight.screenshot({
+      path: `screenshots/lightweight-${name}.png`,
+      animations: "disabled",
+    });
+    assert.equal(
+      await lightweight
+        .getByRole("list", { name: "June parcel volume by service" })
+        .getByRole("listitem")
+        .count(),
+      3,
+    );
+    assert.equal(
+      await lightweight
+        .getByRole("region", { name: "Compact trend examples", exact: true })
+        .getByRole("img")
+        .count(),
+      4,
+    );
     const overview = page.getByRole("region", {
       name: "Shipping overview example",
       exact: true,
@@ -138,7 +168,9 @@ try {
       keyboardZoom: true,
       pointerSelection: true,
       keyboardRowSelection: true,
-      trendCount: 4,
+      trendCount: 8,
+      barListRows: 3,
+      bulletCharts: 2,
     });
     await page.close();
   }
@@ -158,7 +190,34 @@ try {
       path: "screenshots/analytics-review.png",
       animations: "disabled",
     });
+  await reviewPage
+    .getByRole("region", { name: "Lightweight chart examples", exact: true })
+    .screenshot({
+      path: "screenshots/lightweight-review.png",
+      animations: "disabled",
+    });
   await reviewPage.close();
+  const lightPage = await browser.newPage({
+    viewport: { width: 960, height: 1000 },
+  });
+  const lightRequests = [];
+  lightPage.on("pageerror", (error) => errors.push(error.message));
+  lightPage.on("request", (request) => lightRequests.push(request.url()));
+  await lightPage.goto("http://127.0.0.1:4173?portfolio=lightweight", {
+    waitUntil: "networkidle",
+  });
+  assert.equal(await lightPage.locator("[data-chart-state]").count(), 0);
+  assert.equal(
+    lightRequests.some((url) =>
+      analyticalAssets.some((asset) =>
+        new URL(url).pathname.endsWith(`/${asset}`),
+      ),
+    ),
+    false,
+    "Lightweight gallery must not request the analytical engine or fixtures",
+  );
+  results.push({ name: "lightweight-only", analyticalRequests: 0 });
+  await lightPage.close();
   const canvasPage = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
   });
