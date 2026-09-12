@@ -1,0 +1,103 @@
+{
+  "source": "fba0907885212f0a7d441df6b9d4fc986a308304",
+  "version": "6.1.0",
+  "method": "Two independent Vite production builds of the unchanged gallery: all 18 analytical recipes and all six native components. Full dependency closure from index.html including lazy imports; React, Easy UI, tokens and fixtures included. Gzip per unique asset; CSS separate and fonts excluded. Each preset runs on a separate page so ECharts' global module registry cannot contaminate the result. Module inventory asserts unused chart implementations and the full entry are absent from the modular build.",
+  "engineMethod": "Separate production entries exporting only init with each preset's registration retained. Excludes React, Easy UI and fixtures. The trend preset is a size probe with reduced capabilities, not a full-portfolio substitute. Transfer measurements only; no runtime-speed claim.",
+  "results": [
+    {
+      "preset": "full",
+      "javascriptGzipBytes": 502644,
+      "cssGzipBytes": 10391,
+      "assets": [
+        {
+          "file": "assets/Chart-B_FWw5MM.css",
+          "bytes": 1533,
+          "gzipBytes": 625
+        },
+        {
+          "file": "assets/Chart.stories-Bif133iB.js",
+          "bytes": 101725,
+          "gzipBytes": 37169
+        },
+        {
+          "file": "assets/index-CLH01H6h.css",
+          "bytes": 60270,
+          "gzipBytes": 9766
+        },
+        {
+          "file": "assets/index-CzJ1nSGZ.js",
+          "bytes": 1135527,
+          "gzipBytes": 382150
+        },
+        {
+          "file": "assets/index-cKVTMt19.js",
+          "bytes": 260513,
+          "gzipBytes": 83325
+        }
+      ]
+    },
+    {
+      "preset": "portfolio",
+      "javascriptGzipBytes": 375227,
+      "cssGzipBytes": 10391,
+      "assets": [
+        {
+          "file": "assets/Chart-B_FWw5MM.css",
+          "bytes": 1533,
+          "gzipBytes": 625
+        },
+        {
+          "file": "assets/Chart.stories-B3U31826.js",
+          "bytes": 101729,
+          "gzipBytes": 37176
+        },
+        {
+          "file": "assets/index-CLH01H6h.css",
+          "bytes": 60270,
+          "gzipBytes": 9766
+        },
+        {
+          "file": "assets/index-DzjQKTnU.js",
+          "bytes": 260513,
+          "gzipBytes": 83325
+        },
+        {
+          "file": "assets/portfolio-DlsMHQsp.js",
+          "bytes": 750969,
+          "gzipBytes": 254726
+        }
+      ]
+    }
+  ],
+  "engines": [
+    {
+      "preset": "full",
+      "javascriptBytes": 1127664,
+      "javascriptGzipBytes": 378974,
+      "fullPortfolio": true,
+      "renderers": [
+        "svg",
+        "canvas"
+      ]
+    },
+    {
+      "preset": "portfolio",
+      "javascriptBytes": 750969,
+      "javascriptGzipBytes": 254726,
+      "fullPortfolio": true,
+      "renderers": [
+        "svg",
+        "canvas"
+      ]
+    },
+    {
+      "preset": "trend",
+      "javascriptBytes": 595790,
+      "javascriptGzipBytes": 203104,
+      "fullPortfolio": false,
+      "renderers": [
+        "svg"
+      ]
+    }
+  ]
+}
