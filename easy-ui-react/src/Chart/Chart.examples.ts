@@ -7,7 +7,7 @@ const teal = "#007f86";
 const orange = "#bd6900";
 const colors = [blue, purple, teal];
 const carriers = ["Carrier A", "Carrier B", "Carrier C"];
-const grid = { left: 52, right: 20, top: 52, bottom: 48, containLabel: false };
+const grid = { left: 52, right: 20, top: 72, bottom: 48, containLabel: false };
 const shortDate = (value: number) =>
   new Intl.DateTimeFormat("en-US", {
     month: "short",
