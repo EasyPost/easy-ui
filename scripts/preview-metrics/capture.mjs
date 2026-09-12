@@ -48,7 +48,7 @@ try {
       path: `screenshots/analytics-${name}.png`,
       animations: "disabled",
     });
-    const sankey = page.getByRole("region", {
+    const sankey = gallery.getByRole("region", {
       name: "Where parcels go",
       exact: true,
     });
@@ -57,7 +57,7 @@ try {
       animations: "disabled",
     });
 
-    const trend = page.getByRole("region", {
+    const trend = gallery.getByRole("region", {
       name: "On-time delivery",
       exact: true,
     });
@@ -74,7 +74,7 @@ try {
       .getByRole("button", { name: "Reset zoom", exact: true })
       .click();
 
-    const scatter = page.getByRole("region", {
+    const scatter = gallery.getByRole("region", {
       name: "Cost and speed tradeoffs",
       exact: true,
     });
