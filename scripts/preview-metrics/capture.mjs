@@ -142,6 +142,23 @@ try {
     });
     await page.close();
   }
+  const reviewPage = await browser.newPage({
+    viewport: { width: 960, height: 1000 },
+  });
+  reviewPage.on("pageerror", (error) => errors.push(error.message));
+  await reviewPage.goto("http://127.0.0.1:4173", { waitUntil: "networkidle" });
+  await reviewPage.evaluate(() => document.fonts.ready);
+  await reviewPage.waitForFunction(
+    () =>
+      document.querySelectorAll('[data-chart-state="ready"] svg').length === 9,
+  );
+  await reviewPage
+    .getByRole("region", { name: "Analytical chart examples", exact: true })
+    .screenshot({
+      path: "screenshots/analytics-review.png",
+      animations: "disabled",
+    });
+  await reviewPage.close();
   const canvasPage = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
   });

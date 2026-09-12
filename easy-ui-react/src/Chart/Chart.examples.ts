@@ -593,9 +593,17 @@ export const treemapExample: ChartProps = {
           color: "#ffffff",
           fontSize: 11,
         },
-        upperLabel: { show: true, height: 24, color: "#172b4d" },
+        upperLabel: {
+          show: true,
+          height: 24,
+          color: "#172b4d",
+          formatter: "{b}",
+        },
         levels: [
-          { itemStyle: { gapWidth: 4, borderWidth: 0 } },
+          {
+            itemStyle: { gapWidth: 4, borderWidth: 0 },
+            upperLabel: { show: false },
+          },
           {
             itemStyle: {
               gapWidth: 2,
@@ -607,7 +615,7 @@ export const treemapExample: ChartProps = {
         data: hierarchy.map((origin, index) => ({
           name: origin.name,
           itemStyle: { color: colors[index] },
-          children: services.map((name, i) => ({
+          children: services.map((_name, i) => ({
             name: ["Ground", "2-day", "1-day"][i],
             value: origin.values[i],
             label: { show: origin.values[i] >= 600 },
