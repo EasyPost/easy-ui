@@ -1,0 +1,29 @@
+{
+  "results": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "chartCount": 9,
+      "horizontalOverflow": false,
+      "keyboardZoom": true,
+      "pointerSelection": true,
+      "keyboardRowSelection": true,
+      "trendCount": 4
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "chartCount": 9,
+      "horizontalOverflow": false,
+      "keyboardZoom": true,
+      "pointerSelection": true,
+      "keyboardRowSelection": true,
+      "trendCount": 4
+    },
+    {
+      "name": "canvas",
+      "chartCount": 9
+    }
+  ],
+  "errors": []
+}
