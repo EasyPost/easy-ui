@@ -24,27 +24,29 @@ import {
 import { LabelLayout, LegacyGridContainLabel } from "echarts/features";
 import { CanvasRenderer, SVGRenderer } from "echarts/renderers";
 
+// Match the full entry's installation order. Marker preprocessors affect
+// component drawing order where a point and a reference line overlap.
 use([
-  BarChart,
-  BoxplotChart,
-  HeatmapChart,
+  CanvasRenderer,
+  SVGRenderer,
   LineChart,
+  BarChart,
   PieChart,
-  SankeyChart,
   ScatterChart,
   TreemapChart,
-  DataZoomComponent,
+  SankeyChart,
+  BoxplotChart,
+  HeatmapChart,
   GridComponent,
-  LegendComponent,
-  MarkAreaComponent,
-  MarkLineComponent,
-  MarkPointComponent,
   TooltipComponent,
+  MarkPointComponent,
+  MarkLineComponent,
+  MarkAreaComponent,
+  LegendComponent,
+  DataZoomComponent,
   VisualMapContinuousComponent,
   LabelLayout,
   LegacyGridContainLabel,
-  CanvasRenderer,
-  SVGRenderer,
 ]);
 
 export { init };
