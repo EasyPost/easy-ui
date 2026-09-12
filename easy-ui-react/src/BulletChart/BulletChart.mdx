@@ -1,0 +1,23 @@
+import { ArgTypes, Canvas, Meta } from "@storybook/addon-docs/blocks";
+import { BulletChart } from "./BulletChart";
+import * as Stories from "./BulletChart.stories";
+
+<Meta of={Stories} />
+
+# BulletChart
+
+A compact measure against a target: a filled bar, target marker, and explicit zero-based scale. Native HTML/CSS; no chart engine. Import from `@easypost/easy-ui/BulletChart`.
+
+<Canvas of={Stories.Default} />
+<Canvas of={Stories.CostTarget} />
+
+Supply a finite positive `max` and non-negative `value` and `target` within that bound. Set the same `max` to compare multiple measures in the same unit. Invalid or out-of-range inputs are unavailable, never silently clipped; `null` is missing and zero is observed. A missing measure suppresses the plot while preserving a valid target as text.
+
+<Canvas of={Stories.NoData} />
+<Canvas of={Stories.Zero} />
+
+Exact measure, target, and scale remain available without hover. The target uses a marker shape instead of color alone. No animation or keyboard interaction. Exceeding a target does not automatically imply success: the application owns business meaning, metric definitions, units, and loading/error states.
+
+This intentionally small component has one measure and one target. Use `Chart` for qualitative range bands, signed values, multiple series, tooltips, or a full analytical view.
+
+<ArgTypes of={BulletChart} />

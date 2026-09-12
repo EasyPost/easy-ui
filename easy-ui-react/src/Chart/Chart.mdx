@@ -77,3 +77,7 @@ ECharts is an optional peer, dynamically imported only when a ready chart mounts
 The isolated production gallery measured the full engine chunk at approximately 1.14 MB minified / 382 KB gzip. This deliberate breadth supports specialist charts through one engine. Route-level lazy loading remains appropriate for analytical screens. The SVG sparkline retains its dependency-free implementation.
 
 <ArgTypes of={ChartStories.TimeSeries} />
+
+## Lightweight alternatives
+
+Use `MetricCard` and `Sparkline` for KPI summaries and compact trends, `BarList` for category comparisons, or `BulletChart` for a measure against a target. These components use native SVG/HTML/CSS and never import ECharts. Keep the full engine for analytical views that need its axes, layouts, and interactions. See `documentation/specs/DataVisualization.md` for reproducible bundle measurements and their limits.
