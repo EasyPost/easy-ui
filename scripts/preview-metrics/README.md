@@ -15,9 +15,9 @@ npm run capture
 
 `dist/` contains the runnable preview, manifest, lazy analytical chunks, and `bundle-sizes.json`. The measurement retains component exports and includes transitive Easy UI primitives; React, global styles, tokens, fonts, and application data are excluded. Sizes are decimal bytes with gzip per emitted asset, not a device performance benchmark.
 
-`screenshots/` contains both desktop/mobile galleries, a PR-width capture for each portfolio, Sankey details, a table example, and `validation.json`. Browser checks cover all nine analytical charts, pointer selection, keyboard zoom and row selection, overflow, runtime errors, and the lightweight page making zero requests for analytical dynamic entries identified by the build manifest. The Chart examples workflow publishes both directories as an artifact.
+`screenshots/` contains all four galleries at desktop, mobile, and PR widths, Sankey details, a table example, and `validation.json`. Browser checks cover all 18 analytical charts, pointer selection, keyboard zoom and row selection, overflow, runtime errors, and the lightweight page making zero requests for analytical dynamic entries identified by the build manifest. The Chart examples workflow publishes both directories as an artifact.
 
-The preview does not replace monorepo CI or the full Storybook build. Refresh both galleries in the PR after intentional UI changes. Original KPI-only captures remain in `documentation/examples/metrics`; analytical captures are in `documentation/examples/analytics`; the expanded lightweight gallery is in `documentation/examples/lightweight`.
+The preview does not replace monorepo CI or the full Storybook build. Refresh affected galleries in the PR after intentional UI changes. Original KPI-only captures remain in `documentation/examples/metrics`; analytical captures are in `documentation/examples/analytics`; the expanded lightweight gallery is in `documentation/examples/lightweight`; additive native and analytical captures are in `documentation/examples/additive`.
 
 ## Additive galleries
 
