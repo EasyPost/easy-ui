@@ -141,7 +141,11 @@ export const scenarioExample: ChartProps = {
         markLine: {
           silent: true,
           symbol: "none",
-          label: { fontSize: 10, position: "insideEndTop", formatter: "{b}" },
+          label: {
+            fontSize: 10,
+            position: "insideStartBottom",
+            formatter: "{b}",
+          },
           data: [
             {
               yAxis: 0,
@@ -169,14 +173,24 @@ export const scenarioExample: ChartProps = {
         markPoint: {
           symbol: "circle",
           symbolSize: 8,
-          label: { show: true, fontSize: 10, formatter: "{b}" },
+          label: {
+            show: true,
+            fontSize: 10,
+            formatter: "{b}",
+            backgroundColor: "rgba(255,255,255,0.9)",
+            padding: [2, 3],
+          },
           data: [
             {
               coord: [-3, 4.5],
               name: "Model peak",
-              label: { position: "top" },
+              label: { position: "top", distance: 18 },
             },
-            { coord: [-2, 4], name: "Proposed", label: { position: "bottom" } },
+            {
+              coord: [-2, 4],
+              name: "Proposed",
+              label: { position: "bottom", distance: 16 },
+            },
             { coord: [0, 0], name: "Current", label: { position: "left" } },
           ],
         },
@@ -211,6 +225,7 @@ export const histogramExample: ChartProps = {
   description:
     "1,000 synthetic delivered parcels · Equal one-day buckets. Bar labels show exact counts.",
   option: {
+    legend: { show: false },
     grid,
     tooltip: { trigger: "axis" },
     xAxis: {
@@ -240,6 +255,7 @@ export const cumulativeExample: ChartProps = {
   description:
     "Same 1,000 parcels · Cumulative observed share. By day 3: 74%; by day 4: 90%. This is not a delivery forecast.",
   option: {
+    legend: { show: false },
     grid,
     tooltip: { trigger: "axis" },
     xAxis: {
@@ -299,6 +315,7 @@ export const boxPlotExample: ChartProps = {
   description:
     "Supplied synthetic summaries · Whiskers: min/max; box: P25–P75; center: median. Bounds are descriptive, not confidence intervals.",
   option: {
+    legend: { show: false },
     grid: { left: 74, right: 24, top: 36, bottom: 48 },
     tooltip: { trigger: "item" },
     xAxis: {
@@ -455,6 +472,7 @@ export const waterfallExample: ChartProps = {
   description:
     "Synthetic USD ledger · $24,000 − $9,000 − $1,200 + $500 = $14,300. Costs and fees are explicit; bar heights reconcile to the table.",
   option: {
+    legend: { show: false },
     grid: { ...grid, top: 44 },
     tooltip: {
       trigger: "axis",
@@ -586,7 +604,8 @@ export const periodicHeatmapExample: ChartProps = {
           .filter((cell) => cell.rate !== null)
           .map((cell) => ({
             value: [cell.x, cell.y, cell.rate],
-            label: { color: cell.rate! >= 1.8 ? "#ffffff" : "#172b4d" },
+            // Black/white switch keeps small labels above 4.5:1 on this scale.
+            label: { color: cell.rate! >= 2.3 ? "#ffffff" : "#000000" },
           })),
         label: {
           show: true,
