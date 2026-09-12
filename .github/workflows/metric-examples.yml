@@ -21,7 +21,7 @@ permissions:
 jobs:
   screenshots:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: scripts/preview-metrics
@@ -35,6 +35,8 @@ jobs:
       - run: npm run measure
       - run: npx playwright install --with-deps chromium
       - run: npm run capture
+      - run: npm run measure:modular
+      - run: npm run capture:modular
       - uses: actions/upload-artifact@v4
         if: always()
         with:
