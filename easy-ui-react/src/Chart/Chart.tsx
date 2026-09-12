@@ -4,6 +4,7 @@ import { Text } from "../Text";
 import { useColorScheme, useTheme } from "../Theme";
 import { loadChartEngine, ChartInstance } from "./engine";
 import { themedOption } from "./theme";
+import { preserveInteractions } from "./interactions";
 import { ChartDataTable, ChartOption, ChartSelection } from "./types";
 import styles from "./Chart.module.scss";
 
@@ -212,6 +213,7 @@ function ChartPlot(props: PlotProps) {
     const element = container.current!;
     let disposed = false;
     let observer: ResizeObserver | undefined;
+    let previousOption: ChartOption | undefined;
     const motion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
     const scheme = window.matchMedia?.("(prefers-color-scheme: dark)");
     const fail = (error: unknown) => {
@@ -223,11 +225,23 @@ function ChartPlot(props: PlotProps) {
     const apply = () => {
       if (!instance.current || disposed) return;
       try {
-        // Replace, rather than merge, so removed series and stale samples disappear.
+        const option = themedOption(
+          element,
+          latest.current.option,
+          !!motion?.matches,
+        );
+        // Replace stale configuration, carrying only unchanged interaction settings.
         instance.current.setOption(
-          themedOption(element, latest.current.option, !!motion?.matches),
+          previousOption
+            ? preserveInteractions(
+                option,
+                previousOption,
+                instance.current.getOption() as ChartOption,
+              )
+            : option,
           { notMerge: true },
         );
+        previousOption = option;
         setState("ready");
       } catch (error) {
         fail(error);

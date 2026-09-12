@@ -177,6 +177,24 @@ try {
         animations: "disabled",
       });
     }
+    const waterfall = extensions.getByRole("region", {
+      name: "From receipts to contribution",
+      exact: true,
+    });
+    await waterfall.locator('svg path[fill="#9b5900"]').first().hover();
+    await waterfall.getByText("Delivery: $-9,000", { exact: true }).waitFor();
+    await waterfall.getByText("Balance: $15,000", { exact: true }).waitFor();
+    assert.doesNotMatch(
+      await waterfall.locator("svg").textContent(),
+      /<br\s*\/?\s*>/,
+    );
+    if (name === "desktop")
+      await waterfall.screenshot({
+        path: "screenshots/waterfall-tooltip.png",
+        animations: "disabled",
+      });
+    await page.mouse.move(0, 0);
+
     const compact = native.getByRole("figure", {
       name: "Observed and plan",
       exact: true,
@@ -204,6 +222,7 @@ try {
       compactTimeSeries: 4,
       rangePlots: 2,
       compactKeyboardData: true,
+      waterfallTooltip: true,
     });
     await page.close();
   }
