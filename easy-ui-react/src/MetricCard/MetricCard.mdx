@@ -1,0 +1,35 @@
+import { ArgTypes, Canvas, Meta } from "@storybook/addon-docs/blocks";
+import { MetricCard } from "./MetricCard";
+import * as MetricCardStories from "./MetricCard.stories";
+
+<Meta of={MetricCardStories} />
+
+# MetricCard
+
+Show a metric, its comparison baseline, and an optional compact trend. Values and comparisons are formatted by the application, which owns the metric definition, locale, time zone, and aggregation.
+
+<Canvas of={MetricCardStories.ShippingOverview} />
+
+## Comparison meaning
+
+Specify the comparison period and units. A change from 96.6% to 97.8% is **1.2 percentage points**, not 1.2 percent. Direction does not determine sentiment: decreasing cost can be positive, while increasing volume can be neutral. Only set sentiment when the application can justify that interpretation. Use text that makes the direction clear without color.
+
+<Canvas of={MetricCardStories.Default} />
+
+## Loading and unavailable values
+
+Pass `isLoading` while a query is loading. The previous value, comparison, and trend are suppressed. Pass `null` for an unavailable value and a formatted `"0"` for an observed zero. For query failures, compose an existing `Banner` with a retry action; do not present a failed query as zero or an empty successful result. Loading and empty labels can be localized.
+
+<Canvas of={MetricCardStories.Loading} />
+<Canvas of={MetricCardStories.NoData} />
+<Canvas of={MetricCardStories.Zero} />
+
+## Trend integrity
+
+Supply equally spaced buckets, inserting `null` for missing observations. Each sparkline uses its own vertical extent. Compare direction within a card; use a full chart with labelled axes and a shared domain to compare magnitude across metrics. The accessible trend summary should state its metric, period, direction, and gaps. Keep exact observations available in the surrounding report or a linked data table. A sparkline is a summary, not an interactive point inspector.
+
+<Canvas of={MetricCardStories.MissingObservations} />
+
+## Properties
+
+<ArgTypes of={MetricCard} />
