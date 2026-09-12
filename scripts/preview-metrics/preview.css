@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  background: #f4f6fa;
+  color: #172b4d;
+}
+
+main {
+  max-width: 1360px;
+  margin: auto;
+  padding: 32px;
+}
+
+.eyebrow {
+  margin: 0 0 24px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #50647e;
+}
+
+.note {
+  margin: 20px 0 36px;
+  max-width: 900px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #50647e;
+}
+
+h2 {
+  margin: 24px 0 16px;
+  font-size: 18px;
+}
+
+.state-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 720px) {
+  main {
+    padding: 20px;
+  }
+
+  .state-grid {
+    grid-template-columns: 1fr;
+  }
+}
