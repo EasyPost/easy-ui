@@ -1,0 +1,27 @@
+import { ArgTypes, Canvas, Meta } from "@storybook/addon-docs/blocks";
+import { CompactTimeSeries } from "./CompactTimeSeries";
+import * as Stories from "./CompactTimeSeries.stories";
+
+<Meta of={Stories} />
+
+# CompactTimeSeries
+
+A native SVG time series with sparse axes, optional observation markers and a labeled reference. Import from `@easypost/easy-ui/CompactTimeSeries`. No ECharts dependency.
+
+<Canvas of={Stories.Default} />
+<Canvas of={Stories.Comparison} />
+
+Supply one to three series with unique IDs and strictly increasing timestamps in milliseconds. Elapsed spacing is preserved. `null` and non-finite values create gaps; isolated observations remain visible. Zero is an observation. `domain` defines the vertical scale; `timeDomain` can define a shared horizontal scale. Values and references must fit the displayed domains. Invalid domains, ordering, or out-of-range observations suppress the plot with `invalidDataLabel`; exact supplied values remain in the data disclosure.
+
+Provide explicit time-zone/period/coverage context and short axis formatters. Exact observations remain available without hover in the keyboard-operable data disclosure. Labels and line dashes distinguish series beyond color. Markers can be `none`, `all`, `endpoints` of each segment, or global `extrema` (first observation of tied extrema).
+
+<Canvas of={Stories.StepChanges} />
+
+Linear interpolation is the default. `step-after` retains the previous value until the next observation, for effective-dated prices and policies. It does not fill missing intervals. No implicit smoothing, animation, aggregation, or statistical calculation.
+
+<Canvas of={Stories.SharedScales} />
+<Canvas of={Stories.NoData} />
+
+Use the same value and time domains for panels intended for comparison. The component owns no brushing, zoom, or shared selection machinery. Use `Chart` for more series, dense inspection, uncertainty bands, and analytical interactions. Resize observers are released on unmount; SSR starts with deterministic geometry before measuring the container.
+
+<ArgTypes of={CompactTimeSeries} />

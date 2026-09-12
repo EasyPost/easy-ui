@@ -23,6 +23,16 @@ A compact trend for equally spaced observations. Use inside a metric card or tab
 
 Provide an `accessibilityLabel` describing the metric, period, trend, and gaps. Exact values should remain available in an adjacent report or linked data table. The chart adds no keyboard stop and no animation. Each chart scales independently to its finite minimum and maximum; slopes and vertical positions across separate sparklines do not share a unit or scale. Use labelled axes for those comparisons.
 
+## Optional observation markers
+
+Existing lines remain unmarked by default. Add `markers="all"`, `"endpoints"` (per contiguous segment), or `"extrema"` (first global minimum/maximum). Isolated observations always remain visible. Markers describe observed points; missing buckets never acquire dots or connecting lines. Dense trends should usually retain `none` or use endpoints.
+
+<Canvas of={SparklineStories.ObservationMarkers} />
+<Canvas of={SparklineStories.EndpointMarkers} />
+<Canvas of={SparklineStories.ExtremaMarkers} />
+
+For sparse axes, real timestamps, an explicit shared domain, or a target, use `CompactTimeSeries`.
+
 ## Properties
 
 <ArgTypes of={Sparkline} />

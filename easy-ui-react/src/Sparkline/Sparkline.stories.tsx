@@ -32,3 +32,13 @@ export const SingleObservation: Story = {
 export const NoData: Story = {
   args: { values: [], accessibilityLabel: "Daily exceptions" },
 };
+
+export const ObservationMarkers: Story = {
+  args: { ...Default.args, markers: "all" },
+};
+export const EndpointMarkers: Story = {
+  args: { ...MissingObservations.args, markers: "endpoints" },
+};
+export const ExtremaMarkers: Story = {
+  args: { ...Default.args, markers: "extrema" },
+};

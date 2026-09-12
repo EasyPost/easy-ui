@@ -112,3 +112,23 @@ h1 {
     padding: 8px 4px;
   }
 }
+
+.extension-section {
+  margin-top: 48px;
+}
+.extension-panel h2 {
+  margin: 0 0 8px;
+}
+.extension-panel-spacing {
+  margin-top: 24px;
+}
+.marker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+@media (max-width: 720px) {
+  .marker-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -53,6 +53,28 @@ The native `ChartOption` retains ECharts' documented configuration rather than c
 <Canvas of={ChartStories.Donut} />
 <Canvas of={ChartStories.Treemap} />
 
+## Additional analytical patterns
+
+These additions retain the original gallery and use the same optional engine. Direct bar labels and labeled references make the comparison readable without hover. Thresholds and event markers have explicit meanings; neither implies causation.
+
+<Canvas of={ChartStories.LabeledBars} />
+<Canvas of={ChartStories.AnnotatedTimeSeries} />
+<Canvas of={ChartStories.ScenarioResponse} />
+
+The scenario curve uses a numeric adjustment axis. Current, proposed, and peak settings are synthetic model evaluations; the trial range is an example of an authorized interval, not a prediction interval.
+
+<Canvas of={ChartStories.Histogram} />
+<Canvas of={ChartStories.CumulativeDistribution} />
+<Canvas of={ChartStories.ArrivalSpread} />
+<Canvas of={ChartStories.PredictionBand} />
+
+Histogram and cumulative distribution share the same 1,000 parcels. The box plot receives explicitly defined min/P25/median/P75/max summaries. Prediction bounds are supplied model outputs. Applications own statistical calculations, coverage, and semantics; the component does not infer confidence from an average or a percentile.
+
+<Canvas of={ChartStories.ContributionWaterfall} />
+<Canvas of={ChartStories.WeekdayHourHeatmap} />
+
+The waterfall reconciles each signed ledger item to its running balance. The periodic matrix preserves sample counts in the table and suppresses rates with fewer than 50 observations in this synthetic example. That minimum is an example policy, not a statistical guarantee or a library default.
+
 ## Interaction and data access
 
 ECharts supplies tooltips, legends, zoom, and linked-flow highlighting. `onSelect` forwards the series ID, data index, name, data type, value, and original datum; Sankey events distinguish nodes from edges. Keep stable IDs in application records. `onRowSelect` gives keyboard users the equivalent drill-down by table row ID. Both routes are demonstrated in the shipping gallery's scatter plot.

@@ -93,3 +93,27 @@ describe("<Sparkline />", () => {
     );
   });
 });
+
+it("adds optional observation markers while retaining missing-data gaps and the existing default", () => {
+  const { container, rerender } = render(
+    <Sparkline values={[1, 3, null, 2, 4]} accessibilityLabel="Two segments" />,
+  );
+  expect(container.querySelectorAll("circle")).toHaveLength(0);
+  rerender(
+    <Sparkline
+      values={[1, 3, null, 2, 4]}
+      accessibilityLabel="Two segments"
+      markers="all"
+    />,
+  );
+  expect(container.querySelectorAll("circle")).toHaveLength(4);
+  expect(container.querySelectorAll("polyline")).toHaveLength(2);
+  rerender(
+    <Sparkline
+      values={[1, 3, null, 2, 4]}
+      accessibilityLabel="Two segments"
+      markers="extrema"
+    />,
+  );
+  expect(container.querySelectorAll("circle")).toHaveLength(2);
+});

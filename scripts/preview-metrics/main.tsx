@@ -9,11 +9,17 @@ import {
 import "../../easy-ui-react/src/styles/global.scss";
 import "../../.storybook/public/poppins.css";
 import "./preview.css";
+import { NativeExtensions } from "./NativeExtensions";
 import { LightweightExamples } from "./LightweightExamples";
 
 const AnalyticalExamples = lazy(() =>
   import("../../easy-ui-react/src/Chart/Chart.stories").then((module) => ({
     default: module.AnalyticalExamples,
+  })),
+);
+const AnalyticalExtensions = lazy(() =>
+  import("../../easy-ui-react/src/Chart/Chart.stories").then((module) => ({
+    default: module.AnalyticalExtensions,
   })),
 );
 const lightweightOnly =
@@ -24,6 +30,7 @@ createRoot(document.getElementById("root")!).render(
     <main>
       <p className="eyebrow">EASY UI · DATA VISUALIZATION</p>
       <LightweightExamples />
+      <NativeExtensions />
       <section aria-label="Metric state examples">
         <h2>Loading, unavailable, zero, and missing data</h2>
         <div className="state-grid">
@@ -63,6 +70,24 @@ createRoot(document.getElementById("root")!).render(
               and tradeoffs
             </p>
             <AnalyticalExamples
+              renderer={
+                new URLSearchParams(location.search).get("renderer") ===
+                "canvas"
+                  ? "canvas"
+                  : "svg"
+              }
+            />
+          </section>
+          <section
+            aria-label="Analytical chart extensions"
+            className="extension-section"
+          >
+            <h1>Analytical decision patterns</h1>
+            <p className="note">
+              Synthetic examples · Labels, references, scenarios, distributions,
+              uncertainty, and contribution
+            </p>
+            <AnalyticalExtensions
               renderer={
                 new URLSearchParams(location.search).get("renderer") ===
                 "canvas"
