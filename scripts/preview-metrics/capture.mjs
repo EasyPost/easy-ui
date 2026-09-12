@@ -112,7 +112,16 @@ try {
       }
       // Adjacency emphasis was an important gap in the Recharts experiment.
       const beforeHover = await sankey.locator("svg").innerHTML();
-      await sankey.locator('svg path[fill="#113abf"]').first().hover();
+      const blueMarks = sankey.locator('svg path[fill="#113abf"]');
+      const nodeIndex = await blueMarks.evaluateAll((paths) =>
+        paths.findIndex((path) => {
+          const box = path.getBoundingClientRect();
+          return box.width <= 16 && box.height > 20;
+        }),
+      );
+      assert.ok(nodeIndex >= 0, "Sankey carrier node must be present");
+      // Links share node colors and may have labels over their centers.
+      await blueMarks.nth(nodeIndex).hover();
       await page.waitForFunction((before) => {
         return (
           document.querySelector('[aria-label="Where parcels go"] svg')
