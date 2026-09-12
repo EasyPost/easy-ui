@@ -14,18 +14,19 @@ import {
 import { LabelLayout, LegacyGridContainLabel } from "echarts/features";
 import { SVGRenderer } from "echarts/renderers";
 
+// Preserve the full entry's marker installation/drawing order.
 use([
+  SVGRenderer,
   LineChart,
-  DataZoomComponent,
   GridComponent,
-  LegendComponent,
-  MarkAreaComponent,
-  MarkLineComponent,
-  MarkPointComponent,
   TooltipComponent,
+  MarkPointComponent,
+  MarkLineComponent,
+  MarkAreaComponent,
+  LegendComponent,
+  DataZoomComponent,
   LabelLayout,
   LegacyGridContainLabel,
-  SVGRenderer,
 ]);
 
 export { init };
