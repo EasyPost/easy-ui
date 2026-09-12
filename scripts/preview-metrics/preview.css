@@ -46,3 +46,11 @@ h2 {
     grid-template-columns: 1fr;
   }
 }
+
+h1 {
+  font-size: 28px;
+  margin: 0;
+}
+.metric-examples {
+  margin-top: 48px;
+}

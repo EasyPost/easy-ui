@@ -10,14 +10,32 @@ import {
 import "../../easy-ui-react/src/styles/global.scss";
 import "../../.storybook/public/poppins.css";
 import "./preview.css";
+import { AnalyticalExamples } from "../../easy-ui-react/src/Chart/Chart.stories";
 
 const Overview = ShippingOverview.render as React.ComponentType;
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider colorScheme="light">
     <main>
-      <p className="eyebrow">EASY UI · METRICCARD + SPARKLINE</p>
-      <section aria-label="Shipping overview example">
+      <p className="eyebrow">EASY UI · ANALYTICAL CHARTS</p>
+      <section aria-label="Analytical chart examples">
+        <h1>Shipping analytics</h1>
+        <p className="note">
+          Synthetic examples · Flows, trends, comparisons, distributions, and
+          tradeoffs
+        </p>
+        <AnalyticalExamples
+          renderer={
+            new URLSearchParams(location.search).get("renderer") === "canvas"
+              ? "canvas"
+              : "svg"
+          }
+        />
+      </section>
+      <section
+        className="metric-examples"
+        aria-label="Shipping overview example"
+      >
         <Overview />
       </section>
       <p className="note">

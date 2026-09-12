@@ -1,6 +1,6 @@
 # Data visualization proposal
 
-Status: proposed. Source audit: September 12, 2026, at commit `6a3a4c95dde6408cb38b4b2ae30d3904040757e8` (`@easypost/easy-ui` version `1.0.0-alpha.133`). This is a contribution proposal, not an approved roadmap.
+Status: expanded implementation for review. Source audit: September 12, 2026, at commit `6a3a4c95dde6408cb38b4b2ae30d3904040757e8` (`@easypost/easy-ui` version `1.0.0-alpha.133`). This is a contribution proposal, not an approved roadmap.
 
 ## Problem and evidence
 
@@ -19,54 +19,45 @@ Public product references establish concrete demand:
 
 The recurring visual language is restrained: white cards, blue/navy marks, light gridlines, compact headings, filter rows, and exact tables underneath. Use Easy UI's current tokens rather than copying screenshot hex values or embedded BI chrome. Screenshots are evidence of product needs, not evidence of reusable components. All new example values are synthetic.
 
-## Minimum useful scope
+## Analytical scope in this PR
 
-Start with four component families and one shared chart presentation layer:
+The contribution includes a reusable `Chart` backed by Apache ECharts 6.1.0, plus complementary `MetricCard` and `Sparkline` components. KPI summaries alone do not address the analytical requirement.
 
-| Family                       | Minimum capability                                                                                                                  | Shipping question it answers                                                                               |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `MetricCard` and `Sparkline` | Formatted value, explicit comparison baseline, independently chosen sentiment, accessible trend summary, loading and no-data states | What changed, by how much, and over what period?                                                           |
-| `TimeSeriesChart`            | Multiple lines; optional area fill; true elapsed-time axis; reference line/series; selectable observations                          | How are cost, volume, and delivery performance changing relative to a baseline?                            |
-| `BarChart`                   | Horizontal/vertical; grouped/stacked; optional normalized stacks; caller-supplied histogram bins                                    | Which carrier/service differs, what is the mix, and where does transit time concentrate?                   |
-| `ScatterChart`               | Numeric x/y axes; named series; optional bubble area; reference thresholds; point selection                                         | Which services or cohorts offer the best cost/performance tradeoff, and how much volume do they represent? |
+| Implemented example                                             | Shipping question                                                             |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Sankey with responsive orientation and adjacency highlighting   | How do parcels flow from origins through carriers to delivery outcomes?       |
+| Time series with elapsed-time axis, gaps, target line, and zoom | How does on-time performance change over time?                                |
+| Stacked area                                                    | How does daily volume grow and split across carriers?                         |
+| Grouped bars                                                    | How do rated costs compare with a benchmark by service?                       |
+| Normalized stacked bars                                         | How do transit distributions differ across carriers?                          |
+| Scatter/bubble                                                  | Which services balance cost and speed, and how much volume do they represent? |
+| Matrix heatmap with exact sample counts in the table            | Where does performance vary across zone and weight?                           |
+| Donut                                                           | What is the composition of exception reasons?                                 |
+| Treemap                                                         | How does volume split across origins and their services?                      |
 
-Scatter is a proposed extension for comparing tradeoffs; it was not observed in the inspected screenshots. Bubble **area**, not radius, must encode volume. Distributions need explicit bin boundaries and labels; do not quietly turn arbitrary categories into a histogram.
+All fixtures are synthetic. Plots and their exact-value tables share source records. Sankey inflows and outflows balance at each carrier. Bubble area encodes count. The line example preserves gaps and true timestamp spacing. The heatmap leaves unavailable cells blank and includes their null values in the table.
 
-Add a matrix `Heatmap` next for comparisons across two categorical dimensions, such as zone × weight or carrier × service. This is especially useful for a logistics data product, but can be a separate, bounded contribution. Include cell values, sample counts, missing-data treatment, and a legend. A geographic map is a separate problem.
+## Integration choice and tradeoffs
 
-Defer Sankey/network flow diagrams, geographic maps, gauges, treemaps, candlesticks, and a dashboard builder until a specific decision requires them. Carrier share can use sorted bars or a normalized stacked bar, so a donut does not need to block the first release. If exact parity with an existing carrier-split view is required, add a donut recipe separately.
+Use one maintained analytical engine rather than implementing axes, layouts, tooltips, and Sankey geometry within Easy UI. Apache ECharts supports the standard and specialist families in the requested scope. The adapter deliberately exposes its typed `EChartsOption` API; applications can compose series and use the engine's other built-in charts without waiting for another Easy UI wrapper. Easy UI owns the surrounding presentation, lifecycle, and data access. Applications own data queries, aggregation, definitions, scales, coverage, formatting, and persisted filter state.
 
-## Shared presentation contract
+ECharts is an optional peer (`^6.1.0`) and a pinned development dependency. The package marks it external and dynamically imports it when a ready chart mounts. This preserves ordinary Easy UI imports and CommonJS/ESM compatibility without requiring the engine for KPI cards. The full analytical engine measured about 1.14 MB minified / 382 KB gzip in the isolated Vite production preview. This is a conscious bundle-cost tradeoff for broad chart support; analytical routes should remain lazy-loaded.
 
-Compose a chart frame from `SectionCard`, with slots for title, description, existing filters, actions, chart, and data access. Avoid another page layout or chart-specific date picker. The shared layer should own:
+ECharts' [modular imports](https://echarts.apache.org/handbook/en/basics/import/) remain a future optimization if narrower installations justify managing per-family registrations. This PR uses the complete lazy engine so native option types accurately represent available capabilities. It does not ship a second chart engine. [SVG/canvas guidance](https://echarts.apache.org/handbook/en/best-practices/canvas-vs-svg/) informs the SVG default and optional canvas renderer.
 
-- A stable categorical series palette, separate from positive/negative status colors; series IDs retain colors when filters or sort order change. Benchmarks use a distinct dashed stroke and an explicit label.
-- Consistent axis typography, units, number/date formatting, legend and tooltip styles, gridlines, and reserved responsive height. Use the active Easy UI theme; evaluate contrast in each supported scheme.
-- An accessible chart name and summary, keyboard-operable tooltips/selection, touch interaction, visible focus, and an equivalent exact-value table. Do not rely on hover or color alone. A chart engine's accessibility switch is a starting point, not proof of compliance.
-- Loading, successful-empty, error/retry, and partial/stale data states. A failed query must not look like zero shipments. Missing samples are gaps. Suppressed or unavailable cells need a different treatment from low values.
-- Explicit time zone and bucket semantics. Full time series use timestamps; sparse observations retain elapsed spacing. KPI sparklines accept equal buckets with explicit null gaps. No implicit interpolation or smoothing.
-- Clear scale policy: zero baselines for magnitude bars/areas; explicit bounds for percentage axes; labelled line-chart domains; baseline/target values included in the visible domain. Avoid dual axes by default.
-- Selection callbacks carrying stable series and datum IDs so applications can drill into an existing report. Applications own queries, filters, pagination, aggregation, metric definitions, comparison math, and business interpretation.
+## Shared presentation and interaction
 
-No client-side shipment ingestion, forecasting, or aggregation framework is part of this design-system change. Report denominators/coverage where they affect interpretation, and distinguish observed, benchmark, and modeled values.
+- A title, visible description, optional actions and coverage notice, reserved height, and responsive width.
+- Easy UI typography and resolved theme colors; explicit stable series colors in examples. Automatic engine palettes are positional, so applications should assign colors by stable series ID when filtering or sorting.
+- Loading, successful-empty, error/retry, and partial-data presentation. Non-ready states suppress stale charts and tables. Engine failures call `onRenderError` and render an error label.
+- Hover/touch tooltips, graphical legend controls, Sankey flow highlighting, and pointer selection from ECharts. Series/datum information reaches `onSelect`.
+- An exact-value HTML table, stable row IDs, and keyboard-accessible drill-down through `onRowSelect`. The plot has an accessible description. Time-series zoom also has keyboard-operable buttons.
+- Reduced-motion handling, parent resize observation, renderer disposal, and cancellation when the component unmounts during an engine import.
 
-## Implementation choice
+Native graphical legends and individual marks are not keyboard-focusable. Reports needing keyboard filtering should provide controls through `actions`; the table provides exact values and drill-down. This is an explicit accessibility boundary, not a claim that an engine ARIA switch alone establishes compliance. See [ECharts accessibility guidance](https://echarts.apache.org/handbook/en/best-practices/aria/).
 
-Use a maintained chart engine for scales, axes, interaction, and rendering, behind thin, typed Easy UI components. Keep the public props narrow; do not create a universal chart configuration language or expose an unbounded engine options object.
+## Validation and contribution
 
-Recharts is the first candidate to evaluate for the initial Cartesian charts. Its [current manifest](https://github.com/recharts/recharts/blob/main/package.json) declares React 16–19 peer compatibility and ESM support. This is a compatibility lead, not a completed integration test or a version pin. Select and test a stable release against Easy UI's supported consumers, including transitive React dependencies.
+Require the repository build, lint, tests, and Storybook gates. Additional checks exercise CommonJS/ESM imports and server rendering, engine lifecycle and failures, state suppression, keyboard controls, reduced motion, theme changes, real SVG rendering for each example, and flow conservation. Browser captures verify desktop and mobile layouts, actual pointer selection, keyboard selection and zoom, and absence of horizontal overflow or browser errors.
 
-If canvas scale or specialist charts become immediate requirements, evaluate modular [Apache ECharts imports](https://echarts.apache.org/handbook/en/basics/import/). Its explicit chart/component/renderer registration permits bounded imports, but still needs a React lifecycle adapter and accessibility evaluation. Do not ship two engines in the initial release.
-
-Before selecting the engine, measure a production consumer build: compare no-chart imports against one time-series import; inspect ESM/CJS output and shared chunks; exercise resize, SSR/hydration, and intended point counts. Set a bundle and performance budget using those measurements. Easy UI's current Vite build bundles non-React dependencies, so simply adding an import does not guarantee the engine stays out of unrelated consumers. Prefer an opt-in charts package if that isolation cannot be demonstrated.
-
-The included `MetricCard`/`Sparkline` first slice requires no new dependencies. The small SVG sparkline has no axes or interactive inspection and is intentionally separate from the future full chart engine.
-
-## Contribution sequence and acceptance
-
-1. Open the accompanying proposal issue, as requested by EasyPost's contribution guidelines; confirm existing internal implementations and the minimum chart contract.
-2. Review the included `MetricCard`/`Sparkline` contribution: component source, Storybook docs, synthetic shipping example, edge-case tests, and minor changeset. It preserves observed zeros, null gaps, constant and isolated observations, explicit comparison baselines, and loading suppression of stale values. Consumers supply an accessible summary and exact data elsewhere. Error/retry is composed with the existing `Banner`.
-3. Add the chosen engine adapter, shared chart frame/palette, time series, and bars. Exercise keyboard/touch access, data-table equivalence, benchmarks, gap handling, resize, and import isolation before release.
-4. Add scatter/bubble and then matrix heatmaps against concrete product examples. Include reference lines, stable selection IDs, numeric scales, and low-sample/missing-data examples.
-
-For each code contribution, require the repository's build, lint, tests, and Storybook gates; inspect desktop and narrow layouts; include screenshots in the PR. No full chart family is claimed implemented by the first slice.
+The Chart examples workflow publishes the runnable gallery and screenshots. Refresh the PR's embedded examples after component or fixture changes. `scripts/preview-metrics/README.md` documents regeneration; `easy-ui-react/src/Chart/Chart.mdx` documents the consumer API.

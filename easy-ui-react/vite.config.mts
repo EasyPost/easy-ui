@@ -54,6 +54,7 @@ export default defineConfig({
       external: (id) =>
         [
           "react",
+          "echarts",
           "react-dom",
           "vitest",
           "@testing-library/react",

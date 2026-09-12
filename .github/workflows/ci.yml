@@ -19,6 +19,8 @@ jobs:
         run: npm i
       - name: Build
         run: npm run build
+      - name: Verify chart package imports and server rendering
+        run: node scripts/check-chart-package.mjs
       - name: Linting
         run: npm run lint
       - name: Unit tests
