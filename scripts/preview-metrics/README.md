@@ -24,3 +24,7 @@ The preview does not replace monorepo CI or the full Storybook build. Refresh af
 `NativeExtensions` adds CompactTimeSeries comparisons/steps, RangePlot benchmarks/percentiles, shared-scale small multiples, and marker variants. `AnalyticalExtensions` adds nine analytical task examples. Both original galleries stay visible. The lightweight-only URL includes all six native components and still makes zero analytical chunk requests.
 
 The screenshot artifact adds `native-extensions-{desktop,mobile,review}.png` and `analytical-extensions-{desktop,mobile,review}.png`. Browser capture now checks 18 SVG charts and 18 canvas charts, the compact chart's keyboard data disclosure, and both original and additional galleries. Public PR examples should remain additive and use immutable image URLs with source provenance.
+
+## Modular ECharts comparison
+
+`npm run measure:modular` builds the complete gallery with full and modular ECharts in separate output folders. `npm run capture:modular` checks both and compares their rendered PNGs, including desktop/mobile SVG, Canvas, and Sankey emphasis. See [the experiment notes](./modular/README.md) for registrations, measurement boundaries, and the opt-in API needed before production adoption.

@@ -5,7 +5,9 @@
   "scripts": {
     "build": "vite build",
     "capture": "node capture.mjs",
-    "measure": "node measure-bundles.mjs"
+    "measure": "node measure-bundles.mjs",
+    "measure:modular": "node measure-modular.mjs",
+    "capture:modular": "node capture-modular.mjs"
   },
   "dependencies": {
     "@easypost/easy-ui-tokens": "1.0.0-alpha.17",

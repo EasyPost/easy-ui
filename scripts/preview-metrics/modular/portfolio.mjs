@@ -1,0 +1,50 @@
+// Explicit registry for the 18 analytical recipes. This is an application
+// preset, not a replacement for the library's unrestricted ECharts option API.
+import { init, use } from "echarts/core";
+import {
+  BarChart,
+  BoxplotChart,
+  HeatmapChart,
+  LineChart,
+  PieChart,
+  SankeyChart,
+  ScatterChart,
+  TreemapChart,
+} from "echarts/charts";
+import {
+  DataZoomComponent,
+  GridComponent,
+  LegendComponent,
+  MarkAreaComponent,
+  MarkLineComponent,
+  MarkPointComponent,
+  TooltipComponent,
+  VisualMapContinuousComponent,
+} from "echarts/components";
+import { LabelLayout, LegacyGridContainLabel } from "echarts/features";
+import { CanvasRenderer, SVGRenderer } from "echarts/renderers";
+
+use([
+  BarChart,
+  BoxplotChart,
+  HeatmapChart,
+  LineChart,
+  PieChart,
+  SankeyChart,
+  ScatterChart,
+  TreemapChart,
+  DataZoomComponent,
+  GridComponent,
+  LegendComponent,
+  MarkAreaComponent,
+  MarkLineComponent,
+  MarkPointComponent,
+  TooltipComponent,
+  VisualMapContinuousComponent,
+  LabelLayout,
+  LegacyGridContainLabel,
+  CanvasRenderer,
+  SVGRenderer,
+]);
+
+export { init };
