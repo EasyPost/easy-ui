@@ -34,7 +34,7 @@ try {
     await page.waitForFunction(
       () =>
         document.querySelectorAll('[data-chart-state="ready"] svg').length ===
-        9,
+        18,
     );
     const gallery = page.getByRole("region", {
       name: "Analytical chart examples",
@@ -155,6 +155,36 @@ try {
         .count(),
       4,
     );
+    const native = page.getByRole("region", {
+      name: "Native chart extensions",
+      exact: true,
+    });
+    const extensions = page.getByRole("region", {
+      name: "Analytical chart extensions",
+      exact: true,
+    });
+    assert.equal(await extensions.getByRole("img").count(), 9);
+    for (const svg of await extensions.locator("svg").all()) {
+      assert.ok((await svg.locator("path").count()) > 0);
+      assert.doesNotMatch(await svg.innerHTML(), /(?:NaN|Infinity)/);
+    }
+    for (const [kind, region] of [
+      ["native-extensions", native],
+      ["analytical-extensions", extensions],
+    ]) {
+      await region.screenshot({
+        path: `screenshots/${kind}-${name}.png`,
+        animations: "disabled",
+      });
+    }
+    const compact = native.getByRole("figure", {
+      name: "Observed and plan",
+      exact: true,
+    });
+    await compact.getByText("View data", { exact: true }).focus();
+    await page.keyboard.press("Enter");
+    assert.equal(await compact.getByRole("table").isVisible(), true);
+    await compact.getByText("View data", { exact: true }).click();
     const overview = page.getByRole("region", {
       name: "Shipping overview example",
       exact: true,
@@ -163,7 +193,7 @@ try {
     results.push({
       name,
       width,
-      chartCount: 9,
+      chartCount: 18,
       horizontalOverflow: overflow,
       keyboardZoom: true,
       pointerSelection: true,
@@ -171,6 +201,9 @@ try {
       trendCount: 8,
       barListRows: 3,
       bulletCharts: 2,
+      compactTimeSeries: 4,
+      rangePlots: 2,
+      compactKeyboardData: true,
     });
     await page.close();
   }
@@ -182,7 +215,7 @@ try {
   await reviewPage.evaluate(() => document.fonts.ready);
   await reviewPage.waitForFunction(
     () =>
-      document.querySelectorAll('[data-chart-state="ready"] svg').length === 9,
+      document.querySelectorAll('[data-chart-state="ready"] svg').length === 18,
   );
   await reviewPage
     .getByRole("region", { name: "Analytical chart examples", exact: true })
@@ -196,6 +229,17 @@ try {
       path: "screenshots/lightweight-review.png",
       animations: "disabled",
     });
+  for (const [name, label] of [
+    ["native-extensions", "Native chart extensions"],
+    ["analytical-extensions", "Analytical chart extensions"],
+  ]) {
+    await reviewPage
+      .getByRole("region", { name: label, exact: true })
+      .screenshot({
+        path: `screenshots/${name}-review.png`,
+        animations: "disabled",
+      });
+  }
   await reviewPage.close();
   const lightPage = await browser.newPage({
     viewport: { width: 960, height: 1000 },
@@ -227,12 +271,12 @@ try {
   });
   await canvasPage.waitForFunction(
     () =>
-      document.querySelectorAll('[data-chart-state="ready"]').length === 9 &&
+      document.querySelectorAll('[data-chart-state="ready"]').length === 18 &&
       [...document.querySelectorAll('[data-chart-state="ready"]')].every(
         (plot) => plot.querySelector("canvas"),
       ),
   );
-  results.push({ name: "canvas", chartCount: 9 });
+  results.push({ name: "canvas", chartCount: 18 });
   await canvasPage.close();
   assert.deepEqual(errors, [], "The examples must not produce browser errors");
   await writeFile(

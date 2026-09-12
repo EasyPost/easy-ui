@@ -13,12 +13,24 @@ import {
   treemapExample,
   allExamples,
 } from "./Chart.examples";
+import {
+  extensionExamples,
+  labeledBarsExample,
+  annotatedTrendExample,
+  scenarioExample,
+  histogramExample,
+  cumulativeExample,
+  boxPlotExample,
+  predictionBandExample,
+  waterfallExample,
+  periodicHeatmapExample,
+} from "./Chart.extensions";
 import styles from "./examples.module.scss";
 
 const meta: Meta<typeof Chart> = {
   title: "Components/Chart",
   component: Chart,
-  excludeStories: ["AnalyticalExamples"],
+  excludeStories: ["AnalyticalExamples", "AnalyticalExtensions"],
 };
 export default meta;
 type Story = StoryObj<typeof Chart>;
@@ -83,4 +95,29 @@ export function AnalyticalExamples({
 }
 export const ShippingAnalytics: Story = {
   render: () => <AnalyticalExamples />,
+};
+
+export const LabeledBars: Story = { args: labeledBarsExample };
+export const AnnotatedTimeSeries: Story = { args: annotatedTrendExample };
+export const ScenarioResponse: Story = { args: scenarioExample };
+export const Histogram: Story = { args: histogramExample };
+export const CumulativeDistribution: Story = { args: cumulativeExample };
+export const ArrivalSpread: Story = { args: boxPlotExample };
+export const PredictionBand: Story = { args: predictionBandExample };
+export const ContributionWaterfall: Story = { args: waterfallExample };
+export const WeekdayHourHeatmap: Story = { args: periodicHeatmapExample };
+
+export function AnalyticalExtensions({
+  renderer = "svg",
+}: { renderer?: "svg" | "canvas" } = {}) {
+  return (
+    <div className={styles.gallery}>
+      {extensionExamples.map((example) => (
+        <Chart key={example.title} {...example} renderer={renderer} />
+      ))}
+    </div>
+  );
+}
+export const AnalyticalPatterns: Story = {
+  render: () => <AnalyticalExtensions />,
 };

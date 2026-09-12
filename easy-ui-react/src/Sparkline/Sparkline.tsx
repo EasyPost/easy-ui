@@ -1,4 +1,5 @@
 import React from "react";
+import { markerPoints, MarkerMode } from "../visualization/geometry";
 import styles from "./Sparkline.module.scss";
 
 export type SparklineProps = {
@@ -6,6 +7,8 @@ export type SparklineProps = {
   values: readonly (number | null)[];
   /** Describe the metric, period, trend, and any missing observations. */
   accessibilityLabel: string;
+  /** Optional observation markers; existing unmarked lines remain the default. */
+  markers?: MarkerMode;
 };
 
 const WIDTH = 160;
@@ -16,7 +19,11 @@ const PADDING = 4;
  * A compact trend for equally spaced observations. Each sparkline scales to
  * its own extent; use a chart with labelled axes to compare magnitudes.
  */
-export function Sparkline({ values, accessibilityLabel }: SparklineProps) {
+export function Sparkline({
+  values,
+  accessibilityLabel,
+  markers = "none",
+}: SparklineProps) {
   const segments = getSegments(values);
 
   return (
@@ -52,6 +59,18 @@ export function Sparkline({ values, accessibilityLabel }: SparklineProps) {
           />
         ),
       )}
+      {markerPoints(
+        segments.filter((points) => points.length > 1),
+        markers,
+      ).map(([x, y], index) => (
+        <circle
+          key={`marker-${index}`}
+          cx={x}
+          cy={y}
+          r={2}
+          fill="currentColor"
+        />
+      ))}
     </svg>
   );
 }

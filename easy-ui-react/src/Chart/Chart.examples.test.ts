@@ -11,26 +11,29 @@ import {
   timeSeriesExample,
 } from "./Chart.examples";
 
-it.each(allExamples.map((example) => [example.title, example] as const))(
-  "renders %s with the real ECharts SVG renderer",
-  (_title, example) => {
-    const chart = init(null, undefined, {
-      renderer: "svg",
-      ssr: true,
-      width: 720,
-      height: 360,
-    });
-    try {
-      chart.setOption({ ...example.option, animation: false });
-      const svg = chart.renderToSVGString();
-      expect(svg).toContain("<svg");
-      expect(svg).toContain("<path");
-      expect(svg).not.toMatch(/(?:NaN|Infinity)/);
-    } finally {
-      chart.dispose();
-    }
-  },
-);
+import { extensionExamples } from "./Chart.extensions";
+
+it.each(
+  [...allExamples, ...extensionExamples].map(
+    (example) => [example.title, example] as const,
+  ),
+)("renders %s with the real ECharts SVG renderer", (_title, example) => {
+  const chart = init(null, undefined, {
+    renderer: "svg",
+    ssr: true,
+    width: 720,
+    height: 360,
+  });
+  try {
+    chart.setOption({ ...example.option, animation: false });
+    const svg = chart.renderToSVGString();
+    expect(svg).toContain("<svg");
+    expect(svg).toContain("<path");
+    expect(svg).not.toMatch(/(?:NaN|Infinity)/);
+  } finally {
+    chart.dispose();
+  }
+});
 
 it("balances Sankey inflows and outflows at each carrier", () => {
   for (const name of ["Carrier A", "Carrier B", "Carrier C"]) {

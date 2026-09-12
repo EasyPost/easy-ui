@@ -9,6 +9,14 @@ const results = [];
 for (const components of [
   ["MetricCard", "Sparkline"],
   ["MetricCard", "Sparkline", "BarList", "BulletChart"],
+  [
+    "MetricCard",
+    "Sparkline",
+    "BarList",
+    "BulletChart",
+    "CompactTimeSeries",
+    "RangePlot",
+  ],
 ]) {
   const result = await build(
     mergeConfig(config, {

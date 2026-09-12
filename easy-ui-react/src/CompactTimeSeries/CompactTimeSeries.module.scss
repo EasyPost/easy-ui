@@ -1,0 +1,105 @@
+@use "../styles/common" as *;
+
+.root {
+  margin: 0;
+  min-width: 0;
+  color: design-token("color.neutral.900");
+  font-size: 14px;
+}
+.description {
+  margin: 6px 0 10px;
+  color: design-token("color.neutral.600");
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.plot {
+  display: block;
+  width: 100%;
+}
+.grid {
+  stroke: design-token("color.neutral.200");
+}
+.tick {
+  fill: design-token("color.neutral.600");
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.reference {
+  stroke: design-token("color.neutral.700");
+  stroke-dasharray: 3 3;
+}
+.primary {
+  color: design-token("color.primary.600");
+  fill: currentColor;
+}
+.secondary {
+  color: design-token("color.neutral.700");
+  fill: currentColor;
+}
+.tertiary {
+  color: design-token("color.primary.400");
+  fill: currentColor;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+  font-size: 12px;
+}
+.swatch {
+  display: inline-block;
+  width: 16px;
+  vertical-align: middle;
+  border-top: 2px solid currentColor;
+}
+
+.empty {
+  min-height: 140px;
+  display: grid;
+  place-items: center;
+}
+.details {
+  font-size: 12px;
+  summary {
+    cursor: pointer;
+    color: design-token("color.primary.600");
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid design-token("color.neutral.200");
+  }
+}
+.tableScroll {
+  max-height: 220px;
+  overflow: auto;
+  margin-top: 8px;
+}
+.details summary:focus-visible,
+.tableScroll:focus-visible {
+  outline: 2px solid design-token("color.primary.600");
+  outline-offset: 2px;
+}
+@media (forced-colors: active) {
+  .grid,
+  .reference {
+    stroke: CanvasText;
+  }
+  .tick {
+    fill: CanvasText;
+  }
+  .primary,
+  .secondary,
+  .tertiary {
+    color: CanvasText;
+  }
+}

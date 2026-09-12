@@ -76,3 +76,15 @@ Native graphical legends and individual marks are not keyboard-focusable. Report
 Require the repository build, lint, tests, and Storybook gates. Additional checks exercise CommonJS/ESM imports and server rendering, engine lifecycle and failures, state suppression, keyboard controls, reduced motion, theme changes, real SVG rendering for each example, and flow conservation. Browser captures verify desktop and mobile layouts, actual pointer selection, keyboard selection and zoom, and absence of horizontal overflow or browser errors.
 
 The Chart examples workflow publishes the runnable gallery and screenshots. Refresh the PR's embedded examples after component or fixture changes. `scripts/preview-metrics/README.md` documents regeneration; `easy-ui-react/src/Chart/Chart.mdx` documents the consumer API.
+
+## Additive expansion
+
+The existing galleries and defaults remain intact. New `CompactTimeSeries` and `RangePlot` native components close the gap between a summary sparkline and a full analytical chart. CompactTimeSeries supports one to three timestamped series, explicit shared domains, sparse axes, line/step interpolation, a labeled reference, markers, and exact accessible observations. RangePlot aligns named benchmarks and an optional supplied interval, including negative domains and equal-bound intervals.
+
+Sparkline adds opt-in observation, segment-endpoint, and global-extrema markers. Nine additional Chart examples demonstrate direct bar labels; target/threshold/event annotations; numeric scenario response; a histogram and cumulative distribution sharing source counts; descriptive box summaries; an explicitly supplied prediction interval; a reconciled contribution waterfall; and weekday/hour rates with counts and insufficient-sample blanks. These fixtures are public and synthetic.
+
+The native examples include report cells and small multiples with shared date and value scales. Reference lines, allowed intervals, percentile ranges, and prediction intervals keep separate labels and meanings. Applications own statistical calculation and coverage; examples do not imply business outcomes or causal effects.
+
+The expanded six-component native portfolio measures approximately **16.8 KB gzip JavaScript / 3.5 KB component CSS**, including transitive Easy UI primitives and excluding React/global styles/fonts. Relative to the previous four-component baseline (14.5 KB / 2.8 KB), the two new components plus marker support add approximately **2.4 KB JS / 0.6 KB CSS gzip**. The optional ECharts engine chunk is unchanged at about **382 KB gzip**. The workflow artifact contains exact current measurements and the method.
+
+Geography, a composition strip, and coordinated cross-chart brush/zoom state remain separate follow-ups. No new analytical engine, geography data, or custom-series package is introduced here.

@@ -1,0 +1,88 @@
+@use "../styles/common" as *;
+
+.root {
+  margin: 0;
+  min-width: 0;
+  color: design-token("color.neutral.900");
+  font-size: 13px;
+}
+.description {
+  margin: 6px 0 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: design-token("color.neutral.600");
+  overflow-wrap: anywhere;
+}
+.rows {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 8px;
+  display: grid;
+  gap: 12px;
+}
+.row {
+  display: grid;
+  grid-template-columns: minmax(68px, 0.8fr) minmax(64px, 1.5fr) minmax(
+      60px,
+      0.8fr
+    );
+  gap: 12px;
+  align-items: center;
+  overflow-wrap: anywhere;
+}
+.track {
+  position: relative;
+  height: 2px;
+  background: design-token("color.neutral.200");
+}
+.point {
+  position: absolute;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: design-token("color.primary.600");
+}
+.interval {
+  position: absolute;
+  top: -5px;
+  height: 12px;
+  background: design-token("color.primary.200");
+  border-inline: 2px solid design-token("color.primary.600");
+  box-sizing: border-box;
+}
+.bound {
+  position: absolute;
+  top: -7px;
+  width: 2px;
+  height: 16px;
+  transform: translateX(-50%);
+  background: design-token("color.primary.600");
+}
+.value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+.axis {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  color: design-token("color.neutral.600");
+  font-variant-numeric: tabular-nums;
+}
+@media (forced-colors: active) {
+  .track {
+    background: CanvasText;
+  }
+  .point,
+  .bound {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+  .interval {
+    outline: 1px solid CanvasText;
+  }
+}

@@ -1,0 +1,25 @@
+import { ArgTypes, Canvas, Meta } from "@storybook/addon-docs/blocks";
+import { RangePlot } from "./RangePlot";
+import * as Stories from "./RangePlot.stories";
+
+<Meta of={Stories} />
+
+# RangePlot
+
+Named points and one optional interval on an explicit shared scale. Native HTML/CSS; no chart engine. Import from `@easypost/easy-ui/RangePlot`.
+
+<Canvas of={Stories.Default} />
+<Canvas of={Stories.TransitWindow} />
+
+Each row uses the same supplied domain. Exact names and values remain visible in a semantic list; graphical marks are decorative equivalents. The interval has bounded ends, while comparison values use point markers. Separate rows keep close or coincident benchmarks readable.
+
+Domains must have finite increasing bounds. Points and ordered interval bounds must lie within the domain; invalid/out-of-range values display `emptyLabel`, never silently clip. Missing points do not suppress other observations. Negative domains are supported. Zero remains data.
+
+<Canvas of={Stories.EqualBounds} />
+<Canvas of={Stories.SignedAndMissing} />
+
+Equal interval bounds render as a single line and one exact value. The component never widens a zero-width interval to imply a range. Applications provide percentiles or other bounds and describe their meaning: allowed price ranges, arrival percentiles, and statistical uncertainty are different concepts. No calculation, animation, or interaction is implied.
+
+Use `BulletChart` for one zero-based measure and target; use `Chart` for many cohorts, distributions, or interactive inspection.
+
+<ArgTypes of={RangePlot} />
