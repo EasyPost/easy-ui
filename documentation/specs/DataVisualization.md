@@ -25,7 +25,7 @@ The contribution includes a reusable `Chart` backed by Apache ECharts 6.1.0, plu
 
 | Implemented example                                             | Shipping question                                                             |
 | --------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Sankey with responsive orientation and adjacency highlighting   | How do parcels flow from origins through carriers to delivery outcomes?       |
+| Sankey with responsive layout and adjacency highlighting        | How do parcels flow from origins through carriers to delivery outcomes?       |
 | Time series with elapsed-time axis, gaps, target line, and zoom | How does on-time performance change over time?                                |
 | Stacked area                                                    | How does daily volume grow and split across carriers?                         |
 | Grouped bars                                                    | How do rated costs compare with a benchmark by service?                       |

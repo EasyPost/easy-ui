@@ -70,6 +70,7 @@ export function Chart({
   return (
     <Card
       as="section"
+      background="primary"
       aria-label={title}
       aria-busy={status === "loading"}
       padding="3"
