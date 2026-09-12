@@ -1,8 +1,10 @@
-name: Metric examples
+name: Chart examples
 
 on:
   pull_request:
     paths:
+      - "easy-ui-react/src/Chart/**"
+      - "easy-ui-react/src/Theme/**"
       - "easy-ui-react/src/MetricCard/**"
       - "easy-ui-react/src/Sparkline/**"
       - "scripts/preview-metrics/**"
@@ -29,7 +31,7 @@ jobs:
       - run: npm run capture
       - uses: actions/upload-artifact@v4
         with:
-          name: metric-card-examples
+          name: chart-examples
           path: |
             scripts/preview-metrics/dist/
             scripts/preview-metrics/screenshots/

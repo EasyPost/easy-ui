@@ -130,7 +130,8 @@ export function createTheme(themeCreator: ThemeCreator) {
   return themeCreator;
 }
 
-function useTheme() {
+/** Read the active theme creator for JavaScript-rendered components. */
+export function useTheme() {
   const themeContext = useContext(ThemeContext);
   if (!themeContext) {
     throw new Error("useTheme() must be used within a ThemeProvier");
@@ -138,7 +139,8 @@ function useTheme() {
   return themeContext;
 }
 
-function useColorScheme() {
+/** Read the color scheme, including nested inversion, from ThemeProvider. */
+export function useColorScheme() {
   const colorSchemeContext = useContext(ColorSchemeContext);
   if (!colorSchemeContext) {
     throw new Error("useColorScheme() must be used within a ThemeProvider");

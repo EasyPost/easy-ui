@@ -15,9 +15,13 @@ export default defineConfig({
         "./node_modules/overlayscrollbars/styles/overlayscrollbars.css",
       ),
       ...Object.fromEntries(
-        ["react", "react-dom", "lodash", "@easypost/easy-ui-tokens"].map(
-          (name) => [name, local(`./node_modules/${name}`)],
-        ),
+        [
+          "react",
+          "react-dom",
+          "lodash",
+          "@easypost/easy-ui-tokens",
+          "echarts",
+        ].map((name) => [name, local(`./node_modules/${name}`)]),
       ),
     },
   },

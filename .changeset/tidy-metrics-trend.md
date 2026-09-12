@@ -2,4 +2,4 @@
 "@easypost/easy-ui": minor
 ---
 
-Add MetricCard and Sparkline components for displaying metrics with comparison baselines and compact trends. Support accessible trend summaries, missing observations, and loading and empty metric states without a charting dependency.
+Add analytical Chart support with an optional ECharts peer, Easy UI styling, responsive SVG/canvas rendering, exact-value tables, zoom and selection, and shipping examples including Sankey, time series, bars, scatter, heatmap, donut, and treemap. Add MetricCard and Sparkline for KPI summaries with explicit comparison baselines and missing-observation gaps.
