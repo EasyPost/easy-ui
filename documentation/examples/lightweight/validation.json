@@ -1,0 +1,37 @@
+{
+  "results": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "chartCount": 9,
+      "horizontalOverflow": false,
+      "keyboardZoom": true,
+      "pointerSelection": true,
+      "keyboardRowSelection": true,
+      "trendCount": 8,
+      "barListRows": 3,
+      "bulletCharts": 2
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "chartCount": 9,
+      "horizontalOverflow": false,
+      "keyboardZoom": true,
+      "pointerSelection": true,
+      "keyboardRowSelection": true,
+      "trendCount": 8,
+      "barListRows": 3,
+      "bulletCharts": 2
+    },
+    {
+      "name": "lightweight-only",
+      "analyticalRequests": 0
+    },
+    {
+      "name": "canvas",
+      "chartCount": 9
+    }
+  ],
+  "errors": []
+}
