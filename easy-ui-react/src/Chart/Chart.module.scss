@@ -51,13 +51,6 @@
   background: transparent;
 }
 
-.control:focus-visible,
-.summary:focus-visible,
-.tableScroll:focus-visible {
-  outline: 2px solid design-token("color.primary.600");
-  outline-offset: 2px;
-}
-
 .summary {
   padding-block: design-token("space.1");
 }
@@ -86,4 +79,11 @@
     text-align: left;
     padding-block: 8px;
   }
+}
+
+.control:focus-visible,
+.summary:focus-visible,
+.tableScroll:focus-visible {
+  outline: 2px solid design-token("color.primary.600");
+  outline-offset: 2px;
 }

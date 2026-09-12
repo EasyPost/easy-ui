@@ -61,6 +61,21 @@ try {
       name: "On-time delivery",
       exact: true,
     });
+    if (name === "mobile") {
+      await trend.screenshot({
+        path: "screenshots/time-series-mobile.png",
+        animations: "disabled",
+      });
+      await gallery
+        .getByRole("region", {
+          name: "Volume by origin and service",
+          exact: true,
+        })
+        .screenshot({
+          path: "screenshots/treemap-mobile.png",
+          animations: "disabled",
+        });
+    }
     const beforeZoom = await trend.locator("svg").innerHTML();
     await trend.getByRole("button", { name: "Zoom in", exact: true }).focus();
     await page.keyboard.press("Enter");
@@ -136,8 +151,10 @@ try {
   });
   await canvasPage.waitForFunction(
     () =>
-      document.querySelectorAll('[data-chart-state="ready"] canvas').length ===
-      9,
+      document.querySelectorAll('[data-chart-state="ready"]').length === 9 &&
+      [...document.querySelectorAll('[data-chart-state="ready"]')].every(
+        (plot) => plot.querySelector("canvas"),
+      ),
   );
   results.push({ name: "canvas", chartCount: 9 });
   await canvasPage.close();
