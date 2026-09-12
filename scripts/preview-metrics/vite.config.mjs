@@ -6,7 +6,9 @@ const local = (path) => fileURLToPath(new URL(path, import.meta.url));
 export default defineConfig({
   publicDir: local("../../.storybook/public"),
   // Keep this review harness independent of the monorepo's install/build.
-  esbuild: { tsconfigRaw: { compilerOptions: { jsx: "react-jsx" } } },
+  esbuild: {
+    tsconfigRaw: JSON.stringify({ compilerOptions: { jsx: "react-jsx" } }),
+  },
   resolve: {
     alias: {
       "overlayscrollbars/overlayscrollbars.css": local(
