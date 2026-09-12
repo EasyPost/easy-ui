@@ -45,6 +45,11 @@ export function themedOption(
     },
     option,
   ) as ChartOption;
+  // A supplied palette replaces the default, including an explicitly empty array.
+  if (option.color !== undefined)
+    result.color = Array.isArray(option.color)
+      ? [...option.color]
+      : option.color;
   // Keep arrays intact; never merge a default axis object into an axis array.
   const withAxis = <T extends object>(value: T | T[] | undefined) =>
     !value

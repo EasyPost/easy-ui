@@ -37,6 +37,25 @@ it("preserves elapsed spacing, gaps, exact zeros and shared scales without an en
   expect(container.querySelector("tbody")).toHaveTextContent("A00");
   expect(container.querySelector("tbody")).toHaveTextContent("Unavailable");
   expect(screen.getByRole("img")).toHaveAccessibleName(props.description);
+  rerender(
+    <CompactTimeSeries
+      {...props}
+      domain={[0, 20]}
+      timeDomain={[0, 3]}
+      markers="extrema"
+      series={[
+        {
+          id: "a",
+          label: "A",
+          points: [0, null, 10, 20].map((value, time) => ({ time, value })),
+        },
+      ]}
+    />,
+  );
+  const extrema = [...container.querySelectorAll("circle")]
+    .map((point) => Number(point.getAttribute("cx")))
+    .sort((a, b) => a - b);
+  expect(extrema).toEqual([points[0], points[2]]);
   rerender(<CompactTimeSeries {...props} series={[]} />);
   expect(screen.queryByRole("img")).toBeNull();
   expect(screen.getByText("No data")).toBeInTheDocument();

@@ -116,4 +116,16 @@ it("adds optional observation markers while retaining missing-data gaps and the 
     />,
   );
   expect(container.querySelectorAll("circle")).toHaveLength(2);
+  rerender(
+    <Sparkline
+      values={[0, null, 10, 20]}
+      accessibilityLabel="Isolated minimum"
+      markers="extrema"
+    />,
+  );
+  expect(
+    [...container.querySelectorAll("circle")]
+      .map((point) => Number(point.getAttribute("cx")))
+      .sort((a, b) => a - b),
+  ).toEqual([4, 156]);
 });

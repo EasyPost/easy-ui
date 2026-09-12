@@ -196,10 +196,7 @@ export function CompactTimeSeries({
                     />
                   ),
                 )}
-                {markerPoints(
-                  segments.filter((points) => points.length > 1),
-                  markers,
-                ).map(([px, py], i) => (
+                {markerPoints(segments, markers).map(([px, py], i) => (
                   <circle key={`marker-${i}`} cx={px} cy={py} r={3} />
                 ))}
               </g>

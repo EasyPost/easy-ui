@@ -59,10 +59,7 @@ export function Sparkline({
           />
         ),
       )}
-      {markerPoints(
-        segments.filter((points) => points.length > 1),
-        markers,
-      ).map(([x, y], index) => (
+      {markerPoints(segments, markers).map(([x, y], index) => (
         <circle
           key={`marker-${index}`}
           cx={x}

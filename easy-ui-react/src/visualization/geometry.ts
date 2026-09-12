@@ -14,10 +14,18 @@ export function position(value: number, domain: readonly [number, number]) {
 
 export function markerPoints(segments: PlotPoint[][], mode: MarkerMode) {
   if (mode === "none") return [];
-  if (mode === "all") return segments.flat();
+  // Isolated observations are always drawn separately, but still count as extrema.
+  const isolated = new Set(
+    segments.filter((points) => points.length === 1).flat(),
+  );
+  const optional = (points: PlotPoint[]) =>
+    points.filter((point) => !isolated.has(point));
+  if (mode === "all") return optional(segments.flat());
   if (mode === "endpoints")
-    return segments.flatMap((points) =>
-      points.length > 1 ? [points[0], points[points.length - 1]] : points,
+    return optional(
+      segments.flatMap((points) =>
+        points.length > 1 ? [points[0], points[points.length - 1]] : points,
+      ),
     );
   const points = segments.flat();
   if (!points.length) return [];
@@ -27,5 +35,5 @@ export function markerPoints(segments: PlotPoint[][], mode: MarkerMode) {
     if (point[1] < min[1]) min = point;
     if (point[1] > max[1]) max = point;
   }
-  return min === max ? [min] : [min, max];
+  return optional(min === max ? [min] : [min, max]);
 }

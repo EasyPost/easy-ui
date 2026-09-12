@@ -482,7 +482,7 @@ export const waterfallExample: ChartProps = {
           : params;
         const row = bridge[item?.dataIndex ?? bridge.length];
         return row
-          ? `${row.name}: ${usd(row.change)}<br/>Balance: ${usd(row.after)}`
+          ? `${row.name}: ${usd(row.change)}\nBalance: ${usd(row.after)}`
           : `Net contribution: ${usd(balance)}`;
       },
     },

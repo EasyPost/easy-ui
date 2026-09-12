@@ -79,6 +79,10 @@ The waterfall reconciles each signed ledger item to its running balance. The per
 
 ECharts supplies tooltips, legends, zoom, and linked-flow highlighting. `onSelect` forwards the series ID, data index, name, data type, value, and original datum; Sankey events distinguish nodes from edges. Keep stable IDs in application records. `onRowSelect` gives keyboard users the equivalent drill-down by table row ID. Both routes are demonstrated in the shipping gallery's scatter plot.
 
+Data refreshes preserve local zoom ranges and legend selections when their application settings are unchanged. Give zoom and legend components stable `id` values if their order can change; anonymous components match by index. Changed range settings or `legend.selected` take effect on the next update. Remount the chart to reset all local interaction state. Removed series, annotations, and zoom controls are cleared.
+
+Custom `color` palettes replace the default palette. Tooltips use ECharts rich text by default; formatter strings use `\n` for line breaks, as demonstrated by the waterfall.
+
 When `option.dataZoom` is configured, the frame also supplies keyboard-operable zoom in/out/reset buttons. The data table always represents the full supplied dataset, including observations outside a zoomed viewport. `dataTable` is required; build it from the same records as the series. Supply already formatted values and units, and use `null` for unavailable values.
 
 The rendered plot is an image with the supplied description; its underlying SVG/canvas is hidden from screen readers. Exact values and drill-down are available through the semantic HTML table. Native graphical legend controls and individual marks are pointer interactions, not individually keyboard-focusable controls. Provide application controls through `actions` when a report requires keyboard legend/filter control. The ECharts ARIA switch alone does not establish accessibility compliance.
