@@ -47,21 +47,45 @@ for (const preset of ["full", "portfolio"]) {
   const manifest = JSON.parse(
     await readFile(`${outDir}/.vite/manifest.json`, "utf8"),
   );
-  const visited = new Set(),
-    files = new Set();
-  function visit(key) {
-    if (visited.has(key)) return;
-    visited.add(key);
-    const entry = manifest[key];
-    files.add(entry.file);
-    for (const css of entry.css ?? []) files.add(css);
-    for (const imported of [
-      ...(entry.imports ?? []),
-      ...(entry.dynamicImports ?? []),
-    ])
-      visit(imported);
+  function closure(includeGeography) {
+    const visited = new Set(),
+      files = new Set();
+    function visit(key) {
+      if (
+        visited.has(key) ||
+        (!includeGeography && key.endsWith("Chart.geography.tsx"))
+      )
+        return;
+      visited.add(key);
+      const entry = manifest[key];
+      files.add(entry.file);
+      for (const css of entry.css ?? []) files.add(css);
+      for (const imported of [
+        ...(entry.imports ?? []),
+        ...(entry.dynamicImports ?? []),
+      ])
+        visit(imported);
+    }
+    visit("index.html");
+    return files;
   }
-  visit("index.html");
+  const files = closure(true);
+  const withoutGeography = closure(false);
+  if (preset === "portfolio") {
+    const geographicChunks = chunks.filter((chunk) =>
+      Object.keys(chunk.modules).some((id) =>
+        /\/echarts\/lib\/(component\/geo|chart\/lines)\//.test(id),
+      ),
+    );
+    assert.ok(
+      geographicChunks.length > 0,
+      "Optional geographic modules must be included",
+    );
+    assert.ok(
+      geographicChunks.every((chunk) => !withoutGeography.has(chunk.fileName)),
+      "Geographic modules must stay outside the ordinary analytical dependency closure",
+    );
+  }
   const assets = await Promise.all(
     [...files].sort().map(async (file) => {
       const bytes = await readFile(`${outDir}/${file}`);
@@ -76,6 +100,12 @@ for (const preset of ["full", "portfolio"]) {
     preset,
     javascriptGzipBytes: sum(".js"),
     cssGzipBytes: sum(".css"),
+    withoutGeographyJavascriptGzipBytes: assets
+      .filter((a) => a.file.endsWith(".js") && withoutGeography.has(a.file))
+      .reduce((sum, a) => sum + a.gzipBytes, 0),
+    geographyIncrementalJavascriptGzipBytes: assets
+      .filter((a) => a.file.endsWith(".js") && !withoutGeography.has(a.file))
+      .reduce((sum, a) => sum + a.gzipBytes, 0),
     assets,
   });
 }
@@ -121,7 +151,8 @@ for (const preset of ["full", "portfolio", "trend"]) {
       (total, chunk) => total + gzipSync(chunk.code).length,
       0,
     ),
-    fullPortfolio: preset !== "trend",
+    nonGeographicPortfolio: preset !== "trend",
+    geographyIncluded: preset === "full",
     renderers: preset === "trend" ? ["svg"] : ["svg", "canvas"],
   });
 }
@@ -130,7 +161,7 @@ const report = {
   source: process.env.GITHUB_SHA ?? "local",
   version: "6.1.0",
   method:
-    "Two independent Vite production builds of the unchanged gallery: all 18 analytical recipes and all six native components. Full dependency closure from index.html including lazy imports; React, Easy UI, tokens and fixtures included. Gzip per unique asset; CSS separate and fonts excluded. Each preset runs on a separate page so ECharts' global module registry cannot contaminate the result. Module inventory asserts unused chart implementations and the full entry are absent from the modular build.",
+    "Two independent Vite production builds of the unchanged gallery: all 26 analytical recipes including two opt-in geographic views and all six native components. Full dependency closure from index.html including lazy imports; React, Easy UI, tokens and fixtures included. Gzip per unique asset; CSS separate and fonts excluded. Each preset runs on a separate page so ECharts' global module registry cannot contaminate the result. Module inventory asserts unused chart implementations and the full entry are absent from the modular build.",
   engineMethod:
     "Separate production entries exporting only init with each preset's registration retained. Excludes React, Easy UI and fixtures. The trend preset is a size probe with reduced capabilities, not a full-portfolio substitute. Transfer measurements only; no runtime-speed claim.",
   results,

@@ -23,6 +23,20 @@ const AnalyticalExtensions = lazy(() =>
     default: module.AnalyticalExtensions,
   })),
 );
+const LogisticsExamples = lazy(() =>
+  import("../../easy-ui-react/src/Chart/Chart.logistics.stories").then((m) => ({
+    default: m.LogisticsExamples,
+  })),
+);
+const OptionalGeography = lazy(() =>
+  import("../../easy-ui-react/src/Chart/Chart.logistics.stories").then((m) => ({
+    default: m.OptionalGeography,
+  })),
+);
+const renderer =
+  new URLSearchParams(location.search).get("renderer") === "canvas"
+    ? "canvas"
+    : "svg";
 const lightweightOnly =
   new URLSearchParams(location.search).get("portfolio") === "lightweight";
 
@@ -96,6 +110,28 @@ createRoot(document.getElementById("root")!).render(
                   : "svg"
               }
             />
+          </section>
+          <section
+            aria-label="Logistics intelligence examples"
+            className="extension-section"
+          >
+            <h1>Logistics intelligence</h1>
+            <p className="note">
+              Synthetic examples · Delivery promises, rate competitiveness,
+              pricing, capacity, and parcel event progress
+            </p>
+            <LogisticsExamples renderer={renderer} />
+          </section>
+          <section
+            aria-label="Logistics map examples"
+            className="extension-section"
+          >
+            <h1>Networks and parcel journeys</h1>
+            <p className="note">
+              Synthetic scan locations · Made with Natural Earth · Facility
+              links are not traveled routes
+            </p>
+            <OptionalGeography renderer={renderer} />
           </section>
         </Suspense>
       )}

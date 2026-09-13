@@ -46,7 +46,30 @@ try {
     await page.waitForFunction(
       () =>
         document.querySelectorAll('[data-chart-state="ready"] svg').length ===
-        18,
+        24,
+    );
+    const geographyEntry = Object.values(manifest).find((a) =>
+      a.src?.endsWith("Chart.geography.tsx"),
+    );
+    assert.ok(geographyEntry, "Map recipe must remain a dynamic entry");
+    assert.equal(
+      await page.evaluate(
+        (file) =>
+          performance
+            .getEntriesByType("resource")
+            .some((r) => r.name.endsWith(file)),
+        geographyEntry.file,
+      ),
+      false,
+      "Map recipe loaded before request",
+    );
+    await page
+      .getByRole("button", { name: "Show logistics maps", exact: true })
+      .click();
+    await page.waitForFunction(
+      () =>
+        document.querySelectorAll('[data-chart-state="ready"] svg').length ===
+        26,
     );
     const gallery = page.getByRole("region", {
       name: "Analytical chart examples",
@@ -97,7 +120,7 @@ try {
         });
     }
     if (modularCapture) {
-      for (let i = 0; i < 18; i++) {
+      for (let i = 0; i < 26; i++) {
         await page
           .locator('[data-chart-state="ready"]')
           .nth(i)
@@ -227,6 +250,20 @@ try {
     for (const [kind, region] of [
       ["native-extensions", native],
       ["analytical-extensions", extensions],
+      [
+        "logistics",
+        page.getByRole("region", {
+          name: "Logistics intelligence examples",
+          exact: true,
+        }),
+      ],
+      [
+        "logistics-maps",
+        page.getByRole("region", {
+          name: "Logistics map examples",
+          exact: true,
+        }),
+      ],
     ]) {
       await region.screenshot({
         path: `${screenshotDir}/${kind}-${name}.png`,
@@ -251,6 +288,30 @@ try {
       });
     await page.mouse.move(0, 0);
 
+    const parcelMap = page.getByRole("region", {
+      name: "Parcel scan paths",
+      exact: true,
+    });
+    await parcelMap.locator("summary").press("Enter");
+    await parcelMap
+      .getByRole("button", { name: "Select row: P-105", exact: true })
+      .press("Enter");
+    await parcelMap.getByText(/P-105: Stale scan/).waitFor();
+    await page.getByLabel("Warehouse", { exact: true }).selectOption("Dallas");
+    await parcelMap.getByText(/P-201: Delivered/).waitFor();
+    assert.equal(await parcelMap.locator("tbody tr").count(), 2);
+    if (name === "desktop")
+      await page
+        .getByRole("region", { name: "Logistics map examples", exact: true })
+        .screenshot({
+          path: `${screenshotDir}/parcel-warehouse-filter.png`,
+          animations: "disabled",
+        });
+    await page
+      .getByLabel("Warehouse", { exact: true })
+      .selectOption("All warehouses");
+    await page.getByLabel("Parcel", { exact: true }).selectOption("P-104");
+    await parcelMap.locator("summary").press("Enter");
     const compact = native.getByRole("figure", {
       name: "Observed and plan",
       exact: true,
@@ -267,7 +328,7 @@ try {
     results.push({
       name,
       width,
-      chartCount: 18,
+      chartCount: 26,
       horizontalOverflow: overflow,
       keyboardZoom: true,
       pointerSelection: true,
@@ -290,7 +351,14 @@ try {
   await reviewPage.evaluate(() => document.fonts.ready);
   await reviewPage.waitForFunction(
     () =>
-      document.querySelectorAll('[data-chart-state="ready"] svg').length === 18,
+      document.querySelectorAll('[data-chart-state="ready"] svg').length === 24,
+  );
+  await reviewPage
+    .getByRole("button", { name: "Show logistics maps", exact: true })
+    .click();
+  await reviewPage.waitForFunction(
+    () =>
+      document.querySelectorAll('[data-chart-state="ready"] svg').length === 26,
   );
   await reviewPage
     .getByRole("region", { name: "Analytical chart examples", exact: true })
@@ -307,6 +375,8 @@ try {
   for (const [name, label] of [
     ["native-extensions", "Native chart extensions"],
     ["analytical-extensions", "Analytical chart extensions"],
+    ["logistics", "Logistics intelligence examples"],
+    ["logistics-maps", "Logistics map examples"],
   ]) {
     await reviewPage
       .getByRole("region", { name: label, exact: true })
@@ -346,13 +416,23 @@ try {
   });
   await canvasPage.waitForFunction(
     () =>
-      document.querySelectorAll('[data-chart-state="ready"]').length === 18 &&
+      document.querySelectorAll('[data-chart-state="ready"]').length === 24 &&
       [...document.querySelectorAll('[data-chart-state="ready"]')].every(
         (plot) => plot.querySelector("canvas"),
       ),
   );
+  await canvasPage
+    .getByRole("button", { name: "Show logistics maps", exact: true })
+    .click();
+  await canvasPage.waitForFunction(
+    () =>
+      document.querySelectorAll('[data-chart-state="ready"]').length === 26 &&
+      [...document.querySelectorAll('[data-chart-state="ready"]')].every((p) =>
+        p.querySelector("canvas"),
+      ),
+  );
   if (modularCapture) {
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 26; i++) {
       await canvasPage
         .locator('[data-chart-state="ready"]')
         .nth(i)
@@ -362,7 +442,7 @@ try {
         });
     }
   }
-  results.push({ name: "canvas", chartCount: 18 });
+  results.push({ name: "canvas", chartCount: 26 });
   await canvasPage.close();
   assert.deepEqual(errors, [], "The examples must not produce browser errors");
   await writeFile(

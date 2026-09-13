@@ -1,4 +1,4 @@
-// Explicit registry for the 18 analytical recipes. This is an application
+// Explicit registry for the 24 non-geographic analytical recipes. This is an application
 // preset, not a replacement for the library's unrestricted ECharts option API.
 import { init, use } from "echarts/core";
 import {

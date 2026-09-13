@@ -2,6 +2,11 @@ import React from "react";
 import { Card } from "../../easy-ui-react/src/Card";
 import { CompactTimeSeries } from "../../easy-ui-react/src/CompactTimeSeries";
 import { RangePlot } from "../../easy-ui-react/src/RangePlot";
+import { BulletChart } from "../../easy-ui-react/src/BulletChart";
+import {
+  WarehouseCapacity,
+  ForecastCapacity,
+} from "../../easy-ui-react/src/BulletChart/BulletChart.stories";
 import { Sparkline } from "../../easy-ui-react/src/Sparkline";
 import {
   Comparison,
@@ -23,6 +28,29 @@ export function NativeExtensions() {
         markers
       </p>
       <div className="comparison-grid">
+        <Card background="primary" padding="3">
+          <h2>Capacity at a glance</h2>
+          <p className="panel-note">
+            Oakland · Daily parcels on a shared 0–13,000 scale · Synthetic
+            observed and forecast values
+          </p>
+          <div className="target-stack">
+            <BulletChart
+              {...WarehouseCapacity.args!}
+              label="Oakland · observed Aug 5"
+              value={9700}
+              target={10000}
+              max={13000}
+            />
+            <BulletChart
+              {...ForecastCapacity.args!}
+              label="Oakland · forecast peak Aug 7"
+              value={11400}
+              target={10000}
+              max={13000}
+            />
+          </div>
+        </Card>
         <Card background="primary" padding="3">
           <CompactTimeSeries
             {...Comparison.args}

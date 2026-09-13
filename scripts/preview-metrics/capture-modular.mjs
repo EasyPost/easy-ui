@@ -34,15 +34,15 @@ const expected = (await readdir("screenshots/modular/portfolio"))
 assert.deepEqual(files, expected);
 assert.equal(
   files.filter((name) => /^chart-\d+-desktop\.png$/.test(name)).length,
-  18,
+  26,
 );
 assert.equal(
   files.filter((name) => /^chart-\d+-mobile\.png$/.test(name)).length,
-  18,
+  26,
 );
 assert.equal(
   files.filter((name) => /^chart-\d+-canvas\.png$/.test(name)).length,
-  18,
+  26,
 );
 const comparisons = await Promise.all(
   files.map(async (file) => {
@@ -56,7 +56,7 @@ const comparisons = await Promise.all(
 const report = {
   source: process.env.GITHUB_SHA ?? "local",
   method:
-    "Byte-identical PNG captures on the same CI runner, separate builds and fresh browsers. Includes all 18 plots at desktop/mobile SVG and desktop Canvas, full galleries, exact-table selection, target/threshold labels, signed tooltips and Sankey adjacency emphasis. Each build also passes the existing pointer, keyboard, overflow and lightweight-isolation assertions. No claim about dense-data runtime speed or unregistered ECharts features.",
+    "Byte-identical PNG captures on the same CI runner, separate builds and fresh browsers. Includes all 26 plots at desktop/mobile SVG and desktop Canvas, full galleries, exact-table selection, target/threshold labels, signed tooltips and Sankey adjacency emphasis. Each build also passes the existing pointer, keyboard, overflow and lightweight-isolation assertions. No claim about dense-data runtime speed or unregistered ECharts features.",
   comparisons,
 };
 await writeFile(

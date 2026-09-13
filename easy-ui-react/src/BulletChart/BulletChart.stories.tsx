@@ -31,3 +31,21 @@ export const NoData: Story = { args: { ...Default.args, value: null } };
 export const Zero: Story = {
   args: { label: "Delivery exceptions", value: 0, target: 10, max: 50 },
 };
+
+export const WarehouseCapacity: Story = {
+  args: {
+    label: "Oakland · observed Aug 5",
+    value: 9700,
+    target: 10000,
+    max: 13000,
+    targetLabel: "Daily capacity",
+    formatValue: (v) => `${v.toLocaleString("en-US")} parcels`,
+  },
+};
+export const ForecastCapacity: Story = {
+  args: {
+    ...WarehouseCapacity.args,
+    label: "Oakland · forecast peak Aug 7",
+    value: 11400,
+  },
+};

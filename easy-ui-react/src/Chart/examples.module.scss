@@ -1,3 +1,5 @@
+@use "../styles/common" as *;
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -12,4 +14,36 @@
   .gallery {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+.mapPrompt,
+.mapControls,
+.scanEvents {
+  color: design-token("color.neutral.800");
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 16px 0;
+}
+.mapControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.mapPrompt button,
+.mapControls select {
+  background: design-token("color.neutral.000");
+  color: design-token("color.primary.600");
+  border: 1px solid design-token("color.primary.400");
+  border-radius: 4px;
+  padding: 6px;
+  font: inherit;
+}
+.mapPrompt button:focus-visible,
+.mapControls select:focus-visible,
+.scanEvents summary:focus-visible {
+  outline: 2px solid design-token("color.primary.600");
+  outline-offset: 2px;
+}
+.scanEvents {
+  overflow-wrap: anywhere;
 }
