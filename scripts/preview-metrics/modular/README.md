@@ -12,7 +12,7 @@ It also registers Cartesian grids, plain/scroll legends, tooltips, inside/slider
 
 Other series and components are intentionally absent: for example, radar, gauge, graph, calendar, timeline, toolbox, dataset transforms, piecewise visual maps, ARIA decals, and universal transitions. Register them when the application needs them. Our exact-table accessibility path remains unchanged; this experiment adds no graphical accessibility claims.
 
-The two map recipes dynamically register `GeoComponent` and `LinesChart` only after **Show logistics maps**. The 24 non-geographic recipes use the eight-series base preset; a module-inventory assertion keeps geographic engine modules outside its dependency closure. Maps use a local public-domain Natural Earth outline and synthetic scan/facility data, without tile requests.
+All 24 recipes use the eight-series preset. Geographic maps are developed in a separate draft PR; the chart gallery contains no map recipes or basemap data.
 
 `trend.mjs` is a separate engine-only size probe for an SVG time-series screen with labels, annotations, and zoom. It is not used for the gallery or claimed to support the full portfolio.
 
@@ -35,9 +35,9 @@ EASY_UI_CHART_ENGINE=portfolio EASY_UI_PREVIEW_OUT_DIR=dist/modular/portfolio np
 
 Both keep the original gallery, `?renderer=canvas`, and `?portfolio=lightweight`. Separate builds and browsers prevent ECharts' process-global module registry from masking missing registrations. The build assertion also checks that unused chart implementations and the full ECharts entry are absent.
 
-The capture script runs the existing desktop/mobile gallery checks against each build. It adds individual captures of all 26 charts at desktop/mobile SVG and desktop Canvas, plus Sankey emphasis and warehouse filtering. It verifies that the map recipe is not requested before opening the maps. It compares the resulting PNG files byte for byte and writes `screenshots/modular/validation.json`. The Actions artifact includes both runnable builds and their captures.
+The capture script runs the existing desktop/mobile gallery checks against each build. It adds individual captures of all 24 charts at desktop/mobile SVG and desktop Canvas, plus Sankey emphasis. It compares the resulting PNG files byte for byte and writes `screenshots/modular/validation.json`. The Actions artifact includes both runnable builds and their captures.
 
-Bundle totals include the original gallery's React, Easy UI, tokens, fixtures, all native components, and analytical engine. Gzip is calculated per unique emitted asset, including lazy dependencies. CSS is separate and fonts are excluded. The report also separates the dependency closure without geography from incremental map assets. The engine-only probes export `init` with their registrations retained and exclude the rest of the application. These are transfer measurements, not runtime benchmarks; totals differ from the earlier Recharts comparison page because the page contents differ.
+Bundle totals include the original gallery's React, Easy UI, tokens, fixtures, all native components, and analytical engine. Gzip is calculated per unique emitted asset, including lazy dependencies. CSS is separate and fonts are excluded. The engine-only probes export `init` with their registrations retained and exclude the rest of the application. These are transfer measurements, not runtime benchmarks; totals differ from the earlier Recharts comparison page because the page contents differ.
 
 ## Adoption boundary
 

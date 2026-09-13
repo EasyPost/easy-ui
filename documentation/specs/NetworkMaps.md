@@ -1,6 +1,6 @@
 # Network intelligence maps
 
-Status: separate draft workstream, September 13, 2026. The extracted ECharts maps are reference prototypes, not the proposed final mapping experience. MapLibre GL JS is the intended mapping engine; it has not been integrated in this draft. Analytical charts and parcel event timelines remain in [chart PR #4](https://github.com/lanej/easy-ui/pull/4).
+Status: implemented in draft map PR #5, September 13, 2026. `NetworkMap` now uses optional MapLibre GL JS with CARTO/OSM example tiles. Three stories cover parcel, shipper and carrier investigations. The ECharts map prototypes have been removed; analytical charts and parcel event timelines remain in [chart PR #4](https://github.com/lanej/easy-ui/pull/4). This document distinguishes the initial implementation from later adoption requirements.
 
 ## Problem and boundary
 
@@ -95,4 +95,6 @@ The first implementation must support the camera actions, prioritized labels, se
 - [ ] Import/SSR and consumer-build checks establish optional loading; representative interaction and transfer measurements are reported.
 - [ ] Actual screenshots and interaction evidence accompany review in Chrome, Firefox and Safari. Pixel equality alone is not a design-quality gate.
 
-This draft extracts the prior prototype and defines the boundary. It does not claim these MapLibre acceptance criteria are implemented or passed.
+The implementation includes the three fixture-based investigations, optional MapLibre entry, camera actions, directional observed transfers, progressive collision-managed labels, shared selection, exact data, risk and weather layers. See the PR description and `scripts/preview-maps` for the validation evidence.
+
+Follow-on capabilities remain separate: live model/data services, time playback, carrier/service query controls, automatic follow mode, viewport queries and high-density clustering, grouping labels with counts, model uncertainty intervals, explicit affected-cohort tables beyond the small example sample, and measured memory/latency budgets on target mobile hardware. They are not implied by the initial examples. Production tile choice and Figma approval remain adoption decisions.

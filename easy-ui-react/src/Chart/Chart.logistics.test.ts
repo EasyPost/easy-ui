@@ -10,45 +10,37 @@ import {
   trackingCutoff,
   trackingStart,
 } from "./Chart.logistics";
-import {
-  laneMapExample,
-  parcelMapExample,
-  parcelPaths,
-} from "./Chart.geography";
 
 beforeAll(() =>
   setPlatformAPI({ measureText: (text) => ({ width: text.length * 7 }) }),
 );
-it.each(
-  [
-    ...logisticsExamples,
-    laneMapExample,
-    parcelMapExample("All warehouses", "P-104"),
-  ].map((example) => [example.title, example] as const),
-)("renders the %s recipe with real SVG geometry", (_title, example) => {
-  const chart = init(null, undefined, {
-    renderer: "svg",
-    ssr: true,
-    width: 720,
-    height: 360,
-  });
-  try {
-    chart.setOption({ ...example.option, animation: false });
-    const svg = chart.renderToSVGString();
-    expect(svg).toContain("<path");
-    expect(svg).not.toMatch(/NaN|Infinity/);
-    expect(new Set(example.dataTable.rows.map((r) => r.id)).size).toBe(
-      example.dataTable.rows.length,
-    );
-    expect(
-      example.dataTable.rows.every(
-        (r) => r.values.length === example.dataTable.columns.length,
-      ),
-    ).toBe(true);
-  } finally {
-    chart.dispose();
-  }
-});
+it.each(logisticsExamples.map((example) => [example.title, example] as const))(
+  "renders the %s recipe with real SVG geometry",
+  (_title, example) => {
+    const chart = init(null, undefined, {
+      renderer: "svg",
+      ssr: true,
+      width: 720,
+      height: 360,
+    });
+    try {
+      chart.setOption({ ...example.option, animation: false });
+      const svg = chart.renderToSVGString();
+      expect(svg).toContain("<path");
+      expect(svg).not.toMatch(/NaN|Infinity/);
+      expect(new Set(example.dataTable.rows.map((r) => r.id)).size).toBe(
+        example.dataTable.rows.length,
+      );
+      expect(
+        example.dataTable.rows.every(
+          (r) => r.values.length === example.dataTable.columns.length,
+        ),
+      ).toBe(true);
+    } finally {
+      chart.dispose();
+    }
+  },
+);
 it("keeps unresolved parcels in the fixed reliability cohort and cumulative delivery monotonic", () => {
   for (const c of reliabilityCohorts) {
     expect(c.delivered[0]).toBe(0);
@@ -99,23 +91,16 @@ it("keeps scenario bounds and contribution consistent with the documented cost a
     ),
   ).toBe(1.14);
 });
-it("keeps parcel locations, event timestamps and arrival windows consistent across map and progress views", () => {
+it("keeps parcel observations before the cutoff and arrival forecasts after it", () => {
   const cutoff = (trackingCutoff - trackingStart) / 3600000;
-  for (const path of parcelPaths) {
-    const p = warehouseProgress.find((p) => p.id === path.id)!;
-    const last = path.scans[path.scans.length - 1];
-    expect(p.scanned).toBe(last.place);
-    expect(p.last).toBe(last.hour);
+  for (const p of warehouseProgress) {
     expect(p.last).toBeLessThanOrEqual(cutoff);
-    path.scans.forEach((s, i) => {
-      if (i) expect(s.hour).toBeGreaterThan(path.scans[i - 1].hour);
-    });
     if (!p.delivered) {
       expect(p.low).toBeGreaterThan(cutoff);
       expect(p.high).toBeGreaterThan(p.low!);
     } else {
-      expect(last.event).toBe("Delivered");
       expect(p.low).toBeNull();
+      expect(p.high).toBeNull();
     }
   }
   expect(trackingIntervals.find((s) => s.id === "gap")).toMatchObject({
@@ -123,40 +108,4 @@ it("keeps parcel locations, event timestamps and arrival windows consistent acro
     end: 35,
     evidence: "No scans; movement unknown",
   });
-  expect(
-    parcelMapExample("Dallas", "P-104").dataTable.rows.map((r) => r.id),
-  ).toEqual(["P-201", "P-202"]);
-});
-
-it("keeps geographic proportions stable across desktop and mobile sizes", () => {
-  const chart = init(null, undefined, {
-    renderer: "svg",
-    ssr: true,
-    width: 720,
-    height: 320,
-  });
-  try {
-    chart.setOption({ ...laneMapExample.option, animation: false });
-    for (const width of [720, 300]) {
-      chart.resize({ width, height: 320 });
-      const origin = chart.convertToPixel(
-        { geoIndex: 0 },
-        [-110, 35],
-      ) as number[];
-      const east = chart.convertToPixel(
-        { geoIndex: 0 },
-        [-100, 35],
-      ) as number[];
-      const north = chart.convertToPixel(
-        { geoIndex: 0 },
-        [-110, 45],
-      ) as number[];
-      // ECharts' default longitude/latitude aspect scale is 0.75.
-      expect(
-        Math.abs((east[0] - origin[0]) / (north[1] - origin[1])),
-      ).toBeCloseTo(0.75);
-    }
-  } finally {
-    chart.dispose();
-  }
 });

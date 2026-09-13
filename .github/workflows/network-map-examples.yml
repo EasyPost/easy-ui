@@ -1,0 +1,61 @@
+name: Network map examples
+on:
+  pull_request:
+    paths:
+      - "easy-ui-react/src/NetworkMap/**"
+      - "easy-ui-react/package.json"
+      - "easy-ui-react/vite.config.mts"
+      - "scripts/preview-maps/**"
+      - ".github/workflows/network-map-examples.yml"
+permissions:
+  contents: read
+jobs:
+  browser:
+    name: Maps (${{ matrix.browser }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - browser: chrome
+            os: ubuntu-latest
+          - browser: firefox
+            os: ubuntu-latest
+          - browser: safari
+            os: macos-14
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: scripts/preview-maps
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - run: npm run measure
+      - if: matrix.browser != 'safari'
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+      - if: matrix.browser == 'chrome'
+        run: npm run capture
+        env:
+          MAP_BROWSER: chrome
+      - if: matrix.browser == 'firefox'
+        run: xvfb-run -a npm run capture
+        env:
+          MAP_BROWSER: firefox
+          LIBGL_ALWAYS_SOFTWARE: "1"
+          MOZ_WEBRENDER: "1"
+      - if: matrix.browser == 'safari'
+        run: sudo safaridriver --enable
+      - if: matrix.browser == 'safari'
+        run: npm run audit:safari
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: network-maps-${{ matrix.browser }}
+          path: |
+            scripts/preview-maps/screenshots/
+            scripts/preview-maps/dist/
+          if-no-files-found: warn

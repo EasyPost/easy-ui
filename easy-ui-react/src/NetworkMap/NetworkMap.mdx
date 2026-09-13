@@ -1,0 +1,102 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as NetworkMapStories from "./NetworkMap.stories";
+
+<Meta of={NetworkMapStories} />
+
+# NetworkMap
+
+An optional MapLibre geographic surface for parcel journeys, warehouse flows and carrier facility operations. The basemap supplies streets and cities across national, regional and local zoom levels. Easy UI adds collision-managed facility labels, evidence-aware connections, controlled selection, scoped risk and weather layers, and an equivalent HTML data view.
+
+```sh
+npm install maplibre-gl@^6.9.0
+```
+
+```tsx
+import { useState } from "react";
+import {
+  NetworkMap,
+  MapFacility,
+  MapSegment,
+} from "@easypost/easy-ui/NetworkMap";
+import "maplibre-gl/dist/maplibre-gl.css";
+// Also import Easy UI's normal stylesheet in the application.
+
+const facilities: MapFacility[] = [
+  {
+    id: "sort",
+    label: "Detroit sort",
+    kind: "hub",
+    coordinates: [-83.18, 42.37],
+  },
+  {
+    id: "delivery",
+    label: "Dearborn distribution",
+    kind: "delivery",
+    coordinates: [-83.215, 42.307],
+  },
+];
+const segments: MapSegment[] = [
+  {
+    id: "transfer",
+    from: "sort",
+    to: "delivery",
+    label: "Observed Detroit → Dearborn handoff",
+    evidence: "transfer",
+  },
+];
+function Journey({ mapStyle }) {
+  const [selected, setSelected] = useState("delivery");
+  return (
+    <NetworkMap
+      title="Parcel journey"
+      description="Last observed handoffs · Sep 13, 2026 · UTC"
+      mapStyle={mapStyle}
+      facilities={facilities}
+      segments={segments}
+      selectedFacilityId={selected}
+      onFacilitySelect={setSelected}
+      selectedSegmentId="transfer"
+      latestFacilityId="delivery"
+    />
+  );
+}
+```
+
+`mapStyle` is required. Choose a provider, retain its attribution, and configure its authentication, usage terms and availability in the application. The examples use CARTO light raster tiles with OpenStreetMap attribution; this is an example provider choice, not a production service entitlement. Raster tiles and font files are additional viewport-dependent network requests. The component does not request customer records or compute routes or predictions.
+
+## Three investigations
+
+<Canvas of={NetworkMapStories.ParcelJourney} />
+
+Seven scans across five observed facilities, four observed transfers, and one planned delivery leg. Entire journey fits the national handoffs; Selected leg fits both facilities; Latest events locates the last observation at street scale. An observation is not a live parcel position. Selecting a scan is an explicit camera request.
+
+<Canvas of={NetworkMapStories.ShipperFlow} />
+
+Three warehouses feed a delivery network. The origin filter updates the full daily flow and its relative line widths; a separately identified five-parcel sample drives the investigation sidebar. Parcel promise-miss risk and facility-cohort exception risk have different events and denominators. Selecting a facility links to a sampled parcel last observed there, or states that the sample contains none.
+
+<Canvas of={NetworkMapStories.CarrierOperations} />
+
+Regional throughput, expected volume, operating capacity, dwell, backlog and conditional exception risk. Current, stale and unavailable facility scores remain distinct. A forecast polygon carries its source and valid interval. Weather exposure does not establish the cause of a delay.
+
+## Camera, selection and labels
+
+Facilities have stable IDs; segments reference their endpoints. `selectedFacilityId` and `onFacilitySelect` control selection across markers and table rows. Provide the callback to enable selection. `selectedSegmentId` emphasizes a connection and enables Selected leg. `latestFacilityId` identifies the last observed facility, never an interpolated position.
+
+`initialView` applies once. Without it, the initial camera fits the supplied facilities. To request a later camera change, supply `focus={{ revision, facilityIds, maxZoom }}` and change `revision`. Data, selection and layer updates preserve manual pan/zoom. Keep the `mapStyle` object stable: replacing it recreates the map. The controls honor reduced motion. MapLibre also supports keyboard arrows and +/- on its canvas, zoom buttons, pan gestures and cooperative scrolling.
+
+`labelMinZoom` progressively reveals local facilities. Selected, last-observed and `primaryFacilityIds` labels receive priority; collision placement hides lower-priority labels when space is insufficient. Marker buttons and the data table retain complete names. Repeated scans at one facility should share one facility ID and one marker. This component is intended for bounded investigation cohorts; use a server-filtered or clustered source for very large fleets.
+
+## Evidence and model outputs
+
+- `transfer`: observed endpoints, drawn as a solid connection. It does not establish the road traveled.
+- `measured`: supplied path geometry, required in `coordinates`; invalid or absent geometry is omitted.
+- `planned` / `inferred`: dashed connections with explicitly identified evidence.
+- `volume`: nonnegative flow count, mapped to relative line width within the supplied cohort. Put the time window and unit in the description and segment label.
+- `risk`: caller-supplied probability, comparable baseline, event, horizon, cohort, output time and freshness status. Current scores at or above 15% use the elevated visual treatment; stale/unavailable scores use an unknown treatment. Missing values never become zero.
+- `areas`: application-filtered observed or forecast polygons with source and validity interval. The application owns authorization, freshness, geometry and time filtering.
+
+## Accessibility, failure and packaging
+
+Marker buttons have full accessible names and controlled pressed state. Table rows offer equivalent selection, including records whose labels are hidden. The exact-data disclosure includes risk event, horizon, cohort, baseline and output timestamp; segment descriptions provide transfer evidence. Loading and failure states preserve this data. Initialization failures offer Retry; tile failures surface a reload notice and `onRenderError`. A basemap is an additional spatial view, not the only way to inspect or select records.
+
+The `NetworkMap` entry keeps MapLibre as an optional peer and loads it dynamically on mount. Importing and server-rendering the entry does not initialize WebGL; its HTML data view and loading state render on the server. Native charts and ECharts do not import this entry. Import the MapLibre CSS only in the application's map route. See `scripts/preview-maps` for production bundle measurements, an independent native SVG control, browser interaction checks and actual Chrome, Firefox and Safari captures.

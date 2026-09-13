@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f5f7fb;
+  color: #192b4b;
+  font:
+    14px/1.5 Poppins,
+    sans-serif;
+}
+button,
+select,
+input {
+  font: inherit;
+}
+nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 16px 32px;
+  border-bottom: 1px solid #dce2ec;
+  background: #fff;
+}
+nav .wordmark {
+  font-size: 15px;
+  font-weight: 600;
+  flex: 1;
+}
+nav .wordmark span {
+  color: #52647c;
+  font-weight: 400;
+}
+nav div {
+  display: flex;
+  gap: 4px;
+}
+nav button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #33496a;
+  cursor: pointer;
+  font-size: 12px;
+}
+nav button[aria-pressed="true"] {
+  color: #163cab;
+  background: #edf2ff;
+  border-color: #d5dffa;
+  font-weight: 600;
+}
+nav a {
+  font-size: 11px;
+  color: #244ab8;
+}
+button:focus-visible,
+a:focus-visible,
+select:focus-visible {
+  outline: 3px solid #2658d9;
+  outline-offset: 3px;
+}
+.control {
+  padding: 48px;
+}
+@media (max-width: 800px) {
+  nav {
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    gap: 8px;
+  }
+  nav .wordmark {
+    flex-basis: 100%;
+  }
+  nav a {
+    margin-left: auto;
+  }
+  nav button {
+    padding: 8px;
+  }
+}

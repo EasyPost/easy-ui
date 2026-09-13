@@ -69,6 +69,38 @@ for (const [name, nativeProps] of [
     assert.match(html, /Native/);
   }
 }
+for (const extension of ["js", "mjs"]) {
+  const entry =
+    extension === "js"
+      ? require("../easy-ui-react/dist/NetworkMap/index.js")
+      : await import("../easy-ui-react/dist/NetworkMap/index.mjs");
+  const html = renderToString(
+    React.createElement(entry.NetworkMap, {
+      title: "Server-rendered network",
+      description: "One observed facility",
+      mapStyle: { version: 8, sources: {}, layers: [] },
+      facilities: [
+        {
+          id: "one",
+          label: "Oakland warehouse",
+          kind: "warehouse",
+          coordinates: [-122, 38],
+        },
+      ],
+      segments: [],
+    }),
+  );
+  assert.match(html, /Loading map/);
+  assert.match(html, /<table/);
+  assert.match(html, /Oakland warehouse/);
+}
+assert.equal(
+  Object.keys(require.cache).some((path) =>
+    /node_modules\/maplibre-gl\//.test(path),
+  ),
+  false,
+  "NetworkMap imports and SSR must not eagerly load MapLibre",
+);
 assert.equal(
   Object.keys(require.cache).some((path) =>
     /node_modules\/(echarts|zrender)\//.test(path),
@@ -77,5 +109,5 @@ assert.equal(
   "Importing/SSR rendering Chart must not eagerly load ECharts",
 );
 console.log(
-  "Chart package: CommonJS and ESM imports/SSR passed; engine stays lazy.",
+  "Chart and NetworkMap packages: CommonJS and ESM imports/SSR passed; engines stay lazy.",
 );

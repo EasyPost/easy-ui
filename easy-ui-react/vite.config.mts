@@ -55,6 +55,7 @@ export default defineConfig({
         [
           "react",
           "echarts",
+          "maplibre-gl",
           "react-dom",
           "vitest",
           "@testing-library/react",
