@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { registerMap, use } from "echarts/core";
+import { registerMap, use as registerExtensions } from "echarts/core";
 import { GeoComponent } from "echarts/components";
 import { LinesChart } from "echarts/charts";
 import type { GeoComponentOption } from "echarts";
@@ -10,7 +10,7 @@ import styles from "./examples.module.scss";
 
 // This entire module is dynamically imported by the geography stories.
 // The ordinary modular portfolio never registers Geo or Lines.
-use([GeoComponent, LinesChart]);
+registerExtensions([GeoComponent, LinesChart]);
 registerMap(
   "easy-ui-us-demo",
   contiguousUS as Parameters<typeof registerMap>[1],
@@ -299,7 +299,9 @@ export function parcelMapExample(origin: string, selected: string): ChartProps {
             formatter: "{b}",
           },
           silent: true,
-          data: [...new Set(active.scans.map((s) => s.place))].map((place) => ({
+          data: [
+            ...new Set(paths.flatMap((p) => p.scans.map((s) => s.place))),
+          ].map((place) => ({
             name: place,
             value: facilities[place],
           })),
@@ -409,7 +411,11 @@ export function GeographicExamples({
         <div className={styles.mapControls}>
           <label>
             Warehouse{" "}
-            <select value={origin} onChange={(e) => setOrigin(e.target.value)}>
+            <select
+              aria-label="Warehouse"
+              value={origin}
+              onChange={(e) => setOrigin(e.target.value)}
+            >
               {origins.map((o) => (
                 <option key={o}>{o}</option>
               ))}
@@ -418,6 +424,7 @@ export function GeographicExamples({
           <label>
             Parcel{" "}
             <select
+              aria-label="Parcel"
               value={active.id}
               onChange={(e) => setParcel(e.target.value)}
             >
