@@ -30,10 +30,12 @@
   ],
   "scripts": {
     "build": "FORCE_COLOR=1 turbo run build",
+    "build:docs": "npm run build:storybook -- --output-dir docs-site/storybook && npm run build:typedoc && npm run --prefix scripts/preview-metrics build && rm -rf docs-site/comparisons && cp -R scripts/preview-metrics/dist docs-site/comparisons",
     "build:icons": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui-icons",
     "build:react": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui",
     "build:storybook": "storybook build",
     "build:tokens": "FORCE_COLOR=1 turbo run build --filter=@easypost/easy-ui-tokens",
+    "build:typedoc": "npx --yes typedoc@0.28.20 --options typedoc.json",
     "changes:add": "changeset add",
     "changes:publish": "FORCE_COLOR=1 turbo run build && changeset publish",
     "changes:status": "changeset status",
