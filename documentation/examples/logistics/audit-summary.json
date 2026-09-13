@@ -1,12 +1,12 @@
 {
-  "sourceHead": "b9ef8f589428824103910654b80d3acc83b082c7",
-  "validationMerge": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
-  "browserWorkflow": "https://github.com/lanej/easy-ui/actions/runs/34730077560",
-  "packageCI": "https://github.com/lanej/easy-ui/actions/runs/34730077629",
+  "sourceHead": "2055d1775d7976526bab01a23c9e842e359c21a5",
+  "validationMerge": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+  "workflow": "https://github.com/lanej/easy-ui/actions/runs/34733125185",
+  "packageCI": "https://github.com/lanej/easy-ui/actions/runs/34733125290",
   "reports": [
     {
       "build": "chrome-full",
-      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
       "browser": {
         "name": "chrome",
         "version": "153.0.8010.36"
@@ -27,20 +27,6 @@
           ]
         },
         {
-          "name": "geographic-gallery",
-          "engine": {
-            "name": "axe-core",
-            "version": "4.10.3"
-          },
-          "violations": 0,
-          "incomplete": [
-            {
-              "rule": "color-contrast",
-              "nodes": 481
-            }
-          ]
-        },
-        {
           "name": "expanded-tables",
           "engine": {
             "name": "axe-core",
@@ -50,7 +36,7 @@
           "incomplete": [
             {
               "rule": "color-contrast",
-              "nodes": 500
+              "nodes": 481
             }
           ]
         },
@@ -115,20 +101,19 @@
         }
       ],
       "checks": [
-        "keyboard map loading and parcel table selection",
-        "26 SVG charts",
+        "24 SVG charts",
         "keyboard zoom",
         "keyboard row selection",
         "compact table disclosure",
         "no desktop overflow",
-        "26 Canvas charts",
+        "24 Canvas charts",
         "loading/empty/error/partial states",
         "keyboard retry recovery"
       ]
     },
     {
       "build": "chrome-portfolio",
-      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
       "browser": {
         "name": "chrome",
         "version": "153.0.8010.36"
@@ -149,20 +134,6 @@
           ]
         },
         {
-          "name": "geographic-gallery",
-          "engine": {
-            "name": "axe-core",
-            "version": "4.10.3"
-          },
-          "violations": 0,
-          "incomplete": [
-            {
-              "rule": "color-contrast",
-              "nodes": 481
-            }
-          ]
-        },
-        {
           "name": "expanded-tables",
           "engine": {
             "name": "axe-core",
@@ -172,7 +143,7 @@
           "incomplete": [
             {
               "rule": "color-contrast",
-              "nodes": 500
+              "nodes": 481
             }
           ]
         },
@@ -237,20 +208,19 @@
         }
       ],
       "checks": [
-        "keyboard map loading and parcel table selection",
-        "26 SVG charts",
+        "24 SVG charts",
         "keyboard zoom",
         "keyboard row selection",
         "compact table disclosure",
         "no desktop overflow",
-        "26 Canvas charts",
+        "24 Canvas charts",
         "loading/empty/error/partial states",
         "keyboard retry recovery"
       ]
     },
     {
       "build": "firefox-full",
-      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
       "browser": {
         "name": "firefox",
         "version": "155.0"
@@ -271,20 +241,6 @@
           ]
         },
         {
-          "name": "geographic-gallery",
-          "engine": {
-            "name": "axe-core",
-            "version": "4.10.3"
-          },
-          "violations": 0,
-          "incomplete": [
-            {
-              "rule": "color-contrast",
-              "nodes": 481
-            }
-          ]
-        },
-        {
           "name": "expanded-tables",
           "engine": {
             "name": "axe-core",
@@ -294,7 +250,7 @@
           "incomplete": [
             {
               "rule": "color-contrast",
-              "nodes": 500
+              "nodes": 481
             }
           ]
         },
@@ -359,20 +315,19 @@
         }
       ],
       "checks": [
-        "keyboard map loading and parcel table selection",
-        "26 SVG charts",
+        "24 SVG charts",
         "keyboard zoom",
         "keyboard row selection",
         "compact table disclosure",
         "no desktop overflow",
-        "26 Canvas charts",
+        "24 Canvas charts",
         "loading/empty/error/partial states",
         "keyboard retry recovery"
       ]
     },
     {
       "build": "firefox-portfolio",
-      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
       "browser": {
         "name": "firefox",
         "version": "155.0"
@@ -393,20 +348,6 @@
           ]
         },
         {
-          "name": "geographic-gallery",
-          "engine": {
-            "name": "axe-core",
-            "version": "4.10.3"
-          },
-          "violations": 0,
-          "incomplete": [
-            {
-              "rule": "color-contrast",
-              "nodes": 481
-            }
-          ]
-        },
-        {
           "name": "expanded-tables",
           "engine": {
             "name": "axe-core",
@@ -416,7 +357,7 @@
           "incomplete": [
             {
               "rule": "color-contrast",
-              "nodes": 500
+              "nodes": 481
             }
           ]
         },
@@ -481,20 +422,19 @@
         }
       ],
       "checks": [
-        "keyboard map loading and parcel table selection",
-        "26 SVG charts",
+        "24 SVG charts",
         "keyboard zoom",
         "keyboard row selection",
         "compact table disclosure",
         "no desktop overflow",
-        "26 Canvas charts",
+        "24 Canvas charts",
         "loading/empty/error/partial states",
         "keyboard retry recovery"
       ]
     },
     {
       "build": "safari-full",
-      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
       "browser": {
         "name": "Safari",
         "version": "26.6",
@@ -516,20 +456,6 @@
           ]
         },
         {
-          "name": "geographic-gallery",
-          "engine": {
-            "name": "axe-core",
-            "version": "4.10.3"
-          },
-          "violations": 0,
-          "incomplete": [
-            {
-              "rule": "color-contrast",
-              "nodes": 481
-            }
-          ]
-        },
-        {
           "name": "expanded-tables",
           "engine": {
             "name": "axe-core",
@@ -539,7 +465,7 @@
           "incomplete": [
             {
               "rule": "color-contrast",
-              "nodes": 500
+              "nodes": 481
             }
           ]
         },
@@ -604,20 +530,19 @@
         }
       ],
       "checks": [
-        "keyboard map loading and parcel table selection",
-        "26 SVG charts",
+        "24 SVG charts",
         "keyboard zoom",
         "keyboard row selection",
         "compact table disclosure",
         "no desktop overflow",
-        "26 Canvas charts",
+        "24 Canvas charts",
         "loading/empty/error/partial states",
         "keyboard retry recovery"
       ]
     },
     {
       "build": "safari-portfolio",
-      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
       "browser": {
         "name": "Safari",
         "version": "26.6",
@@ -639,20 +564,6 @@
           ]
         },
         {
-          "name": "geographic-gallery",
-          "engine": {
-            "name": "axe-core",
-            "version": "4.10.3"
-          },
-          "violations": 0,
-          "incomplete": [
-            {
-              "rule": "color-contrast",
-              "nodes": 481
-            }
-          ]
-        },
-        {
           "name": "expanded-tables",
           "engine": {
             "name": "axe-core",
@@ -662,7 +573,7 @@
           "incomplete": [
             {
               "rule": "color-contrast",
-              "nodes": 500
+              "nodes": 481
             }
           ]
         },
@@ -727,13 +638,12 @@
         }
       ],
       "checks": [
-        "keyboard map loading and parcel table selection",
-        "26 SVG charts",
+        "24 SVG charts",
         "keyboard zoom",
         "keyboard row selection",
         "compact table disclosure",
         "no desktop overflow",
-        "26 Canvas charts",
+        "24 Canvas charts",
         "loading/empty/error/partial states",
         "keyboard retry recovery"
       ]
@@ -741,8 +651,8 @@
   ],
   "limits": [
     "Synthetic, fixed fixtures; no real customer data.",
-    "Axe incomplete SVG background findings are retained. Contrast regressions cover heatmaps; these checks do not certify every WCAG criterion or screen-reader behavior.",
-    "Warehouse dropdown interaction is additionally exercised by the Chromium capture job.",
-    "Known wrapper zoom-refresh edge cases and Figma approval remain outside this addition."
+    "Maps have moved to a separate draft PR; these reports cover the 24-recipe chart portfolio.",
+    "Axe incomplete SVG-background findings are retained. Passing checks do not certify all WCAG criteria or screen-reader behavior.",
+    "Known wrapper zoom-refresh edge cases and Figma approval remain outside this extraction."
   ]
 }
