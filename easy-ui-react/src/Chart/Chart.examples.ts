@@ -591,6 +591,7 @@ export const treemapExample: ChartProps = {
         label: {
           show: true,
           formatter: "{b}\n{c}",
+          lineHeight: 18,
           color: "#ffffff",
           fontSize: 12,
         },

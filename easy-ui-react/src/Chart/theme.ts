@@ -14,7 +14,7 @@ export function themedOption(
   const muted = token("color-neutral-600", "#50647e");
   const line = token("color-neutral-200", "#dfe5ed");
   const axis = {
-    axisLabel: { color: muted, hideOverlap: true },
+    axisLabel: { color: muted, hideOverlap: true, margin: 12, lineHeight: 18 },
     nameTextStyle: { color: muted },
     axisLine: { lineStyle: { color: line } },
     axisTick: { show: false },
@@ -25,7 +25,11 @@ export function themedOption(
     {
       animation: false,
       backgroundColor: "transparent",
-      textStyle: { fontFamily: css.fontFamily || "sans-serif", color: text },
+      textStyle: {
+        fontFamily: css.fontFamily || "sans-serif",
+        color: text,
+        lineHeight: 18,
+      },
       color: [
         token("color-primary-600", "#113abf"),
         token("color-secondary-600", "#772bb0"),

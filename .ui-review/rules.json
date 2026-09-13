@@ -113,5 +113,15 @@
     "severity": "warning",
     "reason": "Review intersecting SVG text boxes; rotated labels and deliberate label layers require visual interpretation.",
     "designRules": ["DR-006", "DR-007"]
+  },
+  {
+    "id": "service-mix-heading-height",
+    "type": "max-height",
+    "selector": "[aria-label=\"Service mix\"] h2",
+    "max": 32,
+    "pages": ["main"],
+    "severity": "error",
+    "reason": "This short heading fits one line at the minimum viewport; growth indicates accidental card stretching.",
+    "designRules": ["DR-008"]
   }
 ]

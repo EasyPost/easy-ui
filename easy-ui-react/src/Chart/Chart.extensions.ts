@@ -576,7 +576,7 @@ export const periodicHeatmapExample: ChartProps = {
     xAxis: {
       type: "category",
       data: hours,
-      axisLabel: { interval: 0, fontSize: 12, rotate: 30 },
+      axisLabel: { interval: 0, fontSize: 12, rotate: 90 },
     },
     yAxis: {
       type: "category",
