@@ -99,7 +99,8 @@ export function NetworkMap(props: NetworkMapProps) {
           style: latest.current.mapStyle,
           center: initial ? [...initial.center] : [-96, 38],
           zoom: initial?.zoom ?? 3,
-          attributionControl: { compact: false },
+          // Let MapLibre collapse attribution on narrow maps while keeping it accessible.
+          attributionControl: {},
           renderWorldCopies: false,
           canvasContextAttributes: { antialias: true },
           cooperativeGestures: true,

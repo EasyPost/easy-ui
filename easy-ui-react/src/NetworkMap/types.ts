@@ -105,7 +105,7 @@ export type NetworkMapProps = {
   areas?: readonly MapArea[];
   /** Controlled location selection. */
   selectedFacilityId?: string;
-  /** Receives marker or equivalent table selection. */
+  /** Receives marker, equivalent table, Selected leg destination or Latest events selection. */
   onFacilitySelect?: (id: string) => void;
   /** Controlled segment emphasis and Selected leg camera target. */
   selectedSegmentId?: string;
