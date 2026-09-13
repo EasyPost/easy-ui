@@ -5,6 +5,7 @@
   min-width: 0;
   color: design-token("color.neutral.900");
   font-size: 14px;
+  overflow-wrap: anywhere;
 }
 .description {
   margin: 6px 0 10px;
@@ -19,11 +20,6 @@
 }
 .grid {
   stroke: design-token("color.neutral.200");
-}
-.tick {
-  fill: design-token("color.neutral.600");
-  font-size: 10px;
-  font-variant-numeric: tabular-nums;
 }
 .reference {
   stroke: design-token("color.neutral.700");
@@ -94,12 +90,52 @@
   .reference {
     stroke: CanvasText;
   }
-  .tick {
-    fill: CanvasText;
-  }
   .primary,
   .secondary,
   .tertiary {
     color: CanvasText;
+  }
+}
+
+.plotGrid {
+  display: grid;
+  grid-template-columns: fit-content(35%) minmax(0, 1fr);
+  gap: 8px;
+}
+.valueAxis {
+  display: grid;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.2;
+  color: design-token("color.neutral.600");
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  > span {
+    grid-area: 1 / 1;
+    position: relative;
+    align-self: start;
+    min-width: 0;
+    transform: translateY(-50%);
+  }
+}
+.drawing {
+  min-width: 0;
+  &:only-child {
+    grid-column: 1 / -1;
+  }
+}
+.timeAxis {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: design-token("color.neutral.600");
+  > span {
+    min-width: 0;
+    max-width: 50%;
+  }
+  > span:last-child:not(:first-child) {
+    text-align: right;
   }
 }

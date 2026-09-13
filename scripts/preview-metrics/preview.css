@@ -5,7 +5,7 @@ body {
 }
 
 main {
-  max-width: 1360px;
+  max-width: 2240px;
   margin: auto;
   padding: 32px;
 }
@@ -21,7 +21,7 @@ main {
 .note {
   margin: 20px 0 36px;
   max-width: 900px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
   color: #50647e;
 }
@@ -57,9 +57,21 @@ h1 {
 
 .comparison-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
   gap: 20px;
   margin: 24px 0;
+}
+.comparison-grid > *,
+.example-content {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.capacity-panel {
+  grid-column: 1 / -1;
+}
+.capacity-panel .target-stack {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .comparison-grid h2,
 [aria-label="Compact trend examples"] h2 {
@@ -79,6 +91,7 @@ h1 {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
+  table-layout: fixed;
 }
 .sparkline-table th,
 .sparkline-table td {
@@ -88,7 +101,7 @@ h1 {
 }
 .sparkline-table thead th {
   color: #50647e;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 }
 .sparkline-table td:nth-child(2) {
@@ -104,8 +117,11 @@ h1 {
   .comparison-grid {
     grid-template-columns: 1fr;
   }
+  .capacity-panel .target-stack {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .sparkline-table {
-    font-size: 11px;
+    font-size: 12px;
   }
   .sparkline-table th,
   .sparkline-table td {
@@ -131,4 +147,8 @@ h1 {
   .marker-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.lightweight-comparisons {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
 }

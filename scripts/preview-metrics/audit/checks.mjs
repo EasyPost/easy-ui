@@ -159,6 +159,51 @@ export async function auditBrowser(driver, browser, site, outputDir) {
     await driver.screenshot(`${outputDir}/states.png`);
     await diagnostics("states");
 
+    // One constrained-card regression, shared by Chrome, Firefox and Safari.
+    await driver.open(`${site}/layout.html`);
+    await driver.wait(() =>
+      document.querySelector('[data-chart-state="ready"] svg'),
+    );
+    await driver.evaluate(() => document.fonts.ready.then(() => true));
+    const overflow = await driver.evaluate(() => {
+      const stack = document.querySelector(".stress-stack");
+      const scroll = stack.querySelector('section [role="region"]');
+      const axis = stack.querySelector("[data-chart-value-axis]");
+      const plot = axis.nextElementSibling.querySelector("svg");
+      return {
+        cardWidth: stack.getBoundingClientRect().width,
+        page: document.documentElement.scrollWidth - innerWidth,
+        table: scroll.scrollWidth - scroll.clientWidth,
+        open: [...stack.querySelectorAll("details")].every((el) => el.open),
+        axisHeight: axis.getBoundingClientRect().height,
+        plotHeight: plot.getBoundingClientRect().height,
+      };
+    });
+    assert.equal(overflow.cardWidth, 280);
+    assert.ok(overflow.page <= 1, "Long content must not widen the page");
+    assert.ok(
+      overflow.table > 0,
+      "Exact values keep an intentional local scroll region",
+    );
+    assert.ok(overflow.open, "Stress tables must be exposed");
+    assert.ok(
+      Math.abs(overflow.axisHeight - overflow.plotHeight) <= 1,
+      "Narrow plots must retain the axis coordinate scale",
+    );
+    await driver.key('.stress-stack section [role="region"]', "ArrowRight");
+    await driver.wait(
+      () =>
+        document.querySelector('.stress-stack section [role="region"]')
+          .scrollLeft > 0,
+    );
+    await scan("constrained-content");
+    await diagnostics("constrained-content");
+    await driver.screenshot(`${outputDir}/constrained-content.png`);
+    report.checks.push(
+      "280 px long-content cards",
+      "keyboard horizontal table scrolling",
+    );
+
     assert.deepEqual(
       report.scans.flatMap((scan) => scan.violations),
       [],

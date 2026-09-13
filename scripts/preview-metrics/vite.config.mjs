@@ -57,6 +57,7 @@ export function previewConfig(engine = "full", outDir = "dist") {
         input: {
           gallery: local("./index.html"),
           states: local("./audit.html"),
+          layout: local("./layout.html"),
         },
       },
     },

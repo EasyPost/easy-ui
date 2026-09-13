@@ -30,6 +30,7 @@ export const timeSeriesExample: ChartProps = {
   option: {
     useUTC: true,
     grid: { ...grid, bottom: 70 },
+    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 104 } } }],
     legend: { top: 10, itemWidth: 16, itemGap: 12 },
     tooltip: { trigger: "axis", valueFormatter: (value) => `${value}%` },
     xAxis: {
@@ -94,6 +95,7 @@ export const areaExample: ChartProps = {
   option: {
     useUTC: true,
     grid,
+    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 104 } } }],
     legend: { top: 10, itemWidth: 16, itemGap: 12 },
     tooltip: { trigger: "axis" },
     xAxis: { type: "time", axisLabel: { formatter: shortDate } },
@@ -281,6 +283,7 @@ export const scatterExample: ChartProps = {
     "Matched service cohorts · Bubble area represents parcel count · Lower and farther left means cheaper and faster.",
   option: {
     grid: { ...grid, bottom: 60 },
+    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 104 } } }],
     legend: { top: 10, itemWidth: 16, itemGap: 12 },
     tooltip: {
       trigger: "item",
@@ -376,7 +379,7 @@ export const sankeyExample: ChartProps = {
         nodeAlign: "justify",
         emphasis: { focus: "adjacency" },
         lineStyle: { color: "source", opacity: 0.22, curveness: 0.5 },
-        label: { fontSize: 11 },
+        label: { fontSize: 12 },
         data: nodes.map((name, index) => ({
           name,
           itemStyle: {
@@ -410,7 +413,7 @@ export const sankeyExample: ChartProps = {
               bottom: 30,
               nodeWidth: 12,
               nodeGap: 16,
-              label: { position: "right", fontSize: 10 },
+              label: { position: "right", fontSize: 12 },
             },
           ],
         },
@@ -481,7 +484,7 @@ export const heatmapExample: ChartProps = {
         label: {
           show: true,
           formatter: (params) => `${(params.value as number[])[2]}%`,
-          fontSize: 11,
+          fontSize: 12,
         },
         itemStyle: { borderWidth: 3, borderColor: "#ffffff" },
         data: cells
@@ -591,8 +594,9 @@ export const treemapExample: ChartProps = {
         label: {
           show: true,
           formatter: "{b}\n{c}",
+          lineHeight: 18,
           color: "#ffffff",
-          fontSize: 11,
+          fontSize: 12,
         },
         upperLabel: {
           show: true,

@@ -28,29 +28,33 @@ export function NativeExtensions() {
         markers
       </p>
       <div className="comparison-grid">
-        <Card background="primary" padding="3">
-          <h2>Capacity at a glance</h2>
-          <p className="panel-note">
-            Oakland · Daily parcels on a shared 0–13,000 scale · Synthetic
-            observed and forecast values
-          </p>
-          <div className="target-stack">
-            <BulletChart
-              {...WarehouseCapacity.args!}
-              label="Oakland · observed Aug 5"
-              value={9700}
-              target={10000}
-              max={13000}
-            />
-            <BulletChart
-              {...ForecastCapacity.args!}
-              label="Oakland · forecast peak Aug 7"
-              value={11400}
-              target={10000}
-              max={13000}
-            />
-          </div>
-        </Card>
+        <div className="capacity-panel">
+          <Card background="primary" padding="3">
+            <div className="example-content">
+              <h2>Capacity at a glance</h2>
+              <p className="panel-note">
+                Oakland · Daily parcels on a shared 0–13,000 scale · Synthetic
+                observed and forecast values
+              </p>
+              <div className="target-stack">
+                <BulletChart
+                  {...WarehouseCapacity.args!}
+                  label="Oakland · observed Aug 5"
+                  value={9700}
+                  target={10000}
+                  max={13000}
+                />
+                <BulletChart
+                  {...ForecastCapacity.args!}
+                  label="Oakland · forecast peak Aug 7"
+                  value={11400}
+                  target={10000}
+                  max={13000}
+                />
+              </div>
+            </div>
+          </Card>
+        </div>
         <Card background="primary" padding="3">
           <CompactTimeSeries
             {...Comparison.args}
