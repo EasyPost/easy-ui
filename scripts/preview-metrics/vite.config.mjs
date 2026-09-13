@@ -7,6 +7,9 @@ export function previewConfig(engine = "full", outDir = "dist") {
   if (!["full", "portfolio"].includes(engine))
     throw new Error(`Unknown chart engine preset: ${engine}`);
   return defineConfig({
+    // Use a relative base only for the GitHub Pages copy. Review artifacts keep
+    // their existing root-served paths by default.
+    base: process.env.EASY_UI_PREVIEW_BASE || "/",
     // Substitute only the private preview's loader. Production Chart keeps its
     // full-engine default; native components still never import a chart engine.
     plugins:
