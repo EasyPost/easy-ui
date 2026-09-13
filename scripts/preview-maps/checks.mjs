@@ -134,7 +134,7 @@ export async function auditMaps(browser, identity, base, output) {
     await browser.click(
       '[aria-label$="camera and layers"] label:first-child input',
     );
-    await browser.click("summary");
+    await browser.click("summary:not([aria-label])");
     await scan("parcel-data");
     await clean("parcel");
     await browser.open(`${base}/?audience=shipper`);
@@ -245,7 +245,7 @@ export async function auditMaps(browser, identity, base, output) {
             ?.getAttribute("title") === "Warren distribution",
       ),
     );
-    await browser.click("summary");
+    await browser.click("summary:not([aria-label])");
     await scan("carrier-data");
     await clean("carrier");
     await browser.resize(390, 1000);
