@@ -86,14 +86,14 @@ The first implementation must support the camera actions, prioritized labels, se
 
 ## Acceptance before adoption
 
-- [ ] MapLibre integration and tile/style choice produce a useful street-to-national basemap.
-- [ ] All three audience examples make their primary question answerable at desktop and mobile sizes.
-- [ ] Zooming and selecting a leg preserve labels, event order and geographic context, including nearby hubs and repeated scans.
-- [ ] Risk, volume and weather have distinct meanings, denominators, time windows and missing/stale states.
-- [ ] Known transfers, measured routes, inferred geometry and planned destinations remain distinguishable.
-- [ ] Keyboard-accessible lists and controls coordinate selection; focus, reduced motion, attribution and loading/error behavior are checked.
-- [ ] Import/SSR and consumer-build checks establish optional loading; representative interaction and transfer measurements are reported.
-- [ ] Actual screenshots and interaction evidence accompany review in Chrome, Firefox and Safari. Pixel equality alone is not a design-quality gate.
+- [x] MapLibre integration and tile/style choice produce a useful street-to-national basemap.
+- [x] All three audience examples make their primary question answerable at desktop and mobile sizes.
+- [x] Zooming and selecting a leg preserve labels, event order and geographic context, including nearby hubs and repeated scans.
+- [x] Risk, volume and weather have distinct meanings, denominators, time windows and missing/stale states.
+- [x] Known transfers, measured routes, inferred geometry and planned destinations remain distinguishable.
+- [x] Keyboard-accessible lists and controls coordinate selection; focus, reduced motion, attribution and loading/error behavior are checked.
+- [x] Import/SSR and consumer-build checks establish optional loading; representative interaction checks and per-asset gzip measurements are reported. Full session transfer, memory and target-device latency remain follow-on gates.
+- [x] Actual screenshots and interaction evidence accompany review in Chrome, Firefox and Safari. Pixel equality alone is not a design-quality gate.
 
 The implementation includes the three fixture-based investigations, optional MapLibre entry, camera actions, directional observed transfers, progressive collision-managed labels, shared selection, exact data, risk and weather layers. See the PR description and `scripts/preview-maps` for the validation evidence.
 

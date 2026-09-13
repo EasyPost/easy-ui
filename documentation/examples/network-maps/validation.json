@@ -1,0 +1,49 @@
+{
+  "headCommit": "ad0ceb1b3e37b42a055664b308630afd145125f2",
+  "testedMergeCommit": "92014aa155c0b8487e7598b89ccbcc420eb812f5",
+  "workflowRun": 34739063304,
+  "browsers": {
+    "chrome": {
+      "identity": {
+        "name": "chrome",
+        "version": "153.0.8010.36",
+        "platform": "linux"
+      },
+      "checks": 35,
+      "accessibilityScans": 10,
+      "violations": 0,
+      "screenshots": 10,
+      "desktopConsoleWarningsAndErrors": 0
+    },
+    "firefox": {
+      "identity": {
+        "name": "firefox",
+        "version": "155.0",
+        "platform": "linux"
+      },
+      "checks": 35,
+      "accessibilityScans": 10,
+      "violations": 0,
+      "screenshots": 10,
+      "desktopConsoleWarningsAndErrors": 0
+    },
+    "safari": {
+      "identity": {
+        "name": "Safari",
+        "version": "26.6.1",
+        "platform": "macOS"
+      },
+      "checks": 35,
+      "accessibilityScans": 10,
+      "violations": 0,
+      "screenshots": 10,
+      "desktopConsoleWarningsAndErrors": 0
+    }
+  },
+  "limits": [
+    "Chrome and Firefox use 390px mobile viewports; Safari uses its actual minimum window width.",
+    "Automated axe checks do not certify all screen-reader or WCAG behavior.",
+    "Tile requests made inside workers are not fully captured by main-page Resource Timing; cross-origin byte sizes may be unavailable.",
+    "Memory and interaction latency budgets on target mobile hardware remain unmeasured."
+  ]
+}

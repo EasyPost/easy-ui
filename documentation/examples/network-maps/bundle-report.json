@@ -1,0 +1,116 @@
+{
+  "sourceCommit": "92014aa155c0b8487e7598b89ccbcc420eb812f5",
+  "maplibreVersion": "6.9.0",
+  "galleryIncludingMaps": {
+    "javascriptGzipBytes": 510948,
+    "cssGzipBytes": 19016,
+    "assets": [
+      {
+        "file": "assets/gallery-Btt5BigC.js",
+        "rawBytes": 2425,
+        "gzipBytes": 1282
+      },
+      {
+        "file": "assets/Theme-CNT2YKvr.js",
+        "rawBytes": 199979,
+        "gzipBytes": 62175
+      },
+      {
+        "file": "assets/Theme-BZTVf0ps.css",
+        "rawBytes": 31824,
+        "gzipBytes": 5977
+      },
+      {
+        "file": "assets/NetworkMap.examples-B5aXOL0H.js",
+        "rawBytes": 30456,
+        "gzipBytes": 10718
+      },
+      {
+        "file": "assets/NetworkMap-pf19ASkJ.css",
+        "rawBytes": 95734,
+        "gzipBytes": 13039
+      },
+      {
+        "file": "assets/maplibre-gl-Dtk2uwpQ.js",
+        "rawBytes": 1066732,
+        "gzipBytes": 288891
+      },
+      {
+        "file": "assets/maplibre-gl-worker-PcuQ6pji.js",
+        "rawBytes": 508515,
+        "gzipBytes": 147882
+      }
+    ]
+  },
+  "galleryInitial": {
+    "javascriptGzipBytes": 63457,
+    "cssGzipBytes": 5977,
+    "assets": [
+      {
+        "file": "assets/gallery-Btt5BigC.js",
+        "rawBytes": 2425,
+        "gzipBytes": 1282
+      },
+      {
+        "file": "assets/Theme-CNT2YKvr.js",
+        "rawBytes": 199979,
+        "gzipBytes": 62175
+      },
+      {
+        "file": "assets/Theme-BZTVf0ps.css",
+        "rawBytes": 31824,
+        "gzipBytes": 5977
+      }
+    ]
+  },
+  "lightweight": {
+    "javascriptGzipBytes": 63328,
+    "cssGzipBytes": 6121,
+    "assets": [
+      {
+        "file": "assets/lightweight-Cgp8Rn04.js",
+        "rawBytes": 2107,
+        "gzipBytes": 1153
+      },
+      {
+        "file": "assets/lightweight-CYHlIXiw.css",
+        "rawBytes": 151,
+        "gzipBytes": 144
+      },
+      {
+        "file": "assets/Theme-CNT2YKvr.js",
+        "rawBytes": 199979,
+        "gzipBytes": 62175
+      },
+      {
+        "file": "assets/Theme-BZTVf0ps.css",
+        "rawBytes": 31824,
+        "gzipBytes": 5977
+      }
+    ]
+  },
+  "mapEngine": {
+    "javascriptGzipBytes": 288891,
+    "cssGzipBytes": 0,
+    "assets": [
+      {
+        "file": "assets/maplibre-gl-Dtk2uwpQ.js",
+        "rawBytes": 1066732,
+        "gzipBytes": 288891
+      }
+    ]
+  },
+  "workerAssets": [
+    {
+      "file": "assets/maplibre-gl-worker-PcuQ6pji.js",
+      "rawBytes": 508515,
+      "gzipBytes": 147882
+    }
+  ],
+  "notes": [
+    "Production Vite consumer, gzip per asset; includes React and demo application where applicable.",
+    "MapLibre 6 uses a separate module worker. Vite bundles and emits that worker; its complete file size is included in gallery JavaScript and listed separately. Shared code can be duplicated between the main and worker bundles.",
+    "Fonts and viewport-dependent basemap tiles are separate requests; tile request counts are recorded by browser audit. Cross-origin transfer sizes may be unavailable.",
+    "Engine is optional and lazy. Lightweight SVG consumers do not import MapLibre or its CSS."
+  ]
+}

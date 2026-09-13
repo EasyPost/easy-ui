@@ -1,0 +1,276 @@
+{
+  "sourceCommit": "92014aa155c0b8487e7598b89ccbcc420eb812f5",
+  "identity": {
+    "name": "Safari",
+    "version": "26.6.1",
+    "platform": "macOS"
+  },
+  "checks": [
+    "parcel: no accessibility violations",
+    "parcel starts at regional zoom",
+    "Entire journey fits national hops",
+    "Latest events zooms to distribution streets",
+    "keyboard event selection links to map",
+    "Selected leg fits regional handoff",
+    "risk toggle preserves manual camera",
+    "parcel-data: no accessibility violations",
+    "parcel: no console warnings or errors",
+    "parcel: basemap loaded without error notice",
+    "initial shipper parcel and facility selection agree",
+    "shipper: no accessibility violations",
+    "shipper sample includes all five parcels",
+    "warehouse filter preserves camera",
+    "filtered origin markers remove Oakland and Newark",
+    "parcel sample selection locates Livonia",
+    "shipper: no console warnings or errors",
+    "shipper: basemap loaded without error notice",
+    "carrier: no accessibility violations",
+    "risk layer can be disabled",
+    "weather layer preserves camera",
+    "weather has source, interval and forecast semantics",
+    "carrier-weather: no accessibility violations",
+    "unknown facility risk stays unavailable",
+    "carrier-data: no accessibility violations",
+    "carrier: no console warnings or errors",
+    "carrier: basemap loaded without error notice",
+    "parcel: no page overflow at 390px",
+    "parcel-mobile: no accessibility violations",
+    "shipper: no page overflow at 390px",
+    "shipper-mobile: no accessibility violations",
+    "carrier: no page overflow at 390px",
+    "carrier-mobile: no accessibility violations",
+    "native SVG page loads no MapLibre, map CSS or tiles",
+    "lightweight: no accessibility violations"
+  ],
+  "scans": [
+    {
+      "name": "parcel",
+      "violations": []
+    },
+    {
+      "name": "parcel-data",
+      "violations": []
+    },
+    {
+      "name": "shipper",
+      "violations": []
+    },
+    {
+      "name": "carrier",
+      "violations": []
+    },
+    {
+      "name": "carrier-weather",
+      "violations": []
+    },
+    {
+      "name": "carrier-data",
+      "violations": []
+    },
+    {
+      "name": "parcel-mobile",
+      "violations": []
+    },
+    {
+      "name": "shipper-mobile",
+      "violations": []
+    },
+    {
+      "name": "carrier-mobile",
+      "violations": []
+    },
+    {
+      "name": "lightweight",
+      "violations": []
+    }
+  ],
+  "screenshots": [
+    "parcel-regional-desktop",
+    "parcel-national-desktop",
+    "parcel-local-desktop",
+    "shipper-network-desktop",
+    "shipper-warehouse-filter",
+    "carrier-risk-desktop",
+    "carrier-weather-desktop",
+    "parcel-mobile",
+    "shipper-mobile",
+    "carrier-mobile"
+  ],
+  "resources": [
+    {
+      "name": "parcel",
+      "tiles": [
+        {
+          "url": "https://tiles.openfreemap.org/styles/positron",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/planet",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.json",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.png",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/0-255.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Bold/0-255.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/5120-5375.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/5376-5631.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        }
+      ]
+    },
+    {
+      "name": "shipper",
+      "tiles": [
+        {
+          "url": "https://tiles.openfreemap.org/styles/positron",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/planet",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.json",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.png",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/0-255.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/5120-5375.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/5376-5631.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Bold/0-255.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Bold/512-767.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/11520-11775.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/65024-65279.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Bold/11520-11775.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/1536-1791.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Bold/65024-65279.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/1024-1279.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/1024-1279.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        }
+      ]
+    },
+    {
+      "name": "carrier",
+      "tiles": [
+        {
+          "url": "https://tiles.openfreemap.org/styles/positron",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/planet",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.json",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.png",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/0-255.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        },
+        {
+          "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf",
+          "encodedBytes": null,
+          "transferBytes": null
+        }
+      ]
+    }
+  ]
+}
