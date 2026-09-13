@@ -117,6 +117,7 @@ export const scenarioExample: ChartProps = {
     "Synthetic model · Changes relative to current pricing. Named settings and the shaded trial range are illustrative, not recommendations.",
   option: {
     grid: { ...grid, top: 84 },
+    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 120 } } }],
     legend: { top: 8 },
     tooltip: { trigger: "axis" },
     xAxis: {
@@ -157,7 +158,7 @@ export const scenarioExample: ChartProps = {
         markArea: {
           silent: true,
           itemStyle: { color: "rgba(17,58,191,0.06)" },
-          label: { fontSize: 12, color: blue },
+          label: { fontSize: 12, color: blue, position: "insideTop" },
           data: [[{ xAxis: -3, name: "Trial range" }, { xAxis: -1 }]],
         },
       },
@@ -184,14 +185,18 @@ export const scenarioExample: ChartProps = {
             {
               coord: [-3, 4.5],
               name: "Model peak",
-              label: { position: "top", distance: 18 },
+              label: { position: "left", distance: 18 },
             },
             {
               coord: [-2, 4],
               name: "Proposed",
-              label: { position: "bottom", distance: 16 },
+              label: { position: "top", distance: 36 },
             },
-            { coord: [0, 0], name: "Current", label: { position: "left" } },
+            {
+              coord: [0, 0],
+              name: "Current",
+              label: { position: "bottom", distance: 8 },
+            },
           ],
         },
       },
@@ -529,7 +534,11 @@ export const waterfallExample: ChartProps = {
             value: Math.abs(row.change),
             itemStyle: { color: row.change < 0 ? orange : blue },
           })),
-          { value: balance, itemStyle: { color: teal } },
+          {
+            value: balance,
+            itemStyle: { color: teal },
+            label: { position: "insideTop", color: "#ffffff", distance: 8 },
+          },
         ],
       },
     ],
@@ -571,7 +580,7 @@ export const periodicHeatmapExample: ChartProps = {
     "Synthetic UTC cohorts · Percent of parcels with exceptions. Cells with fewer than 50 parcels are blank; table retains counts. No causal inference.",
   height: 340,
   option: {
-    grid: { left: 42, right: 12, top: 24, bottom: 88 },
+    grid: { left: 42, right: 12, top: 24, bottom: 112 },
     tooltip: { trigger: "item" },
     xAxis: {
       type: "category",

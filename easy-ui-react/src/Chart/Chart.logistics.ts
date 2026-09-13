@@ -46,6 +46,7 @@ export const reliabilityExample: ChartProps = {
     "At 3 days: A 92%, B 85%, C 80%. Dashed references: 3-day promise and 90% service target. Fixed, fully aged cohort; no survivor-only filtering.",
   option: {
     grid,
+    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 104 } } }],
     legend: { top: 0 },
     tooltip: { trigger: "axis", valueFormatter: (v) => `${v}% delivered` },
     xAxis: {

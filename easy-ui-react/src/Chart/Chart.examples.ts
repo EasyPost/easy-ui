@@ -30,6 +30,7 @@ export const timeSeriesExample: ChartProps = {
   option: {
     useUTC: true,
     grid: { ...grid, bottom: 70 },
+    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 104 } } }],
     legend: { top: 10, itemWidth: 16, itemGap: 12 },
     tooltip: { trigger: "axis", valueFormatter: (value) => `${value}%` },
     xAxis: {
@@ -94,6 +95,7 @@ export const areaExample: ChartProps = {
   option: {
     useUTC: true,
     grid,
+    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 104 } } }],
     legend: { top: 10, itemWidth: 16, itemGap: 12 },
     tooltip: { trigger: "axis" },
     xAxis: { type: "time", axisLabel: { formatter: shortDate } },
@@ -281,6 +283,7 @@ export const scatterExample: ChartProps = {
     "Matched service cohorts · Bubble area represents parcel count · Lower and farther left means cheaper and faster.",
   option: {
     grid: { ...grid, bottom: 60 },
+    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 104 } } }],
     legend: { top: 10, itemWidth: 16, itemGap: 12 },
     tooltip: {
       trigger: "item",
