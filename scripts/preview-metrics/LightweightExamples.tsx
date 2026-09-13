@@ -56,13 +56,15 @@ export function LightweightExamples() {
           background="primary"
           padding="3"
         >
-          <h2>Service mix</h2>
-          <p className="panel-note">June volume · One shared scale</p>
-          <BarList
-            {...Volume.args}
-            label="June parcel volume by service"
-            data={Volume.args!.data!}
-          />
+          <div className="example-content">
+            <h2>Service mix</h2>
+            <p className="panel-note">June volume · One shared scale</p>
+            <BarList
+              {...Volume.args}
+              label="June parcel volume by service"
+              data={Volume.args!.data!}
+            />
+          </div>
         </Card>
         <Card
           as="section"
@@ -70,25 +72,27 @@ export function LightweightExamples() {
           background="primary"
           padding="3"
         >
-          <h2>Performance against targets</h2>
-          <p className="panel-note">
-            Explicit scales · Direction has no implied sentiment
-          </p>
-          <div className="target-stack">
-            <BulletChart
-              {...OnTime.args}
-              label="On-time delivery"
-              value={97.8}
-              target={97}
-              max={100}
-            />
-            <BulletChart
-              {...CostTarget.args}
-              label="Average rated cost"
-              value={5.2}
-              target={5.5}
-              max={8}
-            />
+          <div className="example-content">
+            <h2>Performance against targets</h2>
+            <p className="panel-note">
+              Explicit scales · Direction has no implied sentiment
+            </p>
+            <div className="target-stack">
+              <BulletChart
+                {...OnTime.args}
+                label="On-time delivery"
+                value={97.8}
+                target={97}
+                max={100}
+              />
+              <BulletChart
+                {...CostTarget.args}
+                label="Average rated cost"
+                value={5.2}
+                target={5.5}
+                max={8}
+              />
+            </div>
           </div>
         </Card>
       </div>
@@ -98,33 +102,35 @@ export function LightweightExamples() {
         background="primary"
         padding="3"
       >
-        <h2>Sparklines in a report</h2>
-        <p className="panel-note">
-          Equally spaced observations · Each row uses its own scale
-        </p>
-        <table className="sparkline-table">
-          <thead>
-            <tr>
-              <th scope="col">Pattern</th>
-              <th scope="col">Latest</th>
-              <th scope="col">Trend</th>
-            </tr>
-          </thead>
-          <tbody>
-            {trends.map((trend) => (
-              <tr key={trend.label}>
-                <th scope="row">{trend.label}</th>
-                <td>{trend.value}</td>
-                <td>
-                  <Sparkline
-                    values={trend.values}
-                    accessibilityLabel={trend.summary}
-                  />
-                </td>
+        <div className="example-content">
+          <h2>Sparklines in a report</h2>
+          <p className="panel-note">
+            Equally spaced observations · Each row uses its own scale
+          </p>
+          <table className="sparkline-table">
+            <thead>
+              <tr>
+                <th scope="col">Pattern</th>
+                <th scope="col">Latest</th>
+                <th scope="col">Trend</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {trends.map((trend) => (
+                <tr key={trend.label}>
+                  <th scope="row">{trend.label}</th>
+                  <td>{trend.value}</td>
+                  <td>
+                    <Sparkline
+                      values={trend.values}
+                      accessibilityLabel={trend.summary}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </Card>
     </section>
   );

@@ -42,7 +42,7 @@ export const labeledBarsExample: ChartProps = {
         label: {
           show: true,
           position: "right",
-          fontSize: 11,
+          fontSize: 12,
           formatter: (params) => `$${Number(params.value).toFixed(2)}`,
         },
         barMaxWidth: 22,
@@ -73,7 +73,7 @@ export const annotatedTrendExample: ChartProps = {
                 silent: true,
                 symbol: "none",
                 label: {
-                  fontSize: 10,
+                  fontSize: 12,
                   position: "insideEndTop",
                   formatter: "{b}",
                 },
@@ -142,7 +142,7 @@ export const scenarioExample: ChartProps = {
           silent: true,
           symbol: "none",
           label: {
-            fontSize: 10,
+            fontSize: 12,
             position: "insideStartBottom",
             formatter: "{b}",
           },
@@ -157,7 +157,7 @@ export const scenarioExample: ChartProps = {
         markArea: {
           silent: true,
           itemStyle: { color: "rgba(17,58,191,0.06)" },
-          label: { fontSize: 10, color: blue },
+          label: { fontSize: 12, color: blue },
           data: [[{ xAxis: -3, name: "Trial range" }, { xAxis: -1 }]],
         },
       },
@@ -175,7 +175,7 @@ export const scenarioExample: ChartProps = {
           symbolSize: 8,
           label: {
             show: true,
-            fontSize: 10,
+            fontSize: 12,
             formatter: "{b}",
             backgroundColor: "rgba(255,255,255,0.9)",
             padding: [2, 3],
@@ -244,7 +244,7 @@ export const histogramExample: ChartProps = {
         data: counts,
         barCategoryGap: "5%",
         itemStyle: { color: blue },
-        label: { show: true, position: "top", fontSize: 11 },
+        label: { show: true, position: "top", fontSize: 12 },
       },
     ],
   },
@@ -294,7 +294,7 @@ export const cumulativeExample: ChartProps = {
           label: {
             formatter: "90%",
             position: "insideEndBottom",
-            fontSize: 10,
+            fontSize: 12,
           },
           lineStyle: { type: "dotted", color: teal },
           data: [{ yAxis: 90 }],
@@ -428,7 +428,7 @@ export const predictionBandExample: ChartProps = {
           lineStyle: { type: "dotted", color: "#627891" },
           label: {
             formatter: "Forecast starts",
-            fontSize: 10,
+            fontSize: 12,
             position: "insideEndTop",
           },
           data: [{ xAxis: day(5) }],
@@ -489,7 +489,7 @@ export const waterfallExample: ChartProps = {
     xAxis: {
       type: "category",
       data: [...bridge.map((row) => row.name), "Net"],
-      axisLabel: { interval: 0, fontSize: 10 },
+      axisLabel: { interval: 0, fontSize: 12 },
     },
     yAxis: {
       type: "value",
@@ -517,7 +517,7 @@ export const waterfallExample: ChartProps = {
         label: {
           show: true,
           position: "top",
-          fontSize: 10,
+          fontSize: 12,
           formatter: (params) =>
             params.dataIndex === bridge.length
               ? "$14.3k"
@@ -576,13 +576,13 @@ export const periodicHeatmapExample: ChartProps = {
     xAxis: {
       type: "category",
       data: hours,
-      axisLabel: { interval: 0, fontSize: 9, rotate: 30 },
+      axisLabel: { interval: 0, fontSize: 12, rotate: 30 },
     },
     yAxis: {
       type: "category",
       data: weekdays,
       inverse: true,
-      axisLabel: { fontSize: 10 },
+      axisLabel: { fontSize: 12 },
     },
     visualMap: {
       min: 0,
@@ -609,7 +609,7 @@ export const periodicHeatmapExample: ChartProps = {
           })),
         label: {
           show: true,
-          fontSize: 10,
+          fontSize: 12,
           formatter: (params) => `${(params.value as number[])[2]}%`,
         },
         itemStyle: { borderColor: "#ffffff", borderWidth: 2 },

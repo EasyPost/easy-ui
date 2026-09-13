@@ -148,12 +148,12 @@ export const competitivenessExample: ChartProps = {
         return `${c.zone}, ${c.weight}: ${c.difference! > 0 ? "+" : ""}${c.difference}% · ${money(c.offered)} vs ${money(c.benchmark)} · n=${c.n}`;
       },
     },
-    xAxis: { type: "category", data: zones, axisLabel: { fontSize: 10 } },
+    xAxis: { type: "category", data: zones, axisLabel: { fontSize: 12 } },
     yAxis: {
       type: "category",
       data: weights,
       inverse: true,
-      axisLabel: { fontSize: 10 },
+      axisLabel: { fontSize: 12 },
     },
     visualMap: {
       min: -30,
@@ -180,7 +180,7 @@ export const competitivenessExample: ChartProps = {
           })),
         label: {
           show: true,
-          fontSize: 10,
+          fontSize: 12,
           formatter: (p) => {
             const n = (p.value as number[])[2];
             return `${n > 0 ? "+" : ""}${n}%`;
@@ -504,7 +504,7 @@ export const shipmentTimelineExample: ChartProps = {
       type: "category",
       inverse: true,
       data: trackingIntervals.map((s) => s.label),
-      axisLabel: { fontSize: 10 },
+      axisLabel: { fontSize: 12 },
     },
     series: [
       {
@@ -537,7 +537,7 @@ export const shipmentTimelineExample: ChartProps = {
         label: {
           show: true,
           position: "right",
-          fontSize: 10,
+          fontSize: 12,
           formatter: (p) => `${p.value}h`,
         },
         markLine: {
@@ -642,7 +642,7 @@ export const warehouseProgressExample: ChartProps = {
       type: "category",
       inverse: true,
       data: warehouseProgress.map((p) => `${p.origin}\n${p.id}`),
-      axisLabel: { fontSize: 10 },
+      axisLabel: { fontSize: 12 },
     },
     series: [
       {

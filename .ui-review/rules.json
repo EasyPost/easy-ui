@@ -1,11 +1,11 @@
 [
   {
-    "id": "baseline-readable-text",
+    "id": "chart-readable-annotations",
     "type": "min-font-size",
     "selector": "main",
-    "min": 14,
+    "min": 12,
     "severity": "error",
-    "reason": "Start with at least 14 CSS px for visible main-content text; calibrate to the project's readable type scale.",
+    "reason": "Dense chart annotations, captions and exact tables use at least 12 CSS px; page prose and headings have a separate 14 px minimum. No smaller mobile type.",
     "designRules": ["DR-007"]
   },
   {
@@ -48,5 +48,62 @@
     "severity": "warning",
     "reason": "Avoid fully justified prose and its uneven word spacing. This is a scoped default, not a WCAG 1.4.8 conformance test.",
     "designRules": ["DR-007"]
+  },
+  {
+    "id": "page-readable-prose",
+    "type": "min-font-size",
+    "selector": ".note, h1, h2, .layout-review > header",
+    "min": 14,
+    "severity": "error",
+    "reason": "Keep explanatory prose and headings at least 14 CSS px.",
+    "designRules": ["DR-007"]
+  },
+  {
+    "id": "chart-svg-bounds",
+    "type": "within-bounds",
+    "selector": "[data-chart-state=\"ready\"] svg text",
+    "container": "svg",
+    "tolerance": 1,
+    "severity": "error",
+    "reason": "Chart labels must stay inside their SVG viewport.",
+    "designRules": ["DR-006", "DR-007"]
+  },
+  {
+    "id": "native-axis-bounds",
+    "type": "within-bounds",
+    "selector": "[data-chart-value-axis] > span, [data-chart-time-axis] > span",
+    "container": "[data-chart-value-axis], [data-chart-time-axis]",
+    "tolerance": 1,
+    "severity": "error",
+    "reason": "Large formatted values and complete dates must fit the native axis.",
+    "designRules": ["DR-006", "DR-007"]
+  },
+  {
+    "id": "native-axis-overlap",
+    "type": "no-overlap",
+    "selector": "[data-chart-value-axis] > span, [data-chart-time-axis] > span",
+    "severity": "error",
+    "reason": "Wrapped native axis labels must remain distinct.",
+    "designRules": ["DR-006", "DR-007"]
+  },
+  {
+    "id": "example-heading-height",
+    "type": "max-height",
+    "selector": ".example-content > h2",
+    "max": 80,
+    "pages": ["main"],
+    "severity": "error",
+    "reason": "Example headings may wrap at 320 px but must not stretch into unused card space.",
+    "designRules": ["DR-008"]
+  },
+  {
+    "id": "example-caption-height",
+    "type": "max-height",
+    "selector": ".example-content > .panel-note",
+    "max": 120,
+    "pages": ["main"],
+    "severity": "error",
+    "reason": "Example captions may wrap but must not grow to fill the card.",
+    "designRules": ["DR-008"]
   }
 ]

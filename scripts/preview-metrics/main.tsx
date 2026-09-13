@@ -39,6 +39,11 @@ createRoot(document.getElementById("root")!).render(
   <ThemeProvider colorScheme="light">
     <main>
       <p className="eyebrow">EASY UI · DATA VISUALIZATION</p>
+      <p className="note">
+        <a href="./layout.html">
+          Explore constrained cards and overflow stress cases
+        </a>
+      </p>
       <LightweightExamples />
       <NativeExtensions />
       <section aria-label="Metric state examples">

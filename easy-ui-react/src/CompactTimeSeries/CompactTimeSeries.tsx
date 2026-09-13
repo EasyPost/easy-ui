@@ -118,10 +118,10 @@ export function CompactTimeSeries({
       ),
     );
   const plotHeight = Math.max(140, Math.min(280, height));
-  const left = 58,
-    right = width - 12,
-    top = 14,
-    bottom = plotHeight - 30;
+  const left = 6,
+    right = width - 6,
+    top = 28,
+    bottom = plotHeight - 28;
   const x = (value: number) =>
     left + position(value, xDomain as [number, number]) * (right - left);
   const y = (value: number) =>
@@ -149,107 +149,113 @@ export function CompactTimeSeries({
         <strong>{label}</strong>
         <p className={styles.description}>{description}</p>
       </figcaption>
-      <div ref={ref}>
-        {hasData ? (
-          <svg
-            className={styles.plot}
-            viewBox={`0 0 ${width} ${plotHeight}`}
-            role="img"
-            aria-label={description}
+      <div className={styles.plotGrid}>
+        {hasData && (
+          <div
+            className={styles.valueAxis}
+            style={{ height: plotHeight }}
+            data-chart-value-axis
+            aria-hidden="true"
           >
             {tickValues.map((value, index) => (
-              <g key={index}>
-                <line
-                  className={styles.grid}
-                  x1={left}
-                  x2={right}
-                  y1={y(value)}
-                  y2={y(value)}
-                />
-                <text
-                  className={styles.tick}
-                  x={left - 8}
-                  y={y(value) + 4}
-                  textAnchor="end"
-                >
-                  {formatValue(value)}
-                </text>
-              </g>
+              <span key={index} style={{ top: `${y(value)}px` }}>
+                {formatValue(value)}
+              </span>
             ))}
-            {reference && (
-              <line
-                className={styles.reference}
-                x1={left}
-                x2={right}
-                y1={y(reference.value)}
-                y2={y(reference.value)}
-              />
-            )}
-            {plots.map((segments, index) => (
-              <g
-                key={series[index].id}
-                className={
-                  [styles.primary, styles.secondary, styles.tertiary][index]
-                }
-              >
-                {segments.map((points, segmentIndex) =>
-                  points.length === 1 ? (
-                    <circle
-                      key={segmentIndex}
-                      cx={points[0][0]}
-                      cy={points[0][1]}
-                      r={3}
-                    />
-                  ) : (
-                    <path
-                      key={segmentIndex}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeDasharray={
-                        index === 1 ? "6 3" : index === 2 ? "2 3" : undefined
-                      }
-                      d={points
-                        .map(([px, py], i) =>
-                          i === 0
-                            ? `M${px},${py}`
-                            : interpolation === "step-after"
-                              ? `H${px}V${py}`
-                              : `L${px},${py}`,
-                        )
-                        .join(" ")}
-                    />
-                  ),
-                )}
-                {markerPoints(segments, markers).map(([px, py], i) => (
-                  <circle key={`marker-${i}`} cx={px} cy={py} r={3} />
-                ))}
-              </g>
-            ))}
-            <text
-              className={styles.tick}
-              x={xDomain[0] === xDomain[1] ? (left + right) / 2 : left}
-              y={plotHeight - 6}
-              textAnchor={xDomain[0] === xDomain[1] ? "middle" : "start"}
-            >
-              {formatTime(xDomain[0])}
-            </text>
-            {xDomain[0] !== xDomain[1] && (
-              <text
-                className={styles.tick}
-                x={right}
-                y={plotHeight - 6}
-                textAnchor="end"
-              >
-                {formatTime(xDomain[1])}
-              </text>
-            )}
-          </svg>
-        ) : (
-          <p className={styles.empty}>
-            {times.length && !valid ? invalidDataLabel : emptyLabel}
-          </p>
+          </div>
         )}
+        <div ref={ref} className={styles.drawing}>
+          {hasData ? (
+            <>
+              <svg
+                className={styles.plot}
+                viewBox={`0 0 ${width} ${plotHeight}`}
+                role="img"
+                aria-label={description}
+              >
+                {tickValues.map((value, index) => (
+                  <g key={index}>
+                    <line
+                      className={styles.grid}
+                      x1={left}
+                      x2={right}
+                      y1={y(value)}
+                      y2={y(value)}
+                    />
+                  </g>
+                ))}
+                {reference && (
+                  <line
+                    className={styles.reference}
+                    x1={left}
+                    x2={right}
+                    y1={y(reference.value)}
+                    y2={y(reference.value)}
+                  />
+                )}
+                {plots.map((segments, index) => (
+                  <g
+                    key={series[index].id}
+                    className={
+                      [styles.primary, styles.secondary, styles.tertiary][index]
+                    }
+                  >
+                    {segments.map((points, segmentIndex) =>
+                      points.length === 1 ? (
+                        <circle
+                          key={segmentIndex}
+                          cx={points[0][0]}
+                          cy={points[0][1]}
+                          r={3}
+                        />
+                      ) : (
+                        <path
+                          key={segmentIndex}
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          strokeDasharray={
+                            index === 1
+                              ? "6 3"
+                              : index === 2
+                                ? "2 3"
+                                : undefined
+                          }
+                          d={points
+                            .map(([px, py], i) =>
+                              i === 0
+                                ? `M${px},${py}`
+                                : interpolation === "step-after"
+                                  ? `H${px}V${py}`
+                                  : `L${px},${py}`,
+                            )
+                            .join(" ")}
+                        />
+                      ),
+                    )}
+                    {markerPoints(segments, markers).map(([px, py], i) => (
+                      <circle key={`marker-${i}`} cx={px} cy={py} r={3} />
+                    ))}
+                  </g>
+                ))}
+              </svg>
+              <div
+                className={styles.timeAxis}
+                data-chart-time-axis
+                aria-hidden="true"
+              >
+                <span>{formatTime(xDomain[0])}</span>
+                {xDomain[0] !== xDomain[1] && (
+                  <span>{formatTime(xDomain[1])}</span>
+                )}
+              </div>
+            </>
+          ) : (
+            <p className={styles.empty}>
+              {times.length && !valid ? invalidDataLabel : emptyLabel}
+            </p>
+          )}
+        </div>
       </div>
       {hasData && (
         <ul className={styles.legend} role="list">
