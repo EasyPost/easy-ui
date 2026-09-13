@@ -182,6 +182,21 @@ try {
       await scatter
         .getByText("2,400 parcels", { exact: true })
         .waitFor({ state: "hidden" });
+      // Focus scrolls the table into view. Align the whole card to an integer
+      // viewport offset before capturing; fractional scroll clipping can change
+      // a few antialiased circle/focus-border pixels between identical builds.
+      await scatter.evaluate((element) =>
+        window.scrollTo({
+          top: Math.floor(element.getBoundingClientRect().top + window.scrollY),
+          behavior: "instant",
+        }),
+      );
+      await page.evaluate(
+        () =>
+          new Promise((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(resolve)),
+          ),
+      );
       await scatter.screenshot({
         path: `${screenshotDir}/analytics-data-table.png`,
         animations: "disabled",
