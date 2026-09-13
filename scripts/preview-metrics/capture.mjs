@@ -14,11 +14,7 @@ const modularCapture = process.env.EASY_UI_MODULAR_CAPTURE === "1";
 function observe(page) {
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("console", (message) => {
-    if (
-      message.type() === "error" ||
-      (message.type() === "warning" &&
-        /echarts|not imported|not exist/i.test(message.text()))
-    )
+    if (message.type() === "error" || message.type() === "warning")
       errors.push(message.text());
   });
 }

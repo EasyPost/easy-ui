@@ -1,6 +1,13 @@
+/**
+ * Optional markers: none, every observation, endpoints of each continuous
+ * segment, or the global minimum/maximum. Isolated observations are always
+ * drawn, and coincident extrema are not duplicated.
+ */
 export type MarkerMode = "none" | "all" | "endpoints" | "extrema";
+/** A point in plot coordinates, ordered as horizontal and vertical position. */
 export type PlotPoint = [number, number];
 
+/** Whether both scale bounds are finite and the upper bound exceeds the lower. */
 export function isDomain(domain: readonly [number, number]) {
   return domain.every(Number.isFinite) && domain[1] > domain[0];
 }
@@ -12,6 +19,7 @@ export function position(value: number, domain: readonly [number, number]) {
   return extent ? (value / scale - domain[0] / scale) / extent : 0.5;
 }
 
+/** Select optional markers across segments, excluding separately drawn isolated points. */
 export function markerPoints(segments: PlotPoint[][], mode: MarkerMode) {
   if (mode === "none") return [];
   // Isolated observations are always drawn separately, but still count as extrema.

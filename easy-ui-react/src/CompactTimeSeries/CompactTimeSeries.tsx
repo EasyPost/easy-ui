@@ -9,13 +9,23 @@ import {
 import { usePlotWidth } from "../visualization/usePlotWidth";
 import styles from "./CompactTimeSeries.module.scss";
 
+/** One named series of ordered observations on the shared time and value axes. */
 export type CompactTimeSeriesSeries = {
+  /** Stable application identifier used as the series key. */
   id: string;
+  /** Visible legend label and exact-table series name. */
   label: string;
   /** Strictly increasing timestamps in milliseconds; null preserves a missing bucket. */
-  points: readonly { time: number; value: number | null }[];
+  points: readonly {
+    /** Finite Unix timestamp in milliseconds, strictly increasing within this series. */
+    time: number;
+    /** Observation within domain; null and non-finite values render as gaps. */
+    value: number | null;
+  }[];
 };
+/** Compact native time-series presentation with explicit scales and exact data. */
 export type CompactTimeSeriesProps = {
+  /** Figure's visible heading and accessible name. */
   label: string;
   /** Period, units, coverage and interpretation of the observations. */
   description: string;
@@ -27,15 +37,30 @@ export type CompactTimeSeriesProps = {
   timeDomain?: readonly [number, number];
   /** Include an explicit timezone in the formatter used by the application. */
   formatTime: (timestamp: number) => string;
+  /** Formats value-axis labels, observations, and the reference; defaults to String. */
   formatValue?: (value: number) => string;
-  reference?: { value: number; label: string };
+  /** Optional labeled horizontal reference; its value must be within domain. */
+  reference?: {
+    /** Finite reference value within domain. */
+    value: number;
+    /** Visible name explaining the reference, such as a target or benchmark. */
+    label: string;
+  };
+  /** Optional observation markers; defaults to none. Isolated observations remain visible. */
   markers?: MarkerMode;
+  /** Linear segments or a step after each observation; defaults to linear. */
   interpolation?: "linear" | "step-after";
+  /** Plot height in CSS pixels; defaults to 160 and is clamped to 140–280. */
   height?: number;
+  /** Empty-state text; defaults to "No data". */
   emptyLabel?: string;
+  /** Invalid-scale/data text; defaults to "Cannot plot these observations on the supplied scales". */
   invalidDataLabel?: string;
+  /** Exact-table text for missing or non-finite observations; defaults to "Unavailable". */
   missingValueLabel?: string;
+  /** Exact-data disclosure text; defaults to "View data". */
   dataTableLabel?: string;
+  /** Exact-table headings in series/time/value order; default to "Series", "Time", and "Value". */
   columnLabels?: readonly [string, string, string];
 };
 

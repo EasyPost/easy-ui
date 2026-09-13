@@ -2,6 +2,7 @@ import React from "react";
 import { markerPoints, MarkerMode } from "../visualization/geometry";
 import styles from "./Sparkline.module.scss";
 
+/** Equally spaced observations and the accessible description of their trend. */
 export type SparklineProps = {
   /** Equally spaced observations. Use null for a missing bucket, never zero. */
   values: readonly (number | null)[];
