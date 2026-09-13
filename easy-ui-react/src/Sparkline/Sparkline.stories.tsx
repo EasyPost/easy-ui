@@ -42,3 +42,7 @@ export const EndpointMarkers: Story = {
 export const ExtremaMarkers: Story = {
   args: { ...Default.args, markers: "extrema" },
 };
+
+export const Unmarked: Story = {
+  args: { ...Default.args, markers: "none" },
+};

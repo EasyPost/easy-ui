@@ -79,7 +79,7 @@ The Chart examples workflow publishes the runnable gallery and screenshots. Refr
 
 ## Additive expansion
 
-The existing galleries and defaults remain intact. New `CompactTimeSeries` and `RangePlot` native components close the gap between a summary sparkline and a full analytical chart. CompactTimeSeries supports one to three timestamped series, explicit shared domains, sparse axes, line/step interpolation, a labeled reference, markers, and exact accessible observations. RangePlot aligns named benchmarks and an optional supplied interval, including negative domains and equal-bound intervals.
+The existing galleries remain available. Sparklines default to endpoint markers so the boundaries of missing-data gaps are visible; applications can opt out with `markers="none"`. New `CompactTimeSeries` and `RangePlot` native components close the gap between a summary sparkline and a full analytical chart. CompactTimeSeries supports one to three timestamped series, explicit shared domains, sparse axes, line/step interpolation, a labeled reference, markers, and exact accessible observations. RangePlot aligns named benchmarks and an optional supplied interval, including negative domains and equal-bound intervals.
 
 Sparkline adds opt-in observation, segment-endpoint, and global-extrema markers. Nine additional Chart examples demonstrate direct bar labels; target/threshold/event annotations; numeric scenario response; a histogram and cumulative distribution sharing source counts; descriptive box summaries; an explicitly supplied prediction interval; a reconciled contribution waterfall; and weekday/hour rates with counts and insufficient-sample blanks. These fixtures are public and synthetic.
 

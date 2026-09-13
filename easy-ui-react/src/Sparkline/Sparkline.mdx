@@ -25,7 +25,7 @@ Provide an `accessibilityLabel` describing the metric, period, trend, and gaps. 
 
 ## Optional observation markers
 
-Existing lines remain unmarked by default. Add `markers="all"`, `"endpoints"` (per contiguous segment), or `"extrema"` (first global minimum/maximum). Isolated observations always remain visible. Markers describe observed points; missing buckets never acquire dots or connecting lines. Dense trends should usually retain `none` or use endpoints.
+Sparklines default to `markers="endpoints"`, marking the first and last observation of each continuous segment, including both sides of a missing-data gap. Choose `"all"` for every observation, `"extrema"` for the first global minimum/maximum, or `"none"` for unmarked lines. Isolated observations always remain visible. Markers describe observed points; missing buckets never acquire dots or connecting lines. Dense trends should usually retain `none` or use endpoints.
 
 <Canvas of={SparklineStories.ObservationMarkers} />
 <Canvas of={SparklineStories.EndpointMarkers} />

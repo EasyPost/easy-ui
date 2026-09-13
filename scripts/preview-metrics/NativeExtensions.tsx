@@ -76,8 +76,8 @@ export function NativeExtensions() {
           <div className="extension-panel">
             <h2>Choose the observation markers</h2>
             <p className="panel-note">
-              Existing unmarked sparklines remain the default · Missing
-              intervals remain gaps
+              Segment endpoints are marked by default · Missing intervals remain
+              gaps
             </p>
             <div className="marker-grid">
               {(["all", "endpoints", "extrema"] as const).map((mode) => (
