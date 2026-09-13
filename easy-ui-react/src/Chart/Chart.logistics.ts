@@ -351,7 +351,13 @@ export const capacityExample: ChartProps = {
       max: day(9),
       axisLabel: { formatter: date },
     },
-    yAxis: { type: "value", min: 0, max: 13000, name: "Parcels / day" },
+    yAxis: {
+      type: "value",
+      min: 0,
+      max: 13000,
+      interval: 5000,
+      name: "Parcels / day",
+    },
     series: [
       {
         id: "observed",

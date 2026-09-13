@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: lanej/viewrule
-          ref: cda3363734cd59f3f9fe9ee102367eca3eaf5c70
+          ref: 351aa15c0c1db6baf9ec46fc9d4098555af95b85
           path: .viewrule-engine
       - name: Install View Rule and Chromium
         working-directory: .viewrule-engine

@@ -49,7 +49,7 @@ export function LightweightExamples() {
       <section aria-label="Shipping overview example">
         <Overview />
       </section>
-      <div className="comparison-grid">
+      <div className="comparison-grid lightweight-comparisons">
         <Card
           as="section"
           aria-label="Service mix"
@@ -95,7 +95,6 @@ export function LightweightExamples() {
             </div>
           </div>
         </Card>
-      </div>
       <Card
         as="section"
         aria-label="Compact trend examples"
@@ -132,6 +131,7 @@ export function LightweightExamples() {
           </table>
         </div>
       </Card>
+      </div>
     </section>
   );
 }

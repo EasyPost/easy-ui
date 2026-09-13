@@ -148,3 +148,7 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+.lightweight-comparisons {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+}
