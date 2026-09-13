@@ -105,5 +105,13 @@
     "severity": "error",
     "reason": "Example captions may wrap but must not grow to fill the card.",
     "designRules": ["DR-008"]
+  },
+  {
+    "id": "chart-label-overlap",
+    "type": "no-overlap",
+    "selector": "[data-chart-state=\"ready\"] svg text",
+    "severity": "warning",
+    "reason": "Review intersecting SVG text boxes; rotated labels and deliberate label layers require visual interpretation.",
+    "designRules": ["DR-006", "DR-007"]
   }
 ]

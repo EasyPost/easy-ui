@@ -57,6 +57,7 @@ h1 {
 
 .comparison-grid {
   display: grid;
+  align-items: start;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
   gap: 20px;
   margin: 24px 0;
