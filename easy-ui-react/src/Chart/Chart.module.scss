@@ -1,0 +1,89 @@
+@use "../styles/common" as *;
+
+.root {
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: design-token("space.2");
+  flex-wrap: wrap;
+}
+
+.description {
+  margin-top: design-token("space.1");
+}
+
+.plot {
+  width: 100%;
+  min-width: 0;
+}
+
+.status {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: design-token("space.2");
+  color: design-token("color.neutral.700");
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: design-token("space.1");
+  margin-block: design-token("space.1");
+}
+
+.control,
+.summary {
+  cursor: pointer;
+  color: design-token("color.primary.600");
+  font: inherit;
+  font-size: 12px;
+}
+
+.control {
+  padding: 4px 8px;
+  border: 1px solid design-token("color.neutral.300");
+  border-radius: 4px;
+  background: transparent;
+}
+
+.summary {
+  padding-block: design-token("space.1");
+}
+
+.tableScroll {
+  overflow: auto;
+  max-height: 360px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: design-token("color.neutral.800");
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+
+  th,
+  td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid design-token("color.neutral.200");
+    white-space: nowrap;
+  }
+
+  caption {
+    text-align: left;
+    padding-block: 8px;
+  }
+}
+
+.control:focus-visible,
+.summary:focus-visible,
+.tableScroll:focus-visible {
+  outline: 2px solid design-token("color.primary.600");
+  outline-offset: 2px;
+}

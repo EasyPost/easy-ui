@@ -1,0 +1,44 @@
+{
+  "method": "Vite production source entry with exported components retained. Includes transitive Easy UI primitives. React external. Global styles, tokens, fonts, and application data excluded. Decimal bytes; gzip per emitted asset. Consumer bundlers may differ.",
+  "results": [
+    {
+      "components": [
+        "MetricCard",
+        "Sparkline"
+      ],
+      "javascriptBytes": 37887,
+      "javascriptGzipBytes": 14012,
+      "cssBytes": 17368,
+      "cssGzipBytes": 2528,
+      "analyticalEngineIncluded": false
+    },
+    {
+      "components": [
+        "MetricCard",
+        "Sparkline",
+        "BarList",
+        "BulletChart"
+      ],
+      "javascriptBytes": 39862,
+      "javascriptGzipBytes": 14687,
+      "cssBytes": 19089,
+      "cssGzipBytes": 2880,
+      "analyticalEngineIncluded": false
+    },
+    {
+      "components": [
+        "MetricCard",
+        "Sparkline",
+        "BarList",
+        "BulletChart",
+        "CompactTimeSeries",
+        "RangePlot"
+      ],
+      "javascriptBytes": 46120,
+      "javascriptGzipBytes": 16931,
+      "cssBytes": 22232,
+      "cssGzipBytes": 3523,
+      "analyticalEngineIncluded": false
+    }
+  ]
+}

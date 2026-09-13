@@ -1,0 +1,43 @@
+{
+  "results": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "chartCount": 18,
+      "horizontalOverflow": false,
+      "keyboardZoom": true,
+      "pointerSelection": true,
+      "keyboardRowSelection": true,
+      "trendCount": 8,
+      "barListRows": 3,
+      "bulletCharts": 2,
+      "compactTimeSeries": 4,
+      "rangePlots": 2,
+      "compactKeyboardData": true
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "chartCount": 18,
+      "horizontalOverflow": false,
+      "keyboardZoom": true,
+      "pointerSelection": true,
+      "keyboardRowSelection": true,
+      "trendCount": 8,
+      "barListRows": 3,
+      "bulletCharts": 2,
+      "compactTimeSeries": 4,
+      "rangePlots": 2,
+      "compactKeyboardData": true
+    },
+    {
+      "name": "lightweight-only",
+      "analyticalRequests": 0
+    },
+    {
+      "name": "canvas",
+      "chartCount": 18
+    }
+  ],
+  "errors": []
+}

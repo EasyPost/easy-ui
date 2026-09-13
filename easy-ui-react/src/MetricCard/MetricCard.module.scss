@@ -1,0 +1,30 @@
+@use "../styles/common" as *;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.1");
+  min-width: 0;
+}
+
+.value {
+  min-height: 40px;
+  color: design-token("color.neutral.900");
+}
+
+.comparison {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: design-token("space.1");
+  overflow-wrap: anywhere;
+
+  // The success background needs dark text to meet normal-text contrast.
+  &[data-sentiment="positive"] > :first-child {
+    @include component-token(
+      "badge",
+      "primary.color.text",
+      design-token("color.neutral.900")
+    );
+  }
+}

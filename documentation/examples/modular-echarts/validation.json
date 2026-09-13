@@ -1,0 +1,302 @@
+{
+  "source": "00757957a2e5fa5ebf0d496cecab72364c8d3329",
+  "method": "Byte-identical PNG captures on the same CI runner, separate builds and fresh browsers. Includes all 18 plots at desktop/mobile SVG and desktop Canvas, full galleries, exact-table selection, target/threshold labels, signed tooltips and Sankey adjacency emphasis. Each build also passes the existing pointer, keyboard, overflow and lightweight-isolation assertions. No claim about dense-data runtime speed or unregistered ECharts features.",
+  "comparisons": [
+    {
+      "file": "analytical-extensions-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "analytical-extensions-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "analytical-extensions-review.png",
+      "identical": true
+    },
+    {
+      "file": "analytics-data-table.png",
+      "identical": true
+    },
+    {
+      "file": "analytics-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "analytics-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "analytics-review.png",
+      "identical": true
+    },
+    {
+      "file": "chart-01-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-01-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-01-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-02-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-02-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-02-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-03-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-03-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-03-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-04-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-04-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-04-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-05-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-05-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-05-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-06-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-06-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-06-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-07-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-07-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-07-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-08-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-08-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-08-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-09-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-09-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-09-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-10-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-10-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-10-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-11-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-11-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-11-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-12-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-12-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-12-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-13-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-13-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-13-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-14-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-14-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-14-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-15-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-15-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-15-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-16-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-16-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-16-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-17-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-17-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-17-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "chart-18-canvas.png",
+      "identical": true
+    },
+    {
+      "file": "chart-18-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "chart-18-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "lightweight-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "lightweight-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "lightweight-review.png",
+      "identical": true
+    },
+    {
+      "file": "native-extensions-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "native-extensions-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "native-extensions-review.png",
+      "identical": true
+    },
+    {
+      "file": "sankey-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "sankey-emphasis-desktop.png",
+      "identical": true
+    },
+    {
+      "file": "sankey-emphasis-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "sankey-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "time-series-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "treemap-mobile.png",
+      "identical": true
+    },
+    {
+      "file": "waterfall-tooltip.png",
+      "identical": true
+    }
+  ]
+}

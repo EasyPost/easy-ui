@@ -1,0 +1,109 @@
+import { Meta, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+import * as ChartStories from "./Chart.stories";
+
+<Meta of={ChartStories} />
+
+# Chart
+
+Full analytical charts using Apache ECharts, with Easy UI typography, colors, a responsive frame, status handling, and an exact-value data table. `MetricCard` and `Sparkline` complement these analytical views.
+
+Install the optional chart peer when using this entry point:
+
+```sh
+npm install echarts@^6.1.0
+```
+
+```tsx
+import { Chart, ChartOption } from "@easypost/easy-ui/Chart";
+
+const option: ChartOption = {
+  grid: { left: 48, right: 24, top: 32, bottom: 40 },
+  tooltip: { trigger: "axis" },
+  xAxis: { type: "category", data: ["Ground", "Two-day"] },
+  yAxis: { type: "value", name: "Parcels", min: 0 },
+  series: [{ id: "volume", name: "Volume", type: "bar", data: [1200, 400] }],
+};
+
+// Render inside the application's ThemeProvider.
+<Chart
+  title="Shipments by service"
+  description="Purchased labels · Aug 1–14 · Parcel counts"
+  option={option}
+  dataTable={{
+    columns: ["Service", "Parcels"],
+    rows: [
+      { id: "ground", values: ["Ground", 1200] },
+      { id: "two-day", values: ["Two-day", 400] },
+    ],
+  }}
+/>;
+```
+
+## Analytical examples
+
+The native `ChartOption` retains ECharts' documented configuration rather than creating a second chart grammar. It supports line/area, grouped/stacked bars, scatter/bubble, heatmap, Sankey, pie/donut, treemap, and the engine's other built-in series. These examples all use synthetic shipping data.
+
+<Canvas of={ChartStories.Sankey} />
+<Canvas of={ChartStories.TimeSeries} />
+<Canvas of={ChartStories.Area} />
+<Canvas of={ChartStories.GroupedBars} />
+<Canvas of={ChartStories.StackedBars} />
+<Canvas of={ChartStories.ScatterAndBubble} />
+<Canvas of={ChartStories.Heatmap} />
+<Canvas of={ChartStories.Donut} />
+<Canvas of={ChartStories.Treemap} />
+
+## Additional analytical patterns
+
+These additions retain the original gallery and use the same optional engine. Direct bar labels and labeled references make the comparison readable without hover. Thresholds and event markers have explicit meanings; neither implies causation.
+
+<Canvas of={ChartStories.LabeledBars} />
+<Canvas of={ChartStories.AnnotatedTimeSeries} />
+<Canvas of={ChartStories.ScenarioResponse} />
+
+The scenario curve uses a numeric adjustment axis. Current, proposed, and peak settings are synthetic model evaluations; the trial range is an example of an authorized interval, not a prediction interval.
+
+<Canvas of={ChartStories.Histogram} />
+<Canvas of={ChartStories.CumulativeDistribution} />
+<Canvas of={ChartStories.ArrivalSpread} />
+<Canvas of={ChartStories.PredictionBand} />
+
+Histogram and cumulative distribution share the same 1,000 parcels. The box plot receives explicitly defined min/P25/median/P75/max summaries. Prediction bounds are supplied model outputs. Applications own statistical calculations, coverage, and semantics; the component does not infer confidence from an average or a percentile.
+
+<Canvas of={ChartStories.ContributionWaterfall} />
+<Canvas of={ChartStories.WeekdayHourHeatmap} />
+
+The waterfall reconciles each signed ledger item to its running balance. The periodic matrix preserves sample counts in the table and suppresses rates with fewer than 50 observations in this synthetic example. That minimum is an example policy, not a statistical guarantee or a library default.
+
+## Interaction and data access
+
+ECharts supplies tooltips, legends, zoom, and linked-flow highlighting. `onSelect` forwards the series ID, data index, name, data type, value, and original datum; Sankey events distinguish nodes from edges. Keep stable IDs in application records. `onRowSelect` gives keyboard users the equivalent drill-down by table row ID. Both routes are demonstrated in the shipping gallery's scatter plot.
+
+Data refreshes preserve local zoom ranges and legend selections when their application settings are unchanged. Give zoom and legend components stable `id` values if their order can change; anonymous components match by index. Changed range settings or `legend.selected` take effect on the next update. Remount the chart to reset all local interaction state. Removed series, annotations, and zoom controls are cleared.
+
+Custom `color` palettes replace the default palette. Tooltips use ECharts rich text by default; formatter strings use `\n` for line breaks, as demonstrated by the waterfall.
+
+When `option.dataZoom` is configured, the frame also supplies keyboard-operable zoom in/out/reset buttons. The data table always represents the full supplied dataset, including observations outside a zoomed viewport. `dataTable` is required; build it from the same records as the series. Supply already formatted values and units, and use `null` for unavailable values.
+
+The rendered plot is an image with the supplied description; its underlying SVG/canvas is hidden from screen readers. Exact values and drill-down are available through the semantic HTML table. Native graphical legend controls and individual marks are pointer interactions, not individually keyboard-focusable controls. Provide application controls through `actions` when a report requires keyboard legend/filter control. The ECharts ARIA switch alone does not establish accessibility compliance.
+
+## States, scales, and themes
+
+- Use `status` for loading, empty, and error. These states suppress stale plots and tables; `onRetry` delegates retry to the application. `notice` explains partial coverage or stale-but-intentionally-visible data.
+- The default status is empty when there are no table rows. Observed zero remains data. Engine import/render failures show `errorLabel` and call `onRenderError`; corrected options can recover rendering.
+- Use timestamps and an explicit time zone for full time series. Keep gaps; avoid implicit smoothing. Bar and area magnitudes start at zero. Bubble area, not radius, encodes quantity.
+- Assign stable `id` and explicit `itemStyle.color` values to series when filters or sorting can change their order. The engine's automatic palette is positional. Use patterns, labels, and reference lines when color alone is insufficient.
+- The frame reads resolved Easy UI CSS values and follows ThemeProvider changes. Animation is off by default and disabled under reduced-motion preferences. SVG is the default; choose canvas for dense plots.
+- The container resizes with its parent and disposes the engine and listeners on unmount. Changing options replaces previous series. Applications retain ownership of persisted zoom/filter state.
+
+## Loading and package cost
+
+ECharts is an optional peer, dynamically imported only when a ready chart mounts. It is external to the Easy UI package output, so importing buttons or KPI cards does not import a chart engine. SSR emits the frame, loading label, and exact table; rendering initializes on the client. The ESM and CommonJS entry points use the same lazy loading path.
+
+The isolated production gallery measured the full engine chunk at approximately 1.14 MB minified / 382 KB gzip. This deliberate breadth supports specialist charts through one engine. Route-level lazy loading remains appropriate for analytical screens. The SVG sparkline retains its dependency-free implementation.
+
+<ArgTypes of={ChartStories.TimeSeries} />
+
+## Lightweight alternatives
+
+Use `MetricCard` and `Sparkline` for KPI summaries and compact trends, `BarList` for category comparisons, or `BulletChart` for a measure against a target. These components use native SVG/HTML/CSS and never import ECharts. Keep the full engine for analytical views that need its axes, layouts, and interactions. See `documentation/specs/DataVisualization.md` for reproducible bundle measurements and their limits.

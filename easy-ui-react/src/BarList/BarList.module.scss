@@ -1,0 +1,55 @@
+@use "../styles/common" as *;
+
+.root {
+  color: design-token("color.neutral.900");
+  font-size: 14px;
+}
+
+.list {
+  display: grid;
+  gap: design-token("space.2");
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-width: 0;
+}
+
+.labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 6px;
+  overflow-wrap: anywhere;
+}
+
+.value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.track {
+  height: 8px;
+  background: design-token("color.neutral.100");
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: design-token("color.primary.600");
+}
+
+@media (forced-colors: active) {
+  .track {
+    outline: 1px solid CanvasText;
+  }
+  .bar {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}
