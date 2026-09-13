@@ -117,7 +117,12 @@ export const scenarioExample: ChartProps = {
     "Synthetic model · Changes relative to current pricing. Named settings and the shaded trial range are illustrative, not recommendations.",
   option: {
     grid: { ...grid, top: 84 },
-    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 120 } } }],
+    media: [
+      {
+        query: { maxWidth: 380 },
+        option: { grid: { top: 120, bottom: 76 }, xAxis: { nameGap: 44 } },
+      },
+    ],
     legend: { top: 8 },
     tooltip: { trigger: "axis" },
     xAxis: {

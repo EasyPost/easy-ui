@@ -283,7 +283,12 @@ export const scatterExample: ChartProps = {
     "Matched service cohorts · Bubble area represents parcel count · Lower and farther left means cheaper and faster.",
   option: {
     grid: { ...grid, bottom: 60 },
-    media: [{ query: { maxWidth: 380 }, option: { grid: { top: 104 } } }],
+    media: [
+      {
+        query: { maxWidth: 380 },
+        option: { grid: { top: 104, bottom: 76 }, xAxis: { nameGap: 44 } },
+      },
+    ],
     legend: { top: 10, itemWidth: 16, itemGap: 12 },
     tooltip: {
       trigger: "item",
