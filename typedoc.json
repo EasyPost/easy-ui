@@ -1,0 +1,26 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "easy-ui-react/src/*/index.ts",
+    "easy-ui-react/src/utilities/*.ts"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.stories.tsx",
+    "**/test.ts"
+  ],
+  "tsconfig": "easy-ui-react/tsconfig.json",
+  "out": "docs-site/api",
+  "name": "Easy UI API Reference",
+  "readme": "none",
+  "excludeExternals": true,
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "githubPages": false,
+  "navigationLinks": {
+    "Storybook": "../storybook/",
+    "Chart comparisons": "../comparisons/"
+  }
+}
