@@ -8,4 +8,5 @@ docs-site/api/
 docs-site/storybook/
 docs-site/comparisons/
 docs-site/.nojekyll
+docs-site/revision.txt
 *.tsbuildinfo

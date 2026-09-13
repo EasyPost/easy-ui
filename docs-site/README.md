@@ -21,13 +21,17 @@ under a project subpath.
 To preview, serve the parent of `docs-site/` and open `/docs-site/`; relative URLs
 also work at `/easy-ui/` on GitHub Pages.
 
-In the repository's **Settings → Pages**, select **GitHub Actions** as the build
-source. The Documentation site workflow publishes pushes to `main` and the
-`experiment/modular-echarts` review branch; pull requests upload a downloadable
-`easy-ui-documentation-site` artifact without deploying. The review branch is
-published so this proposal can be browsed before merging it. Remove that push
-trigger when the proposal is adopted. The existing Pages setting must be enabled
-before deployment can succeed.
+The Documentation site workflow builds the chart review branch and the map review
+branch together, publishing charts at <https://lanej.io/easy-ui/> and maps at
+<https://lanej.io/easy-ui/network-maps/>. Both previews include `revision.txt`
+identifying their source commit. Combining both outputs in one Pages artifact
+keeps either branch from overwriting the other preview.
+
+In **Settings → Pages**, select **GitHub Actions**. The `github-pages` environment
+must allow `main`, `experiment/modular-echarts`, and `feat/network-intelligence-maps`.
+Pull requests upload an `easy-ui-documentation-site` artifact without deploying.
+Keep the workflow synchronized between the review branches and retire the branch
+previews together when the proposals are adopted.
 
 TypeDoc's non-fatal warnings about existing unexported helper types and older
 comments remain visible in the build log. They do not prevent site generation.
