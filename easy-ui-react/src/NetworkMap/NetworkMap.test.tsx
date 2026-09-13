@@ -61,6 +61,7 @@ class FakeMarker {
   }
 }
 const engine = {
+  setWorkerUrl: vi.fn(),
   Map: FakeMap,
   Marker: FakeMarker,
   NavigationControl: class {},
@@ -70,6 +71,7 @@ const props: NetworkMapProps = {
   title: "Network",
   description: "Observed handoffs",
   mapStyle: { version: 8, sources: {}, layers: [] },
+  workerUrl: "/map-worker.js",
   facilities: [
     { id: "one", label: "Oakland", coordinates: [-122, 38], kind: "warehouse" },
   ],
@@ -140,4 +142,23 @@ it("does not create a map when unmounted before its lazy engine resolves", async
   view.unmount();
   await act(async () => resolve(engine));
   expect(constructor).not.toHaveBeenCalled();
+});
+
+it("exposes stalled worker/style initialization instead of loading indefinitely", async () => {
+  vi.useFakeTimers();
+  try {
+    render(<NetworkMap {...props} />);
+    await act(async () => {
+      await Promise.resolve();
+    });
+    act(() => {
+      vi.advanceTimersByTime(30000);
+    });
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Unable to display the map",
+    );
+    expect(screen.getByText("Oakland")).toBeInTheDocument();
+  } finally {
+    vi.useRealTimers();
+  }
 });

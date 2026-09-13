@@ -19,7 +19,9 @@ import {
   MapSegment,
 } from "@easypost/easy-ui/NetworkMap";
 import "maplibre-gl/dist/maplibre-gl.css";
-// Also import Easy UI's normal stylesheet in the application.
+// Vite example: bundle the MapLibre module worker and pass the emitted URL.
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
+// Also import Easy UI's normal stylesheet and render inside ThemeProvider.
 
 const facilities: MapFacility[] = [
   {
@@ -51,6 +53,7 @@ function Journey({ mapStyle }) {
       title="Parcel journey"
       description="Last observed handoffs · Sep 13, 2026 · UTC"
       mapStyle={mapStyle}
+      workerUrl={workerUrl}
       facilities={facilities}
       segments={segments}
       selectedFacilityId={selected}
@@ -61,6 +64,8 @@ function Journey({ mapStyle }) {
   );
 }
 ```
+
+`workerUrl` is required. MapLibre 6's module worker must be emitted by the application build. The Vite example above bundles the worker and its imports. With another bundler, emit the equivalent module worker, or serve MapLibre's worker and its `maplibre-gl-shared.mjs` dependency together and pass that URL. Use the same installed MapLibre version and keep the URL stable across all maps: MapLibre shares its worker configuration/pool within the application. A restrictive CSP must allow the chosen worker source. Map code and worker failures preserve exact data; stalled initialization offers Retry after 30 seconds.
 
 `mapStyle` is required. Choose a provider, retain its attribution, and configure its authentication, usage terms and availability in the application. The examples use the keyless OpenFreeMap Positron vector style with OpenMapTiles/OpenStreetMap attribution; this is an example provider choice, not a production service entitlement. Vector tiles, style assets and font files are additional viewport-dependent network requests. The component does not request customer records or compute routes or predictions.
 
@@ -99,4 +104,4 @@ Facilities have stable IDs; segments reference their endpoints. `selectedFacilit
 
 Marker buttons have full accessible names and controlled pressed state. Table rows offer equivalent selection, including records whose labels are hidden. The exact-data disclosure includes risk event, horizon, cohort, baseline and output timestamp; segment descriptions provide transfer evidence. Loading and failure states preserve this data. Initialization failures offer Retry; tile failures surface a reload notice and `onRenderError`. A basemap is an additional spatial view, not the only way to inspect or select records.
 
-The `NetworkMap` entry keeps MapLibre as an optional peer and loads it dynamically on mount. Importing and server-rendering the entry does not initialize WebGL; its HTML data view and loading state render on the server. Native charts and ECharts do not import this entry. Import the MapLibre CSS only in the application's map route. See `scripts/preview-maps` for production bundle measurements, an independent native SVG control, browser interaction checks and actual Chrome, Firefox and Safari captures.
+The `NetworkMap` entry keeps MapLibre as an optional peer and loads it dynamically on mount. Importing and server-rendering the entry does not initialize WebGL; its HTML data view and loading state render on the server. Native charts and ECharts do not import this entry. Import the MapLibre CSS only in the application's map route. The published Easy UI stylesheet includes the small component wrapper styles, consistent with other components. See `scripts/preview-maps` for production bundle measurements, an independent native SVG control, browser interaction checks and actual Chrome, Firefox and Safari captures.

@@ -79,6 +79,7 @@ for (const extension of ["js", "mjs"]) {
       title: "Server-rendered network",
       description: "One observed facility",
       mapStyle: { version: 8, sources: {}, layers: [] },
+      workerUrl: "/map-worker.js",
       facilities: [
         {
           id: "one",

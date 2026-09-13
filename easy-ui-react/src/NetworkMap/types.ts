@@ -95,6 +95,8 @@ export type NetworkMapProps = {
   description: string;
   /** Caller-chosen MapLibre style URL or object, including source attribution. Keep object identity stable. */
   mapStyle: string | StyleSpecification;
+  /** URL of the bundled MapLibre module worker matching the installed version. Keep stable across all maps in one application. */
+  workerUrl: string;
   /** Locations in the current authorized cohort. */
   facilities: readonly MapFacility[];
   /** Ordered connections in that cohort. */

@@ -139,6 +139,18 @@ export async function auditMaps(browser, identity, base, output) {
     await clean("parcel");
     await browser.open(`${base}/?audience=shipper`);
     await settle();
+    check(
+      "initial shipper parcel and facility selection agree",
+      await browser.evaluate(
+        () =>
+          document
+            .querySelector('[aria-label="Inspect parcel EP-105"]')
+            ?.getAttribute("aria-pressed") === "true" &&
+          document
+            .querySelector('.maplibregl-marker[data-selected="true"]')
+            ?.getAttribute("title") === "Detroit regional sort",
+      ),
+    );
     await capture("shipper-network-desktop");
     await scan("shipper");
     check(

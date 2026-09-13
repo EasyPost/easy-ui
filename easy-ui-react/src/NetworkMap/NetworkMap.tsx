@@ -76,12 +76,23 @@ export function NetworkMap(props: NetworkMapProps) {
     setBasemapError(false);
     const fail = (error: unknown) => {
       if (disposed) return;
+      window.clearTimeout(deadline);
       setState("error");
       latest.current.onRenderError?.(error);
     };
+    const deadline = window.setTimeout(
+      () =>
+        fail(
+          new Error(
+            "Map initialization timed out; verify worker and basemap availability",
+          ),
+        ),
+      30000,
+    );
     loadMapEngine()
       .then((engine) => {
         if (disposed) return;
+        engine.setWorkerUrl(latest.current.workerUrl);
         const initial = latest.current.initialView;
         const map = new engine.Map({
           container: element,
@@ -357,6 +368,7 @@ export function NetworkMap(props: NetworkMapProps) {
             },
           });
           update();
+          window.clearTimeout(deadline);
           setState("ready");
           if (!initial)
             fit(
@@ -393,13 +405,14 @@ export function NetworkMap(props: NetworkMapProps) {
       .catch(fail);
     return () => {
       disposed = true;
+      window.clearTimeout(deadline);
       refresh.current = null;
       observer?.disconnect();
       markers.forEach((m) => m.marker.remove());
       instance.current?.remove();
       instance.current = null;
     };
-  }, [props.mapStyle, retry]);
+  }, [props.mapStyle, props.workerUrl, retry]);
 
   useEffect(() => {
     refresh.current?.();

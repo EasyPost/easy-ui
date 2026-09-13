@@ -18,9 +18,9 @@ The examples use synthetic records as of September 13, 2026, 14:00 UTC. Risk is 
 
 See the [independent harness](../../../scripts/preview-maps/README.md), [component documentation](../../../easy-ui-react/src/NetworkMap/NetworkMap.mdx), [public TSDoc types](../../../easy-ui-react/src/NetworkMap/types.ts) and [scope/specification](../../specs/NetworkMaps.md).
 
-Install the optional `maplibre-gl` peer and import its CSS in the consuming map route. Use the application's normal Easy UI stylesheet and ThemeProvider. Applications supply their own MapLibre style, including provider attribution and service terms. The examples use a public keyless OpenFreeMap style; production availability and tile terms remain application choices.
+Install the optional `maplibre-gl` peer, import its CSS in the consuming map route, and supply the URL of the bundled module worker as `workerUrl`. Use the application's normal Easy UI stylesheet and ThemeProvider. Applications supply their own MapLibre style, including provider attribution and service terms. The examples use a public keyless OpenFreeMap style; production availability and tile terms remain application choices.
 
-The production harness measures lazy engine and complete consumer asset closures separately. It verifies that an independent native SVG entry loads no map code, CSS or basemap resources. Embedded worker code is counted in engine JavaScript; styles, tiles, sprites and glyphs are separate network requests. Cross-origin Resource Timing sizes can be unavailable, so missing sizes are recorded as null.
+The production harness measures lazy engine and complete consumer asset closures separately. It verifies that an independent native SVG entry loads no map code, CSS or basemap resources. The emitted module worker is counted separately and included in total map JavaScript; styles, tiles, sprites and glyphs are separate network requests. Cross-origin Resource Timing sizes can be unavailable, so missing sizes are recorded as null.
 
 ## Review limits
 

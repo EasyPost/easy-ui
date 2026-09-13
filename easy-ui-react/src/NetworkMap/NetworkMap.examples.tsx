@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { NetworkMap } from "./NetworkMap";
 import type { MapFocus } from "./types";
 import {
@@ -44,7 +45,9 @@ export function NetworkMapExample({
   );
   const [leg, setLeg] = useState("dtw-dbn");
   const [origin, setOrigin] = useState("all");
-  const [parcelId, setParcelId] = useState<string | undefined>("EP-104");
+  const [parcelId, setParcelId] = useState<string | undefined>(
+    audience === "shipper" ? "EP-105" : "EP-104",
+  );
   const [focus, setFocus] = useState<MapFocus>();
   const [revision, setRevision] = useState(0);
   const choose = (id: string, zoom = 11) => {
@@ -456,6 +459,7 @@ export function NetworkMapExample({
                   : "Line width represents regional Ground transfers in the preceding 24h. Risk is facility-cohort exception probability."
             }
             mapStyle={exampleBasemap}
+            workerUrl={workerUrl}
             facilities={facilities}
             segments={segments}
             areas={weatherAreas}
