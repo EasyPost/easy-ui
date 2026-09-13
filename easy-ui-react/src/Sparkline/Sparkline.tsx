@@ -8,7 +8,7 @@ export type SparklineProps = {
   values: readonly (number | null)[];
   /** Describe the metric, period, trend, and any missing observations. */
   accessibilityLabel: string;
-  /** Optional observation markers; existing unmarked lines remain the default. */
+  /** Observation markers; defaults to endpoints of each continuous segment. Use none for unmarked lines. */
   markers?: MarkerMode;
 };
 
@@ -23,7 +23,7 @@ const PADDING = 4;
 export function Sparkline({
   values,
   accessibilityLabel,
-  markers = "none",
+  markers = "endpoints",
 }: SparklineProps) {
   const segments = getSegments(values);
 

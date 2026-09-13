@@ -94,9 +94,31 @@ describe("<Sparkline />", () => {
   });
 });
 
-it("adds optional observation markers while retaining missing-data gaps and the existing default", () => {
+it("defaults to segment endpoints while supporting unmarked, all and extrema modes", () => {
   const { container, rerender } = render(
-    <Sparkline values={[1, 3, null, 2, 4]} accessibilityLabel="Two segments" />,
+    <Sparkline
+      values={[1, 2, 3, null, 2, 4]}
+      accessibilityLabel="Two segments"
+    />,
+  );
+  const endpoints = [...container.querySelectorAll("polyline")].flatMap(
+    (line) => {
+      const points = line.getAttribute("points")!.split(" ");
+      return [points[0], points[points.length - 1]];
+    },
+  );
+  expect(
+    [...container.querySelectorAll("circle")].map(
+      (point) => `${point.getAttribute("cx")},${point.getAttribute("cy")}`,
+    ),
+  ).toEqual(endpoints);
+  expect(endpoints).toHaveLength(4);
+  rerender(
+    <Sparkline
+      values={[1, 2, 3, null, 2, 4]}
+      accessibilityLabel="Two segments"
+      markers="none"
+    />,
   );
   expect(container.querySelectorAll("circle")).toHaveLength(0);
   rerender(
