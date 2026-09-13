@@ -293,6 +293,7 @@ export async function auditMaps(browser, identity, base, output) {
       JSON.stringify(
         {
           sourceCommit: process.env.GITHUB_SHA,
+          baseUrl: base,
           identity,
           checks,
           scans,

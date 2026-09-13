@@ -69,6 +69,8 @@ jobs:
           if-no-files-found: error
 
   assemble:
+    outputs:
+      map_revision: ${{ steps.revisions.outputs.map_revision }}
     if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
@@ -84,6 +86,7 @@ jobs:
           name: docs-network-maps
           path: published-site/network-maps
       - name: Verify both previews are included
+        id: revisions
         run: |
           test -f published-site/index.html
           test -f published-site/storybook/index.html
@@ -94,12 +97,15 @@ jobs:
           test -f published-site/network-maps/api/index.html
           test -f published-site/network-maps/maps/index.html
           touch published-site/.nojekyll
+          echo "map_revision=$(cat published-site/network-maps/revision.txt)" >> "$GITHUB_OUTPUT"
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: published-site
 
   deploy:
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     if: github.event_name != 'pull_request'
     needs: assemble
     runs-on: ubuntu-latest
@@ -112,3 +118,37 @@ jobs:
       - name: Deploy documentation site
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify-hosted-maps:
+    if: github.event_name != 'pull_request'
+    needs: [assemble, deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.assemble.outputs.map_revision }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: npm
+          cache-dependency-path: scripts/preview-maps/package-lock.json
+      - name: Install map browser checks
+        run: npm ci --no-audit --no-fund
+        working-directory: scripts/preview-maps
+      - name: Install Chrome
+        run: npx playwright install --with-deps chrome
+        working-directory: scripts/preview-maps
+      - name: Check published map interactions, assets and accessibility
+        run: npm run capture
+        working-directory: scripts/preview-maps
+        env:
+          MAP_BROWSER: chrome
+          MAP_BASE_URL: ${{ needs.deploy.outputs.page_url }}network-maps/maps/
+      - name: Upload hosted map evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: network-maps-hosted-chrome
+          path: scripts/preview-maps/screenshots/
+          if-no-files-found: warn

@@ -2,9 +2,15 @@ import { chromium, firefox } from "playwright";
 import { preview } from "vite";
 import { auditMaps } from "./checks.mjs";
 const name = process.env.MAP_BROWSER ?? "chrome";
-const server = await preview({
-  preview: { host: "127.0.0.1", port: 4173, strictPort: true },
-});
+const base = (process.env.MAP_BASE_URL || "http://127.0.0.1:4173").replace(
+  /\/$/,
+  "",
+);
+const server = process.env.MAP_BASE_URL
+  ? null
+  : await preview({
+      preview: { host: "127.0.0.1", port: 4173, strictPort: true },
+    });
 let browser;
 try {
   browser =
@@ -55,10 +61,10 @@ try {
       screenshot: (path) => page.screenshot({ path, fullPage: true }),
     },
     { name, version: browser.version(), platform: process.platform },
-    "http://127.0.0.1:4173",
+    base,
     `screenshots/${name}`,
   );
 } finally {
   await browser?.close();
-  await new Promise((resolve) => server.httpServer.close(resolve));
+  if (server) await new Promise((resolve) => server.httpServer.close(resolve));
 }

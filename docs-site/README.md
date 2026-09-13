@@ -40,3 +40,7 @@ The `github-pages` environment must allow these deployment branches.
 
 TypeDoc's non-fatal warnings about existing unexported helper types and older
 comments remain visible in the build log. They do not prevent site generation.
+
+After deployment, Chrome repeats the map interaction and accessibility audit
+against the published `/network-maps/maps/` URL, using the exact deployed map
+revision. The `network-maps-hosted-chrome` artifact contains captures and reports.
