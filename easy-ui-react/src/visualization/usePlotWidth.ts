@@ -9,7 +9,7 @@ export function usePlotWidth() {
     if (!element) return;
     const resize = () => {
       const measured = element.getBoundingClientRect().width;
-      if (measured > 0) setWidth(Math.max(160, Math.round(measured)));
+      if (measured > 0) setWidth(measured);
     };
     resize();
     if (typeof ResizeObserver !== "undefined") {
