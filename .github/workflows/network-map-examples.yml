@@ -21,7 +21,7 @@ jobs:
           - browser: firefox
             os: ubuntu-latest
           - browser: safari
-            os: macos-14
+            os: macos-15
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     defaults:

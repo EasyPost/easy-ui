@@ -202,7 +202,7 @@ export function NetworkMap(props: NetworkMapProps) {
             const existing = markers.find((m) => m.facility.id === f.id);
             const button = existing?.button ?? document.createElement("button");
             button.type = "button";
-            button.className = styles.marker;
+            button.classList.add(styles.marker);
             button.dataset.kind = f.kind;
             button.dataset.selected = String(f.id === p.selectedFacilityId);
             button.dataset.latest = String(f.id === p.latestFacilityId);
@@ -470,7 +470,12 @@ export function NetworkMap(props: NetworkMapProps) {
           </button>
           <button
             type="button"
-            onClick={() => segment && fit([segment.from, segment.to], 13)}
+            onClick={() => {
+              if (segment) {
+                onFacilitySelect?.(segment.to);
+                fit([segment.from, segment.to], 13);
+              }
+            }}
             disabled={!segment || state !== "ready"}
           >
             Selected leg

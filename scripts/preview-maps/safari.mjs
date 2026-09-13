@@ -11,7 +11,13 @@ try {
   await driver
     .manage()
     .setTimeouts({ implicit: 0, pageLoad: 60000, script: 60000 });
+  await driver.get("http://127.0.0.1:4173/lightweight.html");
+  const handles = await driver.getAllWindowHandles();
+  if (handles.length) await driver.switchTo().window(handles[0]);
   const caps = await driver.getCapabilities();
+  console.log(
+    `Safari initialized: ${caps.get("browserVersion")}; ${handles.length} window(s)`,
+  );
   await auditMaps(
     {
       open: (url) => driver.get(url),

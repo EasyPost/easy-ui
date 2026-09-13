@@ -48,6 +48,7 @@ class FakeMarker {
   el: HTMLElement;
   constructor({ element }: { element: HTMLElement }) {
     this.el = element;
+    this.el.classList.add("maplibregl-marker");
   }
   setLngLat() {
     return this;
@@ -109,6 +110,7 @@ it("preserves camera and focused markers when observations or selection update, 
   expect(constructor).toHaveBeenCalledTimes(1);
   expect(fitBounds).toHaveBeenCalledTimes(1);
   expect(document.activeElement).toBe(marker);
+  expect(marker).toHaveClass("maplibregl-marker");
   expect(marker).toHaveAttribute("aria-pressed", "true");
   fireEvent.click(marker);
   expect(props.onFacilitySelect).toHaveBeenCalledWith("one");
