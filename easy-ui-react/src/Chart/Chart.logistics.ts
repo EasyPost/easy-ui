@@ -524,6 +524,7 @@ export const shipmentTimelineExample: ChartProps = {
         data: trackingIntervals.map((s) => ({
           name: s.id,
           value: s.end - s.start,
+          label: { color: "#172b4d", opacity: 1 },
           itemStyle: {
             color: s.color,
             opacity: s.id === "arrival" ? 0.45 : 1,
