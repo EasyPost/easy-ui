@@ -1,5 +1,7 @@
 # Modular ECharts assessment
 
+The portfolio now includes [26 analytical recipes, optional transit maps, and native capacity examples](../logistics/README.md). That follow-up records current measurements, 105 screenshot comparisons, and 36 browser accessibility scans. The 18-recipe measurements and captures below retain their original source provenance.
+
 Retain ECharts and offer modular loading as an explicit optimization. This experiment removes unused modules while keeping the existing 18 analytical recipes, SVG and Canvas, Sankey adjacency emphasis, labels, targets, thresholds, and exact-value tables. All six native components remain available. The checklist follow-up also improves KPI and heatmap text contrast, distinguishes table regions, and completes public TSDoc.
 
 The original Recharts comparison is [closed in #3](https://github.com/lanej/easy-ui/pull/3): its smaller bundle did not justify the specialized chart maintenance and feature gaps. This experiment is [PR #4](https://github.com/lanej/easy-ui/pull/4), based directly on [#1](https://github.com/lanej/easy-ui/pull/1).

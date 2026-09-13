@@ -1,0 +1,748 @@
+{
+  "sourceHead": "b9ef8f589428824103910654b80d3acc83b082c7",
+  "validationMerge": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+  "browserWorkflow": "https://github.com/lanej/easy-ui/actions/runs/34730077560",
+  "packageCI": "https://github.com/lanej/easy-ui/actions/runs/34730077629",
+  "reports": [
+    {
+      "build": "chrome-full",
+      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "browser": {
+        "name": "chrome",
+        "version": "153.0.8010.36"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "geographic-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 500
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "canvas-gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "states",
+          "warnings": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        "keyboard map loading and parcel table selection",
+        "26 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "26 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "chrome-portfolio",
+      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "browser": {
+        "name": "chrome",
+        "version": "153.0.8010.36"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "geographic-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 500
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "canvas-gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "states",
+          "warnings": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        "keyboard map loading and parcel table selection",
+        "26 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "26 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "firefox-full",
+      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "browser": {
+        "name": "firefox",
+        "version": "155.0"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "geographic-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 500
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "canvas-gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "states",
+          "warnings": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        "keyboard map loading and parcel table selection",
+        "26 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "26 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "firefox-portfolio",
+      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "browser": {
+        "name": "firefox",
+        "version": "155.0"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "geographic-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 500
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "canvas-gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "states",
+          "warnings": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        "keyboard map loading and parcel table selection",
+        "26 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "26 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "safari-full",
+      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "browser": {
+        "name": "Safari",
+        "version": "26.6",
+        "platform": "macOS"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "geographic-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 500
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "canvas-gallery",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "states",
+          "errors": [],
+          "warnings": []
+        }
+      ],
+      "checks": [
+        "keyboard map loading and parcel table selection",
+        "26 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "26 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "safari-portfolio",
+      "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+      "browser": {
+        "name": "Safari",
+        "version": "26.6",
+        "platform": "macOS"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "geographic-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 500
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "canvas-gallery",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "states",
+          "errors": [],
+          "warnings": []
+        }
+      ],
+      "checks": [
+        "keyboard map loading and parcel table selection",
+        "26 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "26 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    }
+  ],
+  "limits": [
+    "Synthetic, fixed fixtures; no real customer data.",
+    "Axe incomplete SVG background findings are retained. Contrast regressions cover heatmaps; these checks do not certify every WCAG criterion or screen-reader behavior.",
+    "Warehouse dropdown interaction is additionally exercised by the Chromium capture job.",
+    "Known wrapper zoom-refresh edge cases and Figma approval remain outside this addition."
+  ]
+}

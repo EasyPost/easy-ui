@@ -1,0 +1,200 @@
+{
+  "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
+  "version": "6.1.0",
+  "method": "Two independent Vite production builds of the unchanged gallery: all 26 analytical recipes including two opt-in geographic views and all six native components. Full dependency closure from index.html including lazy imports; React, Easy UI, tokens and fixtures included. Gzip per unique asset; CSS separate and fonts excluded. Each preset runs on a separate page so ECharts' global module registry cannot contaminate the result. Module inventory asserts unused chart implementations and the full entry are absent from the modular build.",
+  "engineMethod": "Separate production entries exporting only init with each preset's registration retained. Excludes React, Easy UI and fixtures. The trend preset is a size probe with reduced capabilities, not a full-portfolio substitute. Transfer measurements only; no runtime-speed claim.",
+  "results": [
+    {
+      "preset": "full",
+      "javascriptGzipBytes": 520754,
+      "cssGzipBytes": 11016,
+      "withoutGeographyJavascriptGzipBytes": 515654,
+      "geographyIncrementalJavascriptGzipBytes": 5100,
+      "assets": [
+        {
+          "file": "assets/Chart-BuZYADdd.css",
+          "bytes": 1336,
+          "gzipBytes": 538
+        },
+        {
+          "file": "assets/Chart-Clcm5LjU.js",
+          "bytes": 79856,
+          "gzipBytes": 29813
+        },
+        {
+          "file": "assets/Chart.examples-Dh9zSCDA.js",
+          "bytes": 9940,
+          "gzipBytes": 3819
+        },
+        {
+          "file": "assets/Chart.geography-Z9hEmLIv.js",
+          "bytes": 11953,
+          "gzipBytes": 5100
+        },
+        {
+          "file": "assets/Chart.logistics.stories-D6j9PKxa.js",
+          "bytes": 13628,
+          "gzipBytes": 5407
+        },
+        {
+          "file": "assets/Chart.stories-CkIjp_Mv.js",
+          "bytes": 12094,
+          "gzipBytes": 4756
+        },
+        {
+          "file": "assets/examples-C7AnrOiP.css",
+          "bytes": 873,
+          "gzipBytes": 407
+        },
+        {
+          "file": "assets/examples.module-3eTsmFBW.js",
+          "bytes": 197,
+          "gzipBytes": 148
+        },
+        {
+          "file": "assets/gallery-DfoWc_vc.js",
+          "bytes": 23004,
+          "gzipBytes": 7526
+        },
+        {
+          "file": "assets/gallery-DsAShCl7.css",
+          "bytes": 10520,
+          "gzipBytes": 1742
+        },
+        {
+          "file": "assets/index-QEZNiNQ2.js",
+          "bytes": 709560,
+          "gzipBytes": 238644
+        },
+        {
+          "file": "assets/install-CVeaxJtu.js",
+          "bytes": 434779,
+          "gzipBytes": 148609
+        },
+        {
+          "file": "assets/preview-CIN7vCPp.css",
+          "bytes": 49876,
+          "gzipBytes": 8329
+        },
+        {
+          "file": "assets/preview-OTYZ8bzD.js",
+          "bytes": 240249,
+          "gzipBytes": 76932
+        }
+      ]
+    },
+    {
+      "preset": "portfolio",
+      "javascriptGzipBytes": 410919,
+      "cssGzipBytes": 11016,
+      "withoutGeographyJavascriptGzipBytes": 387487,
+      "geographyIncrementalJavascriptGzipBytes": 23432,
+      "assets": [
+        {
+          "file": "assets/Chart-Bp67PiKZ.js",
+          "bytes": 79865,
+          "gzipBytes": 29819
+        },
+        {
+          "file": "assets/Chart-BuZYADdd.css",
+          "bytes": 1336,
+          "gzipBytes": 538
+        },
+        {
+          "file": "assets/Chart.examples-Dh9zSCDA.js",
+          "bytes": 9940,
+          "gzipBytes": 3819
+        },
+        {
+          "file": "assets/Chart.geography-BWhiQAR_.js",
+          "bytes": 65750,
+          "gzipBytes": 23432
+        },
+        {
+          "file": "assets/Chart.logistics.stories-wWDEYJrw.js",
+          "bytes": 13629,
+          "gzipBytes": 5406
+        },
+        {
+          "file": "assets/Chart.stories-BHObPnyl.js",
+          "bytes": 12094,
+          "gzipBytes": 4757
+        },
+        {
+          "file": "assets/LineDraw-DMYpfpVk.js",
+          "bytes": 373301,
+          "gzipBytes": 128311
+        },
+        {
+          "file": "assets/examples-C7AnrOiP.css",
+          "bytes": 873,
+          "gzipBytes": 407
+        },
+        {
+          "file": "assets/examples.module-3eTsmFBW.js",
+          "bytes": 197,
+          "gzipBytes": 148
+        },
+        {
+          "file": "assets/gallery-Bnkqh5Fh.js",
+          "bytes": 23004,
+          "gzipBytes": 7524
+        },
+        {
+          "file": "assets/gallery-DsAShCl7.css",
+          "bytes": 10520,
+          "gzipBytes": 1742
+        },
+        {
+          "file": "assets/portfolio-C6405-pG.js",
+          "bytes": 384859,
+          "gzipBytes": 130771
+        },
+        {
+          "file": "assets/preview-CIN7vCPp.css",
+          "bytes": 49876,
+          "gzipBytes": 8329
+        },
+        {
+          "file": "assets/preview-OTYZ8bzD.js",
+          "bytes": 240249,
+          "gzipBytes": 76932
+        }
+      ]
+    }
+  ],
+  "engines": [
+    {
+      "preset": "full",
+      "javascriptBytes": 1127664,
+      "javascriptGzipBytes": 378974,
+      "nonGeographicPortfolio": true,
+      "geographyIncluded": true,
+      "renderers": [
+        "svg",
+        "canvas"
+      ]
+    },
+    {
+      "preset": "portfolio",
+      "javascriptBytes": 750969,
+      "javascriptGzipBytes": 254726,
+      "nonGeographicPortfolio": true,
+      "geographyIncluded": false,
+      "renderers": [
+        "svg",
+        "canvas"
+      ]
+    },
+    {
+      "preset": "trend",
+      "javascriptBytes": 595790,
+      "javascriptGzipBytes": 203104,
+      "nonGeographicPortfolio": false,
+      "geographyIncluded": false,
+      "renderers": [
+        "svg"
+      ]
+    }
+  ]
+}
