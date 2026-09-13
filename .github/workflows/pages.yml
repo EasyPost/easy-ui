@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - experiment/modular-echarts
+      - feat/network-intelligence-maps
   pull_request:
     paths:
       - ".github/workflows/pages.yml"
@@ -16,6 +17,7 @@ on:
       - "scripts/build-docs.mjs"
       - "scripts/check-docs-site.mjs"
       - "scripts/preview-metrics/**"
+      - "scripts/preview-maps/**"
       - "typedoc.json"
   workflow_dispatch:
 
@@ -31,8 +33,16 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        site: ${{ fromJSON(github.event_name == 'pull_request' && '["preview"]' || '["charts","network-maps"]') }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Build both review branches for every deployment: Pages replaces the
+          # whole site, so publishing one PR must preserve the other PR's preview.
+          ref: ${{ matrix.site == 'preview' && github.sha || matrix.site == 'network-maps' && (github.ref_name == 'feat/network-intelligence-maps' && github.sha || 'feat/network-intelligence-maps') || (github.ref_name == 'feat/network-intelligence-maps' && 'experiment/modular-echarts' || github.sha) }}
       - uses: actions/setup-node@v4
         with:
           node-version: "20.x"
@@ -41,26 +51,57 @@ jobs:
         run: npm ci
       - name: Install chart gallery dependencies
         run: npm ci --prefix scripts/preview-metrics --no-audit --no-fund
-      - name: Build Storybook, API reference and chart portfolio
+      - name: Install map gallery dependencies
+        if: hashFiles('scripts/preview-maps/package-lock.json') != ''
+        run: npm ci --prefix scripts/preview-maps --no-audit --no-fund
+      - name: Build documentation and examples
         run: npm run build:docs
       - name: Verify documentation outputs
         run: node scripts/check-docs-site.mjs
-      - name: Upload PR documentation preview
-        if: github.event_name == 'pull_request'
+      - name: Record source revision
+        run: git rev-parse HEAD > docs-site/revision.txt
+      - name: Upload documentation build
         uses: actions/upload-artifact@v4
         with:
-          name: easy-ui-documentation-site
+          name: ${{ matrix.site == 'preview' && 'easy-ui-documentation-site' || format('docs-{0}', matrix.site) }}
           path: docs-site
+          include-hidden-files: true
           if-no-files-found: error
+
+  assemble:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download chart documentation
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-charts
+          path: published-site
+      - name: Download map documentation
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-network-maps
+          path: published-site/network-maps
+      - name: Verify both previews are included
+        run: |
+          test -f published-site/index.html
+          test -f published-site/storybook/index.html
+          test -f published-site/api/index.html
+          test -f published-site/comparisons/modular/portfolio/index.html
+          test -f published-site/network-maps/index.html
+          test -f published-site/network-maps/storybook/index.html
+          test -f published-site/network-maps/api/index.html
+          test -f published-site/network-maps/maps/index.html
+          touch published-site/.nojekyll
       - name: Upload GitHub Pages artifact
-        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4
         with:
-          path: docs-site
+          path: published-site
 
   deploy:
     if: github.event_name != 'pull_request'
-    needs: build
+    needs: assemble
     runs-on: ubuntu-latest
     environment:
       name: github-pages
