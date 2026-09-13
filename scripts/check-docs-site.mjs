@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const site = fileURLToPath(new URL("../docs-site/", import.meta.url));
-const mount = new URL("https://example.test/easy-ui/");
+const mount = new URL("https://example.test/easy-ui/network-maps/");
 let checked = 0;
 async function checkLink(page, href) {
   const url = new URL(href, new URL(page, mount));
@@ -29,6 +29,8 @@ const pages = [
   "api/index.html",
   "comparisons/index.html",
   "comparisons/modular/portfolio/index.html",
+  "maps/index.html",
+  "maps/lightweight.html",
 ];
 for (const page of pages) {
   const html = await readFile(resolve(site, page), "utf8");
@@ -48,7 +50,7 @@ for (const entry of await readdir(resolve(site, "api"), { recursive: true })) {
   const page = `api/${entry}`;
   const html = await readFile(resolve(site, page), "utf8");
   for (const [, href] of html.matchAll(
-    /href="([^"]+)"[^>]*>(?:Storybook|Chart comparisons)<\/a>/g,
+    /href="([^"]+)"[^>]*>(?:Storybook|Chart comparisons|Network map examples)<\/a>/g,
   )) {
     await checkLink(page, href);
   }
@@ -59,6 +61,28 @@ const props = await readFile(
 );
 assert.match(props, /id="markers"/);
 assert.match(props, /endpoints/);
+const mapProps = await readFile(
+  resolve(site, "api/types/NetworkMap.NetworkMapProps.html"),
+  "utf8",
+);
+for (const prop of ["mapStyle", "workerUrl", "facilities", "segments"]) {
+  assert.ok(
+    mapProps.includes(`id="${prop.toLowerCase()}"`),
+    `Missing NetworkMap prop: ${prop}`,
+  );
+}
+const mapManifest = JSON.parse(
+  await readFile(resolve(site, "maps/.vite/manifest.json"), "utf8"),
+);
+for (const entry of Object.values(mapManifest)) {
+  for (const asset of [
+    entry.file,
+    ...(entry.css || []),
+    ...(entry.assets || []),
+  ]) {
+    await checkLink("maps/index.html", asset);
+  }
+}
 const fonts = await readFile(resolve(site, "storybook/poppins.css"), "utf8");
 for (const [, href] of fonts.matchAll(/url\("([^"]+)"\)/g)) {
   await checkLink("storybook/poppins.css", href);
@@ -66,5 +90,5 @@ for (const [, href] of fonts.matchAll(/url\("([^"]+)"\)/g)) {
 await checkLink("storybook/index.html", "./easypost-logo.svg");
 await stat(resolve(site, ".nojekyll"));
 console.log(
-  `Documentation site passes: ${pages.length} entry pages, ${checked} asset/navigation links, and sparkline marker API documentation.`,
+  `Documentation site passes: ${pages.length} entry pages, ${checked} asset/navigation links, and Sparkline/NetworkMap API documentation.`,
 );

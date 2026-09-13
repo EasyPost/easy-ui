@@ -22,6 +22,7 @@
   "githubPages": false,
   "navigationLinks": {
     "Storybook": "../storybook/",
-    "Chart comparisons": "../comparisons/"
+    "Chart comparisons": "../comparisons/",
+    "Network map examples": "../maps/"
   }
 }

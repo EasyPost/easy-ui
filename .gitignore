@@ -7,5 +7,7 @@ storybook-static
 docs-site/api/
 docs-site/storybook/
 docs-site/comparisons/
+docs-site/maps/
 docs-site/.nojekyll
+docs-site/revision.txt
 *.tsbuildinfo

@@ -57,4 +57,11 @@ await cp(
     recursive: true,
   },
 );
+run(["run", "--prefix", "scripts/preview-maps", "build"], {
+  EASY_UI_PREVIEW_BASE: "./",
+});
+await rm(resolve(site, "maps"), { recursive: true, force: true });
+await cp(resolve(root, "scripts/preview-maps/dist"), resolve(site, "maps"), {
+  recursive: true,
+});
 await writeFile(resolve(site, ".nojekyll"), "");
