@@ -127,3 +127,36 @@ it("keeps parcel locations, event timestamps and arrival windows consistent acro
     parcelMapExample("Dallas", "P-104").dataTable.rows.map((r) => r.id),
   ).toEqual(["P-201", "P-202"]);
 });
+
+it("keeps geographic proportions stable across desktop and mobile sizes", () => {
+  const chart = init(null, undefined, {
+    renderer: "svg",
+    ssr: true,
+    width: 720,
+    height: 320,
+  });
+  try {
+    chart.setOption({ ...laneMapExample.option, animation: false });
+    for (const width of [720, 300]) {
+      chart.resize({ width, height: 320 });
+      const origin = chart.convertToPixel(
+        { geoIndex: 0 },
+        [-110, 35],
+      ) as number[];
+      const east = chart.convertToPixel(
+        { geoIndex: 0 },
+        [-100, 35],
+      ) as number[];
+      const north = chart.convertToPixel(
+        { geoIndex: 0 },
+        [-110, 45],
+      ) as number[];
+      // ECharts' default longitude/latitude aspect scale is 0.75.
+      expect(
+        Math.abs((east[0] - origin[0]) / (north[1] - origin[1])),
+      ).toBeCloseTo(0.75);
+    }
+  } finally {
+    chart.dispose();
+  }
+});

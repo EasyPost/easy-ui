@@ -35,6 +35,7 @@ const geo: GeoComponentOption = {
   map: "easy-ui-us-demo",
   roam: false,
   silent: true,
+  preserveAspect: true,
   left: 18,
   right: 18,
   top: 42,
