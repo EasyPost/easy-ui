@@ -168,11 +168,15 @@ export async function auditBrowser(driver, browser, site, outputDir) {
     const overflow = await driver.evaluate(() => {
       const stack = document.querySelector(".stress-stack");
       const scroll = stack.querySelector('section [role="region"]');
+      const axis = stack.querySelector("[data-chart-value-axis]");
+      const plot = axis.nextElementSibling.querySelector("svg");
       return {
         cardWidth: stack.getBoundingClientRect().width,
         page: document.documentElement.scrollWidth - innerWidth,
         table: scroll.scrollWidth - scroll.clientWidth,
         open: [...stack.querySelectorAll("details")].every((el) => el.open),
+        axisHeight: axis.getBoundingClientRect().height,
+        plotHeight: plot.getBoundingClientRect().height,
       };
     });
     assert.equal(overflow.cardWidth, 280);
@@ -182,6 +186,10 @@ export async function auditBrowser(driver, browser, site, outputDir) {
       "Exact values keep an intentional local scroll region",
     );
     assert.ok(overflow.open, "Stress tables must be exposed");
+    assert.ok(
+      Math.abs(overflow.axisHeight - overflow.plotHeight) <= 1,
+      "Narrow plots must retain the axis coordinate scale",
+    );
     await driver.key('.stress-stack section [role="region"]', "ArrowRight");
     await driver.wait(
       () =>

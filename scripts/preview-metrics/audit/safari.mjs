@@ -26,7 +26,9 @@ try {
       key: async (selector, key) => {
         const element = await driver.findElement(By.css(selector));
         await driver.executeScript("arguments[0].focus()", element);
-        await element.sendKeys(key === "Enter" ? Key.ENTER : key);
+        await element.sendKeys(
+          { Enter: Key.ENTER, ArrowRight: Key.ARROW_RIGHT }[key] ?? key,
+        );
       },
       click: async (selector) =>
         (await driver.findElement(By.css(selector))).click(),
