@@ -1,6 +1,6 @@
 {
-  "source": "f7298fae803d1b64001f1ae4f5573a3a0b152692",
-  "method": "Byte-identical PNG captures on the same CI runner, separate builds and fresh browsers. Includes all 26 plots at desktop/mobile SVG and desktop Canvas, full galleries, exact-table selection, target/threshold labels, signed tooltips and Sankey adjacency emphasis. Each build also passes the existing pointer, keyboard, overflow and lightweight-isolation assertions. No claim about dense-data runtime speed or unregistered ECharts features.",
+  "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+  "method": "Byte-identical PNG captures on the same CI runner, separate builds and fresh browsers. Includes all 24 plots at desktop/mobile SVG and desktop Canvas, full galleries, exact-table selection, target/threshold labels, signed tooltips and Sankey adjacency emphasis. Each build also passes the existing pointer, keyboard, overflow and lightweight-isolation assertions. No claim about dense-data runtime speed or unregistered ECharts features.",
   "comparisons": [
     {
       "file": "analytical-extensions-desktop.png",
@@ -319,30 +319,6 @@
       "identical": true
     },
     {
-      "file": "chart-25-canvas.png",
-      "identical": true
-    },
-    {
-      "file": "chart-25-desktop.png",
-      "identical": true
-    },
-    {
-      "file": "chart-25-mobile.png",
-      "identical": true
-    },
-    {
-      "file": "chart-26-canvas.png",
-      "identical": true
-    },
-    {
-      "file": "chart-26-desktop.png",
-      "identical": true
-    },
-    {
-      "file": "chart-26-mobile.png",
-      "identical": true
-    },
-    {
       "file": "lightweight-desktop.png",
       "identical": true
     },
@@ -356,18 +332,6 @@
     },
     {
       "file": "logistics-desktop.png",
-      "identical": true
-    },
-    {
-      "file": "logistics-maps-desktop.png",
-      "identical": true
-    },
-    {
-      "file": "logistics-maps-mobile.png",
-      "identical": true
-    },
-    {
-      "file": "logistics-maps-review.png",
       "identical": true
     },
     {
@@ -388,10 +352,6 @@
     },
     {
       "file": "native-extensions-review.png",
-      "identical": true
-    },
-    {
-      "file": "parcel-warehouse-filter.png",
       "identical": true
     },
     {
