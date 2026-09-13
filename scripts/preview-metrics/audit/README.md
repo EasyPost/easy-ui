@@ -7,10 +7,11 @@ not Playwright WebKit. Browser names and versions are recorded in each report.
 
 The audit covers the complete gallery, every expanded exact-value table, the
 Canvas gallery, loading/empty/error/partial states, and recovery through the
-retry button. It exercises zoom, row selection, table disclosure, and retry
+retry button. A separate scan covers the geographic gallery after opening maps;
+keyboard row selection verifies that the parcel map and its scan notice agree. It exercises zoom, row selection, table disclosure, and retry
 using keyboard input. The existing capture job separately checks mobile
-layout, pointer interactions, lightweight engine isolation, and 74 full versus
-modular image comparisons.
+layout, pointer interactions, warehouse filtering, lightweight engine isolation,
+and full versus modular image comparisons for all 26 charts.
 
 `axe-core` runs all applicable WCAG 2.0/2.1/2.2 A/AA and best-practice rules.
 No rules or violations are suppressed. Every scan records both `violations`
