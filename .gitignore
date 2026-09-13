@@ -4,4 +4,8 @@
 node_modules
 dist
 storybook-static
+docs-site/api/
+docs-site/storybook/
+docs-site/comparisons/
+docs-site/.nojekyll
 *.tsbuildinfo

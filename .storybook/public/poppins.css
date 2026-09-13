@@ -4,8 +4,8 @@
   font-weight: 300;
   font-display: swap;
   src:
-    url("/fonts/poppins/poppins-v20-latin-300.woff2") format("woff2"),
-    url("/fonts/poppins/poppins-v20-latin-300.woff") format("woff");
+    url("./fonts/poppins/poppins-v20-latin-300.woff2") format("woff2"),
+    url("./fonts/poppins/poppins-v20-latin-300.woff") format("woff");
 }
 
 @font-face {
@@ -14,8 +14,8 @@
   font-weight: 400;
   font-display: swap;
   src:
-    url("/fonts/poppins/poppins-v20-latin-400.woff2") format("woff2"),
-    url("/fonts/poppins/poppins-v20-latin-400.woff") format("woff");
+    url("./fonts/poppins/poppins-v20-latin-400.woff2") format("woff2"),
+    url("./fonts/poppins/poppins-v20-latin-400.woff") format("woff");
 }
 
 @font-face {
@@ -24,8 +24,8 @@
   font-weight: 500;
   font-display: swap;
   src:
-    url("/fonts/poppins/poppins-v20-latin-500.woff2") format("woff2"),
-    url("/fonts/poppins/poppins-v20-latin-500.woff") format("woff");
+    url("./fonts/poppins/poppins-v20-latin-500.woff2") format("woff2"),
+    url("./fonts/poppins/poppins-v20-latin-500.woff") format("woff");
 }
 
 @font-face {
@@ -34,8 +34,8 @@
   font-weight: 600;
   font-display: swap;
   src:
-    url("/fonts/poppins/poppins-v20-latin-600.woff2") format("woff2"),
-    url("/fonts/poppins/poppins-v20-latin-600.woff") format("woff");
+    url("./fonts/poppins/poppins-v20-latin-600.woff2") format("woff2"),
+    url("./fonts/poppins/poppins-v20-latin-600.woff") format("woff");
 }
 
 @font-face {
@@ -44,8 +44,8 @@
   font-weight: 700;
   font-display: swap;
   src:
-    url("/fonts/poppins/poppins-v20-latin-700.woff2") format("woff2"),
-    url("/fonts/poppins/poppins-v20-latin-700.woff") format("woff");
+    url("./fonts/poppins/poppins-v20-latin-700.woff2") format("woff2"),
+    url("./fonts/poppins/poppins-v20-latin-700.woff") format("woff");
 }
 
 @font-face {
@@ -54,6 +54,6 @@
   font-weight: 400;
   font-display: swap;
   src:
-    url("/fonts/poppins/poppins-v20-latin-400-italic.woff2") format("woff2"),
-    url("/fonts/poppins/poppins-v20-latin-400-italic.woff") format("woff");
+    url("./fonts/poppins/poppins-v20-latin-400-italic.woff2") format("woff2"),
+    url("./fonts/poppins/poppins-v20-latin-400-italic.woff") format("woff");
 }

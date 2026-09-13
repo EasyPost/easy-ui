@@ -23,8 +23,8 @@ export const theme = create({
   gridCellSize,
 
   brandTitle: "EasyPost Easy UI Storybook",
-  brandUrl: "/",
-  brandImage: "/easypost-logo.svg?v=20230308",
+  brandUrl: "./",
+  brandImage: "./easypost-logo.svg?v=20230308",
   brandTarget: "_self",
 
   appBg: colors.background,

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - experiment/modular-echarts
   pull_request:
     paths:
       - ".github/workflows/pages.yml"
@@ -11,6 +12,9 @@ on:
       - "docs-site/**"
       - "easy-ui-react/src/**"
       - "package.json"
+      - "package-lock.json"
+      - "scripts/build-docs.mjs"
+      - "scripts/check-docs-site.mjs"
       - "scripts/preview-metrics/**"
       - "typedoc.json"
   workflow_dispatch:
@@ -21,8 +25,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'deployment' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -35,23 +39,12 @@ jobs:
           cache: npm
       - name: Install repository dependencies
         run: npm ci
-      - name: Build tokens and icons
-        run: |
-          npm run build:tokens
-          npm run build:icons
       - name: Install chart gallery dependencies
         run: npm ci --prefix scripts/preview-metrics --no-audit --no-fund
       - name: Build Storybook, API reference and chart portfolio
         run: npm run build:docs
-        env:
-          EASY_UI_PREVIEW_BASE: ./
       - name: Verify documentation outputs
-        run: |
-          test -f docs-site/index.html
-          test -f docs-site/storybook/index.html
-          test -f docs-site/api/index.html
-          test -f docs-site/comparisons/index.html
-          touch docs-site/.nojekyll
+        run: node scripts/check-docs-site.mjs
       - name: Upload PR documentation preview
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
