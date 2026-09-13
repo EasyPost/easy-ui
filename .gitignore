@@ -10,3 +10,5 @@ docs-site/comparisons/
 docs-site/.nojekyll
 docs-site/revision.txt
 *.tsbuildinfo
+
+.viewrule-engine/
