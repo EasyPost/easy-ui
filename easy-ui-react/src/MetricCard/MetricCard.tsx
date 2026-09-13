@@ -90,7 +90,10 @@ export function MetricCard({
         )}
         {hasValue && trend && <Sparkline {...trend} />}
         {hasValue && comparison && (
-          <div className={styles.comparison}>
+          <div
+            className={styles.comparison}
+            data-sentiment={comparison.sentiment ?? "neutral"}
+          >
             <Badge
               variant={comparisonVariants[comparison.sentiment ?? "neutral"]}
             >

@@ -13,7 +13,8 @@ const scopes = [
   "wcag22aa",
   "best-practice",
 ];
-const trend = '[aria-label="On-time delivery"]';
+const trend =
+  '[aria-label="Analytical chart examples"] [aria-label="On-time delivery"]';
 const scatter = '[aria-label="Cost and speed tradeoffs"]';
 
 // The shared assertions run through real browser input in Playwright and

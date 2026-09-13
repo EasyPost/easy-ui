@@ -41,19 +41,19 @@ createRoot(document.getElementById("root")!).render(
             supportingText="Observed zero"
           />
           <MetricCard
-            label="Average rated cost"
+            label="Average rated cost — unavailable"
             value={null}
             supportingText="Unavailable value"
           />
           <MetricCard
             {...Default.args}
-            label="Average rated cost"
+            label="Average rated cost — loading"
             value="$5.20"
             isLoading
           />
           <MetricCard
             {...MissingObservations.args}
-            label="Average rated cost"
+            label="Average rated cost — missing bucket"
             value="$5.20"
           />
         </div>
