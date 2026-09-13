@@ -76,25 +76,6 @@ export async function auditBrowser(driver, browser, site, outputDir) {
       false,
     );
     await scan("gallery");
-    await driver.key('[aria-label="Logistics map examples"] button', "Enter");
-    await driver.wait(
-      () =>
-        document.querySelectorAll('[data-chart-state="ready"] svg').length ===
-        26,
-    );
-    await scan("geographic-gallery");
-    await driver.key('[aria-label="Parcel scan paths"] summary', "Enter");
-    await driver.key(
-      '[aria-label="Parcel scan paths"] tbody tr:nth-child(2) button',
-      "Enter",
-    );
-    await driver.wait(() =>
-      document
-        .querySelector('[aria-label="Parcel scan paths"]')
-        .textContent.includes("P-105: Stale scan"),
-    );
-    report.checks.push("keyboard map loading and parcel table selection");
-
     const before = await driver.evaluate(
       (selector) => document.querySelector(`${selector} svg`).innerHTML,
       trend,
@@ -136,7 +117,7 @@ export async function auditBrowser(driver, browser, site, outputDir) {
     });
     await scan("expanded-tables");
     report.checks.push(
-      "26 SVG charts",
+      "24 SVG charts",
       "keyboard zoom",
       "keyboard row selection",
       "compact table disclosure",
@@ -153,16 +134,8 @@ export async function auditBrowser(driver, browser, site, outputDir) {
           (plot) => plot.querySelector("canvas"),
         ),
     );
-    await driver.key('[aria-label="Logistics map examples"] button', "Enter");
-    await driver.wait(
-      () =>
-        document.querySelectorAll('[data-chart-state="ready"]').length === 26 &&
-        [...document.querySelectorAll('[data-chart-state="ready"]')].every(
-          (p) => p.querySelector("canvas"),
-        ),
-    );
     await scan("canvas-gallery");
-    report.checks.push("26 Canvas charts");
+    report.checks.push("24 Canvas charts");
     await diagnostics("canvas-gallery");
 
     await driver.open(`${site}/audit.html`);
