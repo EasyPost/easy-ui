@@ -1,17 +1,29 @@
-# Network intelligence mapping draft
+# Network intelligence maps
 
-Mapping is developed in [PR #5](https://github.com/lanej/easy-ui/pull/5), based on the shared chart branch. [Chart PR #4](https://github.com/lanej/easy-ui/pull/4) retains 24 analytical recipes and six native components.
+[Draft PR #5](https://github.com/lanej/easy-ui/pull/5) implements the optional MapLibre `NetworkMap` entry. [Chart PR #4](https://github.com/lanej/easy-ui/pull/4) retains 24 analytical recipes and six native components; maps have their own runtime, stories and review harness.
 
-[Network map scope and acceptance criteria](../../specs/NetworkMaps.md).
+## Investigations
 
-The ECharts lane and parcel maps on this branch are reference prototypes to replace. MapLibre, street basemaps, navigation across geographic scales, prioritized labels, facility risk, weather layers and the three audience scenarios are not implemented yet. Passing prototype tests do not establish acceptance of the proposed design.
+| Example            | What to try                                                                         | Evidence                                                                                                                 |
+| ------------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Parcel journey     | Fit the national journey, select a regional leg, focus the latest distribution scan | Seven scans, five observed facilities, four observed transfers, a planned delivery leg, scan age and parcel promise risk |
+| Shipper flow       | Filter by warehouse, inspect a sampled parcel, select a facility                    | Full-cohort daily flow and relative widths, separately scoped parcel sample, parcel promise risk                         |
+| Carrier operations | Select a regional facility and toggle risk/weather                                  | Throughput against expected volume/capacity, dwell, backlog, facility-cohort exception risk, forecast interval/source    |
 
-## Extracted reference captures
+Real OpenFreeMap vector tiles provide national geography and local streets. Selected/last-observed labels receive priority; local facilities appear as the camera zooms in. Data and layer updates preserve manual camera movement. Repeated scans share facility identifiers and markers.
 
-![Lane and parcel map prototype](../logistics/logistics-maps-review.png)
+The examples use synthetic records as of September 13, 2026, 14:00 UTC. Risk is caller-supplied model output. Facility cohort risk is not an individual parcel's promise risk. Forecast weather indicates exposure, not the cause of a delay. The last scan is an observation; current parcel position between scans remains unknown. Endpoint links do not establish a traveled road route.
 
-![Mobile map prototype](../logistics/logistics-maps-mobile.png)
+## Run and integrate
 
-These captures are from source `b9ef8f589428824103910654b80d3acc83b082c7`. [Original combined-prototype measurements and validation](https://github.com/lanej/easy-ui/blob/043a9332b3af26653e46e842951105866740e162/documentation/examples/logistics/README.md). The old 23.4 kB incremental ECharts map figure is not an estimate for MapLibre or its workers and tiles.
+See the [independent harness](../../../scripts/preview-maps/README.md), [component documentation](../../../easy-ui-react/src/NetworkMap/NetworkMap.mdx), [public TSDoc types](../../../easy-ui-react/src/NetworkMap/types.ts) and [scope/specification](../../specs/NetworkMaps.md).
 
-The logistics directory's current JSON reports describe the extracted **24-recipe chart-only build**. Use the immutable combined-prototype link above for the original map baseline, and this PR's Actions artifacts for subsequent mapping-branch builds.
+Install the optional `maplibre-gl` peer and import its CSS in the consuming map route. Use the application's normal Easy UI stylesheet and ThemeProvider. Applications supply their own MapLibre style, including provider attribution and service terms. The examples use a public keyless OpenFreeMap style; production availability and tile terms remain application choices.
+
+The production harness measures lazy engine and complete consumer asset closures separately. It verifies that an independent native SVG entry loads no map code, CSS or basemap resources. Embedded worker code is counted in engine JavaScript; styles, tiles, sprites and glyphs are separate network requests. Cross-origin Resource Timing sizes can be unavailable, so missing sizes are recorded as null.
+
+## Review limits
+
+This is a UI component and fixture portfolio. Live event/model/weather feeds, time playback, server-side authorization and querying, high-density clustering, model uncertainty and target-hardware memory/latency budgets remain follow-on work. An approved Figma reference is still needed for design sign-off. Automated accessibility scans do not certify all screen-reader or WCAG behavior.
+
+The previous ECharts map prototype is available in [its immutable documentation commit](https://github.com/lanej/easy-ui/blob/043a9332b3af26653e46e842951105866740e162/documentation/examples/logistics/README.md). Its 23.4 kB incremental figure does not describe this MapLibre implementation.

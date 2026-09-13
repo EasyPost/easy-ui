@@ -7,11 +7,16 @@ export default defineConfig({
     tsconfigRaw: JSON.stringify({ compilerOptions: { jsx: "react-jsx" } }),
   },
   resolve: {
-    alias: Object.fromEntries(
-      ["react", "react-dom", "maplibre-gl", "@easypost/easy-ui-tokens"].map(
-        (name) => [name, local(`./node_modules/${name}`)],
+    alias: {
+      "overlayscrollbars/overlayscrollbars.css": local(
+        "./node_modules/overlayscrollbars/styles/overlayscrollbars.css",
       ),
-    ),
+      ...Object.fromEntries(
+        ["react", "react-dom", "maplibre-gl", "@easypost/easy-ui-tokens"].map(
+          (name) => [name, local(`./node_modules/${name}`)],
+        ),
+      ),
+    },
   },
   css: {
     preprocessorOptions: { scss: { silenceDeprecations: ["legacy-js-api"] } },

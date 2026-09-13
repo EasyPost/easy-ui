@@ -2,7 +2,7 @@
 
 Six additive analytical recipes bring the chart portfolio to 24. Native capacity bullets also demonstrate observed volume and forecast overload without an analytical engine. All parcel, facility, rate and forecast records are synthetic.
 
-Mapping is now [draft PR #5](https://github.com/lanej/easy-ui/pull/5). The earlier lane and transit maps are preserved there as a reference prototype, pending replacement with a dedicated mapping experience. [Network mapping scope](https://github.com/lanej/easy-ui/blob/feat/network-intelligence-maps/documentation/specs/NetworkMaps.md).
+Mapping is now [draft PR #5](https://github.com/lanej/easy-ui/pull/5). The earlier lane and transit prototypes have been replaced there by optional MapLibre parcel, shipper and carrier investigations. [Network mapping scope](https://github.com/lanej/easy-ui/blob/feat/network-intelligence-maps/documentation/specs/NetworkMaps.md).
 
 | Recipe                       | Decision or task                                   | Evidence shown                                                                                                 |
 | ---------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -46,7 +46,7 @@ Validated source: `2055d1775d7976526bab01a23c9e842e359c21a5`. GitHub validation 
 
 - [Browser workflow](https://github.com/lanej/easy-ui/actions/runs/34733125185): **95 exact PNG comparisons pass**, including all 24 plots at desktop/mobile SVG and desktop Canvas, original galleries, Sankey emphasis and exact tables. Pointer/keyboard, overflow and lightweight isolation checks pass.
 - **30 axe scans report zero violations**, with zero runtime warnings/errors across Chrome 153.0.8010.36, Firefox 155.0 and actual Apple Safari 26.6 on macOS. Each browser runs five scans against each engine: gallery, expanded tables, Canvas, state fixtures and retry recovery.
-- [Package CI passed](https://github.com/lanej/easy-ui/actions/runs/34733125290): build, lint, Storybook, package import/server rendering and **654 tests passed, 2 skipped**. The chart-only source retains ten logistics regressions; the three map-specific cases move with the map prototype.
+- [Package CI passed](https://github.com/lanej/easy-ui/actions/runs/34733125290): build, lint, Storybook, package import/server rendering and **654 tests passed, 2 skipped**. The chart-only source retains ten logistics regressions; the earlier three prototype map cases are superseded by the separate map component tests.
 
 Raw reports retain axe's incomplete SVG-background findings; no rules are disabled. Passing scans do not certify all WCAG criteria, screen-reader behavior or arbitrary consumer options. The table capture aligns its viewport after keyboard focus to avoid fractional clipping differences; exact PNG equality remains the comparison gate.
 
