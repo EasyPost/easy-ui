@@ -88,3 +88,7 @@ Raw reports preserve axe's `incomplete` SVG-background findings; no rules are di
 Download the reports and browser screenshots: [Chrome](https://github.com/lanej/easy-ui/actions/runs/34727396947/artifacts/10307924553), [Firefox](https://github.com/lanej/easy-ui/actions/runs/34727396947/artifacts/10308390540), [Safari](https://github.com/lanej/easy-ui/actions/runs/34727396947/artifacts/10307709949).
 
 **Figma design matching remains unchecked:** no chart-specific Figma file or node was supplied or found. Pixel parity between engine builds does not establish agreement with a design specification.
+
+## Endpoint marker default
+
+Sparklines now default to `markers="endpoints"`, including MetricCard trends. Each continuous segment has a marker at its first and last observation, making the boundaries of null gaps explicit. `markers="none"` remains available. The lightweight capture above is refreshed from source `21785af` (validation merge `f54a594`). All 74 full/modular comparisons and Chrome, Firefox, and actual Safari audits pass in the [follow-up browser run](https://github.com/lanej/easy-ui/actions/runs/34728656444). [Package CI](https://github.com/lanej/easy-ui/actions/runs/34728656398) includes the updated marker regression. Earlier measurement and audit JSON files retain their original source provenance.
