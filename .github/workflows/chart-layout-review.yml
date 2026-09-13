@@ -1,0 +1,65 @@
+name: Chart layout review
+
+on:
+  pull_request:
+    paths:
+      - ".ui-review/**"
+      - ".github/workflows/chart-layout-review.yml"
+      - "easy-ui-react/src/Chart/**"
+      - "easy-ui-react/src/RangePlot/**"
+      - "easy-ui-react/src/CompactTimeSeries/**"
+      - "scripts/preview-metrics/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chart-layout-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  viewrule:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+      - name: Check out pinned View Rule engine
+        uses: actions/checkout@v4
+        with:
+          repository: lanej/viewrule
+          ref: 85a67c6cd397aefb2d50e9510ce4420e78ba55ea
+          path: .viewrule-engine
+      - name: Install View Rule and Chromium
+        working-directory: .viewrule-engine
+        run: |
+          npm ci --omit=dev --no-audit --no-fund
+          node bin/viewrule.mjs install-browser --with-deps
+      - name: Build chart examples
+        working-directory: scripts/preview-metrics
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+      - name: Inspect the declared design contract
+        run: node .viewrule-engine/bin/viewrule.mjs contract
+      - name: Review charts with View Rule
+        run: |
+          cd scripts/preview-metrics
+          npm exec vite -- preview --host 127.0.0.1 --port 4173 --strictPort > /tmp/chart-preview.log 2>&1 &
+          cd ../..
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:4173/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node .viewrule-engine/bin/viewrule.mjs check
+      - name: Upload measured findings and full-resolution captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chart-layout-review
+          path: .ui-review/runs/
+          include-hidden-files: true
+          if-no-files-found: warn
