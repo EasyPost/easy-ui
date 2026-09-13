@@ -1,4 +1,5 @@
-import { init, setPlatformAPI } from "echarts";
+import { color, init, setPlatformAPI } from "echarts";
+import type { HeatmapSeriesOption, VisualMapComponentOption } from "echarts";
 
 // Deterministic text metrics for SVG topology checks; browser captures verify typography.
 beforeAll(() => {
@@ -11,7 +12,41 @@ import {
   timeSeriesExample,
 } from "./Chart.examples";
 
-import { extensionExamples } from "./Chart.extensions";
+import { extensionExamples, periodicHeatmapExample } from "./Chart.extensions";
+
+// Axe cannot reliably resolve SVG text backgrounds. Use the renderer's color
+// interpolation to check every labeled cell against its actual scale color.
+it.each([heatmapExample, periodicHeatmapExample])(
+  "keeps every $title cell label above 4.5:1 contrast",
+  (example) => {
+    const scale = example.option.visualMap as VisualMapComponentOption;
+    const series = (example.option.series as HeatmapSeriesOption[])[0];
+    const luminance = (css: string) => {
+      const channels = color.parse(css)!;
+      return channels.slice(0, 3).reduce((sum, channel, index) => {
+        const value = channel / 255;
+        const linear =
+          value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+        return sum + linear * [0.2126, 0.7152, 0.0722][index];
+      }, 0);
+    };
+    for (const cell of series.data as {
+      value: number[];
+      label: { color: string };
+    }[]) {
+      const fraction =
+        (cell.value[2] - Number(scale.min)) /
+        (Number(scale.max) - Number(scale.min));
+      const background = color.lerp(fraction, scale.inRange!.color!) as string;
+      const values = [luminance(cell.label.color), luminance(background)].sort(
+        (a, b) => a - b,
+      );
+      expect((values[1] + 0.05) / (values[0] + 0.05)).toBeGreaterThanOrEqual(
+        4.5,
+      );
+    }
+  },
+);
 
 it.each(
   [...allExamples, ...extensionExamples].map(

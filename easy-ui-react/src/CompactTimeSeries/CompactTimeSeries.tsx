@@ -283,7 +283,7 @@ export function CompactTimeSeries({
             className={styles.tableScroll}
             tabIndex={0}
             role="region"
-            aria-label={dataTableLabel}
+            aria-label={`${label}: ${dataTableLabel}`}
           >
             <table>
               <thead>
