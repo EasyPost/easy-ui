@@ -1,5 +1,5 @@
 {
-  "source": "fba0907885212f0a7d441df6b9d4fc986a308304",
+  "source": "00757957a2e5fa5ebf0d496cecab72364c8d3329",
   "method": "Byte-identical PNG captures on the same CI runner, separate builds and fresh browsers. Includes all 18 plots at desktop/mobile SVG and desktop Canvas, full galleries, exact-table selection, target/threshold labels, signed tooltips and Sankey adjacency emphasis. Each build also passes the existing pointer, keyboard, overflow and lightweight-isolation assertions. No claim about dense-data runtime speed or unregistered ECharts features.",
   "comparisons": [
     {
