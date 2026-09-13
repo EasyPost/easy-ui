@@ -5,6 +5,8 @@
   min-width: 0;
   color: design-token("color.neutral.900");
   font-size: 13px;
+  container-type: inline-size;
+  overflow-wrap: anywhere;
 }
 .description {
   margin: 6px 0 12px;
@@ -22,9 +24,9 @@
 }
 .row {
   display: grid;
-  grid-template-columns: minmax(68px, 0.8fr) minmax(64px, 1.5fr) minmax(
-      60px,
-      0.8fr
+  grid-template-columns: minmax(0, min(7rem, 25%)) minmax(0, 1fr) minmax(
+      0,
+      min(7rem, 25%)
     );
   gap: 12px;
   align-items: center;
@@ -69,9 +71,31 @@
   display: flex;
   justify-content: space-between;
   gap: 4px;
-  font-size: 10px;
+  font-size: 12px;
   color: design-token("color.neutral.600");
   font-variant-numeric: tabular-nums;
+}
+.axis > span {
+  min-width: 0;
+}
+
+@container (max-width: 320px) {
+  .row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .track {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-block: 6px;
+  }
+  .value {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .axis {
+    grid-column: 1 / -1;
+  }
 }
 @media (forced-colors: active) {
   .track {

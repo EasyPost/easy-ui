@@ -12,7 +12,13 @@
     {
       "name": "main",
       "path": "/",
-      "ready": "[data-chart-state=\"ready\"] svg"
+      "ready": "[aria-label=\"Parcels from multiple warehouses\"] [data-chart-state=\"ready\"] svg"
+    },
+    {
+      "name": "stress",
+      "path": "/layout.html",
+      "ready": "[data-chart-state=\"ready\"] svg",
+      "viewports": ["desktop", "mobile"]
     }
   ],
   "viewports": [

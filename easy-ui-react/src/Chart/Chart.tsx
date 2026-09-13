@@ -91,7 +91,7 @@ export function Chart({
       background="primary"
       aria-label={title}
       aria-busy={status === "loading"}
-      padding="3"
+      padding={{ xs: "2", md: "3" }}
     >
       <div className={styles.root}>
         <div className={styles.header}>

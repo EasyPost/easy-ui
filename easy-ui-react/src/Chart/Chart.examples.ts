@@ -376,7 +376,7 @@ export const sankeyExample: ChartProps = {
         nodeAlign: "justify",
         emphasis: { focus: "adjacency" },
         lineStyle: { color: "source", opacity: 0.22, curveness: 0.5 },
-        label: { fontSize: 11 },
+        label: { fontSize: 12 },
         data: nodes.map((name, index) => ({
           name,
           itemStyle: {
@@ -410,7 +410,7 @@ export const sankeyExample: ChartProps = {
               bottom: 30,
               nodeWidth: 12,
               nodeGap: 16,
-              label: { position: "right", fontSize: 10 },
+              label: { position: "right", fontSize: 12 },
             },
           ],
         },
@@ -481,7 +481,7 @@ export const heatmapExample: ChartProps = {
         label: {
           show: true,
           formatter: (params) => `${(params.value as number[])[2]}%`,
-          fontSize: 11,
+          fontSize: 12,
         },
         itemStyle: { borderWidth: 3, borderColor: "#ffffff" },
         data: cells
@@ -592,7 +592,7 @@ export const treemapExample: ChartProps = {
           show: true,
           formatter: "{b}\n{c}",
           color: "#ffffff",
-          fontSize: 11,
+          fontSize: 12,
         },
         upperLabel: {
           show: true,
