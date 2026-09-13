@@ -1,0 +1,73 @@
+name: Documentation site
+
+on:
+  push:
+    branches:
+      - main
+      - experiment/modular-echarts
+  pull_request:
+    paths:
+      - ".github/workflows/pages.yml"
+      - ".storybook/**"
+      - "docs-site/**"
+      - "easy-ui-react/src/**"
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/build-docs.mjs"
+      - "scripts/check-docs-site.mjs"
+      - "scripts/preview-metrics/**"
+      - "typedoc.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'deployment' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: npm
+      - name: Install repository dependencies
+        run: npm ci
+      - name: Install chart gallery dependencies
+        run: npm ci --prefix scripts/preview-metrics --no-audit --no-fund
+      - name: Build Storybook, API reference and chart portfolio
+        run: npm run build:docs
+      - name: Verify documentation outputs
+        run: node scripts/check-docs-site.mjs
+      - name: Upload PR documentation preview
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: easy-ui-documentation-site
+          path: docs-site
+          if-no-files-found: error
+      - name: Upload GitHub Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs-site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy documentation site
+        id: deployment
+        uses: actions/deploy-pages@v4
