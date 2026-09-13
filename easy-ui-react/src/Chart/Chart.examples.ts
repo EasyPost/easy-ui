@@ -488,7 +488,8 @@ export const heatmapExample: ChartProps = {
           .filter((cell) => cell.rate !== null)
           .map((cell) => ({
             value: [cell.x, cell.y, cell.rate!, cell.count!],
-            label: { color: cell.rate! > 97 ? "#ffffff" : "#172b4d" },
+            // Black retains 4.5:1 contrast through the middle of this scale.
+            label: { color: cell.rate! > 97 ? "#ffffff" : "#000000" },
           })),
       },
     ],
