@@ -28,6 +28,11 @@ const LogisticsExamples = lazy(() =>
     default: m.LogisticsExamples,
   })),
 );
+const OptionalGeography = lazy(() =>
+  import("../../easy-ui-react/src/Chart/Chart.logistics.stories").then((m) => ({
+    default: m.OptionalGeography,
+  })),
+);
 const renderer =
   new URLSearchParams(location.search).get("renderer") === "canvas"
     ? "canvas"
@@ -116,6 +121,17 @@ createRoot(document.getElementById("root")!).render(
               pricing, capacity, and parcel event progress
             </p>
             <LogisticsExamples renderer={renderer} />
+          </section>
+          <section
+            aria-label="Logistics map examples"
+            className="extension-section"
+          >
+            <h1>Networks and parcel journeys</h1>
+            <p className="note">
+              Synthetic scan locations · Made with Natural Earth · Facility
+              links are not traveled routes
+            </p>
+            <OptionalGeography renderer={renderer} />
           </section>
         </Suspense>
       )}
