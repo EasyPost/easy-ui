@@ -34,7 +34,7 @@ try {
   });
   await auditMaps(
     {
-      open: (url) => page.goto(url, { waitUntil: "networkidle" }),
+      open: (url) => page.goto(url, { waitUntil: "domcontentloaded" }),
       resize: (width, height) => page.setViewportSize({ width, height }),
       evaluate: (fn, ...args) =>
         page.evaluate(fn, args.length === 1 ? args[0] : args),

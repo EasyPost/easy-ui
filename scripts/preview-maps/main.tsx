@@ -2,7 +2,9 @@ import "./console.mjs";
 import React, { lazy, Suspense, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "../../.storybook/public/poppins.css";
+import "../../easy-ui-react/src/styles/global.scss";
 import "./preview.css";
+import { ThemeProvider } from "../../easy-ui-react/src/Theme";
 import type { MapAudience } from "../../easy-ui-react/src/NetworkMap/NetworkMap.examples";
 const Example = lazy(() =>
   import("../../easy-ui-react/src/NetworkMap/NetworkMap.examples").then(
@@ -48,4 +50,8 @@ function App() {
     </>
   );
 }
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <ThemeProvider colorScheme="light">
+    <App />
+  </ThemeProvider>,
+);

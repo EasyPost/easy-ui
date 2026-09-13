@@ -493,7 +493,8 @@ export function NetworkMapExample({
       </div>
       <footer className={styles.footer}>
         Illustrative parcel, facility and forecast records · Snapshot {snapshot}{" "}
-        · Geographic basemap © OpenStreetMap contributors © CARTO
+        · Geographic basemap © OpenStreetMap contributors · OpenMapTiles ·
+        OpenFreeMap
       </footer>
     </div>
   );

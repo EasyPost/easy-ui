@@ -23,6 +23,7 @@ export async function auditMaps(browser, identity, base, output) {
     );
   }
   async function capture(name) {
+    console.log(`Capture ${identity.name}: ${name}`);
     await settle();
     await browser.evaluate(() => window.scrollTo(0, 0));
     await browser.screenshot(`${output}/${name}.png`);
@@ -65,7 +66,7 @@ export async function auditMaps(browser, identity, base, output) {
       tiles: await browser.evaluate(() =>
         performance
           .getEntriesByType("resource")
-          .filter((r) => r.name.includes("basemaps.cartocdn.com"))
+          .filter((r) => r.name.includes("tiles.openfreemap.org"))
           .map((r) => ({
             url: r.name,
             encodedBytes: r.encodedBodySize || null,
@@ -75,6 +76,7 @@ export async function auditMaps(browser, identity, base, output) {
     });
   }
   try {
+    console.log(`Starting ${identity.name} audit`);
     await browser.resize(1440, 1100);
     await browser.open(`${base}/?audience=parcel`);
     await settle();
@@ -254,11 +256,23 @@ export async function auditMaps(browser, identity, base, output) {
     );
     check(
       "native SVG page loads no MapLibre, map CSS or tiles",
-      !requests.some((r) => /maplibre|NetworkMap|basemaps\.cartocdn/.test(r)),
+      !requests.some((r) => /maplibre|NetworkMap|tiles\.openfreemap/.test(r)),
     );
     await scan("lightweight");
   } catch (error) {
     await browser.screenshot(`${output}/failure.png`).catch(() => {});
+    const diagnostic = await browser
+      .evaluate(() => ({
+        messages: window.__mapMessages,
+        mapState: document.querySelector("[data-map-state]")?.dataset,
+        idle: document.querySelector("[data-map-idle]")?.dataset.mapIdle,
+        resources: performance.getEntriesByType("resource").map((r) => r.name),
+      }))
+      .catch((error) => String(error));
+    await writeFile(
+      `${output}/diagnostic.json`,
+      JSON.stringify(diagnostic, null, 2),
+    );
     await writeFile(`${output}/failure.txt`, String(error.stack ?? error));
     throw error;
   } finally {

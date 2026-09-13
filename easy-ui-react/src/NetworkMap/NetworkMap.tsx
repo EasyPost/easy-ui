@@ -369,6 +369,15 @@ export function NetworkMap(props: NetworkMapProps) {
         map.on("moveend", () => {
           if (!disposed) setZoom(map.getZoom());
         });
+        map.on("render", () => {
+          if (!disposed)
+            element.dataset.mapIdle = String(
+              !map.isMoving() &&
+                map.areTilesLoaded() &&
+                Boolean(map.getSource("easy-ui-transfers")) &&
+                map.isSourceLoaded("easy-ui-transfers"),
+            );
+        });
         map.on("idle", () => {
           if (!disposed) element.dataset.mapIdle = "true";
         });

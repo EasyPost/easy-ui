@@ -55,7 +55,7 @@ const report = {
   notes: [
     "Production Vite consumer, gzip per asset; includes React and demo application where applicable.",
     "MapLibre's worker implementation is embedded in its JS bundle and started using a Blob URL; counted with engine JS.",
-    "Fonts and viewport-dependent raster tiles are separate requests; tile request counts are recorded by browser audit. Cross-origin transfer sizes may be unavailable.",
+    "Fonts and viewport-dependent basemap tiles are separate requests; tile request counts are recorded by browser audit. Cross-origin transfer sizes may be unavailable.",
     "Engine is optional and lazy. Lightweight SVG consumers do not import MapLibre or its CSS.",
   ],
 };

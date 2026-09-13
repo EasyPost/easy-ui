@@ -1,29 +1,7 @@
-import type { StyleSpecification } from "maplibre-gl";
 import type { MapArea, MapFacility, MapRisk, MapSegment } from "./types";
 
-// Public CARTO/OSM basemap for the examples. Applications choose their own
-// provider, terms, availability and attribution. No customer records are used.
-export const exampleBasemap: StyleSpecification = {
-  version: 8,
-  sources: {
-    carto: {
-      type: "raster",
-      tiles: ["https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"],
-      tileSize: 256,
-      attribution:
-        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
-      maxzoom: 19,
-    },
-  },
-  layers: [
-    {
-      id: "basemap",
-      type: "raster",
-      source: "carto",
-      paint: { "raster-saturation": -0.35, "raster-fade-duration": 0 },
-    },
-  ],
-};
+// Keyless OpenFreeMap vector style for examples; applications choose their own provider.
+export const exampleBasemap = "https://tiles.openfreemap.org/styles/positron";
 export const snapshot = "2026-09-13T14:00:00Z";
 function risk(
   probability: number | null,

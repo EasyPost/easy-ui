@@ -49,6 +49,6 @@ try {
     "screenshots/safari",
   );
 } finally {
-  await driver?.quit();
+  await driver?.quit().catch(() => {});
   await new Promise((resolve) => server.httpServer.close(resolve));
 }
