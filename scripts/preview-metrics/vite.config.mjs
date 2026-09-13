@@ -46,7 +46,17 @@ export function previewConfig(engine = "full", outDir = "dist") {
     css: {
       preprocessorOptions: { scss: { silenceDeprecations: ["legacy-js-api"] } },
     },
-    build: { manifest: true, outDir, emptyOutDir: true },
+    build: {
+      manifest: true,
+      outDir,
+      emptyOutDir: true,
+      rollupOptions: {
+        input: {
+          gallery: local("./index.html"),
+          states: local("./audit.html"),
+        },
+      },
+    },
   });
 }
 

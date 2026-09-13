@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./BulletChart.module.scss";
 
+/** A measure, target, and shared zero-based scale with exact labels. */
 export type BulletChartProps = {
+  /** Visible metric name, also included in the plot's accessible description. */
   label: string;
   /** Finite, non-negative measure within the displayed scale; null is unavailable. */
   value: number | null;
@@ -9,8 +11,11 @@ export type BulletChartProps = {
   target: number;
   /** Explicit upper bound. All measures share a zero baseline. */
   max: number;
+  /** Formats the measure, target, and scale endpoints; defaults to String. */
   formatValue?: (value: number) => string;
+  /** Visible and accessible target prefix; defaults to "Target". */
   targetLabel?: string;
+  /** Text for invalid or unavailable values; defaults to "No data". */
   emptyLabel?: string;
 };
 

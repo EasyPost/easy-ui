@@ -2,17 +2,37 @@ import React from "react";
 import { isDomain, position } from "../visualization/geometry";
 import styles from "./RangePlot.module.scss";
 
+/** Named observations and an optional supplied interval on a shared signed scale. */
 export type RangePlotProps = {
+  /** Figure's visible heading and accessible name. */
   label: string;
+  /** Visible context describing units, coverage, and the meaning of the interval. */
   description: string;
   /** Explicit scale; may include negative values. */
   domain: readonly [number, number];
   /** Named benchmarks or observations; null is unavailable. */
-  points: readonly { id: string; label: string; value: number | null }[];
+  points: readonly {
+    /** Stable application identifier used as the row key. */
+    id: string;
+    /** Visible name of the observation or benchmark. */
+    label: string;
+    /** Finite value within domain, or null when unavailable. */
+    value: number | null;
+  }[];
   /** Bounds are supplied by the application, not calculated or inferred. */
-  interval?: { from: number; to: number; label: string };
+  interval?: {
+    /** Inclusive lower bound within domain. */
+    from: number;
+    /** Inclusive upper bound within domain; may equal from. */
+    to: number;
+    /** Visible interval name, including its statistical meaning where relevant. */
+    label: string;
+  };
+  /** Formats observations, interval bounds, and axis endpoints; defaults to String. */
   formatValue?: (value: number) => string;
+  /** Text for invalid scales or unavailable observations; defaults to "No data". */
   emptyLabel?: string;
+  /** Visible axis prefix; defaults to "Scale". */
   scaleLabel?: string;
 };
 

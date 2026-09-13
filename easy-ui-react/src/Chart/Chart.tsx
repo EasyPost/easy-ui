@@ -8,7 +8,9 @@ import { preserveInteractions } from "./interactions";
 import { ChartDataTable, ChartOption, ChartSelection } from "./types";
 import styles from "./Chart.module.scss";
 
+/** Presentation, data access, and lifecycle options for an analytical chart. */
 export type ChartProps = {
+  /** Visible heading and accessible name of the chart region. */
   title: string;
   /** Visible description, including units, coverage, and the main finding. */
   description: string;
@@ -16,28 +18,43 @@ export type ChartProps = {
   option: ChartOption;
   /** Exact data equivalent for keyboard and assistive-technology access. */
   dataTable: ChartDataTable;
-  /** Reserved plot height in CSS pixels. Width follows the containing layout. */
+  /** Plot height in CSS pixels; defaults to 320 and is clamped to at least 160. */
   height?: number;
-  /** SVG suits reports; canvas is available for dense point clouds. */
+  /** Rendering backend; defaults to SVG. Canvas can suit dense point clouds. */
   renderer?: "svg" | "canvas";
+  /** Defaults to ready when the table has rows, otherwise empty. Non-ready states suppress the plot and table. */
   status?: "ready" | "loading" | "empty" | "error";
   /** Coverage or stale/partial-data explanation supplied by the application. */
   notice?: string;
+  /** Application controls rendered beside the heading, such as keyboard-accessible series filters. */
   actions?: ReactNode;
+  /** Receives ECharts series click data. Provide onRowSelect for equivalent keyboard drill-down. */
   onSelect?: (selection: ChartSelection) => void;
   /** Equivalent keyboard-accessible drill-down using stable table row IDs. */
   onRowSelect?: (id: string) => void;
+  /** Shows a retry button in the application error state and handles its activation. */
   onRetry?: () => void;
+  /** Receives engine loading or rendering failures; the chart also displays errorLabel. */
   onRenderError?: (error: unknown) => void;
+  /** Loading status text; defaults to "Loading chart…". */
   loadingLabel?: string;
+  /** Empty-state text; defaults to "No data for this selection". */
   emptyLabel?: string;
+  /** Application or engine error text; defaults to "Unable to display this chart". */
   errorLabel?: string;
+  /** Retry button text; defaults to "Retry". */
   retryLabel?: string;
+  /** Exact-table disclosure text; defaults to "View data table". */
   dataTableLabel?: string;
+  /** Text for null table values; defaults to "Unavailable". */
   missingValueLabel?: string;
+  /** Row selection button text; defaults to "Select row". The accessible name also includes the row label. */
   selectRowLabel?: string;
+  /** Keyboard zoom-in button text; defaults to "Zoom in". */
   zoomInLabel?: string;
+  /** Keyboard zoom-out button text; defaults to "Zoom out". */
   zoomOutLabel?: string;
+  /** Keyboard reset button text; defaults to "Reset zoom". Resets to the full percentage range. */
   resetZoomLabel?: string;
 };
 

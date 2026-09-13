@@ -1,3 +1,4 @@
+import "./audit/console.mjs";
 import React, { lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "../../easy-ui-react/src/Theme";

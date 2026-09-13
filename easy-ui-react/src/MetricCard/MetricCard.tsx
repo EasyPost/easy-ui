@@ -5,6 +5,7 @@ import { Sparkline, SparklineProps } from "../Sparkline";
 import { Text } from "../Text";
 import styles from "./MetricCard.module.scss";
 
+/** An application-calculated comparison with its explicit baseline and meaning. */
 export type MetricComparison = {
   /** Formatted change, including direction and units, e.g. "4.2% lower". */
   label: string;
@@ -14,6 +15,7 @@ export type MetricComparison = {
   sentiment?: "positive" | "negative" | "neutral";
 };
 
+/** Exact KPI content, optional comparison, and optional compact trend. */
 export type MetricCardProps = {
   /** Name of the metric. */
   label: string;
@@ -27,9 +29,9 @@ export type MetricCardProps = {
   trend?: SparklineProps;
   /** Show a loading status and suppress the previous value and trend. */
   isLoading?: boolean;
-  /** Localized loading message. */
+  /** Localized loading message; defaults to "Loading…". */
   loadingLabel?: string;
-  /** Localized label for an unavailable value. */
+  /** Localized label for an unavailable value; defaults to "No data". */
   emptyLabel?: string;
 };
 

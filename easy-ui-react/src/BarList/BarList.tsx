@@ -1,19 +1,25 @@
 import React from "react";
 import styles from "./BarList.module.scss";
 
+/** One category in a compact comparison. */
 export type BarListItem = {
+  /** Stable application identifier used as the row key. */
   id: string;
+  /** Visible category name. */
   label: string;
   /** Finite, non-negative magnitude. null means unavailable. */
   value: number | null;
 };
 
+/** Ordered categories compared on one zero-based scale. */
 export type BarListProps = {
   /** Name of the comparison, including period and units where relevant. */
   label: string;
   /** Display order is preserved; applications own ranking and aggregation. */
   data: readonly BarListItem[];
+  /** Formats valid magnitudes, including units; defaults to String. */
   formatValue?: (value: number) => string;
+  /** Text for an empty list or invalid/unavailable value; defaults to "No data". */
   emptyLabel?: string;
 };
 
