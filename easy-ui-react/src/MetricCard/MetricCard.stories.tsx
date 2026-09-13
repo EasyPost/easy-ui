@@ -57,7 +57,7 @@ export const ShippingOverview: Story = {
           value="$5.20"
         />
         <MetricCard
-          label="On-time delivery"
+          label="On-time delivery rate"
           value="97.8%"
           supportingText="Delivered parcels with an estimate"
           comparison={{
