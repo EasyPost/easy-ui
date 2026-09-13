@@ -6,7 +6,7 @@ import * as Bullets from "../BulletChart/BulletChart.stories";
 
 # Logistics intelligence
 
-Eight additive recipes cover carrier decisions and parcel tracking. All records are synthetic, use explicit observation windows and units, and drive both the plotted marks and exact-value tables. The existing eighteen analytical examples and six native components remain available.
+Six additive recipes cover carrier decisions and parcel tracking. All records are synthetic, use explicit observation windows and units, and drive both the plotted marks and exact-value tables. The existing eighteen analytical examples and six native components remain available.
 
 ## Delivery promises
 
@@ -46,14 +46,4 @@ Observed scan endpoints bound dwell/movement intervals. Missing scans remain an 
 
 Each parcel uses one shared UTC axis. Solid spans end at the last observed event. A stale scan leaves an unknown gap before its forecast window; delivered parcels have no forecast bar. The table carries parcel ID, origin warehouse, status, last scan location/time and arrival bounds. The chart shows event progress rather than an invented continuous position.
 
-## Lane and transit maps
-
-<Canvas of={Stories.LaneAndParcelMaps} />
-
-The lane map compares matured lane cohorts by volume and late rate. Dashed links also identify lanes above the chosen risk threshold; color is not the only cue. Clicking a lane or selecting its table row identifies it.
-
-The parcel map supports all warehouses or one warehouse, selection through a native parcel dropdown or exact table, and an expandable timestamped scan-event list. Solid links join observed scan locations; dashed links show the selected parcel's planned destination. The diamond marks its last scan, with scan age and state in the notice. Locations between scans are unknown. No live GPS interpolation or predicted current position is presented. The tracking and warehouse-progress fixtures share parcel identifiers and observed timestamps.
-
-Geographic registration and data load only after **Show logistics maps**. The ordinary modular preset retains its existing eight series types; the optional module registers `GeoComponent` and `LinesChart` in the same ECharts runtime. The timeline recipes use ordinary bars. Both SVG and Canvas are supported. This is an application recipe; the published `Chart` engine API remains unchanged. The full ECharts entry already includes geography, so only the modular build benefits from excluding those engine modules until maps are opened.
-
-The local basemap is the contiguous-US polygon extracted from Natural Earth's public-domain 1:110m country data. No external tiles, geocoding calls, customer locations or live carrier data are requested. Source: [Natural Earth vector data](https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_admin_0_countries.geojson), source blob `1e6ab74c7042f97013be69ceec798be8e1aff27d`; [public-domain terms](https://github.com/nvkelso/natural-earth-vector/blob/master/LICENSE.md). The original vertex coordinates are retained; Alaska/Hawaii and unused properties are omitted for this regional example. A production map must choose a suitable projection, geography and aggregation for its own coverage.
+Geographic mapping is developed separately from the chart portfolio. Event timelines remain available here; they share identifiers and timestamps with the mapping work.
