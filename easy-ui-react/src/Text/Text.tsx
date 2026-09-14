@@ -10,16 +10,7 @@ import {
 import styles from "./Text.module.scss";
 
 export type TextAs =
-  | "h1"
-  | "h2"
-  | "h3"
-  | "h4"
-  | "h5"
-  | "h6"
-  | "legend"
-  | "p"
-  | "span"
-  | "strong";
+  "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "legend" | "p" | "span" | "strong";
 export type TextColor =
   | ThemeColorAliases
   | "action"
@@ -34,12 +25,7 @@ export type TextVariant = DesignTokenNamespace<"font.style", "size">;
 export type TextWeight = "normal" | "medium" | "semibold" | "bold";
 export type TextTransform = "none" | "capitalize" | "uppercase" | "lowercase";
 export type TextWhiteSpace =
-  | "normal"
-  | "pre"
-  | "nowrap"
-  | "pre-wrap"
-  | "break-spaces"
-  | "pre-line";
+  "normal" | "pre" | "nowrap" | "pre-wrap" | "break-spaces" | "pre-line";
 export type TextWrap = "wrap" | "nowrap" | "balance" | "pretty" | "stable";
 export type FontVariantNumeric = "normal" | "tabular-nums";
 
