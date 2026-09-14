@@ -170,9 +170,9 @@ export function NetworkMap(props: NetworkMapProps) {
           (map.getSource("easy-ui-weather") as GeoJSONSource).setData(
             areaData(p.areas ?? []),
           );
-          map.setPaintProperty(
-            "easy-ui-observed",
-            "line-color",
+          map.setPaintProperty("easy-ui-observed", "line-color", [
+            "coalesce",
+            ["get", "color"],
             p.selectedSegmentId
               ? [
                   "case",
@@ -181,7 +181,7 @@ export function NetworkMap(props: NetworkMapProps) {
                   muted,
                 ]
               : blue,
-          );
+          ]);
           for (const id of ["easy-ui-weather-fill", "easy-ui-weather-edge"])
             map.setLayoutProperty(
               id,
@@ -316,7 +316,7 @@ export function NetworkMap(props: NetworkMapProps) {
             ],
             layout: { "line-join": "round", "line-cap": "round" },
             paint: {
-              "line-color": blue,
+              "line-color": ["coalesce", ["get", "color"], blue],
               "line-width": ["get", "width"],
               "line-opacity": 0.9,
             },
@@ -331,7 +331,7 @@ export function NetworkMap(props: NetworkMapProps) {
               ["literal", ["planned", "inferred"]],
             ],
             paint: {
-              "line-color": amber,
+              "line-color": ["coalesce", ["get", "color"], amber],
               "line-width": 3,
               "line-dasharray": [2, 2],
             },

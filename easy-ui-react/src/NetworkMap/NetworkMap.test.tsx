@@ -16,6 +16,10 @@ const fitBounds = vi.fn(),
 const listeners: Record<string, () => void> = {};
 const sources = new Set<string>();
 const constructor = vi.fn();
+const layerPaint = new Map<string, unknown>();
+const setPaintProperty = vi.fn((id: string, _prop: string, value: unknown) => {
+  layerPaint.set(id, value);
+});
 class FakeMap {
   constructor() {
     constructor();
@@ -27,12 +31,15 @@ class FakeMap {
   addSource(id: string) {
     sources.add(id);
   }
-  addLayer() {}
+  addLayer(layer: { id: string; paint?: { "line-color"?: unknown } }) {
+    if (layer.paint && "line-color" in layer.paint)
+      layerPaint.set(layer.id, layer.paint["line-color"]);
+  }
   addImage() {}
   getSource(id: string) {
     return sources.has(id) ? { setData } : undefined;
   }
-  setPaintProperty() {}
+  setPaintProperty = setPaintProperty;
   setLayoutProperty() {}
   getZoom() {
     return 9;
@@ -82,6 +89,7 @@ const props: NetworkMapProps = {
 beforeEach(() => {
   vi.clearAllMocks();
   sources.clear();
+  layerPaint.clear();
   for (const key of Object.keys(listeners)) delete listeners[key];
   vi.mocked(loadMapEngine).mockResolvedValue(engine);
   vi.stubGlobal(
@@ -163,4 +171,39 @@ it("exposes stalled worker/style initialization instead of loading indefinitely"
   } finally {
     vi.useRealTimers();
   }
+});
+
+it("prefers a caller-supplied per-segment color and falls back to the evidence scheme otherwise", async () => {
+  const segmentProps: NetworkMapProps = {
+    ...props,
+    facilities: [
+      ...props.facilities,
+      { id: "two", label: "Reno", coordinates: [-119, 39], kind: "hub" },
+    ],
+    segments: [
+      {
+        id: "colored",
+        from: "one",
+        to: "two",
+        label: "Oakland to Reno",
+        evidence: "transfer",
+        color: "#00ff00",
+      },
+    ],
+  };
+  render(<NetworkMap {...segmentProps} />);
+  await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+  act(() => listeners.load());
+  // The observed layer's blue resolves from --map-route, a design-token() reference in
+  // NetworkMap.module.scss; the unobserved layer's amber is a plain hex literal there.
+  expect(layerPaint.get("easy-ui-observed")).toEqual([
+    "coalesce",
+    ["get", "color"],
+    "var(--ezui-color-primary-600)",
+  ]);
+  expect(layerPaint.get("easy-ui-unobserved")).toEqual([
+    "coalesce",
+    ["get", "color"],
+    "#9b5900",
+  ]);
 });

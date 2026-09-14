@@ -46,6 +46,7 @@ export function segmentData(
                       maxVolume,
                   ) *
                     5,
+            ...(s.color === undefined ? {} : { color: s.color }),
           },
           geometry: {
             type: "LineString" as const,

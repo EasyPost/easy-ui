@@ -57,6 +57,8 @@ export type MapSegment = {
   coordinates?: readonly MapCoordinate[];
   /** Nonnegative flow count used for relative width; applications own its window and denominator. */
   volume?: number;
+  /** Optional caller-supplied line color (any valid MapLibre paint-property color, e.g. a hex string). Falls back to the evidence-based scheme when absent. */
+  color?: string;
 };
 
 /** Weather/disruption polygon with source and time semantics. */
