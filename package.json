@@ -76,5 +76,8 @@
     "nwsapi": "2.2.13",
     "prismjs": "^1.30.0"
   },
-  "packageManager": "npm@10.2.3"
+  "packageManager": "npm@11.19.0",
+  "volta": {
+    "node": "24.21.0"
+  }
 }
