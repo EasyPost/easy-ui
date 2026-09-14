@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.134
+
+### Patch Changes
+
+- 67da5fe: Render `DatePicker` and `DateRangePicker` labels through the shared `InputField` label so they match `TextField` and `Select` in spacing, color, and error state
+
 ## 1.0.0-alpha.133
 
 ### Patch Changes
