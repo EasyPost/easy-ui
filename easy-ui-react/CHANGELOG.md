@@ -1,5 +1,15 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.135
+
+### Minor Changes
+
+- 5921427: Adds `maxRows="auto"` to `<DataGrid />`, which bounds the data grid by the height its container makes available and scrolls the rows within it rather than showing a set number of rows. It shrinks to its rows when they don't fill that space, and a container that stretches it instead turns the auto height into a fill that anchors the footer to the bottom of the layout. Sizing is handled entirely in CSS, so nothing is measured in JavaScript
+
+### Patch Changes
+
+- 5921427: Restructures `<DataGrid />`'s footer to sit outside the grid's scroll container rather than sticking to the bottom of it, so the grid's scroll geometry belongs to the header and rows alone. The footer no longer measures itself in JavaScript, no longer holds a fixed height, and can no longer widen the table or add horizontal scroll the columns don't need. Per design, the grid also scrolls without drawing scrollbars
+
 ## 1.0.0-alpha.134
 
 ### Patch Changes
