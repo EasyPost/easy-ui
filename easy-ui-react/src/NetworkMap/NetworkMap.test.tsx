@@ -17,12 +17,18 @@ const listeners: Record<string, () => void> = {};
 const sources = new Set<string>();
 const constructor = vi.fn();
 const layerPaint = new Map<string, unknown>();
+// Records addLayer/addSource/setPaintProperty call order (by id) so tests can assert a
+// consumer-visible callback (e.g. onMapReady) fires only after this component's own layer setup.
+let callOrder: string[] = [];
 const setPaintProperty = vi.fn((id: string, _prop: string, value: unknown) => {
   layerPaint.set(id, value);
+  callOrder.push(`setPaintProperty:${id}`);
 });
 class FakeMap {
   constructor() {
-    constructor();
+    // Passing `this` lets tests recover the exact instance the component received, e.g. to
+    // assert onMapReady was called with that same live map object.
+    constructor(this);
   }
   on(name: string, fn: () => void) {
     listeners[name] = fn;
@@ -30,10 +36,12 @@ class FakeMap {
   addControl() {}
   addSource(id: string) {
     sources.add(id);
+    callOrder.push(`addSource:${id}`);
   }
   addLayer(layer: { id: string; paint?: { "line-color"?: unknown } }) {
     if (layer.paint && "line-color" in layer.paint)
       layerPaint.set(layer.id, layer.paint["line-color"]);
+    callOrder.push(`addLayer:${layer.id}`);
   }
   addImage() {}
   getSource(id: string) {
@@ -90,6 +98,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   sources.clear();
   layerPaint.clear();
+  callOrder = [];
   for (const key of Object.keys(listeners)) delete listeners[key];
   vi.mocked(loadMapEngine).mockResolvedValue(engine);
   vi.stubGlobal(
@@ -206,4 +215,44 @@ it("prefers a caller-supplied per-segment color and falls back to the evidence s
     ["get", "color"],
     "#9b5900",
   ]);
+});
+
+it("calls onMapReady exactly once, with the live map instance, only after the component's own layer setup", async () => {
+  const onMapReady = vi.fn(() => callOrder.push("onMapReady"));
+  const view = render(<NetworkMap {...props} onMapReady={onMapReady} />);
+  await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+  const instance = constructor.mock.calls[0][0];
+  act(() => listeners.load());
+
+  expect(onMapReady).toHaveBeenCalledTimes(1);
+  expect(onMapReady).toHaveBeenCalledWith(instance);
+
+  const readyIndex = callOrder.indexOf("onMapReady");
+  expect(readyIndex).toBeGreaterThan(0);
+  const before = callOrder.slice(0, readyIndex);
+  // The component's own sources/layers must already exist...
+  expect(before).toEqual(
+    expect.arrayContaining([
+      "addSource:easy-ui-transfers",
+      "addSource:easy-ui-weather",
+      "addLayer:easy-ui-weather-fill",
+      "addLayer:easy-ui-weather-edge",
+      "addLayer:easy-ui-casing",
+      "addLayer:easy-ui-observed",
+      "addLayer:easy-ui-unobserved",
+      "addLayer:easy-ui-direction",
+    ]),
+  );
+  // ...AND its own first paint-property pass (from the initial update()) must already have run,
+  // not just layer creation — otherwise a consumer's own setPaintProperty override could still
+  // be clobbered by the component's own baseline call.
+  expect(before).toContain("setPaintProperty:easy-ui-observed");
+
+  // A later data/selection update must not re-fire onMapReady — the callback is mount-scoped,
+  // not tied to this component's ongoing refresh effect.
+  view.rerender(
+    <NetworkMap {...props} onMapReady={onMapReady} selectedFacilityId="one" />,
+  );
+  expect(onMapReady).toHaveBeenCalledTimes(1);
+  expect(callOrder.filter((c) => c === "onMapReady")).toHaveLength(1);
 });

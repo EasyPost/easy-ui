@@ -1,4 +1,4 @@
-import type { StyleSpecification } from "maplibre-gl";
+import type { Map as MapInstance, StyleSpecification } from "maplibre-gl";
 
 /** Geographic position in longitude, latitude order (WGS84 degrees). */
 export type MapCoordinate = readonly [number, number];
@@ -123,4 +123,26 @@ export type NetworkMapProps = {
   height?: number;
   /** Receives initialization, tile or rendering errors. The data table remains available. */
   onRenderError?: (error: unknown) => void;
+  /**
+   * Escape hatch for custom styling and overlays this component's own typed props cannot express
+   * (e.g. a custom `line-width` expression, a continuous facility-severity radius, or a highlight
+   * mechanism that survives a fully-populated `MapSegment.color`). Fires exactly once per mount,
+   * after this component's own initial sources/layers have been added on `"load"` AND its own
+   * first data/paint-property pass has already run — so a consumer's own `addSource`/`addLayer`/
+   * `setPaintProperty`/`Marker` calls are guaranteed to layer on top of, never race, this
+   * component's own baseline styling.
+   *
+   * This component's own layer ids, useful for a consumer calling `map.setPaintProperty(...)`
+   * against them directly: `"easy-ui-observed"` (transfer/measured evidence line layer) and
+   * `"easy-ui-unobserved"` (planned/inferred evidence line layer). Its own sources are
+   * `"easy-ui-transfers"` and `"easy-ui-weather"`.
+   *
+   * Does NOT re-fire on `facilities`/`segments`/other data updates — this component holds one
+   * stable `Map` instance across those updates (a new instance is only created when `mapStyle` or
+   * `workerUrl` change, remounting the map). A consumer that wants its own custom layers/markers
+   * to react to ongoing data changes must retain the `map` instance itself (e.g. in a ref) and
+   * manage its own update logic independently; this component's internal update effect never
+   * calls back into `onMapReady`.
+   */
+  onMapReady?: (map: MapInstance) => void;
 };

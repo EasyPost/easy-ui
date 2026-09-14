@@ -369,6 +369,9 @@ export function NetworkMap(props: NetworkMapProps) {
             },
           });
           update();
+          // Fires after this mount's own sources/layers exist AND its own first data/paint pass
+          // (the update() call above) has run, so a consumer's own overrides always land last.
+          latest.current.onMapReady?.(map);
           window.clearTimeout(deadline);
           setState("ready");
           if (!initial)
