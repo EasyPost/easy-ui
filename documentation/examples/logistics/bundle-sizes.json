@@ -1,0 +1,165 @@
+{
+  "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+  "version": "6.1.0",
+  "method": "Two independent Vite production builds of the unchanged gallery: all 24 analytical recipes and all six native components. Full dependency closure from index.html including lazy imports; React, Easy UI, tokens and fixtures included. Gzip per unique asset; CSS separate and fonts excluded. Each preset runs on a separate page so ECharts' global module registry cannot contaminate the result. Module inventory asserts unused chart implementations and the full entry are absent from the modular build.",
+  "engineMethod": "Separate production entries exporting only init with each preset's registration retained. Excludes React, Easy UI and fixtures. The trend preset is a size probe with reduced capabilities, not a full-portfolio substitute. Transfer measurements only; no runtime-speed claim.",
+  "results": [
+    {
+      "preset": "full",
+      "javascriptGzipBytes": 509765,
+      "cssGzipBytes": 10761,
+      "assets": [
+        {
+          "file": "assets/Chart-BuZYADdd.css",
+          "bytes": 1336,
+          "gzipBytes": 538
+        },
+        {
+          "file": "assets/Chart-BuuRmQCc.js",
+          "bytes": 79702,
+          "gzipBytes": 29732
+        },
+        {
+          "file": "assets/Chart.examples-Dh9zSCDA.js",
+          "bytes": 9940,
+          "gzipBytes": 3819
+        },
+        {
+          "file": "assets/Chart.logistics.stories-B9jtV4uQ.js",
+          "bytes": 12408,
+          "gzipBytes": 4870
+        },
+        {
+          "file": "assets/Chart.stories-CCnErbvt.js",
+          "bytes": 12094,
+          "gzipBytes": 4757
+        },
+        {
+          "file": "assets/examples-Dla4uqUH.css",
+          "bytes": 198,
+          "gzipBytes": 152
+        },
+        {
+          "file": "assets/examples.module-CvPAafjp.js",
+          "bytes": 77,
+          "gzipBytes": 84
+        },
+        {
+          "file": "assets/gallery-CiIjA96G.js",
+          "bytes": 22522,
+          "gzipBytes": 7421
+        },
+        {
+          "file": "assets/gallery-DsAShCl7.css",
+          "bytes": 10520,
+          "gzipBytes": 1742
+        },
+        {
+          "file": "assets/index-CzJ1nSGZ.js",
+          "bytes": 1135527,
+          "gzipBytes": 382150
+        },
+        {
+          "file": "assets/preview-CIN7vCPp.css",
+          "bytes": 49876,
+          "gzipBytes": 8329
+        },
+        {
+          "file": "assets/preview-OTYZ8bzD.js",
+          "bytes": 240249,
+          "gzipBytes": 76932
+        }
+      ]
+    },
+    {
+      "preset": "portfolio",
+      "javascriptGzipBytes": 382340,
+      "cssGzipBytes": 10761,
+      "assets": [
+        {
+          "file": "assets/Chart-BuZYADdd.css",
+          "bytes": 1336,
+          "gzipBytes": 538
+        },
+        {
+          "file": "assets/Chart-D1yTy4sa.js",
+          "bytes": 79706,
+          "gzipBytes": 29733
+        },
+        {
+          "file": "assets/Chart.examples-Dh9zSCDA.js",
+          "bytes": 9940,
+          "gzipBytes": 3819
+        },
+        {
+          "file": "assets/Chart.logistics.stories-BGGNibA8.js",
+          "bytes": 12408,
+          "gzipBytes": 4867
+        },
+        {
+          "file": "assets/Chart.stories-CG-74tBW.js",
+          "bytes": 12094,
+          "gzipBytes": 4756
+        },
+        {
+          "file": "assets/examples-Dla4uqUH.css",
+          "bytes": 198,
+          "gzipBytes": 152
+        },
+        {
+          "file": "assets/examples.module-CvPAafjp.js",
+          "bytes": 77,
+          "gzipBytes": 84
+        },
+        {
+          "file": "assets/gallery-9gL4UbE5.js",
+          "bytes": 22522,
+          "gzipBytes": 7423
+        },
+        {
+          "file": "assets/gallery-DsAShCl7.css",
+          "bytes": 10520,
+          "gzipBytes": 1742
+        },
+        {
+          "file": "assets/portfolio-DlsMHQsp.js",
+          "bytes": 750969,
+          "gzipBytes": 254726
+        },
+        {
+          "file": "assets/preview-CIN7vCPp.css",
+          "bytes": 49876,
+          "gzipBytes": 8329
+        },
+        {
+          "file": "assets/preview-OTYZ8bzD.js",
+          "bytes": 240249,
+          "gzipBytes": 76932
+        }
+      ]
+    }
+  ],
+  "engines": [
+    {
+      "preset": "full",
+      "javascriptBytes": 1127664,
+      "javascriptGzipBytes": 378974,
+      "fullPortfolio": true,
+      "renderers": ["svg", "canvas"]
+    },
+    {
+      "preset": "portfolio",
+      "javascriptBytes": 750969,
+      "javascriptGzipBytes": 254726,
+      "fullPortfolio": true,
+      "renderers": ["svg", "canvas"]
+    },
+    {
+      "preset": "trend",
+      "javascriptBytes": 595790,
+      "javascriptGzipBytes": 203104,
+      "fullPortfolio": false,
+      "renderers": ["svg"]
+    }
+  ]
+}

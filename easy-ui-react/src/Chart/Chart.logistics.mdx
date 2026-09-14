@@ -1,0 +1,49 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+import * as Stories from "./Chart.logistics.stories";
+import * as Bullets from "../BulletChart/BulletChart.stories";
+
+<Meta of={Stories} />
+
+# Logistics intelligence
+
+Six additive recipes cover carrier decisions and parcel tracking. All records are synthetic, use explicit observation windows and units, and drive both the plotted marks and exact-value tables. The existing eighteen analytical examples and six native components remain available.
+
+## Delivery promises
+
+<Canvas of={Stories.TransitReliability} />
+
+Use a fully aged acceptance cohort for the fixed-cohort cumulative delivery curve. Keep unresolved parcels in its denominator; filtering to delivered parcels overstates reliability. This example uses calendar days and a 3-day promise with a 90% service target. It is not a survival estimator. Recent cohorts need an explicit censoring method and a documented business-calendar definition before making carrier comparisons.
+
+## Rate competitiveness
+
+<Canvas of={Stories.RateCompetitiveness} />
+
+Center a diverging scale on price parity. Negative values are cheaper than the matched benchmark; positive values are more expensive. Match service, zone, billable weight, surcharges and effective dates. Suppress under-covered cells rather than filling them with zero. Exact offered/benchmark rates, matched observations, and opportunity volume accompany each cell.
+
+## Pricing decisions
+
+<Canvas of={Stories.PriceVolumeResponse} />
+
+The supplied scenarios show volume and variable contribution at candidate prices, with a proposed-price marker. The shaded low/high volume envelope is a scenario range, not a statistical confidence interval. The contribution calculation assumes $4.60 variable cost per parcel, before fixed costs. Production callers own demand estimation, elasticity, fee treatment and validation; the curve does not establish causal lift from a price change.
+
+## Capacity
+
+<Canvas of={Bullets.WarehouseCapacity} />
+<Canvas of={Bullets.ForecastCapacity} />
+<Canvas of={Stories.CapacityPlanning} />
+
+Use native bullets for an observed measure or a forecast peak against the same capacity scale. Use the full trend to see when overload begins. The example distinguishes solid observed volume from dashed forecasts and shows an 80% advisory band and a hard operating limit. Capacity must describe the same facility, service, time bucket and unit as the volume.
+
+## Single-parcel event progress
+
+<Canvas of={Stories.ShipmentTimeline} />
+
+Observed scan endpoints bound dwell/movement intervals. Missing scans remain an explicit unknown segment. The ongoing final leg stops at the observation cutoff; a separate predicted arrival interval and promise marker do not imply a delivered event. Exact UTC timestamps and evidence labels are available in the table. Elapsed time is not percent complete.
+
+## Multiple warehouses and parcels
+
+<Canvas of={Stories.WarehouseParcelProgress} />
+
+Each parcel uses one shared UTC axis. Solid spans end at the last observed event. A stale scan leaves an unknown gap before its forecast window; delivered parcels have no forecast bar. The table carries parcel ID, origin warehouse, status, last scan location/time and arrival bounds. The chart shows event progress rather than an invented continuous position.
+
+Geographic mapping is developed separately from the chart portfolio. Event timelines remain available here; they share identifiers and timestamps with the mapping work.

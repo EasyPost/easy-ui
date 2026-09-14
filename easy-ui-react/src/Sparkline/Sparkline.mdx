@@ -1,0 +1,38 @@
+import { ArgTypes, Canvas, Meta } from "@storybook/addon-docs/blocks";
+import { Sparkline } from "./Sparkline";
+import * as SparklineStories from "./Sparkline.stories";
+
+<Meta of={SparklineStories} />
+
+# Sparkline
+
+A compact trend for equally spaced observations. Use inside a metric card or table cell. For irregular timestamps, first aggregate into explicit equal time buckets, or use a chart with a time axis.
+
+<Canvas of={SparklineStories.Default} />
+
+## Missing and sparse data
+
+`null`, `NaN`, and infinite values break the line; they are never converted to zero. Isolated observations remain visible as points, and constant series stay centered. Empty input has no marks and exposes a no-data label.
+
+<Canvas of={SparklineStories.MissingObservations} />
+<Canvas of={SparklineStories.SingleObservation} />
+<Canvas of={SparklineStories.Constant} />
+<Canvas of={SparklineStories.NoData} />
+
+## Accessibility and interpretation
+
+Provide an `accessibilityLabel` describing the metric, period, trend, and gaps. Exact values should remain available in an adjacent report or linked data table. The chart adds no keyboard stop and no animation. Each chart scales independently to its finite minimum and maximum; slopes and vertical positions across separate sparklines do not share a unit or scale. Use labelled axes for those comparisons.
+
+## Optional observation markers
+
+Sparklines default to `markers="endpoints"`, marking the first and last observation of each continuous segment, including both sides of a missing-data gap. Choose `"all"` for every observation, `"extrema"` for the first global minimum/maximum, or `"none"` for unmarked lines. Isolated observations always remain visible. Markers describe observed points; missing buckets never acquire dots or connecting lines. Dense trends should usually retain `none` or use endpoints.
+
+<Canvas of={SparklineStories.ObservationMarkers} />
+<Canvas of={SparklineStories.EndpointMarkers} />
+<Canvas of={SparklineStories.ExtremaMarkers} />
+
+For sparse axes, real timestamps, an explicit shared domain, or a target, use `CompactTimeSeries`.
+
+## Properties
+
+<ArgTypes of={Sparkline} />

@@ -1,0 +1,73 @@
+@use "../styles/common" as *;
+
+.root {
+  color: design-token("color.neutral.900");
+  font-size: 14px;
+}
+
+.labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  overflow-wrap: anywhere;
+}
+
+.value {
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  position: relative;
+  height: 24px;
+  margin-top: 12px;
+  background: design-token("color.neutral.200");
+}
+
+.bar {
+  position: absolute;
+  top: 6px;
+  height: 12px;
+  background: design-token("color.primary.600");
+}
+
+.target {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: design-token("color.neutral.900");
+}
+
+.scale {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.scale,
+.caption {
+  font-size: 12px;
+  color: design-token("color.neutral.600");
+}
+
+.caption {
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+
+@media (forced-colors: active) {
+  .track {
+    outline: 1px solid CanvasText;
+  }
+  .bar,
+  .target {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}

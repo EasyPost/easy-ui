@@ -1,0 +1,99 @@
+name: Chart examples
+
+on:
+  pull_request:
+    paths:
+      - "easy-ui-react/src/Chart/**"
+      - "easy-ui-react/src/Theme/**"
+      - "easy-ui-react/src/MetricCard/**"
+      - "easy-ui-react/src/Sparkline/**"
+      - "easy-ui-react/src/CompactTimeSeries/**"
+      - "easy-ui-react/src/RangePlot/**"
+      - "easy-ui-react/src/visualization/**"
+      - "easy-ui-react/src/BarList/**"
+      - "easy-ui-react/src/BulletChart/**"
+      - "scripts/preview-metrics/**"
+      - ".github/workflows/metric-examples.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: scripts/preview-metrics
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - run: npm run measure
+      - run: npx playwright install --with-deps chromium
+      - run: npm run capture
+      - run: npm run measure:modular
+      - run: npm run capture:modular
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chart-examples
+          path: |
+            scripts/preview-metrics/dist/
+            scripts/preview-metrics/screenshots/
+          if-no-files-found: error
+
+  browser-audit:
+    name: UX audit (${{ matrix.browser }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - browser: chrome
+            os: ubuntu-latest
+          - browser: firefox
+            os: ubuntu-latest
+          - browser: safari
+            os: macos-14
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: scripts/preview-metrics
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+        env:
+          EASY_UI_PREVIEW_OUT_DIR: dist/audit/full
+      - run: npm run build
+        env:
+          EASY_UI_CHART_ENGINE: portfolio
+          EASY_UI_PREVIEW_OUT_DIR: dist/audit/portfolio
+      - if: matrix.browser != 'safari'
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+      - if: matrix.browser == 'safari'
+        run: sudo safaridriver --enable
+      - name: Audit full engine
+        run: npm run ${{ matrix.browser == 'safari' && 'audit:safari' || 'audit:browsers' }}
+        env:
+          EASY_UI_AUDIT_BROWSER: ${{ matrix.browser }}
+          EASY_UI_PREVIEW_OUT_DIR: dist/audit/full
+      - name: Audit modular engine
+        run: npm run ${{ matrix.browser == 'safari' && 'audit:safari' || 'audit:browsers' }}
+        env:
+          EASY_UI_AUDIT_BROWSER: ${{ matrix.browser }}
+          EASY_UI_CHART_ENGINE: portfolio
+          EASY_UI_PREVIEW_OUT_DIR: dist/audit/portfolio
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chart-audit-${{ matrix.browser }}
+          path: scripts/preview-metrics/screenshots/audit/
+          if-no-files-found: warn

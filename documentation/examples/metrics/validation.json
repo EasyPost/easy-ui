@@ -1,0 +1,17 @@
+{
+  "results": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "horizontalOverflow": false,
+      "trendCount": 4
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "horizontalOverflow": false,
+      "trendCount": 4
+    }
+  ],
+  "errors": []
+}

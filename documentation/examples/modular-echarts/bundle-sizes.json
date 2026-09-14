@@ -1,0 +1,143 @@
+{
+  "source": "00757957a2e5fa5ebf0d496cecab72364c8d3329",
+  "version": "6.1.0",
+  "method": "Two independent Vite production builds of the unchanged gallery: all 18 analytical recipes and all six native components. Full dependency closure from index.html including lazy imports; React, Easy UI, tokens and fixtures included. Gzip per unique asset; CSS separate and fonts excluded. Each preset runs on a separate page so ECharts' global module registry cannot contaminate the result. Module inventory asserts unused chart implementations and the full entry are absent from the modular build.",
+  "engineMethod": "Separate production entries exporting only init with each preset's registration retained. Excludes React, Easy UI and fixtures. The trend preset is a size probe with reduced capabilities, not a full-portfolio substitute. Transfer measurements only; no runtime-speed claim.",
+  "results": [
+    {
+      "preset": "full",
+      "javascriptGzipBytes": 504464,
+      "cssGzipBytes": 10763,
+      "assets": [
+        {
+          "file": "assets/Chart-BuZYADdd.css",
+          "bytes": 1336,
+          "gzipBytes": 538
+        },
+        {
+          "file": "assets/Chart-Dla4uqUH.css",
+          "bytes": 198,
+          "gzipBytes": 152
+        },
+        {
+          "file": "assets/Chart.examples-B8dSiDNz.js",
+          "bytes": 89763,
+          "gzipBytes": 33477
+        },
+        {
+          "file": "assets/Chart.stories-BJy0aG02.js",
+          "bytes": 12074,
+          "gzipBytes": 4755
+        },
+        {
+          "file": "assets/gallery-BlPY8TL-.css",
+          "bytes": 10520,
+          "gzipBytes": 1744
+        },
+        {
+          "file": "assets/gallery-DoXl454O.js",
+          "bytes": 21144,
+          "gzipBytes": 7150
+        },
+        {
+          "file": "assets/index-CzJ1nSGZ.js",
+          "bytes": 1135527,
+          "gzipBytes": 382150
+        },
+        {
+          "file": "assets/preview-CIN7vCPp.css",
+          "bytes": 49876,
+          "gzipBytes": 8329
+        },
+        {
+          "file": "assets/preview-D3o5ja_W.js",
+          "bytes": 240244,
+          "gzipBytes": 76932
+        }
+      ]
+    },
+    {
+      "preset": "portfolio",
+      "javascriptGzipBytes": 377046,
+      "cssGzipBytes": 10763,
+      "assets": [
+        {
+          "file": "assets/Chart-BuZYADdd.css",
+          "bytes": 1336,
+          "gzipBytes": 538
+        },
+        {
+          "file": "assets/Chart-Dla4uqUH.css",
+          "bytes": 198,
+          "gzipBytes": 152
+        },
+        {
+          "file": "assets/Chart.examples-B5YTVRob.js",
+          "bytes": 89767,
+          "gzipBytes": 33480
+        },
+        {
+          "file": "assets/Chart.stories-CRyMfjpC.js",
+          "bytes": 12074,
+          "gzipBytes": 4755
+        },
+        {
+          "file": "assets/gallery-BlPY8TL-.css",
+          "bytes": 10520,
+          "gzipBytes": 1744
+        },
+        {
+          "file": "assets/gallery-D29VPfNN.js",
+          "bytes": 21144,
+          "gzipBytes": 7153
+        },
+        {
+          "file": "assets/portfolio-DlsMHQsp.js",
+          "bytes": 750969,
+          "gzipBytes": 254726
+        },
+        {
+          "file": "assets/preview-CIN7vCPp.css",
+          "bytes": 49876,
+          "gzipBytes": 8329
+        },
+        {
+          "file": "assets/preview-D3o5ja_W.js",
+          "bytes": 240244,
+          "gzipBytes": 76932
+        }
+      ]
+    }
+  ],
+  "engines": [
+    {
+      "preset": "full",
+      "javascriptBytes": 1127664,
+      "javascriptGzipBytes": 378974,
+      "fullPortfolio": true,
+      "renderers": [
+        "svg",
+        "canvas"
+      ]
+    },
+    {
+      "preset": "portfolio",
+      "javascriptBytes": 750969,
+      "javascriptGzipBytes": 254726,
+      "fullPortfolio": true,
+      "renderers": [
+        "svg",
+        "canvas"
+      ]
+    },
+    {
+      "preset": "trend",
+      "javascriptBytes": 595790,
+      "javascriptGzipBytes": 203104,
+      "fullPortfolio": false,
+      "renderers": [
+        "svg"
+      ]
+    }
+  ]
+}

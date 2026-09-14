@@ -1,0 +1,29 @@
+{
+  "name": "easy-ui-metric-preview",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "capture": "node capture.mjs",
+    "measure": "node measure-bundles.mjs",
+    "measure:modular": "node measure-modular.mjs",
+    "capture:modular": "node capture-modular.mjs",
+    "audit:browsers": "node audit/playwright.mjs",
+    "audit:safari": "node audit/safari.mjs"
+  },
+  "dependencies": {
+    "@easypost/easy-ui-tokens": "1.0.0-alpha.17",
+    "echarts": "6.1.0",
+    "lodash": "4.17.21",
+    "overlayscrollbars": "2.3.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "sass": "1.89.2",
+    "vite": "6.3.5"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "playwright": "1.63.0",
+    "selenium-webdriver": "4.35.0"
+  }
+}

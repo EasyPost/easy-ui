@@ -1,0 +1,30 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 20px;
+  align-items: start;
+  container-type: inline-size;
+}
+
+.gallery > * {
+  min-width: 0;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 760px) {
+  .gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .wide {
+    grid-column: auto;
+  }
+}
+
+@container (min-width: 860px) {
+  .wide {
+    grid-column: span 2;
+  }
+}

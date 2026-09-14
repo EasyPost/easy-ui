@@ -1,0 +1,30 @@
+.layout-review {
+  max-width: 1120px;
+  padding: 20px;
+}
+.layout-review header {
+  margin-bottom: 24px;
+  max-width: 70ch;
+}
+.layout-review h1 {
+  font-size: 24px;
+}
+.layout-review p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.layout-review select,
+.layout-review button {
+  font: inherit;
+  max-width: 100%;
+  padding: 6px 8px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.stress-stack {
+  display: grid;
+  gap: 20px;
+}
+.stress-stack > * {
+  min-width: 0;
+}

@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "baseURL": "http://127.0.0.1:4173",
+  "enforceOnStop": false,
+  "sourcePaths": [
+    "easy-ui-react/src",
+    "scripts/preview-metrics",
+    ".storybook/public"
+  ],
+  "accessibility": true,
+  "pages": [
+    {
+      "name": "main",
+      "path": "/",
+      "ready": "[aria-label=\"Parcels from multiple warehouses\"] [data-chart-state=\"ready\"] svg"
+    },
+    {
+      "name": "stress",
+      "path": "/layout.html",
+      "ready": "[data-chart-state=\"ready\"] svg",
+      "viewports": ["desktop", "mobile"]
+    }
+  ],
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "name": "mobile",
+      "width": 320,
+      "height": 844
+    },
+    {
+      "name": "4k",
+      "width": 3840,
+      "height": 2160
+    }
+  ],
+  "detailCapture": {
+    "width": 1024,
+    "height": 800,
+    "overlap": 64,
+    "maxTiles": 160
+  }
+}

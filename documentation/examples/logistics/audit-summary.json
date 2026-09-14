@@ -1,0 +1,658 @@
+{
+  "sourceHead": "2055d1775d7976526bab01a23c9e842e359c21a5",
+  "validationMerge": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+  "workflow": "https://github.com/lanej/easy-ui/actions/runs/34733125185",
+  "packageCI": "https://github.com/lanej/easy-ui/actions/runs/34733125290",
+  "reports": [
+    {
+      "build": "chrome-full",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+      "browser": {
+        "name": "chrome",
+        "version": "153.0.8010.36"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "canvas-gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "states",
+          "warnings": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        "24 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "24 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "chrome-portfolio",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+      "browser": {
+        "name": "chrome",
+        "version": "153.0.8010.36"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "canvas-gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "states",
+          "warnings": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        "24 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "24 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "firefox-full",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+      "browser": {
+        "name": "firefox",
+        "version": "155.0"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "canvas-gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "states",
+          "warnings": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        "24 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "24 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "firefox-portfolio",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+      "browser": {
+        "name": "firefox",
+        "version": "155.0"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "canvas-gallery",
+          "warnings": [],
+          "errors": []
+        },
+        {
+          "name": "states",
+          "warnings": [],
+          "errors": []
+        }
+      ],
+      "checks": [
+        "24 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "24 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "safari-full",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+      "browser": {
+        "name": "Safari",
+        "version": "26.6",
+        "platform": "macOS"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "canvas-gallery",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "states",
+          "errors": [],
+          "warnings": []
+        }
+      ],
+      "checks": [
+        "24 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "24 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    },
+    {
+      "build": "safari-portfolio",
+      "source": "d281b173e2aa8b48d5ea6166a4a206e17d776f64",
+      "browser": {
+        "name": "Safari",
+        "version": "26.6",
+        "platform": "macOS"
+      },
+      "scans": [
+        {
+          "name": "gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 468
+            }
+          ]
+        },
+        {
+          "name": "expanded-tables",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 481
+            }
+          ]
+        },
+        {
+          "name": "canvas-gallery",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 20
+            }
+          ]
+        },
+        {
+          "name": "loading-empty-error-partial",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 17
+            }
+          ]
+        },
+        {
+          "name": "retry-recovered",
+          "engine": {
+            "name": "axe-core",
+            "version": "4.10.3"
+          },
+          "violations": 0,
+          "incomplete": [
+            {
+              "rule": "color-contrast",
+              "nodes": 34
+            }
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "gallery",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "canvas-gallery",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "states",
+          "errors": [],
+          "warnings": []
+        }
+      ],
+      "checks": [
+        "24 SVG charts",
+        "keyboard zoom",
+        "keyboard row selection",
+        "compact table disclosure",
+        "no desktop overflow",
+        "24 Canvas charts",
+        "loading/empty/error/partial states",
+        "keyboard retry recovery"
+      ]
+    }
+  ],
+  "limits": [
+    "Synthetic, fixed fixtures; no real customer data.",
+    "Maps have moved to a separate draft PR; these reports cover the 24-recipe chart portfolio.",
+    "Axe incomplete SVG-background findings are retained. Passing checks do not certify all WCAG criteria or screen-reader behavior.",
+    "Known wrapper zoom-refresh edge cases and Figma approval remain outside this extraction."
+  ]
+}
