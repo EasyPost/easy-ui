@@ -1,5 +1,6 @@
 import {
   areaData,
+  facilityPointData,
   geographicBounds,
   placeLabels,
   segmentData,
@@ -138,6 +139,19 @@ it("closes weather rings without inventing geometry for invalid areas", () => {
       },
     ]).features,
   ).toHaveLength(0);
+});
+it("builds one clustering-ready GeoJSON point per valid facility, carrying only its id", () => {
+  const facilities: MapFacility[] = [
+    { id: "a", label: "A", kind: "hub", coordinates: [-122, 38] },
+    { id: "b", label: "B", kind: "hub", coordinates: [NaN, 2] },
+  ];
+  const data = facilityPointData(facilities);
+  expect(data.features).toHaveLength(1);
+  expect(data.features[0]).toEqual({
+    type: "Feature",
+    properties: { id: "a" },
+    geometry: { type: "Point", coordinates: [-122, 38] },
+  });
 });
 it("network examples conserve flow at the hubs and reconcile to carrier throughput", () => {
   for (const id of ["slc", "chi", "dtw"]) {

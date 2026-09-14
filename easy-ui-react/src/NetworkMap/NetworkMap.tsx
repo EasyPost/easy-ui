@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import type { GeoJSONSource, Map as MapInstance, Marker } from "maplibre-gl";
+import type {
+  GeoJSONSource,
+  Map as MapInstance,
+  MapLayerMouseEvent,
+  Marker,
+} from "maplibre-gl";
 import { loadMapEngine } from "./engine";
 import {
   areaData,
+  facilityPointData,
   geographicBounds,
   placeLabels,
   segmentData,
@@ -71,6 +77,12 @@ export function NetworkMap(props: NetworkMapProps) {
       button: HTMLButtonElement;
       label: HTMLSpanElement;
     }[] = [];
+    // Guards the clustered-facility source's setData against re-triggering itself: MapLibre
+    // fires "sourcedata" once its tiles finish (re-)loading, which update() also listens to in
+    // order to resync which facilities currently render as individual Markers vs. a cluster.
+    // Without this guard, an unconditional setData on every update() call would refire
+    // "sourcedata" indefinitely.
+    let lastClusterData: string | null = null;
     const element = container.current!;
     setState("loading");
     setBasemapError(false);
@@ -188,18 +200,40 @@ export function NetworkMap(props: NetworkMapProps) {
               "visibility",
               layers.current.weather ? "visible" : "none",
             );
-          const kept = new Set(
-            p.facilities
-              .filter((f) => validCoordinate(f.coordinates))
-              .map((f) => f.id),
+          let visibleFacilities = p.facilities.filter((f) =>
+            validCoordinate(f.coordinates),
           );
+          const clusterSource = map.getSource("easy-ui-facility-clusters") as
+            | GeoJSONSource
+            | undefined;
+          if (clusterSource) {
+            const data = facilityPointData(p.facilities);
+            const serialized = JSON.stringify(data);
+            if (serialized !== lastClusterData) {
+              lastClusterData = serialized;
+              clusterSource.setData(data);
+            }
+            // MapLibre only reports which points are currently clustered vs. individual for tiles
+            // it has already loaded — before that finishes this is empty, so every facility
+            // starts out with no Marker until the "sourcedata" listener below reruns update().
+            const unclustered = new Set(
+              map
+                .querySourceFeatures("easy-ui-facility-clusters", {
+                  filter: ["!", ["has", "point_count"]],
+                })
+                .map((feature) => feature.properties?.id as string | undefined)
+                .filter((id): id is string => id !== undefined),
+            );
+            visibleFacilities = visibleFacilities.filter((f) =>
+              unclustered.has(f.id),
+            );
+          }
+          const kept = new Set(visibleFacilities.map((f) => f.id));
           markers
             .filter((m) => !kept.has(m.facility.id))
             .forEach((m) => m.marker.remove());
           markers = markers.filter((m) => kept.has(m.facility.id));
-          for (const f of p.facilities.filter((f) =>
-            validCoordinate(f.coordinates),
-          )) {
+          for (const f of visibleFacilities) {
             const existing = markers.find((m) => m.facility.id === f.id);
             const button = existing?.button ?? document.createElement("button");
             button.type = "button";
@@ -368,6 +402,86 @@ export function NetworkMap(props: NetworkMapProps) {
               "icon-ignore-placement": true,
             },
           });
+          const cluster = latest.current.clusterFacilities;
+          if (cluster) {
+            // Captured once at mount, like mapStyle/workerUrl — see NetworkMapProps.clusterFacilities.
+            map.addSource("easy-ui-facility-clusters", {
+              type: "geojson",
+              data: facilityPointData(latest.current.facilities),
+              cluster: true,
+              clusterMaxZoom: cluster.maxZoom ?? 14,
+              clusterRadius: cluster.radius ?? 50,
+            });
+            map.addLayer({
+              id: "easy-ui-facility-cluster-circles",
+              type: "circle",
+              source: "easy-ui-facility-clusters",
+              filter: ["has", "point_count"],
+              paint: {
+                "circle-color": [
+                  "step",
+                  ["get", "point_count"],
+                  "#51bbd6",
+                  10,
+                  "#f1c40f",
+                  25,
+                  "#e05a4e",
+                ],
+                "circle-radius": [
+                  "step",
+                  ["get", "point_count"],
+                  16,
+                  10,
+                  20,
+                  25,
+                  26,
+                ],
+                "circle-stroke-width": 2,
+                "circle-stroke-color": "#fff",
+              },
+            });
+            map.addLayer({
+              id: "easy-ui-facility-cluster-count",
+              type: "symbol",
+              source: "easy-ui-facility-clusters",
+              filter: ["has", "point_count"],
+              layout: {
+                "text-field": ["get", "point_count_abbreviated"],
+                "text-size": 12,
+              },
+              paint: { "text-color": "#1c1c1c" },
+            });
+            map.on(
+              "click",
+              "easy-ui-facility-cluster-circles",
+              (event: MapLayerMouseEvent) => {
+                const feature = event.features?.[0];
+                const clusterId = feature?.properties?.cluster_id as
+                  | number
+                  | undefined;
+                const source = map.getSource("easy-ui-facility-clusters") as
+                  | GeoJSONSource
+                  | undefined;
+                if (!feature || clusterId === undefined || !source) return;
+                source.getClusterExpansionZoom(clusterId).then((zoom) => {
+                  if (disposed) return;
+                  const [lng, lat] = (
+                    feature.geometry as {
+                      type: "Point";
+                      coordinates: [number, number];
+                    }
+                  ).coordinates;
+                  map.easeTo({ center: [lng, lat], zoom });
+                });
+              },
+            );
+            map.on("mouseenter", "easy-ui-facility-cluster-circles", () => {
+              map.getCanvas().style.cursor = "pointer";
+            });
+            map.on("mouseleave", "easy-ui-facility-cluster-circles", () => {
+              map.getCanvas().style.cursor = "";
+            });
+          }
           update();
           // Fires after this mount's own sources/layers exist AND its own first data/paint pass
           // (the update() call above) has run, so a consumer's own overrides always land last.
@@ -384,6 +498,17 @@ export function NetworkMap(props: NetworkMapProps) {
         map.on("move", position);
         map.on("moveend", () => {
           if (!disposed) setZoom(map.getZoom());
+        });
+        // MapLibre recomputes clustering per zoom level via its bundled supercluster index, and
+        // reports the outcome through "sourcedata" (once isSourceLoaded) rather than through the
+        // camera events above — this is what makes clusters split apart as the user zooms in.
+        map.on("sourcedata", (event: { sourceId?: string }) => {
+          if (
+            !disposed &&
+            event.sourceId === "easy-ui-facility-clusters" &&
+            map.isSourceLoaded("easy-ui-facility-clusters")
+          )
+            refresh.current?.();
         });
         map.on("render", () => {
           if (!disposed)

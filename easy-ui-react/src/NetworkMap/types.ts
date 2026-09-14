@@ -79,6 +79,21 @@ export type MapArea = {
   source: string;
 };
 
+/** Native MapLibre clustering configuration for dense facility groups. See `NetworkMapProps.clusterFacilities`. */
+export type ClusterFacilitiesOptions = {
+  /**
+   * Maximum zoom at which facilities still cluster; above this zoom every facility renders
+   * individually regardless of proximity. Passed through to MapLibre's `clusterMaxZoom`.
+   * Defaults to 14.
+   */
+  maxZoom?: number;
+  /**
+   * Cluster radius in pixels, evaluated at zoom 0 (supercluster scales it at other zooms).
+   * Passed through to MapLibre's `clusterRadius`. Defaults to 50.
+   */
+  radius?: number;
+};
+
 /** Explicit camera request; ordinary data updates never issue a camera request. */
 export type MapFocus = {
   /** Change this value to repeat a request for the same locations. */
@@ -145,4 +160,29 @@ export type NetworkMapProps = {
    * calls back into `onMapReady`.
    */
   onMapReady?: (map: MapInstance) => void;
+  /**
+   * Opt-in native MapLibre clustering (via the `supercluster` library MapLibre bundles
+   * internally) for dense facility groups — e.g. metro-scale co-located zip3s. Undefined (the
+   * default) preserves today's exact behavior: every facility renders as its own always-visible,
+   * always-interactive `Marker`, with click-to-select, severity risk styling and an accessible
+   * role, regardless of how many facilities share a location.
+   *
+   * When set, facilities MapLibre's clustering currently merges together render as a `circle`
+   * layer (radius/color bucketed by member count) plus a count label, drawn from a clustered
+   * GeoJSON source — NOT as individual `Marker`s. This is captured once at mount, like `mapStyle`/
+   * `workerUrl`: toggling it on an already-mounted map has no effect until the map remounts.
+   *
+   * Real tradeoff, stated plainly: while a facility is inside a cluster, it cannot be
+   * individually selected, does not show its own severity risk badge, and is not reachable via
+   * `selectedFacilityId`/`onFacilitySelect` — the same UX cost any clustering system pays.
+   * Clicking a cluster flies the camera to that cluster's natural expansion zoom (MapLibre's
+   * `getClusterExpansionZoom`), and supercluster's own zoom-based declustering splits it apart at
+   * that point — each member facility then renders as its usual fully-interactive `Marker`, with
+   * severity/selection/labels working exactly as when this prop is omitted.
+   * `primaryFacilityIds`/`latestFacilityId`/`selectedFacilityId` are not currently forced out of a
+   * cluster into their own marker — a caller that needs a specific facility to always stay
+   * individually selectable alongside dense clustering should pick a `radius`/`maxZoom` that keeps
+   * it separated at the zoom levels that matter, or leave this prop unset for that cohort.
+   */
+  clusterFacilities?: ClusterFacilitiesOptions;
 };

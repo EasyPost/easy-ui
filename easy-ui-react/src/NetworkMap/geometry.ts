@@ -58,6 +58,33 @@ export function segmentData(
   };
 }
 
+/**
+ * One GeoJSON Point feature per valid-coordinate facility, carrying only its `id` as a property —
+ * the minimum a clustered MapLibre source needs. Feeds `NetworkMap`'s optional `clusterFacilities`
+ * source; MapLibre's own supercluster integration computes `cluster`/`cluster_id`/`point_count` on
+ * top of this at render time, so they are never set here.
+ */
+export function facilityPointData(
+  facilities: readonly MapFacility[],
+): FeatureCollection<Geometry> {
+  return {
+    type: "FeatureCollection",
+    features: facilities
+      .filter((f) => validCoordinate(f.coordinates))
+      .map(
+        (f) =>
+          ({
+            type: "Feature" as const,
+            properties: { id: f.id },
+            geometry: {
+              type: "Point" as const,
+              coordinates: [...f.coordinates],
+            },
+          }) as const,
+      ),
+  };
+}
+
 export function areaData(
   areas: readonly MapArea[],
 ): FeatureCollection<Geometry> {
