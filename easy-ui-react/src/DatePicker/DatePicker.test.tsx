@@ -9,6 +9,7 @@ import {
 } from "@internationalized/date";
 import { DateValue } from "react-aria";
 import { render } from "../utilities/test";
+import { TextField } from "../TextField";
 import { DatePicker } from "./DatePicker";
 import { clickElement } from "../RangeCalendar/RangeCalendar.test";
 
@@ -106,6 +107,25 @@ describe("<DatePicker />", () => {
     expect(screen.getByRole("group")).toHaveAttribute("aria-disabled");
     const dateFields = screen.getAllByRole("spinbutton");
     dateFields.every((field) => expect(field).toHaveAttribute("aria-disabled"));
+  });
+
+  it("should render its label like other input fields", () => {
+    render(
+      <>
+        <TextField label="Text field" />
+        <DatePicker label="Date picker" />
+      </>,
+    );
+    const textFieldLabel = screen.getByText("Text field");
+    const datePickerLabel = screen.getByText("Date picker");
+    expect(datePickerLabel.tagName).toBe(textFieldLabel.tagName);
+    expect(datePickerLabel.className).toBe(textFieldLabel.className);
+    expect(datePickerLabel.getAttribute("style")).toBe(
+      textFieldLabel.getAttribute("style"),
+    );
+    expect(datePickerLabel.parentElement?.className).toBe(
+      textFieldLabel.parentElement?.className,
+    );
   });
 
   it("should show error message when date is invalid", async () => {
