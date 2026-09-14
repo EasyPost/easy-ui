@@ -54,13 +54,15 @@ type FooterShellProps = {
 };
 
 /**
- * Sticky container that houses whatever a data grid's `renderFooter` returns.
+ * Bar at the foot of the grid's frame that houses whatever a data grid's
+ * `renderFooter` returns.
  *
  * @remarks
- * Mirrors the column header's mechanics: it sticks to an edge of the scroll
- * port and casts a shadow over the content it covers while that content is
- * under scroll. Rendering it outside of the `<table />` keeps its interactive
- * content out of the grid's row and cell semantics.
+ * This sits alongside the grid's scroll container rather than inside it, so the
+ * rows scroll beneath a footer that never has to be pinned there, and the
+ * scrollbars stay the rows' own. It casts a shadow over the rows while there are
+ * more of them below the fold. Rendering it outside of the `<table />` also keeps
+ * its interactive content out of the grid's row and cell semantics.
  */
 export function FooterShell({ children }: FooterShellProps) {
   const table = useDataGridTable();

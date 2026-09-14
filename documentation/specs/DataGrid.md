@@ -64,8 +64,11 @@ type DataGridProps<C extends Column> = AriaLabelingProps & {
    */
   headerVariant?: "primary" | "secondary" | "emphasized";
 
-  /** Constrains the height of the data grid to a set number of rows. */
-  maxRows?: number;
+  /**
+   * Constrains the height of the data grid to a set number of rows, or to the
+   * height its container makes available with `auto`.
+   */
+  maxRows?: number | "auto";
 
   /** Handler that is called when a user performs an action on the cell. */
   onCellAction?: (key: Key) => void;
