@@ -12,7 +12,7 @@
     "url": "https://github.com/EasyPost/easy-ui/issues"
   },
   "engines": {
-    "node": ">=18.18.0"
+    "node": "^20.19.0 || >=22.12.0"
   },
   "keywords": [
     "react",
@@ -51,21 +51,21 @@
     "@changesets/cli": "^2.29.5",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.29.0",
-    "@storybook/addon-a11y": "^9.1.13",
-    "@storybook/addon-docs": "^9.1.13",
-    "@storybook/react-vite": "^9.1.13",
+    "@storybook/addon-a11y": "^10.6.0",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/react-vite": "^10.6.0",
     "@types/node": "^24.0.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "babel-loader": "^10.0.0",
     "eslint": "^9.22.0",
-    "eslint-plugin-storybook": "9.1.13",
+    "eslint-plugin-storybook": "10.6.0",
     "jsdom": "^26.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.6.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "storybook": "^9.1.13",
+    "storybook": "^10.6.0",
     "stylelint": "^16.21.0",
     "turbo": "^2.4.4",
     "typescript": "~5.5.4",

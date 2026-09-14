@@ -1,6 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
+import { UserEvent } from "@testing-library/user-event";
 import { screen } from "@testing-library/react";
 import { CalendarDate } from "@internationalized/date";
 import { DateValue } from "react-aria";
