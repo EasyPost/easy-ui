@@ -2,14 +2,23 @@ import React, { ElementRef, ReactNode, useMemo, useRef } from "react";
 import { useDialog } from "react-aria";
 import { classNames, variationName } from "../utilities/css";
 import { ModalBody } from "./ModalBody";
+import { ModalCloseButton } from "./ModalCloseButton";
 import { ModalFooter } from "./ModalFooter";
 import { ModalHeader } from "./ModalHeader";
+import { ModalTitle } from "./ModalTitle";
 import { ModalTrigger } from "./ModalTrigger";
 import { ModalContext } from "./context";
 import { useIntersectionDetection } from "./useIntersectionDetection";
 import { ModalContainer } from "./ModalContainer";
 import { useModalTrigger } from "./context";
 import type { ModalNestingBehavior } from "./context";
+import type { ModalFooterProps } from "./ModalFooter";
+import type {
+  ModalHeaderProps,
+  ModalHeaderCustomProps,
+  ModalHeaderTitleProps,
+} from "./ModalHeader";
+import type { ModalTitleProps } from "./ModalTitle";
 
 import styles from "./Modal.module.scss";
 
@@ -42,7 +51,12 @@ export type ModalProps = {
  * <Modal.Trigger>
  *   <Button>Open modal</Button>
  *   <Modal>
- *     <Modal.Header>H4 Title</Modal.Header>
+ *     <Modal.Header layout="custom">
+ *       <HorizontalStack align="space-between" blockAlign="center">
+ *         <Modal.Title>H4 Title</Modal.Title>
+ *         <Modal.CloseButton />
+ *       </HorizontalStack>
+ *     </Modal.Header>
  *     <Modal.Body>Modal content</Modal.Body>
  *     <Modal.Footer>
  *       <HorizontalStack align="end">
@@ -113,6 +127,18 @@ Modal.Trigger = ModalTrigger;
 Modal.Header = ModalHeader;
 
 /**
+ * Represents the title of a `<Modal />`. Connected to the modal via
+ * aria-labelledby. For use within a custom `<Modal.Header />`.
+ */
+Modal.Title = ModalTitle;
+
+/**
+ * Represents the preset close button for a `<Modal />`. Renders nothing when
+ * the modal is not dismissable.
+ */
+Modal.CloseButton = ModalCloseButton;
+
+/**
  * Represents the body of a `<Modal />`.
  */
 Modal.Body = ModalBody;
@@ -123,4 +149,11 @@ Modal.Body = ModalBody;
 Modal.Footer = ModalFooter;
 
 export { ModalContainer, useModalTrigger };
-export type { ModalNestingBehavior };
+export type {
+  ModalNestingBehavior,
+  ModalHeaderProps,
+  ModalHeaderCustomProps,
+  ModalHeaderTitleProps,
+  ModalTitleProps,
+  ModalFooterProps,
+};

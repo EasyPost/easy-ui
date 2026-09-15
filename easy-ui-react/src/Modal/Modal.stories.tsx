@@ -2,11 +2,15 @@ import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { Key, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { action } from "storybook/actions";
+import { Badge } from "../Badge";
 import { Button } from "../Button";
 import { DropdownButton } from "../DropdownButton";
 import { HorizontalStack } from "../HorizontalStack";
+import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Select } from "../Select";
+import { Text } from "../Text";
+import { VerticalStack } from "../VerticalStack";
 import {
   EasyPostLogo,
   PlaceholderBox,
@@ -576,6 +580,134 @@ export const WithFooterSlot: ModalStory = {
             </HorizontalStack>
           </HorizontalStack>
         </Modal.Footer>
+      </Modal>
+    </Modal.Trigger>
+  ),
+};
+
+/**
+ * Set `layout="custom"` on `<Modal.Header />` to own the header's layout
+ * entirely. Compose it with `<Modal.Title />`—which carries the modal's
+ * accessible name—and `<Modal.CloseButton />`.
+ *
+ * This example matches the `Complete` story's header, plus a `Badge` beside the
+ * title, which the preset header props can't express.
+ */
+export const WithCustomHeader: ModalStory = {
+  render: () => (
+    <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header layout="custom">
+          <VerticalStack gap="1.5">
+            <HorizontalStack
+              align="space-between"
+              blockAlign="center"
+              wrap={false}
+            >
+              <HorizontalStack gap="2" blockAlign="center" wrap={false}>
+                <Icon
+                  symbol={EasyPostLogo}
+                  size="lg"
+                  accessibilityLabel="EasyPost Logo"
+                />
+                <Modal.Title>H4 Title</Modal.Title>
+                <Badge variant="success">New</Badge>
+              </HorizontalStack>
+              <Modal.CloseButton />
+            </HorizontalStack>
+            <Text variant="subtitle1">Optional subtitle</Text>
+          </VerticalStack>
+        </Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        </Modal.Body>
+        <Modal.Footer>
+          <HorizontalStack gap="2" align="end">
+            <Button>Continue</Button>
+          </HorizontalStack>
+        </Modal.Footer>
+      </Modal>
+    </Modal.Trigger>
+  ),
+};
+
+/**
+ * `<Modal.Title />` connects to the modal through context, so it can live at any
+ * depth—including inside your own components. Here the whole header row is a
+ * consumer-defined component and the dialog is still labelled correctly.
+ */
+export const WithCustomHeaderInOwnComponent: ModalStory = {
+  render: () => (
+    <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header layout="custom">
+          <MyHeaderRow />
+        </Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%">Space for content</PlaceholderBox>
+        </Modal.Body>
+        <Modal.Footer>
+          <HorizontalStack gap="2" align="end">
+            <Button>Continue</Button>
+          </HorizontalStack>
+        </Modal.Footer>
+      </Modal>
+    </Modal.Trigger>
+  ),
+};
+
+// A consumer-owned header row. `Modal.Header` can't see the `Modal.Title` inside
+// it, which is why `layout="custom"` is an explicit opt-in rather than inferred
+// from children.
+function MyHeaderRow() {
+  return (
+    <HorizontalStack align="space-between" blockAlign="center" wrap={false}>
+      <Modal.Title>Title from my own component</Modal.Title>
+      <Modal.CloseButton />
+    </HorizontalStack>
+  );
+}
+
+/**
+ * The custom header keeps the preset header's scroll shadow. Like
+ * `ScrollShadows`, this opens mid-scroll so both shadows are stuck at once and
+ * should read as two unbroken lines over the body's content.
+ */
+export const ScrollShadowsWithCustomHeader: ModalStory = {
+  render: () => (
+    <Modal.Trigger defaultOpen>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header layout="custom">
+          <HorizontalStack
+            align="space-between"
+            blockAlign="center"
+            wrap={false}
+          >
+            <Modal.Title>H4 Title</Modal.Title>
+            <Modal.CloseButton />
+          </HorizontalStack>
+        </Modal.Header>
+        <Modal.Body>
+          <PlaceholderBox width="100%" height={300}>
+            Scroll up to bring the header shadow over this block
+          </PlaceholderBox>
+          <PlaceholderBox width="100%" height={300}>
+            <ScrollIntoView />
+            Both shadows should be visible over this block
+          </PlaceholderBox>
+          <PlaceholderBox width="100%" height={300}>
+            Scroll down to bring the footer shadow over this block
+          </PlaceholderBox>
+        </Modal.Body>
+        <Modal.Footer
+          primaryAction={{
+            content: "Button 1",
+            onAction: action("Button 1 clicked!"),
+          }}
+        />
       </Modal>
     </Modal.Trigger>
   ),
