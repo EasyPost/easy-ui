@@ -101,7 +101,7 @@ With `as="img"`, a `<Box />` sizes and fits replaced content, which covers logos
 
 `as` renders a `<Box />` as a different element. `button`, `a`, `ul`, `ol`, `fieldset`, and `legend` receive an automatic unstyled reset, so their default browser styling does not need to be stripped by hand.
 
-<Canvas of={BoxStories.Button} />
+<Canvas of={BoxStories.ElementReset} />
 
 ## Responsive properties
 
@@ -114,6 +114,94 @@ Most properties accept an object keyed by breakpoint. A value applies from its b
 ```
 
 `color`, `objectFit`, `whiteSpace`, `cursor`, `pointerEvents`, `zIndex`, `boxShadow`, `borderColor`, border widths, and `opacity` are deliberately not responsive, to keep the stylesheet small.
+
+## Recipes
+
+The sections above show one property at a time. These are whole compositions, each standing in for a pattern that is written repeatedly as a one-off CSS module today. They are meant to be copied.
+
+### Card surface
+
+A bordered, padded surface — the most common shape a CSS module gets written for.
+
+<Canvas of={BoxStories.CardSurface} />
+
+### Selectable card
+
+A whole card that is also a button. `as="button"` applies the unstyled reset, which replaces the `all: unset` blocks copied between applications, and keeps the focus ring that `all: unset` throws away.
+
+<Canvas of={BoxStories.SelectableCard} />
+
+### Dividers and ruled rows
+
+A divider is a single border width. Suppressing that width on the last row is how a ruled list avoids a trailing rule.
+
+<Canvas of={BoxStories.Dividers} />
+
+### Section header
+
+A title on one side, an action on the other, a rule underneath.
+
+<Canvas of={BoxStories.SectionHeader} />
+
+### Search row
+
+A field that takes the remaining width beside a fixed-width action. A stack child cannot express this on its own, which is why `flex` exists on `<Box />`.
+
+<Canvas of={BoxStories.SearchRow} />
+
+### Page container
+
+A page's content column: full width, capped, centered.
+
+<Canvas of={BoxStories.PageContainer} />
+
+### Sticky toolbar
+
+A toolbar that stays put while the panel scrolls. `zIndex` is constrained to the token scale, which is what keeps `z-index: 9999` out of application code.
+
+<Canvas of={BoxStories.StickyToolbar} />
+
+### Loading overlay
+
+The scrim and its content are separate boxes on purpose — nesting the spinner inside the translucent box would fade the spinner too.
+
+<Canvas of={BoxStories.LoadingOverlay} />
+
+### Notification dot
+
+A dot pinned to a control's corner, with `pointerEvents="none"` so it never swallows a click.
+
+<Canvas of={BoxStories.NotificationDot} />
+
+### Scroll container
+
+A capped list that scrolls instead of growing without bound.
+
+<Canvas of={BoxStories.ScrollContainer} />
+
+### Full-bleed callout
+
+A negative margin cancels the parent's padding so a callout spans the full card. `overflow="hidden"` keeps the bleed inside the rounded corners.
+
+<Canvas of={BoxStories.FullBleedCallout} />
+
+### Carrier logos
+
+Fixed dimensions plus `objectFit`, the pattern behind more repeated CSS modules than any other.
+
+<Canvas of={BoxStories.CarrierLogos} />
+
+### Tag list
+
+Wrapping content with different spacing along each axis.
+
+<Canvas of={BoxStories.TagList} />
+
+### Field group
+
+`fieldset` and `legend` carry browser styling that has to be stripped before they are usable. `as` does it, so grouping fields stays accessible and plain.
+
+<Canvas of={BoxStories.FieldGroup} />
 
 ## No className, no style
 
