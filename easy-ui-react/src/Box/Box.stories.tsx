@@ -214,10 +214,6 @@ export const Responsive: Story = {
 // code today as a one-off CSS module.
 // ---------------------------------------------------------------------------
 
-const RecipeParameters = {
-  controls: { disable: true },
-};
-
 /** A bordered surface, the most common shape a CSS module is written for. */
 export const CardSurface: Story = {
   render: () => (
@@ -237,7 +233,9 @@ export const CardSurface: Story = {
       </VerticalStack>
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /**
@@ -288,7 +286,9 @@ export const SelectableCard: Story = {
     };
     return <RecipeStory />;
   },
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /**
@@ -296,30 +296,39 @@ export const SelectableCard: Story = {
  * row is how a ruled list avoids a trailing rule.
  */
 export const Dividers: Story = {
-  render: () => (
-    <VerticalStack gap="4">
-      <VerticalStack gap="2">
-        <Text variant="body1">Above the rule</Text>
-        <Box borderTopWidth="1" borderColor="neutral.200" />
-        <Text variant="body1">Below the rule</Text>
+  render: () => {
+    const steps = ["Label created", "In transit", "Out for delivery"];
+    return (
+      <VerticalStack gap="4">
+        <VerticalStack gap="2">
+          <Text variant="body1">Above the rule</Text>
+          <Box borderTopWidth="1" borderColor="neutral.200" />
+          <Text variant="body1">Below the rule</Text>
+        </VerticalStack>
+        <Box maxWidth={320}>
+          {steps.map((step, index) => {
+            // The color has to come off with the width. A `borderColor` on its
+            // own implies a border on every side, so leaving it in place on the
+            // last row would draw a box around it instead of no rule at all.
+            const isRuled = index !== steps.length - 1;
+            return (
+              <Box
+                key={step}
+                paddingY="2"
+                borderBottomWidth={isRuled ? "1" : undefined}
+                borderColor={isRuled ? "neutral.200" : undefined}
+              >
+                <Text variant="body2">{step}</Text>
+              </Box>
+            );
+          })}
+        </Box>
       </VerticalStack>
-      <Box maxWidth={320}>
-        {["Label created", "In transit", "Out for delivery"].map(
-          (step, index, all) => (
-            <Box
-              key={step}
-              paddingY="2"
-              borderBottomWidth={index === all.length - 1 ? undefined : "1"}
-              borderColor="neutral.200"
-            >
-              <Text variant="body2">{step}</Text>
-            </Box>
-          ),
-        )}
-      </Box>
-    </VerticalStack>
-  ),
-  parameters: RecipeParameters,
+    );
+  },
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /** A title on one side, an action on the other, and a rule underneath. */
@@ -337,7 +346,9 @@ export const SectionHeader: Story = {
       <Button size="sm">Create</Button>
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /**
@@ -353,7 +364,9 @@ export const SearchRow: Story = {
       <Button>Search</Button>
     </HorizontalStack>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /** A page's content column: full width, capped, and centered. */
@@ -372,7 +385,9 @@ export const PageContainer: Story = {
       </Box>
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /**
@@ -417,7 +432,9 @@ export const StickyToolbar: Story = {
       </Box>
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /**
@@ -429,6 +446,7 @@ export const LoadingOverlay: Story = {
     <Box
       position="relative"
       maxWidth={420}
+      minHeight={200}
       padding="4"
       background="neutral.000"
       borderColor="neutral.200"
@@ -458,7 +476,9 @@ export const LoadingOverlay: Story = {
       </Box>
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /** A dot pinned to a control's corner. `pointerEvents` keeps it unclickable. */
@@ -478,7 +498,9 @@ export const NotificationDot: Story = {
       />
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /** A capped list that scrolls instead of growing without bound. */
@@ -501,7 +523,9 @@ export const ScrollContainer: Story = {
       </VerticalStack>
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /**
@@ -537,7 +561,9 @@ export const FullBleedCallout: Story = {
       </VerticalStack>
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /**
@@ -569,7 +595,9 @@ export const CarrierLogos: Story = {
       ))}
     </HorizontalStack>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /** Wrapping content with different spacing along each axis. */
@@ -583,7 +611,9 @@ export const TagList: Story = {
       )}
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 /**
@@ -606,5 +636,7 @@ export const FieldGroup: Story = {
       <Checkbox>Saturday delivery</Checkbox>
     </Box>
   ),
-  parameters: RecipeParameters,
+  parameters: {
+    controls: { disable: true },
+  },
 };

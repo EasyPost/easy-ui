@@ -13,7 +13,14 @@
 // https://github.com/Shopify/polaris/blob/main/polaris-react/src/styles/shared/_responsive-props.scss
 //
 // See documentation/decisions/007_support_responsive_props for more info
-@mixin responsive-props($componentName, $componentProp) {
+// `$fallback` is an optional value to use when none of the breakpoint variables
+// are set. It matters for properties whose CSS initial value is not a safe
+// default: with no fallback, an unset variable makes the declaration resolve to
+// `unset`, which for a non-inherited property is the initial value—so
+// `display: var(--ezui-c-box-display-xs)` renders a `<div>` as `inline`. Passing
+// `revert` instead defers to the user agent, leaving the element's own default
+// intact until a value is provided.
+@mixin responsive-props($componentName, $componentProp, $fallback: null) {
   $cleanedComponentName: ezuiString.clean-name($componentName);
   $cleanedComponentProp: ezuiString.clean-name($componentProp);
 
@@ -59,13 +66,20 @@
     $bp: map.get($bps, $bp-alias);
 
     @if $i == 1 {
-      $var: var(
-        --ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp}-#{$bp-alias}
+      $var: if(
+        $fallback == null,
+        var(
+          --ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp}-#{$bp-alias}
+        ),
+        var(
+          --ezui-c-#{$cleanedComponentName}-#{$cleanedComponentProp}-#{$bp-alias},
+          #{$fallback}
+        )
       );
       @content ($var);
     } @else {
       @media (min-width: #{$bp}) {
-        $this-bp-value: initial;
+        $this-bp-value: if($fallback == null, initial, $fallback);
         @for $j from 1 through $i {
           $this-bp-alias: list.nth($bp-aliases, $j);
           $this-bp-value: var(
@@ -81,8 +95,14 @@
 }
 
 // Shorthand for applying a CSS variable template to a single CSS prop
-@mixin responsive-prop($componentName, $componentProp, $declarationProp) {
-  @include responsive-props($componentName, $componentProp) using ($var) {
+@mixin responsive-prop(
+  $componentName,
+  $componentProp,
+  $declarationProp,
+  $fallback: null
+) {
+  @include responsive-props($componentName, $componentProp, $fallback) using
+    ($var) {
     & {
       #{$declarationProp}: $var;
     }

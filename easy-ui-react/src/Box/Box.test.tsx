@@ -527,4 +527,35 @@ describe("<Box />", () => {
       );
     });
   });
+
+  // A custom property left unset is guaranteed-invalid, which resolves the
+  // declaration that reads it to `unset`—and for a non-inherited property that
+  // is the CSS initial value, not "no declaration at all". For most of Box's
+  // properties the initial value is already the right default, but for these it
+  // is not: `display` would make every `<Box />` inline, `overflow` would let an
+  // `objectFit="cover"` image paint outside an `<img />`, and `text-align` would
+  // drop a `<button />`'s centering. Each has to fall back to `revert` so an
+  // unstyled `<Box />` keeps its element's own default. jsdom cannot resolve
+  // `var()`, so this asserts the stylesheet rather than a computed style.
+  describe("element defaults", () => {
+    function getBoxDeclarations(property: string) {
+      return Array.from(document.styleSheets)
+        .flatMap((sheet) => Array.from(sheet.cssRules))
+        .map((rule) => rule.cssText)
+        .filter((cssText) => cssText.includes("_Box_"))
+        .flatMap((cssText) => cssText.split(";"))
+        .filter((declaration) => declaration.includes(`${property}: var(`));
+    }
+
+    it.each(["display", "overflow-x", "overflow-y", "text-align"])(
+      "should fall back to the user agent's %s rather than the CSS initial value",
+      (property) => {
+        const declarations = getBoxDeclarations(property);
+        expect(declarations.length).toBeGreaterThan(0);
+        declarations.forEach((declaration) => {
+          expect(declaration).toContain("revert)");
+        });
+      },
+    );
+  });
 });

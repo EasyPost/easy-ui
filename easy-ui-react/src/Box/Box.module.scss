@@ -70,7 +70,14 @@
   @include responsive-prop("box", "flex-basis", flex-basis);
   @include responsive-prop("box", "align-self", align-self);
   @include responsive-prop("box", "order", order);
-  @include responsive-prop("box", "display", display);
+  // `display`, `overflow`, and `text-align` fall back to `revert` rather than
+  // being left unset. An unset variable resolves the declaration to `unset`,
+  // which for these is not a no-op: `display` would become `inline` on every
+  // element, `overflow` would become `visible` on an `<img>` (letting an
+  // `objectFit="cover"` image paint outside its box), and `text-align` would
+  // drop a `<button>`'s centering. `revert` defers to the user agent instead,
+  // so a `<Box />` keeps its element's own default until a value is passed.
+  @include responsive-prop("box", "display", display, revert);
   @include responsive-prop("box", "flex-direction", flex-direction);
   @include responsive-prop("box", "flex-wrap", flex-wrap);
   @include responsive-prop("box", "justify-content", justify-content);
@@ -82,7 +89,7 @@
   @include responsive-prop("box", "right", right);
   @include responsive-prop("box", "bottom", bottom);
   @include responsive-prop("box", "left", left);
-  @include responsive-prop("box", "overflow-x", overflow-x);
-  @include responsive-prop("box", "overflow-y", overflow-y);
-  @include responsive-prop("box", "text-align", text-align);
+  @include responsive-prop("box", "overflow-x", overflow-x, revert);
+  @include responsive-prop("box", "overflow-y", overflow-y, revert);
+  @include responsive-prop("box", "text-align", text-align, revert);
 }
