@@ -106,10 +106,14 @@ export type MapFocus = {
 
 /** Presentation and controlled selection contract for an optional geographic map. */
 export type NetworkMapProps = {
-  /** Visible heading and accessible region name. */
-  title: string;
-  /** Coverage, observation window and main geographic question. */
-  description: string;
+  /** Visible heading and accessible region name. `null` renders no heading block at all -- use
+   *  when the caller already frames this map with its own adjacent heading; the region and
+   *  toolbar fall back to a generic accessible name ("Map"/"Map camera and layers") so they stay
+   *  nameable without a visible heading. When `null`, `description` must also be `null`. */
+  title: string | null;
+  /** Coverage, observation window and main geographic question. Must be `null` when `title` is
+   *  `null` -- a heading-less map has no description to show either. */
+  description: string | null;
   /** Caller-chosen MapLibre style URL or object, including source attribution. Keep object identity stable. */
   mapStyle: string | StyleSpecification;
   /** URL of the bundled MapLibre module worker matching the installed version. Keep stable across all maps in one application. */

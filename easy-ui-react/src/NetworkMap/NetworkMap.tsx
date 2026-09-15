@@ -568,21 +568,27 @@ export function NetworkMap(props: NetworkMapProps) {
 
   const active = facilities.find((f) => f.id === selectedFacilityId);
   const segment = segments.find((s) => s.id === selectedSegmentId);
+  // `title`/`description` are `null` when the caller already frames this map with its own
+  // adjacent heading (see NetworkMapProps.title's doc comment) -- fall back to a generic,
+  // stable accessible name so the region/toolbar stay nameable without a visible heading.
+  const accessibleName = title ?? "Map";
   return (
-    <section className={styles.root} aria-label={title}>
-      <div className={styles.heading}>
-        <div>
-          <h3>{title}</h3>
-          <p>{description}</p>
+    <section className={styles.root} aria-label={accessibleName}>
+      {title !== null && (
+        <div className={styles.heading}>
+          <div>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </div>
+          <span className={styles.scale}>
+            {zoom < 6 ? "National" : zoom < 10 ? "Regional" : "Local"} view
+          </span>
         </div>
-        <span className={styles.scale}>
-          {zoom < 6 ? "National" : zoom < 10 ? "Regional" : "Local"} view
-        </span>
-      </div>
+      )}
       <div
         className={styles.toolbar}
         role="group"
-        aria-label={`${title} camera and layers`}
+        aria-label={`${accessibleName} camera and layers`}
       >
         <div className={styles.buttons}>
           <button
@@ -595,7 +601,7 @@ export function NetworkMap(props: NetworkMapProps) {
             }
             disabled={state !== "ready"}
           >
-            Entire journey
+            {segments.length > 0 ? "Entire journey" : "Fit all locations"}
           </button>
           <button
             type="button"
