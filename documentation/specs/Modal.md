@@ -14,6 +14,7 @@ A Modal is a dialog that appears over content and requires some kind of user int
 ### Features
 
 - Supports composability with a container, header, body, and footer components
+- Supports a fully custom header and footer via `children` slots
 - Supports self-contained state management by default
 - Supports being controlled
 - Supports default state
@@ -37,7 +38,7 @@ The component design was inspired by Aria's Dialog component, Shopify's Modal co
 
 `Modal` will manage its own state by default but can be controlled if the consumer opts in.
 
-`Modal` will be a compound component consistenting of `Modal`, `Modal.Header`, `Modal.Body`, and `Modal.Footer`.
+`Modal` will be a compound component consistenting of `Modal`, `Modal.Header`, `Modal.Body`, and `Modal.Footer`, plus `Modal.Title` and `Modal.CloseButton` for composing a custom header.
 
 `Modal` must be attached to a focusable trigger element such as a `Button` through the `Modal.Trigger` component. This ensures the trigger and modal are accessible.
 
@@ -87,7 +88,31 @@ type ModalProps = {
   size?: "sm" | "md" | "lg" | "xl";
 };
 
-type ModalHeaderProps = {
+// New flexible slot API - preferred method
+type ModalHeaderCustomProps = {
+  /**
+   * Renders `children` as-is, letting the consumer own the header's layout.
+   * Compose with `<Modal.Title />`, which carries the modal's accessible name,
+   * and `<Modal.CloseButton />`.
+   */
+  layout: "custom";
+
+  /**
+   * The content for the modal header.
+   */
+  children: ReactNode;
+};
+
+// Existing constrained API - for backwards compatibility
+type ModalHeaderTitleProps = {
+  /**
+   * How the header composes its content. `title` renders `children` as the
+   * modal's heading; `custom` renders `children` as-is.
+   *
+   * @default title
+   */
+  layout?: "title";
+
   /**
    * Modal header element type. Should be a valid document heading level.
    *
@@ -98,12 +123,12 @@ type ModalHeaderProps = {
   /**
    * The content for the title of the modal.
    */
-  children: string;
+  children: ReactNode;
 
   /**
    * The content for the subtitle of the modal.
    */
-  subtitle?: string;
+  subtitle?: ReactNode;
 
   /**
    * Icon to display at the start of the header title.
@@ -123,6 +148,15 @@ type ModalHeaderProps = {
   };
 };
 
+type ModalHeaderProps = ModalHeaderCustomProps | ModalHeaderTitleProps;
+
+/**
+ * Carries the modal's accessible name. For use within a custom
+ * `<Modal.Header />`. Accepts the same props as `<Text />`, defaulting to a
+ * truncating `h2` at `heading4`.
+ */
+type ModalTitleProps = TextProps;
+
 type ModalBodyProps = {
   /**
    * Modal body content.
@@ -130,23 +164,38 @@ type ModalBodyProps = {
   children: ReactNode;
 };
 
-type ModalFooterProps = {
+// New flexible slot API - preferred method
+type ModalFooterSlotProps = {
+  /**
+   * The content for the modal footer.
+   */
+  children: ReactNode;
+};
+
+// Existing constrained API - for backwards compatibility
+type ModalFooterActionsProps = {
   /**
    * Primary action slot.
    */
   primaryAction: {
+    color?: ButtonColor;
     content: string;
     onAction: () => void;
+    isDisabled?: boolean;
   };
 
   /**
    * Secondary action slot.
    */
   secondaryAction?: {
+    color?: ButtonColor;
     content: string;
     onAction: () => void;
+    isDisabled?: boolean;
   };
 };
+
+type ModalFooterProps = ModalFooterSlotProps | ModalFooterActionsProps;
 ```
 
 ### Example Usage
@@ -161,21 +210,56 @@ function PageWithModal() {
     <Modal.Trigger>
       <Button>Open modal</Button>
       <Modal>
-        <Modal.Header>H4 Title</Modal.Header>
+        <Modal.Header layout="custom">
+          <HorizontalStack align="space-between" blockAlign="center">
+            <Modal.Title>H4 Title</Modal.Title>
+            <Modal.CloseButton />
+          </HorizontalStack>
+        </Modal.Header>
         <Modal.Body>Modal content</Modal.Body>
-        <Modal.Footer
-          primaryAction={{
-            content: "Button 1",
-            onAction: () => {},
-          }}
-        />
+        <Modal.Footer>
+          <HorizontalStack align="end">
+            <Button>Button 1</Button>
+          </HorizontalStack>
+        </Modal.Footer>
       </Modal>
     </Modal.Trigger>
   );
 }
 ```
 
-_Advanced_:
+_Custom header_:
+
+```tsx
+import { Modal } from "@easypost/easy-ui/Modal";
+
+function PageWithModal() {
+  return (
+    <Modal.Trigger>
+      <Button>Open modal</Button>
+      <Modal>
+        {/* `Modal.Title` connects through context, so it works at any depth */}
+        <Modal.Header layout="custom">
+          <VerticalStack gap="1.5">
+            <HorizontalStack align="space-between" blockAlign="center">
+              <HorizontalStack gap="2" blockAlign="center">
+                <Icon symbol={EasyPostLogo} size="lg" />
+                <Modal.Title>H4 Title</Modal.Title>
+                <Badge variant="success">New</Badge>
+              </HorizontalStack>
+              <Modal.CloseButton />
+            </HorizontalStack>
+            <Text variant="subtitle1">Optional subtitle</Text>
+          </VerticalStack>
+        </Modal.Header>
+        <Modal.Body>Modal content</Modal.Body>
+      </Modal>
+    </Modal.Trigger>
+  );
+}
+```
+
+_Legacy title API_ (supported, but prefer `layout="custom"` for new work):
 
 ```tsx
 import { Modal } from "@easypost/easy-ui/Modal";

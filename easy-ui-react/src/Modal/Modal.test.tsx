@@ -1,6 +1,7 @@
 import { act, screen } from "@testing-library/react";
 import React, { useState } from "react";
-import { vi } from "vitest";
+import { MockInstance, vi } from "vitest";
+import noop from "lodash/noop";
 import { Button } from "../Button";
 import { HorizontalStack } from "../HorizontalStack";
 import {
@@ -12,12 +13,13 @@ import {
 } from "../utilities/test";
 import { Select } from "../Select";
 import { Modal, ModalContainer, ModalProps, useModalTrigger } from "./Modal";
-import { ModalHeaderProps } from "./ModalHeader";
+import { ModalHeaderTitleProps } from "./ModalHeader";
 import { ModalTriggerProps } from "./ModalTrigger";
 
 describe("<Modal />", () => {
   let restoreGetComputedStyle: () => void;
   let restoreIntersectionObserver: () => void;
+  let consoleWarnSpy: MockInstance | undefined;
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -26,6 +28,8 @@ describe("<Modal />", () => {
   });
 
   afterEach(() => {
+    consoleWarnSpy?.mockRestore();
+    consoleWarnSpy = undefined;
     restoreIntersectionObserver();
     restoreGetComputedStyle();
     vi.useRealTimers();
@@ -202,6 +206,126 @@ describe("<Modal />", () => {
       screen.getByRole("button", { name: "Secondary Action" }),
     );
     expect(handleSecondaryAction).toBeCalled();
+  });
+
+  it("should label the dialog with the constrained header title", async () => {
+    await renderAndOpenModal();
+    const title = screen.getByText("H4 Title");
+    expect(title.tagName).toBe("H2");
+    expect(screen.getByRole("dialog")).toHaveAttribute(
+      "aria-labelledby",
+      title.id,
+    );
+  });
+
+  it("should render a custom header", async () => {
+    const { user } = renderModalWithCustomHeader();
+    await userClick(user, screen.getByRole("button", { name: "Open modal" }));
+
+    expect(screen.getByText("Custom Title")).toBeInTheDocument();
+    expect(screen.getByText("Sibling content")).toBeInTheDocument();
+
+    await userClick(user, screen.getByRole("button", { name: "Close modal" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  // A custom header layers a modifier on top of `.header`, so it keeps the
+  // padding, color, and the `position`/`z-index` that make the scroll shadow
+  // paint above the body.
+  it("should keep the base header class in a custom header", () => {
+    renderModalWithCustomHeader({ defaultOpen: true });
+    const header = screen.getByRole("dialog").firstElementChild as HTMLElement;
+    expect(header).toContainElement(screen.getByText("Custom Title"));
+    expect(header.getAttribute("class")).toEqual(
+      expect.stringContaining("header"),
+    );
+    expect(header.getAttribute("class")).toEqual(
+      expect.stringContaining("headerCustom"),
+    );
+  });
+
+  it("should label the dialog with Modal.Title in a custom header", async () => {
+    renderModalWithCustomHeader({ defaultOpen: true });
+    const labelId = screen
+      .getByRole("dialog")
+      .getAttribute("aria-labelledby") as string;
+    expect(document.getElementById(labelId)).toHaveTextContent("Custom Title");
+  });
+
+  // The reason `layout="custom"` is an explicit opt-in rather than something
+  // detected from children: a `Modal.Title` rendered by a consumer's own
+  // component is invisible to children introspection, but must still label the
+  // dialog.
+  it("should label the dialog with a Modal.Title nested inside a consumer component", () => {
+    function MyHeaderRow() {
+      return (
+        <HorizontalStack align="space-between" blockAlign="center">
+          <Modal.Title>Nested Title</Modal.Title>
+          <Modal.CloseButton />
+        </HorizontalStack>
+      );
+    }
+
+    render(
+      <Modal.Trigger defaultOpen>
+        <Button>Open modal</Button>
+        <Modal>
+          <Modal.Header layout="custom">
+            <MyHeaderRow />
+          </Modal.Header>
+          <Modal.Body>Modal content</Modal.Body>
+        </Modal>
+      </Modal.Trigger>,
+    );
+
+    const labelId = screen
+      .getByRole("dialog")
+      .getAttribute("aria-labelledby") as string;
+    expect(document.getElementById(labelId)).toHaveTextContent("Nested Title");
+  });
+
+  // A custom header owns its whole layout, so the close button is never
+  // rendered for the consumer.
+  it("should not render a close button in a custom header by default", () => {
+    render(
+      <Modal.Trigger defaultOpen>
+        <Button>Open modal</Button>
+        <Modal>
+          <Modal.Header layout="custom">
+            <Modal.Title>Custom Title</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Modal content</Modal.Body>
+        </Modal>
+      </Modal.Trigger>,
+    );
+    expect(
+      screen.queryByRole("button", { name: "Close modal" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("should not render Modal.CloseButton when the modal is nondismissable", () => {
+    renderModalWithCustomHeader({ defaultOpen: true, isDismissable: false });
+    expect(
+      screen.queryByRole("button", { name: "Close modal" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("should warn when a custom header has no Modal.Title", () => {
+    consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(noop);
+    render(
+      <Modal.Trigger defaultOpen>
+        <Button>Open modal</Button>
+        <Modal>
+          <Modal.Header layout="custom">
+            <span>No title here</span>
+          </Modal.Header>
+          <Modal.Body>Modal content</Modal.Body>
+        </Modal>
+      </Modal.Trigger>,
+    );
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("Modal.Title"),
+    );
   });
 
   it("should hide outside content while open by default", () => {
@@ -660,7 +784,7 @@ function renderModal({
   iconAtEnd,
 }: Partial<ModalProps> &
   Partial<ModalTriggerProps> &
-  Partial<ModalHeaderProps> = {}) {
+  Partial<ModalHeaderTitleProps> = {}) {
   const onPrimaryAction = vi.fn();
   const onSecondaryAction = vi.fn();
   const onOpenChange = vi.fn();
@@ -706,6 +830,31 @@ function renderModal({
     renderResult,
     { onPrimaryAction, onSecondaryAction, onOpenChange },
   ] as const;
+}
+
+// `ModalHeaderProps` is a real discriminated union, so the two modes can't be
+// mixed: `<Modal.Header layout="custom" subtitle="x" />` is a compile error.
+function renderModalWithCustomHeader({
+  defaultOpen,
+  isDismissable,
+}: Partial<ModalTriggerProps> = {}) {
+  return render(
+    <Modal.Trigger defaultOpen={defaultOpen} isDismissable={isDismissable}>
+      <Button>Open modal</Button>
+      <Modal>
+        <Modal.Header layout="custom">
+          <HorizontalStack align="space-between" blockAlign="center">
+            <HorizontalStack gap="2" blockAlign="center">
+              <Modal.Title>Custom Title</Modal.Title>
+              <span>Sibling content</span>
+            </HorizontalStack>
+            <Modal.CloseButton />
+          </HorizontalStack>
+        </Modal.Header>
+        <Modal.Body>Modal content</Modal.Body>
+      </Modal>
+    </Modal.Trigger>,
+  );
 }
 
 async function renderAndOpenModal(args = {}) {

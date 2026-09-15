@@ -11,13 +11,18 @@ A `<Modal />` is a page overlay that displays information and blocks interaction
 
 ### Modal architecture
 
-`<Modal />` is a compound component. Use `<Modal.Trigger />`, `<Modal />`, `<Modal.Header />`, `<Modal.Body />`, and `<Modal.Footer />` to construct a modal.
+`<Modal />` is a compound component. Use `<Modal.Trigger />`, `<Modal />`, `<Modal.Header />`, `<Modal.Body />`, and `<Modal.Footer />` to construct a modal, plus `<Modal.Title />` and `<Modal.CloseButton />` to compose a custom header.
 
 ```tsx
 <Modal.Trigger>
   <Button>Open modal</Button>
   <Modal>
-    <Modal.Header>H4 Title</Modal.Header>
+    <Modal.Header layout="custom">
+      <HorizontalStack align="space-between" blockAlign="center">
+        <Modal.Title>H4 Title</Modal.Title>
+        <Modal.CloseButton />
+      </HorizontalStack>
+    </Modal.Header>
     <Modal.Body>Modal content</Modal.Body>
     <Modal.Footer>
       <HorizontalStack align="end">
@@ -43,7 +48,12 @@ _Modal with close function injected:_
   <Button>Open modal</Button>
   {(close) => (
     <Modal>
-      <Modal.Header>H4 Title</Modal.Header>
+      <Modal.Header layout="custom">
+        <HorizontalStack align="space-between" blockAlign="center">
+          <Modal.Title>H4 Title</Modal.Title>
+          <Modal.CloseButton />
+        </HorizontalStack>
+      </Modal.Header>
       <Modal.Body>Modal content</Modal.Body>
       <Modal.Footer>
         <HorizontalStack align="end">
@@ -89,9 +99,28 @@ Refer to the property tables at the bottom of the page for full documentation on
 
 <Canvas of={ModalStories.Complete} />
 
+## Custom header
+
+Set `layout="custom"` on `<Modal.Header />` to own the header's layout entirely. `children` is then rendered as-is instead of being treated as the title, so you can place a badge beside the title, a stepper, or any other composition the preset props can't express.
+
+Two subcomponents are provided for the pieces that need to stay wired to the modal:
+
+- **`<Modal.Title />`** carries the modal's accessible name (the `aria-labelledby` target), so a custom header should always include one. It connects through context, so it can live at any depth—including inside your own components. It accepts the same props as `<Text />`, defaulting to a truncating `h2` at `heading4`.
+- **`<Modal.CloseButton />`** renders the close icon. Place it wherever your layout needs it; no conditional is required, since it renders nothing when the modal isn't dismissable.
+
+<Canvas of={ModalStories.WithCustomHeader} />
+
+<Canvas of={ModalStories.WithCustomHeaderInOwnComponent} />
+
+## Legacy title API
+
+For a simple header, `<Modal.Header />` also accepts `children` as the title text alongside `as`, `subtitle`, `iconAtStart`, and `iconAtEnd`—the form shown in the [Complete Example](#complete-example) above. This is the default (`layout="title"`) and remains supported, but new work should prefer `layout="custom"`: the next major version will make `children` always mean the custom slot and remove these props.
+
+Note that in this form, setting `iconAtEnd` replaces the close icon, so a dismissable modal loses its X. A custom header has no such conflict—render an icon and `<Modal.CloseButton />` side by side.
+
 ## Nondismissable
 
-By default, `<Modal />`s are dismissable, meaning a user can exit the modal without performing an action. Exiting can be done by clicking on the underlay behind the modal, pressing the `Esc` key, or clicking the close icon in the header.
+By default, `<Modal />`s are dismissable, meaning a user can exit the modal without performing an action. Exiting can be done by clicking on the underlay behind the modal, pressing the `Esc` key, or clicking the close icon in the header. In a custom header the close icon appears only where you render `<Modal.CloseButton />`.
 
 To override that behavior, set `isDismissable` to `false` on the `<Modal.Trigger />`.
 
@@ -223,6 +252,14 @@ When you can't (or don't want to) change the parent — for example one nested m
 ### Modal.Header
 
 <ArgTypes of={Modal.Header} />
+
+### Modal.Title
+
+<ArgTypes of={Modal.Title} />
+
+### Modal.CloseButton
+
+<ArgTypes of={Modal.CloseButton} />
 
 ### Modal.Body
 
