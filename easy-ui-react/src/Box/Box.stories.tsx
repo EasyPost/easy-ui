@@ -396,12 +396,17 @@ export const PageContainer: Story = {
  */
 export const StickyToolbar: Story = {
   render: () => (
+    // A scrollable region needs `tabIndex` to be reachable by keyboard, and a
+    // role for its label to be announced.
     <Box
       height={220}
       maxWidth={420}
       overflowY="auto"
       borderColor="neutral.200"
       borderRadius="md"
+      tabIndex={0}
+      role="group"
+      aria-label="Shipment rows"
     >
       <Box
         position="sticky"
@@ -513,6 +518,9 @@ export const ScrollContainer: Story = {
       padding="2"
       borderColor="neutral.200"
       borderRadius="md"
+      tabIndex={0}
+      role="group"
+      aria-label="Carrier options"
     >
       <VerticalStack gap="1">
         {Array.from({ length: 14 }, (_, index) => (
