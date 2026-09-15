@@ -17,12 +17,7 @@ import {
 } from "./utilities";
 
 export type InputType =
-  | "text"
-  | "email"
-  | "password"
-  | "tel"
-  | "search"
-  | undefined;
+  "text" | "email" | "password" | "tel" | "search" | undefined;
 export type InputSize = "sm" | "md" | "lg";
 
 export type InputFieldProps = AriaTextFieldProps & {

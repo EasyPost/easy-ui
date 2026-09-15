@@ -95,5 +95,4 @@ type Enumerate<
   : Enumerate<N, [...Acc, Acc["length"]]>;
 
 export type IntRange<F extends number, L extends number> =
-  | Exclude<Enumerate<L>, Enumerate<F>>
-  | L;
+  Exclude<Enumerate<L>, Enumerate<F>> | L;

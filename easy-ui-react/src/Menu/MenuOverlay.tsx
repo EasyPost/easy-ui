@@ -37,9 +37,7 @@ import {
 import styles from "./Menu.module.scss";
 
 export type MenuOverlayWidth =
-  | "auto"
-  | "fit-content"
-  | ResponsiveProp<string | number>;
+  "auto" | "fit-content" | ResponsiveProp<string | number>;
 
 export type MenuOverlayProps<T> = {
   /** The contents of the menu. */

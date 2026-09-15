@@ -202,10 +202,7 @@ export const Rail: Story = {
 };
 
 type ForgeAppPageKey =
-  | "dashboard"
-  | "insurance"
-  | "accountSettings"
-  | "subAccountDetails";
+  "dashboard" | "insurance" | "accountSettings" | "subAccountDetails";
 
 type ForgeAppPage = {
   /** Label for the page switcher in this story. */
