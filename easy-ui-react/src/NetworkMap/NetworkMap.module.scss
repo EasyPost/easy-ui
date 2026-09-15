@@ -129,8 +129,12 @@
   }
 }
 .marker {
-  width: 22px;
-  height: 22px;
+  // 24px matches the minimum interactive-control touch-target size Viewrule (and WCAG 2.5.8's
+  // AA target-size guidance) checks against -- this button is disabled/non-interactive on some
+  // consumer screens (no onFacilitySelect wired), but it renders as a real <button> unconditionally,
+  // so its box must clear that floor regardless of whether a given screen currently uses it.
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
   overflow: visible;
