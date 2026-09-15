@@ -80,10 +80,7 @@ export type BoxDisplay =
   | "none"
   | "contents";
 export type BoxFlexDirection =
-  | "row"
-  | "row-reverse"
-  | "column"
-  | "column-reverse";
+  "row" | "row-reverse" | "column" | "column-reverse";
 export type BoxFlexWrap = "wrap" | "nowrap" | "wrap-reverse";
 export type BoxJustifyContent =
   | "start"
@@ -96,27 +93,14 @@ export type BoxJustifyContent =
 export type BoxAlignItems = "start" | "center" | "end" | "baseline" | "stretch";
 export type BoxAlignSelf = "start" | "center" | "end" | "baseline" | "stretch";
 export type BoxPosition =
-  | "static"
-  | "relative"
-  | "absolute"
-  | "fixed"
-  | "sticky";
+  "static" | "relative" | "absolute" | "fixed" | "sticky";
 export type BoxOverflow = "visible" | "hidden" | "clip" | "scroll" | "auto";
 export type BoxObjectFit = "contain" | "cover" | "fill" | "none" | "scale-down";
 export type BoxTextAlign = "start" | "center" | "end" | "justify";
 export type BoxWhiteSpace =
-  | "normal"
-  | "nowrap"
-  | "pre"
-  | "pre-wrap"
-  | "pre-line";
+  "normal" | "nowrap" | "pre" | "pre-wrap" | "pre-line";
 export type BoxCursor =
-  | "auto"
-  | "default"
-  | "pointer"
-  | "text"
-  | "not-allowed"
-  | "grab";
+  "auto" | "default" | "pointer" | "text" | "not-allowed" | "grab";
 export type BoxPointerEvents = "auto" | "none";
 
 /**
