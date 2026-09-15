@@ -25,9 +25,7 @@ const DEFAULT_BORDER_RADIUS = "md";
 type SpaceScale = DesignTokenNamespace<"space">;
 
 export type CardBackground =
-  | "primary"
-  | "secondary"
-  | ThemeTokenNamespace<"color">;
+  "primary" | "secondary" | ThemeTokenNamespace<"color">;
 export type CardVariant = "solid" | "outlined" | "flagged";
 export type CardStatus =
   | "primary"

@@ -19,11 +19,7 @@ import styles from "./Notification.module.scss";
 export type NotificationType = "alert" | "toast";
 
 export type NotificationStatus =
-  | "promotional"
-  | "success"
-  | "neutral"
-  | "error"
-  | "warning";
+  "promotional" | "success" | "neutral" | "error" | "warning";
 
 export type BaseNotificationProps = {
   /** Notification type */

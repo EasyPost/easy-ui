@@ -49,11 +49,7 @@ import type { QueuedToast } from "@react-stately/toast";
 export type NotificationType = "alert" | "toast";
 
 export type NotificationStatus =
-  | "promotional"
-  | "success"
-  | "neutral"
-  | "error"
-  | "warning";
+  "promotional" | "success" | "neutral" | "error" | "warning";
 
 export type BaseNotificationProps = {
   /** Notification type */

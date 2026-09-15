@@ -22,11 +22,7 @@ A HorizontalGrid displays children on a horizontal grid based on CSS grid.
 
 ```ts
 type ColumnsAlias =
-  | "oneFourth"
-  | "oneThird"
-  | "oneHalf"
-  | "twoThirds"
-  | "threeFourths";
+  "oneFourth" | "oneThird" | "oneHalf" | "twoThirds" | "threeFourths";
 type ColumnsType = number | string | (string | ColumnsAlias)[];
 type Columns = ResponsiveProp<ColumnsType>;
 type HorizontalGridAlignItems = "start" | "end" | "center";

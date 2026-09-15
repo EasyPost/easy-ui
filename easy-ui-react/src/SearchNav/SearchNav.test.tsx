@@ -2,7 +2,7 @@ import Brightness5 from "@easypost/easy-ui-icons/Brightness5";
 import Campaign from "@easypost/easy-ui-icons/Campaign";
 import Help from "@easypost/easy-ui-icons/Help";
 import { screen } from "@testing-library/react";
-import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
+import { UserEvent } from "@testing-library/user-event";
 import React from "react";
 import { vi } from "vitest";
 import {

@@ -11,11 +11,7 @@ import { formatHorizontalGrid } from "./utilities";
 import styles from "./HorizontalGrid.module.scss";
 
 export type ColumnsAlias =
-  | "oneFourth"
-  | "oneThird"
-  | "oneHalf"
-  | "twoThirds"
-  | "threeFourths";
+  "oneFourth" | "oneThird" | "oneHalf" | "twoThirds" | "threeFourths";
 export type ColumnsType = number | string | (string | ColumnsAlias)[];
 export type Columns = ResponsiveProp<ColumnsType>;
 export type HorizontalGridAlignItems = "start" | "end" | "center";

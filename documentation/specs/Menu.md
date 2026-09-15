@@ -71,10 +71,7 @@ type MenuTrigger = {
 };
 
 export type MenuOverlayWidth =
-  | "auto"
-  | "fit-content"
-  | "fit-trigger"
-  | ResponsiveProp<string | number>;
+  "auto" | "fit-content" | "fit-trigger" | ResponsiveProp<string | number>;
 
 type MenuOverlay = {
   /** The contents of the menu. */

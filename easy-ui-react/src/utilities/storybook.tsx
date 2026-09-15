@@ -1,5 +1,5 @@
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
-import { Decorator } from "@storybook/react";
+import { Decorator } from "@storybook/react-vite";
 import React, { ComponentProps, ReactNode, SVGProps, useState } from "react";
 import type { Placement as AriaPlacement } from "react-aria";
 import { getThemeTokenAliases } from "../Theme";

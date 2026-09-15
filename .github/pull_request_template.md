@@ -20,4 +20,4 @@ Easy UI has certain UX standards that must be met. In general, non-trivial chang
 - [ ] Cross-browser check is performed (Chrome, Safari, Firefox)
 - [ ] Changeset is added
 
-~Strikethrough~ any items that are not applicable to this pull request.
+~~Strikethrough~~ any items that are not applicable to this pull request.
