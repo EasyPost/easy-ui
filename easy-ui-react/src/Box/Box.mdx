@@ -1,0 +1,126 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/addon-docs/blocks";
+import { Box } from "./Box";
+import * as BoxStories from "./Box.stories";
+
+<Meta of={BoxStories} />
+
+# Box
+
+A `<Box />` is a general-purpose container that exposes Easy UI's design tokens as props. It exists to absorb the styling that would otherwise be written as a one-off CSS module or an inline `style` object.
+
+<Canvas of={BoxStories.Default} />
+
+## Constrained and free properties
+
+`<Box />` follows a single rule: **constrain what has a token scale, leave free what does not.**
+
+Properties backed by a token scale are typed to that scale, so an invalid value is a type error:
+
+| Property                             | Scale                    |
+| ------------------------------------ | ------------------------ |
+| `padding*`, `margin*`, `gap`         | space                    |
+| `background`, `color`, `borderColor` | theme color              |
+| `borderRadius`                       | border radius, or `full` |
+| `borderWidth`, `border*Width`        | border width             |
+| `boxShadow`                          | shadow level             |
+| `zIndex`                             | z-index                  |
+| `opacity`                            | opacity                  |
+
+Easy UI has no size token scale, so sizing and positioning accept free CSS values. Numbers are treated as `px`; strings pass through untouched, which means percentages, viewport units, `calc()`, `fit-content`, and `auto` all work.
+
+```tsx
+<Box width="100%" maxWidth={700} height="calc(100svh - 96px)" />
+```
+
+## Space
+
+`padding` and `margin` accept a space token, with per-axis and per-side variants. A more specific property wins over a less specific one, so `paddingTop` beats `paddingY`, which beats `padding`.
+
+<Canvas of={BoxStories.Padding} />
+
+<Controls of={BoxStories.Padding} include={["padding"]} />
+
+`margin` additionally accepts `auto` and negated space tokens, for centering a box and for pulling one against its own flow.
+
+```tsx
+<Box marginX="auto" marginTop="-2" />
+```
+
+## Size
+
+A `<Box />` can be sized directly. A constrained, centered container is the most common case.
+
+<Canvas of={BoxStories.Sizing} />
+
+## Border
+
+Setting `borderColor` or a border width implies a solid border, so there is no `borderStyle` prop. A `borderColor` on its own implies a border width of `1`.
+
+<Canvas of={BoxStories.Border} />
+
+<Controls of={BoxStories.Border} include={["borderColor", "borderRadius"]} />
+
+Widths can be set per side, which is how a `<Box />` becomes a divider or a ruled row.
+
+```tsx
+<Box borderBottomWidth="1" borderColor="neutral.200" />
+```
+
+## Shadow
+
+<Canvas of={BoxStories.Shadow} />
+
+<Controls of={BoxStories.Shadow} include={["boxShadow"]} />
+
+## Flexing within a parent
+
+A `<Box />` can control how it behaves inside a flex parent such as a `<HorizontalStack />` or `<VerticalStack />`. This is what `flex`, `flexGrow`, `flexShrink`, `flexBasis`, `alignSelf`, and `order` are for.
+
+<Canvas of={BoxStories.Flex} />
+
+## Laying out children
+
+A `<Box />` can lay out its own children with `display`, `flexDirection`, `flexWrap`, `justifyContent`, `alignItems`, and `gap`.
+
+Prefer `<HorizontalStack />`, `<VerticalStack />`, and `<HorizontalGrid />` for this; they are named for their intent and are easier to read. Reach for `display` on a `<Box />` when those do not fit.
+
+<Canvas of={BoxStories.FlexContainer} />
+
+## Position
+
+<Canvas of={BoxStories.Position} />
+
+## Media
+
+With `as="img"`, a `<Box />` sizes and fits replaced content, which covers logos and thumbnails.
+
+<Canvas of={BoxStories.Media} />
+
+## Elements and resets
+
+`as` renders a `<Box />` as a different element. `button`, `a`, `ul`, `ol`, `fieldset`, and `legend` receive an automatic unstyled reset, so their default browser styling does not need to be stripped by hand.
+
+<Canvas of={BoxStories.Button} />
+
+## Responsive properties
+
+Most properties accept an object keyed by breakpoint. A value applies from its breakpoint upward until another value overrides it.
+
+<Canvas of={BoxStories.Responsive} />
+
+```tsx
+<Box padding={{ xs: "2", md: "6" }} maxWidth={{ xs: "100%", lg: 480 }} />
+```
+
+`color`, `objectFit`, `whiteSpace`, `cursor`, `pointerEvents`, `zIndex`, `boxShadow`, `borderColor`, border widths, and `opacity` are deliberately not responsive, to keep the stylesheet small.
+
+## No className, no style
+
+`<Box />` accepts neither `className` nor `style`. It is the escape hatch, so it cannot itself have one — an escape hatch on the escape hatch would put arbitrary CSS back into application code and take styling out of the token system.
+
+If a `<Box />` cannot express something you need, that is a gap in `<Box />`. **File it.** The fix belongs here, where every consumer gets it, rather than in one application's stylesheet.
+
+## Properties
+
+<ArgTypes of={Box} />

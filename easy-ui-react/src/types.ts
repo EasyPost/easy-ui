@@ -69,9 +69,23 @@ export type IconSymbol =
 export type SpaceScale = DesignTokenNamespace<"space">;
 export type ResponsiveSpaceScale = ResponsiveProp<SpaceScale>;
 
+/**
+ * Space scale aliases negated, for pulling an element against its own flow.
+ *
+ * @example
+ * marginTop="-2"
+ */
+export type NegativeSpaceScale = `-${SpaceScale}`;
+
 export type ShadowLevel = DesignTokenNamespace<"shadow.level">;
 
 export type BorderRadius = DesignTokenNamespace<"shape.border_radius">;
+
+export type BorderWidth = DesignTokenNamespace<"shape.border_width">;
+
+export type ZIndex = DesignTokenNamespace<"z-index">;
+
+export type Opacity = DesignTokenNamespace<"opacity">;
 
 type Enumerate<
   N extends number,
