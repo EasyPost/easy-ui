@@ -70,6 +70,28 @@ export const Border: Story = {
   },
 };
 
+export const BorderRadius: Story = {
+  render: () => (
+    <HorizontalStack gap="2">
+      {(
+        [
+          ["borderRadius", { borderRadius: "lg" }],
+          ["borderRadiusTop", { borderRadiusTop: "lg" }],
+          ["borderRadiusRight", { borderRadiusRight: "lg" }],
+          ["borderRadiusTopLeft", { borderRadiusTopLeft: "lg" }],
+        ] as const
+      ).map(([label, radius]) => (
+        <Box key={label} {...radius} padding="2" background="primary.100">
+          <Text variant="caption">{label}</Text>
+        </Box>
+      ))}
+    </HorizontalStack>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
 export const Shadow: Story = {
   render: Template.bind({}),
   args: {
@@ -508,9 +530,9 @@ export const CenteredOverlay: Story = {
  * across three modal modules, and `zIndex` being a token scale is what keeps
  * `z-index: 9999` out of application code.
  *
- * The original rounds only its bottom two corners. `borderRadius` applies to
- * all four, so that detail is the one part of those three files a Box cannot
- * yet absorb.
+ * The original rounds only its bottom two corners, which is what
+ * `borderRadiusBottom` says. Its top two need no radius of their own — the
+ * scroll container clips them to its own.
  */
 export const StickyBanner: Story = {
   render: () => (
@@ -532,6 +554,7 @@ export const StickyBanner: Story = {
         paddingX="1.5"
         paddingY="1"
         background="positive.100"
+        borderRadiusBottom="md"
       >
         <HorizontalStack gap="2" blockAlign="center" align="space-between">
           <Text variant="subtitle2">Your account is approved</Text>

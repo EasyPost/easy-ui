@@ -67,6 +67,17 @@ Widths can be set per side, which is how a `<Box />` becomes a divider or a rule
 <Box borderBottomWidth="1" borderColor="neutral.200" />
 ```
 
+`borderRadius` can be set per edge pair or per corner, which is how a `<Box />` becomes a banner tucked under a rounded header, or a segment of a joined group. The position goes at the end of the property name — `borderRadiusTopLeft`, not `borderTopLeftRadius` — so that all nine sit together under `borderRadius` in autocomplete.
+
+<Canvas of={BoxStories.BorderRadius} />
+
+The same "more specific wins" rule as `padding` applies, with one extra step: a corner beats an edge pair, and a horizontal edge beats a vertical one. So `borderRadiusTopLeft` beats `borderRadiusTop`, which beats `borderRadiusLeft`, which beats `borderRadius`.
+
+```tsx
+// → sm top left, md top right, lg on both bottom corners
+<Box borderRadius="lg" borderRadiusTop="md" borderRadiusTopLeft="sm" />
+```
+
 Because a `borderColor` on its own implies a border, a conditional rule has to drop the color along with the width. Leaving the color behind draws a box on all four sides instead of no rule at all.
 
 ```tsx
@@ -200,10 +211,9 @@ A labelled field with an icon rail beside it. The same 35 lines are copy-pasted 
 
 ### What these recipes could not absorb
 
-Three details in the real modules survive a Box, and they are all token or API gaps rather than reasons to keep a stylesheet:
+Two details in the real modules survive a Box, and both are token or API gaps rather than reasons to keep a stylesheet:
 
 - The loading overlay crossfades with an inline `opacity: 0 | 1`. `opacity` is token-only and that scale has exactly one alias, `underlay`.
-- The sticky banner rounds only its bottom two corners. `borderRadius` applies to all four.
 - The icon rail is drawn with a `::before`, which is out of scope for a style prop by design.
 
 ## No className, no style

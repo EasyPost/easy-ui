@@ -15,6 +15,37 @@ describe("<Box />", () => {
     return screen.getByText("Content").parentElement as HTMLElement;
   }
 
+  /**
+   * Box declares the four corner longhands rather than the `border-radius`
+   * shorthand, so a radius assertion names the corners it expects. Corners left
+   * out of `corners` are left out of the expectation too, which is what an
+   * unset corner looks like.
+   */
+  function borderRadiusStyle(corners: {
+    topLeft?: string;
+    topRight?: string;
+    bottomRight?: string;
+    bottomLeft?: string;
+  }) {
+    const properties = {
+      topLeft: "border-top-left-radius",
+      topRight: "border-top-right-radius",
+      bottomRight: "border-bottom-right-radius",
+      bottomLeft: "border-bottom-left-radius",
+    } as const;
+    return Object.entries(corners).reduce(
+      (style, [corner, value]) => ({
+        ...style,
+        ...getComponentToken(
+          "box",
+          `${properties[corner as keyof typeof properties]}-xs`,
+          value,
+        ),
+      }),
+      {},
+    );
+  }
+
   it("should render its content", () => {
     render(<Box {...props} />);
     expect(screen.getByText("Content")).toBeInTheDocument();
@@ -194,18 +225,71 @@ describe("<Box />", () => {
     it("should support border radius", () => {
       render(<Box {...props} borderRadius="lg" />);
       expect(getBox()).toHaveStyle(
-        getComponentToken(
-          "box",
-          "border-radius-xs",
-          "var(--ezui-shape-border-radius-lg)",
-        ),
+        borderRadiusStyle({
+          topLeft: "var(--ezui-shape-border-radius-lg)",
+          topRight: "var(--ezui-shape-border-radius-lg)",
+          bottomRight: "var(--ezui-shape-border-radius-lg)",
+          bottomLeft: "var(--ezui-shape-border-radius-lg)",
+        }),
       );
     });
 
     it("should support a fully rounded border radius", () => {
       render(<Box {...props} borderRadius="full" />);
       expect(getBox()).toHaveStyle(
-        getComponentToken("box", "border-radius-xs", "9999px"),
+        borderRadiusStyle({
+          topLeft: "9999px",
+          topRight: "9999px",
+          bottomRight: "9999px",
+          bottomLeft: "9999px",
+        }),
+      );
+    });
+
+    it("should support border radius on an edge pair", () => {
+      render(<Box {...props} borderRadiusBottom="md" />);
+      expect(getBox()).toHaveStyle(
+        borderRadiusStyle({
+          bottomRight: "var(--ezui-shape-border-radius-md)",
+          bottomLeft: "var(--ezui-shape-border-radius-md)",
+        }),
+      );
+    });
+
+    it("should support border radius on a single corner", () => {
+      render(<Box {...props} borderRadiusTopRight="sm" />);
+      expect(getBox()).toHaveStyle(
+        borderRadiusStyle({ topRight: "var(--ezui-shape-border-radius-sm)" }),
+      );
+    });
+
+    it("should let a corner border radius win over an edge and a shorthand", () => {
+      render(
+        <Box
+          {...props}
+          borderRadius="lg"
+          borderRadiusTop="md"
+          borderRadiusTopLeft="sm"
+        />,
+      );
+      expect(getBox()).toHaveStyle(
+        borderRadiusStyle({
+          topLeft: "var(--ezui-shape-border-radius-sm)",
+          topRight: "var(--ezui-shape-border-radius-md)",
+          bottomRight: "var(--ezui-shape-border-radius-lg)",
+          bottomLeft: "var(--ezui-shape-border-radius-lg)",
+        }),
+      );
+    });
+
+    it("should let a horizontal edge border radius win over a vertical one", () => {
+      render(<Box {...props} borderRadiusTop="md" borderRadiusLeft="sm" />);
+      expect(getBox()).toHaveStyle(
+        borderRadiusStyle({
+          topLeft: "var(--ezui-shape-border-radius-md)",
+          topRight: "var(--ezui-shape-border-radius-md)",
+          bottomLeft: "var(--ezui-shape-border-radius-sm)",
+        }),
       );
     });
 

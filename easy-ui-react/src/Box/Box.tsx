@@ -70,6 +70,9 @@ export type BoxMargin = ResponsiveProp<
 /** A space scale alias or a free CSS length. */
 export type BoxInset = ResponsiveProp<SpaceScale | number | string>;
 
+/** A border radius token, or `full` to fully round a corner. */
+export type BoxBorderRadius = ResponsiveProp<BorderRadius | "full">;
+
 export type BoxDisplay =
   | "block"
   | "inline-block"
@@ -205,8 +208,42 @@ export type BoxStyleProps = {
   /** Text color of the box's content. */
   color?: ThemeColorAliases;
 
-  /** Border radius of the box. `full` fully rounds the box. */
-  borderRadius?: ResponsiveProp<BorderRadius | "full">;
+  /**
+   * Border radius of the box, with per-edge and per-corner variants. A more
+   * specific property wins over a less specific one, so `borderRadiusTopLeft`
+   * beats `borderRadiusTop`, which beats `borderRadiusLeft`, which beats
+   * `borderRadius`. `full` fully rounds a corner.
+   *
+   * @example
+   * borderRadius="lg"
+   * borderRadiusBottom="md"
+   * borderRadius={{ xs: "sm", md: "lg" }}
+   */
+  borderRadius?: BoxBorderRadius;
+
+  /** Border radius of the box's two top corners. */
+  borderRadiusTop?: BoxBorderRadius;
+
+  /** Border radius of the box's two bottom corners. */
+  borderRadiusBottom?: BoxBorderRadius;
+
+  /** Border radius of the box's two left corners. */
+  borderRadiusLeft?: BoxBorderRadius;
+
+  /** Border radius of the box's two right corners. */
+  borderRadiusRight?: BoxBorderRadius;
+
+  /** Border radius of the box's top left corner. */
+  borderRadiusTopLeft?: BoxBorderRadius;
+
+  /** Border radius of the box's top right corner. */
+  borderRadiusTopRight?: BoxBorderRadius;
+
+  /** Border radius of the box's bottom right corner. */
+  borderRadiusBottomRight?: BoxBorderRadius;
+
+  /** Border radius of the box's bottom left corner. */
+  borderRadiusBottomLeft?: BoxBorderRadius;
 
   /**
    * Border color of the box. Setting this implies a solid `1` border width
@@ -558,6 +595,14 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
     background,
     color,
     borderRadius,
+    borderRadiusTop,
+    borderRadiusBottom,
+    borderRadiusLeft,
+    borderRadiusRight,
+    borderRadiusTopLeft,
+    borderRadiusTopRight,
+    borderRadiusBottomRight,
+    borderRadiusBottomLeft,
     borderColor,
     borderWidth,
     borderTopWidth,
@@ -697,8 +742,35 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
     ...getResponsiveResolvedValue("background", background, resolveThemeColor),
     ...getComponentThemeToken(COMPONENT_NAME, "color", "color", color),
     ...getResponsiveResolvedValue(
-      "border-radius",
-      borderRadius,
+      "border-top-left-radius",
+      borderRadiusTopLeft ??
+        borderRadiusTop ??
+        borderRadiusLeft ??
+        borderRadius,
+      resolveBorderRadius,
+    ),
+    ...getResponsiveResolvedValue(
+      "border-top-right-radius",
+      borderRadiusTopRight ??
+        borderRadiusTop ??
+        borderRadiusRight ??
+        borderRadius,
+      resolveBorderRadius,
+    ),
+    ...getResponsiveResolvedValue(
+      "border-bottom-right-radius",
+      borderRadiusBottomRight ??
+        borderRadiusBottom ??
+        borderRadiusRight ??
+        borderRadius,
+      resolveBorderRadius,
+    ),
+    ...getResponsiveResolvedValue(
+      "border-bottom-left-radius",
+      borderRadiusBottomLeft ??
+        borderRadiusBottom ??
+        borderRadiusLeft ??
+        borderRadius,
       resolveBorderRadius,
     ),
     ...getComponentThemeToken(

@@ -130,7 +130,15 @@ type BoxProps = {
   // Surface — token
   background?: ResponsiveProp<ThemeColorAliases>;
   color?: ThemeColorAliases;
-  borderRadius?: ResponsiveProp<BorderRadius | "full">;
+  borderRadius?: BoxBorderRadius;
+  borderRadiusTop?: BoxBorderRadius;
+  borderRadiusBottom?: BoxBorderRadius;
+  borderRadiusLeft?: BoxBorderRadius;
+  borderRadiusRight?: BoxBorderRadius;
+  borderRadiusTopLeft?: BoxBorderRadius;
+  borderRadiusTopRight?: BoxBorderRadius;
+  borderRadiusBottomRight?: BoxBorderRadius;
+  borderRadiusBottomLeft?: BoxBorderRadius;
   borderColor?: ThemeColorAliases;
   borderWidth?: BorderWidth;
   borderTopWidth?: BorderWidth;
@@ -242,7 +250,14 @@ A single element. `Box` renders `as` (default `div`) with a generated `className
     --ezui-c-box-padding-bottom-xs: var(--ezui-space-4);
     --ezui-c-box-padding-left-xs: var(--ezui-space-4);
     --ezui-c-box-background-xs: var(--ezui-color-primary-100);
-    --ezui-c-box-border-radius-xs: var(--ezui-shape-border-radius-lg);
+    --ezui-c-box-border-top-left-radius-xs: var(--ezui-shape-border-radius-lg);
+    --ezui-c-box-border-top-right-radius-xs: var(--ezui-shape-border-radius-lg);
+    --ezui-c-box-border-bottom-right-radius-xs: var(
+      --ezui-shape-border-radius-lg
+    );
+    --ezui-c-box-border-bottom-left-radius-xs: var(
+      --ezui-shape-border-radius-lg
+    );
   "
 ></div>
 

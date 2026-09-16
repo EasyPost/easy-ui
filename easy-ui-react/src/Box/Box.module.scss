@@ -64,7 +64,29 @@
   @include responsive-prop("box", "max-height", max-height);
   @include responsive-prop("box", "aspect-ratio", aspect-ratio);
   @include responsive-prop("box", "background", background);
-  @include responsive-prop("box", "border-radius", border-radius);
+  // Corner longhands rather than the `border-radius` shorthand, so that a
+  // per-corner value is not clobbered by the shorthand resolving to `unset`.
+  // No fallback is needed: `unset` on a corner longhand is `0`, the default.
+  @include responsive-prop(
+    "box",
+    "border-top-left-radius",
+    border-top-left-radius
+  );
+  @include responsive-prop(
+    "box",
+    "border-top-right-radius",
+    border-top-right-radius
+  );
+  @include responsive-prop(
+    "box",
+    "border-bottom-right-radius",
+    border-bottom-right-radius
+  );
+  @include responsive-prop(
+    "box",
+    "border-bottom-left-radius",
+    border-bottom-left-radius
+  );
   @include responsive-prop("box", "flex-grow", flex-grow);
   @include responsive-prop("box", "flex-shrink", flex-shrink);
   @include responsive-prop("box", "flex-basis", flex-basis);
