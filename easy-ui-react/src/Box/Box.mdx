@@ -257,18 +257,17 @@ A two-column field grid where some fields run the full width, from the label-cre
 
 <Canvas of={BoxStories.FormGrid} />
 
-### What these recipes could not absorb
+## What a Box cannot do
 
-A second sweep of the web app — 97 CSS modules, 238 legacy global stylesheets, and 80 inline `style` objects — turned up these gaps. Each is a token or API gap rather than a reason to keep a stylesheet, and none of them blocks the layout around it:
+A `<Box />` styles one element in one state. That rules out:
 
-- **`opacity: 0 | 1` crossfades**, in the loading overlay and in `text_with_spinner`. `opacity` is token-only and that scale has exactly one alias, `underlay`.
-- **Pseudo-elements**, such as the icon rail's `::before`. Out of scope for a style prop by design.
-- **Pseudo-classes and transitions.** 44 stylesheets use `:hover` and 25 use `transition`, though only 5 of those are CSS modules — this is mostly a fact about the app's legacy global layer. The common shape is a card that raises its shadow on hover, which belongs to an interactive `Card` rather than to a style prop. A `<Box />` can express the resting state but not the hover.
-- **`text-decoration`**, in four inline styles and in the login screens' underline-on-hover links. There is no `textDecoration` prop.
-- **Descendant, child, and `:global()` selectors.** Twelve `:global()` blocks reach into a legacy child component's markup, and a few modules style a `> span` or a bare `button`. A `<Box />` styles only itself.
-- **Computed colors**, such as a brand color picker's swatch. `background`, `color`, and `borderColor` take a theme alias, so a value chosen at runtime has no token to name. Raw hex values that _do_ have a token are fine — the app's `#fff` is `neutral.000` and its `#061340` is `primary.800`.
-- **Custom breakpoints.** Responsive props are keyed to the token scale (`sm` 480, `md` 640, `lg` 1024, `xl` 1360, `xxl` 1920), so a module written against 768px and 992px cannot be reproduced exactly; both fall between `md` and `lg`.
-- **`scroll-margin-top`, `font-family`, and background images.** No props, by design or by omission.
+- **Anything but the resting state** — no `:hover`, `:focus`, or `transition`. An interactive treatment belongs to the component that owns the interaction.
+- **Pseudo-elements** — no `::before` or `::after`.
+- **Other elements** — no descendant, child, or `:global()` selectors. A `<Box />` styles only itself.
+- **Animation** — no keyframes.
+- **Type styling** — no `textDecoration` or `font-family`. That belongs to `<Text />`.
+- **Values with no token behind them** — a color computed at runtime has no alias to name, and responsive props are keyed to the breakpoint scale, so a custom breakpoint cannot be matched exactly.
+- **Background images**, and `scroll-margin-top`.
 
 ## No className, no style
 
