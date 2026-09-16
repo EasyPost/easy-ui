@@ -709,3 +709,178 @@ export const IconRailField: Story = {
     controls: { disable: true },
   },
 };
+
+/**
+ * A panel that fills the height it is given, with a colored header band. Eleven
+ * selectors across ten modules open with the same `flex: 1` / `display: flex` /
+ * `flex-direction: column` trio — the Luma rules editor, the Luma advisor and
+ * insights panels, and the analytics content shells among them.
+ *
+ * The flagship, `screens/forge/luma/rules/edit/styles.module.scss`, is already
+ * written entirely in `design-token()` calls, so every value here is the token
+ * the stylesheet was reaching for. `overflow="hidden"` is what makes the header
+ * band's background follow the panel's rounded corners.
+ */
+export const FlexFillPanel: Story = {
+  render: () => (
+    <Box
+      display="flex"
+      flexDirection="column"
+      height={240}
+      padding="2"
+      background="neutral.050"
+    >
+      <Box
+        flex="1"
+        display="flex"
+        flexDirection="column"
+        background="neutral.000"
+        borderColor="neutral.300"
+        borderRadius="lg"
+        boxShadow="1"
+        overflow="hidden"
+        width="100%"
+        maxWidth={1310}
+        marginX="auto"
+      >
+        <Box paddingY="2" paddingX="3" background="primary.700">
+          <Text variant="subtitle1" color="neutral.000">
+            Rule details
+          </Text>
+        </Box>
+        <Box flex="1" padding="3">
+          <Text variant="body2" color="neutral.700">
+            The panel body takes the remaining height.
+          </Text>
+        </Box>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A region that fills its parent and centers whatever stands in for missing
+ * content. Six modules hold this shape; `common/analytics/styles.module.scss`
+ * writes it once and shares it between `.emptyContainer` and `.loadingContainer`,
+ * and the OAuth carrier callback adds a surface and a `50vh` floor to it.
+ *
+ * Only the centering belongs to a `<Box />`. The empty state's own content is an
+ * `<EmptyStateCard />`, which is why this recipe holds a spinner rather than a
+ * heading and a call to action.
+ */
+export const CenteredStateRegion: Story = {
+  render: () => (
+    <Box display="flex" flexDirection="column" height={240} padding="2">
+      <Box
+        flex="1 1 auto"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="8rem"
+        background="neutral.000"
+        borderColor="neutral.200"
+        borderRadius="lg"
+      >
+        <Spinner size="md" color="neutral.700" value={40}>
+          Refreshing analytics
+        </Spinner>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * An image that reserves its space before it loads. `width` + `height` +
+ * `aspectRatio` is the most common inline `style` object in the app — 22 of the
+ * 80 occurrences — across promo modals, the advanced tracking interstitial, and
+ * the tracking notification promo card.
+ *
+ * `aspectRatio` holds the box's shape while the bytes are still arriving, so
+ * nothing below it shifts. It takes a free value, which is what the promo modal
+ * needs: its ratio comes from a prop, one image to the next.
+ */
+export const AspectRatioMedia: Story = {
+  render: () => (
+    <Box width="100%" maxWidth={320} padding="3" background="neutral.050">
+      <Box
+        as={UPSLogoImg}
+        alt="UPS"
+        display="block"
+        width="100%"
+        height="auto"
+        maxHeight={100}
+        aspectRatio="241 / 241"
+        objectFit="contain"
+        marginX="auto"
+      />
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A logo inside a circle or a rounded tile. Four modules draw it: the new
+ * account setup config step at 32px with `border-radius: 999px`, and the
+ * sub-account child and referral screens at 60px with the `lg` radius.
+ *
+ * `borderRadius="full"` replaces the hand-written `999px`, and `overflow="hidden"`
+ * is what crops the image to the shape rather than letting it square off the
+ * corners.
+ */
+export const LogoDisc: Story = {
+  render: () => (
+    <HorizontalStack gap="3" blockAlign="center">
+      <Box
+        display="inline-flex"
+        alignItems="center"
+        justifyContent="center"
+        width={32}
+        height={32}
+        padding="0.5"
+        background="neutral.000"
+        borderColor="neutral.200"
+        borderRadius="full"
+        overflow="hidden"
+      >
+        <Box
+          as={FedExLogoImg}
+          alt="FedEx"
+          width="100%"
+          height="100%"
+          objectFit="contain"
+        />
+      </Box>
+      <Box
+        display="inline-flex"
+        alignItems="center"
+        justifyContent="center"
+        width={60}
+        height={60}
+        padding="1"
+        background="neutral.000"
+        borderColor="neutral.200"
+        borderRadius="lg"
+        overflow="hidden"
+      >
+        <Box
+          as={UPSLogoImg}
+          alt="UPS"
+          width="100%"
+          height="100%"
+          objectFit="contain"
+        />
+      </Box>
+    </HorizontalStack>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};

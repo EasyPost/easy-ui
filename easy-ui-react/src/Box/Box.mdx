@@ -207,12 +207,43 @@ A labelled field with an icon rail beside it. The same 35 lines are copy-pasted 
 
 <Canvas of={BoxStories.IconRailField} />
 
+### Flex fill panel
+
+A panel that fills the height it is given, with a colored header band. Eleven selectors across ten modules open with the same `flex: 1` / `display: flex` / `flex-direction: column` trio. `overflow="hidden"` is what makes the header band's background follow the panel's rounded corners.
+
+<Canvas of={BoxStories.FlexFillPanel} />
+
+### Centered state region
+
+A region that fills its parent and centers whatever stands in for missing content — six modules, one of which shares a single rule between `.emptyContainer` and `.loadingContainer`. Only the centering belongs to a `<Box />`; the empty state's own content is an `<EmptyStateCard />`.
+
+<Canvas of={BoxStories.CenteredStateRegion} />
+
+### Aspect ratio media
+
+An image that reserves its space before it loads. `width` + `height` + `aspectRatio` is the most common inline `style` object in the app, at 22 of 80 occurrences. `aspectRatio` takes a free value, which is what a promo image whose ratio comes from a prop needs.
+
+<Canvas of={BoxStories.AspectRatioMedia} />
+
+### Logo disc
+
+A logo inside a circle or a rounded tile, from four modules. `borderRadius="full"` replaces a hand-written `999px`, and `overflow="hidden"` crops the image to the shape instead of letting it square off the corners.
+
+<Canvas of={BoxStories.LogoDisc} />
+
 ### What these recipes could not absorb
 
-Two details in the real modules survive a Box, and both are token or API gaps rather than reasons to keep a stylesheet:
+A second sweep of the web app — 97 CSS modules, 238 legacy global stylesheets, and 80 inline `style` objects — turned up these gaps. Each is a token or API gap rather than a reason to keep a stylesheet, and none of them blocks the layout around it:
 
-- The loading overlay crossfades with an inline `opacity: 0 | 1`. `opacity` is token-only and that scale has exactly one alias, `underlay`.
-- The icon rail is drawn with a `::before`, which is out of scope for a style prop by design.
+- **`opacity: 0 | 1` crossfades**, in the loading overlay and in `text_with_spinner`. `opacity` is token-only and that scale has exactly one alias, `underlay`.
+- **Pseudo-elements**, such as the icon rail's `::before`. Out of scope for a style prop by design.
+- **Pseudo-classes and transitions.** 33 modules use `&:hover` and 22 use `transition`; the common shape is a card that raises its shadow on hover. A `<Box />` can express the resting state but not the hover.
+- **`text-decoration`**, in four inline styles and in the login screens' underline-on-hover links. There is no `textDecoration` prop.
+- **`transform` and `transform-origin`**, including the `translate(-50%, -50%)` centering idiom and a `scale(0.4)` preview thumbnail.
+- **Descendant, child, and `:global()` selectors.** Twelve `:global()` blocks reach into a legacy child component's markup, and a few modules style a `> span` or a bare `button`. A `<Box />` styles only itself.
+- **Computed colors**, such as a brand color picker's swatch. `background`, `color`, and `borderColor` take a theme alias, so a value chosen at runtime has no token to name. Raw hex values that _do_ have a token are fine — the app's `#fff` is `neutral.000` and its `#061340` is `primary.800`.
+- **Custom breakpoints.** Responsive props are keyed to the token scale (`sm` 480, `md` 640, `lg` 1024, `xl` 1360, `xxl` 1920), so a module written against 768px and 992px cannot be reproduced exactly; both fall between `md` and `lg`.
+- **`overscroll-behavior`, `scroll-margin-top`, `font-family`, and background images.** No props, by design or by omission.
 
 ## No className, no style
 

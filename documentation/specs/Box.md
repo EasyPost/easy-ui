@@ -45,6 +45,28 @@ The specific gaps a `Box` closes, ranked by volume:
 - Most properties are responsive per breakpoint via Easy UI's existing responsive-prop mechanism.
 - No `className`, no `style`.
 
+### Known Limitations
+
+A second sweep of `easypost-web-app` widened the audit to the legacy layer: 97 `*.module.scss` files, 238 non-module `.scss` files (~150 of them aggregated into `main.scss` by `@import` chains), and 80 inline `style={{}}` objects across 61 files. There is no CSS-in-JS anywhere in the app.
+
+The coverage holds up at that scale. **768 of 1,471 leaf declaration blocks (52%)** in the legacy stylesheets contain only properties a `Box` can express, as do **152 of 199 (76%)** simple class rules in the CSS modules. The recurring inline-style shapes are also expressible: image sizing with `width` + `height` + `aspectRatio` (22 of the 80), a fixed-height spacer `<div>` (8), and a single-purpose margin or padding wrapper (12) — every `rem` and `px` value in that last group lands exactly on a space token, since the scale is built on 8px multiples.
+
+What a `Box` cannot absorb is narrow, specific, and mostly by design:
+
+| Gap                                                                          | Occurrences                        | Nature                                                            |
+| ---------------------------------------------------------------------------- | ---------------------------------- | ----------------------------------------------------------------- |
+| `opacity: 0 \| 1` crossfade                                                  | 6 inline styles                    | Token gap — the scale has one alias, `underlay` (`0.4`)           |
+| Pseudo-classes and `transition`                                              | 33 files `:hover`, 22 `transition` | By design — a style prop styles one resting state                 |
+| Pseudo-elements (`::before` icon rails)                                      | 3 modules                          | By design                                                         |
+| `text-decoration`                                                            | 4 inline styles + 2 modules        | Prop omission — a candidate if demand grows                       |
+| `transform` / `transform-origin`                                             | 4 files                            | By design — animation and visual effects are not layout           |
+| Descendant, child, and `:global()` selectors                                 | 12 `:global()` blocks              | By design — a `Box` styles only itself                            |
+| Computed, non-token colors                                                   | 2 inline styles                    | By design — `background`/`color`/`borderColor` take a theme alias |
+| Custom breakpoints (768px, 992px, 1300px)                                    | 2 modules                          | Token gap — responsive props are keyed to the token scale         |
+| `overscroll-behavior`, `scroll-margin-top`, `font-family`, background images | 1 each                             | Prop omission                                                     |
+
+Two of these are worth restating because they read like Box gaps and are not. **Raw hex values that have a token are fine** — the app's `#fff` is `neutral.000` and its `#061340` is `primary.800`; only a value computed at runtime has no token to name. And **`box-shadow` has three levels** (`1`, `2`, `3`), so the hover-shadow pattern's resting state is expressible even though its hover is not.
+
 ### Risks and Challenges
 
 **A general-purpose `Box` is the most-abused component in every design system that has one.** Three risks are worth naming.
