@@ -223,11 +223,11 @@ export const Responsive: Story = {
 // shipped code rather than on invention.
 //
 // Deliberately absent: a plain card surface, a title-and-action section header,
-// and a search row. `Card`, `SectionCard`, and `CheckableCard` already own the
-// first two — the app reaches for `Card` in ~198 files — and the app builds the
-// search row with `HorizontalGrid columns={["1fr", "auto"]}`, not with a
-// flexing wrapper. A Box story for any of them would be teaching people to
-// hand-roll a component we ship.
+// and a selectable card. `Card`, `SectionCard`, and `CheckableCard` already own
+// those three, and the app reaches for `Card` in ~198 files. A search row is
+// absent for the same reason — the app builds it with
+// `HorizontalGrid columns={["1fr", "auto"]}`, not with a flexing wrapper. A Box
+// story for any of them would be teaching people to hand-roll something we ship.
 // ---------------------------------------------------------------------------
 
 /**
