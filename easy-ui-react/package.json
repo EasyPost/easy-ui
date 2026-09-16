@@ -25,6 +25,7 @@
     "lint": "run-p lint:*",
     "lint:js": "eslint src --ext .ts,.tsx",
     "lint:styles": "stylelint 'src/**/*.{css,scss}'",
+    "prepare": "cd .. && npm run build --workspace=@easypost/easy-ui-tokens --workspace=@easypost/easy-ui-icons --if-present; cd easy-ui-react && npm run build",
     "test": "vitest run",
     "test:watch": "vitest"
   },
