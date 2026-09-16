@@ -4,6 +4,7 @@ import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { NetworkMap } from "./NetworkMap";
 import type { MapFocus } from "./types";
 import {
+  deliveryTimeSurface,
   exampleBasemap,
   facilityMetrics,
   networkFacilities,
@@ -463,6 +464,7 @@ export function NetworkMapExample({
             facilities={facilities}
             segments={segments}
             areas={weatherAreas}
+            surface={audience === "shipper" ? deliveryTimeSurface : undefined}
             selectedFacilityId={selected}
             onFacilitySelect={(id) => {
               setSelected(id);

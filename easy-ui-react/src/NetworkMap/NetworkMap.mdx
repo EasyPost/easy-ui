@@ -100,6 +100,12 @@ Facilities have stable IDs; segments reference their endpoints. `selectedFacilit
 - `risk`: caller-supplied probability, comparable baseline, event, horizon, cohort, output time and freshness status. Current scores at or above 15% use the elevated visual treatment; stale/unavailable scores use an unknown treatment. Missing values never become zero.
 - `areas`: application-filtered observed or forecast polygons with source and validity interval. The application owns authorization, freshness, geometry and time filtering.
 
+## Delivery-time surface
+
+<Canvas of={NetworkMapStories.ShipperFlow} />
+
+`surface` renders an optional data-driven fill layer over a grid of delivery-time cells (`MapSurfaceCell`), toggled with "Delivery time surface" in the map's own layer controls — disabled when no cells are supplied. Fill color follows a diverging ramp over each cell's `medianMinutes`: blue near zero, yellow around 60 minutes, red at 120 minutes and above. Fill opacity follows each cell's own `n`, its observation count, normalized against the largest `n` in the supplied grid — a well-sampled cell asserts its median plainly, while a thinly sampled cell fades toward transparent rather than asserting a median it barely supports. `medianMinutes` and `iqrMinutes` are `null`, never zero, when a cell has no estimate.
+
 ## Accessibility, failure and packaging
 
 Marker buttons have full accessible names and controlled pressed state. Table rows offer equivalent selection, including records whose labels are hidden. The exact-data disclosure includes risk event, horizon, cohort, baseline and output timestamp; segment descriptions provide transfer evidence. Loading and failure states preserve this data. Initialization failures offer Retry; tile failures surface a reload notice and `onRenderError`. A basemap is an additional spatial view, not the only way to inspect or select records.

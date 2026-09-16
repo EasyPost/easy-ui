@@ -1,4 +1,11 @@
-import type { MapArea, MapFacility, MapRisk, MapSegment } from "./types";
+import type {
+  MapArea,
+  MapFacility,
+  MapRisk,
+  MapSegment,
+  MapSurface,
+  MapSurfaceCell,
+} from "./types";
 
 // Keyless OpenFreeMap vector style for examples; applications choose their own provider.
 export const exampleBasemap = "https://tiles.openfreemap.org/styles/positron";
@@ -243,6 +250,108 @@ export const weatherAreas: MapArea[] = [
     ],
   },
 ];
+// Grid cells covering the same southeast Michigan area as the facilities/weather fixtures
+// above, hand-picked (not a regular tiling) to show the fill layer's full encoding range:
+// fast/well-sampled near the Detroit hub, slow/well-sampled toward the exurbs, and two
+// low-`n` cells whose fill should read as barely-there regardless of their own median.
+const deliveryTimeSurfaceCells: MapSurfaceCell[] = [
+  {
+    // Dearborn distribution core.
+    latMin: 42.28,
+    latMax: 42.34,
+    lonMin: -83.26,
+    lonMax: -83.16,
+    medianMinutes: 26,
+    iqrMinutes: 9,
+    n: 240,
+  },
+  {
+    // Detroit regional sort, just north.
+    latMin: 42.34,
+    latMax: 42.4,
+    lonMin: -83.24,
+    lonMax: -83.12,
+    medianMinutes: 32,
+    iqrMinutes: 11,
+    n: 210,
+  },
+  {
+    // Livonia, west of the sort hub.
+    latMin: 42.36,
+    latMax: 42.43,
+    lonMin: -83.42,
+    lonMax: -83.3,
+    medianMinutes: 45,
+    iqrMinutes: 14,
+    n: 150,
+  },
+  {
+    // Warren, north of the sort hub.
+    latMin: 42.44,
+    latMax: 42.53,
+    lonMin: -83.12,
+    lonMax: -83.0,
+    medianMinutes: 51,
+    iqrMinutes: 16,
+    n: 130,
+  },
+  {
+    // Ann Arbor distribution area, southwest.
+    latMin: 42.22,
+    latMax: 42.31,
+    lonMin: -83.78,
+    lonMax: -83.66,
+    medianMinutes: 62,
+    iqrMinutes: 20,
+    n: 70,
+  },
+  {
+    // Transitional cell between Ann Arbor and Livonia.
+    latMin: 42.3,
+    latMax: 42.38,
+    lonMin: -83.6,
+    lonMax: -83.48,
+    medianMinutes: 74,
+    iqrMinutes: 24,
+    n: 40,
+  },
+  {
+    // Northern exurb, slow and thinly sampled.
+    latMin: 42.5,
+    latMax: 42.6,
+    lonMin: -83.66,
+    lonMax: -83.52,
+    medianMinutes: 98,
+    iqrMinutes: 30,
+    n: 16,
+  },
+  {
+    // Sparse rural cell: high median, but n is too low to trust it — should render
+    // near-transparent even though its color would otherwise be the most saturated red.
+    latMin: 42.14,
+    latMax: 42.22,
+    lonMin: -83.7,
+    lonMax: -83.56,
+    medianMinutes: 118,
+    iqrMinutes: 35,
+    n: 3,
+  },
+  {
+    // Second low-n cell, moderate median and no IQR yet (still null when unavailable).
+    latMin: 42.16,
+    latMax: 42.24,
+    lonMin: -83.34,
+    lonMax: -83.2,
+    medianMinutes: 55,
+    iqrMinutes: null,
+    n: 2,
+  },
+];
+export const deliveryTimeSurface: MapSurface = {
+  cells: deliveryTimeSurfaceCells,
+  asOf: snapshot,
+  source: "Synthetic delivery-time field fixture",
+};
 export const parcelCohort = [
   {
     id: "EP-104",
