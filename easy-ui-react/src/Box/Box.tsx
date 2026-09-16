@@ -99,6 +99,7 @@ export type BoxPosition =
   "static" | "relative" | "absolute" | "fixed" | "sticky";
 export type BoxOverflow = "visible" | "hidden" | "clip" | "scroll" | "auto";
 export type BoxObjectFit = "contain" | "cover" | "fill" | "none" | "scale-down";
+export type BoxOverscrollBehavior = "auto" | "contain" | "none";
 export type BoxTextAlign = "start" | "center" | "end" | "justify";
 export type BoxWhiteSpace =
   "normal" | "nowrap" | "pre" | "pre-wrap" | "pre-line";
@@ -356,6 +357,27 @@ export type BoxStyleProps = {
   /** Stacking order of the box. */
   zIndex?: ZIndex;
 
+  // -- Transform ------------------------------------------------------------
+
+  /**
+   * Visual transformation of the box. Any CSS `transform` value.
+   *
+   * @remarks
+   * A transform moves the box without moving the space it occupies, so prefer
+   * a margin, `inset`, or a flex property when the surrounding layout should
+   * respond. Reach for this when it should not.
+   *
+   * A value given per breakpoint replaces the whole transform list rather than
+   * adding to it, as CSS does.
+   *
+   * @example
+   * <Box transform="scale(0.4)" transformOrigin="top left" />
+   */
+  transform?: ResponsiveProp<string>;
+
+  /** Origin the box's `transform` is applied around. Any CSS value. */
+  transformOrigin?: ResponsiveProp<string>;
+
   // -- Content behavior -----------------------------------------------------
 
   /** How overflowing content is handled on both axes. */
@@ -366,6 +388,12 @@ export type BoxStyleProps = {
 
   /** How vertically overflowing content is handled. */
   overflowY?: ResponsiveProp<BoxOverflow>;
+
+  /**
+   * Whether a scroll that reaches the box's edge continues on to its scroll
+   * parent. `contain` keeps the scroll inside the box.
+   */
+  overscrollBehavior?: BoxOverscrollBehavior;
 
   /** How replaced content such as an `img` is fitted to the box. */
   objectFit?: BoxObjectFit;
@@ -635,9 +663,13 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
     left,
     zIndex,
 
+    transform,
+    transformOrigin,
+
     overflow,
     overflowX,
     overflowY,
+    overscrollBehavior,
     objectFit,
     textAlign,
     whiteSpace,
@@ -849,6 +881,14 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
     ...getResponsiveResolvedValue("left", left ?? inset, resolveSpace),
     ...getComponentDesignToken(COMPONENT_NAME, "z-index", "z-index", zIndex),
 
+    // -- Transform ----------------------------------------------------------
+    ...getResponsiveResolvedValue("transform", transform, resolveRaw),
+    ...getResponsiveResolvedValue(
+      "transform-origin",
+      transformOrigin,
+      resolveRaw,
+    ),
+
     // -- Content behavior ---------------------------------------------------
     ...getResponsiveResolvedValue(
       "overflow-x",
@@ -859,6 +899,11 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
       "overflow-y",
       overflowY ?? overflow,
       resolveRaw,
+    ),
+    ...getComponentToken(
+      COMPONENT_NAME,
+      "overscroll-behavior",
+      overscrollBehavior,
     ),
     ...getComponentToken(COMPONENT_NAME, "object-fit", objectFit),
     ...getResponsiveResolvedValue("text-align", textAlign, resolveRaw),

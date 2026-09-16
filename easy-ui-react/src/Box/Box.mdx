@@ -109,6 +109,16 @@ Prefer `<HorizontalStack />`, `<VerticalStack />`, and `<HorizontalGrid />` for 
 
 <Canvas of={BoxStories.Position} />
 
+## Transform
+
+`transform` and `transformOrigin` take any CSS value, since there is no token scale for either. Both are responsive.
+
+A transform does not change the space the box occupies, so prefer a margin, `inset`, or a flex property when the surrounding layout should respond, and reach for `transform` when it should not.
+
+A value given per breakpoint replaces the whole transform list rather than adding to it, as CSS does.
+
+<Canvas of={BoxStories.Transform} />
+
 ## Media
 
 With `as="img"`, a `<Box />` sizes and fits replaced content, which covers logos and thumbnails.
@@ -133,7 +143,7 @@ Most properties accept an object keyed by breakpoint. A value applies from its b
 <Box padding={{ xs: "2", md: "6" }} maxWidth={{ xs: "100%", lg: 480 }} />
 ```
 
-`color`, `objectFit`, `whiteSpace`, `cursor`, `pointerEvents`, `zIndex`, `boxShadow`, `borderColor`, border widths, and `opacity` are deliberately not responsive, to keep the stylesheet small.
+`color`, `objectFit`, `whiteSpace`, `overscrollBehavior`, `cursor`, `pointerEvents`, `zIndex`, `boxShadow`, `borderColor`, border widths, and `opacity` are deliberately not responsive, to keep the stylesheet small.
 
 ## Recipes
 
@@ -239,11 +249,10 @@ A second sweep of the web app — 97 CSS modules, 238 legacy global stylesheets,
 - **Pseudo-elements**, such as the icon rail's `::before`. Out of scope for a style prop by design.
 - **Pseudo-classes and transitions.** 44 stylesheets use `:hover` and 25 use `transition`, though only 5 of those are CSS modules — this is mostly a fact about the app's legacy global layer. The common shape is a card that raises its shadow on hover, which belongs to an interactive `Card` rather than to a style prop. A `<Box />` can express the resting state but not the hover.
 - **`text-decoration`**, in four inline styles and in the login screens' underline-on-hover links. There is no `textDecoration` prop.
-- **`transform` and `transform-origin`**, including the `translate(-50%, -50%)` centering idiom and a `scale(0.4)` preview thumbnail.
 - **Descendant, child, and `:global()` selectors.** Twelve `:global()` blocks reach into a legacy child component's markup, and a few modules style a `> span` or a bare `button`. A `<Box />` styles only itself.
 - **Computed colors**, such as a brand color picker's swatch. `background`, `color`, and `borderColor` take a theme alias, so a value chosen at runtime has no token to name. Raw hex values that _do_ have a token are fine — the app's `#fff` is `neutral.000` and its `#061340` is `primary.800`.
 - **Custom breakpoints.** Responsive props are keyed to the token scale (`sm` 480, `md` 640, `lg` 1024, `xl` 1360, `xxl` 1920), so a module written against 768px and 992px cannot be reproduced exactly; both fall between `md` and `lg`.
-- **`overscroll-behavior`, `scroll-margin-top`, `font-family`, and background images.** No props, by design or by omission.
+- **`scroll-margin-top`, `font-family`, and background images.** No props, by design or by omission.
 
 ## No className, no style
 

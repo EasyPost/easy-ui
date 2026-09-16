@@ -47,6 +47,11 @@
   white-space: component-token("box", "white-space");
   cursor: component-token("box", "cursor");
   pointer-events: component-token("box", "pointer-events");
+  // No `revert` fallback needed: `unset` resolves this to `auto`, which is what
+  // it already is by default. Kept as the shorthand rather than the `-x`/`-y`
+  // longhands because no per-axis prop is exposed; adding one would have to
+  // switch to longhands, the way `overflow` does.
+  overscroll-behavior: component-token("box", "overscroll-behavior");
 
   @include responsive-prop("box", "padding-top", padding-top);
   @include responsive-prop("box", "padding-right", padding-right);
@@ -114,4 +119,7 @@
   @include responsive-prop("box", "overflow-x", overflow-x, revert);
   @include responsive-prop("box", "overflow-y", overflow-y, revert);
   @include responsive-prop("box", "text-align", text-align, revert);
+  // No fallback needed: `unset` is `none` and `50% 50%`, the defaults already.
+  @include responsive-prop("box", "transform", transform);
+  @include responsive-prop("box", "transform-origin", transform-origin);
 }

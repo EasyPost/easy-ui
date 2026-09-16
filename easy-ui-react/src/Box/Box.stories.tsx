@@ -167,6 +167,63 @@ export const Position: Story = {
   },
 };
 
+/**
+ * `transform` and `transformOrigin` take any CSS value, and both are
+ * responsive. A transform does not change the space the box occupies — the gray
+ * box behind the scaled one is the space it still reserves. A responsive value
+ * replaces the whole transform list rather than adding to it, as CSS does.
+ */
+export const Transform: Story = {
+  render: () => (
+    <HorizontalStack gap="4" blockAlign="center">
+      <Box
+        width={120}
+        height={80}
+        padding="2"
+        background="neutral.100"
+        borderColor="neutral.300"
+        borderRadius="md"
+      >
+        <Text variant="body2">Untransformed</Text>
+      </Box>
+      <Box
+        width={120}
+        height={80}
+        background="neutral.100"
+        borderColor="neutral.300"
+        borderRadius="md"
+      >
+        <Box
+          width={120}
+          height={80}
+          padding="2"
+          background="primary.100"
+          borderColor="primary.500"
+          borderRadius="md"
+          transform="scale(0.6)"
+          transformOrigin="top left"
+        >
+          <Text variant="body2">scale(0.6)</Text>
+        </Box>
+      </Box>
+      <Box
+        width={120}
+        height={80}
+        padding="2"
+        background="primary.100"
+        borderColor="primary.500"
+        borderRadius="md"
+        transform={{ xs: "rotate(-4deg)", lg: "rotate(4deg)" }}
+      >
+        <Text variant="body2">rotate, per breakpoint</Text>
+      </Box>
+    </HorizontalStack>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
 export const Media: Story = {
   render: () => (
     <HorizontalStack gap="2">
@@ -397,6 +454,7 @@ export const PanelHeader: Story = {
 /**
  * A fixed-height panel whose middle section scrolls. `flex="1"` needs
  * `minHeight={0}` to shrink, or the panel grows instead of scrolling.
+ * `overscrollBehavior="contain"` keeps the scroll from chaining to the page.
  */
 export const ScrollPanel: Story = {
   render: () => (
@@ -418,6 +476,7 @@ export const ScrollPanel: Story = {
         flex="1"
         minHeight={0}
         overflowY="auto"
+        overscrollBehavior="contain"
         padding="2"
         tabIndex={0}
         role="group"

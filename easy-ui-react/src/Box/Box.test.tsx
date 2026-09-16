@@ -519,6 +519,45 @@ describe("<Box />", () => {
         ...getComponentToken("box", "white-space", "nowrap"),
       });
     });
+
+    it("should support overscroll behavior", () => {
+      render(<Box {...props} overflowY="auto" overscrollBehavior="contain" />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "overflow-y-xs", "auto"),
+        ...getComponentToken("box", "overscroll-behavior", "contain"),
+      });
+    });
+  });
+
+  describe("transform", () => {
+    it("should support transform and transform origin", () => {
+      render(
+        <Box {...props} transform="scale(0.4)" transformOrigin="top left" />,
+      );
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "transform-xs", "scale(0.4)"),
+        ...getComponentToken("box", "transform-origin-xs", "top left"),
+      });
+    });
+
+    it("should pass a transform through untouched", () => {
+      render(<Box {...props} transform="translate(-50%, -50%) rotate(3deg)" />);
+      expect(getBox()).toHaveStyle(
+        getComponentToken(
+          "box",
+          "transform-xs",
+          "translate(-50%, -50%) rotate(3deg)",
+        ),
+      );
+    });
+
+    it("should support responsive transform", () => {
+      render(<Box {...props} transform={{ xs: "scale(0.5)", lg: "none" }} />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "transform-xs", "scale(0.5)"),
+        ...getComponentToken("box", "transform-lg", "none"),
+      });
+    });
   });
 
   describe("interaction", () => {
