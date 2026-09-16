@@ -1,11 +1,10 @@
-import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
+import AccountTreeIcon from "@easypost/easy-ui-icons/AccountTree";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState } from "react";
-import { Badge } from "../Badge";
 import { Button } from "../Button";
-import { Checkbox } from "../Checkbox";
+import { Card } from "../Card";
 import { HorizontalStack } from "../HorizontalStack";
-import { IconButton } from "../IconButton";
+import { Icon } from "../Icon";
 import { Spinner } from "../Spinner";
 import { Text } from "../Text";
 import { TextField } from "../TextField";
@@ -191,11 +190,20 @@ export const ElementReset: Story = {
 export const Responsive: Story = {
   render: () => (
     <VerticalStack gap="2">
+      {/*
+       * The ladder below replaces a hand-written `@media` block that is
+       * byte-identical in two unrelated features (the Luma insights panel and
+       * the sub-account analytics panel). Note that the original steps at
+       * 768px/992px/1300px are Bootstrap-era breakpoints, not Easy UI's — the
+       * migration is to the nearest token breakpoint, not a literal port.
+       */}
       <Box
+        display="flex"
+        flexDirection="column"
         background="primary.100"
         padding={{ xs: "2", md: "6" }}
         borderRadius="lg"
-        maxWidth={{ xs: "100%", lg: 480 }}
+        minWidth={{ xs: 296, md: 440, lg: 680, xl: 1040 }}
       >
         <Text variant="body1">Resize the window</Text>
       </Box>
@@ -209,27 +217,144 @@ export const Responsive: Story = {
 // ---------------------------------------------------------------------------
 // Recipes
 //
-// The stories above demonstrate one property at a time. These are whole
-// compositions, each standing in for a pattern that repeats across application
-// code today as a one-off CSS module.
+// Each recipe below replaces a pure-layout CSS Module that exists in the
+// EasyPost web app today. The comment on each names the source and how many
+// times that shape is copy-pasted, so the case for the primitive rests on
+// shipped code rather than on invention.
+//
+// Deliberately absent: a plain card surface, a title-and-action section header,
+// and a search row. `Card`, `SectionCard`, and `CheckableCard` already own the
+// first two — the app reaches for `Card` in ~198 files — and the app builds the
+// search row with `HorizontalGrid columns={["1fr", "auto"]}`, not with a
+// flexing wrapper. A Box story for any of them would be teaching people to
+// hand-roll a component we ship.
 // ---------------------------------------------------------------------------
 
-/** A bordered surface, the most common shape a CSS module is written for. */
-export const CardSurface: Story = {
+/**
+ * A centered, width-capped content column. `margin: 0 auto` beside a
+ * `max-width` appears in 10 rules across 7 modules — 1320px for the sub-account
+ * layout, 900/1080/800px three times over in one onboarding module, 988px for
+ * the Nexus FAQ.
+ */
+export const PageContainer: Story = {
+  render: () => (
+    <Box background="neutral.050" paddingY="4">
+      <Box width="100%" maxWidth={1320} marginX="auto" paddingX="3">
+        <Box
+          padding="4"
+          background="neutral.000"
+          borderColor="neutral.200"
+          borderRadius="lg"
+        >
+          <Text variant="body1">Sub Account Settings Management</Text>
+        </Box>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * Capping one control instead of centering a page: `width: 100%` plus a
+ * `max-width`, in roughly 25 modules. The FlexRate adjustment editor has nine
+ * of them in a single file (250px, 500px, 550px, 175px, 60px…), and one
+ * module's entire contents is `.searchContainer { width: 100% }`.
+ */
+export const ControlWidthCap: Story = {
+  render: () => (
+    <VerticalStack gap="2">
+      <Box width="100%" maxWidth={250}>
+        <TextField label="Carrier" placeholder="Select a carrier" />
+      </Box>
+      <Box width="100%" maxWidth={175}>
+        <TextField label="Weight adjustment" placeholder="0.0" />
+      </Box>
+    </VerticalStack>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A full-height centered shell around a single card, from the OAuth authorize
+ * lander — the newest CSS module in the app, and one whose every rule is pure
+ * layout, so a `<Box />` deletes the file outright. The real page uses
+ * `minHeight="100dvh"`; this caps the height to fit the canvas.
+ */
+export const CenteredPage: Story = {
   render: () => (
     <Box
-      maxWidth={420}
+      minHeight={320}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
       padding="4"
-      background="neutral.000"
-      borderColor="neutral.200"
-      borderRadius="lg"
-      boxShadow="1"
+      background="neutral.050"
     >
-      <VerticalStack gap="1">
-        <Text variant="subtitle1">1Z999AA10123456784</Text>
-        <Text variant="body2" color="subdued">
-          UPS Ground &middot; Delivered March 14
-        </Text>
+      <Box width="100%" maxWidth="28rem">
+        <Box
+          padding="6"
+          background="neutral.000"
+          borderRadius="lg"
+          boxShadow="1"
+        >
+          <VerticalStack gap="3">
+            <VerticalStack gap="1">
+              <Text variant="subtitle1">Authorize EasyPost</Text>
+              <Text variant="body2" color="subdued">
+                This application is requesting access to your account.
+              </Text>
+            </VerticalStack>
+            {/* The real module's `.actions { width: 100% }`. */}
+            <Box width="100%">
+              <Button isBlock>Authorize</Button>
+            </Box>
+          </VerticalStack>
+        </Box>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * One hairline rule. The app draws this eleven times across eleven modules in
+ * five mutually incompatible ways — `border-top`, `height: 1px` with a
+ * `background`, `min-height: 1px` with a `background-color`, `height: 0` with a
+ * `border-bottom`, and a whole `<Separator />` component whose body is a single
+ * styled `<div />`.
+ *
+ * There is no "suppress the last rule" case anywhere in the app; every one of
+ * these sits between two siblings. A conditional rule would have to drop
+ * `borderColor` along with the width, since a color alone implies all four
+ * sides.
+ */
+export const Divider: Story = {
+  render: () => (
+    <Box maxWidth={320}>
+      <VerticalStack gap="3">
+        <VerticalStack gap="2">
+          <HorizontalStack align="space-between">
+            <Text variant="body2">Duties and taxes</Text>
+            <Text variant="body2">$12.40</Text>
+          </HorizontalStack>
+          <Box borderTopWidth="1" borderColor="neutral.200" />
+          <HorizontalStack align="space-between">
+            <Text variant="subtitle2">Estimated total</Text>
+            <Text variant="subtitle2">$48.10</Text>
+          </HorizontalStack>
+        </VerticalStack>
+        {/* The vertical spelling, as the subscription slat writes it. */}
+        <HorizontalStack gap="2" blockAlign="center">
+          <Text variant="body2">Ground</Text>
+          <Box width={1} alignSelf="stretch" background="neutral.700" />
+          <Text variant="body2">2-day</Text>
+        </HorizontalStack>
       </VerticalStack>
     </Box>
   ),
@@ -239,18 +364,262 @@ export const CardSurface: Story = {
 };
 
 /**
- * A whole card that is also a button. `as="button"` applies the unstyled reset,
- * which replaces the `all: unset` blocks copied between applications—and keeps
- * the focus ring that `all: unset` throws away.
+ * A padded header band with a rule under it. `padding` plus a `border-bottom`
+ * is byte-identical across three sub-account modules, and the Luma advisor
+ * panel repeats it at `space.2`. The title-and-action row inside is a
+ * `HorizontalStack` — only the band itself needs a Box.
  */
-export const SelectableCard: Story = {
+export const PanelHeader: Story = {
+  render: () => (
+    <Box
+      maxWidth={420}
+      background="neutral.000"
+      borderColor="neutral.200"
+      borderRadius="lg"
+      overflow="hidden"
+    >
+      <Box padding="3" borderBottomWidth="1" borderColor="neutral.200">
+        <HorizontalStack align="space-between" blockAlign="center">
+          <HorizontalStack gap="2" blockAlign="center">
+            <Icon symbol={AccountTreeIcon} color="primary.800" />
+            <Text variant="subtitle1">Sub Account Settings</Text>
+          </HorizontalStack>
+          <Button size="sm">Manage</Button>
+        </HorizontalStack>
+      </Box>
+      <Box padding="3">
+        <Text variant="body2" color="subdued">
+          Two child accounts inherit these settings.
+        </Text>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A fixed-height panel whose middle section scrolls. The `flex: 1` plus
+ * `min-height: 0` plus `overflow-y: auto` trio is the part that is easy to get
+ * wrong: without `min-height: 0` the flex item refuses to shrink, so the panel
+ * grows instead of scrolling. From the Luma advisor chat, whose module is
+ * almost entirely layout — panel, header, transcript, composer.
+ */
+export const ScrollPanel: Story = {
+  render: () => (
+    <Box
+      width="100%"
+      maxWidth={420}
+      height={280}
+      display="flex"
+      flexDirection="column"
+      overflow="hidden"
+      background="neutral.000"
+      borderColor="neutral.200"
+      borderRadius="lg"
+    >
+      <Box padding="2" borderBottomWidth="1" borderColor="neutral.200">
+        <Text variant="subtitle2">Luma Advisor</Text>
+      </Box>
+      <Box
+        flex="1"
+        minHeight={0}
+        overflowY="auto"
+        padding="2"
+        tabIndex={0}
+        role="group"
+        aria-label="Transcript"
+      >
+        <VerticalStack gap="2">
+          {Array.from({ length: 10 }, (_, index) => (
+            <Text key={index} variant="body2">
+              Which carrier had the lowest cost per label in March? ({index + 1}
+              )
+            </Text>
+          ))}
+        </VerticalStack>
+      </Box>
+      <Box padding="2" borderTopWidth="1" borderColor="neutral.200">
+        <Box display="flex" justifyContent="end">
+          <Button size="sm">Send</Button>
+        </Box>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A spinner centered over the content it stands in for: `position: relative` on
+ * the parent, then `position: absolute` with `inset: 0` and centering on the
+ * layer above. Two analytics quick-link modules hold this shape byte-for-byte,
+ * `@use` line included.
+ *
+ * The real code crossfades the two layers with an inline `opacity: 0 | 1`.
+ * `opacity` here is token-only and that scale has exactly one alias
+ * (`underlay`), so the crossfade still needs an inline style. This recipe
+ * instead covers the content with an opaque `background`, which is the same
+ * layout with no crossfade. That is a tokens gap rather than a Box gap.
+ */
+export const CenteredOverlay: Story = {
+  render: () => (
+    <Box
+      position="relative"
+      maxWidth={320}
+      borderColor="neutral.200"
+      borderRadius="lg"
+      overflow="hidden"
+    >
+      <Box padding="4" pointerEvents="none">
+        <VerticalStack gap="1">
+          <Text variant="subtitle2">Nexus filings</Text>
+          <Text variant="heading4">12 states</Text>
+        </VerticalStack>
+      </Box>
+      <Box
+        position="absolute"
+        inset="0"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        background="neutral.000"
+      >
+        {/*
+         * `color` is set because `Spinner`'s default `neutral.500` label only
+         * reaches 3.65:1 on a white background.
+         */}
+        <Spinner size="sm" color="neutral.700" isIndeterminate>
+          Refreshing
+        </Spinner>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A banner pinned to the top of a scrolling dialog. `position: sticky` with
+ * `top: 0` and `z-index: design-token("z-index.drawer")` is byte-identical
+ * across three modal modules, and `zIndex` being a token scale is what keeps
+ * `z-index: 9999` out of application code.
+ *
+ * The original rounds only its bottom two corners. `borderRadius` applies to
+ * all four, so that detail is the one part of those three files a Box cannot
+ * yet absorb.
+ */
+export const StickyBanner: Story = {
+  render: () => (
+    <Box
+      height={220}
+      maxWidth={420}
+      overflowY="auto"
+      background="neutral.000"
+      borderColor="neutral.200"
+      borderRadius="md"
+      tabIndex={0}
+      role="group"
+      aria-label="Registration details"
+    >
+      <Box
+        position="sticky"
+        top="0"
+        zIndex="drawer"
+        paddingX="1.5"
+        paddingY="1"
+        background="positive.100"
+      >
+        <HorizontalStack gap="2" blockAlign="center" align="space-between">
+          <Text variant="subtitle2">Your account is approved</Text>
+          <Text variant="caption" color="subdued">
+            Scroll for details
+          </Text>
+        </HorizontalStack>
+      </Box>
+      <Box padding="3">
+        <VerticalStack gap="2">
+          {Array.from({ length: 12 }, (_, index) => (
+            <Text key={index} variant="body2">
+              Detail row {index + 1}
+            </Text>
+          ))}
+        </VerticalStack>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A fixed-size box holding a contained image — the most copy-pasted layout
+ * shape in the app: 20 `object-fit: contain` declarations across 13 modules, at
+ * six different sizes. Three carrier tables spell it as a `4rem` wrapper around
+ * a `100%`/`100%` image; `CarrierAccountStatusList` collapses it onto the image
+ * itself, and that single rule is its module's entire contents.
+ */
+export const CarrierLogo: Story = {
+  render: () => (
+    <VerticalStack gap="3">
+      <HorizontalStack gap="2" blockAlign="center">
+        <Box
+          as={UPSLogoImg}
+          alt="UPS"
+          width="4rem"
+          height="4rem"
+          objectFit="contain"
+        />
+        <Text variant="heading5">UPS</Text>
+      </HorizontalStack>
+      {/* The wrapper-plus-child spelling, as the carrier tables write it. */}
+      <HorizontalStack gap="2" blockAlign="center">
+        <Box
+          width="4rem"
+          height="4rem"
+          padding="1"
+          background="neutral.000"
+          borderColor="neutral.200"
+          borderRadius="md"
+        >
+          <Box
+            as={FedExLogoImg}
+            alt="FedEx"
+            width="100%"
+            height="100%"
+            objectFit="contain"
+          />
+        </Box>
+        <Text variant="heading5">FedEx</Text>
+      </HorizontalStack>
+    </VerticalStack>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A whole card that is also a button. Five modules hand-write `all: unset` to
+ * reach this, across sub-account management, wallet payment methods, and legacy
+ * billing settings. One of them sits in a file whose header comment asks for
+ * exactly this: "things that ideally can be updated after EasyUI matures."
+ *
+ * `as="button"` applies the same reset without discarding the focus ring, which
+ * is what `all: unset` costs.
+ */
+export const CardButton: Story = {
   render: () => {
     const options = [
-      { id: "ground", title: "Ground", detail: "3–5 business days" },
-      { id: "express", title: "Express", detail: "Next business day" },
+      { id: "bank", title: "Add a Bank Account", detail: "2–3 business days" },
+      { id: "card", title: "Add a Credit Card", detail: "Processed instantly" },
     ];
     const RecipeStory = () => {
-      const [selected, setSelected] = useState("ground");
+      const [selected, setSelected] = useState("bank");
       return (
         <HorizontalStack gap="2">
           {options.map((option) => (
@@ -260,25 +629,21 @@ export const SelectableCard: Story = {
               type="button"
               onClick={() => setSelected(option.id)}
               aria-pressed={selected === option.id}
+              display="block"
               flex="1"
-              padding="3"
+              width="100%"
               cursor="pointer"
               textAlign="start"
-              background={
-                selected === option.id ? "primary.050" : "neutral.000"
-              }
-              borderRadius="md"
-              borderWidth="1"
-              borderColor={
-                selected === option.id ? "primary.500" : "neutral.200"
-              }
+              borderRadius="lg"
             >
-              <VerticalStack gap="0.5">
-                <Text variant="subtitle2">{option.title}</Text>
-                <Text variant="body2" color="subdued">
-                  {option.detail}
-                </Text>
-              </VerticalStack>
+              <Card padding="4" isSelected={selected === option.id}>
+                <VerticalStack gap="0.5">
+                  <Text variant="subtitle2">{option.title}</Text>
+                  <Text variant="body2" color="subdued">
+                    {option.detail}
+                  </Text>
+                </VerticalStack>
+              </Card>
             </Box>
           ))}
         </HorizontalStack>
@@ -292,356 +657,29 @@ export const SelectableCard: Story = {
 };
 
 /**
- * A single border width is all a divider is. Suppressing the width on the last
- * row is how a ruled list avoids a trailing rule.
+ * A labelled field with an icon rail beside it. The same 35 lines are
+ * copy-pasted into three unrelated features — sub-account settings fields, the
+ * Luma rules editor, and insurance claim steps — and the JSX is triplicated
+ * along with them.
+ *
+ * The rail itself is drawn with a `::before`, which no style prop can express.
+ * So this replaces the three layout rules and leaves the pseudo-element in CSS:
+ * most of that module goes away, not all of it.
  */
-export const Dividers: Story = {
-  render: () => {
-    const steps = ["Label created", "In transit", "Out for delivery"];
-    return (
-      <VerticalStack gap="4">
-        <VerticalStack gap="2">
-          <Text variant="body1">Above the rule</Text>
-          <Box borderTopWidth="1" borderColor="neutral.200" />
-          <Text variant="body1">Below the rule</Text>
-        </VerticalStack>
-        <Box maxWidth={320}>
-          {steps.map((step, index) => {
-            // The color has to come off with the width. A `borderColor` on its
-            // own implies a border on every side, so leaving it in place on the
-            // last row would draw a box around it instead of no rule at all.
-            const isRuled = index !== steps.length - 1;
-            return (
-              <Box
-                key={step}
-                paddingY="2"
-                borderBottomWidth={isRuled ? "1" : undefined}
-                borderColor={isRuled ? "neutral.200" : undefined}
-              >
-                <Text variant="body2">{step}</Text>
-              </Box>
-            );
-          })}
-        </Box>
-      </VerticalStack>
-    );
-  },
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/** A title on one side, an action on the other, and a rule underneath. */
-export const SectionHeader: Story = {
+export const IconRailField: Story = {
   render: () => (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      paddingBottom="2"
-      borderBottomWidth="1"
-      borderColor="neutral.200"
-    >
-      <Text variant="subtitle1">Shipments</Text>
-      <Button size="sm">Create</Button>
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/**
- * A field that takes the remaining width next to a fixed-width action. A stack
- * child cannot express this on its own, which is why `flex` exists on `<Box />`.
- */
-export const SearchRow: Story = {
-  render: () => (
-    <HorizontalStack gap="2" blockAlign="end">
+    <Box display="flex" alignItems="start" gap="1" maxWidth={360}>
+      <Box display="inline-flex" background="neutral.000" paddingBottom="0.5">
+        <Icon symbol={AccountTreeIcon} color="primary.700" />
+      </Box>
       <Box flex="1">
-        <TextField label="Search shipments" placeholder="Tracking number" />
-      </Box>
-      <Button>Search</Button>
-    </HorizontalStack>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/** A page's content column: full width, capped, and centered. */
-export const PageContainer: Story = {
-  render: () => (
-    <Box background="neutral.050" paddingY="4">
-      <Box width="100%" maxWidth={720} marginX="auto" paddingX="4">
-        <Box
-          padding="4"
-          background="neutral.000"
-          borderColor="neutral.200"
-          borderRadius="lg"
-        >
-          <Text variant="body1">Centered content, capped at 720px</Text>
-        </Box>
-      </Box>
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/**
- * A toolbar that stays put while the panel scrolls. `zIndex` is constrained to
- * the token scale, which is what keeps `z-index: 9999` out of application code.
- */
-export const StickyToolbar: Story = {
-  render: () => (
-    // A scrollable region needs `tabIndex` to be reachable by keyboard, and a
-    // role for its label to be announced.
-    <Box
-      height={220}
-      maxWidth={420}
-      overflowY="auto"
-      borderColor="neutral.200"
-      borderRadius="md"
-      tabIndex={0}
-      role="group"
-      aria-label="Shipment rows"
-    >
-      <Box
-        position="sticky"
-        top="0"
-        zIndex="nav"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        paddingX="3"
-        paddingY="2"
-        background="neutral.000"
-        borderBottomWidth="1"
-        borderColor="neutral.200"
-      >
-        <Text variant="subtitle2">Sticky toolbar</Text>
-        <Text variant="caption" color="subdued">
-          Scroll the panel
-        </Text>
-      </Box>
-      <Box padding="3">
-        <VerticalStack gap="2">
-          {Array.from({ length: 12 }, (_, index) => (
-            <Text key={index} variant="body2">
-              Row {index + 1}
-            </Text>
-          ))}
+        <VerticalStack gap="0.5">
+          <Text variant="subtitle1">Carrier accounts</Text>
+          <Text variant="caption">
+            Which of your carrier accounts this sub account may use.
+          </Text>
         </VerticalStack>
       </Box>
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/**
- * A scrim and its content are separate boxes on purpose: nesting the spinner
- * inside the translucent box would fade the spinner too.
- */
-export const LoadingOverlay: Story = {
-  render: () => (
-    <Box
-      position="relative"
-      maxWidth={420}
-      minHeight={200}
-      padding="4"
-      background="neutral.000"
-      borderColor="neutral.200"
-      borderRadius="lg"
-    >
-      <VerticalStack gap="1">
-        <Text variant="subtitle1">Rate quote</Text>
-        <Text variant="body2" color="subdued">
-          417 Montgomery St to 1600 Pennsylvania Ave
-        </Text>
-      </VerticalStack>
-      <Box
-        position="absolute"
-        inset="0"
-        background="neutral.000"
-        borderRadius="lg"
-        opacity="underlay"
-      />
-      <Box
-        position="absolute"
-        inset="0"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Spinner isIndeterminate>Comparing carriers</Spinner>
-      </Box>
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/** A dot pinned to a control's corner. `pointerEvents` keeps it unclickable. */
-export const NotificationDot: Story = {
-  render: () => (
-    <Box position="relative" display="inline-block">
-      <IconButton icon={MoreVertIcon} accessibilityLabel="More actions" />
-      <Box
-        position="absolute"
-        top="0"
-        right="0"
-        width={8}
-        height={8}
-        borderRadius="full"
-        background="negative.500"
-        pointerEvents="none"
-      />
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/** A capped list that scrolls instead of growing without bound. */
-export const ScrollContainer: Story = {
-  render: () => (
-    <Box
-      maxWidth={360}
-      maxHeight={180}
-      overflowY="auto"
-      padding="2"
-      borderColor="neutral.200"
-      borderRadius="md"
-      tabIndex={0}
-      role="group"
-      aria-label="Carrier options"
-    >
-      <VerticalStack gap="1">
-        {Array.from({ length: 14 }, (_, index) => (
-          <Text key={index} variant="body2">
-            Carrier option {index + 1}
-          </Text>
-        ))}
-      </VerticalStack>
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/**
- * A negative margin cancels the parent's padding so a callout spans the full
- * card. `overflow="hidden"` is what keeps the bleed inside the rounded corners.
- */
-export const FullBleedCallout: Story = {
-  render: () => (
-    <Box
-      maxWidth={420}
-      padding="4"
-      overflow="hidden"
-      background="neutral.000"
-      borderColor="neutral.200"
-      borderRadius="lg"
-    >
-      <VerticalStack gap="2">
-        <Text variant="subtitle1">Ship to</Text>
-        <Box
-          marginX="-4"
-          paddingX="4"
-          paddingY="2"
-          background="warning.050"
-          borderTopWidth="1"
-          borderBottomWidth="1"
-          borderColor="warning.200"
-        >
-          <Text variant="body2">This address could not be verified.</Text>
-        </Box>
-        <Text variant="body2" color="subdued">
-          417 Montgomery St, San Francisco, CA
-        </Text>
-      </VerticalStack>
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/**
- * Fixed dimensions plus `objectFit`, the pattern behind more repeated CSS
- * modules than any other in the audit.
- */
-export const CarrierLogos: Story = {
-  render: () => (
-    <HorizontalStack gap="2">
-      {[
-        { Logo: UPSLogoImg, name: "UPS" },
-        { Logo: FedExLogoImg, name: "FedEx" },
-      ].map(({ Logo, name }) => (
-        <Box
-          key={name}
-          padding="2"
-          background="neutral.000"
-          borderColor="neutral.200"
-          borderRadius="md"
-        >
-          <Box
-            as={Logo}
-            alt={name}
-            width={80}
-            height={40}
-            objectFit="contain"
-          />
-        </Box>
-      ))}
-    </HorizontalStack>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/** Wrapping content with different spacing along each axis. */
-export const TagList: Story = {
-  render: () => (
-    <Box display="flex" flexWrap="wrap" columnGap="2" rowGap="1" maxWidth={320}>
-      {["Ground", "Express", "International", "Signature", "Insured"].map(
-        (tag) => (
-          <Badge key={tag}>{tag}</Badge>
-        ),
-      )}
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
-  },
-};
-
-/**
- * `fieldset` and `legend` carry browser styling that has to be stripped before
- * they are usable. `as` does it, so grouping fields stays accessible and plain.
- */
-export const FieldGroup: Story = {
-  render: () => (
-    <Box
-      as="fieldset"
-      maxWidth={320}
-      display="flex"
-      flexDirection="column"
-      gap="2"
-    >
-      <Box as="legend" paddingBottom="1">
-        <Text variant="subtitle2">Delivery options</Text>
-      </Box>
-      <Checkbox>Signature required</Checkbox>
-      <Checkbox>Saturday delivery</Checkbox>
     </Box>
   ),
   parameters: {

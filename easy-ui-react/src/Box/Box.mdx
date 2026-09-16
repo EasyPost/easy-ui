@@ -128,91 +128,83 @@ Most properties accept an object keyed by breakpoint. A value applies from its b
 
 ## Recipes
 
-The sections above show one property at a time. These are whole compositions, each standing in for a pattern that is written repeatedly as a one-off CSS module today. They are meant to be copied.
+The sections above show one property at a time. Each recipe below replaces a pure-layout CSS module that exists in the EasyPost web app today, and says how many times that shape is currently copy-pasted. They are meant to be copied — and, where a module is entirely layout, to delete it.
 
-### Card surface
-
-A bordered, padded surface — the most common shape a CSS module gets written for.
-
-<Canvas of={BoxStories.CardSurface} />
-
-### Selectable card
-
-A whole card that is also a button. `as="button"` applies the unstyled reset, which replaces the `all: unset` blocks copied between applications, and keeps the focus ring that `all: unset` throws away.
-
-<Canvas of={BoxStories.SelectableCard} />
-
-### Dividers and ruled rows
-
-A divider is a single border width. Suppressing that width on the last row is how a ruled list avoids a trailing rule.
-
-<Canvas of={BoxStories.Dividers} />
-
-### Section header
-
-A title on one side, an action on the other, a rule underneath.
-
-<Canvas of={BoxStories.SectionHeader} />
-
-### Search row
-
-A field that takes the remaining width beside a fixed-width action. A stack child cannot express this on its own, which is why `flex` exists on `<Box />`.
-
-<Canvas of={BoxStories.SearchRow} />
+Three shapes are deliberately missing. A plain card surface, a title-and-action section header, and a selectable card are already owned by `Card`, `SectionCard`, and `CheckableCard` — the app reaches for `Card` in around 198 files. A search row is missing too: the app builds it with `HorizontalGrid columns={["1fr", "auto"]}`, not with a flexing wrapper. A Box recipe for any of them would teach people to hand-roll a component we ship.
 
 ### Page container
 
-A page's content column: full width, capped, centered.
+A centered, width-capped content column. `margin: 0 auto` beside a `max-width` appears in 10 rules across 7 modules — 1320px for the sub-account layout, 900/1080/800px three times over in one onboarding module, 988px for the Nexus FAQ.
 
 <Canvas of={BoxStories.PageContainer} />
 
-### Sticky toolbar
+### Control width cap
 
-A toolbar that stays put while the panel scrolls. `zIndex` is constrained to the token scale, which is what keeps `z-index: 9999` out of application code.
+Capping one control rather than centering a page. Around 25 modules do this; the FlexRate adjustment editor has nine in a single file, and one module's entire contents is `.searchContainer { width: 100% }`.
 
-<Canvas of={BoxStories.StickyToolbar} />
+<Canvas of={BoxStories.ControlWidthCap} />
 
-### Loading overlay
+### Centered page
 
-The scrim and its content are separate boxes on purpose — nesting the spinner inside the translucent box would fade the spinner too.
+A full-height centered shell around a single card, from the OAuth authorize lander. It is the newest CSS module in the app and every one of its rules is pure layout, so a `<Box />` deletes the file outright.
 
-<Canvas of={BoxStories.LoadingOverlay} />
+<Canvas of={BoxStories.CenteredPage} />
 
-### Notification dot
+### Divider
 
-A dot pinned to a control's corner, with `pointerEvents="none"` so it never swallows a click.
+One hairline rule, which the app draws eleven times across eleven modules in five mutually incompatible ways: `border-top`, `height: 1px` with a `background`, `min-height: 1px` with a `background-color`, `height: 0` with a `border-bottom`, and a whole `<Separator />` component whose body is a single styled `<div />`.
 
-<Canvas of={BoxStories.NotificationDot} />
+<Canvas of={BoxStories.Divider} />
 
-### Scroll container
+### Panel header
 
-A capped list that scrolls instead of growing without bound.
+A padded header band with a rule under it — byte-identical across three sub-account modules. The title-and-action row inside is a `HorizontalStack`; only the band needs a Box.
 
-<Canvas of={BoxStories.ScrollContainer} />
+<Canvas of={BoxStories.PanelHeader} />
 
-### Full-bleed callout
+### Scroll panel
 
-A negative margin cancels the parent's padding so a callout spans the full card. `overflow="hidden"` keeps the bleed inside the rounded corners.
+A fixed-height panel whose middle section scrolls. `flex="1"` with `minHeight={0}` and `overflowY="auto"` is the trio that is easy to get wrong: without `minHeight={0}` the flex item refuses to shrink, so the panel grows instead of scrolling.
 
-<Canvas of={BoxStories.FullBleedCallout} />
+<Canvas of={BoxStories.ScrollPanel} />
 
-### Carrier logos
+### Centered overlay
 
-Fixed dimensions plus `objectFit`, the pattern behind more repeated CSS modules than any other.
+A spinner centered over the content it stands in for. Two analytics quick-link modules hold this shape byte-for-byte, `@use` line included. The real code crossfades the two layers with an inline `opacity`; this covers the lower one with an opaque `background` instead, which is the same layout without the fade.
 
-<Canvas of={BoxStories.CarrierLogos} />
+<Canvas of={BoxStories.CenteredOverlay} />
 
-### Tag list
+### Sticky banner
 
-Wrapping content with different spacing along each axis.
+A banner pinned to the top of a scrolling dialog, byte-identical across three modal modules. `zIndex` is constrained to the token scale, which is what keeps `z-index: 9999` out of application code.
 
-<Canvas of={BoxStories.TagList} />
+<Canvas of={BoxStories.StickyBanner} />
 
-### Field group
+### Carrier logo
 
-`fieldset` and `legend` carry browser styling that has to be stripped before they are usable. `as` does it, so grouping fields stays accessible and plain.
+A fixed-size box holding a contained image — the most copy-pasted layout shape in the app, at 20 `object-fit: contain` declarations across 13 modules in six different sizes.
 
-<Canvas of={BoxStories.FieldGroup} />
+<Canvas of={BoxStories.CarrierLogo} />
+
+### Card button
+
+A whole card that is also a button. Five modules hand-write `all: unset` to reach this. `as="button"` applies the same reset without discarding the focus ring, which is what `all: unset` costs.
+
+<Canvas of={BoxStories.CardButton} />
+
+### Icon rail field
+
+A labelled field with an icon rail beside it. The same 35 lines are copy-pasted into three unrelated features, and the JSX is triplicated with them. The rail itself is a `::before`, which no style prop can express — so most of that module goes away, not all of it.
+
+<Canvas of={BoxStories.IconRailField} />
+
+### What these recipes could not absorb
+
+Three details in the real modules survive a Box, and they are all token or API gaps rather than reasons to keep a stylesheet:
+
+- The loading overlay crossfades with an inline `opacity: 0 | 1`. `opacity` is token-only and that scale has exactly one alias, `underlay`.
+- The sticky banner rounds only its bottom two corners. `borderRadius` applies to all four.
+- The icon rail is drawn with a `::before`, which is out of scope for a style prop by design.
 
 ## No className, no style
 
