@@ -148,6 +148,92 @@ export const FlexContainer: Story = {
   },
 };
 
+/**
+ * `gridTemplateColumns` and `gridTemplateRows` take a count, an array of tracks,
+ * or raw CSS. Children place themselves with `gridColumn`, `gridRow`, or
+ * `gridArea`. Reach for `<HorizontalGrid />` when equal columns and a gap are
+ * all that's needed.
+ */
+export const Grid: Story = {
+  render: () => (
+    <Box
+      display="grid"
+      gridTemplateColumns={["240px", "1fr"]}
+      gap="2"
+      background="neutral.100"
+      padding="2"
+      borderRadius="md"
+    >
+      <Box background="primary.100" padding="2" borderRadius="md">
+        <Text variant="body2">240px</Text>
+      </Box>
+      <Box background="primary.100" padding="2" borderRadius="md">
+        <Text variant="body2">1fr</Text>
+      </Box>
+      <Box
+        gridColumn="span 2"
+        background="primary.500"
+        padding="2"
+        borderRadius="md"
+      >
+        <Text variant="body2" color="neutral.000">
+          gridColumn=&quot;span 2&quot;
+        </Text>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * `gridTemplateAreas` names regions, and a child's `gridArea` claims one. A
+ * named area is the one case where an omitted end line is copied rather than
+ * left at `auto`, so `gridArea="aside"` spans the whole region.
+ */
+export const GridAreas: Story = {
+  render: () => (
+    <Box
+      display="grid"
+      gridTemplateColumns={["160px", "1fr"]}
+      gridTemplateAreas='"aside main" "aside footer"'
+      gap="2"
+      background="neutral.100"
+      padding="2"
+      borderRadius="md"
+    >
+      <Box
+        gridArea="aside"
+        background="primary.100"
+        padding="2"
+        borderRadius="md"
+      >
+        <Text variant="body2">aside</Text>
+      </Box>
+      <Box
+        gridArea="main"
+        background="primary.100"
+        padding="2"
+        borderRadius="md"
+      >
+        <Text variant="body2">main</Text>
+      </Box>
+      <Box
+        gridArea="footer"
+        background="primary.100"
+        padding="2"
+        borderRadius="md"
+      >
+        <Text variant="body2">footer</Text>
+      </Box>
+    </Box>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
 export const Position: Story = {
   render: () => (
     <Box position="relative" height={160} background="neutral.100">
@@ -858,6 +944,35 @@ export const LogoDisc: Story = {
         />
       </Box>
     </HorizontalStack>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+/**
+ * A two-column form where some fields run the full width. The span is what
+ * `<HorizontalGrid />` cannot express, since it has no child-side props.
+ */
+export const FormGrid: Story = {
+  render: () => (
+    <Box
+      display="grid"
+      gridTemplateColumns={{ xs: 1, md: 2 }}
+      gap="2"
+      alignItems="end"
+    >
+      <Box gridColumn={{ md: "span 2" }}>
+        <Text variant="subtitle1">Recipient</Text>
+      </Box>
+      <TextField label="First name" />
+      <TextField label="Last name" />
+      <Box gridColumn={{ md: "span 2" }}>
+        <TextField label="Street address" />
+      </Box>
+      <TextField label="City" />
+      <TextField label="Postal code" />
+    </Box>
   ),
   parameters: {
     controls: { disable: true },

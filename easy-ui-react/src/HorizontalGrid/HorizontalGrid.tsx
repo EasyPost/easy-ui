@@ -1,19 +1,24 @@
 import React, { ElementType, ReactNode, forwardRef } from "react";
 import { ResponsiveSpaceScale } from "../types";
 import {
-  ResponsiveProp,
   getComponentToken,
   getResponsiveDesignToken,
   getResponsiveValue,
 } from "../utilities/css";
-import { formatHorizontalGrid } from "./utilities";
+import {
+  GridTrackAlias,
+  GridTracks,
+  GridTracksType,
+  formatGridTracks,
+} from "../utilities/grid";
 
 import styles from "./HorizontalGrid.module.scss";
 
-export type ColumnsAlias =
-  "oneFourth" | "oneThird" | "oneHalf" | "twoThirds" | "threeFourths";
-export type ColumnsType = number | string | (string | ColumnsAlias)[];
-export type Columns = ResponsiveProp<ColumnsType>;
+// A grid column list is a grid track list. The canonical definitions live in
+// `utilities/grid`, shared with `<Box />`; these aliases keep the public names.
+export type ColumnsAlias = GridTrackAlias;
+export type ColumnsType = GridTracksType;
+export type Columns = GridTracks;
 export type HorizontalGridAlignItems = "start" | "end" | "center";
 
 export type HorizontalGridProps = {
@@ -79,7 +84,7 @@ export const HorizontalGrid = forwardRef<null, HorizontalGridProps>(
       ...getResponsiveValue(
         "horizontal-grid",
         "grid-template-columns",
-        formatHorizontalGrid(columns),
+        formatGridTracks(columns),
       ),
       ...getResponsiveDesignToken("horizontal-grid", "gap", "space", gap),
       ...getComponentToken("horizontal-grid", "align-items", alignItems),

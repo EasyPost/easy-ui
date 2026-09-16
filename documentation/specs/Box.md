@@ -42,6 +42,7 @@ The specific gaps a `Box` closes, ranked by volume:
 - Property cascades: a specific side beats an axis beats a shorthand (`paddingTop` > `paddingY` > `padding`).
 - Border style is inferred, not exposed — a border color or width implies `solid`.
 - `as` renders any element, and `button`, `a`, `ul`, `ol`, `fieldset`, and `legend` get an automatic unstyled reset.
+- Flexbox and CSS Grid are supported to the same depth, on both sides: a `Box` can be a container of either, and can place itself inside either.
 - Most properties are responsive per breakpoint via Easy UI's existing responsive-prop mechanism.
 - No `className`, no `style`.
 
@@ -68,6 +69,14 @@ What a `Box` cannot absorb is narrow, specific, and mostly by design:
 Two of these are worth restating because they read like Box gaps and are not. **Raw hex values that have a token are fine** — the app's `#fff` is `neutral.000` and its `#061340` is `primary.800`; only a value computed at runtime has no token to name. And **`box-shadow` has three levels** (`1`, `2`, `3`), so the hover-shadow pattern's resting state is expressible even though its hover is not.
 
 Two gaps this audit found have since been closed. `transform` and `transformOrigin` are now responsive string props, and `overscrollBehavior` is a non-responsive three-value enum — the natural partner to `overflow`, since `Box` already owns scroll containment. Neither needs the `revert` fallback that `display`, `overflow`, and `text-align` need: an unset variable resolves each of them to `none`, `50% 50%`, and `auto`, which is what they already are by default. Together they cost 3,151 raw and 105 gzipped bytes in the built library stylesheet, nearly all of it the two responsive props. A responsive property is roughly four times the raw size of a non-responsive one, because it emits six custom-property declarations and five `@media` blocks rather than a single declaration; gzip absorbs most of that, since the boilerplate is near-identical across properties.
+
+A third gap has since been closed, and it was a structural one rather than a missing declaration: `Box` could become a grid container but could not define tracks or place children, so grid was the one layout mode it supported at half the depth of flexbox. It now supports both to the same depth. Container-side that is `gridTemplateColumns`, `gridTemplateRows`, `gridTemplateAreas`, `gridAutoFlow`, `gridAutoColumns`, and `gridAutoRows`; child-side, `gridColumn`, `gridRow`, and `gridArea`. Three properties shared by both modes were added at the same time, since leaving them out would have made grid the better-served of the two: `justifyItems`, `justifySelf`, and `alignContent` — the last of which flexbox needs too, for a container whose children wrap.
+
+Two implementation notes. `gridTemplateColumns` and `gridTemplateRows` reuse `HorizontalGrid`'s track formatter, which was moved to `utilities/grid` so that a primitive does not import from a higher-level component; `HorizontalGrid`'s public `Columns`, `ColumnsType`, and `ColumnsAlias` types are now aliases of the shared ones, and its API is unchanged. And `gridArea`, `gridColumn`, and `gridRow` are expanded in TypeScript into `grid-row-start`, `grid-row-end`, `grid-column-start`, and `grid-column-end` rather than declared as shorthands, for the same reason `flex` and `border-radius` are: three props writing the same four longhands means whichever shorthand came later, resolving to `unset`, would reset the placement its neighbour had just set. Expanding them also makes the cascade explicit — `gridColumn` and `gridRow` win over `gridArea` on the axis they name. The expansion follows CSS's own omitted-value rule, where an omitted end line is copied only if the start is a `<custom-ident>`, so `gridArea="sidebar"` spans the named area while `gridArea="1"` occupies one track.
+
+Grid cost 21,283 raw and 1,105 gzipped bytes — thirteen responsive properties, seventy-eight `--ezui-c-box-*: initial` declarations. That is the largest single addition to `Box`'s CSS, and worth it only because grid is a layout mode rather than a decoration: no other property can be worked around by the caller, whereas most of what remains on the gap list can.
+
+`HorizontalGrid` remains the right first reach for equal columns with a gap, exactly as `HorizontalStack` and `VerticalStack` are for flexbox. `Box`'s grid props are for the shapes those cannot express: uneven tracks, named areas, and a child that spans.
 
 Of the nine remaining, two are worth closing, and only for reasons independent of how often the app hits them.
 
@@ -181,20 +190,32 @@ type BoxProps = {
   borderLeftWidth?: BorderWidth;
   boxShadow?: ShadowLevel;
 
-  // Self in parent
+  // Self in parent — flex and grid
   flex?: ResponsiveProp<BoxFlex>;
   flexGrow?: ResponsiveProp<number>;
   flexShrink?: ResponsiveProp<number>;
   flexBasis?: Dimension;
   alignSelf?: ResponsiveProp<BoxAlignSelf>;
+  justifySelf?: ResponsiveProp<BoxJustifySelf>;
   order?: ResponsiveProp<number>;
+  gridColumn?: BoxGridLine; // ResponsiveProp<string>
+  gridRow?: BoxGridLine;
+  gridArea?: BoxGridLine;
 
-  // Children layout
+  // Children layout — flex and grid
   display?: ResponsiveProp<BoxDisplay>;
   flexDirection?: ResponsiveProp<BoxFlexDirection>;
   flexWrap?: ResponsiveProp<BoxFlexWrap>;
   justifyContent?: ResponsiveProp<BoxJustifyContent>;
   alignItems?: ResponsiveProp<BoxAlignItems>;
+  justifyItems?: ResponsiveProp<BoxJustifyItems>;
+  alignContent?: ResponsiveProp<BoxAlignContent>;
+  gridTemplateColumns?: GridTracks; // number | string | (string | GridTrackAlias)[]
+  gridTemplateRows?: GridTracks;
+  gridTemplateAreas?: ResponsiveProp<string>;
+  gridAutoFlow?: ResponsiveProp<BoxGridAutoFlow>;
+  gridAutoColumns?: Dimension;
+  gridAutoRows?: Dimension;
   gap?: ResponsiveSpaceScale;
   columnGap?: ResponsiveSpaceScale;
   rowGap?: ResponsiveSpaceScale;
@@ -212,9 +233,14 @@ type BoxProps = {
   overflow?: ResponsiveProp<BoxOverflow>;
   overflowX?: ResponsiveProp<BoxOverflow>;
   overflowY?: ResponsiveProp<BoxOverflow>;
+  overscrollBehavior?: BoxOverscrollBehavior;
   objectFit?: BoxObjectFit;
   textAlign?: ResponsiveProp<BoxTextAlign>;
   whiteSpace?: BoxWhiteSpace;
+
+  // Transform — free, responsive
+  transform?: ResponsiveProp<string>;
+  transformOrigin?: ResponsiveProp<string>;
 
   // Interaction
   cursor?: BoxCursor;

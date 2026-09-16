@@ -96,7 +96,17 @@
   @include responsive-prop("box", "flex-shrink", flex-shrink);
   @include responsive-prop("box", "flex-basis", flex-basis);
   @include responsive-prop("box", "align-self", align-self);
+  @include responsive-prop("box", "justify-self", justify-self);
   @include responsive-prop("box", "order", order);
+  // Grid placement longhands rather than the `grid-area`, `grid-row`, and
+  // `grid-column` shorthands: all three props resolve to these same four
+  // declarations, so a shorthand would let a neighbour resolving to `unset`
+  // reset the placement it had just set. No fallback is needed—`unset` on each
+  // is `auto`, the default.
+  @include responsive-prop("box", "grid-row-start", grid-row-start);
+  @include responsive-prop("box", "grid-row-end", grid-row-end);
+  @include responsive-prop("box", "grid-column-start", grid-column-start);
+  @include responsive-prop("box", "grid-column-end", grid-column-end);
   // `display`, `overflow`, and `text-align` fall back to `revert` rather than
   // being left unset. An unset variable resolves the declaration to `unset`,
   // which for these is not a no-op: `display` would become `inline` on every
@@ -109,6 +119,22 @@
   @include responsive-prop("box", "flex-wrap", flex-wrap);
   @include responsive-prop("box", "justify-content", justify-content);
   @include responsive-prop("box", "align-items", align-items);
+  // No `revert` fallback on any of the grid declarations: `unset` resolves each
+  // to what it already is by default—`none` for the templates, `row` for the
+  // flow, `auto` for the implicit track sizes, `normal` for `align-content`,
+  // and `legacy` for `justify-items`, which behaves as `normal`.
+  @include responsive-prop("box", "justify-items", justify-items);
+  @include responsive-prop("box", "align-content", align-content);
+  @include responsive-prop(
+    "box",
+    "grid-template-columns",
+    grid-template-columns
+  );
+  @include responsive-prop("box", "grid-template-rows", grid-template-rows);
+  @include responsive-prop("box", "grid-template-areas", grid-template-areas);
+  @include responsive-prop("box", "grid-auto-flow", grid-auto-flow);
+  @include responsive-prop("box", "grid-auto-columns", grid-auto-columns);
+  @include responsive-prop("box", "grid-auto-rows", grid-auto-rows);
   @include responsive-prop("box", "column-gap", column-gap);
   @include responsive-prop("box", "row-gap", row-gap);
   @include responsive-prop("box", "position", position);

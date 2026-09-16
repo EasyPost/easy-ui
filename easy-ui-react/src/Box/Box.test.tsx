@@ -409,6 +409,79 @@ describe("<Box />", () => {
         getComponentToken("box", "align-self-xs", "center"),
       );
     });
+
+    it("should support justify self", () => {
+      render(<Box {...props} justifySelf="end" />);
+      expect(getBox()).toHaveStyle(
+        getComponentToken("box", "justify-self-xs", "end"),
+      );
+    });
+
+    it("should expand a grid column span into longhands", () => {
+      render(<Box {...props} gridColumn="span 2" />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "grid-column-start-xs", "span 2"),
+        ...getComponentToken("box", "grid-column-end-xs", "auto"),
+      });
+    });
+
+    it("should expand a grid line pair into longhands", () => {
+      render(<Box {...props} gridColumn="1 / 3" gridRow="2 / 4" />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "grid-column-start-xs", "1"),
+        ...getComponentToken("box", "grid-column-end-xs", "3"),
+        ...getComponentToken("box", "grid-row-start-xs", "2"),
+        ...getComponentToken("box", "grid-row-end-xs", "4"),
+      });
+    });
+
+    it("should copy a named grid area across all four longhands", () => {
+      render(<Box {...props} gridArea="sidebar" />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "grid-row-start-xs", "sidebar"),
+        ...getComponentToken("box", "grid-column-start-xs", "sidebar"),
+        ...getComponentToken("box", "grid-row-end-xs", "sidebar"),
+        ...getComponentToken("box", "grid-column-end-xs", "sidebar"),
+      });
+    });
+
+    it("should not copy a numeric grid area, which CSS leaves as auto", () => {
+      render(<Box {...props} gridArea="1" />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "grid-row-start-xs", "1"),
+        ...getComponentToken("box", "grid-column-start-xs", "auto"),
+        ...getComponentToken("box", "grid-row-end-xs", "auto"),
+        ...getComponentToken("box", "grid-column-end-xs", "auto"),
+      });
+    });
+
+    it("should expand a four-value grid area", () => {
+      render(<Box {...props} gridArea="1 / 2 / 3 / 4" />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "grid-row-start-xs", "1"),
+        ...getComponentToken("box", "grid-column-start-xs", "2"),
+        ...getComponentToken("box", "grid-row-end-xs", "3"),
+        ...getComponentToken("box", "grid-column-end-xs", "4"),
+      });
+    });
+
+    it("should let grid column win over grid area on its own axis", () => {
+      render(<Box {...props} gridArea="main" gridColumn="span 2" />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "grid-column-start-xs", "span 2"),
+        ...getComponentToken("box", "grid-column-end-xs", "auto"),
+        ...getComponentToken("box", "grid-row-start-xs", "main"),
+        ...getComponentToken("box", "grid-row-end-xs", "main"),
+      });
+    });
+
+    it("should support responsive grid placement", () => {
+      render(<Box {...props} gridColumn={{ xs: "span 1", lg: "span 3" }} />);
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "grid-column-start-xs", "span 1"),
+        ...getComponentToken("box", "grid-column-start-lg", "span 3"),
+      });
+    });
   });
 
   describe("children layout", () => {
@@ -444,6 +517,114 @@ describe("<Box />", () => {
         ...getComponentToken("box", "justify-content-xs", "space-between"),
         ...getComponentToken("box", "align-items-xs", "center"),
       });
+    });
+
+    it("should support grid container props", () => {
+      render(
+        <Box
+          {...props}
+          display="grid"
+          justifyItems="center"
+          alignContent="space-between"
+          gridAutoFlow="column"
+          gridAutoRows={40}
+          gridAutoColumns="1fr"
+        />,
+      );
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken("box", "display-xs", "grid"),
+        ...getComponentToken("box", "justify-items-xs", "center"),
+        ...getComponentToken("box", "align-content-xs", "space-between"),
+        ...getComponentToken("box", "grid-auto-flow-xs", "column"),
+        ...getComponentToken("box", "grid-auto-rows-xs", "40px"),
+        ...getComponentToken("box", "grid-auto-columns-xs", "1fr"),
+      });
+    });
+
+    it("should expand a numeric grid template into equal tracks", () => {
+      render(<Box {...props} display="grid" gridTemplateColumns={3} />);
+      expect(getBox()).toHaveStyle(
+        getComponentToken(
+          "box",
+          "grid-template-columns-xs",
+          "repeat(3, minmax(0, 1fr))",
+        ),
+      );
+    });
+
+    it("should join an array grid template, resolving fraction aliases", () => {
+      render(
+        <Box
+          {...props}
+          display="grid"
+          gridTemplateColumns={["240px", "twoThirds"]}
+          gridTemplateRows={["auto", "1fr"]}
+        />,
+      );
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken(
+          "box",
+          "grid-template-columns-xs",
+          "240px minmax(0, 2fr)",
+        ),
+        ...getComponentToken("box", "grid-template-rows-xs", "auto 1fr"),
+      });
+    });
+
+    it("should pass a raw grid template through untouched", () => {
+      render(
+        <Box
+          {...props}
+          display="grid"
+          gridTemplateColumns="repeat(auto-fit, minmax(275px, 1fr))"
+        />,
+      );
+      expect(getBox()).toHaveStyle(
+        getComponentToken(
+          "box",
+          "grid-template-columns-xs",
+          "repeat(auto-fit, minmax(275px, 1fr))",
+        ),
+      );
+    });
+
+    it("should support responsive grid templates", () => {
+      render(
+        <Box
+          {...props}
+          display="grid"
+          gridTemplateColumns={{ xs: 1, lg: 4 }}
+        />,
+      );
+      expect(getBox()).toHaveStyle({
+        ...getComponentToken(
+          "box",
+          "grid-template-columns-xs",
+          "repeat(1, minmax(0, 1fr))",
+        ),
+        ...getComponentToken(
+          "box",
+          "grid-template-columns-lg",
+          "repeat(4, minmax(0, 1fr))",
+        ),
+      });
+    });
+
+    it("should support named grid areas", () => {
+      render(
+        <Box
+          {...props}
+          display="grid"
+          gridTemplateAreas='"aside main" "aside footer"'
+        />,
+      );
+      expect(getBox()).toHaveStyle(
+        getComponentToken(
+          "box",
+          "grid-template-areas-xs",
+          '"aside main" "aside footer"',
+        ),
+      );
     });
   });
 

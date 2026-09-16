@@ -27,6 +27,7 @@ import {
   sanitizeCustomProperties,
   tokenSafeKebabCase,
 } from "../utilities/css";
+import { GridTracks, formatGridTracks } from "../utilities/grid";
 
 import styles from "./Box.module.scss";
 
@@ -44,6 +45,9 @@ const SPACE_SCALE_PATTERN = /^-?\d+(\.\d+)?$/;
 
 /** Matches a bare, non-negative number, as in `flex: 2 1 auto`. */
 const UNITLESS_NUMBER_PATTERN = /^\d+(\.\d+)?$/;
+
+// A grid line named by the author, as opposed to a line number or a `span`.
+const CUSTOM_IDENT_PATTERN = /^[a-zA-Z_-][\w-]*$/;
 
 /** The `flex` shorthand's keywords, expanded to `[grow, shrink, basis]`. */
 const FLEX_KEYWORDS: Record<string, [string, string, string]> = {
@@ -95,6 +99,20 @@ export type BoxJustifyContent =
   | "stretch";
 export type BoxAlignItems = "start" | "center" | "end" | "baseline" | "stretch";
 export type BoxAlignSelf = "start" | "center" | "end" | "baseline" | "stretch";
+export type BoxAlignContent =
+  | "start"
+  | "center"
+  | "end"
+  | "space-around"
+  | "space-between"
+  | "space-evenly"
+  | "stretch";
+export type BoxJustifyItems =
+  "start" | "center" | "end" | "baseline" | "stretch";
+export type BoxJustifySelf =
+  "start" | "center" | "end" | "baseline" | "stretch";
+export type BoxGridAutoFlow =
+  "row" | "column" | "row dense" | "column dense" | "dense";
 export type BoxPosition =
   "static" | "relative" | "absolute" | "fixed" | "sticky";
 export type BoxOverflow = "visible" | "hidden" | "clip" | "scroll" | "auto";
@@ -111,6 +129,16 @@ export type BoxPointerEvents = "auto" | "none";
  * Common `flex` shorthands, with an escape for the rarer three-value forms.
  */
 export type BoxFlex = "0" | "1" | "auto" | "none" | (string & {});
+
+/**
+ * A grid placement, as a line, a span, a named area, or a `start / end` pair.
+ *
+ * @example
+ * gridColumn="span 2"
+ * gridColumn="1 / 3"
+ * gridArea="main"
+ */
+export type BoxGridLine = ResponsiveProp<string>;
 
 export type BoxStyleProps = {
   // -- Space (token, responsive) ---------------------------------------------
@@ -293,8 +321,36 @@ export type BoxStyleProps = {
   /** Alignment of the box along its parent's cross axis. */
   alignSelf?: ResponsiveProp<BoxAlignSelf>;
 
+  /** Alignment of the box along its parent's inline axis, in a grid parent. */
+  justifySelf?: ResponsiveProp<BoxJustifySelf>;
+
   /** Order of the box among its siblings. */
   order?: ResponsiveProp<number>;
+
+  /**
+   * Columns the box occupies within a grid parent, such as a
+   * `<HorizontalGrid />` or a `<Box display="grid" />`.
+   *
+   * @example
+   * gridColumn="span 2"
+   */
+  gridColumn?: BoxGridLine;
+
+  /** Rows the box occupies within a grid parent. */
+  gridRow?: BoxGridLine;
+
+  /**
+   * Area the box occupies within a grid parent, usually one named by the
+   * parent's `gridTemplateAreas`.
+   *
+   * @remarks
+   * `gridColumn` and `gridRow` are more specific and win over this, in the same
+   * way `paddingTop` wins over `padding`.
+   *
+   * @example
+   * gridArea="sidebar"
+   */
+  gridArea?: BoxGridLine;
 
   // -- Children layout ------------------------------------------------------
 
@@ -318,6 +374,54 @@ export type BoxStyleProps = {
 
   /** Alignment of children along the box's cross axis. */
   alignItems?: ResponsiveProp<BoxAlignItems>;
+
+  /**
+   * Alignment of children within their grid cell along the inline axis. Has no
+   * effect on a flex container, where `justifyContent` is the counterpart.
+   */
+  justifyItems?: ResponsiveProp<BoxJustifyItems>;
+
+  /**
+   * Alignment of the box's rows within its own height. Applies to a grid, and
+   * to a flex container whose children wrap.
+   */
+  alignContent?: ResponsiveProp<BoxAlignContent>;
+
+  /**
+   * Columns of the box's grid. A number produces that many equal columns, an
+   * array names each column in turn, and a string is raw CSS.
+   *
+   * @remarks
+   * Prefer `<HorizontalGrid />` when equal columns and a gap are all that is
+   * needed. Reach for this for named areas, uneven tracks, or `auto-fit`.
+   *
+   * @example
+   * gridTemplateColumns={3}
+   * gridTemplateColumns={["240px", "1fr"]}
+   * gridTemplateColumns="repeat(auto-fit, minmax(275px, 1fr))"
+   */
+  gridTemplateColumns?: GridTracks;
+
+  /** Rows of the box's grid, in the same forms as `gridTemplateColumns`. */
+  gridTemplateRows?: GridTracks;
+
+  /**
+   * Named areas of the box's grid, which children place themselves into with
+   * `gridArea`.
+   *
+   * @example
+   * gridTemplateAreas='"aside main" "aside footer"'
+   */
+  gridTemplateAreas?: ResponsiveProp<string>;
+
+  /** Direction the box's grid places children that it places automatically. */
+  gridAutoFlow?: ResponsiveProp<BoxGridAutoFlow>;
+
+  /** Size of columns the box's grid creates implicitly. */
+  gridAutoColumns?: Dimension;
+
+  /** Size of rows the box's grid creates implicitly. */
+  gridAutoRows?: Dimension;
 
   /** Spacing between children. */
   gap?: ResponsiveSpaceScale;
@@ -545,6 +649,46 @@ function expandFlex(value: string): [string, string, string] {
 }
 
 /**
+ * Fills in a grid placement's omitted end line. CSS copies a `<custom-ident>`
+ * and falls back to `auto` for anything else, so `gridArea="main"` spans the
+ * `main` area while `gridColumn="1"` occupies a single track.
+ */
+function omittedGridLine(value: string): string {
+  return CUSTOM_IDENT_PATTERN.test(value) ? value : "auto";
+}
+
+/**
+ * Expands a `grid-row` or `grid-column` shorthand into its `[start, end]` pair.
+ *
+ * @remarks
+ * As with `flex`, Box declares the longhands rather than the shorthands.
+ * `gridArea`, `gridColumn`, and `gridRow` all write the same four longhands, so
+ * declaring any of them as a shorthand would let a neighbour resolving to
+ * `unset` reset the placement it had just set.
+ */
+function expandGridLine(value: string): [string, string] {
+  const [start, end] = value.split("/").map((part) => part.trim());
+  return [start, end || omittedGridLine(start)];
+}
+
+/**
+ * Expands a `grid-area` shorthand into
+ * `[row-start, column-start, row-end, column-end]`.
+ */
+function expandGridArea(value: string): [string, string, string, string] {
+  const [rowStart, columnStart, rowEnd, columnEnd] = value
+    .split("/")
+    .map((part) => part.trim());
+  const resolvedColumnStart = columnStart || omittedGridLine(rowStart);
+  return [
+    rowStart,
+    resolvedColumnStart,
+    rowEnd || omittedGridLine(rowStart),
+    columnEnd || omittedGridLine(resolvedColumnStart),
+  ];
+}
+
+/**
  * A general-purpose container that exposes Easy UI's design tokens as props.
  *
  * @remarks
@@ -644,13 +788,25 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
     flexShrink,
     flexBasis,
     alignSelf,
+    justifySelf,
     order,
+    gridColumn,
+    gridRow,
+    gridArea,
 
     display,
     flexDirection,
     flexWrap,
     justifyContent,
     alignItems,
+    justifyItems,
+    alignContent,
+    gridTemplateColumns,
+    gridTemplateRows,
+    gridTemplateAreas,
+    gridAutoFlow,
+    gridAutoColumns,
+    gridAutoRows,
     gap,
     columnGap,
     rowGap,
@@ -712,6 +868,22 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
   const flexBasisValue =
     mapResponsiveProp(flexBasis, resolveDimension) ??
     mapResponsiveProp(flex, (value) => expandFlex(value)[2]);
+
+  // Grid placement is expanded the same way, for the same reason. All three
+  // props write the same four longhands, so `gridColumn` and `gridRow` win over
+  // `gridArea` on the axis they name and leave the other axis to it.
+  const gridRowStartValue =
+    mapResponsiveProp(gridRow, (value) => expandGridLine(value)[0]) ??
+    mapResponsiveProp(gridArea, (value) => expandGridArea(value)[0]);
+  const gridColumnStartValue =
+    mapResponsiveProp(gridColumn, (value) => expandGridLine(value)[0]) ??
+    mapResponsiveProp(gridArea, (value) => expandGridArea(value)[1]);
+  const gridRowEndValue =
+    mapResponsiveProp(gridRow, (value) => expandGridLine(value)[1]) ??
+    mapResponsiveProp(gridArea, (value) => expandGridArea(value)[2]);
+  const gridColumnEndValue =
+    mapResponsiveProp(gridColumn, (value) => expandGridLine(value)[1]) ??
+    mapResponsiveProp(gridArea, (value) => expandGridArea(value)[3]);
 
   const style = {
     // -- Space --------------------------------------------------------------
@@ -848,7 +1020,20 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
     ...getResponsiveValue(COMPONENT_NAME, "flex-shrink", flexShrinkValue),
     ...getResponsiveValue(COMPONENT_NAME, "flex-basis", flexBasisValue),
     ...getResponsiveResolvedValue("align-self", alignSelf, resolveRaw),
+    ...getResponsiveResolvedValue("justify-self", justifySelf, resolveRaw),
     ...getResponsiveResolvedValue("order", order, resolveRaw),
+    ...getResponsiveValue(COMPONENT_NAME, "grid-row-start", gridRowStartValue),
+    ...getResponsiveValue(COMPONENT_NAME, "grid-row-end", gridRowEndValue),
+    ...getResponsiveValue(
+      COMPONENT_NAME,
+      "grid-column-start",
+      gridColumnStartValue,
+    ),
+    ...getResponsiveValue(
+      COMPONENT_NAME,
+      "grid-column-end",
+      gridColumnEndValue,
+    ),
 
     // -- Children layout ----------------------------------------------------
     ...getResponsiveResolvedValue("display", display, resolveRaw),
@@ -860,6 +1045,34 @@ export const Box = forwardRef<HTMLElement, BoxProps>((props, ref) => {
       resolveRaw,
     ),
     ...getResponsiveResolvedValue("align-items", alignItems, resolveRaw),
+    ...getResponsiveResolvedValue("justify-items", justifyItems, resolveRaw),
+    ...getResponsiveResolvedValue("align-content", alignContent, resolveRaw),
+    ...getResponsiveValue(
+      COMPONENT_NAME,
+      "grid-template-columns",
+      formatGridTracks(gridTemplateColumns),
+    ),
+    ...getResponsiveValue(
+      COMPONENT_NAME,
+      "grid-template-rows",
+      formatGridTracks(gridTemplateRows),
+    ),
+    ...getResponsiveResolvedValue(
+      "grid-template-areas",
+      gridTemplateAreas,
+      resolveRaw,
+    ),
+    ...getResponsiveResolvedValue("grid-auto-flow", gridAutoFlow, resolveRaw),
+    ...getResponsiveResolvedValue(
+      "grid-auto-columns",
+      gridAutoColumns,
+      resolveDimension,
+    ),
+    ...getResponsiveResolvedValue(
+      "grid-auto-rows",
+      gridAutoRows,
+      resolveDimension,
+    ),
     ...getResponsiveDesignToken(
       COMPONENT_NAME,
       "column-gap",

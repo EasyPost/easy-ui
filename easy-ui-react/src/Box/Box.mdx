@@ -91,19 +91,29 @@ Because a `borderColor` on its own implies a border, a conditional rule has to d
 
 <Controls of={BoxStories.Shadow} include={["boxShadow"]} />
 
-## Flexing within a parent
+## Placing itself in a parent
 
-A `<Box />` can control how it behaves inside a flex parent such as a `<HorizontalStack />` or `<VerticalStack />`. This is what `flex`, `flexGrow`, `flexShrink`, `flexBasis`, `alignSelf`, and `order` are for.
+A `<Box />` can control how it behaves inside the layout that holds it. In a flex parent such as a `<HorizontalStack />` or `<VerticalStack />`, that is `flex`, `flexGrow`, `flexShrink`, `flexBasis`, `alignSelf`, and `order`. In a grid parent it is `gridColumn`, `gridRow`, `gridArea`, `justifySelf`, and `alignSelf`.
 
 <Canvas of={BoxStories.Flex} />
 
 ## Laying out children
 
-A `<Box />` can lay out its own children with `display`, `flexDirection`, `flexWrap`, `justifyContent`, `alignItems`, and `gap`.
+A `<Box />` can lay out its own children as a flex container with `display`, `flexDirection`, `flexWrap`, `justifyContent`, `alignItems`, `alignContent`, and `gap`, or as a grid container with `display`, `gridTemplateColumns`, `gridTemplateRows`, `gridTemplateAreas`, `gridAutoFlow`, `gridAutoColumns`, `gridAutoRows`, `justifyItems`, `alignContent`, and `gap`.
 
-Prefer `<HorizontalStack />`, `<VerticalStack />`, and `<HorizontalGrid />` for this; they are named for their intent and are easier to read. Reach for `display` on a `<Box />` when those do not fit.
+Prefer `<HorizontalStack />`, `<VerticalStack />`, and `<HorizontalGrid />` for this; they are named for their intent and are easier to read. Reach for `display` on a `<Box />` when those do not fit — uneven tracks, named areas, or a child that spans.
 
 <Canvas of={BoxStories.FlexContainer} />
+
+## Grid
+
+`gridTemplateColumns` and `gridTemplateRows` accept a count for equal tracks, an array naming each track in turn, or a raw CSS track list such as `repeat(auto-fit, minmax(275px, 1fr))`. The fraction aliases `oneFourth`, `oneThird`, `oneHalf`, `twoThirds`, and `threeFourths` are the same ones `<HorizontalGrid />` takes.
+
+<Canvas of={BoxStories.Grid} />
+
+`gridColumn`, `gridRow`, and `gridArea` place a child. Each takes a line, a `span`, a named area, or a `start / end` pair. `gridColumn` and `gridRow` are more specific and win over `gridArea` on the axis they name, in the same way `paddingTop` wins over `padding`.
+
+<Canvas of={BoxStories.GridAreas} />
 
 ## Position
 
@@ -240,6 +250,12 @@ An image that reserves its space before it loads. `width` + `height` + `aspectRa
 A logo inside a circle or a rounded tile, from four modules. `borderRadius="full"` replaces a hand-written `999px`, and `overflow="hidden"` crops the image to the shape instead of letting it square off the corners.
 
 <Canvas of={BoxStories.LogoDisc} />
+
+### Form grid
+
+A two-column field grid where some fields run the full width, from the label-creation forms. `<HorizontalGrid />` covers the tracks but has no child-side props, so the span is what needs a `<Box />`.
+
+<Canvas of={BoxStories.FormGrid} />
 
 ### What these recipes could not absorb
 
