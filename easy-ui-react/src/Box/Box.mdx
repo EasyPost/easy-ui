@@ -237,7 +237,7 @@ A second sweep of the web app — 97 CSS modules, 238 legacy global stylesheets,
 
 - **`opacity: 0 | 1` crossfades**, in the loading overlay and in `text_with_spinner`. `opacity` is token-only and that scale has exactly one alias, `underlay`.
 - **Pseudo-elements**, such as the icon rail's `::before`. Out of scope for a style prop by design.
-- **Pseudo-classes and transitions.** 33 modules use `&:hover` and 22 use `transition`; the common shape is a card that raises its shadow on hover. A `<Box />` can express the resting state but not the hover.
+- **Pseudo-classes and transitions.** 44 stylesheets use `:hover` and 25 use `transition`, though only 5 of those are CSS modules — this is mostly a fact about the app's legacy global layer. The common shape is a card that raises its shadow on hover, which belongs to an interactive `Card` rather than to a style prop. A `<Box />` can express the resting state but not the hover.
 - **`text-decoration`**, in four inline styles and in the login screens' underline-on-hover links. There is no `textDecoration` prop.
 - **`transform` and `transform-origin`**, including the `translate(-50%, -50%)` centering idiom and a `scale(0.4)` preview thumbnail.
 - **Descendant, child, and `:global()` selectors.** Twelve `:global()` blocks reach into a legacy child component's markup, and a few modules style a `> span` or a bare `button`. A `<Box />` styles only itself.
