@@ -239,25 +239,15 @@ export const Responsive: Story = {
 // ---------------------------------------------------------------------------
 // Recipes
 //
-// Each recipe below replaces a pure-layout CSS Module that exists in the
-// EasyPost web app today. The comment on each names the source and how many
-// times that shape is copy-pasted, so the case for the primitive rests on
-// shipped code rather than on invention.
+// Layout shapes drawn from CSS Modules in the EasyPost web app. Attribution and
+// counts live in Box.mdx and documentation/specs/Box.md.
 //
-// Deliberately absent: a plain card surface, a title-and-action section header,
-// and a selectable card. `Card`, `SectionCard`, and `CheckableCard` already own
-// those three, and the app reaches for `Card` in ~198 files. A search row is
-// absent for the same reason — the app builds it with
-// `HorizontalGrid columns={["1fr", "auto"]}`, not with a flexing wrapper. A Box
-// story for any of them would be teaching people to hand-roll something we ship.
+// Absent on purpose: a plain card surface, a title-and-action section header, a
+// selectable card, and a search row. `Card`, `SectionCard`, `CheckableCard`,
+// and `HorizontalGrid` own those.
 // ---------------------------------------------------------------------------
 
-/**
- * A centered, width-capped content column. `margin: 0 auto` beside a
- * `max-width` appears in 10 rules across 7 modules — 1320px for the sub-account
- * layout, 900/1080/800px three times over in one onboarding module, 988px for
- * the Nexus FAQ.
- */
+/** A centered, width-capped content column. */
 export const PageContainer: Story = {
   render: () => (
     <Box background="neutral.050" paddingY="4">
@@ -278,12 +268,7 @@ export const PageContainer: Story = {
   },
 };
 
-/**
- * Capping one control instead of centering a page: `width: 100%` plus a
- * `max-width`, in roughly 25 modules. The FlexRate adjustment editor has nine
- * of them in a single file (250px, 500px, 550px, 175px, 60px…), and one
- * module's entire contents is `.searchContainer { width: 100% }`.
- */
+/** A width cap on a single control rather than on a page. */
 export const ControlWidthCap: Story = {
   render: () => (
     <VerticalStack gap="2">
@@ -301,9 +286,7 @@ export const ControlWidthCap: Story = {
 };
 
 /**
- * A full-height centered shell around a single card, from the OAuth authorize
- * lander — the newest CSS module in the app, and one whose every rule is pure
- * layout, so a `<Box />` deletes the file outright. The real page uses
+ * A full-height centered shell around a single card. The real page uses
  * `minHeight="100dvh"`; this caps the height to fit the canvas.
  */
 export const CenteredPage: Story = {
@@ -345,16 +328,8 @@ export const CenteredPage: Story = {
 };
 
 /**
- * One hairline rule. The app draws this eleven times across eleven modules in
- * five mutually incompatible ways — `border-top`, `height: 1px` with a
- * `background`, `min-height: 1px` with a `background-color`, `height: 0` with a
- * `border-bottom`, and a whole `<Separator />` component whose body is a single
- * styled `<div />`.
- *
- * There is no "suppress the last rule" case anywhere in the app; every one of
- * these sits between two siblings. A conditional rule would have to drop
- * `borderColor` along with the width, since a color alone implies all four
- * sides.
+ * One hairline rule. A conditional rule has to drop `borderColor` along with
+ * the width, since a color on its own implies all four sides.
  */
 export const Divider: Story = {
   render: () => (
@@ -386,10 +361,8 @@ export const Divider: Story = {
 };
 
 /**
- * A padded header band with a rule under it. `padding` plus a `border-bottom`
- * is byte-identical across three sub-account modules, and the Luma advisor
- * panel repeats it at `space.2`. The title-and-action row inside is a
- * `HorizontalStack` — only the band itself needs a Box.
+ * A padded header band with a rule under it. The title-and-action row inside is
+ * a `HorizontalStack`; only the band needs a Box.
  */
 export const PanelHeader: Story = {
   render: () => (
@@ -422,11 +395,8 @@ export const PanelHeader: Story = {
 };
 
 /**
- * A fixed-height panel whose middle section scrolls. The `flex: 1` plus
- * `min-height: 0` plus `overflow-y: auto` trio is the part that is easy to get
- * wrong: without `min-height: 0` the flex item refuses to shrink, so the panel
- * grows instead of scrolling. From the Luma advisor chat, whose module is
- * almost entirely layout — panel, header, transcript, composer.
+ * A fixed-height panel whose middle section scrolls. `flex="1"` needs
+ * `minHeight={0}` to shrink, or the panel grows instead of scrolling.
  */
 export const ScrollPanel: Story = {
   render: () => (
@@ -475,16 +445,11 @@ export const ScrollPanel: Story = {
 };
 
 /**
- * A spinner centered over the content it stands in for: `position: relative` on
- * the parent, then `position: absolute` with `inset: 0` and centering on the
- * layer above. Two analytics quick-link modules hold this shape byte-for-byte,
- * `@use` line included.
+ * A spinner centered over the content it stands in for.
  *
- * The real code crossfades the two layers with an inline `opacity: 0 | 1`.
- * `opacity` here is token-only and that scale has exactly one alias
- * (`underlay`), so the crossfade still needs an inline style. This recipe
- * instead covers the content with an opaque `background`, which is the same
- * layout with no crossfade. That is a tokens gap rather than a Box gap.
+ * Missing: the source crossfades the layers with `opacity: 0 | 1`, and the
+ * opacity scale has one alias. This covers the content with an opaque
+ * `background` instead.
  */
 export const CenteredOverlay: Story = {
   render: () => (
@@ -525,14 +490,8 @@ export const CenteredOverlay: Story = {
 };
 
 /**
- * A banner pinned to the top of a scrolling dialog. `position: sticky` with
- * `top: 0` and `z-index: design-token("z-index.drawer")` is byte-identical
- * across three modal modules, and `zIndex` being a token scale is what keeps
- * `z-index: 9999` out of application code.
- *
- * The original rounds only its bottom two corners, which is what
- * `borderRadiusBottom` says. Its top two need no radius of their own — the
- * scroll container clips them to its own.
+ * A banner pinned to the top of a scrolling dialog. `zIndex` is a token scale,
+ * which is what keeps `z-index: 9999` out of application code.
  */
 export const StickyBanner: Story = {
   render: () => (
@@ -579,13 +538,7 @@ export const StickyBanner: Story = {
   },
 };
 
-/**
- * A fixed-size box holding a contained image — the most copy-pasted layout
- * shape in the app: 20 `object-fit: contain` declarations across 13 modules, at
- * six different sizes. Three carrier tables spell it as a `4rem` wrapper around
- * a `100%`/`100%` image; `CarrierAccountStatusList` collapses it onto the image
- * itself, and that single rule is its module's entire contents.
- */
+/** A fixed-size box holding a contained image. */
 export const CarrierLogo: Story = {
   render: () => (
     <VerticalStack gap="3">
@@ -627,13 +580,8 @@ export const CarrierLogo: Story = {
 };
 
 /**
- * A whole card that is also a button. Five modules hand-write `all: unset` to
- * reach this, across sub-account management, wallet payment methods, and legacy
- * billing settings. One of them sits in a file whose header comment asks for
- * exactly this: "things that ideally can be updated after EasyUI matures."
- *
- * `as="button"` applies the same reset without discarding the focus ring, which
- * is what `all: unset` costs.
+ * A whole card that is also a button. `as="button"` applies the reset without
+ * discarding the focus ring.
  */
 export const CardButton: Story = {
   render: () => {
@@ -680,14 +628,10 @@ export const CardButton: Story = {
 };
 
 /**
- * A labelled field with an icon rail beside it. The same 35 lines are
- * copy-pasted into three unrelated features — sub-account settings fields, the
- * Luma rules editor, and insurance claim steps — and the JSX is triplicated
- * along with them.
+ * A labelled field with an icon rail beside it.
  *
- * The rail itself is drawn with a `::before`, which no style prop can express.
- * So this replaces the three layout rules and leaves the pseudo-element in CSS:
- * most of that module goes away, not all of it.
+ * Missing: the rail is drawn with a `::before`, which no style prop can
+ * express, so it stays in CSS.
  */
 export const IconRailField: Story = {
   render: () => (
@@ -711,15 +655,8 @@ export const IconRailField: Story = {
 };
 
 /**
- * A panel that fills the height it is given, with a colored header band. Eleven
- * selectors across ten modules open with the same `flex: 1` / `display: flex` /
- * `flex-direction: column` trio — the Luma rules editor, the Luma advisor and
- * insights panels, and the analytics content shells among them.
- *
- * The flagship, `screens/forge/luma/rules/edit/styles.module.scss`, is already
- * written entirely in `design-token()` calls, so every value here is the token
- * the stylesheet was reaching for. `overflow="hidden"` is what makes the header
- * band's background follow the panel's rounded corners.
+ * A panel that fills the height it is given, with a colored header band.
+ * `overflow="hidden"` keeps the band inside the panel's rounded corners.
  */
 export const FlexFillPanel: Story = {
   render: () => (
@@ -762,14 +699,8 @@ export const FlexFillPanel: Story = {
 };
 
 /**
- * A region that fills its parent and centers whatever stands in for missing
- * content. Six modules hold this shape; `common/analytics/styles.module.scss`
- * writes it once and shares it between `.emptyContainer` and `.loadingContainer`,
- * and the OAuth carrier callback adds a surface and a `50vh` floor to it.
- *
- * Only the centering belongs to a `<Box />`. The empty state's own content is an
- * `<EmptyStateCard />`, which is why this recipe holds a spinner rather than a
- * heading and a call to action.
+ * A region that fills its parent and centers a loading or empty state. Only the
+ * centering is a Box; the state's own content belongs to `EmptyStateCard`.
  */
 export const CenteredStateRegion: Story = {
   render: () => (
@@ -796,14 +727,8 @@ export const CenteredStateRegion: Story = {
 };
 
 /**
- * An image that reserves its space before it loads. `width` + `height` +
- * `aspectRatio` is the most common inline `style` object in the app — 22 of the
- * 80 occurrences — across promo modals, the advanced tracking interstitial, and
- * the tracking notification promo card.
- *
- * `aspectRatio` holds the box's shape while the bytes are still arriving, so
- * nothing below it shifts. It takes a free value, which is what the promo modal
- * needs: its ratio comes from a prop, one image to the next.
+ * An image that reserves its space before it loads, so nothing below it shifts.
+ * `aspectRatio` takes a free value, so it can come from a prop.
  */
 export const AspectRatioMedia: Story = {
   render: () => (
@@ -827,13 +752,8 @@ export const AspectRatioMedia: Story = {
 };
 
 /**
- * A logo inside a circle or a rounded tile. Four modules draw it: the new
- * account setup config step at 32px with `border-radius: 999px`, and the
- * sub-account child and referral screens at 60px with the `lg` radius.
- *
- * `borderRadius="full"` replaces the hand-written `999px`, and `overflow="hidden"`
- * is what crops the image to the shape rather than letting it square off the
- * corners.
+ * A logo cropped to a circle or a rounded tile. `overflow="hidden"` is what
+ * crops the image to the shape.
  */
 export const LogoDisc: Story = {
   render: () => (
