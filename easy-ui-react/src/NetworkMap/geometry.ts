@@ -1,5 +1,11 @@
 import type { FeatureCollection, Geometry } from "geojson";
-import type { MapArea, MapCoordinate, MapFacility, MapSegment } from "./types";
+import type {
+  MapArea,
+  MapCoordinate,
+  MapFacility,
+  MapSegment,
+  MapSurfaceCell,
+} from "./types";
 
 export function validCoordinate(p: MapCoordinate) {
   return (
@@ -104,6 +110,55 @@ export function areaData(
           type: "Feature" as const,
           properties: { id: a.id },
           geometry: { type: "Polygon" as const, coordinates: [ring] },
+        },
+      ];
+    }),
+  };
+}
+
+/**
+ * One GeoJSON Polygon feature per valid grid cell of a delivery-time field, using each cell's
+ * lat/lon min/max as the rectangle's four corners. `confidence` is `n` normalized against the
+ * largest `n` in the supplied cells, mirroring `segmentData`'s relative-to-max `volume` handling.
+ */
+export function surfaceData(
+  cells: readonly MapSurfaceCell[],
+): FeatureCollection<Geometry> {
+  const maxN = Math.max(
+    1,
+    ...cells.map((c) => Math.max(0, Number.isFinite(c.n) ? c.n : 0)),
+  );
+  return {
+    type: "FeatureCollection",
+    features: cells.flatMap((c) => {
+      if (
+        !Number.isFinite(c.latMin) ||
+        !Number.isFinite(c.latMax) ||
+        !Number.isFinite(c.lonMin) ||
+        !Number.isFinite(c.lonMax) ||
+        c.latMin >= c.latMax ||
+        c.lonMin >= c.lonMax
+      )
+        return [];
+      const ring: MapCoordinate[] = [
+        [c.lonMin, c.latMin],
+        [c.lonMax, c.latMin],
+        [c.lonMax, c.latMax],
+        [c.lonMin, c.latMax],
+        [c.lonMin, c.latMin],
+      ];
+      if (!ring.every(validCoordinate)) return [];
+      return [
+        {
+          type: "Feature" as const,
+          properties: {
+            medianMinutes: c.medianMinutes,
+            confidence: Math.max(0, Number.isFinite(c.n) ? c.n : 0) / maxN,
+          },
+          geometry: {
+            type: "Polygon" as const,
+            coordinates: [ring.map((p) => [...p])],
+          },
         },
       ];
     }),

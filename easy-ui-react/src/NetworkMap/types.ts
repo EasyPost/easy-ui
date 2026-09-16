@@ -79,6 +79,34 @@ export type MapArea = {
   source: string;
 };
 
+/** One grid cell of a delivery-time field surface, roughly 150m on a side. */
+export type MapSurfaceCell = {
+  /** Southern latitude bound of the cell. */
+  latMin: number;
+  /** Northern latitude bound of the cell. */
+  latMax: number;
+  /** Western longitude bound of the cell. */
+  lonMin: number;
+  /** Eastern longitude bound of the cell. */
+  lonMax: number;
+  /** Median delivery time in minutes for this cell; null when unavailable, never zero. */
+  medianMinutes: number | null;
+  /** Interquartile range of delivery time in minutes for this cell; null when unavailable. */
+  iqrMinutes: number | null;
+  /** Observation count backing this cell. Also the confidence/insufficient-data signal. */
+  n: number;
+};
+
+/** A delivery-time field snapshot: a grid of predicted or observed median minutes with per-cell confidence. */
+export type MapSurface = {
+  /** Grid cells composing this surface. */
+  cells: readonly MapSurfaceCell[];
+  /** ISO timestamp this surface was computed/valid as of. */
+  asOf: string;
+  /** Computation source or model identifier. */
+  source: string;
+};
+
 /** Native MapLibre clustering configuration for dense facility groups. See `NetworkMapProps.clusterFacilities`. */
 export type ClusterFacilitiesOptions = {
   /**

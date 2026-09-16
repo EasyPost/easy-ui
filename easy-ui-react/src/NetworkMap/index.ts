@@ -7,4 +7,6 @@ export type {
   MapArea,
   MapRisk,
   MapFocus,
+  MapSurfaceCell,
+  MapSurface,
 } from "./types";

@@ -4,8 +4,9 @@ import {
   geographicBounds,
   placeLabels,
   segmentData,
+  surfaceData,
 } from "./geometry";
-import type { MapArea, MapFacility, MapSegment } from "./types";
+import type { MapArea, MapFacility, MapSegment, MapSurfaceCell } from "./types";
 import { networkSegments, facilityMetrics } from "./NetworkMap.fixtures";
 
 it("fits dateline and ordinary journeys using the shortest longitude interval", () => {
@@ -152,6 +153,53 @@ it("builds one clustering-ready GeoJSON point per valid facility, carrying only 
     properties: { id: "a" },
     geometry: { type: "Point", coordinates: [-122, 38] },
   });
+});
+it("converts a grid cell into a closed Polygon feature with median minutes and normalized confidence", () => {
+  const cells: MapSurfaceCell[] = [
+    {
+      latMin: 29.8,
+      latMax: 29.801,
+      lonMin: -95.6,
+      lonMax: -95.599,
+      medianMinutes: 42,
+      iqrMinutes: 15,
+      n: 8,
+    },
+  ];
+  const data = surfaceData(cells);
+  expect(data.features).toHaveLength(1);
+  expect(data.features[0].geometry).toEqual({
+    type: "Polygon",
+    coordinates: [
+      [
+        [-95.6, 29.8],
+        [-95.599, 29.8],
+        [-95.599, 29.801],
+        [-95.6, 29.801],
+        [-95.6, 29.8],
+      ],
+    ],
+  });
+  expect(data.features[0].properties?.medianMinutes).toBe(42);
+  expect(data.features[0].properties?.confidence).toBe(1);
+});
+it("drops surface cells with invalid or missing bounds", () => {
+  const valid: MapSurfaceCell = {
+    latMin: 29.8,
+    latMax: 29.801,
+    lonMin: -95.6,
+    lonMax: -95.599,
+    medianMinutes: 42,
+    iqrMinutes: 15,
+    n: 8,
+  };
+  const data = surfaceData([
+    valid,
+    { ...valid, latMin: NaN },
+    { ...valid, latMin: valid.latMax, latMax: valid.latMin },
+    { ...valid, lonMin: 200 },
+  ]);
+  expect(data.features).toHaveLength(1);
 });
 it("network examples conserve flow at the hubs and reconcile to carrier throughput", () => {
   for (const id of ["slc", "chi", "dtw"]) {
