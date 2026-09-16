@@ -192,6 +192,34 @@ export async function auditMaps(browser, identity, base, output) {
             ?.getAttribute("title") === "Livonia distribution",
       ),
     );
+    check(
+      "delivery time surface starts hidden",
+      !(await browser.evaluate(
+        () =>
+          document.querySelector(
+            '[aria-label$="camera and layers"] label:last-child input',
+          ).checked,
+      )),
+    );
+    const surfaceZoom = await browser.evaluate(zoom);
+    await browser.click(
+      '[aria-label$="camera and layers"] label:last-child input',
+    );
+    check(
+      "delivery time surface toggle preserves camera",
+      Math.abs((await browser.evaluate(zoom)) - surfaceZoom) < 0.01,
+    );
+    check(
+      "delivery time surface layer becomes visible when toggled",
+      await browser.evaluate(
+        () =>
+          document.querySelector(
+            '[aria-label$="camera and layers"] label:last-child input',
+          ).checked,
+      ),
+    );
+    await capture("shipper-delivery-surface-desktop");
+    await scan("shipper-delivery-surface");
     await clean("shipper");
     await browser.open(`${base}/?audience=carrier`);
     await settle();
@@ -211,7 +239,7 @@ export async function auditMaps(browser, identity, base, output) {
     );
     const weatherZoom = await browser.evaluate(zoom);
     await browser.click(
-      '[aria-label$="camera and layers"] label:last-child input',
+      '[aria-label$="camera and layers"] label:nth-child(2) input',
     );
     check(
       "weather layer preserves camera",
