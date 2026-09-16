@@ -17,15 +17,13 @@ A `<Box />` is a general-purpose container that exposes Easy UI's design tokens 
 
 Properties backed by a token scale are typed to that scale, so an invalid value is a type error:
 
-| Property                             | Scale                    |
-| ------------------------------------ | ------------------------ |
-| `padding*`, `margin*`, `gap`         | space                    |
-| `background`, `color`, `borderColor` | theme color              |
-| `borderRadius`                       | border radius, or `full` |
-| `borderWidth`, `border*Width`        | border width             |
-| `boxShadow`                          | shadow level             |
-| `zIndex`                             | z-index                  |
-| `opacity`                            | opacity                  |
+- `padding*`, `margin*`, and `gap` take a space token
+- `background`, `color`, and `borderColor` take a theme color
+- `borderRadius` and its per-edge and per-corner variants take a border radius token, or `full`
+- `borderWidth` and `border*Width` take a border width token
+- `boxShadow` takes a shadow level
+- `zIndex` takes a z-index token
+- `opacity` takes an opacity token
 
 Easy UI has no size token scale, so sizing and positioning accept free CSS values. Numbers are treated as `px`; strings pass through untouched, which means percentages, viewport units, `calc()`, `fit-content`, and `auto` all work.
 
