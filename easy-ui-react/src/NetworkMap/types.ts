@@ -152,6 +152,8 @@ export type NetworkMapProps = {
   segments: readonly MapSegment[];
   /** Optional time-filtered weather/disruption polygons. */
   areas?: readonly MapArea[];
+  /** Optional delivery-time field surface, rendered as a data-driven fill layer. */
+  surface?: MapSurface;
   /** Controlled location selection. */
   selectedFacilityId?: string;
   /** Receives marker, equivalent table, Selected leg destination or Latest events selection. */

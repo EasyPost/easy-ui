@@ -12,6 +12,7 @@ import {
   geographicBounds,
   placeLabels,
   segmentData,
+  surfaceData,
   validCoordinate,
 } from "./geometry";
 import type { MapFacility, NetworkMapProps } from "./types";
@@ -31,6 +32,7 @@ export function NetworkMap(props: NetworkMapProps) {
     facilities,
     segments,
     areas = [],
+    surface,
     selectedFacilityId,
     onFacilitySelect,
     selectedSegmentId,
@@ -46,9 +48,10 @@ export function NetworkMap(props: NetworkMapProps) {
   const [basemapError, setBasemapError] = useState(false);
   const [retry, setRetry] = useState(0);
   const [risk, setRisk] = useState(true),
-    [weather, setWeather] = useState(false);
-  const layers = useRef({ risk, weather });
-  layers.current = { risk, weather };
+    [weather, setWeather] = useState(false),
+    [deliverySurface, setDeliverySurface] = useState(false);
+  const layers = useRef({ risk, weather, deliverySurface });
+  layers.current = { risk, weather, deliverySurface };
   const [zoom, setZoom] = useState(0);
 
   const fit = (ids: readonly string[], maxZoom = 12) => {
@@ -182,6 +185,9 @@ export function NetworkMap(props: NetworkMapProps) {
           (map.getSource("easy-ui-weather") as GeoJSONSource).setData(
             areaData(p.areas ?? []),
           );
+          (map.getSource("easy-ui-delivery-surface") as GeoJSONSource).setData(
+            surfaceData(p.surface?.cells ?? []),
+          );
           map.setPaintProperty("easy-ui-observed", "line-color", [
             "coalesce",
             ["get", "color"],
@@ -200,6 +206,11 @@ export function NetworkMap(props: NetworkMapProps) {
               "visibility",
               layers.current.weather ? "visible" : "none",
             );
+          map.setLayoutProperty(
+            "easy-ui-delivery-surface-fill",
+            "visibility",
+            layers.current.deliverySurface ? "visible" : "none",
+          );
           let visibleFacilities = p.facilities.filter((f) =>
             validCoordinate(f.coordinates),
           );
@@ -326,6 +337,45 @@ export function NetworkMap(props: NetworkMapProps) {
               "line-color": amber,
               "line-width": 2,
               "line-dasharray": [3, 3],
+            },
+          });
+          map.addSource("easy-ui-delivery-surface", {
+            type: "geojson",
+            data: surfaceData(latest.current.surface?.cells ?? []),
+          });
+          map.addLayer({
+            id: "easy-ui-delivery-surface-fill",
+            type: "fill",
+            source: "easy-ui-delivery-surface",
+            paint: {
+              // Diverging ramp over median delivery-time minutes, mirroring this project's own
+              // Python-side static delivery-time-field render (5 stops, fast=blue to slow=red).
+              "fill-color": [
+                "interpolate",
+                ["linear"],
+                ["coalesce", ["get", "medianMinutes"], 0],
+                0,
+                "#2c7bb6",
+                30,
+                "#abd9e9",
+                60,
+                "#ffffbf",
+                90,
+                "#fdae61",
+                120,
+                "#d7191c",
+              ],
+              // Sparse cells (low `confidence`, surfaceData()'s normalized observation count)
+              // fade toward transparent instead of asserting a median they barely support.
+              "fill-opacity": [
+                "interpolate",
+                ["linear"],
+                ["get", "confidence"],
+                0,
+                0.05,
+                1,
+                0.5,
+              ],
             },
           });
           map.addLayer({
@@ -549,12 +599,14 @@ export function NetworkMap(props: NetworkMapProps) {
     facilities,
     segments,
     areas,
+    surface,
     selectedFacilityId,
     selectedSegmentId,
     latestFacilityId,
     props.primaryFacilityIds,
     risk,
     weather,
+    deliverySurface,
   ]);
   useEffect(() => {
     if (state === "ready" && props.focus)
@@ -645,6 +697,15 @@ export function NetworkMap(props: NetworkMapProps) {
               onChange={(e) => setWeather(e.target.checked)}
             />{" "}
             Weather
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={deliverySurface}
+              disabled={!surface?.cells.length}
+              onChange={(e) => setDeliverySurface(e.target.checked)}
+            />{" "}
+            Delivery time surface
           </label>
         </div>
       </div>
