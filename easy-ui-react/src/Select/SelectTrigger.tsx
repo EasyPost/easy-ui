@@ -1,80 +1,34 @@
-import React, { ReactNode, DOMAttributes } from "react";
-import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
-import { FocusableElement } from "@react-types/shared";
+import React from "react";
 import { useInternalSelectContext } from "./SelectContext";
-import { SelectFieldSize } from "./SelectField";
-import { UnstyledButton } from "../UnstyledButton";
-import { classNames, variationName } from "../utilities/css";
-import { IconSymbol } from "../types";
-import { InputIcon } from "../InputField/InputIcon";
-import styles from "./Select.module.scss";
+import { SelectButton, SelectButtonProps } from "./SelectButton";
 
-export type SelectTriggerProps = {
-  /**
-   * Size affects the overall size of the select field, but it also influences
-   * the size of iconAtStart.
-   * @default md
-   */
-  size?: SelectFieldSize;
-  /**
-   * Whether the select field is disabled.
-   * @default false
-   */
-  isDisabled?: boolean;
-  /**
-   * Whether or not to apply error styles to field.
-   * @default false
-   */
-  hasError?: boolean;
-  /** Left aligned icon on the select field. */
-  iconAtStart?: IconSymbol;
-  /** Field value props. */
-  valueProps?: DOMAttributes<FocusableElement>;
-  /** Text to render. */
-  children: ReactNode;
-};
+/**
+ * The trigger only supplies content and appearance—the button's behavior comes
+ * from the select's own context—so the props that drive behavior are left out.
+ */
+export type SelectTriggerProps = Pick<
+  SelectButtonProps,
+  | "size"
+  | "isDisabled"
+  | "hasError"
+  | "iconAtStart"
+  | "description"
+  | "valueProps"
+  | "children"
+>;
 
 export function SelectTrigger(props: SelectTriggerProps) {
-  const {
-    size = "md",
-    valueProps,
-    iconAtStart,
-    hasError,
-    isDisabled,
-    children,
-  } = props;
   const { triggerProps, triggerRef, selectState } = useInternalSelectContext();
 
-  const hasStartIcon = !!iconAtStart;
-  const className = classNames(
-    styles.selectField,
-    styles.selectFieldIconEnd,
-    selectState.isOpen && styles.listboxOpen,
-    hasError && styles.selectFieldError,
-    hasStartIcon && styles.selectFieldIconStart,
-    styles[variationName("selectSize", size)],
-  );
+  // `triggerProps` spreads last so the wiring from `useSelect()`—the id the
+  // value's `aria-labelledby` points at, the press and keyboard handlers—can't
+  // be overwritten by a caller.
   return (
-    <div className={styles.selectFieldIconContainer}>
-      {hasStartIcon && (
-        <InputIcon
-          alignment="start"
-          icon={iconAtStart}
-          size={size}
-          isDisabled={isDisabled}
-        />
-      )}
-      <UnstyledButton {...triggerProps} ref={triggerRef} className={className}>
-        <div {...valueProps} className={styles.selectFieldText}>
-          {children}
-        </div>
-      </UnstyledButton>
-      <InputIcon
-        alignment="end"
-        icon={ExpandMoreIcon400}
-        size={size}
-        isDisabled={isDisabled}
-      />
-    </div>
+    <SelectButton
+      {...props}
+      {...triggerProps}
+      ref={triggerRef}
+      isOpen={selectState.isOpen}
+    />
   );
 }

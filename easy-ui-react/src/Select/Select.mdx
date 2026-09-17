@@ -1,6 +1,7 @@
 import React from "react";
 import { Canvas, Meta, ArgTypes, Controls } from "@storybook/addon-docs/blocks";
 import { Select } from "./Select";
+import { SelectButton } from "./SelectButton";
 import * as SelectStories from "./Select.stories";
 
 <Meta of={SelectStories} />
@@ -82,6 +83,32 @@ Each option can render a secondary description. The selected value in the closed
 
 <Canvas of={SelectStories.WithSecondaryText} />
 
+## Standalone trigger
+
+`<SelectButton />` is the field visual `<Select />` renders for its own trigger, exported on its own so an overlay that isn't a listbox can be attached to a field-shaped trigger. It's purely presentational—it holds no open state and owns no overlay—so it works as the child of `<Popover.Trigger />` or `<Menu.Trigger />`, both of which clone their child with the props that open the overlay.
+
+It takes the same `size`, `iconAtStart`, and `hasError` / `isDisabled` states as the field, plus `description` for a second line and `isOpen` for the engaged border to show while the attached overlay is up.
+
+<Canvas of={SelectStories.StandaloneButton} />
+
+```tsx
+import { Popover } from "@easypost/easy-ui/Popover";
+import { SelectButton } from "@easypost/easy-ui/Select";
+
+export function Component() {
+  return (
+    <Popover>
+      <Popover.Trigger>
+        <SelectButton>Add Packaging</SelectButton>
+      </Popover.Trigger>
+      <Popover.Overlay aria-label="Shipment packaging">Content</Popover.Overlay>
+    </Popover>
+  );
+}
+```
+
+Reach for `<Select />` instead when the overlay holds selectable options—it supplies the `listbox` role, typeahead, and arrow-key navigation that a bare trigger doesn't.
+
 ## Properties
 
 ### Select
@@ -151,3 +178,7 @@ export type BaseSelectFieldProps = {
   iconAtStart?: IconSymbol;
 };
 ```
+
+### SelectButton
+
+<ArgTypes of={SelectButton} />
