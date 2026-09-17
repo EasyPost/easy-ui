@@ -126,8 +126,21 @@ export type ClusterFacilitiesOptions = {
 export type MapFocus = {
   /** Change this value to repeat a request for the same locations. */
   revision: string | number;
-  /** Facility identifiers whose bounds should be fitted. */
+  /** Facility identifiers whose bounds should be fitted. Pass an empty array when `bounds` should
+   *  drive the fit instead (e.g. a surface-only consumer with no facilities). */
   facilityIds: readonly string[];
+  /**
+   * Explicit geographic bounding box to fit the camera to, in lieu of deriving bounds from
+   * `facilityIds` — e.g. a delivery-time surface's own grid extent, which has no facilities to
+   * fit to. When present, this wins over `facilityIds` (which normally wouldn't be populated
+   * alongside it anyway). Omit to keep today's exact `facilityIds`-based fit.
+   */
+  bounds?: {
+    minLat: number;
+    maxLat: number;
+    minLon: number;
+    maxLon: number;
+  };
   /** Upper zoom bound for a fitted view; defaults to 12. */
   maxZoom?: number;
 };
@@ -219,4 +232,25 @@ export type NetworkMapProps = {
    * it separated at the zoom levels that matter, or leave this prop unset for that cohort.
    */
   clusterFacilities?: ClusterFacilitiesOptions;
+  /**
+   * Initializes the "Delivery time surface" toggle to visible at mount, instead of the default
+   * unchecked state — for a consumer whose primary or only content is the `surface` layer, where
+   * requiring a manual click to see any data is itself the defect. Read once at mount, like
+   * `mapStyle`/`workerUrl`/`clusterFacilities`: toggling this prop after mount has no effect on an
+   * already-initialized toggle, since it only seeds the toggle's own independent, user-controlled
+   * state. Omitted or `false` preserves today's exact behavior (starts unchecked). Has no effect
+   * when no `surface` is supplied — the toggle stays disabled either way.
+   */
+  initialDeliverySurfaceVisible?: boolean;
+  /**
+   * Shows or hides the facility/segment-oriented toolbar section: the "Fit all locations"/"Entire
+   * journey" button, "Selected leg" button, "Latest events" button, and the "Facility risk"
+   * checkbox. Intended for a consumer with no `facilities`/`segments` of its own (e.g. a
+   * surface-only delivery-time view), where those controls are permanently-disabled or
+   * always-inert clutter rather than real affordances. Defaults to `true`, preserving today's
+   * exact behavior (every control shown) when omitted. The "Weather" and "Delivery time surface"
+   * checkboxes are never affected by this prop — they stay controlled by their own existing
+   * `areas`/`surface` presence logic.
+   */
+  networkControls?: boolean;
 };

@@ -550,4 +550,149 @@ describe("delivery surface", () => {
     );
     expect(setData).toHaveBeenCalledWith(surfaceData(newCells));
   });
+
+  it("starts the surface layer visible immediately when initialDeliverySurfaceVisible is true, with no toggle click", async () => {
+    render(
+      <NetworkMap {...surfaceProps} initialDeliverySurfaceVisible />,
+    );
+    await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+    act(() => listeners.load());
+    expect(setLayoutProperty).toHaveBeenCalledWith(
+      "easy-ui-delivery-surface-fill",
+      "visibility",
+      "visible",
+    );
+    expect(
+      screen.getByRole("checkbox", { name: "Delivery time surface" }),
+    ).toBeChecked();
+  });
+
+  it("still starts the surface layer hidden when initialDeliverySurfaceVisible is omitted, preserving current behavior", async () => {
+    render(<NetworkMap {...surfaceProps} />);
+    await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+    act(() => listeners.load());
+    expect(
+      screen.getByRole("checkbox", { name: "Delivery time surface" }),
+    ).not.toBeChecked();
+  });
+});
+
+describe("networkControls", () => {
+  const surfaceOnlyProps: NetworkMapProps = {
+    ...props,
+    facilities: [],
+    surface: {
+      asOf: "2026-09-01T00:00:00Z",
+      source: "spatial-prior-v1",
+      cells: [
+        {
+          latMin: 37,
+          latMax: 37.01,
+          lonMin: -122,
+          lonMax: -121.99,
+          medianMinutes: 45,
+          iqrMinutes: 10,
+          n: 12,
+        },
+      ],
+    },
+  };
+
+  it("hides the facility/segment toolbar controls when explicitly false, leaving Weather/Delivery time surface untouched", async () => {
+    render(<NetworkMap {...surfaceOnlyProps} networkControls={false} />);
+    await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+    act(() => listeners.load());
+    expect(
+      screen.queryByRole("button", { name: "Fit all locations" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Entire journey" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Selected leg" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Latest events" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("checkbox", { name: "Facility risk" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: "Weather" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: "Delivery time surface" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows every control by default when omitted, preserving current behavior", async () => {
+    render(<NetworkMap {...props} />);
+    await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+    act(() => listeners.load());
+    expect(
+      screen.getByRole("button", { name: "Fit all locations" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: "Facility risk" }),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("focus with bounds", () => {
+  const boundsFocusProps: NetworkMapProps = {
+    ...props,
+    facilities: [
+      { id: "one", label: "Oakland", coordinates: [-122, 38], kind: "warehouse" },
+    ],
+    focus: {
+      revision: 1,
+      facilityIds: ["one"],
+      bounds: { minLat: 29.5, maxLat: 30.5, minLon: -95.9, maxLon: -95.0 },
+      maxZoom: 10,
+    },
+  };
+
+  it("fits the camera to the given bounds instead of facilityIds when both are present", async () => {
+    render(<NetworkMap {...boundsFocusProps} />);
+    await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+    act(() => listeners.load());
+    expect(fitBounds).toHaveBeenCalledWith(
+      [
+        [-95.9, 29.5],
+        [-95.0, 30.5],
+      ],
+      expect.objectContaining({ maxZoom: 10 }),
+    );
+  });
+
+  it("re-fires the bounds fit when focus.revision changes, even with the same facilityIds", async () => {
+    const view = render(<NetworkMap {...boundsFocusProps} />);
+    await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+    act(() => listeners.load());
+    fitBounds.mockClear();
+    view.rerender(
+      <NetworkMap
+        {...boundsFocusProps}
+        focus={{ ...boundsFocusProps.focus!, revision: 2 }}
+      />,
+    );
+    expect(fitBounds).toHaveBeenCalledTimes(1);
+  });
+
+  it("falls back to fitting facilityIds when focus has no bounds, unchanged from today", async () => {
+    const idsOnlyFocus: NetworkMapProps = {
+      ...boundsFocusProps,
+      focus: { revision: 1, facilityIds: ["one"], maxZoom: 10 },
+    };
+    render(<NetworkMap {...idsOnlyFocus} />);
+    await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+    act(() => listeners.load());
+    expect(fitBounds).toHaveBeenCalledWith(
+      [
+        [-122, 38],
+        [-122, 38],
+      ],
+      expect.objectContaining({ maxZoom: 10 }),
+    );
+  });
 });

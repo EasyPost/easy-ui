@@ -87,7 +87,9 @@ Regional throughput, expected volume, operating capacity, dwell, backlog and con
 
 Facilities have stable IDs; segments reference their endpoints. `selectedFacilityId` and `onFacilitySelect` control selection across markers and table rows. Provide the callback to enable selection. `selectedSegmentId` emphasizes a connection and enables Selected leg. `latestFacilityId` identifies the last observed facility, never an interpolated position.
 
-`initialView` applies once. Without it, the initial camera fits the supplied facilities. To request a later camera change, supply `focus={{ revision, facilityIds, maxZoom }}` and change `revision`. Data, selection and layer updates preserve manual pan/zoom. Keep the `mapStyle` object stable: replacing it recreates the map. The controls honor reduced motion. MapLibre also supports keyboard arrows and +/- on its canvas, zoom buttons, pan gestures and cooperative scrolling.
+`initialView` applies once. Without it, the initial camera fits the supplied facilities. To request a later camera change, supply `focus={{ revision, facilityIds, maxZoom }}` and change `revision`. A caller with no facilities to fit — e.g. a delivery-time-surface-only view — can instead supply `focus={{ revision, facilityIds: [], bounds, maxZoom }}`; `bounds` (`{ minLat, maxLat, minLon, maxLon }`) wins over `facilityIds` whenever both are present. Data, selection and layer updates preserve manual pan/zoom. Keep the `mapStyle` object stable: replacing it recreates the map. The controls honor reduced motion. MapLibre also supports keyboard arrows and +/- on its canvas, zoom buttons, pan gestures and cooperative scrolling.
+
+`networkControls={false}` hides the facility/segment-oriented toolbar section — "Fit all locations"/"Entire journey", "Selected leg", "Latest events", and the "Facility risk" checkbox — for a consumer with no facilities or segments of its own, where those controls are otherwise permanent, non-functional clutter. Defaults to `true` (every control shown, today's exact behavior). The "Weather" and "Delivery time surface" checkboxes are unaffected either way.
 
 `labelMinZoom` progressively reveals local facilities. Selected, last-observed and `primaryFacilityIds` labels receive priority; collision placement hides lower-priority labels when space is insufficient. Marker buttons and the data table retain complete names. Repeated scans at one facility should share one facility ID and one marker. This component is intended for bounded investigation cohorts; use a server-filtered or clustered source for very large fleets.
 
@@ -105,6 +107,8 @@ Facilities have stable IDs; segments reference their endpoints. `selectedFacilit
 <Canvas of={NetworkMapStories.ShipperFlow} />
 
 `surface` renders an optional data-driven fill layer over a grid of delivery-time cells (`MapSurfaceCell`), toggled with "Delivery time surface" in the map's own layer controls — disabled when no cells are supplied. Fill color follows a diverging ramp over each cell's `medianMinutes`: blue near zero, yellow around 60 minutes, red at 120 minutes and above. Fill opacity follows each cell's own `n`, its observation count, normalized against the largest `n` in the supplied grid — a well-sampled cell asserts its median plainly, while a thinly sampled cell fades toward transparent rather than asserting a median it barely supports. `medianMinutes` and `iqrMinutes` are `null`, never zero, when a cell has no estimate.
+
+For a consumer whose primary content is this surface — where a hidden-by-default layer means the map shows nothing until a user finds and clicks the toggle — set `initialDeliverySurfaceVisible` to start the toggle checked. Read once at mount, like `mapStyle`; omitted or `false` preserves today's exact behavior (starts unchecked).
 
 ## Accessibility, failure and packaging
 

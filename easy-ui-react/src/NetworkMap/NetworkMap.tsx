@@ -38,6 +38,7 @@ export function NetworkMap(props: NetworkMapProps) {
     selectedSegmentId,
     latestFacilityId,
     height = 560,
+    networkControls = true,
   } = props;
   const container = useRef<HTMLDivElement>(null);
   const instance = useRef<MapInstance | null>(null);
@@ -49,18 +50,18 @@ export function NetworkMap(props: NetworkMapProps) {
   const [retry, setRetry] = useState(0);
   const [risk, setRisk] = useState(true),
     [weather, setWeather] = useState(false),
-    [deliverySurface, setDeliverySurface] = useState(false);
+    [deliverySurface, setDeliverySurface] = useState(
+      () => props.initialDeliverySurfaceVisible ?? false,
+    );
   const layers = useRef({ risk, weather, deliverySurface });
   layers.current = { risk, weather, deliverySurface };
   const [zoom, setZoom] = useState(0);
 
-  const fit = (ids: readonly string[], maxZoom = 12) => {
+  const flyToBounds = (
+    bounds: [[number, number], [number, number]] | null,
+    maxZoom = 12,
+  ) => {
     const current = instance.current;
-    const bounds = geographicBounds(
-      latest.current.facilities
-        .filter((f) => ids.includes(f.id))
-        .map((f) => f.coordinates),
-    );
     if (!current || !bounds) return;
     current.fitBounds(bounds, {
       padding: { top: 70, bottom: 65, left: 65, right: 80 },
@@ -69,6 +70,14 @@ export function NetworkMap(props: NetworkMapProps) {
         ? 0
         : 650,
     });
+  };
+  const fit = (ids: readonly string[], maxZoom = 12) => {
+    const bounds = geographicBounds(
+      latest.current.facilities
+        .filter((f) => ids.includes(f.id))
+        .map((f) => f.coordinates),
+    );
+    flyToBounds(bounds, maxZoom);
   };
 
   useEffect(() => {
@@ -609,8 +618,19 @@ export function NetworkMap(props: NetworkMapProps) {
     deliverySurface,
   ]);
   useEffect(() => {
-    if (state === "ready" && props.focus)
-      fit(props.focus.facilityIds, props.focus.maxZoom);
+    if (state !== "ready" || !props.focus) return;
+    const { bounds, facilityIds, maxZoom } = props.focus;
+    if (bounds) {
+      flyToBounds(
+        [
+          [bounds.minLon, bounds.minLat],
+          [bounds.maxLon, bounds.maxLat],
+        ],
+        maxZoom ?? 12,
+      );
+    } else {
+      fit(facilityIds, maxZoom);
+    }
     // A camera request is keyed by revision. Data updates do not recenter the map.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.focus?.revision, state]);
@@ -642,53 +662,57 @@ export function NetworkMap(props: NetworkMapProps) {
         role="group"
         aria-label={`${accessibleName} camera and layers`}
       >
-        <div className={styles.buttons}>
-          <button
-            type="button"
-            onClick={() =>
-              fit(
-                facilities.map((f) => f.id),
-                11,
-              )
-            }
-            disabled={state !== "ready"}
-          >
-            {segments.length > 0 ? "Entire journey" : "Fit all locations"}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (segment) {
-                onFacilitySelect?.(segment.to);
-                fit([segment.from, segment.to], 13);
+        {networkControls && (
+          <div className={styles.buttons}>
+            <button
+              type="button"
+              onClick={() =>
+                fit(
+                  facilities.map((f) => f.id),
+                  11,
+                )
               }
-            }}
-            disabled={!segment || state !== "ready"}
-          >
-            Selected leg
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (latestFacilityId) {
-                onFacilitySelect?.(latestFacilityId);
-                fit([latestFacilityId], 12);
-              }
-            }}
-            disabled={!latestFacilityId || state !== "ready"}
-          >
-            Latest events
-          </button>
-        </div>
+              disabled={state !== "ready"}
+            >
+              {segments.length > 0 ? "Entire journey" : "Fit all locations"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (segment) {
+                  onFacilitySelect?.(segment.to);
+                  fit([segment.from, segment.to], 13);
+                }
+              }}
+              disabled={!segment || state !== "ready"}
+            >
+              Selected leg
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (latestFacilityId) {
+                  onFacilitySelect?.(latestFacilityId);
+                  fit([latestFacilityId], 12);
+                }
+              }}
+              disabled={!latestFacilityId || state !== "ready"}
+            >
+              Latest events
+            </button>
+          </div>
+        )}
         <div className={styles.buttons}>
-          <label>
-            <input
-              type="checkbox"
-              checked={risk}
-              onChange={(e) => setRisk(e.target.checked)}
-            />{" "}
-            Facility risk
-          </label>
+          {networkControls && (
+            <label>
+              <input
+                type="checkbox"
+                checked={risk}
+                onChange={(e) => setRisk(e.target.checked)}
+              />{" "}
+              Facility risk
+            </label>
+          )}
           <label>
             <input
               type="checkbox"
