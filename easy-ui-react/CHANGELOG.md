@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.136
+
+### Minor Changes
+
+- 65ab1fc: feat(Modal): support custom header
+- 796c3f0: Adds `<Box />`, a general-purpose container that exposes Easy UI's design tokens as props. Space, color, border, and shadow properties are constrained to their token scales; sizing and positioning accept free CSS values. `as` renders any element, with automatic unstyled resets for `button`, `a`, `ul`, `ol`, `fieldset`, and `legend`. `<Box />` accepts neither `className` nor `style`.
+
 ## 1.0.0-alpha.135
 
 ### Minor Changes
