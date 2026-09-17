@@ -1,0 +1,280 @@
+import React from "react";
+import { ArgTypes, Canvas, Meta, Controls } from "@storybook/addon-docs/blocks";
+import { Box } from "./Box";
+import * as BoxStories from "./Box.stories";
+
+<Meta of={BoxStories} />
+
+# Box
+
+A `<Box />` is a general-purpose container that exposes Easy UI's design tokens as props. It exists to absorb the styling that would otherwise be written as a one-off CSS module or an inline `style` object.
+
+<Canvas of={BoxStories.Default} />
+
+## Constrained and free properties
+
+`<Box />` follows a single rule: **constrain what has a token scale, leave free what does not.**
+
+Properties backed by a token scale are typed to that scale, so an invalid value is a type error:
+
+- `padding*`, `margin*`, and `gap` take a space token
+- `background`, `color`, and `borderColor` take a theme color
+- `borderRadius` and its per-edge and per-corner variants take a border radius token, or `full`
+- `borderWidth` and `border*Width` take a border width token
+- `boxShadow` takes a shadow level
+- `zIndex` takes a z-index token
+- `opacity` takes an opacity token
+
+Easy UI has no size token scale, so sizing and positioning accept free CSS values. Numbers are treated as `px`; strings pass through untouched, which means percentages, viewport units, `calc()`, `fit-content`, and `auto` all work.
+
+```tsx
+<Box width="100%" maxWidth={700} height="calc(100svh - 96px)" />
+```
+
+## Space
+
+`padding` and `margin` accept a space token, with per-axis and per-side variants. A more specific property wins over a less specific one, so `paddingTop` beats `paddingY`, which beats `padding`.
+
+<Canvas of={BoxStories.Padding} />
+
+<Controls of={BoxStories.Padding} include={["padding"]} />
+
+`margin` additionally accepts `auto` and negated space tokens, for centering a box and for pulling one against its own flow.
+
+```tsx
+<Box marginX="auto" marginTop="-2" />
+```
+
+## Size
+
+A `<Box />` can be sized directly. A constrained, centered container is the most common case.
+
+<Canvas of={BoxStories.Sizing} />
+
+## Border
+
+Setting `borderColor` or a border width implies a solid border, so there is no `borderStyle` prop. A `borderColor` on its own implies a border width of `1`.
+
+<Canvas of={BoxStories.Border} />
+
+<Controls of={BoxStories.Border} include={["borderColor", "borderRadius"]} />
+
+Widths can be set per side, which is how a `<Box />` becomes a divider or a ruled row.
+
+```tsx
+<Box borderBottomWidth="1" borderColor="neutral.200" />
+```
+
+`borderRadius` can be set per edge pair or per corner, which is how a `<Box />` becomes a banner tucked under a rounded header, or a segment of a joined group. The position goes at the end of the property name — `borderRadiusTopLeft`, not `borderTopLeftRadius` — so that all nine sit together under `borderRadius` in autocomplete.
+
+<Canvas of={BoxStories.BorderRadius} />
+
+The same "more specific wins" rule as `padding` applies, with one extra step: a corner beats an edge pair, and a horizontal edge beats a vertical one. So `borderRadiusTopLeft` beats `borderRadiusTop`, which beats `borderRadiusLeft`, which beats `borderRadius`.
+
+```tsx
+// → sm top left, md top right, lg on both bottom corners
+<Box borderRadius="lg" borderRadiusTop="md" borderRadiusTopLeft="sm" />
+```
+
+Because a `borderColor` on its own implies a border, a conditional rule has to drop the color along with the width. Leaving the color behind draws a box on all four sides instead of no rule at all.
+
+```tsx
+<Box
+  borderBottomWidth={isRuled ? "1" : undefined}
+  borderColor={isRuled ? "neutral.200" : undefined}
+/>
+```
+
+## Shadow
+
+<Canvas of={BoxStories.Shadow} />
+
+<Controls of={BoxStories.Shadow} include={["boxShadow"]} />
+
+## Placing itself in a parent
+
+A `<Box />` can control how it behaves inside the layout that holds it. In a flex parent such as a `<HorizontalStack />` or `<VerticalStack />`, that is `flex`, `flexGrow`, `flexShrink`, `flexBasis`, `alignSelf`, and `order`. In a grid parent it is `gridColumn`, `gridRow`, `gridArea`, `justifySelf`, and `alignSelf`.
+
+<Canvas of={BoxStories.Flex} />
+
+## Laying out children
+
+A `<Box />` can lay out its own children as a flex container with `display`, `flexDirection`, `flexWrap`, `justifyContent`, `alignItems`, `alignContent`, and `gap`, or as a grid container with `display`, `gridTemplateColumns`, `gridTemplateRows`, `gridTemplateAreas`, `gridAutoFlow`, `gridAutoColumns`, `gridAutoRows`, `justifyItems`, `alignContent`, and `gap`.
+
+Prefer `<HorizontalStack />`, `<VerticalStack />`, and `<HorizontalGrid />` for this; they are named for their intent and are easier to read. Reach for `display` on a `<Box />` when those do not fit — uneven tracks, named areas, or a child that spans.
+
+<Canvas of={BoxStories.FlexContainer} />
+
+## Grid
+
+`gridTemplateColumns` and `gridTemplateRows` accept a count for equal tracks, an array naming each track in turn, or a raw CSS track list such as `repeat(auto-fit, minmax(275px, 1fr))`. The fraction aliases `oneFourth`, `oneThird`, `oneHalf`, `twoThirds`, and `threeFourths` are the same ones `<HorizontalGrid />` takes.
+
+<Canvas of={BoxStories.Grid} />
+
+`gridColumn`, `gridRow`, and `gridArea` place a child. Each takes a line, a `span`, a named area, or a `start / end` pair. `gridColumn` and `gridRow` are more specific and win over `gridArea` on the axis they name, in the same way `paddingTop` wins over `padding`.
+
+<Canvas of={BoxStories.GridAreas} />
+
+## Position
+
+<Canvas of={BoxStories.Position} />
+
+## Transform
+
+`transform` and `transformOrigin` take any CSS value, since there is no token scale for either. Both are responsive.
+
+A transform does not change the space the box occupies, so prefer a margin, `inset`, or a flex property when the surrounding layout should respond, and reach for `transform` when it should not.
+
+A value given per breakpoint replaces the whole transform list rather than adding to it, as CSS does.
+
+<Canvas of={BoxStories.Transform} />
+
+## Media
+
+With `as="img"`, a `<Box />` sizes and fits replaced content, which covers logos and thumbnails.
+
+<Canvas of={BoxStories.Media} />
+
+## Elements and resets
+
+`as` renders a `<Box />` as a different element. `button`, `a`, `ul`, `ol`, `fieldset`, and `legend` receive an automatic unstyled reset, so their default browser styling does not need to be stripped by hand.
+
+A `<Box />` keeps its element's own `display` until one is set: a `div` stays block, a `span` stays inline, an `img` stays inline. The same is true of `overflow` and `text-align`, so a `<Box as="button" />` stays center-aligned and a `<Box as="img" />` still clips an `objectFit="cover"` image to its box.
+
+<Canvas of={BoxStories.ElementReset} />
+
+## Responsive properties
+
+Most properties accept an object keyed by breakpoint. A value applies from its breakpoint upward until another value overrides it.
+
+<Canvas of={BoxStories.Responsive} />
+
+```tsx
+<Box padding={{ xs: "2", md: "6" }} maxWidth={{ xs: "100%", lg: 480 }} />
+```
+
+`color`, `objectFit`, `whiteSpace`, `overscrollBehavior`, `cursor`, `pointerEvents`, `zIndex`, `boxShadow`, `borderColor`, border widths, and `opacity` are deliberately not responsive, to keep the stylesheet small.
+
+## Recipes
+
+The sections above show one property at a time. Each recipe below replaces a pure-layout CSS module that exists in the EasyPost web app today, and says how many times that shape is currently copy-pasted. They are meant to be copied — and, where a module is entirely layout, to delete it.
+
+Three shapes are deliberately missing. A plain card surface, a title-and-action section header, and a selectable card are already owned by `Card`, `SectionCard`, and `CheckableCard` — the app reaches for `Card` in around 198 files. A search row is missing too: the app builds it with `HorizontalGrid columns={["1fr", "auto"]}`, not with a flexing wrapper. A Box recipe for any of them would teach people to hand-roll a component we ship.
+
+### Page container
+
+A centered, width-capped content column. `margin: 0 auto` beside a `max-width` appears in 10 rules across 7 modules — 1320px for the sub-account layout, 900/1080/800px three times over in one onboarding module, 988px for the Nexus FAQ.
+
+<Canvas of={BoxStories.PageContainer} />
+
+### Control width cap
+
+Capping one control rather than centering a page. Around 25 modules do this; the FlexRate adjustment editor has nine in a single file, and one module's entire contents is `.searchContainer { width: 100% }`.
+
+<Canvas of={BoxStories.ControlWidthCap} />
+
+### Centered page
+
+A full-height centered shell around a single card, from the OAuth authorize lander. It is the newest CSS module in the app and every one of its rules is pure layout, so a `<Box />` deletes the file outright.
+
+<Canvas of={BoxStories.CenteredPage} />
+
+### Divider
+
+One hairline rule, which the app draws eleven times across eleven modules in five mutually incompatible ways: `border-top`, `height: 1px` with a `background`, `min-height: 1px` with a `background-color`, `height: 0` with a `border-bottom`, and a whole `<Separator />` component whose body is a single styled `<div />`.
+
+<Canvas of={BoxStories.Divider} />
+
+### Panel header
+
+A padded header band with a rule under it — byte-identical across three sub-account modules. The title-and-action row inside is a `HorizontalStack`; only the band needs a Box.
+
+<Canvas of={BoxStories.PanelHeader} />
+
+### Scroll panel
+
+A fixed-height panel whose middle section scrolls. `flex="1"` with `minHeight={0}` and `overflowY="auto"` is the trio that is easy to get wrong: without `minHeight={0}` the flex item refuses to shrink, so the panel grows instead of scrolling.
+
+<Canvas of={BoxStories.ScrollPanel} />
+
+### Centered overlay
+
+A spinner centered over the content it stands in for. Two analytics quick-link modules hold this shape byte-for-byte, `@use` line included. The real code crossfades the two layers with an inline `opacity`; this covers the lower one with an opaque `background` instead, which is the same layout without the fade.
+
+<Canvas of={BoxStories.CenteredOverlay} />
+
+### Sticky banner
+
+A banner pinned to the top of a scrolling dialog, byte-identical across three modal modules. `zIndex` is constrained to the token scale, which is what keeps `z-index: 9999` out of application code.
+
+<Canvas of={BoxStories.StickyBanner} />
+
+### Carrier logo
+
+A fixed-size box holding a contained image — the most copy-pasted layout shape in the app, at 20 `object-fit: contain` declarations across 13 modules in six different sizes.
+
+<Canvas of={BoxStories.CarrierLogo} />
+
+### Card button
+
+A whole card that is also a button. Five modules hand-write `all: unset` to reach this. `as="button"` applies the same reset without discarding the focus ring, which is what `all: unset` costs.
+
+<Canvas of={BoxStories.CardButton} />
+
+### Icon rail field
+
+A labelled field with an icon rail beside it. The same 35 lines are copy-pasted into three unrelated features, and the JSX is triplicated with them. The rail itself is a `::before`, which no style prop can express — so most of that module goes away, not all of it.
+
+<Canvas of={BoxStories.IconRailField} />
+
+### Flex fill panel
+
+A panel that fills the height it is given, with a colored header band. Eleven selectors across ten modules open with the same `flex: 1` / `display: flex` / `flex-direction: column` trio. `overflow="hidden"` is what makes the header band's background follow the panel's rounded corners.
+
+<Canvas of={BoxStories.FlexFillPanel} />
+
+### Centered state region
+
+A region that fills its parent and centers whatever stands in for missing content — six modules, one of which shares a single rule between `.emptyContainer` and `.loadingContainer`. Only the centering belongs to a `<Box />`; the empty state's own content is an `<EmptyStateCard />`.
+
+<Canvas of={BoxStories.CenteredStateRegion} />
+
+### Aspect ratio media
+
+An image that reserves its space before it loads. `width` + `height` + `aspectRatio` is the most common inline `style` object in the app, at 22 of 80 occurrences. `aspectRatio` takes a free value, which is what a promo image whose ratio comes from a prop needs.
+
+<Canvas of={BoxStories.AspectRatioMedia} />
+
+### Logo disc
+
+A logo inside a circle or a rounded tile, from four modules. `borderRadius="full"` replaces a hand-written `999px`, and `overflow="hidden"` crops the image to the shape instead of letting it square off the corners.
+
+<Canvas of={BoxStories.LogoDisc} />
+
+### Form grid
+
+A two-column field grid where some fields run the full width, from the label-creation forms. `<HorizontalGrid />` covers the tracks but has no child-side props, so the span is what needs a `<Box />`.
+
+<Canvas of={BoxStories.FormGrid} />
+
+## What a Box cannot do
+
+A `<Box />` styles one element in one state. That rules out:
+
+- **Anything but the resting state** — no `:hover`, `:focus`, or `transition`. An interactive treatment belongs to the component that owns the interaction.
+- **Pseudo-elements** — no `::before` or `::after`.
+- **Other elements** — no descendant, child, or `:global()` selectors. A `<Box />` styles only itself.
+- **Animation** — no keyframes.
+- **Type styling** — no `textDecoration` or `font-family`. That belongs to `<Text />`.
+- **Values with no token behind them** — a color computed at runtime has no alias to name, and responsive props are keyed to the breakpoint scale, so a custom breakpoint cannot be matched exactly.
+- **Background images**, and `scroll-margin-top`.
+
+## No className, no style
+
+`<Box />` accepts neither `className` nor `style`. It is the escape hatch, so it cannot itself have one — an escape hatch on the escape hatch would put arbitrary CSS back into application code and take styling out of the token system.
+
+If a `<Box />` cannot express something you need, that is a gap in `<Box />`. **File it.** The fix belongs here, where every consumer gets it, rather than in one application's stylesheet.
+
+## Properties
+
+<ArgTypes of={Box} />

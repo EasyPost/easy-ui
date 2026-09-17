@@ -1,0 +1,151 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+// The resets are declared before `.Box` on purpose. They share `.Box`'s
+// specificity, so source order is what decides: `.Box`'s token-driven
+// declarations need to come last to win over a reset.
+.buttonReset {
+  @include unstyled.button;
+}
+
+.linkReset {
+  @include unstyled.link;
+}
+
+.listReset {
+  @include unstyled.list;
+}
+
+.fieldsetReset {
+  @include unstyled.fieldset;
+}
+
+.legendReset {
+  @include unstyled.legend;
+}
+
+.Box {
+  // Border widths default to `0` rather than being left unset, so that a
+  // border on one side—or a border color on its own—doesn't leave the
+  // remaining sides at CSS's `medium` default.
+  @include component-token("box", "border-top-width", 0);
+  @include component-token("box", "border-right-width", 0);
+  @include component-token("box", "border-bottom-width", 0);
+  @include component-token("box", "border-left-width", 0);
+
+  color: component-token("box", "color");
+  border-color: component-token("box", "border-color");
+  border-style: component-token("box", "border-style");
+  border-top-width: component-token("box", "border-top-width");
+  border-right-width: component-token("box", "border-right-width");
+  border-bottom-width: component-token("box", "border-bottom-width");
+  border-left-width: component-token("box", "border-left-width");
+  box-shadow: component-token("box", "box-shadow");
+  z-index: component-token("box", "z-index");
+  opacity: component-token("box", "opacity");
+  object-fit: component-token("box", "object-fit");
+  white-space: component-token("box", "white-space");
+  cursor: component-token("box", "cursor");
+  pointer-events: component-token("box", "pointer-events");
+  // No `revert` fallback needed: `unset` resolves this to `auto`, which is what
+  // it already is by default. Kept as the shorthand rather than the `-x`/`-y`
+  // longhands because no per-axis prop is exposed; adding one would have to
+  // switch to longhands, the way `overflow` does.
+  overscroll-behavior: component-token("box", "overscroll-behavior");
+
+  @include responsive-prop("box", "padding-top", padding-top);
+  @include responsive-prop("box", "padding-right", padding-right);
+  @include responsive-prop("box", "padding-bottom", padding-bottom);
+  @include responsive-prop("box", "padding-left", padding-left);
+  @include responsive-prop("box", "margin-top", margin-top);
+  @include responsive-prop("box", "margin-right", margin-right);
+  @include responsive-prop("box", "margin-bottom", margin-bottom);
+  @include responsive-prop("box", "margin-left", margin-left);
+  @include responsive-prop("box", "width", width);
+  @include responsive-prop("box", "min-width", min-width);
+  @include responsive-prop("box", "max-width", max-width);
+  @include responsive-prop("box", "height", height);
+  @include responsive-prop("box", "min-height", min-height);
+  @include responsive-prop("box", "max-height", max-height);
+  @include responsive-prop("box", "aspect-ratio", aspect-ratio);
+  @include responsive-prop("box", "background", background);
+  // Corner longhands rather than the `border-radius` shorthand, so that a
+  // per-corner value is not clobbered by the shorthand resolving to `unset`.
+  // No fallback is needed: `unset` on a corner longhand is `0`, the default.
+  @include responsive-prop(
+    "box",
+    "border-top-left-radius",
+    border-top-left-radius
+  );
+  @include responsive-prop(
+    "box",
+    "border-top-right-radius",
+    border-top-right-radius
+  );
+  @include responsive-prop(
+    "box",
+    "border-bottom-right-radius",
+    border-bottom-right-radius
+  );
+  @include responsive-prop(
+    "box",
+    "border-bottom-left-radius",
+    border-bottom-left-radius
+  );
+  @include responsive-prop("box", "flex-grow", flex-grow);
+  @include responsive-prop("box", "flex-shrink", flex-shrink);
+  @include responsive-prop("box", "flex-basis", flex-basis);
+  @include responsive-prop("box", "align-self", align-self);
+  @include responsive-prop("box", "justify-self", justify-self);
+  @include responsive-prop("box", "order", order);
+  // Grid placement longhands rather than the `grid-area`, `grid-row`, and
+  // `grid-column` shorthands: all three props resolve to these same four
+  // declarations, so a shorthand would let a neighbour resolving to `unset`
+  // reset the placement it had just set. No fallback is needed—`unset` on each
+  // is `auto`, the default.
+  @include responsive-prop("box", "grid-row-start", grid-row-start);
+  @include responsive-prop("box", "grid-row-end", grid-row-end);
+  @include responsive-prop("box", "grid-column-start", grid-column-start);
+  @include responsive-prop("box", "grid-column-end", grid-column-end);
+  // `display`, `overflow`, and `text-align` fall back to `revert` rather than
+  // being left unset. An unset variable resolves the declaration to `unset`,
+  // which for these is not a no-op: `display` would become `inline` on every
+  // element, `overflow` would become `visible` on an `<img>` (letting an
+  // `objectFit="cover"` image paint outside its box), and `text-align` would
+  // drop a `<button>`'s centering. `revert` defers to the user agent instead,
+  // so a `<Box />` keeps its element's own default until a value is passed.
+  @include responsive-prop("box", "display", display, revert);
+  @include responsive-prop("box", "flex-direction", flex-direction);
+  @include responsive-prop("box", "flex-wrap", flex-wrap);
+  @include responsive-prop("box", "justify-content", justify-content);
+  @include responsive-prop("box", "align-items", align-items);
+  // No `revert` fallback on any of the grid declarations: `unset` resolves each
+  // to what it already is by default—`none` for the templates, `row` for the
+  // flow, `auto` for the implicit track sizes, `normal` for `align-content`,
+  // and `legacy` for `justify-items`, which behaves as `normal`.
+  @include responsive-prop("box", "justify-items", justify-items);
+  @include responsive-prop("box", "align-content", align-content);
+  @include responsive-prop(
+    "box",
+    "grid-template-columns",
+    grid-template-columns
+  );
+  @include responsive-prop("box", "grid-template-rows", grid-template-rows);
+  @include responsive-prop("box", "grid-template-areas", grid-template-areas);
+  @include responsive-prop("box", "grid-auto-flow", grid-auto-flow);
+  @include responsive-prop("box", "grid-auto-columns", grid-auto-columns);
+  @include responsive-prop("box", "grid-auto-rows", grid-auto-rows);
+  @include responsive-prop("box", "column-gap", column-gap);
+  @include responsive-prop("box", "row-gap", row-gap);
+  @include responsive-prop("box", "position", position);
+  @include responsive-prop("box", "top", top);
+  @include responsive-prop("box", "right", right);
+  @include responsive-prop("box", "bottom", bottom);
+  @include responsive-prop("box", "left", left);
+  @include responsive-prop("box", "overflow-x", overflow-x, revert);
+  @include responsive-prop("box", "overflow-y", overflow-y, revert);
+  @include responsive-prop("box", "text-align", text-align, revert);
+  // No fallback needed: `unset` is `none` and `50% 50%`, the defaults already.
+  @include responsive-prop("box", "transform", transform);
+  @include responsive-prop("box", "transform-origin", transform-origin);
+}
