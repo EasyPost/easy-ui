@@ -14,26 +14,20 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      packages: write
+      id-token: write
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Setup Node.js from .nvmrc
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
-          node-version-file: ".nvmrc"
+          node-version-file: '.nvmrc'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false # never use caching in release builds
 
       - name: Install Dependencies
         run: npm i
-
-      - name: Preparing .npmrc
-        run: |
-          cat << EOF > "$HOME/.npmrc"
-            //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          EOF
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
@@ -42,4 +36,3 @@ jobs:
           publish: npm run changes:publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
