@@ -200,8 +200,12 @@ export const CustomPackage: Story = {
           </VerticalStack>
         </Popover.Body>
         <Popover.Footer>
-          <HorizontalStack align="end" gap="2" wrap={false}>
-            <Button variant="outlined" onPress={action("Save Packaging")}>
+          <HorizontalStack align="end" gap="1" wrap={false}>
+            <Button
+              size="sm"
+              variant="outlined"
+              onPress={action("Save Packaging")}
+            >
               Save Packaging
             </Button>
             <DismissButton>Packaging Complete</DismissButton>
@@ -246,7 +250,7 @@ export const SelectRate: Story = {
           {/* Centered, because a link button's own horizontal padding would sit
           it a few pixels inside the rows above it. */}
           <HorizontalStack align="center">
-            <Button variant="link" onPress={action("View 10 More")}>
+            <Button size="sm" variant="link" onPress={action("View 10 More")}>
               View 10 More
             </Button>
           </HorizontalStack>
@@ -482,7 +486,13 @@ export const InsideModal: Story = {
  */
 function DismissButton({ children }: { children: ReactNode }) {
   const { close } = usePopoverTrigger();
-  return <Button onPress={close}>{children}</Button>;
+  // `sm`, because a popover's footer sits closer to its content than a modal's
+  // does and a default-size button overwhelms the panel.
+  return (
+    <Button size="sm" onPress={close}>
+      {children}
+    </Button>
+  );
 }
 
 function UnitToggles() {
