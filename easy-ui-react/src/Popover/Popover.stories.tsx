@@ -619,10 +619,14 @@ function RateRow(props: RateRowProps) {
       textAlign="start"
       width="100%"
     >
-      <HorizontalStack gap="2" blockAlign="center" wrap={false}>
+      {/* `blockAlign="start"` so the mark sits against the top of the row rather
+      than floating at the vertical center of three lines of text. */}
+      <HorizontalStack gap="2" blockAlign="start" wrap={false}>
         {/* Carrier marks don't share an aspect ratio—the UPS shield is tall, the
         FedEx wordmark is wide—so each one is scaled inside a fixed square.
-        Without it, every row's text would start at a different x. */}
+        Without it, every row's text would start at a different x. Centered
+        inside that square, which is what puts a wide mark and a tall one on the
+        same optical line as the price. */}
         <Box
           alignItems="center"
           display="flex"
@@ -680,7 +684,9 @@ function ItemRow(props: ItemRowProps) {
       borderColor={hasDivider ? "neutral.100" : undefined}
       paddingY="2"
     >
-      <HorizontalStack gap="2" blockAlign="center" wrap={false}>
+      {/* `blockAlign="start"` so the thumbnail sits against the top of the row
+      rather than floating at the vertical center of three lines of text. */}
+      <HorizontalStack gap="2" blockAlign="start" wrap={false}>
         <Box
           as="img"
           src={THUMBNAIL_SRC}
