@@ -25,9 +25,30 @@
 }
 
 .Box {
-  // Border widths default to `0` rather than being left unset, so that a
-  // border on one side—or a border color on its own—doesn't leave the
-  // remaining sides at CSS's `medium` default.
+  // Custom properties inherit, so without a reset a `<Box />` nested in a
+  // `<Box />` picks up whatever its parent was given—a `boxShadow` on a card
+  // would paint again on every box inside it. `initial` makes the property
+  // guaranteed-invalid, so `var()` substitution fails and the declaration
+  // resolves to `unset`, which for a non-inherited property is its initial
+  // value. An inline value on the same element still wins, since inline styles
+  // outrank a class rule. This is what `responsive-props` already does for each
+  // breakpoint variable; these are the props declared outside it.
+  //
+  // `color`, `white-space`, `cursor`, and `pointer-events` are deliberately
+  // absent: they're inherited CSS properties, so passing the parent's value down
+  // is what CSS would do anyway.
+  @include component-token("box", "border-color", initial);
+  @include component-token("box", "border-style", initial);
+  @include component-token("box", "box-shadow", initial);
+  @include component-token("box", "z-index", initial);
+  @include component-token("box", "opacity", initial);
+  @include component-token("box", "object-fit", initial);
+  @include component-token("box", "overscroll-behavior", initial);
+
+  // Border widths default to `0` rather than to `initial`, so that a border on
+  // one side—or a border color on its own—doesn't leave the remaining sides at
+  // CSS's `medium` default. Being re-declared per element, they don't inherit
+  // either.
   @include component-token("box", "border-top-width", 0);
   @include component-token("box", "border-right-width", 0);
   @include component-token("box", "border-bottom-width", 0);

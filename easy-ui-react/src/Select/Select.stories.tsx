@@ -1,9 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import CalendarMonthIcon from "@easypost/easy-ui-icons/CalendarMonth";
+import PackageIcon from "@easypost/easy-ui-icons/Package";
 import React from "react";
 import { Key } from "react-aria";
 import { InputDecorator } from "../utilities/storybook";
 import { Select, SelectProps } from "./Select";
+import { SelectButton } from "./SelectButton";
 
 type Story = StoryObj<typeof Select>;
 
@@ -185,6 +187,38 @@ export const DisabledSelect: Story = {
     placeholder: "Placeholder text",
     helperText: "Helper text",
     isDisabled: true,
+  },
+};
+
+export const StandaloneButton: StoryObj<typeof SelectButton> = {
+  render: () => (
+    <>
+      <SelectButton onPress={() => {}}>Default</SelectButton>
+      <SelectButton size="sm" onPress={() => {}}>
+        Small
+      </SelectButton>
+      <SelectButton size="lg" onPress={() => {}}>
+        Large
+      </SelectButton>
+      <SelectButton iconAtStart={PackageIcon} onPress={() => {}}>
+        With a start icon
+      </SelectButton>
+      <SelectButton description="12 x 12 x 8 in" onPress={() => {}}>
+        With a description
+      </SelectButton>
+      <SelectButton isOpen onPress={() => {}}>
+        With an open overlay
+      </SelectButton>
+      <SelectButton hasError onPress={() => {}}>
+        With an error
+      </SelectButton>
+      <SelectButton isDisabled onPress={() => {}}>
+        Disabled
+      </SelectButton>
+    </>
+  ),
+  parameters: {
+    controls: { disable: true },
   },
 };
 
