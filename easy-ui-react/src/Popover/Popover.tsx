@@ -163,7 +163,9 @@ Popover.Header = PopoverHeader;
  * The popover's heading, which supplies its accessible name.
  *
  * @remarks
- * Should be rendered inside `<Popover.Header />` as `<Popover.Title />`.
+ * Should be rendered inside `<Popover.Header />` as `<Popover.Title />`. Takes
+ * every `<Text />` prop except `id`, which the popover owns, so the size can be
+ * changed with `variant` without touching the `h2` the heading level needs.
  */
 Popover.Title = PopoverTitle;
 
