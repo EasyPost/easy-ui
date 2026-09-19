@@ -16,7 +16,7 @@ const fitBounds = vi.fn(),
   remove = vi.fn(),
   setData = vi.fn(),
   getClusterExpansionZoom = vi.fn().mockResolvedValue(9);
-const listeners: Record<string, (...args: any[]) => void> = {};
+const listeners: Record<string, (...args: unknown[]) => void> = {};
 const sources = new Set<string>();
 // Full addSource() definitions, keyed by id, so tests can assert cluster/clusterMaxZoom/clusterRadius.
 const sourceDefs = new Map<string, Record<string, unknown>>();
@@ -62,8 +62,8 @@ class FakeMap {
   }
   on(
     type: string,
-    layerOrListener: string | ((...args: any[]) => void),
-    listener?: (...args: any[]) => void,
+    layerOrListener: string | ((...args: unknown[]) => void),
+    listener?: (...args: unknown[]) => void,
   ) {
     if (typeof layerOrListener === "string")
       listeners[`${type}:${layerOrListener}`] = listener!;
@@ -539,9 +539,7 @@ describe("delivery surface", () => {
     await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
     act(() => listeners.load());
     setData.mockClear();
-    const newCells = [
-      { ...surfaceProps.surface!.cells[0], medianMinutes: 90 },
-    ];
+    const newCells = [{ ...surfaceProps.surface!.cells[0], medianMinutes: 90 }];
     view.rerender(
       <NetworkMap
         {...surfaceProps}
@@ -552,9 +550,7 @@ describe("delivery surface", () => {
   });
 
   it("starts the surface layer visible immediately when initialDeliverySurfaceVisible is true, with no toggle click", async () => {
-    render(
-      <NetworkMap {...surfaceProps} initialDeliverySurfaceVisible />,
-    );
+    render(<NetworkMap {...surfaceProps} initialDeliverySurfaceVisible />);
     await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
     act(() => listeners.load());
     expect(setLayoutProperty).toHaveBeenCalledWith(
@@ -642,7 +638,12 @@ describe("focus with bounds", () => {
   const boundsFocusProps: NetworkMapProps = {
     ...props,
     facilities: [
-      { id: "one", label: "Oakland", coordinates: [-122, 38], kind: "warehouse" },
+      {
+        id: "one",
+        label: "Oakland",
+        coordinates: [-122, 38],
+        kind: "warehouse",
+      },
     ],
     focus: {
       revision: 1,
