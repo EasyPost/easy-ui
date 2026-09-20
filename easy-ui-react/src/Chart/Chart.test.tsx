@@ -75,6 +75,51 @@ it("provides keyboard-accessible exact values, missing data, and stable row sele
   expect(onRowSelect).toHaveBeenCalledWith("monday");
 });
 
+it("renders inside Easy UI's own Card wrapper when variant is omitted (default)", async () => {
+  render(view());
+  await screen.findByRole("img", { name: fixture.description });
+  const region = screen.getByRole("region", { name: "Shipments" });
+  expect(region).toHaveAttribute("aria-busy", "false");
+  expect(screen.getByTestId("container")).toBe(region);
+  expect(screen.getByTestId("area")).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Shipments", level: 2 }),
+  ).toBeInTheDocument();
+  expect(screen.getByText("Daily parcel counts in UTC")).toBeInTheDocument();
+  expect(screen.getByText("View data table")).toBeInTheDocument();
+});
+
+it('renders inside Easy UI\'s own Card wrapper when variant is explicitly "card"', async () => {
+  render(view({ variant: "card" }));
+  await screen.findByRole("img", { name: fixture.description });
+  const region = screen.getByRole("region", { name: "Shipments" });
+  expect(screen.getByTestId("container")).toBe(region);
+  expect(screen.getByTestId("area")).toBeInTheDocument();
+});
+
+it('renders a plain section with no Card wrapper for variant="bare", keeping the same content and ARIA attributes', async () => {
+  render(view({ variant: "bare" }));
+  await screen.findByRole("img", { name: fixture.description });
+  const region = screen.getByRole("region", { name: "Shipments" });
+  expect(region.tagName).toBe("SECTION");
+  expect(region).toHaveAttribute("aria-busy", "false");
+  expect(screen.queryByTestId("container")).toBeNull();
+  expect(screen.queryByTestId("area")).toBeNull();
+  expect(
+    screen.getByRole("heading", { name: "Shipments", level: 2 }),
+  ).toBeInTheDocument();
+  expect(screen.getByText("Daily parcel counts in UTC")).toBeInTheDocument();
+  expect(screen.getByText("View data table")).toBeInTheDocument();
+});
+
+it("marks aria-busy on the bare section while loading, like the card variant", () => {
+  render(view({ variant: "bare", status: "loading" }));
+  expect(screen.getByRole("region", { name: "Shipments" })).toHaveAttribute(
+    "aria-busy",
+    "true",
+  );
+});
+
 it.each(["loading", "empty", "error"] as const)(
   "suppresses the engine and stale values for %s",
   (status) => {

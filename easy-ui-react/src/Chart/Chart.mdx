@@ -89,6 +89,7 @@ The rendered plot is an image with the supplied description; its underlying SVG/
 
 ## States, scales, and themes
 
+- Use `variant` to choose the surrounding frame. `"card"` (the default) renders Easy UI's own bordered `Card` with padding. Use `"bare"` when a consumer already supplies its own surrounding Card and wants Chart's heading, description, plot, and data-table disclosure to render directly inside it, without nesting a second bordered Card. `aria-label`/`aria-busy` semantics on the chart region are identical in both variants.
 - Use `status` for loading, empty, and error. These states suppress stale plots and tables; `onRetry` delegates retry to the application. `notice` explains partial coverage or stale-but-intentionally-visible data.
 - The default status is empty when there are no table rows. Observed zero remains data. Engine import/render failures show `errorLabel` and call `onRenderError`; corrected options can recover rendering.
 - Use timestamps and an explicit time zone for full time series. Keep gaps; avoid implicit smoothing. Bar and area magnitudes start at zero. Bubble area, not radius, encodes quantity.

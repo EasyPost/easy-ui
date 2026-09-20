@@ -56,6 +56,12 @@ export type ChartProps = {
   zoomOutLabel?: string;
   /** Keyboard reset button text; defaults to "Reset zoom". Resets to the full percentage range. */
   resetZoomLabel?: string;
+  /**
+   * Card wrapper variant. `"card"` (default) renders Easy UI's own bordered Card with padding.
+   * `"bare"` renders a plain `<section>` with no border/background/padding, for a consumer that
+   * supplies its own surrounding Card (e.g. sharing one card with sibling content).
+   */
+  variant?: "card" | "bare";
 };
 
 /** Analytical charts with Easy UI presentation and an optional, lazy ECharts peer. */
@@ -83,9 +89,112 @@ export function Chart({
   zoomInLabel = "Zoom in",
   zoomOutLabel = "Zoom out",
   resetZoomLabel = "Reset zoom",
+  variant = "card",
 }: ChartProps) {
   const plotHeight = Math.max(160, height);
-  return (
+  const content = (
+    <div className={styles.root}>
+      <div className={styles.header}>
+        <Text as="h2" variant="heading5">
+          {title}
+        </Text>
+        {actions}
+      </div>
+      <div className={styles.description}>
+        <Text color="neutral.600" variant="caption">
+          {description}
+        </Text>
+      </div>
+      {status === "ready" ? (
+        <ChartPlot
+          option={option}
+          description={description}
+          height={plotHeight}
+          renderer={renderer}
+          onSelect={onSelect}
+          onRenderError={onRenderError}
+          loadingLabel={loadingLabel}
+          errorLabel={errorLabel}
+          zoomLabels={[zoomInLabel, zoomOutLabel, resetZoomLabel]}
+        />
+      ) : (
+        <div
+          className={styles.status}
+          style={{ minHeight: plotHeight }}
+          role={status === "error" ? "alert" : "status"}
+        >
+          {status === "loading"
+            ? loadingLabel
+            : status === "empty"
+              ? emptyLabel
+              : errorLabel}
+          {status === "error" && onRetry && (
+            <button type="button" className={styles.control} onClick={onRetry}>
+              {retryLabel}
+            </button>
+          )}
+        </div>
+      )}
+      {notice && (
+        <Text variant="caption" color="neutral.700">
+          {notice}
+        </Text>
+      )}
+      {status === "ready" && (
+        <details>
+          <summary className={styles.summary}>{dataTableLabel}</summary>
+          <div
+            className={styles.tableScroll}
+            tabIndex={0}
+            role="region"
+            aria-label={`${title} — ${dataTableLabel}`}
+          >
+            <table className={styles.table}>
+              <caption>{title}</caption>
+              <thead>
+                <tr>
+                  {dataTable.columns.map((label, index) => (
+                    <th key={index} scope="col">
+                      {label}
+                    </th>
+                  ))}
+                  {onRowSelect && <th scope="col">{selectRowLabel}</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {dataTable.rows.map((row) => (
+                  <tr key={row.id}>
+                    {row.values.map((value, index) => (
+                      <td key={index}>
+                        {value === null ? missingValueLabel : value}
+                      </td>
+                    ))}
+                    {onRowSelect && (
+                      <td>
+                        <button
+                          type="button"
+                          className={styles.control}
+                          onClick={() => onRowSelect(row.id)}
+                          aria-label={`${selectRowLabel}: ${row.values[0] ?? row.id}`}
+                        >
+                          {selectRowLabel}
+                        </button>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      )}
+    </div>
+  );
+  return variant === "bare" ? (
+    <section aria-label={title} aria-busy={status === "loading"}>
+      {content}
+    </section>
+  ) : (
     <Card
       as="section"
       background="primary"
@@ -93,106 +202,7 @@ export function Chart({
       aria-busy={status === "loading"}
       padding={{ xs: "2", md: "3" }}
     >
-      <div className={styles.root}>
-        <div className={styles.header}>
-          <Text as="h2" variant="heading5">
-            {title}
-          </Text>
-          {actions}
-        </div>
-        <div className={styles.description}>
-          <Text color="neutral.600" variant="caption">
-            {description}
-          </Text>
-        </div>
-        {status === "ready" ? (
-          <ChartPlot
-            option={option}
-            description={description}
-            height={plotHeight}
-            renderer={renderer}
-            onSelect={onSelect}
-            onRenderError={onRenderError}
-            loadingLabel={loadingLabel}
-            errorLabel={errorLabel}
-            zoomLabels={[zoomInLabel, zoomOutLabel, resetZoomLabel]}
-          />
-        ) : (
-          <div
-            className={styles.status}
-            style={{ minHeight: plotHeight }}
-            role={status === "error" ? "alert" : "status"}
-          >
-            {status === "loading"
-              ? loadingLabel
-              : status === "empty"
-                ? emptyLabel
-                : errorLabel}
-            {status === "error" && onRetry && (
-              <button
-                type="button"
-                className={styles.control}
-                onClick={onRetry}
-              >
-                {retryLabel}
-              </button>
-            )}
-          </div>
-        )}
-        {notice && (
-          <Text variant="caption" color="neutral.700">
-            {notice}
-          </Text>
-        )}
-        {status === "ready" && (
-          <details>
-            <summary className={styles.summary}>{dataTableLabel}</summary>
-            <div
-              className={styles.tableScroll}
-              tabIndex={0}
-              role="region"
-              aria-label={`${title} — ${dataTableLabel}`}
-            >
-              <table className={styles.table}>
-                <caption>{title}</caption>
-                <thead>
-                  <tr>
-                    {dataTable.columns.map((label, index) => (
-                      <th key={index} scope="col">
-                        {label}
-                      </th>
-                    ))}
-                    {onRowSelect && <th scope="col">{selectRowLabel}</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataTable.rows.map((row) => (
-                    <tr key={row.id}>
-                      {row.values.map((value, index) => (
-                        <td key={index}>
-                          {value === null ? missingValueLabel : value}
-                        </td>
-                      ))}
-                      {onRowSelect && (
-                        <td>
-                          <button
-                            type="button"
-                            className={styles.control}
-                            onClick={() => onRowSelect(row.id)}
-                            aria-label={`${selectRowLabel}: ${row.values[0] ?? row.id}`}
-                          >
-                            {selectRowLabel}
-                          </button>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </details>
-        )}
-      </div>
+      {content}
     </Card>
   );
 }
