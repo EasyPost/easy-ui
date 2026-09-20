@@ -100,6 +100,7 @@ Facilities have stable IDs; segments reference their endpoints. `selectedFacilit
 - `planned` / `inferred`: dashed connections with explicitly identified evidence.
 - `volume`: nonnegative flow count, mapped to relative line width within the supplied cohort. Put the time window and unit in the description and segment label.
 - `risk`: caller-supplied probability, comparable baseline, event, horizon, cohort, output time and freshness status. Current scores at or above 15% use the elevated visual treatment; stale/unavailable scores use an unknown treatment. Missing values never become zero.
+- `color` (facility): optional caller-supplied marker fill color, any valid CSS color. Falls back to the kind-based scheme when absent; risk and selection treatments still layer on top.
 - `areas`: application-filtered observed or forecast polygons with source and validity interval. The application owns authorization, freshness, geometry and time filtering.
 
 ## Delivery-time surface

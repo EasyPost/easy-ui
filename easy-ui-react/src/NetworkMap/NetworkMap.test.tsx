@@ -269,6 +269,32 @@ it("prefers a caller-supplied per-segment color and falls back to the evidence s
   ]);
 });
 
+it("sets a caller-supplied facility marker color as a CSS custom property and clears it once removed", async () => {
+  const colorProps: NetworkMapProps = {
+    ...props,
+    facilities: [{ ...props.facilities[0], color: "#ff00ff" }],
+  };
+  const view = render(<NetworkMap {...colorProps} />);
+  await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+  act(() => listeners.load());
+  const marker = screen.getByRole("button", { name: "Select Oakland" });
+  const dot = marker.firstElementChild as HTMLElement;
+  expect(dot.style.getPropertyValue("--map-facility-color")).toBe("#ff00ff");
+  view.rerender(
+    <NetworkMap {...colorProps} facilities={[props.facilities[0]]} />,
+  );
+  expect(dot.style.getPropertyValue("--map-facility-color")).toBe("");
+});
+
+it("clamps a height below the floor to 220px instead of the caller-supplied value", async () => {
+  render(<NetworkMap {...props} height={200} />);
+  await waitFor(() => expect(constructor).toHaveBeenCalledTimes(1));
+  const canvas = document.querySelector(
+    "[data-map-state] > div",
+  ) as HTMLElement;
+  expect(canvas.style.height).toBe("220px");
+});
+
 it("calls onMapReady exactly once, with the live map instance, only after the component's own layer setup", async () => {
   const onMapReady = vi.fn(() => callOrder.push("onMapReady"));
   const view = render(<NetworkMap {...props} onMapReady={onMapReady} />);

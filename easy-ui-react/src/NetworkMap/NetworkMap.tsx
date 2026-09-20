@@ -283,6 +283,11 @@ export function NetworkMap(props: NetworkMapProps) {
               (existing?.button.firstElementChild as HTMLSpanElement) ??
               document.createElement("span");
             dot.className = styles.pin;
+            if (f.color) {
+              dot.style.setProperty("--map-facility-color", f.color);
+            } else {
+              dot.style.removeProperty("--map-facility-color");
+            }
             dot.setAttribute("aria-hidden", "true");
             dot.textContent =
               f.kind === "warehouse"
@@ -741,7 +746,9 @@ export function NetworkMap(props: NetworkMapProps) {
         <div
           ref={container}
           className={styles.canvas}
-          style={{ height: Math.max(280, height) }}
+          // 220 is a real consumer's narrow-viewport floor; 280 left the map taller than that
+          // layout could afford.
+          style={{ height: Math.max(220, height) }}
         />
         {state !== "ready" && (
           <div

@@ -37,6 +37,10 @@ export type MapFacility = {
   priority?: number;
   /** Additional accessible location context, such as last-observation age. */
   detail?: string;
+  /** Optional caller-supplied marker fill color (any valid CSS color, e.g. a hex string or a
+   *  `var(--token)` reference). Falls back to the kind-based scheme when absent. Risk and
+   *  selection treatments (outline, box-shadow, size) still layer on top. */
+  color?: string;
   /** Optional conditional risk for a stated facility cohort. */
   risk?: MapRisk;
 };
@@ -181,7 +185,7 @@ export type NetworkMapProps = {
   focus?: MapFocus;
   /** Initial view only; omit to fit all facilities once on mount. */
   initialView?: { center: MapCoordinate; zoom: number };
-  /** Map height in CSS pixels; defaults to 560, minimum 280. */
+  /** Map height in CSS pixels; defaults to 560, minimum 220. */
   height?: number;
   /** Receives initialization, tile or rendering errors. The data table remains available. */
   onRenderError?: (error: unknown) => void;
