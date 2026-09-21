@@ -1,0 +1,78 @@
+@use "../styles/common" as *;
+
+// React Aria writes `position`, `top`, `left`, and—near the edge of the
+// viewport—`max-height` inline on this element.
+.popover {
+  // `space.2` is `Menu`'s `padding.x`, so a popover's content sits the same
+  // distance in from the edge as a menu item's label.
+  @include component-token("popover", "padding.x", design-token("space.2"));
+  @include component-token("popover", "padding.y", design-token("space.2"));
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  // Both of these resolve to `var(--trigger-width)`, which React Aria measures:
+  // the floor when `width="auto"`, the width itself when `width="trigger"`.
+  min-width: component-token("popover", "min-width");
+
+  @include responsive-prop("popover", "width", width);
+}
+
+.dialog {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+
+  // With the chain of these up through the container `<Box />` to `.popover`, a
+  // constrained popover leaves the header and footer pinned and scrolls `.body`
+  // between them. Without it, flex children refuse to shrink below their
+  // content and nothing scrolls.
+  min-height: 0;
+
+  // React Aria focuses this element when the popover opens, so it would
+  // otherwise show a focus ring around the whole surface.
+  outline: none;
+
+  // Content handed straight to the overlay, with no slot to own the padding.
+  &:not(:has(> .header, > .body, > .footer)) {
+    padding: component-token("popover", "padding.y")
+      component-token("popover", "padding.x");
+  }
+}
+
+// `space.1.5` here plus `space.0.5` inside `.body` is the gap with the body, the
+// same two values `Modal` splits it into. The body scrolls, and `overflow` clips
+// at the padding box, so a field at the very top or bottom of the body would
+// have its focus ring sliced off if the whole gap sat out here—`shadow.input`
+// paints 3px outside the field's border box.
+.header {
+  flex: 0 0 auto;
+  padding: component-token("popover", "padding.y")
+    component-token("popover", "padding.x") design-token("space.1.5");
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  // The other half of the gap with the header and the footer—see `.header`. It
+  // sits inside the scroll container so a focused field's ring stays whole.
+  padding: design-token("space.0.5") component-token("popover", "padding.x");
+
+  // Without a header or footer to supply it, the body owns the vertical padding.
+  &:first-child {
+    padding-top: component-token("popover", "padding.y");
+  }
+
+  &:last-child {
+    padding-bottom: component-token("popover", "padding.y");
+  }
+}
+
+.footer {
+  flex: 0 0 auto;
+  padding: design-token("space.1.5") component-token("popover", "padding.x")
+    component-token("popover", "padding.y");
+}

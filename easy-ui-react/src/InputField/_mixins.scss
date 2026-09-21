@@ -1,6 +1,13 @@
 @use "../styles/common" as *;
 
-@mixin root {
+/// The tokens every other mixin in this file reads. `input`, `error`, and the
+/// icons all resolve them through inheritance, so they have to be declared on an
+/// ancestor—without them, `input`'s `border` shorthand resolves to `unset` and
+/// the field renders with no border at all.
+///
+/// Split out of `root` for a field visual that needs the tokens but not `root`'s
+/// column layout, which is what `SelectButton` is.
+@mixin tokens {
   @include component-token(
     "inputfield",
     "border_radius",
@@ -77,6 +84,10 @@
     "z-index",
     design-token("z_index.input_icon")
   );
+}
+
+@mixin root {
+  @include tokens;
   display: flex;
   flex-direction: column;
 }

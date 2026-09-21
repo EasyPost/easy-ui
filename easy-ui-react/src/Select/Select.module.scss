@@ -107,7 +107,13 @@
   @include Input.iconEndInput;
 }
 
+// `<SelectButton />`'s wrapper. It declares the field tokens itself, rather than
+// inheriting them from a `.fieldRoot` above it, because a standalone
+// `<SelectButton />` has no `<SelectField />` around it. Without them,
+// `Input.input`'s `border` shorthand resolves to `unset`—so `border-style: none`—
+// and the field renders with no border, no radius, and no background.
 .selectFieldIconContainer {
+  @include Input.tokens;
   @include Input.inputIconContainer;
 }
 

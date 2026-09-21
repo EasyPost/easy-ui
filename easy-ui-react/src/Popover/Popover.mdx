@@ -1,0 +1,148 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/addon-docs/blocks";
+import { Popover } from "./Popover";
+import * as PopoverStories from "./Popover.stories";
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+A `<Popover />` displays arbitrary content in a dialog anchored to a trigger. Use it for content that doesn't fit an existing overlay's shape—a small form, a summary, a list of rich rows.
+
+<Canvas of={PopoverStories.Simple} />
+
+## When not to use a Popover
+
+- **The overlay holds selectable options.** Use `<Select />` or `<Menu />`. They give you the right role (`listbox` / `menu`), typeahead, and arrow-key navigation, none of which a dialog has.
+- **The flow should block the page.** Use `<Modal />`.
+- **It's a hover hint.** Use `<Tooltip />`.
+
+## Header, Body, and Footer
+
+Content can be passed to `<Popover.Overlay />` directly, or split across `<Popover.Header />`, `<Popover.Body />`, and `<Popover.Footer />`. When it's split, the header and footer stay pinned and **only `<Popover.Body />` scrolls**, so a title and its actions stay visible while long content scrolls between them.
+
+<Canvas of={PopoverStories.HeaderBodyFooter} />
+
+Content taller than the popover scrolls inside the body. A popover is constrained by `maxHeight` and, regardless, by the viewport.
+
+<Canvas of={PopoverStories.ScrollingContent} />
+
+## Triggers
+
+`<Popover.Trigger />` clones its single child with the props that open the popover, which means the child has to do two things:
+
+1. **Forward its ref** to the focusable element. The popover positions itself against whatever that ref points at.
+2. **Spread its rest props** onto that same element. They carry the press handler along with the `aria-haspopup`, `aria-expanded`, and `aria-controls` wiring.
+
+Every Easy UI button satisfies both: `Button`, `DropdownButton`, `IconButton`, `KebabButton`, `SelectButton`, and `UnstyledButton`. Components that only render their own props—`Badge`, `Card`, `SearchNav.PrimaryCTAItem`, `SearchNav.SecondaryCTAItem`—will render but never open the popover.
+
+Nothing about the trigger has to look like a button. `<UnstyledButton />` supplies the semantics and the press behavior with none of the styling, so it's the shortest route to a trigger of your own shape.
+
+<Canvas of={PopoverStories.CustomTrigger} />
+
+A component you write yourself works the same way, as long as it forwards its ref and spreads its rest props. Any handler it already has survives the clone.
+
+<Canvas of={PopoverStories.Items} />
+
+`SummaryCard` in that example lives in the story file rather than in Easy UI—copy it as a starting point for your own trigger.
+
+## Closing from inside
+
+`usePopoverTrigger()` returns the popover's state, so an action inside the overlay can close it without the state being drilled in.
+
+```tsx
+import { Popover, usePopoverTrigger } from "@easypost/easy-ui/Popover";
+import { Button } from "@easypost/easy-ui/Button";
+
+function DoneButton() {
+  const { close } = usePopoverTrigger();
+  return <Button onPress={close}>Done</Button>;
+}
+```
+
+A `<Button isDisabled>` trigger never fires its press handler, so there's no `isDisabled` on `<Popover />` itself—disable the trigger instead.
+
+## Form content
+
+A popover is a dialog, so form controls behave normally inside it, including ones with overlays of their own. Only the topmost overlay responds to escape and to an outside press, so dismissing a `<Select />` inside a popover leaves the popover open.
+
+<Canvas of={PopoverStories.ShipmentPackaging} />
+
+<Canvas of={PopoverStories.CustomPackage} />
+
+## Rich rows
+
+Rows with several lines, an icon, and a link can't be `<Select.Option />`s: an option wraps its content in truncating text, and a `listbox` can't legally hold a footer link. Compose them instead, with `<Box />` supplying the dividers.
+
+If your rows really are selectable options and nothing else, use `<Select />` or `<Menu />`.
+
+<Canvas of={PopoverStories.SelectRate} />
+
+## Width Options
+
+By default a `<Popover.Overlay />` is `fit-content`—sized to its content, regardless of the trigger's width. Two modes size it against the trigger instead: `auto` makes the trigger's width a floor, so the popover is never narrower than its trigger but still grows for wider content, matching `<Menu />` and `<Select />`; `trigger` makes it a hard width, so content wider than the trigger wraps rather than widening the popover. Any explicit value works too.
+
+<Canvas of={PopoverStories.WidthOptions} />
+
+## Custom Container
+
+The popover's surface is a `<Box />`, and `<Popover.Overlay />` accepts every `<Box />` style prop to restyle it. Reach for this when a popover needs to depart from the default surface; the default is the one design signed off on, so coordinate anything visible.
+
+Two props keep their popover meanings rather than `<Box />`'s: `width`, which carries the trigger-relative `auto` and `trigger` keywords, and `maxHeight`, which React Aria measures against while positioning. `padding` insets the whole surface on top of the padding `<Popover.Header />`, `<Popover.Body />`, and `<Popover.Footer />` already carry, so prefer leaving it alone when using the slots.
+
+<Canvas of={PopoverStories.CustomContainer} />
+
+## Custom Placement
+
+A `<Popover.Overlay />` can be placed on different edges of its trigger, and flips to the opposite side when there isn't room. Try each one with the control below. Coordinate any deviation from the default `bottom start` with design.
+
+<Canvas of={PopoverStories.CustomPlacement} />
+
+<Controls of={PopoverStories.CustomPlacement} include={["placement"]} />
+
+## Controlled
+
+<Canvas of={PopoverStories.Controlled} />
+
+## Inside a Modal
+
+<Canvas of={PopoverStories.InsideModal} />
+
+## Accessibility
+
+- **The popover needs an accessible name.** Render a `<Popover.Title />` inside `<Popover.Header />`, or pass `aria-label` to `<Popover.Overlay />`. Easy UI warns in development when a popover opens with neither.
+- **Focus is contained while the popover is open** and returns to the trigger when it closes.
+- **Initial focus lands on the popover itself**, so a form's first field is one Tab away. To open directly onto a field, put `autoFocus` on that field—a child's own `autoFocus` wins over the popover's.
+- **Escape and an outside press close the popover.** Pass `isKeyboardDismissDisabled` to keep escape from closing it.
+
+## Properties
+
+### Popover
+
+<ArgTypes of={Popover} />
+
+### Popover.Trigger
+
+<ArgTypes of={Popover.Trigger} />
+
+### Popover.Overlay
+
+Along with the props below, `<Popover.Overlay />` accepts `<Box />`'s style props for its container. See [`Box`](/?path=/docs/primitives-box--docs) for those.
+
+<ArgTypes of={Popover.Overlay} />
+
+### Popover.Header
+
+<ArgTypes of={Popover.Header} />
+
+### Popover.Title
+
+<ArgTypes of={Popover.Title} />
+
+### Popover.Body
+
+<ArgTypes of={Popover.Body} />
+
+### Popover.Footer
+
+<ArgTypes of={Popover.Footer} />

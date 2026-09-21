@@ -100,6 +100,38 @@ export const Shadow: Story = {
   },
 };
 
+// Custom properties inherit, so a `<Box />` inside a styled `<Box />` used to
+// pick up its parent's shadow and border color. The stylesheet resets them per
+// element; this story is what catches a regression, since jsdom doesn't apply
+// the stylesheet.
+export const Nested: Story = {
+  render: () => (
+    <Box
+      background="neutral.000"
+      borderColor="primary.500"
+      borderWidth="1"
+      borderRadius="lg"
+      boxShadow="2"
+      padding="4"
+    >
+      <VerticalStack gap="2">
+        <Text variant="body1">
+          Neither box below should have a shadow or a blue border.
+        </Text>
+        <Box padding="2">
+          <Text variant="body1">A plain nested box</Text>
+        </Box>
+        <Box borderWidth="1" padding="2">
+          <Text variant="body1">
+            A nested box with a border of its own, which is currentColor
+          </Text>
+        </Box>
+      </VerticalStack>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
 export const Sizing: Story = {
   render: (args) => (
     <Box background="neutral.100" padding="2">

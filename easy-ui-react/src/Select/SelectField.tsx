@@ -120,22 +120,19 @@ export function SelectField(props: SelectFieldProps) {
         hasError={hasError}
         isDisabled={isDisabled}
         size={size}
+        description={selectedDescription}
       >
         {selectState.selectedItem ? (
-          <>
-            <Text variant={selectedDescription ? "body2" : undefined} truncate>
-              {selectState.selectedItem.rendered}
-            </Text>
-            {selectedDescription && (
-              <span className={styles.selectedDescription}>
-                <Text variant="caption" color="neutral.600" truncate>
-                  {selectedDescription}
-                </Text>
-              </span>
-            )}
-          </>
+          <Text variant={selectedDescription ? "body2" : undefined} truncate>
+            {selectState.selectedItem.rendered}
+          </Text>
         ) : (
-          <Text color="neutral.600">{placeholder}</Text>
+          // Truncated like a selected value is: a placeholder longer than a
+          // narrow field would otherwise wrap and make the field taller than
+          // its neighbors.
+          <Text color="neutral.600" truncate>
+            {placeholder}
+          </Text>
         )}
       </SelectTrigger>
       {(showErrorText || showHelperText) && (
