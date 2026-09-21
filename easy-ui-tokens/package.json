@@ -1,6 +1,11 @@
 {
   "name": "@easypost/easy-ui-tokens",
   "version": "1.0.0-alpha.17",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasyPost/easy-ui.git",
+    "directory": "easy-ui-tokens"
+  },
   "exports": {
     "./js/*": {
       "types": "./dist/js/*.d.ts",

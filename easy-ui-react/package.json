@@ -1,6 +1,11 @@
 {
   "name": "@easypost/easy-ui",
   "version": "1.0.0-alpha.137",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasyPost/easy-ui.git",
+    "directory": "easy-ui-react"
+  },
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",
