@@ -1,0 +1,169 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/addon-docs/blocks";
+import { TaskTray } from "./TaskTray";
+import * as TaskTrayStories from "./TaskTray.stories";
+
+<Meta of={TaskTrayStories} />
+
+# TaskTray
+
+A `<TaskTray />` reports on work the app is doing in the background, from a corner of the screen, without blocking anything. Use it for work the user starts and then walks away from—buying 250 labels, generating a report, importing a CSV.
+
+**This is a prototype.** It lives under `Prototypes` and has no `index.ts`, so it isn't exported from `@easypost/easy-ui`. It's the working sketch for [the spec](https://github.com/EasyPost/easy-ui/blob/main/documentation/specs/TaskTray.md), which is where the open questions are. Don't ship against it yet.
+
+<Canvas of={TaskTrayStories.Simple} />
+
+## Not a toast
+
+The overlap with `<Notification />`'s toasts is real, and the difference is what each one is about. A toast is a **message**: something happened, it's worth a sentence, and there's nothing left to track. A tray row is a **task**: it has a duration, a progress figure, and an outcome the user may have to act on.
+
+|             | Toast           | Task tray                     |
+| ----------- | --------------- | ----------------------------- |
+| Subject     | An event        | A unit of work                |
+| Lifetime    | 4 seconds       | As long as the work runs      |
+| How many    | One at a time   | Several, stacked              |
+| Progress    | None            | Determinate or indeterminate  |
+| Interaction | Read it         | Expand, cancel, retry, review |
+| Ends when   | The timer fires | The work does                 |
+
+They compose, and often both are right: a bulk action fires a toast to acknowledge the click and opens a tray row to carry the work.
+
+<Canvas of={TaskTrayStories.WithToast} />
+
+## When not to use a TaskTray
+
+- **The work finishes in a moment.** Use a toast, or nothing.
+- **The user has to wait for it.** Use a `<Modal />` or an inline loading state. A tray says "carry on"; if they can't, don't say it.
+- **The progress belongs to a region of the page.** Put it in that region. A corner is for work the user has navigated away from.
+- **There's only ever one task and it's the whole page's subject.** An inline progress bar reads better than a floating one.
+
+## The app owns the tasks
+
+The component is controlled. It renders the tasks it's handed and owns only its collapsed state and its dismissal timers—the task list lives in the app, next to whatever already knows about the work: a polling hook, a websocket, a mutation cache.
+
+```tsx
+<TaskTray>
+  {tasks.map((task) => (
+    <TaskTray.Task
+      key={task.id}
+      title={task.title}
+      status={task.status}
+      completed={task.completed}
+      total={task.total}
+      unit="labels"
+      description={task.description}
+      onDismiss={() => dismiss(task.id)}
+    >
+      {task.status === "running" && (
+        <TaskTray.Action onPress={() => cancel(task.id)}>
+          Cancel
+        </TaskTray.Action>
+      )}
+    </TaskTray.Task>
+  ))}
+</TaskTray>
+```
+
+<Canvas of={TaskTrayStories.BulkPurchase} />
+
+## Surviving navigation
+
+Persisting across URLs is a matter of **where the tray is mounted**, not a feature of the component. Mount it above your router—typically beside `<Provider />`—and a route change never unmounts it.
+
+```tsx
+<Provider>
+  <Router>{routes}</Router>
+  <TaskTray>{...}</TaskTray>
+</Provider>
+```
+
+<Canvas of={TaskTrayStories.PersistsAcrossRoutes} />
+
+Carrying tasks across a **full page load**—a refresh, a new tab, another device—is a different problem, and not one the tray can solve. The work is running on a server, so the server is the only thing that knows about it. Refetch in-flight jobs on mount and feed them back in:
+
+```tsx
+function BackgroundTasks() {
+  const { data: tasks = [] } = useQuery({
+    queryKey: ["background-tasks"],
+    queryFn: fetchInFlightTasks,
+    refetchInterval: (query) =>
+      query.state.data?.some((task) => task.status === "running")
+        ? 2000
+        : false,
+  });
+  return <TaskTray>{tasks.map(renderTask)}</TaskTray>;
+}
+```
+
+Don't reach for `localStorage` here. A task's state lives on the server, and a cached copy is wrong the moment the job moves—which is exactly while the user is away.
+
+## Statuses
+
+Six stages, not three tones. `pending` and `running` spin; the four terminal stages carry an icon and a color.
+
+`succeeded` and `canceled` retire themselves after `autoDismissDelay`. `partial` and `failed` stay until the user dismisses them, because they carry information—which three shipments failed—that a timer would throw away.
+
+<Canvas of={TaskTrayStories.Statuses} />
+
+The dismissal timer is held while the pointer or focus is anywhere in the tray, so a row can't disappear out from under someone reading it. Set `autoDismissDelay={null}` to turn auto-dismissal off entirely, on the tray or on one task.
+
+## Progress
+
+Pass `completed` and `total` for a determinate bar, and `unit` to name what's being counted—it's what the screen reader reads, as "127 of 250 labels".
+
+Omit `total` when the app can't honestly say how far along the work is. An indeterminate row is better than a bar stalled at 90%.
+
+<Canvas of={TaskTrayStories.Indeterminate} />
+
+## Several tasks
+
+Past one task the header counts instead of naming. The list scrolls once it passes `maxVisibleTasks`.
+
+<Canvas of={TaskTrayStories.MultipleTasks} />
+
+While anything is still running the header says so; once everything has landed it takes on the most severe outcome present, so one failure isn't hidden behind nine successes.
+
+## Collapsed
+
+<Canvas of={TaskTrayStories.Collapsed} />
+
+## Placement
+
+The tray docks to a corner. Use `offset` to clear app chrome—a sticky footer, a support widget.
+
+```tsx
+<TaskTray placement="bottom-start" offset={{ bottom: "72px", left: "16px" }}>
+  {children}
+</TaskTray>
+```
+
+<Controls
+  of={TaskTrayStories.Simple}
+  include={["placement", "maxVisibleTasks"]}
+/>
+
+## Accessibility
+
+The short version: **progress is polled, outcomes are pushed.**
+
+- **The tray is a landmark, not a live region.** `role="region"` with a name puts it in the landmark list, so a screen reader user can jump to it deliberately. A live region wrapping the whole tray would read every progress tick aloud.
+- **Progress reaches assistive technology through `role="progressbar"`**, with `aria-valuemax` set to the total and `aria-valuetext` reading "127 of 250 labels". The user goes looking for it rather than being told.
+- **Only terminal transitions are announced**, through one polite `aria-atomic` live region: "Bought 247 of 250 labels finished with errors. 3 shipments were missing a rate." Transitions landing in the same tick coalesce into one sentence.
+- **The status glyphs are decorative.** The status is already in the title, the progress bar, and the announcement.
+- **Escape collapses the tray**, and never dismisses anything—the work is still running, and clearing the tray would say it stopped.
+- **Dismissing a row moves focus to the header toggle**, which outlives the row.
+- **Running tasks have no dismiss button.** Hiding a row whose work is still happening tells the user it stopped; a `<TaskTray.Action />` with a real cancel handler is the honest version.
+
+## Properties
+
+### TaskTray
+
+<ArgTypes of={TaskTray} />
+
+### TaskTray.Task
+
+<ArgTypes of={TaskTray.Task} />
+
+### TaskTray.Action
+
+<ArgTypes of={TaskTray.Action} />

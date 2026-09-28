@@ -1,0 +1,291 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+// Aliased so the `calc()` in `.list` fits on one line—spelled out, the
+// expression is long enough that prettier breaks it after the `*`, which
+// `scss/operator-no-newline-after` then rejects.
+$ezui-task-tray-max-visible-tasks: component-token(
+  "task-tray",
+  "max-visible-tasks"
+);
+$ezui-task-tray-row-height: component-token("task-tray", "row-height");
+
+.container {
+  // Literal rather than a `z_index` token because adding one is a change to the
+  // published tokens package, which this prototype deliberately stays out of.
+  // The spec proposes `z_index.task_tray: 1250`—above `nav` (1000) and `drawer`
+  // (1200), below `modal` (1300), so a modal covers the tray rather than the
+  // tray distracting from it.
+  @include component-token("task-tray", "z-index", 1250);
+  @include component-token("task-tray", "width", 360px);
+  // Nominal, not measured. A row with a description or a wrapped title is
+  // taller, so `maxVisibleTasks` caps the list's height approximately rather
+  // than landing exactly on a row boundary.
+  @include component-token("task-tray", "row-height", 60px);
+
+  position: fixed;
+  z-index: component-token("task-tray", "z-index");
+  display: flex;
+  max-width: calc(100vw - #{design-token("space.4")});
+  width: component-token("task-tray", "width");
+  // The container spans further than the surface it holds, so clicks that land
+  // beside the tray still reach the page. `.tray` puts them back.
+  pointer-events: none;
+}
+
+.placementBottomEnd {
+  bottom: design-token("space.2");
+  right: design-token("space.2");
+}
+
+.placementBottomStart {
+  bottom: design-token("space.2");
+  left: design-token("space.2");
+}
+
+.placementTopEnd {
+  top: design-token("space.2");
+  right: design-token("space.2");
+}
+
+.placementTopStart {
+  top: design-token("space.2");
+  left: design-token("space.2");
+}
+
+.tray {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.100");
+  border-radius: design-token("shape.border_radius.lg");
+  background-color: design-token("color.neutral.000");
+  box-shadow: design-token("shadow.level.2");
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: design-token("space.1");
+  padding: design-token("space.1") design-token("space.1")
+    design-token("space.1") design-token("space.1.5");
+}
+
+.headerStatus {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  // Set by whichever `.statusX` class the header is carrying.
+  color: component-token("task-tray", "task.color");
+}
+
+.summary {
+  // Without this a flex child refuses to shrink below its content, and the
+  // summary's `truncate` never gets the chance to fire.
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.toggle {
+  @include unstyled.button;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: design-token("shape.border_radius.md");
+  color: design-token("color.neutral.600");
+  cursor: pointer;
+
+  &:hover {
+    background-color: design-token("color.neutral.050");
+  }
+
+  &:focus {
+    box-shadow: design-token("shadow.button");
+    outline: none;
+  }
+}
+
+.list {
+  @include unstyled.list;
+  // `maxVisibleTasks` is written onto the container as a bare number so the cap
+  // can be expressed here, where the nominal row height lives.
+  max-height: calc(
+    #{$ezui-task-tray-max-visible-tasks} * #{$ezui-task-tray-row-height}
+  );
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-top: design-token("shape.border_width.1") solid
+    design-token("color.neutral.100");
+}
+
+// prettier-ignore
+.task {
+  @include component-token("task-tray", "task.color", design-token("color.neutral.500"));
+
+  display: flex;
+  align-items: flex-start;
+  gap: design-token("space.1");
+  padding: design-token("space.1") design-token("space.1")
+    design-token("space.1") design-token("space.1.5");
+
+  & + & {
+    border-top: design-token("shape.border_width.1") solid
+      design-token("color.neutral.050");
+  }
+}
+
+// Status is carried by the icon and the text as well as the color—these tint the
+// status slot and the progress bar, they are not the only signal.
+// prettier-ignore
+.statusPending {
+  @include component-token("task-tray", "task.color", design-token("color.neutral.500"));
+}
+
+// prettier-ignore
+.statusRunning {
+  @include component-token("task-tray", "task.color", design-token("color.primary.500"));
+}
+
+// prettier-ignore
+.statusSucceeded {
+  @include component-token("task-tray", "task.color", design-token("color.positive.600"));
+}
+
+// prettier-ignore
+.statusPartial {
+  @include component-token("task-tray", "task.color", design-token("color.warning.600"));
+}
+
+// prettier-ignore
+.statusFailed {
+  @include component-token("task-tray", "task.color", design-token("color.negative.600"));
+}
+
+// prettier-ignore
+.statusCanceled {
+  @include component-token("task-tray", "task.color", design-token("color.neutral.500"));
+}
+
+.taskStatus {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  // Lines the icon up with the title's cap height rather than its line box.
+  padding-top: design-token("space.0.25");
+  color: component-token("task-tray", "task.color");
+}
+
+.taskContent {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: design-token("space.0.5");
+  min-width: 0;
+}
+
+.spinner {
+  // Matches `Spinner`'s literal—there's no border-width token this thin.
+  @include component-token("task-tray", "spinner-track-width", 1.5px);
+
+  flex: 0 0 auto;
+  width: component-token("task-tray", "spinner-size");
+  height: component-token("task-tray", "spinner-size");
+  border: component-token("task-tray", "spinner-track-width") solid
+    design-token("color.neutral.100");
+  // Picks up `task.color` from the status class on the row.
+  border-top-color: currentcolor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.taskActions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: design-token("space.0.5");
+}
+
+.action {
+  @include unstyled.button;
+  @include unstyled.link;
+  padding: design-token("space.0.5") design-token("space.1");
+  border-radius: design-token("shape.border_radius.md");
+  color: design-token("color.primary.600");
+  cursor: pointer;
+  white-space: nowrap;
+  @include font-style("small-button");
+
+  &:hover {
+    background-color: design-token("color.primary.050");
+  }
+
+  &:focus {
+    box-shadow: design-token("shadow.button");
+    outline: none;
+  }
+}
+
+.dismiss {
+  @include unstyled.button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: design-token("space.0.25");
+  border-radius: design-token("shape.border_radius.md");
+  color: design-token("color.neutral.500");
+  cursor: pointer;
+
+  &:hover {
+    background-color: design-token("color.neutral.050");
+    color: design-token("color.neutral.700");
+  }
+
+  &:focus {
+    box-shadow: design-token("shadow.button");
+    outline: none;
+  }
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: design-token("space.1");
+}
+
+.progressTrack {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: design-token("space.0.5");
+  border-radius: design-token("shape.border_radius.sm");
+  background-color: design-token("color.neutral.100");
+  overflow: hidden;
+}
+
+.progressFill {
+  width: component-token("task-tray", "progress.fill");
+  height: 100%;
+  border-radius: inherit;
+  background-color: component-token("task-tray", "task.color");
+  transition: width 200ms ease-out;
+}
+
+.announcement {
+  @include visually-hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressFill {
+    transition: none;
+  }
+}
