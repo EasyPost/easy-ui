@@ -89,7 +89,8 @@ export type TaskTrayProps = {
    */
   autoDismissDelay?: number | null;
   /**
-   * Retrieves the element the tray portals into.
+   * Retrieves the element the tray portals into. Nothing renders until it
+   * returns an element, so a getter reading a ref is safe.
    * @default () => document.body
    */
   getContainer?: () => HTMLElement | null;
@@ -270,6 +271,16 @@ export function TaskTray(props: TaskTrayProps) {
     return null;
   }
 
+  // A supplied `getContainer` is taken at its word, with no fallback to the
+  // body. Getters normally read a ref, which is null on the first render, and
+  // falling back would dock the tray to the viewport corner for a render and
+  // then move the portal—jumping the tray out from under the pointer as soon as
+  // anything caused a re-render.
+  const container = getContainer ? getContainer() : document.body;
+  if (!container) {
+    return null;
+  }
+
   // A single task names itself; past that the summary counts. Either way this is
   // the only text shown when the tray is collapsed.
   const summary =
@@ -370,7 +381,7 @@ export function TaskTray(props: TaskTrayProps) {
         {announcement}
       </div>
     </div>,
-    getContainer?.() ?? document.body,
+    container,
   );
 }
 

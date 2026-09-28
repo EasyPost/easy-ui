@@ -238,7 +238,8 @@ export type TaskTrayProps = {
    */
   autoDismissDelay?: number | null;
   /**
-   * Retrieves the element the tray portals into.
+   * Retrieves the element the tray portals into. Nothing renders until it
+   * returns an element, so a getter reading a ref is safe.
    * @default () => document.body
    */
   getContainer?: () => HTMLElement | null;
@@ -447,6 +448,8 @@ function useBackgroundWork() {
 ### Anatomy
 
 `TaskTray` portals into `getContainer()` — `document.body` by default — and renders a fixed-position wrapper positioned from `placement` and `offset`. The wrapper is `pointer-events: none` so it never eats a click meant for the page; the tray surface inside it restores `pointer-events: auto`. When there are no children, the whole thing renders `null`; nothing is left in the DOM.
+
+A supplied `getContainer` is taken at its word — there's no fallback to the body when it returns `null`. Getters normally read a ref, which is `null` on the first render, and falling back would dock the tray to the viewport corner for a render and then move the portal once the ref filled in, jumping the tray across the screen.
 
 The surface is a `role="region"` with an accessible name, making it a landmark that assistive technology can navigate to directly. This matters more here than for most components: a fixed corner element is easy to never encounter.
 

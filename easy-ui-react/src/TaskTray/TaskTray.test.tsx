@@ -1,5 +1,5 @@
 import { act, screen } from "@testing-library/react";
-import React from "react";
+import React, { useState } from "react";
 import { vi } from "vitest";
 import {
   mockGetComputedStyle,
@@ -366,6 +366,26 @@ describe("<TaskTray />", () => {
       expect(onDismiss).not.toHaveBeenCalled();
     });
 
+    it("should hold the timer while the pointer is over a row", async () => {
+      const onDismiss = vi.fn();
+      const { user } = render(
+        <TaskTray>
+          <TaskTray.Task
+            title="Bought 40 labels"
+            status="succeeded"
+            onDismiss={onDismiss}
+          />
+        </TaskTray>,
+      );
+      // The row, not the tray the hover handlers sit on: reading a row means
+      // pointing at one, and that has to count as being inside the tray.
+      await userHover(user, screen.getByRole("listitem"));
+      act(() => {
+        vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 2);
+      });
+      expect(onDismiss).not.toHaveBeenCalled();
+    });
+
     it("should hold the timer while focus is inside the tray", async () => {
       const onDismiss = vi.fn();
       const { user } = render(
@@ -530,6 +550,35 @@ describe("<TaskTray />", () => {
     );
     expect(container).toContainElement(screen.getByRole("region"));
     container.remove();
+  });
+
+  it("should wait for a custom container rather than falling back to the body", () => {
+    // A getter that reads a ref returns null on the first render. Falling back
+    // to the body would dock the tray to the viewport corner and then move the
+    // portal once the ref filled in, jumping the tray across the screen.
+    function Frame() {
+      const [frame, setFrame] = useState<HTMLDivElement | null>(null);
+      return (
+        <div ref={setFrame} data-testid="frame">
+          <TaskTray getContainer={() => frame}>
+            <TaskTray.Task title="Buying labels" status="running" />
+          </TaskTray>
+        </div>
+      );
+    }
+    render(<Frame />);
+    expect(screen.getByTestId("frame")).toContainElement(
+      screen.getByRole("region"),
+    );
+  });
+
+  it("should render nothing while a custom container is unavailable", () => {
+    render(
+      <TaskTray getContainer={() => null}>
+        <TaskTray.Task title="Buying labels" status="running" />
+      </TaskTray>,
+    );
+    expect(screen.queryByRole("region")).not.toBeInTheDocument();
   });
 
   it("should ignore children that aren't tasks", () => {

@@ -252,10 +252,14 @@ type StoryFrameProps = {
  *
  * In an app the tray goes to `document.body` and docks to the real viewport,
  * which is the whole point of it.
+ *
+ * The frame is held in state rather than a ref so that `children` can wait for
+ * it. A ref is null on the first render, which would hand the tray a container
+ * it can't use yet.
  */
 function StoryFrame({ children, intro, height = 280 }: StoryFrameProps) {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const getContainer = useCallback(() => frameRef.current, []);
+  const [frame, setFrame] = useState<HTMLDivElement | null>(null);
+  const getContainer = useCallback(() => frame, [frame]);
   return (
     <VerticalStack gap="2">
       {intro ?? (
@@ -265,7 +269,7 @@ function StoryFrame({ children, intro, height = 280 }: StoryFrameProps) {
         </Text>
       )}
       <div
-        ref={frameRef}
+        ref={setFrame}
         style={{
           position: "relative",
           // See the note above: this is what scopes `position: fixed` to the
@@ -286,7 +290,7 @@ function StoryFrame({ children, intro, height = 280 }: StoryFrameProps) {
             Pretend this is a page.
           </Text>
         </VerticalStack>
-        {children(getContainer)}
+        {frame && children(getContainer)}
       </div>
     </VerticalStack>
   );
