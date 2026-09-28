@@ -37,6 +37,7 @@ const preview: Preview = {
           "Contributing",
           "Browser Support",
           "Foundations",
+          ["Design Tokens", "Typography", "Colors"],
           "Primitives",
           "Components",
         ],

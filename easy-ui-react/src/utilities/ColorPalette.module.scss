@@ -1,0 +1,65 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.filter {
+  max-width: 320px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: design-token("space.1");
+}
+
+.swatch {
+  @include unstyled.button;
+  display: block;
+  overflow: hidden;
+  text-align: start;
+  cursor: pointer;
+  background: design-token("color.neutral.000");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.100");
+  border-radius: design-token("shape.border_radius.lg");
+  transition-property: transform, box-shadow;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: design-token("shadow.level.1");
+  }
+
+  &:focus-visible {
+    outline-offset: 2px;
+    @include native-focus-ring;
+  }
+}
+
+.chip {
+  @include font-style("caption3");
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: design-token("space.9");
+  padding: design-token("space.0.5") design-token("space.1");
+  background: component-token("color-palette", "chip-background");
+  color: component-token("color-palette", "chip-color");
+
+  // Keeps near-white swatches distinguishable from the card behind them.
+  border-bottom: design-token("shape.border_width.1") solid
+    design-token("color.neutral.100");
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.0.25");
+  padding: design-token("space.0.5") design-token("space.1");
+}
+
+.hex {
+  @include font-style("caption");
+  color: design-token("color.neutral.800");
+  font-family: design-token("font.family.mono");
+}
