@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { action } from "storybook/actions";
 import { Button } from "../Button";
 import { Card } from "../Card";
@@ -27,19 +27,21 @@ export default meta;
 
 export const Simple: Story = {
   render: (args: TaskTrayProps) => (
-    <PageContent>
-      <TaskTray {...args}>
-        <TaskTray.Task
-          title="Buying labels"
-          status="running"
-          completed={127}
-          total={250}
-          unit="labels"
-        >
-          <TaskTray.Action onPress={action("Cancel")}>Cancel</TaskTray.Action>
-        </TaskTray.Task>
-      </TaskTray>
-    </PageContent>
+    <StoryFrame>
+      {(getContainer) => (
+        <TaskTray {...args} getContainer={getContainer}>
+          <TaskTray.Task
+            title="Buying labels"
+            status="running"
+            completed={127}
+            total={250}
+            unit="labels"
+          >
+            <TaskTray.Action onPress={action("Cancel")}>Cancel</TaskTray.Action>
+          </TaskTray.Task>
+        </TaskTray>
+      )}
+    </StoryFrame>
   ),
 };
 
@@ -58,11 +60,13 @@ export const BulkPurchase: Story = {
  */
 export const Indeterminate: Story = {
   render: (args: TaskTrayProps) => (
-    <PageContent>
-      <TaskTray {...args}>
-        <TaskTray.Task title="Generating January report" status="running" />
-      </TaskTray>
-    </PageContent>
+    <StoryFrame>
+      {(getContainer) => (
+        <TaskTray {...args} getContainer={getContainer}>
+          <TaskTray.Task title="Generating January report" status="running" />
+        </TaskTray>
+      )}
+    </StoryFrame>
   ),
 };
 
@@ -74,46 +78,53 @@ export const Indeterminate: Story = {
  */
 export const Statuses: Story = {
   render: (args: TaskTrayProps) => (
-    <PageContent>
-      <TaskTray {...args} autoDismissDelay={null} maxVisibleTasks={6}>
-        <TaskTray.Task title="Queued import" status="pending" />
-        <TaskTray.Task
-          title="Buying labels"
-          status="running"
-          completed={127}
-          total={250}
-          unit="labels"
+    <StoryFrame height={440}>
+      {(getContainer) => (
+        <TaskTray
+          {...args}
+          getContainer={getContainer}
+          autoDismissDelay={null}
+          maxVisibleTasks={6}
         >
-          <TaskTray.Action onPress={action("Cancel")}>Cancel</TaskTray.Action>
-        </TaskTray.Task>
-        <TaskTray.Task
-          title="Bought 40 labels"
-          status="succeeded"
-          onDismiss={action("Dismiss")}
-        />
-        <TaskTray.Task
-          title="Bought 247 of 250 labels"
-          status="partial"
-          description="3 shipments were missing a rate"
-          onDismiss={action("Dismiss")}
-        >
-          <TaskTray.Action href="/shipments">Review</TaskTray.Action>
-        </TaskTray.Task>
-        <TaskTray.Task
-          title="January report"
-          status="failed"
-          description="The report timed out"
-          onDismiss={action("Dismiss")}
-        >
-          <TaskTray.Action onPress={action("Retry")}>Retry</TaskTray.Action>
-        </TaskTray.Task>
-        <TaskTray.Task
-          title="Address import"
-          status="canceled"
-          onDismiss={action("Dismiss")}
-        />
-      </TaskTray>
-    </PageContent>
+          <TaskTray.Task title="Queued import" status="pending" />
+          <TaskTray.Task
+            title="Buying labels"
+            status="running"
+            completed={127}
+            total={250}
+            unit="labels"
+          >
+            <TaskTray.Action onPress={action("Cancel")}>Cancel</TaskTray.Action>
+          </TaskTray.Task>
+          <TaskTray.Task
+            title="Bought 40 labels"
+            status="succeeded"
+            onDismiss={action("Dismiss")}
+          />
+          <TaskTray.Task
+            title="Bought 247 of 250 labels"
+            status="partial"
+            description="3 shipments were missing a rate"
+            onDismiss={action("Dismiss")}
+          >
+            <TaskTray.Action href="/shipments">Review</TaskTray.Action>
+          </TaskTray.Task>
+          <TaskTray.Task
+            title="January report"
+            status="failed"
+            description="The report timed out"
+            onDismiss={action("Dismiss")}
+          >
+            <TaskTray.Action onPress={action("Retry")}>Retry</TaskTray.Action>
+          </TaskTray.Task>
+          <TaskTray.Task
+            title="Address import"
+            status="canceled"
+            onDismiss={action("Dismiss")}
+          />
+        </TaskTray>
+      )}
+    </StoryFrame>
   ),
 };
 
@@ -123,33 +134,49 @@ export const Statuses: Story = {
  */
 export const MultipleTasks: Story = {
   render: (args: TaskTrayProps) => (
-    <PageContent>
-      <TaskTray {...args} maxVisibleTasks={3}>
-        <TaskTray.Task
-          title="Buying labels"
-          status="running"
-          completed={127}
-          total={250}
-          unit="labels"
-        />
-        <TaskTray.Task
-          title="Importing addresses"
-          status="running"
-          completed={12}
-          total={900}
-          unit="rows"
-        />
-        <TaskTray.Task title="Generating manifest" status="running" />
-        <TaskTray.Task
-          title="Generating January report"
-          status="running"
-          completed={3}
-          total={4}
-          unit="steps"
-        />
-      </TaskTray>
-    </PageContent>
+    <StoryFrame>
+      {(getContainer) => (
+        <TaskTray {...args} getContainer={getContainer} maxVisibleTasks={3}>
+          <TaskTray.Task
+            title="Buying labels"
+            status="running"
+            completed={127}
+            total={250}
+            unit="labels"
+          />
+          <TaskTray.Task
+            title="Importing addresses"
+            status="running"
+            completed={12}
+            total={900}
+            unit="rows"
+          />
+          <TaskTray.Task title="Generating manifest" status="running" />
+          <TaskTray.Task
+            title="Generating January report"
+            status="running"
+            completed={3}
+            total={4}
+            unit="steps"
+          />
+        </TaskTray>
+      )}
+    </StoryFrame>
   ),
+};
+
+/**
+ * A dozen concurrent tasks, to show what the height cap buys. The tray holds at
+ * `maxVisibleTasks` rows and scrolls; it never grows to cover the page.
+ *
+ * It's still a lot of corner. Collapsing is the honest answer at this volume,
+ * and aggregating tasks of the same kind into one row—"Buying labels, 3
+ * batches"—is the open question in the spec. Nesting a second disclosure inside
+ * each row is not: a row holds one line of detail, which isn't enough to hide
+ * behind a chevron.
+ */
+export const ManyTasks: Story = {
+  render: (args: TaskTrayProps) => <ManyTasksStory {...args} />,
 };
 
 /**
@@ -159,18 +186,20 @@ export const MultipleTasks: Story = {
  */
 export const Collapsed: Story = {
   render: (args: TaskTrayProps) => (
-    <PageContent>
-      <TaskTray {...args} defaultExpanded={false}>
-        <TaskTray.Task
-          title="Buying labels"
-          status="running"
-          completed={127}
-          total={250}
-          unit="labels"
-        />
-        <TaskTray.Task title="Generating manifest" status="running" />
-      </TaskTray>
-    </PageContent>
+    <StoryFrame>
+      {(getContainer) => (
+        <TaskTray {...args} getContainer={getContainer} defaultExpanded={false}>
+          <TaskTray.Task
+            title="Buying labels"
+            status="running"
+            completed={127}
+            total={250}
+            unit="labels"
+          />
+          <TaskTray.Task title="Generating manifest" status="running" />
+        </TaskTray>
+      )}
+    </StoryFrame>
   ),
 };
 
@@ -198,18 +227,67 @@ export const WithToast: Story = {
 
 // --- story helpers -------------------------------------------------------
 
-/** Enough page for the tray to sit on top of something. */
-function PageContent({ children }: { children?: React.ReactNode }) {
+type StoryFrameProps = {
+  /** Receives the frame element for the tray's `getContainer`. */
+  children: (getContainer: () => HTMLElement | null) => React.ReactNode;
+  /** Page copy above the frame, when a story wants its own. */
+  intro?: React.ReactNode;
+  /** @default 280 */
+  height?: number;
+};
+
+/**
+ * A bounded stand-in for an app's frame.
+ *
+ * @remarks
+ * The tray is `position: fixed`, so left alone every story on this page would
+ * dock to the same corner of the real viewport and pile up on top of the others.
+ * Two things fix that, and both are here for the docs' benefit rather than being
+ * anything an app needs:
+ *
+ * 1. `transform` makes this element the containing block for fixed-position
+ *    descendants, so "the corner" means this frame's corner.
+ * 2. `getContainer` portals the tray inside the frame, which is what puts it
+ *    under that containing block.
+ *
+ * In an app the tray goes to `document.body` and docks to the real viewport,
+ * which is the whole point of it.
+ */
+function StoryFrame({ children, intro, height = 280 }: StoryFrameProps) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const getContainer = useCallback(() => frameRef.current, []);
   return (
     <VerticalStack gap="2">
-      <Text variant="heading4" as="h2">
-        Shipments
-      </Text>
-      <Text variant="body2" color="neutral.600">
-        The tray docks to the corner of the frame. Nothing here is blocked while
-        it runs—scroll, click, and type as usual.
-      </Text>
-      {children}
+      {intro ?? (
+        <Text variant="body2" color="neutral.600">
+          The tray docks to the corner of the frame below. Nothing inside it is
+          blocked while work runs—scroll, click, and type as usual.
+        </Text>
+      )}
+      <div
+        ref={frameRef}
+        style={{
+          position: "relative",
+          // See the note above: this is what scopes `position: fixed` to the
+          // frame instead of the viewport.
+          transform: "translate(0)",
+          height,
+          padding: "var(--ezui-space-2)",
+          border: "1px solid var(--ezui-color-neutral-100)",
+          borderRadius: "var(--ezui-shape-border-radius-lg)",
+          overflow: "hidden",
+        }}
+      >
+        <VerticalStack gap="2">
+          <Text variant="heading4" as="h2">
+            Shipments
+          </Text>
+          <Text variant="body2" color="neutral.600">
+            Pretend this is a page.
+          </Text>
+        </VerticalStack>
+        {children(getContainer)}
+      </div>
     </VerticalStack>
   );
 }
@@ -339,69 +417,160 @@ function SimulatedTray({
 function BulkPurchaseStory(args: TaskTrayProps) {
   const { tasks, start, cancel, dismiss } = useSimulatedBulkPurchase();
   return (
-    <VerticalStack gap="2">
-      <Text variant="heading4" as="h2">
-        Shipments
-      </Text>
-      <Text variant="body2" color="neutral.600">
-        Buy more than once to stack tasks. Each run finishes with three
-        failures, so it ends in the state that has to stay put.
-      </Text>
-      <div>
-        <Button onPress={start}>Buy {PURCHASE_TOTAL} labels</Button>
-      </div>
-      <SimulatedTray
-        {...args}
-        tasks={tasks}
-        cancel={cancel}
-        dismiss={dismiss}
-      />
-    </VerticalStack>
+    <StoryFrame
+      height={360}
+      intro={
+        <Text variant="body2" color="neutral.600">
+          Buy more than once to stack tasks. Each run finishes with three
+          failures, so it ends in the state that has to stay put.
+        </Text>
+      }
+    >
+      {(getContainer) => (
+        <>
+          <div style={{ marginTop: "var(--ezui-space-2)" }}>
+            <Button onPress={start}>Buy {PURCHASE_TOTAL} labels</Button>
+          </div>
+          <SimulatedTray
+            {...args}
+            getContainer={getContainer}
+            tasks={tasks}
+            cancel={cancel}
+            dismiss={dismiss}
+          />
+        </>
+      )}
+    </StoryFrame>
+  );
+}
+
+const MANY_TASK_TITLES = [
+  "Buying labels, batch 1",
+  "Buying labels, batch 2",
+  "Buying labels, batch 3",
+  "Importing addresses",
+  "Generating manifest",
+  "Generating January report",
+  "Generating February report",
+  "Exporting shipments",
+  "Exporting claims",
+  "Syncing carrier accounts",
+  "Refreshing rates",
+  "Validating addresses",
+];
+
+function ManyTasksStory(args: TaskTrayProps) {
+  const [maxVisibleTasks, setMaxVisibleTasks] = useState(4);
+  return (
+    <StoryFrame
+      height={520}
+      intro={
+        <Text variant="body2" color="neutral.600">
+          Twelve concurrent tasks. Drag the cap down to see the tray stay the
+          same size and scroll instead.
+        </Text>
+      }
+    >
+      {(getContainer) => (
+        <>
+          <div style={{ marginTop: "var(--ezui-space-2)" }}>
+            <label>
+              <Text variant="body2">Visible rows: {maxVisibleTasks}</Text>
+              <input
+                type="range"
+                min={1}
+                max={6}
+                value={maxVisibleTasks}
+                onChange={(event) =>
+                  setMaxVisibleTasks(Number(event.target.value))
+                }
+                style={{
+                  display: "block",
+                  marginTop: "var(--ezui-space-1)",
+                  width: 200,
+                }}
+              />
+            </label>
+          </div>
+          <TaskTray
+            {...args}
+            getContainer={getContainer}
+            maxVisibleTasks={maxVisibleTasks}
+          >
+            {MANY_TASK_TITLES.map((title, index) => (
+              <TaskTray.Task
+                key={title}
+                title={title}
+                status="running"
+                completed={index * 9}
+                total={100}
+                unit="items"
+              />
+            ))}
+          </TaskTray>
+        </>
+      )}
+    </StoryFrame>
   );
 }
 
 function PersistsAcrossRoutesStory(args: TaskTrayProps) {
   const { tasks, start, cancel, dismiss } = useSimulatedBulkPurchase();
   return (
-    <>
-      <FakeClientSideRouter initialPath="/shipments">
-        {(path) => (
-          <VerticalStack gap="2">
-            <Text variant="heading4" as="h2">
-              {path === "/shipments" ? "Shipments" : "Reports"}
-            </Text>
-            <div>
-              <Button
-                href={path === "/shipments" ? "/reports" : "/shipments"}
-                variant="outlined"
-              >
-                Go to {path === "/shipments" ? "reports" : "shipments"}
-              </Button>
-            </div>
-            <Card>
-              <Card.Area>
-                <VerticalStack gap="1">
-                  <Text variant="subtitle1">This page remounts</Text>
-                  <Text variant="body2" color="neutral.600">
-                    Navigating swaps the content. The tray is mounted outside
-                    this content, so the running task is untouched.
-                  </Text>
-                  <div>
-                    <Button onPress={start}>Buy {PURCHASE_TOTAL} labels</Button>
-                  </div>
-                </VerticalStack>
-              </Card.Area>
-            </Card>
-          </VerticalStack>
-        )}
-      </FakeClientSideRouter>
-      <SimulatedTray
-        {...args}
-        tasks={tasks}
-        cancel={cancel}
-        dismiss={dismiss}
-      />
-    </>
+    <StoryFrame
+      height={420}
+      intro={
+        <Text variant="body2" color="neutral.600">
+          Start a purchase, then navigate. The page content swaps; the tray
+          doesn&apos;t, because it&apos;s mounted outside the routed content.
+        </Text>
+      }
+    >
+      {(getContainer) => (
+        <>
+          <FakeClientSideRouter initialPath="/shipments">
+            {(path) => (
+              <VerticalStack gap="2">
+                <Text variant="heading4" as="h2">
+                  {path === "/shipments" ? "Shipments" : "Reports"}
+                </Text>
+                <div>
+                  <Button
+                    href={path === "/shipments" ? "/reports" : "/shipments"}
+                    variant="outlined"
+                  >
+                    Go to {path === "/shipments" ? "reports" : "shipments"}
+                  </Button>
+                </div>
+                <Card>
+                  <Card.Area>
+                    <VerticalStack gap="1">
+                      <Text variant="subtitle1">This page remounts</Text>
+                      <Text variant="body2" color="neutral.600">
+                        Navigating swaps the content. The running task is
+                        untouched.
+                      </Text>
+                      <div>
+                        <Button onPress={start}>
+                          Buy {PURCHASE_TOTAL} labels
+                        </Button>
+                      </div>
+                    </VerticalStack>
+                  </Card.Area>
+                </Card>
+              </VerticalStack>
+            )}
+          </FakeClientSideRouter>
+          <SimulatedTray
+            {...args}
+            getContainer={getContainer}
+            tasks={tasks}
+            cancel={cancel}
+            dismiss={dismiss}
+          />
+        </>
+      )}
+    </StoryFrame>
   );
 }
 
@@ -409,32 +578,38 @@ function WithToastStory(args: TaskTrayProps) {
   const notification = useNotification();
   const { tasks, start, cancel, dismiss } = useSimulatedBulkPurchase();
   return (
-    <VerticalStack gap="2">
-      <Text variant="heading4" as="h2">
-        Shipments
-      </Text>
-      <Text variant="body2" color="neutral.600">
-        The toast confirms the click landed. The tray reports on the work
-        itself.
-      </Text>
-      <div>
-        <Button
-          onPress={() => {
-            start();
-            notification.showSuccessToast({
-              message: "Buying labels in the background",
-            });
-          }}
-        >
-          Buy {PURCHASE_TOTAL} labels
-        </Button>
-      </div>
-      <SimulatedTray
-        {...args}
-        tasks={tasks}
-        cancel={cancel}
-        dismiss={dismiss}
-      />
-    </VerticalStack>
+    <StoryFrame
+      height={360}
+      intro={
+        <Text variant="body2" color="neutral.600">
+          The toast confirms the click landed. The tray reports on the work
+          itself.
+        </Text>
+      }
+    >
+      {(getContainer) => (
+        <>
+          <div style={{ marginTop: "var(--ezui-space-2)" }}>
+            <Button
+              onPress={() => {
+                start();
+                notification.showSuccessToast({
+                  message: "Buying labels in the background",
+                });
+              }}
+            >
+              Buy {PURCHASE_TOTAL} labels
+            </Button>
+          </div>
+          <SimulatedTray
+            {...args}
+            getContainer={getContainer}
+            tasks={tasks}
+            cancel={cancel}
+            dismiss={dismiss}
+          />
+        </>
+      )}
+    </StoryFrame>
   );
 }

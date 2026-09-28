@@ -1,7 +1,24 @@
 import { StorybookConfig } from "@storybook/react-vite";
+import remarkGfm from "remark-gfm";
 
 const config: StorybookConfig = {
-  addons: ["@storybook/addon-a11y", "@storybook/addon-docs"],
+  addons: [
+    "@storybook/addon-a11y",
+    {
+      name: "@storybook/addon-docs",
+      options: {
+        // Storybook's MDX pipeline is plain CommonMark, so GitHub-flavored
+        // syntax—tables above all—renders as literal pipes on the page. Every
+        // other Markdown surface we write (specs, READMEs, PR bodies) is GFM,
+        // so docs authors reasonably expect tables to work here too.
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
+  ],
 
   docs: {},
 

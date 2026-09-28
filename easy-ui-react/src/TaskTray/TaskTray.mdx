@@ -123,6 +123,19 @@ Past one task the header counts instead of naming. The list scrolls once it pass
 
 While anything is still running the header says so; once everything has landed it takes on the most severe outcome present, so one failure isn't hidden behind nine successes.
 
+### When a lot is going on
+
+`maxVisibleTasks` is a height cap, not a count cap: the tray holds at that many rows and scrolls, so it never grows to cover the page.
+
+<Canvas of={TaskTrayStories.ManyTasks} />
+
+Past four or five rows the corner is still a lot of corner, and the cap only bounds it. Two things actually reduce it, in order of how much they buy:
+
+1. **Collapse.** `defaultExpanded={false}` for work measured in minutes. One line, and the user opens it when they care.
+2. **Aggregate before you pass tasks in.** Three batches of a bulk purchase are one thing to the user. Render them as one task with summed `completed` and `total`, and keep the per-batch detail wherever the real job list lives.
+
+A second disclosure **inside** each row—an accordion per task—is the wrong tool. A row holds a title, a bar, and one line of detail; there is nothing to hide behind a chevron, and it would make the common case (glance at the corner, see where things stand) take a click. Grouping tasks of the same kind into one row is the open question the spec is tracking; nested rows aren't.
+
 ## Collapsed
 
 <Canvas of={TaskTrayStories.Collapsed} />
