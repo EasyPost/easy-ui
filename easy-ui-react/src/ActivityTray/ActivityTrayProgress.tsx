@@ -2,9 +2,9 @@ import React from "react";
 import { useProgressBar } from "react-aria";
 import { Text } from "../Text";
 import { getComponentToken } from "../utilities/css";
-import styles from "./TaskTray.module.scss";
+import styles from "./ActivityTray.module.scss";
 
-export type TaskTrayProgressProps = {
+export type ActivityTrayProgressProps = {
   /** Units of work finished. */
   completed: number;
   /** Total units of work. */
@@ -21,11 +21,11 @@ export type TaskTrayProgressProps = {
  * @privateRemarks
  * Easy UI has no `ProgressBar` component—`Spinner` is the only progress
  * primitive and it's radial, which doesn't fit a one-line row. This bar is
- * deliberately private to `TaskTray` so the eventual public `ProgressBar` API
+ * deliberately private to `ActivityTray` so the eventual public `ProgressBar` API
  * gets designed on its own terms rather than reverse-engineered from this one
- * consumer. See documentation/specs/TaskTray.md.
+ * consumer. See documentation/specs/ActivityTray.md.
  */
-export function TaskTrayProgress(props: TaskTrayProgressProps) {
+export function ActivityTrayProgress(props: ActivityTrayProgressProps) {
   const { completed, total, unit, labelId } = props;
 
   // The human phrasing, used for both the visible counter and `aria-valuetext`,
@@ -52,7 +52,11 @@ export function TaskTrayProgress(props: TaskTrayProgressProps) {
       <div
         {...progressBarProps}
         className={styles.progressTrack}
-        style={getComponentToken("task-tray", "progress.fill", `${percent}%`)}
+        style={getComponentToken(
+          "activity-tray",
+          "progress.fill",
+          `${percent}%`,
+        )}
       >
         <div className={styles.progressFill} />
       </div>

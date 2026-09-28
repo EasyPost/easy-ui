@@ -19,35 +19,35 @@ import { UnstyledButton } from "../UnstyledButton";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
 import { filterChildrenByDisplayName } from "../utilities/react";
 import { useScrollbar } from "../utilities/useScrollbar";
-import { TaskTrayContext } from "./context";
-import { TaskTrayAction } from "./TaskTrayAction";
-import { TaskTraySpinner } from "./TaskTraySpinner";
-import { TaskTrayTask, TaskTrayTaskProps } from "./TaskTrayTask";
+import { ActivityTrayContext } from "./context";
+import { ActivityTrayAction } from "./ActivityTrayAction";
+import { ActivityTraySpinner } from "./ActivityTraySpinner";
+import { ActivityTrayTask, ActivityTrayTaskProps } from "./ActivityTrayTask";
 import {
   DEFAULT_ARIA_LABEL,
   DEFAULT_AUTO_DISMISS_DELAY,
   DEFAULT_MAX_VISIBLE_TASKS,
-  TaskTrayOffset,
-  TaskTrayPlacement,
+  ActivityTrayOffset,
+  ActivityTrayPlacement,
   defaultRenderSummary,
   getMostSevereStatus,
   getOffsetStyle,
   getStatusIcon,
   isTerminalStatus,
 } from "./utilities";
-import styles from "./TaskTray.module.scss";
+import styles from "./ActivityTray.module.scss";
 
 // Written out rather than derived through `variationName()`, which would produce
 // the hyphenated `placementBottom-end` for these values.
-const PLACEMENT_CLASSES: Record<TaskTrayPlacement, string> = {
+const PLACEMENT_CLASSES: Record<ActivityTrayPlacement, string> = {
   "bottom-end": styles.placementBottomEnd,
   "bottom-start": styles.placementBottomStart,
   "top-end": styles.placementTopEnd,
   "top-start": styles.placementTopStart,
 };
 
-export type TaskTrayProps = {
-  /** `<TaskTray.Task />` elements. */
+export type ActivityTrayProps = {
+  /** `<ActivityTray.Task />` elements. */
   children: ReactNode;
   /**
    * Accessible name for the tray's landmark region.
@@ -75,9 +75,9 @@ export type TaskTrayProps = {
    * Corner the tray docks to.
    * @default "bottom-end"
    */
-  placement?: TaskTrayPlacement;
+  placement?: ActivityTrayPlacement;
   /** Distance from the container's edges, for clearing app chrome. */
-  offset?: TaskTrayOffset;
+  offset?: ActivityTrayOffset;
   /**
    * Roughly how many rows are visible before the expanded list scrolls. Applies
    * from the second task on; a single row is never capped.
@@ -100,7 +100,7 @@ export type TaskTrayProps = {
 };
 
 /**
- * A `<TaskTray />` reports on work the app is doing in the background, from a
+ * A `<ActivityTray />` reports on work the app is doing in the background, from a
  * corner of the screen, without blocking anything.
  *
  * @remarks
@@ -123,19 +123,19 @@ export type TaskTrayProps = {
  * @example
  * _Simple:_
  * ```tsx
- * import { TaskTray } from "@easypost/easy-ui/TaskTray";
+ * import { ActivityTray } from "@easypost/easy-ui/ActivityTray";
  *
  * export function Component() {
  *  return (
- *    <TaskTray>
- *      <TaskTray.Task
+ *    <ActivityTray>
+ *      <ActivityTray.Task
  *        title="Buying labels"
  *        status="running"
  *        completed={127}
  *        total={250}
  *        unit="labels"
  *      />
- *    </TaskTray>
+ *    </ActivityTray>
  *  );
  * }
  * ```
@@ -143,9 +143,9 @@ export type TaskTrayProps = {
  * @example
  * _With actions and dismissal:_
  * ```tsx
- * <TaskTray>
+ * <ActivityTray>
  *  {tasks.map((task) => (
- *    <TaskTray.Task
+ *    <ActivityTray.Task
  *      key={task.id}
  *      title={task.title}
  *      status={task.status}
@@ -155,24 +155,24 @@ export type TaskTrayProps = {
  *      onDismiss={() => dismiss(task.id)}
  *    >
  *      {task.status === "running" && (
- *        <TaskTray.Action onPress={() => cancel(task.id)}>
+ *        <ActivityTray.Action onPress={() => cancel(task.id)}>
  *          Cancel
- *        </TaskTray.Action>
+ *        </ActivityTray.Action>
  *      )}
- *    </TaskTray.Task>
+ *    </ActivityTray.Task>
  *  ))}
- * </TaskTray>
+ * </ActivityTray>
  * ```
  *
  * @example
  * _Docked clear of a sticky footer:_
  * ```tsx
- * <TaskTray placement="bottom-start" offset={{ bottom: "72px", left: "16px" }}>
+ * <ActivityTray placement="bottom-start" offset={{ bottom: "72px", left: "16px" }}>
  *  {children}
- * </TaskTray>
+ * </ActivityTray>
  * ```
  */
-export function TaskTray(props: TaskTrayProps) {
+export function ActivityTray(props: ActivityTrayProps) {
   const {
     children,
     "aria-label": ariaLabel = DEFAULT_ARIA_LABEL,
@@ -254,8 +254,8 @@ export function TaskTray(props: TaskTrayProps) {
 
   const tasks = filterChildrenByDisplayName(
     children,
-    TaskTrayTask.displayName,
-  ) as ReactElement<TaskTrayTaskProps>[];
+    ActivityTrayTask.displayName,
+  ) as ReactElement<ActivityTrayTaskProps>[];
 
   const statuses = tasks.map((task) => task.props.status);
   const runningCount = statuses.filter(
@@ -313,7 +313,7 @@ export function TaskTray(props: TaskTrayProps) {
   const containerStyle = {
     ...getOffsetStyle(placement, offset),
     ...getComponentToken(
-      "task-tray",
+      "activity-tray",
       "max-visible-tasks",
       String(maxVisibleTasks),
     ),
@@ -351,7 +351,7 @@ export function TaskTray(props: TaskTrayProps) {
               {summaryIcon ? (
                 <Icon symbol={summaryIcon} size="sm" />
               ) : (
-                <TaskTraySpinner size="sm" />
+                <ActivityTraySpinner size="sm" />
               )}
             </div>
             <div className={styles.summary}>
@@ -389,9 +389,9 @@ export function TaskTray(props: TaskTrayProps) {
           data-overlayscrollbars-initialize
         >
           <ul className={styles.listItems}>
-            <TaskTrayContext.Provider value={context}>
+            <ActivityTrayContext.Provider value={context}>
               {tasks}
-            </TaskTrayContext.Provider>
+            </ActivityTrayContext.Provider>
           </ul>
         </div>
       </div>
@@ -413,7 +413,7 @@ export function TaskTray(props: TaskTrayProps) {
   );
 }
 
-TaskTray.Task = TaskTrayTask;
-TaskTray.Action = TaskTrayAction;
+ActivityTray.Task = ActivityTrayTask;
+ActivityTray.Action = ActivityTrayAction;
 
-TaskTray.displayName = "TaskTray";
+ActivityTray.displayName = "ActivityTray";

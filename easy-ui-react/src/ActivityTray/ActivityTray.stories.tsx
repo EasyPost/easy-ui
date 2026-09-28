@@ -7,17 +7,17 @@ import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
 import { useNotification } from "../Notification";
 import { FakeClientSideRouter } from "../utilities/storybook";
-import { TaskTray, TaskTrayProps } from "./TaskTray";
+import { ActivityTray, ActivityTrayProps } from "./ActivityTray";
 import { TaskStatus } from "./utilities";
 
-type Story = StoryObj<typeof TaskTray>;
+type Story = StoryObj<typeof ActivityTray>;
 
-const meta: Meta<typeof TaskTray> = {
+const meta: Meta<typeof ActivityTray> = {
   // Under `Prototypes` rather than `Components`: this is the working sketch for
-  // documentation/specs/TaskTray.md, and it has no `index.ts`, so it isn't a
+  // documentation/specs/ActivityTray.md, and it has no `index.ts`, so it isn't a
   // published entry point of `@easypost/easy-ui`.
-  title: "Prototypes/TaskTray",
-  component: TaskTray,
+  title: "Prototypes/ActivityTray",
+  component: ActivityTray,
   parameters: {
     controls: { exclude: ["children", "onExpandedChange", "getContainer"] },
   },
@@ -30,20 +30,22 @@ export default meta;
  * and a disclosure would have nothing behind it.
  */
 export const Simple: Story = {
-  render: (args: TaskTrayProps) => (
+  render: (args: ActivityTrayProps) => (
     <StoryFrame>
       {(getContainer) => (
-        <TaskTray {...args} getContainer={getContainer}>
-          <TaskTray.Task
+        <ActivityTray {...args} getContainer={getContainer}>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={127}
             total={250}
             unit="labels"
           >
-            <TaskTray.Action onPress={action("Cancel")}>Cancel</TaskTray.Action>
-          </TaskTray.Task>
-        </TaskTray>
+            <ActivityTray.Action onPress={action("Cancel")}>
+              Cancel
+            </ActivityTray.Action>
+          </ActivityTray.Task>
+        </ActivityTray>
       )}
     </StoryFrame>
   ),
@@ -55,7 +57,7 @@ export const Simple: Story = {
  * waiting when you come back to it.
  */
 export const BulkPurchase: Story = {
-  render: (args: TaskTrayProps) => <BulkPurchaseStory {...args} />,
+  render: (args: ActivityTrayProps) => <BulkPurchaseStory {...args} />,
 };
 
 /**
@@ -63,12 +65,15 @@ export const BulkPurchase: Story = {
  * indeterminate row is better than a bar that sticks at 90%.
  */
 export const Indeterminate: Story = {
-  render: (args: TaskTrayProps) => (
+  render: (args: ActivityTrayProps) => (
     <StoryFrame>
       {(getContainer) => (
-        <TaskTray {...args} getContainer={getContainer}>
-          <TaskTray.Task title="Generating January report" status="running" />
-        </TaskTray>
+        <ActivityTray {...args} getContainer={getContainer}>
+          <ActivityTray.Task
+            title="Generating January report"
+            status="running"
+          />
+        </ActivityTray>
       )}
     </StoryFrame>
   ),
@@ -81,52 +86,56 @@ export const Indeterminate: Story = {
  * finished rows stick around to be looked at.
  */
 export const Statuses: Story = {
-  render: (args: TaskTrayProps) => (
+  render: (args: ActivityTrayProps) => (
     <StoryFrame height={440}>
       {(getContainer) => (
-        <TaskTray
+        <ActivityTray
           {...args}
           getContainer={getContainer}
           autoDismissDelay={null}
           maxVisibleTasks={6}
         >
-          <TaskTray.Task title="Queued import" status="pending" />
-          <TaskTray.Task
+          <ActivityTray.Task title="Queued import" status="pending" />
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={127}
             total={250}
             unit="labels"
           >
-            <TaskTray.Action onPress={action("Cancel")}>Cancel</TaskTray.Action>
-          </TaskTray.Task>
-          <TaskTray.Task
+            <ActivityTray.Action onPress={action("Cancel")}>
+              Cancel
+            </ActivityTray.Action>
+          </ActivityTray.Task>
+          <ActivityTray.Task
             title="Bought 40 labels"
             status="succeeded"
             onDismiss={action("Dismiss")}
           />
-          <TaskTray.Task
+          <ActivityTray.Task
             title="Bought 247 of 250 labels"
             status="partial"
             description="3 shipments were missing a rate"
             onDismiss={action("Dismiss")}
           >
-            <TaskTray.Action href="/shipments">Review</TaskTray.Action>
-          </TaskTray.Task>
-          <TaskTray.Task
+            <ActivityTray.Action href="/shipments">Review</ActivityTray.Action>
+          </ActivityTray.Task>
+          <ActivityTray.Task
             title="January report"
             status="failed"
             description="The report timed out"
             onDismiss={action("Dismiss")}
           >
-            <TaskTray.Action onPress={action("Retry")}>Retry</TaskTray.Action>
-          </TaskTray.Task>
-          <TaskTray.Task
+            <ActivityTray.Action onPress={action("Retry")}>
+              Retry
+            </ActivityTray.Action>
+          </ActivityTray.Task>
+          <ActivityTray.Task
             title="Address import"
             status="canceled"
             onDismiss={action("Dismiss")}
           />
-        </TaskTray>
+        </ActivityTray>
       )}
     </StoryFrame>
   ),
@@ -138,33 +147,33 @@ export const Statuses: Story = {
  * all—see `Simple`.
  */
 export const MultipleTasks: Story = {
-  render: (args: TaskTrayProps) => (
+  render: (args: ActivityTrayProps) => (
     <StoryFrame>
       {(getContainer) => (
-        <TaskTray {...args} getContainer={getContainer} maxVisibleTasks={3}>
-          <TaskTray.Task
+        <ActivityTray {...args} getContainer={getContainer} maxVisibleTasks={3}>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={127}
             total={250}
             unit="labels"
           />
-          <TaskTray.Task
+          <ActivityTray.Task
             title="Importing addresses"
             status="running"
             completed={12}
             total={900}
             unit="rows"
           />
-          <TaskTray.Task title="Generating manifest" status="running" />
-          <TaskTray.Task
+          <ActivityTray.Task title="Generating manifest" status="running" />
+          <ActivityTray.Task
             title="Generating January report"
             status="running"
             completed={3}
             total={4}
             unit="steps"
           />
-        </TaskTray>
+        </ActivityTray>
       )}
     </StoryFrame>
   ),
@@ -181,7 +190,7 @@ export const MultipleTasks: Story = {
  * behind a chevron.
  */
 export const ManyTasks: Story = {
-  render: (args: TaskTrayProps) => <ManyTasksStory {...args} />,
+  render: (args: ActivityTrayProps) => <ManyTasksStory {...args} />,
 };
 
 /**
@@ -190,19 +199,23 @@ export const ManyTasks: Story = {
  * time.
  */
 export const Collapsed: Story = {
-  render: (args: TaskTrayProps) => (
+  render: (args: ActivityTrayProps) => (
     <StoryFrame>
       {(getContainer) => (
-        <TaskTray {...args} getContainer={getContainer} defaultExpanded={false}>
-          <TaskTray.Task
+        <ActivityTray
+          {...args}
+          getContainer={getContainer}
+          defaultExpanded={false}
+        >
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={127}
             total={250}
             unit="labels"
           />
-          <TaskTray.Task title="Generating manifest" status="running" />
-        </TaskTray>
+          <ActivityTray.Task title="Generating manifest" status="running" />
+        </ActivityTray>
       )}
     </StoryFrame>
   ),
@@ -219,7 +232,7 @@ export const Collapsed: Story = {
  * on mount and feeds them back in.
  */
 export const PersistsAcrossRoutes: Story = {
-  render: (args: TaskTrayProps) => <PersistsAcrossRoutesStory {...args} />,
+  render: (args: ActivityTrayProps) => <PersistsAcrossRoutesStory {...args} />,
 };
 
 /**
@@ -227,7 +240,7 @@ export const PersistsAcrossRoutes: Story = {
  * different questions and are often both right.
  */
 export const WithToast: Story = {
-  render: (args: TaskTrayProps) => <WithToastStory {...args} />,
+  render: (args: ActivityTrayProps) => <WithToastStory {...args} />,
 };
 
 // --- story helpers -------------------------------------------------------
@@ -391,15 +404,15 @@ function SimulatedTray({
   cancel,
   dismiss,
   ...trayProps
-}: TaskTrayProps & {
+}: ActivityTrayProps & {
   tasks: SimulatedTask[];
   cancel: (id: number) => void;
   dismiss: (id: number) => void;
 }) {
   return (
-    <TaskTray {...trayProps}>
+    <ActivityTray {...trayProps}>
       {tasks.map((task) => (
-        <TaskTray.Task
+        <ActivityTray.Task
           key={task.id}
           title={task.title}
           status={task.status}
@@ -410,20 +423,20 @@ function SimulatedTray({
           onDismiss={() => dismiss(task.id)}
         >
           {task.status === "running" && (
-            <TaskTray.Action onPress={() => cancel(task.id)}>
+            <ActivityTray.Action onPress={() => cancel(task.id)}>
               Cancel
-            </TaskTray.Action>
+            </ActivityTray.Action>
           )}
           {task.status === "partial" && (
-            <TaskTray.Action href="/shipments">Review</TaskTray.Action>
+            <ActivityTray.Action href="/shipments">Review</ActivityTray.Action>
           )}
-        </TaskTray.Task>
+        </ActivityTray.Task>
       ))}
-    </TaskTray>
+    </ActivityTray>
   );
 }
 
-function BulkPurchaseStory(args: TaskTrayProps) {
+function BulkPurchaseStory(args: ActivityTrayProps) {
   const { tasks, start, cancel, dismiss } = useSimulatedBulkPurchase();
   return (
     <StoryFrame
@@ -468,7 +481,7 @@ const MANY_TASK_TITLES = [
   "Validating addresses",
 ];
 
-function ManyTasksStory(args: TaskTrayProps) {
+function ManyTasksStory(args: ActivityTrayProps) {
   const [maxVisibleTasks, setMaxVisibleTasks] = useState(4);
   return (
     <StoryFrame
@@ -501,13 +514,13 @@ function ManyTasksStory(args: TaskTrayProps) {
               />
             </label>
           </div>
-          <TaskTray
+          <ActivityTray
             {...args}
             getContainer={getContainer}
             maxVisibleTasks={maxVisibleTasks}
           >
             {MANY_TASK_TITLES.map((title, index) => (
-              <TaskTray.Task
+              <ActivityTray.Task
                 key={title}
                 title={title}
                 status="running"
@@ -516,14 +529,14 @@ function ManyTasksStory(args: TaskTrayProps) {
                 unit="items"
               />
             ))}
-          </TaskTray>
+          </ActivityTray>
         </>
       )}
     </StoryFrame>
   );
 }
 
-function PersistsAcrossRoutesStory(args: TaskTrayProps) {
+function PersistsAcrossRoutesStory(args: ActivityTrayProps) {
   const { tasks, start, cancel, dismiss } = useSimulatedBulkPurchase();
   return (
     <StoryFrame
@@ -583,7 +596,7 @@ function PersistsAcrossRoutesStory(args: TaskTrayProps) {
   );
 }
 
-function WithToastStory(args: TaskTrayProps) {
+function WithToastStory(args: ActivityTrayProps) {
   const notification = useNotification();
   const { tasks, start, cancel, dismiss } = useSimulatedBulkPurchase();
   return (

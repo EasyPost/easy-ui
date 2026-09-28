@@ -4,9 +4,9 @@ import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 import { classNames, variationName } from "../utilities/css";
-import { useTaskTrayContext } from "./context";
-import { TaskTrayProgress } from "./TaskTrayProgress";
-import { TaskTraySpinner } from "./TaskTraySpinner";
+import { useActivityTrayContext } from "./context";
+import { ActivityTrayProgress } from "./ActivityTrayProgress";
+import { ActivityTraySpinner } from "./ActivityTraySpinner";
 import {
   TaskStatus,
   buildAnnouncement,
@@ -14,9 +14,9 @@ import {
   isTerminalStatus,
   shouldAutoDismiss,
 } from "./utilities";
-import styles from "./TaskTray.module.scss";
+import styles from "./ActivityTray.module.scss";
 
-export type TaskTrayTaskProps = {
+export type ActivityTrayTaskProps = {
   /**
    * Short label naming the work, e.g. "Buying 250 labels". Also names the row's
    * progress bar and its dismiss button, and is the subject of the sentence
@@ -50,27 +50,27 @@ export type TaskTrayTaskProps = {
   onDismiss?: () => void;
   /** Overrides the tray's `autoDismissDelay` for this task. */
   autoDismissDelay?: number | null;
-  /** Up to two `<TaskTray.Action />` elements. */
+  /** Up to two `<ActivityTray.Action />` elements. */
   children?: ReactNode;
 };
 
 /**
- * A single row in a `<TaskTray />`.
+ * A single row in a `<ActivityTray />`.
  *
  * @example
  * ```tsx
- * <TaskTray.Task
+ * <ActivityTray.Task
  *  title="Buying labels"
  *  status="running"
  *  completed={127}
  *  total={250}
  *  unit="labels"
  * >
- *  <TaskTray.Action onPress={cancel}>Cancel</TaskTray.Action>
- * </TaskTray.Task>
+ *  <ActivityTray.Action onPress={cancel}>Cancel</ActivityTray.Action>
+ * </ActivityTray.Task>
  * ```
  */
-export function TaskTrayTask(props: TaskTrayTaskProps) {
+export function ActivityTrayTask(props: ActivityTrayTaskProps) {
   const {
     title,
     status,
@@ -88,7 +88,7 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
     autoDismissDelay: trayAutoDismissDelay,
     announce,
     focusTray,
-  } = useTaskTrayContext();
+  } = useActivityTrayContext();
 
   const titleId = useId();
   const isTerminal = isTerminalStatus(status);
@@ -163,7 +163,7 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
     >
       {/*
         Both of these hide themselves from assistive technology—an unlabeled
-        `Icon` sets `aria-hidden`, and `TaskTraySpinner` is decorative by
+        `Icon` sets `aria-hidden`, and `ActivityTraySpinner` is decorative by
         construction. The status reaches a screen reader through the title, the
         progress bar, and the announcement instead.
       */}
@@ -171,7 +171,7 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
         {statusIcon ? (
           <Icon symbol={statusIcon} size="md" />
         ) : (
-          <TaskTraySpinner size="md" />
+          <ActivityTraySpinner size="md" />
         )}
       </div>
       <div className={styles.taskContent}>
@@ -184,7 +184,7 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
           {title}
         </Text>
         {hasProgress && (
-          <TaskTrayProgress
+          <ActivityTrayProgress
             completed={completed as number}
             total={total as number}
             unit={unit}
@@ -202,7 +202,7 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
           {children}
           {/*
             Running tasks get no dismiss button. Hiding a row whose work is
-            still happening tells the user it stopped; `<TaskTray.Action />`
+            still happening tells the user it stopped; `<ActivityTray.Action />`
             with a real cancel handler is the honest version of that.
           */}
           {isTerminal && onDismiss && (
@@ -217,4 +217,4 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
   );
 }
 
-TaskTrayTask.displayName = "TaskTray.Task";
+ActivityTrayTask.displayName = "ActivityTray.Task";

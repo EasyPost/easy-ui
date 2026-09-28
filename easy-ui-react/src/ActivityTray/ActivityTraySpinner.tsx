@@ -1,9 +1,9 @@
 import React from "react";
 import { IconSize } from "../Icon";
 import { getComponentDesignToken } from "../utilities/css";
-import styles from "./TaskTray.module.scss";
+import styles from "./ActivityTray.module.scss";
 
-export type TaskTraySpinnerProps = {
+export type ActivityTraySpinnerProps = {
   /**
    * Matches the `Icon` sizes, so a spinning row and a finished row line up.
    * @default "md"
@@ -12,7 +12,7 @@ export type TaskTraySpinnerProps = {
 };
 
 /**
- * A silent spinner, private to `<TaskTray />`.
+ * A silent spinner, private to `<ActivityTray />`.
  *
  * @remarks
  * Easy UI's `Spinner` can't do this job yet, for two reasons. Its indeterminate
@@ -27,9 +27,9 @@ export type TaskTraySpinnerProps = {
  * it's the real thing. The spec lists the `Spinner` change that would let this
  * be deleted.
  */
-export function TaskTraySpinner({ size = "md" }: TaskTraySpinnerProps) {
+export function ActivityTraySpinner({ size = "md" }: ActivityTraySpinnerProps) {
   const style = getComponentDesignToken(
-    "task-tray",
+    "activity-tray",
     "spinner-size",
     "size.icon",
     size,

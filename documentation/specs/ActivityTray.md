@@ -1,18 +1,18 @@
-# `TaskTray` Component Specification
+# `ActivityTray` Component Specification
 
 ## Overview
 
-A `TaskTray` is a persistent, non-blocking surface docked to a corner of the viewport that reports on work the app is doing in the background. Each piece of work is a row in the tray: it names the work, shows its progress, and reaches a terminal state that the user can act on. A single task is the whole tray — one row, nothing above it. Past one task a header appears, summarizing the set, and the tray collapses to that header and expands to show the individual rows.
+A `ActivityTray` is a persistent, non-blocking surface docked to a corner of the viewport that reports on work the app is doing in the background. Each piece of work is a row in the tray: it names the work, shows its progress, and reaches a terminal state that the user can act on. A single task is the whole tray — one row, nothing above it. Past one task a header appears, summarizing the set, and the tray collapses to that header and expands to show the individual rows.
 
 It exists for work the user starts and then walks away from — buying 250 labels, generating a report, importing a CSV. The user should be free to navigate elsewhere and keep working while it runs, and should still be told when it finishes.
 
-**There is a working prototype** at `easy-ui-react/src/TaskTray/`, in Storybook under `Prototypes/TaskTray`. It has no `index.ts`, so it is not an entry point of the published package and nothing can import it yet. Where the prototype and this document disagreed, the prototype won and this document was corrected; the places where it fell short of the spec are called out as such.
+**There is a working prototype** at `easy-ui-react/src/ActivityTray/`, in Storybook under `Prototypes/ActivityTray`. It has no `index.ts`, so it is not an entry point of the published package and nothing can import it yet. Where the prototype and this document disagreed, the prototype won and this document was corrected; the places where it fell short of the spec are called out as such.
 
 ### What this is not
 
 This component is frequently confused with a toast, so it is worth being precise about the difference. Easy UI already ships `Notification`, which covers toasts and alerts.
 
-|                     | `Notification` (toast)           | `TaskTray`                                       |
+|                     | `Notification` (toast)           | `ActivityTray`                                   |
 | ------------------- | -------------------------------- | ------------------------------------------------ |
 | Subject             | A message                        | A tracked entity with a lifecycle                |
 | Lifetime            | 4000ms, then gone                | Minutes; ends when the work ends                 |
@@ -22,7 +22,7 @@ This component is frequently confused with a toast, so it is worth being precise
 | Survives navigation | Irrelevant, it is already gone   | Required                                         |
 | ARIA                | `role="status"` / `role="alert"` | Named landmark region, plus a narrow live region |
 
-A toast is the right tool for _"we've started buying your labels."_ A `TaskTray` is the right tool for _"we are 127 of 250 labels into buying your labels, and here's the button to stop."_ Many flows want both: a toast to confirm the action registered, and a tray row to carry the work.
+A toast is the right tool for _"we've started buying your labels."_ A `ActivityTray` is the right tool for _"we are 127 of 250 labels into buying your labels, and here's the button to stop."_ Many flows want both: a toast to confirm the action registered, and a tray row to carry the work.
 
 ### On naming
 
@@ -38,17 +38,17 @@ The terms that do get used in design-system writing are **activity tray**, **tas
 
 Material's **Snackbar** ([MUI](https://mui.com/material-ui/react-snackbar/)) is _not_ this pattern, despite the visual resemblance. Snackbar is Material's name for a toast: a single transient message, corner-anchored, auto-dismissing, with at most one action. It shares a position on screen and nothing else. Building this on top of a snackbar leads to a snackbar that never dismisses, stacks, and contains live-updating content — at which point every property that makes a snackbar a snackbar has been overridden.
 
-This spec proposes **`TaskTray`**, on the grounds that "tray" already implies the three structural facts that matter — it docks to an edge, it holds several items, and it collapses — while "task" names what the items are. Alternatives considered:
+This spec settles on **`ActivityTray`**. "Tray" carries the three structural facts that matter — it docks to an edge, it holds several items, and it collapses — and "activity" names what is in it without borrowing a word that product language may already have spoken for. "Task" survives one level down, as `ActivityTray.Task`, where it describes a single unit of work rather than the surface holding them. Alternatives considered:
 
-| Name              | Assessment                                                                                                  |
-| ----------------- | ----------------------------------------------------------------------------------------------------------- |
-| `ActivityTray`    | Strong runner-up. "Activity" risks reading as an audit log or activity feed, which is a different component |
-| `ProgressTray`    | Over-indexes on the progress bar; a queued or failed task has no progress                                   |
-| `BackgroundTasks` | Accurate but names the data, not the UI; reads like a hook or a page                                        |
-| `TaskMonitor`     | Suggests an admin/ops surface                                                                               |
-| `Snackbar`        | Actively misleading, see above                                                                              |
+| Name              | Assessment                                                                                                                            |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `TaskTray`        | What this spec originally proposed. More concrete about what a row is, but "task" is the riskier word to claim at the component level |
+| `ProgressTray`    | Over-indexes on the progress bar; a queued or failed task has no progress                                                             |
+| `BackgroundTasks` | Accurate but names the data, not the UI; reads like a hook or a page                                                                  |
+| `TaskMonitor`     | Suggests an admin/ops surface                                                                                                         |
+| `Snackbar`        | Actively misleading, see above                                                                                                        |
 
-If "task" collides with product language at EasyPost — a user-facing to-do list, for instance — `ActivityTray` is a clean substitute and nothing else in this spec changes.
+The cost of "activity" is that it can read as an audit log or an activity feed, which is a different component — a historical list rather than work in flight. What keeps the two apart is behavior the tray already has: the header counts what is running rather than what has happened, finished rows retire themselves, and there is no scrollback. An activity _log_ would keep everything; this keeps only what is live.
 
 ### Use Cases
 
@@ -122,7 +122,7 @@ Three decisions shape the API. They are recorded here because they are the subst
 
 `Notification` is the obvious place to look, and it is the wrong place. `EasyUINotificationQueue` closes the active notification before adding a new one, so exactly one notification is ever visible. Toasts carry a mandatory 4000ms timeout. The queue keys on a single `activeNotificationKey`. `Notification`'s own spec instructs consumers to keep interactive elements out of toasts and warns that `role="status"` is unsuitable for dynamically changing content.
 
-Every one of those is correct for toasts and disqualifying here. Reworking the queue to support N concurrent, indefinitely-lived, interactive, continuously-updating items would leave a component that shares a name with toasts and no behavior. `TaskTray` is a separate component that composes cleanly with `Notification` — a bulk action can fire a toast to confirm the click and open a tray row to carry the work.
+Every one of those is correct for toasts and disqualifying here. Reworking the queue to support N concurrent, indefinitely-lived, interactive, continuously-updating items would leave a component that shares a name with toasts and no behavior. `ActivityTray` is a separate component that composes cleanly with `Notification` — a bulk action can fire a toast to confirm the click and open a tray row to carry the work.
 
 ### Decision: task state ownership
 
@@ -130,7 +130,7 @@ The component is **controlled and presentational**. It renders the tasks it is h
 
 This is the decision that makes "persist across URLs" tractable, because that phrase covers two different problems:
 
-**Within a single-page app.** Mounting `<TaskTray />` above the router — typically next to `EasyUIProvider` — is sufficient. Route changes do not unmount it and there is nothing to persist. This is free and needs no API.
+**Within a single-page app.** Mounting `<ActivityTray />` above the router — typically next to `EasyUIProvider` — is sufficient. Route changes do not unmount it and there is nothing to persist. This is free and needs no API.
 
 **Across a full page load, a second tab, or a different device.** The work is running on a server, so the truth about it lives on the server. Rehydrating means the app fetches in-flight jobs on mount and feeds them to the tray. Easy UI cannot do this part: it would have to decide how to poll, how often, how to authenticate, how to reconcile duplicate tabs, how long to trust a cached value, and what a job even looks like. Those are product decisions, and a design system that makes them will be wrong for the second consumer.
 
@@ -143,23 +143,23 @@ A convenience layer for apps that do not want their own store is specified below
 Rows are subcomponents, not objects in a `tasks` array:
 
 ```tsx
-<TaskTray>
-  <TaskTray.Task
+<ActivityTray>
+  <ActivityTray.Task
     status="running"
     title="Buying labels"
     completed={127}
     total={250}
   >
-    <TaskTray.Action onPress={cancel}>Cancel</TaskTray.Action>
-  </TaskTray.Task>
-</TaskTray>
+    <ActivityTray.Action onPress={cancel}>Cancel</ActivityTray.Action>
+  </ActivityTray.Task>
+</ActivityTray>
 ```
 
 This follows the house style — `Popover`, `Drawer`, and `Menu` all compose — and it keeps the task data model in the app where it already lives. A `tasks={[...]}` prop would force Easy UI to define a `Task` type that every consumer has to map into, and would push row actions into an awkward `actions: TaskAction[]` shape rather than letting them be Easy UI buttons.
 
 ### Visual precedent
 
-The tray is a floating surface, and Easy UI already has a family of them. `Menu`, `Select`, and `MultiSelect` share their surface through `Menu/_mixins.scss` and `Popover` matches it as closely as `Box` allows: `color.neutral.000` background, a `shape.border_width.1` `color.neutral.300` border, `shape.border_radius.md`, `shadow.overlay`, `space.2` of horizontal padding, and `color.neutral.050` on hover. `TaskTray` takes all of it, so the corner reads as the same library as everything else on the page rather than as a component with its own taste.
+The tray is a floating surface, and Easy UI already has a family of them. `Menu`, `Select`, and `MultiSelect` share their surface through `Menu/_mixins.scss` and `Popover` matches it as closely as `Box` allows: `color.neutral.000` background, a `shape.border_width.1` `color.neutral.300` border, `shape.border_radius.md`, `shadow.overlay`, `space.2` of horizontal padding, and `color.neutral.050` on hover. `ActivityTray` takes all of it, so the corner reads as the same library as everything else on the page rather than as a component with its own taste.
 
 The rest of the styling follows existing precedent the same way, and the places it does are worth naming because they are the places a future contributor would otherwise re-decide:
 
@@ -187,7 +187,7 @@ export type TaskStatus =
   "pending" | "running" | "succeeded" | "partial" | "failed" | "canceled";
 
 /** Corner of the container the tray docks to. */
-export type TaskTrayPlacement =
+export type ActivityTrayPlacement =
   "bottom-end" | "bottom-start" | "top-end" | "top-start";
 
 /**
@@ -197,15 +197,15 @@ export type TaskTrayPlacement =
  * Shaped to match `NotificationOffset`. Both should be lifted into a shared
  * `Offset` type in `types.ts` — see open questions.
  */
-export type TaskTrayOffset = {
+export type ActivityTrayOffset = {
   top?: string;
   right?: string;
   bottom?: string;
   left?: string;
 };
 
-export type TaskTrayProps = {
-  /** `<TaskTray.Task />` elements. */
+export type ActivityTrayProps = {
+  /** `<ActivityTray.Task />` elements. */
   children: ReactNode;
   /**
    * Accessible name for the tray's landmark region.
@@ -234,12 +234,12 @@ export type TaskTrayProps = {
    * Corner the tray docks to.
    * @default "bottom-end"
    */
-  placement?: TaskTrayPlacement;
+  placement?: ActivityTrayPlacement;
   /**
    * Distance from the container's edges.
    * @default { bottom: "space.4", right: "space.4" }
    */
-  offset?: TaskTrayOffset;
+  offset?: ActivityTrayOffset;
   /**
    * How many task rows are visible before the expanded list scrolls. Applies
    * from the second task on; a single row is never capped.
@@ -261,7 +261,7 @@ export type TaskTrayProps = {
   getContainer?: () => HTMLElement | null;
 };
 
-export type TaskTrayTaskProps = {
+export type ActivityTrayTaskProps = {
   /**
    * Short label naming the work, e.g. "Buying 250 labels". Also names the row's
    * progress bar and its dismiss button, and is the subject of the sentence
@@ -304,7 +304,7 @@ export type TaskTrayTaskProps = {
    * Overrides the tray's `autoDismissDelay` for this task.
    */
   autoDismissDelay?: number | null;
-  /** Up to two `<TaskTray.Action />` elements. */
+  /** Up to two `<ActivityTray.Action />` elements. */
   children?: ReactNode;
 };
 
@@ -313,7 +313,7 @@ export type TaskTrayTaskProps = {
  * action styling; takes `href` for navigation and `onPress` for everything
  * else, matching `Button`.
  */
-export type TaskTrayActionProps = {
+export type ActivityTrayActionProps = {
   children: ReactNode;
   onPress?: () => void;
   href?: string;
@@ -325,7 +325,7 @@ export type TaskTrayActionProps = {
 _A single task, driven by app state:_
 
 ```tsx
-import { TaskTray } from "@easypost/easy-ui/TaskTray";
+import { ActivityTray } from "@easypost/easy-ui/ActivityTray";
 
 function BulkPurchase() {
   const [purchase, setPurchase] = useState(null);
@@ -333,8 +333,8 @@ function BulkPurchase() {
   if (!purchase) return null;
 
   return (
-    <TaskTray>
-      <TaskTray.Task
+    <ActivityTray>
+      <ActivityTray.Task
         title="Buying labels"
         status={purchase.status}
         completed={purchase.bought}
@@ -343,12 +343,12 @@ function BulkPurchase() {
         onDismiss={() => setPurchase(null)}
       >
         {purchase.status === "running" && (
-          <TaskTray.Action onPress={() => cancelPurchase(purchase.id)}>
+          <ActivityTray.Action onPress={() => cancelPurchase(purchase.id)}>
             Cancel
-          </TaskTray.Action>
+          </ActivityTray.Action>
         )}
-      </TaskTray.Task>
-    </TaskTray>
+      </ActivityTray.Task>
+    </ActivityTray>
   );
 }
 ```
@@ -357,7 +357,7 @@ _Mounted above the router so it survives route changes:_
 
 ```tsx
 import { Provider as EasyUIProvider } from "@easypost/easy-ui/Provider";
-import { TaskTray } from "@easypost/easy-ui/TaskTray";
+import { ActivityTray } from "@easypost/easy-ui/ActivityTray";
 import { useNavigate, useHref } from "react-router";
 
 function App({ children }) {
@@ -365,9 +365,9 @@ function App({ children }) {
 
   return (
     <EasyUIProvider navigate={useNavigate()} useHref={useHref}>
-      <TaskTray>
+      <ActivityTray>
         {tasks.map((task) => (
-          <TaskTray.Task
+          <ActivityTray.Task
             key={task.id}
             title={task.title}
             status={task.status}
@@ -377,18 +377,18 @@ function App({ children }) {
             onDismiss={() => dismiss(task.id)}
           >
             {task.status === "running" && (
-              <TaskTray.Action onPress={() => cancel(task.id)}>
+              <ActivityTray.Action onPress={() => cancel(task.id)}>
                 Cancel
-              </TaskTray.Action>
+              </ActivityTray.Action>
             )}
             {task.status === "partial" && (
-              <TaskTray.Action href={`/batches/${task.id}/errors`}>
+              <ActivityTray.Action href={`/batches/${task.id}/errors`}>
                 View errors
-              </TaskTray.Action>
+              </ActivityTray.Action>
             )}
-          </TaskTray.Task>
+          </ActivityTray.Task>
         ))}
-      </TaskTray>
+      </ActivityTray>
       {children}
     </EasyUIProvider>
   );
@@ -398,21 +398,23 @@ function App({ children }) {
 _Indeterminate work:_
 
 ```tsx
-<TaskTray.Task title="Generating January report" status="running" />
+<ActivityTray.Task title="Generating January report" status="running" />
 ```
 
 _Partial failure, the common bulk-purchase outcome:_
 
 ```tsx
-<TaskTray.Task
+<ActivityTray.Task
   title="Bought 247 of 250 labels"
   status="partial"
   description="3 shipments were missing a rate"
   onDismiss={dismiss}
 >
-  <TaskTray.Action href="/shipments?filter=failed">Review</TaskTray.Action>
-  <TaskTray.Action onPress={retry}>Retry 3</TaskTray.Action>
-</TaskTray.Task>
+  <ActivityTray.Action href="/shipments?filter=failed">
+    Review
+  </ActivityTray.Action>
+  <ActivityTray.Action onPress={retry}>Retry 3</ActivityTray.Action>
+</ActivityTray.Task>
 ```
 
 _Paired with a toast, so the click gets immediate acknowledgement:_
@@ -430,7 +432,10 @@ function onBuy() {
 _Docked bottom-start, clear of a sticky footer:_
 
 ```tsx
-<TaskTray placement="bottom-start" offset={{ bottom: "72px", left: "16px" }} />
+<ActivityTray
+  placement="bottom-start"
+  offset={{ bottom: "72px", left: "16px" }}
+/>
 ```
 
 _Rehydrating after a full page load — the app's job, not the tray's:_
@@ -463,7 +468,7 @@ function useBackgroundWork() {
 
 ### Anatomy
 
-`TaskTray` portals into `getContainer()` — `document.body` by default — and renders a fixed-position wrapper positioned from `placement` and `offset`. The wrapper is `pointer-events: none` so it never eats a click meant for the page; the tray surface inside it restores `pointer-events: auto`. When there are no children, the whole thing renders `null`; nothing is left in the DOM.
+`ActivityTray` portals into `getContainer()` — `document.body` by default — and renders a fixed-position wrapper positioned from `placement` and `offset`. The wrapper is `pointer-events: none` so it never eats a click meant for the page; the tray surface inside it restores `pointer-events: auto`. When there are no children, the whole thing renders `null`; nothing is left in the DOM.
 
 A supplied `getContainer` is taken at its word — there's no fallback to the body when it returns `null`. Getters normally read a ref, which is `null` on the first render, and falling back would dock the tray to the viewport corner for a render and then move the portal once the ref filled in, jumping the tray across the screen.
 
@@ -472,12 +477,12 @@ The surface is a `role="region"` with an accessible name, making it a landmark t
 Inside the region:
 
 - A **header**, present only once there's more than one task, holding `renderSummary(runningCount, totalCount)` and the collapse toggle. The toggle is a disclosure button carrying `aria-expanded` and `aria-controls` pointing at the list. A lone task is its own summary — the row names the work, shows its progress, and carries its actions — so a header would repeat the title back above a disclosure with nothing behind it. With one task there is nothing to collapse, and `isExpanded` and `defaultExpanded` do nothing.
-- A **list** of `TaskTray.Task` rows, capped at `maxVisibleTasks` rows of height and scrolling beyond that, and hidden when collapsed. The cap applies from the second row on; capping a single row could only clip it. The scroll container is a `div` wrapping the `ul` rather than the `ul` itself, because OverlayScrollbars restructures its target's children and would otherwise put a `div` between the list and its items.
+- A **list** of `ActivityTray.Task` rows, capped at `maxVisibleTasks` rows of height and scrolling beyond that, and hidden when collapsed. The cap applies from the second row on; capping a single row could only clip it. The scroll container is a `div` wrapping the `ul` rather than the `ul` itself, because OverlayScrollbars restructures its target's children and would otherwise put a `div` between the list and its items.
 - A **live region** — `aria-live="polite"`, `aria-atomic="true"`, visually hidden — that the tray owns and that stays mounted whether the tray is expanded or not.
 
-Each `TaskTray.Task` row renders a status affordance (a spinning ring while running, a status `Icon` when terminal), the title, an optional determinate progress bar with its counter, an optional description, up to two actions, and a dismiss button when the row is terminal and `onDismiss` was given. Running rows get no dismiss button — dismissing a running task would hide work that is still happening. Cancel is the action for that.
+Each `ActivityTray.Task` row renders a status affordance (a spinning ring while running, a status `Icon` when terminal), the title, an optional determinate progress bar with its counter, an optional description, up to two actions, and a dismiss button when the row is terminal and `onDismiss` was given. Running rows get no dismiss button — dismissing a running task would hide work that is still happening. Cancel is the action for that.
 
-`TaskTray` tracks which tasks it has seen and at what status, so it can detect the transition into a terminal state. That transition does two things: it writes a sentence into the live region, and it starts the `autoDismissDelay` timer for `succeeded` and `canceled`. Timers are held in a context alongside a paused flag that the surface's pointer and focus handlers drive.
+`ActivityTray` tracks which tasks it has seen and at what status, so it can detect the transition into a terminal state. That transition does two things: it writes a sentence into the live region, and it starts the `autoDismissDelay` timer for `succeeded` and `canceled`. Timers are held in a context alongside a paused flag that the surface's pointer and focus handlers drive.
 
 ### DOM Structure
 
@@ -493,7 +498,7 @@ Each `TaskTray.Task` row renders a status affordance (a spinning ring while runn
       <span class="summary">2 tasks running</span>
       <button
         aria-expanded="true"
-        aria-controls="task-tray-list-:r1:"
+        aria-controls="activity-tray-list-:r1:"
         class="toggle"
       >
         <svg aria-hidden="true"><!-- chevron --></svg>
@@ -502,7 +507,7 @@ Each `TaskTray.Task` row renders a status affordance (a spinning ring while runn
     </div>
 
     <div
-      id="task-tray-list-:r1:"
+      id="activity-tray-list-:r1:"
       class="list listCapped"
       data-overlayscrollbars-initialize
     >
@@ -523,7 +528,7 @@ Each `TaskTray.Task` row renders a status affordance (a spinning ring while runn
                 aria-valuenow="127"
                 aria-valuetext="127 of 250 labels"
                 class="progressTrack"
-                style="--ezui-c-task-tray-progress-fill: 50.8%"
+                style="--ezui-c-activity-tray-progress-fill: 50.8%"
               >
                 <div class="progressFill"></div>
               </div>
@@ -659,7 +664,7 @@ Simultaneous terminal transitions are coalesced into one announcement rather tha
 
 ### Security
 
-No new surface. Titles and descriptions are strings rendered as text nodes, so no `dangerouslySetInnerHTML` path exists. `TaskTray.Action` accepts `href`, which carries the same consumer-supplied-URL considerations as `Button` and `Menu.Item` and no additional ones.
+No new surface. Titles and descriptions are strings rendered as text nodes, so no `dangerouslySetInnerHTML` path exists. `ActivityTray.Action` accepts `href`, which carries the same consumer-supplied-URL considerations as `Button` and `Menu.Item` and no additional ones.
 
 ### Performance
 
@@ -678,21 +683,21 @@ Three internal prerequisites:
 **A linear progress primitive.** Easy UI has no `ProgressBar`. `Spinner` covers determinate progress radially, which does not work in a one-line row and reads poorly for `127 of 250`. Two options:
 
 1. Add a `ProgressBar` component first and compose it. Right long-term — a linear bar is a generally useful primitive, and it is a gap in the system regardless of this component.
-2. Build the bar inside `TaskTray` and extract it later. Faster, and avoids designing a public `ProgressBar` API under pressure from a single consumer.
+2. Build the bar inside `ActivityTray` and extract it later. Faster, and avoids designing a public `ProgressBar` API under pressure from a single consumer.
 
-Recommendation is (2) for the prototype and (1) before `TaskTray` ships publicly, so the bar's API is designed on its own terms. The prototype took (2): `TaskTrayProgress` is private to the component.
+Recommendation is (2) for the prototype and (1) before `ActivityTray` ships publicly, so the bar's API is designed on its own terms. The prototype took (2): `ActivityTrayProgress` is private to the component.
 
 **A decorative mode for `Spinner`.** `Spinner` is unusable as a glyph. It renders `role="status"` whenever `isIndeterminate` is set, so one per running row means several live regions in a component whose whole accessibility design is one narrow live region. Its only label channel is `children`, which it renders as visible text, so a `Spinner` with no label also logs a React Aria warning on every render — sixty-five of them across this component's test run, before the prototype stopped using it.
 
 Either would fix it: an `aria-label` prop, which silences the warning but leaves the live region; or a flag that makes the spinner purely presentational — no `role`, no label, `aria-hidden`. The second is what this component needs, and the pattern is general: every spinner rendered beside text that already says "Loading…" has the same problem.
 
-The prototype works around it with a private `TaskTraySpinner`, a one-element CSS ring rather than a copy of `Spinner`'s three-arc animation. That is a duplication to delete, not to keep — it will drift from `Spinner`, and a design system with two spinners is a design system with a bug.
+The prototype works around it with a private `ActivityTraySpinner`, a one-element CSS ring rather than a copy of `Spinner`'s three-arc animation. That is a duplication to delete, not to keep — it will drift from `Spinner`, and a design system with two spinners is a design system with a bug.
 
-**A z-index token.** `z_index` currently holds `input_icon: 1`, `nav: 1000`, `drawer: 1200`, `modal: 1300`, `notification: 999999`. `TaskTray` needs `z_index.task_tray`. Proposed value **1250**: above `nav` and `drawer`, below `modal`.
+**A z-index token.** `z_index` currently holds `input_icon: 1`, `nav: 1000`, `drawer: 1200`, `modal: 1300`, `notification: 999999`. `ActivityTray` needs `z_index.activity_tray`. Proposed value **1250**: above `nav` and `drawer`, below `modal`.
 
 Below `modal` is the debatable half. It means an open modal covers the tray, and the modal underlay dims it. That is the right default — a modal is a focused, blocking task and a progress bar creeping along underneath it is a distraction the user cannot act on anyway — but it does mean a user who opens a modal loses sight of running work. Flagged as an open question.
 
-The gap between 1300 and 999999 is worth noting as pre-existing: `notification` was set far out of range rather than into the scale. Not this component's problem to fix, but it is why `TaskTray` cannot simply be "one above notification."
+The gap between 1300 and 999999 is worth noting as pre-existing: `notification` was set far out of range rather than into the scale. Not this component's problem to fix, but it is why `ActivityTray` cannot simply be "one above notification."
 
 ### Platform Requirements
 
@@ -705,10 +710,13 @@ Nothing exotic. `position: fixed`, CSS custom properties, `createPortal`, and `p
 Phase one requires the app to hold the task list. For apps that do not already have a store, this is friction, and `useNotification()` has trained Easy UI consumers to expect a hook. A second phase can add one without changing anything above:
 
 ```tsx
-import { TaskTrayProvider, useTaskTray } from "@easypost/easy-ui/TaskTray";
+import {
+  ActivityTrayProvider,
+  useActivityTray,
+} from "@easypost/easy-ui/ActivityTray";
 
 function BuyButton({ shipments }) {
-  const tasks = useTaskTray();
+  const tasks = useActivityTray();
 
   async function onBuy() {
     const task = tasks.start({
@@ -725,7 +733,7 @@ function BuyButton({ shipments }) {
 }
 ```
 
-`TaskTrayProvider` holds the list in state and renders `TaskTray` from it. The handle returned by `start()` carries `advance`, `finish`, and `cancel`, which is nicer than passing ids around.
+`ActivityTrayProvider` holds the list in state and renders `ActivityTray` from it. The handle returned by `start()` carries `advance`, `finish`, and `cancel`, which is nicer than passing ids around.
 
 Two reasons this is phase two rather than phase one:
 
@@ -738,14 +746,13 @@ Shipping it alongside phase one risks consumers reaching for the hook, discoveri
 
 ## Open questions
 
-1. **Name.** `TaskTray` or `ActivityTray`? Depends on whether "task" is spoken for in EasyPost product language.
-2. **Stacking against `Modal`.** Should the tray be visible over a modal? This spec says no. A flow that opens a modal to start more background work is the case that argues yes.
-3. **Collision with `Notification`.** Consumers who move notifications to the bottom via `notificationPlacement.offset` will overlap the tray. Options: document it, or have the tray read notification placement from context and offset itself. The second is more magic than it is worth, probably.
-4. **Shared offset type.** `TaskTrayOffset` duplicates `NotificationOffset`. Lift a shared `Offset` into `types.ts` as part of this work, or leave the duplication and clean it up separately?
-5. **Mobile.** A corner tray on a 375px viewport either covers a lot or shrinks to nothing. Full-width bottom sheet below the `sm` breakpoint, or out of scope for the first pass?
-6. **Aggregation.** `maxVisibleTasks` caps the tray's height but not its row count, so a dozen concurrent tasks is a dozen rows behind a scrollbar. The fix is grouping tasks of the same kind into one row — "Buying labels, 3 batches", with summed `completed` and `total`, which is what Google Drive does with "Uploading 12 items". Two places it could live: the app aggregates before passing tasks in (free, and today's answer), or `TaskTray.Task` takes a `group` key and the tray does it (nicer, but the tray then owns how progress across grouped tasks is combined, and what a group with one failure in it reports). Not a nested accordion either way: a row holds one line of detail, which isn't enough to hide behind a chevron, and it would make glancing at the corner cost a click.
-7. **Cancel confirmation.** Cancel is currently a plain action. Bulk purchases involve money; does cancelling a half-finished purchase of 250 labels warrant a confirmation step, and if so is that the tray's job or the app's?
-8. **Link semantics for actions.** `TaskTray.Action` with an `href` renders an `<a>` carrying `role="button"`, because `UnstyledButton` runs React Aria's `useButton()` over the anchor — the same as `Button` with an `href`. A "Review" action that navigates arguably should read as a link, but changing it here would make the tray inconsistent with every other Easy UI button. Package-wide question, inherited rather than introduced.
+1. **Stacking against `Modal`.** Should the tray be visible over a modal? This spec says no. A flow that opens a modal to start more background work is the case that argues yes.
+2. **Collision with `Notification`.** Consumers who move notifications to the bottom via `notificationPlacement.offset` will overlap the tray. Options: document it, or have the tray read notification placement from context and offset itself. The second is more magic than it is worth, probably.
+3. **Shared offset type.** `ActivityTrayOffset` duplicates `NotificationOffset`. Lift a shared `Offset` into `types.ts` as part of this work, or leave the duplication and clean it up separately?
+4. **Mobile.** A corner tray on a 375px viewport either covers a lot or shrinks to nothing. Full-width bottom sheet below the `sm` breakpoint, or out of scope for the first pass?
+5. **Aggregation.** `maxVisibleTasks` caps the tray's height but not its row count, so a dozen concurrent tasks is a dozen rows behind a scrollbar. The fix is grouping tasks of the same kind into one row — "Buying labels, 3 batches", with summed `completed` and `total`, which is what Google Drive does with "Uploading 12 items". Two places it could live: the app aggregates before passing tasks in (free, and today's answer), or `ActivityTray.Task` takes a `group` key and the tray does it (nicer, but the tray then owns how progress across grouped tasks is combined, and what a group with one failure in it reports). Not a nested accordion either way: a row holds one line of detail, which isn't enough to hide behind a chevron, and it would make glancing at the corner cost a click.
+6. **Cancel confirmation.** Cancel is currently a plain action. Bulk purchases involve money; does cancelling a half-finished purchase of 250 labels warrant a confirmation step, and if so is that the tray's job or the app's?
+7. **Link semantics for actions.** `ActivityTray.Action` with an `href` renders an `<a>` carrying `role="button"`, because `UnstyledButton` runs React Aria's `useButton()` over the anchor — the same as `Button` with an `href`. A "Review" action that navigates arguably should read as a link, but changing it here would make the tray inconsistent with every other Easy UI button. Package-wide question, inherited rather than introduced.
 
 ## Resources
 

@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-export type TaskTrayContextValue = {
+export type ActivityTrayContextValue = {
   /**
    * Whether auto-dismissal is on hold because the pointer or focus is inside
    * the tray. Without this, a row can vanish out from under a cursor on its way
@@ -20,12 +20,15 @@ export type TaskTrayContextValue = {
   focusTray: () => void;
 };
 
-export const TaskTrayContext = createContext<TaskTrayContextValue | null>(null);
+export const ActivityTrayContext =
+  createContext<ActivityTrayContextValue | null>(null);
 
-export function useTaskTrayContext() {
-  const context = useContext(TaskTrayContext);
+export function useActivityTrayContext() {
+  const context = useContext(ActivityTrayContext);
   if (!context) {
-    throw new Error("TaskTray.Task must be rendered inside a TaskTray");
+    throw new Error(
+      "ActivityTray.Task must be rendered inside an ActivityTray",
+    );
   }
   return context;
 }

@@ -4,27 +4,31 @@
 // Aliased so the `calc()` in `.list` fits on one line—spelled out, the
 // expression is long enough that prettier breaks it after the `*`, which
 // `scss/operator-no-newline-after` then rejects.
-$ezui-task-tray-max-visible-tasks: component-token(
-  "task-tray",
+$ezui-activity-tray-max-visible-tasks: component-token(
+  "activity-tray",
   "max-visible-tasks"
 );
-$ezui-task-tray-row-height: component-token("task-tray", "row-height");
+$ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
 
 .container {
   // Literal rather than a `z_index` token because adding one is a change to the
   // published tokens package, which this prototype deliberately stays out of.
-  // The spec proposes `z_index.task_tray: 1250`—above `nav` (1000) and `drawer`
+  // The spec proposes `z_index.activity_tray: 1250`—above `nav` (1000) and `drawer`
   // (1200), below `modal` (1300), so a modal covers the tray rather than the
   // tray distracting from it.
-  @include component-token("task-tray", "z-index", 1250);
-  @include component-token("task-tray", "width", 360px);
+  @include component-token("activity-tray", "z-index", 1250);
+  @include component-token("activity-tray", "width", 360px);
   // Nominal, not measured. A row with a description or a wrapped title is
   // taller, so `maxVisibleTasks` caps the list's height approximately rather
   // than landing exactly on a row boundary.
-  @include component-token("task-tray", "row-height", 60px);
+  @include component-token("activity-tray", "row-height", 60px);
   // `Menu`'s `padding.x`, which `Popover` also picked up, so text in the tray
   // sits the same distance in from the edge as a menu item's label.
-  @include component-token("task-tray", "padding.x", design-token("space.2"));
+  @include component-token(
+    "activity-tray",
+    "padding.x",
+    design-token("space.2")
+  );
   // The lane `ezui-os-theme-overlay` occupies—its `--os-size` from
   // styles/_scrollbars.scss, mirrored rather than imported because `@use`-ing
   // that file from a CSS module would re-emit all of OverlayScrollbars' CSS. The
@@ -34,16 +38,16 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   // left-aligned text. A task row ends in a progress counter and a dismiss
   // button, which is exactly what the lane would land on.
   @include component-token(
-    "task-tray",
+    "activity-tray",
     "scrollbar-gutter",
     calc(#{design-token("space.1")} * 2 + 2px)
   );
 
   position: fixed;
-  z-index: component-token("task-tray", "z-index");
+  z-index: component-token("activity-tray", "z-index");
   display: flex;
   max-width: calc(100vw - #{design-token("space.4")});
-  width: component-token("task-tray", "width");
+  width: component-token("activity-tray", "width");
   // The container spans further than the surface it holds, so clicks that land
   // beside the tray still reach the page. `.tray` puts them back.
   pointer-events: none;
@@ -97,8 +101,8 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   align-items: center;
   gap: design-token("space.1");
   padding: design-token("space.1")
-    component-token("task-tray", "scrollbar-gutter") design-token("space.1")
-    component-token("task-tray", "padding.x");
+    component-token("activity-tray", "scrollbar-gutter") design-token("space.1")
+    component-token("activity-tray", "padding.x");
 }
 
 .headerStatus {
@@ -106,7 +110,7 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   flex: 0 0 auto;
   align-items: center;
   // Set by whichever `.statusX` class the header is carrying.
-  color: component-token("task-tray", "task.color");
+  color: component-token("activity-tray", "task.color");
 }
 
 .summary {
@@ -162,7 +166,7 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   // `maxVisibleTasks` is written onto the container as a bare number so the cap
   // can be expressed here, where the nominal row height lives.
   max-height: calc(
-    #{$ezui-task-tray-max-visible-tasks} * #{$ezui-task-tray-row-height}
+    #{$ezui-activity-tray-max-visible-tasks} * #{$ezui-activity-tray-row-height}
   );
 }
 
@@ -172,15 +176,15 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
 
 // prettier-ignore
 .task {
-  @include component-token("task-tray", "task.color", design-token("color.neutral.500"));
+  @include component-token("activity-tray", "task.color", design-token("color.neutral.500"));
 
   display: flex;
   align-items: flex-start;
   gap: design-token("space.1");
   // See `.header` on the uneven sides.
   padding: design-token("space.1")
-    component-token("task-tray", "scrollbar-gutter") design-token("space.1")
-    component-token("task-tray", "padding.x");
+    component-token("activity-tray", "scrollbar-gutter") design-token("space.1")
+    component-token("activity-tray", "padding.x");
 
   & + & {
     border-top: design-token("shape.border_width.1") solid
@@ -192,32 +196,32 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
 // status slot and the progress bar, they are not the only signal.
 // prettier-ignore
 .statusPending {
-  @include component-token("task-tray", "task.color", design-token("color.neutral.500"));
+  @include component-token("activity-tray", "task.color", design-token("color.neutral.500"));
 }
 
 // prettier-ignore
 .statusRunning {
-  @include component-token("task-tray", "task.color", design-token("color.primary.500"));
+  @include component-token("activity-tray", "task.color", design-token("color.primary.500"));
 }
 
 // prettier-ignore
 .statusSucceeded {
-  @include component-token("task-tray", "task.color", design-token("color.positive.600"));
+  @include component-token("activity-tray", "task.color", design-token("color.positive.600"));
 }
 
 // prettier-ignore
 .statusPartial {
-  @include component-token("task-tray", "task.color", design-token("color.warning.600"));
+  @include component-token("activity-tray", "task.color", design-token("color.warning.600"));
 }
 
 // prettier-ignore
 .statusFailed {
-  @include component-token("task-tray", "task.color", design-token("color.negative.600"));
+  @include component-token("activity-tray", "task.color", design-token("color.negative.600"));
 }
 
 // prettier-ignore
 .statusCanceled {
-  @include component-token("task-tray", "task.color", design-token("color.neutral.500"));
+  @include component-token("activity-tray", "task.color", design-token("color.neutral.500"));
 }
 
 .taskStatus {
@@ -226,7 +230,7 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   align-items: center;
   // Lines the icon up with the title's cap height rather than its line box.
   padding-top: design-token("space.0.25");
-  color: component-token("task-tray", "task.color");
+  color: component-token("activity-tray", "task.color");
 }
 
 // Modifier on `.task`, which is where it would read best—it lives down here
@@ -259,23 +263,23 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
 // instead of `Spinner`'s four—because this one only has to be decorative.
 .spinner {
   // Matches `Spinner`'s literal—there's no border-width token this thin.
-  @include component-token("task-tray", "spinner-track-width", 1.5px);
-  @include component-token("task-tray", "spinner-animation-speed", 1s);
+  @include component-token("activity-tray", "spinner-track-width", 1.5px);
+  @include component-token("activity-tray", "spinner-animation-speed", 1s);
 
   flex: 0 0 auto;
-  width: component-token("task-tray", "spinner-size");
-  height: component-token("task-tray", "spinner-size");
-  border: component-token("task-tray", "spinner-track-width") solid
+  width: component-token("activity-tray", "spinner-size");
+  height: component-token("activity-tray", "spinner-size");
+  border: component-token("activity-tray", "spinner-track-width") solid
     design-token("color.neutral.050");
   // Picks up `task.color` from the status class on the row.
   border-top-color: currentcolor;
   border-radius: 50%;
-  animation: task-tray-spin
-    component-token("task-tray", "spinner-animation-speed")
+  animation: activity-tray-spin
+    component-token("activity-tray", "spinner-animation-speed")
     cubic-bezier(0.5, 0, 0.5, 1) infinite;
 }
 
-@keyframes task-tray-spin {
+@keyframes activity-tray-spin {
   to {
     transform: rotate(360deg);
   }
@@ -347,10 +351,10 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
 }
 
 .progressFill {
-  width: component-token("task-tray", "progress.fill");
+  width: component-token("activity-tray", "progress.fill");
   height: 100%;
   border-radius: inherit;
-  background-color: component-token("task-tray", "task.color");
+  background-color: component-token("activity-tray", "task.color");
   transition: width 200ms ease-out;
 }
 

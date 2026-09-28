@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import { UnstyledButton } from "../UnstyledButton";
-import styles from "./TaskTray.module.scss";
+import styles from "./ActivityTray.module.scss";
 
-export type TaskTrayActionProps = {
+export type ActivityTrayActionProps = {
   /** Action label. Keep it to one or two words—the row is narrow. */
   children: ReactNode;
   /** Called when the action is pressed. */
@@ -24,12 +24,12 @@ export type TaskTrayActionProps = {
  *
  * @example
  * ```tsx
- * <TaskTray.Task title="Buying labels" status="running">
- *   <TaskTray.Action onPress={cancel}>Cancel</TaskTray.Action>
- * </TaskTray.Task>
+ * <ActivityTray.Task title="Buying labels" status="running">
+ *   <ActivityTray.Action onPress={cancel}>Cancel</ActivityTray.Action>
+ * </ActivityTray.Task>
  * ```
  */
-export function TaskTrayAction(props: TaskTrayActionProps) {
+export function ActivityTrayAction(props: ActivityTrayActionProps) {
   const { children, onPress, href } = props;
   return (
     <UnstyledButton className={styles.action} onPress={onPress} href={href}>
@@ -38,4 +38,4 @@ export function TaskTrayAction(props: TaskTrayActionProps) {
   );
 }
 
-TaskTrayAction.displayName = "TaskTray.Action";
+ActivityTrayAction.displayName = "ActivityTray.Action";

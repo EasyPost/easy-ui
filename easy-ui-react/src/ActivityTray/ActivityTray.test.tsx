@@ -9,10 +9,10 @@ import {
   userKeyboard,
   userTab,
 } from "../utilities/test";
-import { TaskTray } from "./TaskTray";
+import { ActivityTray } from "./ActivityTray";
 import { DEFAULT_AUTO_DISMISS_DELAY } from "./utilities";
 
-describe("<TaskTray />", () => {
+describe("<ActivityTray />", () => {
   let restoreGetComputedStyle: () => void;
 
   beforeEach(() => {
@@ -26,15 +26,15 @@ describe("<TaskTray />", () => {
   });
 
   it("should render nothing when it holds no tasks", () => {
-    render(<TaskTray>{null}</TaskTray>);
+    render(<ActivityTray>{null}</ActivityTray>);
     expect(screen.queryByRole("region")).not.toBeInTheDocument();
   });
 
   it("should render a named landmark region", () => {
     render(
-      <TaskTray>
-        <TaskTray.Task title="Buying labels" status="running" />
-      </TaskTray>,
+      <ActivityTray>
+        <ActivityTray.Task title="Buying labels" status="running" />
+      </ActivityTray>,
     );
     expect(
       screen.getByRole("region", { name: "Background tasks" }),
@@ -43,9 +43,9 @@ describe("<TaskTray />", () => {
 
   it("should support a custom accessible name", () => {
     render(
-      <TaskTray aria-label="Label purchases">
-        <TaskTray.Task title="Buying labels" status="running" />
-      </TaskTray>,
+      <ActivityTray aria-label="Label purchases">
+        <ActivityTray.Task title="Buying labels" status="running" />
+      </ActivityTray>,
     );
     expect(
       screen.getByRole("region", { name: "Label purchases" }),
@@ -54,9 +54,9 @@ describe("<TaskTray />", () => {
 
   it("should render a single task without a header", () => {
     render(
-      <TaskTray>
-        <TaskTray.Task title="Buying labels" status="running" />
-      </TaskTray>,
+      <ActivityTray>
+        <ActivityTray.Task title="Buying labels" status="running" />
+      </ActivityTray>,
     );
     // The row is the whole tray: the title appears once, and there's no
     // disclosure toggle above it with nothing to disclose.
@@ -69,15 +69,15 @@ describe("<TaskTray />", () => {
 
   it("should grow a header once a second task arrives", () => {
     const { rerender } = render(
-      <TaskTray>
-        <TaskTray.Task title="Buying labels" status="running" />
-      </TaskTray>,
+      <ActivityTray>
+        <ActivityTray.Task title="Buying labels" status="running" />
+      </ActivityTray>,
     );
     rerender(
-      <TaskTray>
-        <TaskTray.Task title="Buying labels" status="running" />
-        <TaskTray.Task title="Generating manifest" status="running" />
-      </TaskTray>,
+      <ActivityTray>
+        <ActivityTray.Task title="Buying labels" status="running" />
+        <ActivityTray.Task title="Generating manifest" status="running" />
+      </ActivityTray>,
     );
     expect(screen.getByText("2 tasks running")).toBeInTheDocument();
     expect(screen.getByRole("button", { expanded: true })).toBeVisible();
@@ -85,30 +85,32 @@ describe("<TaskTray />", () => {
 
   it("should summarize by count past one task", () => {
     render(
-      <TaskTray>
-        <TaskTray.Task title="Buying labels" status="running" />
-        <TaskTray.Task title="Generating manifest" status="running" />
-      </TaskTray>,
+      <ActivityTray>
+        <ActivityTray.Task title="Buying labels" status="running" />
+        <ActivityTray.Task title="Generating manifest" status="running" />
+      </ActivityTray>,
     );
     expect(screen.getByText("2 tasks running")).toBeInTheDocument();
   });
 
   it("should distinguish running tasks from finished ones in the summary", () => {
     render(
-      <TaskTray autoDismissDelay={null}>
-        <TaskTray.Task title="Buying labels" status="running" />
-        <TaskTray.Task title="Bought 40 labels" status="succeeded" />
-      </TaskTray>,
+      <ActivityTray autoDismissDelay={null}>
+        <ActivityTray.Task title="Buying labels" status="running" />
+        <ActivityTray.Task title="Bought 40 labels" status="succeeded" />
+      </ActivityTray>,
     );
     expect(screen.getByText("1 of 2 tasks running")).toBeInTheDocument();
   });
 
   it("should support a custom summary", () => {
     render(
-      <TaskTray renderSummary={(running, total) => `${running}/${total} busy`}>
-        <TaskTray.Task title="Buying labels" status="running" />
-        <TaskTray.Task title="Generating manifest" status="running" />
-      </TaskTray>,
+      <ActivityTray
+        renderSummary={(running, total) => `${running}/${total} busy`}
+      >
+        <ActivityTray.Task title="Buying labels" status="running" />
+        <ActivityTray.Task title="Generating manifest" status="running" />
+      </ActivityTray>,
     );
     expect(screen.getByText("2/2 busy")).toBeInTheDocument();
   });
@@ -116,15 +118,15 @@ describe("<TaskTray />", () => {
   describe("progress", () => {
     it("should expose a determinate progress bar", () => {
       render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={127}
             total={250}
             unit="labels"
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       const progressBar = screen.getByRole("progressbar");
       expect(progressBar).toHaveAttribute("aria-valuenow", "127");
@@ -139,14 +141,14 @@ describe("<TaskTray />", () => {
 
     it("should name the progress bar after the task", () => {
       render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={127}
             total={250}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       expect(
         screen.getByRole("progressbar", { name: "Buying labels" }),
@@ -155,23 +157,23 @@ describe("<TaskTray />", () => {
 
     it("should render no progress bar without a total", () => {
       render(
-        <TaskTray>
-          <TaskTray.Task title="Generating manifest" status="running" />
-        </TaskTray>,
+        <ActivityTray>
+          <ActivityTray.Task title="Generating manifest" status="running" />
+        </ActivityTray>,
       );
       expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
     });
 
     it("should drop the progress bar once the task is terminal", () => {
       render(
-        <TaskTray autoDismissDelay={null}>
-          <TaskTray.Task
+        <ActivityTray autoDismissDelay={null}>
+          <ActivityTray.Task
             title="Bought 247 of 250 labels"
             status="partial"
             completed={250}
             total={250}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
     });
@@ -181,20 +183,20 @@ describe("<TaskTray />", () => {
   describe("expansion", () => {
     const twoTasks = (
       <>
-        <TaskTray.Task title="Buying labels" status="running" />
-        <TaskTray.Task title="Generating manifest" status="running" />
+        <ActivityTray.Task title="Buying labels" status="running" />
+        <ActivityTray.Task title="Generating manifest" status="running" />
       </>
     );
 
     it("should be expanded by default", () => {
-      render(<TaskTray>{twoTasks}</TaskTray>);
+      render(<ActivityTray>{twoTasks}</ActivityTray>);
       const toggle = screen.getByRole("button", { expanded: true });
       expect(toggle).toHaveAttribute("aria-controls", expect.any(String));
       expect(screen.getByRole("list")).toBeInTheDocument();
     });
 
     it("should support starting collapsed", () => {
-      render(<TaskTray defaultExpanded={false}>{twoTasks}</TaskTray>);
+      render(<ActivityTray defaultExpanded={false}>{twoTasks}</ActivityTray>);
       expect(screen.getByRole("button", { expanded: false })).toBeVisible();
       // `hidden` takes the list out of the accessibility tree while its rows
       // stay mounted and their work keeps running.
@@ -204,7 +206,9 @@ describe("<TaskTray />", () => {
     it("should collapse and expand on press", async () => {
       const onExpandedChange = vi.fn();
       const { user } = render(
-        <TaskTray onExpandedChange={onExpandedChange}>{twoTasks}</TaskTray>,
+        <ActivityTray onExpandedChange={onExpandedChange}>
+          {twoTasks}
+        </ActivityTray>,
       );
       await userClick(user, screen.getByRole("button", { expanded: true }));
       expect(onExpandedChange).toHaveBeenCalledWith(false);
@@ -218,9 +222,9 @@ describe("<TaskTray />", () => {
     it("should stay put when controlled", async () => {
       const onExpandedChange = vi.fn();
       const { user } = render(
-        <TaskTray isExpanded onExpandedChange={onExpandedChange}>
+        <ActivityTray isExpanded onExpandedChange={onExpandedChange}>
           {twoTasks}
-        </TaskTray>,
+        </ActivityTray>,
       );
       await userClick(user, screen.getByRole("button", { expanded: true }));
       expect(onExpandedChange).toHaveBeenCalledWith(false);
@@ -230,14 +234,14 @@ describe("<TaskTray />", () => {
     it("should collapse on escape without dismissing anything", async () => {
       const onDismiss = vi.fn();
       const { user } = render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             onDismiss={onDismiss}
           />
-          <TaskTray.Task title="Generating manifest" status="running" />
-        </TaskTray>,
+          <ActivityTray.Task title="Generating manifest" status="running" />
+        </ActivityTray>,
       );
       await userTab(user);
       await userKeyboard(user, "{Escape}");
@@ -247,11 +251,11 @@ describe("<TaskTray />", () => {
 
     it("should keep a single task's list open", async () => {
       const { user } = render(
-        <TaskTray defaultExpanded={false}>
-          <TaskTray.Task title="Buying labels" status="running">
-            <TaskTray.Action onPress={vi.fn()}>Cancel</TaskTray.Action>
-          </TaskTray.Task>
-        </TaskTray>,
+        <ActivityTray defaultExpanded={false}>
+          <ActivityTray.Task title="Buying labels" status="running">
+            <ActivityTray.Action onPress={vi.fn()}>Cancel</ActivityTray.Action>
+          </ActivityTray.Task>
+        </ActivityTray>,
       );
       // With no header there's no `defaultExpanded` to honor, and escape has
       // nothing to collapse.
@@ -265,13 +269,13 @@ describe("<TaskTray />", () => {
   describe("dismissal", () => {
     it("should offer no dismiss button while the work is running", () => {
       render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             onDismiss={vi.fn()}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       expect(
         screen.queryByRole("button", { name: "Dismiss Buying labels" }),
@@ -281,13 +285,13 @@ describe("<TaskTray />", () => {
     it("should dismiss a terminal task on press", async () => {
       const onDismiss = vi.fn();
       const { user } = render(
-        <TaskTray autoDismissDelay={null}>
-          <TaskTray.Task
+        <ActivityTray autoDismissDelay={null}>
+          <ActivityTray.Task
             title="January report"
             status="failed"
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       await userClick(
         user,
@@ -298,14 +302,14 @@ describe("<TaskTray />", () => {
 
     it("should hand focus to the tray when a row dismisses itself", async () => {
       const { user } = render(
-        <TaskTray autoDismissDelay={null}>
-          <TaskTray.Task
+        <ActivityTray autoDismissDelay={null}>
+          <ActivityTray.Task
             title="January report"
             status="failed"
             onDismiss={vi.fn()}
           />
-          <TaskTray.Task title="Buying labels" status="running" />
-        </TaskTray>,
+          <ActivityTray.Task title="Buying labels" status="running" />
+        </ActivityTray>,
       );
       await userClick(
         user,
@@ -319,13 +323,13 @@ describe("<TaskTray />", () => {
     it("should auto-dismiss a succeeded task", () => {
       const onDismiss = vi.fn();
       render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Bought 40 labels"
             status="succeeded"
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       expect(onDismiss).not.toHaveBeenCalled();
       act(() => {
@@ -337,14 +341,14 @@ describe("<TaskTray />", () => {
     it("should hold a failed task until the user dismisses it", () => {
       const onDismiss = vi.fn();
       render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="January report"
             status="failed"
             description="The report timed out"
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       act(() => {
         vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 10);
@@ -355,13 +359,13 @@ describe("<TaskTray />", () => {
     it("should hold a partial task until the user dismisses it", () => {
       const onDismiss = vi.fn();
       render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Bought 247 of 250 labels"
             status="partial"
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       act(() => {
         vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 10);
@@ -372,13 +376,13 @@ describe("<TaskTray />", () => {
     it("should support disabling auto-dismissal", () => {
       const onDismiss = vi.fn();
       render(
-        <TaskTray autoDismissDelay={null}>
-          <TaskTray.Task
+        <ActivityTray autoDismissDelay={null}>
+          <ActivityTray.Task
             title="Bought 40 labels"
             status="succeeded"
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       act(() => {
         vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 10);
@@ -389,14 +393,14 @@ describe("<TaskTray />", () => {
     it("should support a per-task auto-dismiss delay", () => {
       const onDismiss = vi.fn();
       render(
-        <TaskTray autoDismissDelay={null}>
-          <TaskTray.Task
+        <ActivityTray autoDismissDelay={null}>
+          <ActivityTray.Task
             title="Bought 40 labels"
             status="succeeded"
             autoDismissDelay={1000}
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       act(() => {
         vi.advanceTimersByTime(1000);
@@ -407,13 +411,13 @@ describe("<TaskTray />", () => {
     it("should hold the timer while the pointer is inside the tray", async () => {
       const onDismiss = vi.fn();
       const { user } = render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Bought 40 labels"
             status="succeeded"
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       await userHover(user, screen.getByRole("region"));
       act(() => {
@@ -425,13 +429,13 @@ describe("<TaskTray />", () => {
     it("should hold the timer while the pointer is over a row", async () => {
       const onDismiss = vi.fn();
       const { user } = render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Bought 40 labels"
             status="succeeded"
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       // The row, not the tray the hover handlers sit on: reading a row means
       // pointing at one, and that has to count as being inside the tray.
@@ -445,13 +449,13 @@ describe("<TaskTray />", () => {
     it("should hold the timer while focus is inside the tray", async () => {
       const onDismiss = vi.fn();
       const { user } = render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Bought 40 labels"
             status="succeeded"
             onDismiss={onDismiss}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       await userTab(user);
       act(() => {
@@ -462,9 +466,9 @@ describe("<TaskTray />", () => {
 
     it("should render no dismiss button without an onDismiss", () => {
       render(
-        <TaskTray>
-          <TaskTray.Task title="Bought 40 labels" status="succeeded" />
-        </TaskTray>,
+        <ActivityTray>
+          <ActivityTray.Task title="Bought 40 labels" status="succeeded" />
+        </ActivityTray>,
       );
       expect(
         screen.queryByRole("button", { name: /^Dismiss/ }),
@@ -475,25 +479,25 @@ describe("<TaskTray />", () => {
   describe("announcements", () => {
     it("should announce a terminal transition", () => {
       const { rerender } = render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={127}
             total={250}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       expect(getAnnouncement()).toBe("");
 
       rerender(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Bought 247 of 250 labels"
             status="partial"
             description="3 shipments were missing a rate"
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       act(() => {
         vi.advanceTimersByTime(0);
@@ -505,24 +509,24 @@ describe("<TaskTray />", () => {
 
     it("should not announce progress", () => {
       const { rerender } = render(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={127}
             total={250}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       rerender(
-        <TaskTray>
-          <TaskTray.Task
+        <ActivityTray>
+          <ActivityTray.Task
             title="Buying labels"
             status="running"
             completed={200}
             total={250}
           />
-        </TaskTray>,
+        </ActivityTray>,
       );
       act(() => {
         vi.advanceTimersByTime(0);
@@ -532,16 +536,16 @@ describe("<TaskTray />", () => {
 
     it("should coalesce transitions landing in the same tick", () => {
       const { rerender } = render(
-        <TaskTray autoDismissDelay={null}>
-          <TaskTray.Task title="Buying labels" status="running" />
-          <TaskTray.Task title="Generating manifest" status="running" />
-        </TaskTray>,
+        <ActivityTray autoDismissDelay={null}>
+          <ActivityTray.Task title="Buying labels" status="running" />
+          <ActivityTray.Task title="Generating manifest" status="running" />
+        </ActivityTray>,
       );
       rerender(
-        <TaskTray autoDismissDelay={null}>
-          <TaskTray.Task title="Buying labels" status="succeeded" />
-          <TaskTray.Task title="Generating manifest" status="failed" />
-        </TaskTray>,
+        <ActivityTray autoDismissDelay={null}>
+          <ActivityTray.Task title="Buying labels" status="succeeded" />
+          <ActivityTray.Task title="Generating manifest" status="failed" />
+        </ActivityTray>,
       );
       act(() => {
         vi.advanceTimersByTime(0);
@@ -555,11 +559,11 @@ describe("<TaskTray />", () => {
   it("should render actions", async () => {
     const onPress = vi.fn();
     const { user } = render(
-      <TaskTray>
-        <TaskTray.Task title="Buying labels" status="running">
-          <TaskTray.Action onPress={onPress}>Cancel</TaskTray.Action>
-        </TaskTray.Task>
-      </TaskTray>,
+      <ActivityTray>
+        <ActivityTray.Task title="Buying labels" status="running">
+          <ActivityTray.Action onPress={onPress}>Cancel</ActivityTray.Action>
+        </ActivityTray.Task>
+      </ActivityTray>,
     );
     await userClick(user, screen.getByRole("button", { name: "Cancel" }));
     expect(onPress).toHaveBeenCalled();
@@ -567,11 +571,11 @@ describe("<TaskTray />", () => {
 
   it("should render a link action", () => {
     render(
-      <TaskTray autoDismissDelay={null}>
-        <TaskTray.Task title="Bought 247 of 250 labels" status="partial">
-          <TaskTray.Action href="/shipments">Review</TaskTray.Action>
-        </TaskTray.Task>
-      </TaskTray>,
+      <ActivityTray autoDismissDelay={null}>
+        <ActivityTray.Task title="Bought 247 of 250 labels" status="partial">
+          <ActivityTray.Action href="/shipments">Review</ActivityTray.Action>
+        </ActivityTray.Task>
+      </ActivityTray>,
     );
     // An `<a>` carrying `role="button"`—`UnstyledButton` runs `useButton()` over
     // the anchor, the same as `Button` does with an `href`. See the spec's open
@@ -583,13 +587,13 @@ describe("<TaskTray />", () => {
 
   it("should render a description", () => {
     render(
-      <TaskTray autoDismissDelay={null}>
-        <TaskTray.Task
+      <ActivityTray autoDismissDelay={null}>
+        <ActivityTray.Task
           title="January report"
           status="failed"
           description="The report timed out"
         />
-      </TaskTray>,
+      </ActivityTray>,
     );
     expect(screen.getByText("The report timed out")).toBeInTheDocument();
   });
@@ -600,9 +604,9 @@ describe("<TaskTray />", () => {
     document.body.append(container);
 
     render(
-      <TaskTray getContainer={() => container}>
-        <TaskTray.Task title="Buying labels" status="running" />
-      </TaskTray>,
+      <ActivityTray getContainer={() => container}>
+        <ActivityTray.Task title="Buying labels" status="running" />
+      </ActivityTray>,
     );
     expect(container).toContainElement(screen.getByRole("region"));
     container.remove();
@@ -616,9 +620,9 @@ describe("<TaskTray />", () => {
       const [frame, setFrame] = useState<HTMLDivElement | null>(null);
       return (
         <div ref={setFrame} data-testid="frame">
-          <TaskTray getContainer={() => frame}>
-            <TaskTray.Task title="Buying labels" status="running" />
-          </TaskTray>
+          <ActivityTray getContainer={() => frame}>
+            <ActivityTray.Task title="Buying labels" status="running" />
+          </ActivityTray>
         </div>
       );
     }
@@ -630,18 +634,18 @@ describe("<TaskTray />", () => {
 
   it("should render nothing while a custom container is unavailable", () => {
     render(
-      <TaskTray getContainer={() => null}>
-        <TaskTray.Task title="Buying labels" status="running" />
-      </TaskTray>,
+      <ActivityTray getContainer={() => null}>
+        <ActivityTray.Task title="Buying labels" status="running" />
+      </ActivityTray>,
     );
     expect(screen.queryByRole("region")).not.toBeInTheDocument();
   });
 
   it("should ignore children that aren't tasks", () => {
     render(
-      <TaskTray>
+      <ActivityTray>
         <div>Not a task</div>
-      </TaskTray>,
+      </ActivityTray>,
     );
     expect(screen.queryByRole("region")).not.toBeInTheDocument();
   });

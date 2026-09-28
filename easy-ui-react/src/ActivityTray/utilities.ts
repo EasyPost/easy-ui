@@ -17,7 +17,7 @@ export type TaskStatus =
   "pending" | "running" | "succeeded" | "partial" | "failed" | "canceled";
 
 /** Corner of the container the tray docks to. */
-export type TaskTrayPlacement =
+export type ActivityTrayPlacement =
   "bottom-end" | "bottom-start" | "top-end" | "top-start";
 
 /**
@@ -27,7 +27,7 @@ export type TaskTrayPlacement =
  * Deliberately shaped like `NotificationOffset` so the two components are
  * configured the same way. Both should eventually read from one shared type.
  */
-export type TaskTrayOffset = {
+export type ActivityTrayOffset = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -151,8 +151,8 @@ export function buildAnnouncement(
  * which `NotificationOffset` doesn't have either—see the spec's open questions.
  */
 export function getOffsetStyle(
-  placement: TaskTrayPlacement,
-  offset?: TaskTrayOffset,
+  placement: ActivityTrayPlacement,
+  offset?: ActivityTrayOffset,
 ) {
   if (!offset) {
     return {};
