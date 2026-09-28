@@ -52,14 +52,35 @@ describe("<TaskTray />", () => {
     ).toBeInTheDocument();
   });
 
-  it("should name itself after its only task", () => {
+  it("should render a single task without a header", () => {
     render(
       <TaskTray>
         <TaskTray.Task title="Buying labels" status="running" />
       </TaskTray>,
     );
-    // Once in the header summary, once as the row's title.
-    expect(screen.getAllByText("Buying labels")).toHaveLength(2);
+    // The row is the whole tray: the title appears once, and there's no
+    // disclosure toggle above it with nothing to disclose.
+    expect(screen.getAllByText("Buying labels")).toHaveLength(1);
+    expect(
+      screen.queryByRole("button", { name: /background tasks/i }),
+    ).toBeNull();
+    expect(screen.getByRole("list")).toBeVisible();
+  });
+
+  it("should grow a header once a second task arrives", () => {
+    const { rerender } = render(
+      <TaskTray>
+        <TaskTray.Task title="Buying labels" status="running" />
+      </TaskTray>,
+    );
+    rerender(
+      <TaskTray>
+        <TaskTray.Task title="Buying labels" status="running" />
+        <TaskTray.Task title="Generating manifest" status="running" />
+      </TaskTray>,
+    );
+    expect(screen.getByText("2 tasks running")).toBeInTheDocument();
+    expect(screen.getByRole("button", { expanded: true })).toBeVisible();
   });
 
   it("should summarize by count past one task", () => {
@@ -156,24 +177,24 @@ describe("<TaskTray />", () => {
     });
   });
 
+  // Expansion is a property of the header, which only exists past one task.
   describe("expansion", () => {
+    const twoTasks = (
+      <>
+        <TaskTray.Task title="Buying labels" status="running" />
+        <TaskTray.Task title="Generating manifest" status="running" />
+      </>
+    );
+
     it("should be expanded by default", () => {
-      render(
-        <TaskTray>
-          <TaskTray.Task title="Buying labels" status="running" />
-        </TaskTray>,
-      );
+      render(<TaskTray>{twoTasks}</TaskTray>);
       const toggle = screen.getByRole("button", { expanded: true });
       expect(toggle).toHaveAttribute("aria-controls", expect.any(String));
       expect(screen.getByRole("list")).toBeInTheDocument();
     });
 
     it("should support starting collapsed", () => {
-      render(
-        <TaskTray defaultExpanded={false}>
-          <TaskTray.Task title="Buying labels" status="running" />
-        </TaskTray>,
-      );
+      render(<TaskTray defaultExpanded={false}>{twoTasks}</TaskTray>);
       expect(screen.getByRole("button", { expanded: false })).toBeVisible();
       // `hidden` takes the list out of the accessibility tree while its rows
       // stay mounted and their work keeps running.
@@ -183,9 +204,7 @@ describe("<TaskTray />", () => {
     it("should collapse and expand on press", async () => {
       const onExpandedChange = vi.fn();
       const { user } = render(
-        <TaskTray onExpandedChange={onExpandedChange}>
-          <TaskTray.Task title="Buying labels" status="running" />
-        </TaskTray>,
+        <TaskTray onExpandedChange={onExpandedChange}>{twoTasks}</TaskTray>,
       );
       await userClick(user, screen.getByRole("button", { expanded: true }));
       expect(onExpandedChange).toHaveBeenCalledWith(false);
@@ -200,7 +219,7 @@ describe("<TaskTray />", () => {
       const onExpandedChange = vi.fn();
       const { user } = render(
         <TaskTray isExpanded onExpandedChange={onExpandedChange}>
-          <TaskTray.Task title="Buying labels" status="running" />
+          {twoTasks}
         </TaskTray>,
       );
       await userClick(user, screen.getByRole("button", { expanded: true }));
@@ -217,12 +236,29 @@ describe("<TaskTray />", () => {
             status="running"
             onDismiss={onDismiss}
           />
+          <TaskTray.Task title="Generating manifest" status="running" />
         </TaskTray>,
       );
       await userTab(user);
       await userKeyboard(user, "{Escape}");
       expect(screen.getByRole("button", { expanded: false })).toBeVisible();
       expect(onDismiss).not.toHaveBeenCalled();
+    });
+
+    it("should keep a single task's list open", async () => {
+      const { user } = render(
+        <TaskTray defaultExpanded={false}>
+          <TaskTray.Task title="Buying labels" status="running">
+            <TaskTray.Action onPress={vi.fn()}>Cancel</TaskTray.Action>
+          </TaskTray.Task>
+        </TaskTray>,
+      );
+      // With no header there's no `defaultExpanded` to honor, and escape has
+      // nothing to collapse.
+      expect(screen.getByRole("list")).toBeVisible();
+      await userTab(user);
+      await userKeyboard(user, "{Escape}");
+      expect(screen.getByRole("list")).toBeVisible();
     });
   });
 
@@ -258,6 +294,26 @@ describe("<TaskTray />", () => {
         screen.getByRole("button", { name: "Dismiss January report" }),
       );
       expect(onDismiss).toHaveBeenCalled();
+    });
+
+    it("should hand focus to the tray when a row dismisses itself", async () => {
+      const { user } = render(
+        <TaskTray autoDismissDelay={null}>
+          <TaskTray.Task
+            title="January report"
+            status="failed"
+            onDismiss={vi.fn()}
+          />
+          <TaskTray.Task title="Buying labels" status="running" />
+        </TaskTray>,
+      );
+      await userClick(
+        user,
+        screen.getByRole("button", { name: "Dismiss January report" }),
+      );
+      // The app controls the task list, so the row is still here in this test;
+      // what matters is that focus left the button that was about to unmount.
+      expect(screen.getByRole("region")).toHaveFocus();
     });
 
     it("should auto-dismiss a succeeded task", () => {

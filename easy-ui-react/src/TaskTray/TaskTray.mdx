@@ -117,7 +117,9 @@ Omit `total` when the app can't honestly say how far along the work is. An indet
 
 ## Several tasks
 
-Past one task the header counts instead of naming. The list scrolls once it passes `maxVisibleTasks`.
+A single task is its own row—no header, no disclosure. Repeating the title above the row and offering a chevron with nothing behind it would be two lines of tray doing one line of work.
+
+A header appears with the second task, counting instead of naming, and the list scrolls once it passes `maxVisibleTasks`.
 
 <Canvas of={TaskTrayStories.MultipleTasks} />
 
@@ -164,7 +166,7 @@ The short version: **progress is polled, outcomes are pushed.**
 - **Only terminal transitions are announced**, through one polite `aria-atomic` live region: "Bought 247 of 250 labels finished with errors. 3 shipments were missing a rate." Transitions landing in the same tick coalesce into one sentence.
 - **The status glyphs are decorative.** The status is already in the title, the progress bar, and the announcement.
 - **Escape collapses the tray**, and never dismisses anything—the work is still running, and clearing the tray would say it stopped.
-- **Dismissing a row moves focus to the header toggle**, which outlives the row.
+- **Dismissing a row moves focus to the tray**, which outlives every row—the header doesn't, since it's gone once one task is left.
 - **Running tasks have no dismiss button.** Hiding a row whose work is still happening tells the user it stopped; a `<TaskTray.Action />` with a real cancel handler is the honest version.
 
 ## Properties

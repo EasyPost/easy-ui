@@ -18,6 +18,7 @@ import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
 import { filterChildrenByDisplayName } from "../utilities/react";
+import { useScrollbar } from "../utilities/useScrollbar";
 import { TaskTrayContext } from "./context";
 import { TaskTrayAction } from "./TaskTrayAction";
 import { TaskTraySpinner } from "./TaskTraySpinner";
@@ -54,16 +55,17 @@ export type TaskTrayProps = {
    */
   "aria-label"?: string;
   /**
-   * Text for the collapsed pill and the expanded header when more than one task
-   * is present. Receives the number of tasks that haven't finished and the
-   * total.
+   * Text for the header, which is also all that's shown when the tray is
+   * collapsed. Receives the number of tasks that haven't finished and the total.
+   * Never called with one task, which needs no header—the row is the whole tray.
    * @default (running, total) => `${running} of ${total} tasks running`
    */
   renderSummary?: (runningCount: number, totalCount: number) => ReactNode;
-  /** Whether the tray is expanded (controlled). */
+  /** Whether the tray is expanded (controlled). Ignored with a single task. */
   isExpanded?: boolean;
   /**
-   * Whether the tray starts expanded (uncontrolled).
+   * Whether the tray starts expanded (uncontrolled). Ignored with a single task,
+   * where there's nothing to collapse.
    * @default true
    */
   defaultExpanded?: boolean;
@@ -77,7 +79,8 @@ export type TaskTrayProps = {
   /** Distance from the container's edges, for clearing app chrome. */
   offset?: TaskTrayOffset;
   /**
-   * Roughly how many rows are visible before the expanded list scrolls.
+   * Roughly how many rows are visible before the expanded list scrolls. Applies
+   * from the second task on; a single row is never capped.
    * @default 4
    */
   maxVisibleTasks?: number;
@@ -185,7 +188,18 @@ export function TaskTray(props: TaskTrayProps) {
   } = props;
 
   const listId = useId();
-  const toggleId = useId();
+
+  const trayRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  useScrollbar(listRef, "ezui-os-theme-overlay");
+
+  // A row that dismisses itself while holding focus would otherwise drop focus
+  // onto `document.body`. The tray outlives any one row, and landing here keeps
+  // the user inside the landmark—with the dismissal timers held, since focus is
+  // now within the tray.
+  const focusTray = useCallback(() => {
+    trayRef.current?.focus();
+  }, []);
 
   const [uncontrolledExpanded, setUncontrolledExpanded] =
     useState(defaultExpanded);
@@ -233,9 +247,9 @@ export function TaskTray(props: TaskTrayProps) {
       isPaused: isHovered || isFocusWithin,
       autoDismissDelay,
       announce,
-      toggleId,
+      focusTray,
     }),
-    [isHovered, isFocusWithin, autoDismissDelay, announce, toggleId],
+    [isHovered, isFocusWithin, autoDismissDelay, announce, focusTray],
   );
 
   const tasks = filterChildrenByDisplayName(
@@ -248,6 +262,12 @@ export function TaskTray(props: TaskTrayProps) {
     (status) => !isTerminalStatus(status),
   ).length;
 
+  // A lone task is its own summary: the row already names the work, shows its
+  // progress, and carries its actions. A header above it would repeat the title
+  // back and offer a disclosure with nothing behind it, so the row is the whole
+  // tray and there's nothing to collapse.
+  const hasHeader = tasks.length > 1;
+
   const setExpanded = (nextIsExpanded: boolean) => {
     if (isExpandedProp === undefined) {
       setUncontrolledExpanded(nextIsExpanded);
@@ -256,7 +276,7 @@ export function TaskTray(props: TaskTrayProps) {
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key !== "Escape" || !isExpanded) {
+    if (event.key !== "Escape" || !isExpanded || !hasHeader) {
       return;
     }
     // Collapse, never dismiss. The work is still running, and clearing the tray
@@ -281,12 +301,7 @@ export function TaskTray(props: TaskTrayProps) {
     return null;
   }
 
-  // A single task names itself; past that the summary counts. Either way this is
-  // the only text shown when the tray is collapsed.
-  const summary =
-    tasks.length === 1
-      ? tasks[0].props.title
-      : renderSummary(runningCount, tasks.length);
+  const summary = renderSummary(runningCount, tasks.length);
 
   // While anything is still running the header reports that, however the
   // finished tasks turned out. Once everything has landed it takes on the most
@@ -311,6 +326,10 @@ export function TaskTray(props: TaskTrayProps) {
     >
       <div
         {...mergeProps(hoverProps, focusWithinProps)}
+        ref={trayRef}
+        // Focusable only programmatically, as somewhere for focus to go when a
+        // row dismisses itself.
+        tabIndex={-1}
         // A named region is a landmark, which assistive technology can jump
         // straight to. That matters more here than for most components: a fixed
         // corner element is easy to never encounter, and this is where the
@@ -320,52 +339,61 @@ export function TaskTray(props: TaskTrayProps) {
         className={styles.tray}
         onKeyDown={handleKeyDown}
       >
-        <div className={styles.header}>
-          {/* Decorative—see the note on the row's status slot. */}
-          <div
-            className={classNames(
-              styles.headerStatus,
-              styles[variationName("status", headerStatus)],
-            )}
-          >
-            {summaryIcon ? (
-              <Icon symbol={summaryIcon} size="sm" />
-            ) : (
-              <TaskTraySpinner size="sm" />
-            )}
+        {hasHeader && (
+          <div className={styles.header}>
+            {/* Decorative—see the note on the row's status slot. */}
+            <div
+              className={classNames(
+                styles.headerStatus,
+                styles[variationName("status", headerStatus)],
+              )}
+            >
+              {summaryIcon ? (
+                <Icon symbol={summaryIcon} size="sm" />
+              ) : (
+                <TaskTraySpinner size="sm" />
+              )}
+            </div>
+            <div className={styles.summary}>
+              <Text variant="subtitle2" truncate>
+                {summary}
+              </Text>
+            </div>
+            <UnstyledButton
+              className={styles.toggle}
+              onPress={() => setExpanded(!isExpanded)}
+              aria-expanded={isExpanded}
+              aria-controls={listId}
+            >
+              <Text visuallyHidden>
+                {isExpanded ? "Collapse" : "Expand"} {ariaLabel.toLowerCase()}
+              </Text>
+              <Icon
+                symbol={isExpanded ? ArrowDropDownIcon : ArrowDropUpIcon}
+                size="md"
+              />
+            </UnstyledButton>
           </div>
-          <div className={styles.summary}>
-            <Text variant="subtitle2" truncate>
-              {summary}
-            </Text>
-          </div>
-          <UnstyledButton
-            id={toggleId}
-            className={styles.toggle}
-            onPress={() => setExpanded(!isExpanded)}
-            aria-expanded={isExpanded}
-            aria-controls={listId}
-          >
-            <Text visuallyHidden>
-              {isExpanded ? "Collapse" : "Expand"} {ariaLabel.toLowerCase()}
-            </Text>
-            <Icon
-              symbol={isExpanded ? ArrowDropDownIcon : ArrowDropUpIcon}
-              size="md"
-            />
-          </UnstyledButton>
-        </div>
+        )}
         {/*
           Rows stay mounted while collapsed—their work is still running, and so
           are their dismissal timers. `hidden` is what takes them out of the
           accessibility tree, which is what `aria-expanded` on the toggle is
           claiming.
         */}
-        <ul id={listId} className={styles.list} hidden={!isExpanded}>
-          <TaskTrayContext.Provider value={context}>
-            {tasks}
-          </TaskTrayContext.Provider>
-        </ul>
+        <div
+          id={listId}
+          ref={listRef}
+          className={classNames(styles.list, hasHeader && styles.listCapped)}
+          hidden={hasHeader && !isExpanded}
+          data-overlayscrollbars-initialize
+        >
+          <ul className={styles.listItems}>
+            <TaskTrayContext.Provider value={context}>
+              {tasks}
+            </TaskTrayContext.Provider>
+          </ul>
+        </div>
       </div>
       {/*
         Outside the region, so collapsing the tray can't unmount it: a live

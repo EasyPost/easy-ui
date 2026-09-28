@@ -2,7 +2,7 @@
 
 ## Overview
 
-A `TaskTray` is a persistent, non-blocking surface docked to a corner of the viewport that reports on work the app is doing in the background. Each piece of work is a row in the tray: it names the work, shows its progress, and reaches a terminal state that the user can act on. The tray collapses to a single summary pill and expands to show the individual rows.
+A `TaskTray` is a persistent, non-blocking surface docked to a corner of the viewport that reports on work the app is doing in the background. Each piece of work is a row in the tray: it names the work, shows its progress, and reaches a terminal state that the user can act on. A single task is the whole tray — one row, nothing above it. Past one task a header appears, summarizing the set, and the tray collapses to that header and expands to show the individual rows.
 
 It exists for work the user starts and then walks away from — buying 250 labels, generating a report, importing a CSV. The user should be free to navigate elsewhere and keep working while it runs, and should still be told when it finishes.
 
@@ -69,8 +69,9 @@ If "task" collides with product language at EasyPost — a user-facing to-do lis
 ### Features
 
 - Docks to a viewport corner, defaulting to bottom-end, above app content and below `Modal`.
-- Collapses to a one-line summary and expands to a list; the collapsed/expanded choice is the user's and sticks.
-- Holds several tasks; beyond a threshold the collapsed summary aggregates (`3 tasks running`) and the expanded list scrolls.
+- A single task renders as a single row, with no header and nothing to collapse.
+- Past one task, a header summarizes the set (`3 tasks running`); the tray collapses to that one line and expands to the list, and the collapsed/expanded choice is the user's and sticks.
+- Holds several tasks; the expanded list caps its height and scrolls rather than growing.
 - Per-task lifecycle: pending, running, and the terminal states succeeded, partial, failed, and canceled.
 - Determinate (`127 of 250`) or indeterminate progress per task.
 - Per-task actions — Cancel while running, Retry or View when terminal.
@@ -156,6 +157,17 @@ Rows are subcomponents, not objects in a `tasks` array:
 
 This follows the house style — `Popover`, `Drawer`, and `Menu` all compose — and it keeps the task data model in the app where it already lives. A `tasks={[...]}` prop would force Easy UI to define a `Task` type that every consumer has to map into, and would push row actions into an awkward `actions: TaskAction[]` shape rather than letting them be Easy UI buttons.
 
+### Visual precedent
+
+The tray is a floating surface, and Easy UI already has a family of them. `Menu`, `Select`, and `MultiSelect` share their surface through `Menu/_mixins.scss` and `Popover` matches it as closely as `Box` allows: `color.neutral.000` background, a `shape.border_width.1` `color.neutral.300` border, `shape.border_radius.md`, `shadow.overlay`, `space.2` of horizontal padding, and `color.neutral.050` on hover. `TaskTray` takes all of it, so the corner reads as the same library as everything else on the page rather than as a component with its own taste.
+
+The rest of the styling follows existing precedent the same way, and the places it does are worth naming because they are the places a future contributor would otherwise re-decide:
+
+- **Scrolling** goes through `useScrollbar(ref, "ezui-os-theme-overlay")`, the OverlayScrollbars wrapper `Menu` and `Select` use. Consistent scrollbars matter more on a fixed corner surface than anywhere else, since the tray's scrollbar sits over page content.
+- **Typography** is `subtitle2` for the header summary, `body2` for a row title, and `caption` with `color.neutral.600` for descriptions and the progress counter — 13px medium above 13px normal above 12px light, which is how the library separates a label from its content.
+- **The status ring** borrows `Spinner`'s values rather than inventing its own: a `color.neutral.050` track, a 1.5px stroke, and a 1s `cubic-bezier(0.5, 0, 0.5, 1)` rotation. Two spinners that turn at different speeds in the same viewport is the kind of detail that reads as sloppiness without being attributable to anything.
+- **The tray surface takes no focus ring** despite being focusable, matching `Popover`'s dialog: `tabindex="-1"` means it is only ever focused programmatically, and a ring on an element the user cannot tab to only ever looks like a mistake.
+
 ### API
 
 ```typescript
@@ -200,16 +212,18 @@ export type TaskTrayProps = {
    */
   "aria-label"?: string;
   /**
-   * Text for the collapsed pill and the expanded header when more than one
-   * task is present. Receives the count of tasks that have not reached a
-   * terminal state.
-   * @default (count) => `${count} tasks running`
+   * Text for the header, which is also all that's shown when the tray is
+   * collapsed. Receives the number of tasks that haven't finished and the
+   * total. Never called with one task, which needs no header—the row is the
+   * whole tray.
+   * @default (running, total) => `${running} of ${total} tasks running`
    */
   renderSummary?: (runningCount: number, totalCount: number) => ReactNode;
-  /** Whether the tray is expanded (controlled). */
+  /** Whether the tray is expanded (controlled). Ignored with a single task. */
   isExpanded?: boolean;
   /**
-   * Whether the tray starts expanded (uncontrolled).
+   * Whether the tray starts expanded (uncontrolled). Ignored with a single
+   * task, where there's nothing to collapse.
    * @default true
    */
   defaultExpanded?: boolean;
@@ -226,7 +240,8 @@ export type TaskTrayProps = {
    */
   offset?: TaskTrayOffset;
   /**
-   * How many task rows are visible before the expanded list scrolls.
+   * How many task rows are visible before the expanded list scrolls. Applies
+   * from the second task on; a single row is never capped.
    * @default 4
    */
   maxVisibleTasks?: number;
@@ -455,8 +470,8 @@ The surface is a `role="region"` with an accessible name, making it a landmark t
 
 Inside the region:
 
-- A **header** holding the summary text and the collapse toggle. The toggle is a disclosure button carrying `aria-expanded` and `aria-controls` pointing at the list. When one task is present the summary is that task's title; beyond that it is `renderSummary(runningCount, totalCount)`.
-- A **list** of `TaskTray.Task` rows, capped at `maxVisibleTasks` rows of height and scrolling beyond that. Hidden when collapsed.
+- A **header**, present only once there's more than one task, holding `renderSummary(runningCount, totalCount)` and the collapse toggle. The toggle is a disclosure button carrying `aria-expanded` and `aria-controls` pointing at the list. A lone task is its own summary — the row names the work, shows its progress, and carries its actions — so a header would repeat the title back above a disclosure with nothing behind it. With one task there is nothing to collapse, and `isExpanded` and `defaultExpanded` do nothing.
+- A **list** of `TaskTray.Task` rows, capped at `maxVisibleTasks` rows of height and scrolling beyond that, and hidden when collapsed. The cap applies from the second row on; capping a single row could only clip it. The scroll container is a `div` wrapping the `ul` rather than the `ul` itself, because OverlayScrollbars restructures its target's children and would otherwise put a `div` between the list and its items.
 - A **live region** — `aria-live="polite"`, `aria-atomic="true"`, visually hidden — that the tray owns and that stays mounted whether the tray is expanded or not.
 
 Each `TaskTray.Task` row renders a status affordance (a spinning ring while running, a status `Icon` when terminal), the title, an optional determinate progress bar with its counter, an optional description, up to two actions, and a dismiss button when the row is terminal and `onDismiss` was given. Running rows get no dismiss button — dismissing a running task would hide work that is still happening. Cancel is the action for that.
@@ -468,7 +483,8 @@ Each `TaskTray.Task` row renders a status affordance (a spinning ring while runn
 ```html
 <!-- portaled to document.body -->
 <div class="container" style="position: fixed; bottom: 16px; right: 16px">
-  <div role="region" aria-label="Background tasks" class="tray">
+  <div role="region" aria-label="Background tasks" tabindex="-1" class="tray">
+    <!-- Only past one task; a single row stands on its own. -->
     <div class="header">
       <div class="headerStatus">
         <div aria-hidden="true" class="spinner"></div>
@@ -484,51 +500,60 @@ Each `TaskTray.Task` row renders a status affordance (a spinning ring while runn
       </button>
     </div>
 
-    <ul id="task-tray-list-:r1:" class="list">
-      <li class="task">
-        <div class="status">
-          <!-- decorative spinning ring; see Dependencies on `Spinner` -->
-          <div aria-hidden="true" class="spinner"></div>
-        </div>
-        <div class="content">
-          <span id="task-title-:r2:" class="title">Buying labels</span>
-          <div class="progress">
-            <div
-              role="progressbar"
-              aria-labelledby="task-title-:r2:"
-              aria-valuemin="0"
-              aria-valuemax="250"
-              aria-valuenow="127"
-              aria-valuetext="127 of 250 labels"
-              class="progressTrack"
-              style="--ezui-c-task-tray-progress-fill: 50.8%"
-            >
-              <div class="progressFill"></div>
-            </div>
-            <span class="counter">127 of 250 labels</span>
+    <div
+      id="task-tray-list-:r1:"
+      class="list listCapped"
+      data-overlayscrollbars-initialize
+    >
+      <ul class="listItems">
+        <li class="task">
+          <div class="status">
+            <!-- decorative spinning ring; see Dependencies on `Spinner` -->
+            <div aria-hidden="true" class="spinner"></div>
           </div>
-        </div>
-        <div class="actions">
-          <button class="action">Cancel</button>
-        </div>
-      </li>
+          <div class="content">
+            <span id="task-title-:r2:" class="title">Buying labels</span>
+            <div class="progress">
+              <div
+                role="progressbar"
+                aria-labelledby="task-title-:r2:"
+                aria-valuemin="0"
+                aria-valuemax="250"
+                aria-valuenow="127"
+                aria-valuetext="127 of 250 labels"
+                class="progressTrack"
+                style="--ezui-c-task-tray-progress-fill: 50.8%"
+              >
+                <div class="progressFill"></div>
+              </div>
+              <span class="counter">127 of 250 labels</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="action">Cancel</button>
+          </div>
+        </li>
 
-      <li class="task">
-        <div class="status">
-          <svg aria-hidden="true"><!-- warning --></svg>
-        </div>
-        <div class="content">
-          <span class="title">Bought 247 of 250 labels</span>
-          <span class="description">3 shipments were missing a rate</span>
-        </div>
-        <div class="actions">
-          <a href="/shipments?filter=failed" class="action">Review</a>
-          <button class="dismiss" aria-label="Dismiss Bought 247 of 250 labels">
-            <svg aria-hidden="true"><!-- close --></svg>
-          </button>
-        </div>
-      </li>
-    </ul>
+        <li class="task">
+          <div class="status">
+            <svg aria-hidden="true"><!-- warning --></svg>
+          </div>
+          <div class="content">
+            <span class="title">Bought 247 of 250 labels</span>
+            <span class="description">3 shipments were missing a rate</span>
+          </div>
+          <div class="actions">
+            <a href="/shipments?filter=failed" class="action">Review</a>
+            <button
+              class="dismiss"
+              aria-label="Dismiss Bought 247 of 250 labels"
+            >
+              <svg aria-hidden="true"><!-- close --></svg>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div aria-live="polite" aria-atomic="true" class="visuallyHidden">
@@ -578,7 +603,8 @@ The asymmetry in the terminal row is the important behavioral rule: **an outcome
 **Tray states.**
 
 - **Absent.** No children, nothing rendered.
-- **Collapsed.** One-line pill: status affordance, summary text, expand toggle. Keeps the corner quiet for long-running work.
+- **Single.** One task, one row, no header. The row already names the work, shows its progress, and carries its actions, so there is nothing for a header to add and nothing for a disclosure to reveal.
+- **Collapsed.** One-line pill: status affordance, summary text, expand toggle. Keeps the corner quiet for long-running work. Only reachable past one task.
 - **Expanded.** Header plus the list. The default, so a task the user just started is visible without a click.
 
 Expansion is uncontrolled by default and `onExpandedChange` lets a consumer persist it. The component does not write to storage itself.
@@ -586,9 +612,9 @@ Expansion is uncontrolled by default and `onExpandedChange` lets a consumer pers
 **Interactions.**
 
 - Clicking the header toggle, or pressing <kbd>Enter</kbd>/<kbd>Space</kbd> on it, expands and collapses.
-- <kbd>Escape</kbd> with focus inside the tray collapses it. It does not dismiss tasks — work is still running and hiding it entirely would be a lie.
+- <kbd>Escape</kbd> with focus inside the tray collapses it. It does not dismiss tasks — work is still running and hiding it entirely would be a lie. With a single task there is no header and nothing to collapse, so it does nothing.
 - Pointer entering the tray, or focus moving into it, pauses every auto-dismiss timer. Leaving resumes them. Without this, a row can vanish out from under a cursor on its way to the Review button.
-- A row whose dismiss button has focus never auto-dismisses, even after the pause is released, because that would drop focus to `document.body`. Dismissing moves focus to the header toggle, which is the one control guaranteed to outlive the row. The next row's dismiss button would be closer, but it may not exist and it may itself be about to retire.
+- A row whose dismiss button has focus never auto-dismisses, even after the pause is released, because that would drop focus to `document.body`. Dismissing moves focus to the tray region itself, which carries `tabindex="-1"` for the purpose. The tray is the target rather than the header toggle because the header is gone once a single task is left, and rather than the next row's dismiss button because that may not exist and may itself be about to retire. Landing on the tray also holds every remaining timer, since focus is now inside it.
 - Actions with `href` navigate through Easy UI's `RouterProvider` when the app supplies one.
 - Rows are not clickable as a whole. Whole-row click targets containing nested buttons are ambiguous for pointer users and outright broken for keyboard users; the affordances are the actions.
 
@@ -607,8 +633,8 @@ Simultaneous terminal transitions are coalesced into one announcement rather tha
 **Keyboard.**
 
 - The tray is in the tab order at the end of the document, following the portal. No custom arrow-key navigation: the row count is small and each row holds at most three controls, so plain tabbing is both sufficient and what users expect from a list of links and buttons. Adding a composite widget's keyboard model here would cost more than it buys.
-- Tab order within the tray is header toggle, then rows top to bottom, then each row's actions before its dismiss button.
-- <kbd>Escape</kbd> collapses.
+- Tab order within the tray is the header toggle, when there is one, then rows top to bottom, then each row's actions before its dismiss button. The tray itself carries `tabindex="-1"` and is skipped, since it is a focus target only for dismissal.
+- <kbd>Escape</kbd> collapses, when there is a header to collapse to.
 - Being at the end of the tab order is a real cost — a keyboard user tabbing from the top of a long page will not reach the tray quickly. The landmark is the mitigation, and consumers wanting more can put a link to the tray in their app chrome.
 
 **Visual.**

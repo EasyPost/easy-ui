@@ -25,6 +25,10 @@ const meta: Meta<typeof TaskTray> = {
 
 export default meta;
 
+/**
+ * One task is one row. There's no header, because the row already names the work
+ * and a disclosure would have nothing behind it.
+ */
 export const Simple: Story = {
   render: (args: TaskTrayProps) => (
     <StoryFrame>
@@ -129,8 +133,9 @@ export const Statuses: Story = {
 };
 
 /**
- * Past one task the header counts instead of naming, and the list scrolls once
- * it passes `maxVisibleTasks`.
+ * The header appears with the second task, counting instead of naming, and the
+ * list scrolls once it passes `maxVisibleTasks`. A single task has no header at
+ * all—see `Simple`.
  */
 export const MultipleTasks: Story = {
   render: (args: TaskTrayProps) => (

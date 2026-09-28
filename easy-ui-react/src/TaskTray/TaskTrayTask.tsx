@@ -87,7 +87,7 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
     isPaused,
     autoDismissDelay: trayAutoDismissDelay,
     announce,
-    toggleId,
+    focusTray,
   } = useTaskTrayContext();
 
   const titleId = useId();
@@ -141,9 +141,9 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
 
   const handleDismiss = () => {
     // This row is about to unmount with focus on its own dismiss button, which
-    // would leave focus on `document.body`. The header toggle is the nearest
-    // thing that outlives the row.
-    document.getElementById(toggleId)?.focus();
+    // would leave focus on `document.body`. The tray is the nearest thing that
+    // outlives the row.
+    focusTray();
     onDismiss?.();
   };
 
@@ -170,7 +170,12 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
         )}
       </div>
       <div className={styles.taskContent}>
-        <Text id={titleId} variant="body2" weight="medium" breakWord>
+        {/*
+          `body2` against the header's `subtitle2`: the same 13px at a lighter
+          weight, which is how the rest of the library separates content from
+          the label above it.
+        */}
+        <Text id={titleId} variant="body2" breakWord>
           {title}
         </Text>
         {hasProgress && (
@@ -182,7 +187,7 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
           />
         )}
         {description && (
-          <Text variant="caption2" color="neutral.600" breakWord>
+          <Text variant="caption" color="neutral.600" breakWord>
             {description}
           </Text>
         )}

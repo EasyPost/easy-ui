@@ -22,6 +22,9 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   // taller, so `maxVisibleTasks` caps the list's height approximately rather
   // than landing exactly on a row boundary.
   @include component-token("task-tray", "row-height", 60px);
+  // `Menu`'s `padding.x`, which `Popover` also picked up, so text in the tray
+  // sits the same distance in from the edge as a menu item's label.
+  @include component-token("task-tray", "padding.x", design-token("space.2"));
 
   position: fixed;
   z-index: component-token("task-tray", "z-index");
@@ -53,26 +56,35 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   left: design-token("space.2");
 }
 
+// The surface `Menu`, `Select`, and `MultiSelect` share through
+// `Menu/_mixins.scss`, and `Popover` matches as closely as `Box` allows, so
+// every floating surface in the library reads as one family.
 .tray {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   min-width: 0;
   border: design-token("shape.border_width.1") solid
-    design-token("color.neutral.100");
-  border-radius: design-token("shape.border_radius.lg");
+    design-token("color.neutral.300");
+  border-radius: design-token("shape.border_radius.md");
   background-color: design-token("color.neutral.000");
-  box-shadow: design-token("shadow.level.2");
+  box-shadow: design-token("shadow.overlay");
   overflow: hidden;
   pointer-events: auto;
+  // Focused programmatically when a row is dismissed, never reachable by tab,
+  // so there's no ring to keep—the same reason `Popover`'s dialog does this.
+  outline: none;
 }
 
+// The right side is short of `padding.x` by design: the icon button sitting
+// there carries its own padding, and matching both sides would push the glyph
+// visibly further in than the text on the left.
 .header {
   display: flex;
   align-items: center;
   gap: design-token("space.1");
   padding: design-token("space.1") design-token("space.1")
-    design-token("space.1") design-token("space.1.5");
+    design-token("space.1") component-token("task-tray", "padding.x");
 }
 
 .headerStatus {
@@ -110,17 +122,38 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   }
 }
 
+// The scroll container, with the `<ul>` inside it rather than being it—the same
+// split as `Menu`'s `.menu` and `.menuList`. OverlayScrollbars restructures its
+// target's children, which would put a `<div>` between the list and its items.
 .list {
-  @include unstyled.list;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  // Only meaningful once a header sits above it.
+  &:not(:first-child) {
+    border-top: design-token("shape.border_width.1") solid
+      design-token("color.neutral.100");
+  }
+
+  // OverlayScrollbars writes styles onto its host, so `hidden` is spelled out
+  // here rather than left to the UA stylesheet it would lose to.
+  &[hidden] {
+    display: none;
+  }
+}
+
+// `maxVisibleTasks` is a cap on a list of rows, so it applies from the second
+// row on. Capping a single row could only ever clip it.
+.listCapped {
   // `maxVisibleTasks` is written onto the container as a bare number so the cap
   // can be expressed here, where the nominal row height lives.
   max-height: calc(
     #{$ezui-task-tray-max-visible-tasks} * #{$ezui-task-tray-row-height}
   );
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  border-top: design-token("shape.border_width.1") solid
-    design-token("color.neutral.100");
+}
+
+.listItems {
+  @include unstyled.list;
 }
 
 // prettier-ignore
@@ -130,12 +163,13 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   display: flex;
   align-items: flex-start;
   gap: design-token("space.1");
+  // See `.header` on the uneven sides.
   padding: design-token("space.1") design-token("space.1")
-    design-token("space.1") design-token("space.1.5");
+    design-token("space.1") component-token("task-tray", "padding.x");
 
   & + & {
     border-top: design-token("shape.border_width.1") solid
-      design-token("color.neutral.050");
+      design-token("color.neutral.100");
   }
 }
 
@@ -188,22 +222,28 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   min-width: 0;
 }
 
+// Track width, track color, speed, and easing are all `Spinner`'s, so the two
+// read as the same spinner at a glance. The structure is simpler—one element
+// instead of `Spinner`'s four—because this one only has to be decorative.
 .spinner {
   // Matches `Spinner`'s literal—there's no border-width token this thin.
   @include component-token("task-tray", "spinner-track-width", 1.5px);
+  @include component-token("task-tray", "spinner-animation-speed", 1s);
 
   flex: 0 0 auto;
   width: component-token("task-tray", "spinner-size");
   height: component-token("task-tray", "spinner-size");
   border: component-token("task-tray", "spinner-track-width") solid
-    design-token("color.neutral.100");
+    design-token("color.neutral.050");
   // Picks up `task.color` from the status class on the row.
   border-top-color: currentcolor;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: task-tray-spin
+    component-token("task-tray", "spinner-animation-speed")
+    cubic-bezier(0.5, 0, 0.5, 1) infinite;
 }
 
-@keyframes spin {
+@keyframes task-tray-spin {
   to {
     transform: rotate(360deg);
   }
@@ -226,8 +266,10 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   white-space: nowrap;
   @include font-style("small-button");
 
+  // `neutral.050` is what every hover affordance in the overlay family uses,
+  // menu items included, so a tinted one here would stand out as its own thing.
   &:hover {
-    background-color: design-token("color.primary.050");
+    background-color: design-token("color.neutral.050");
   }
 
   &:focus {

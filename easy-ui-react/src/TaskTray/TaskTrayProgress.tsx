@@ -58,7 +58,7 @@ export function TaskTrayProgress(props: TaskTrayProgressProps) {
       </div>
       {/* Tabular figures keep the counter from jittering as digits change. */}
       <Text
-        variant="caption2"
+        variant="caption"
         color="neutral.600"
         fontVariantNumeric="tabular-nums"
         whiteSpace="nowrap"

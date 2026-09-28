@@ -12,14 +12,12 @@ export type TaskTrayContextValue = {
   /** Writes a sentence into the tray's live region. */
   announce: (message: string) => void;
   /**
-   * `id` of the header's collapse toggle. A row dismissing itself while it holds
-   * focus hands focus there rather than dropping it on `document.body`.
-   *
-   * An `id` rather than a ref because `UnstyledButton` forwards its ref as
-   * `Ref<null>`, so a ref typed as the element it actually receives doesn't
-   * typecheck against it.
+   * Moves focus to the tray itself. A row dismissing itself while it holds focus
+   * calls this rather than dropping focus on `document.body`. The tray is the
+   * target because it's the one element that outlives every row—the header is
+   * gone once a single task is left.
    */
-  toggleId: string;
+  focusTray: () => void;
 };
 
 export const TaskTrayContext = createContext<TaskTrayContextValue | null>(null);
