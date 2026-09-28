@@ -25,6 +25,19 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   // `Menu`'s `padding.x`, which `Popover` also picked up, so text in the tray
   // sits the same distance in from the edge as a menu item's label.
   @include component-token("task-tray", "padding.x", design-token("space.2"));
+  // The lane `ezui-os-theme-overlay` occupies—its `--os-size` from
+  // styles/_scrollbars.scss, mirrored rather than imported because `@use`-ing
+  // that file from a CSS module would re-emit all of OverlayScrollbars' CSS. The
+  // visible track is only the 2px down the middle of it, but the handle's hit
+  // area spans the whole lane, so content inside it would be both drawn through
+  // and unclickable. A menu can afford to overlap this; its rows are short,
+  // left-aligned text. A task row ends in a progress counter and a dismiss
+  // button, which is exactly what the lane would land on.
+  @include component-token(
+    "task-tray",
+    "scrollbar-gutter",
+    calc(#{design-token("space.1")} * 2 + 2px)
+  );
 
   position: fixed;
   z-index: component-token("task-tray", "z-index");
@@ -76,15 +89,16 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   outline: none;
 }
 
-// The right side is short of `padding.x` by design: the icon button sitting
-// there carries its own padding, and matching both sides would push the glyph
-// visibly further in than the text on the left.
+// The right side is the scrollbar's lane rather than `padding.x`. The header
+// itself never scrolls, but reserving the same gutter as the rows below keeps
+// the toggle in line with their dismiss buttons.
 .header {
   display: flex;
   align-items: center;
   gap: design-token("space.1");
-  padding: design-token("space.1") design-token("space.1")
-    design-token("space.1") component-token("task-tray", "padding.x");
+  padding: design-token("space.1")
+    component-token("task-tray", "scrollbar-gutter") design-token("space.1")
+    component-token("task-tray", "padding.x");
 }
 
 .headerStatus {
@@ -164,8 +178,9 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   align-items: flex-start;
   gap: design-token("space.1");
   // See `.header` on the uneven sides.
-  padding: design-token("space.1") design-token("space.1")
-    design-token("space.1") component-token("task-tray", "padding.x");
+  padding: design-token("space.1")
+    component-token("task-tray", "scrollbar-gutter") design-token("space.1")
+    component-token("task-tray", "padding.x");
 
   & + & {
     border-top: design-token("shape.border_width.1") solid
@@ -212,6 +227,23 @@ $ezui-task-tray-row-height: component-token("task-tray", "row-height");
   // Lines the icon up with the title's cap height rather than its line box.
   padding-top: design-token("space.0.25");
   color: component-token("task-tray", "task.color");
+}
+
+// Modifier on `.task`, which is where it would read best—it lives down here
+// because it overrides `.taskStatus`, and stylelint's `no-descending-specificity`
+// wants that override after the rule it beats.
+//
+// A row carrying a progress bar or a description is several lines tall, so its
+// status glyph hangs from the first of them. A title on its own is one line with
+// nothing above or below to align to, so the glyph and the row's actions center
+// against it instead, and the nudge that aligned the glyph to a cap height comes
+// back off.
+.taskSingleLine {
+  align-items: center;
+
+  .taskStatus {
+    padding-top: 0;
+  }
 }
 
 .taskContent {

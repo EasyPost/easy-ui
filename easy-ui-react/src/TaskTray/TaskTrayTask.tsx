@@ -149,11 +149,16 @@ export function TaskTrayTask(props: TaskTrayTaskProps) {
 
   const hasActions = Boolean(children) || Boolean(isTerminal && onDismiss);
 
+  // Title only: the status glyph and the actions center against it instead of
+  // hanging from the top of a row that has nothing below its first line.
+  const isSingleLine = !hasProgress && !description;
+
   return (
     <li
       className={classNames(
         styles.task,
         styles[variationName("status", status)],
+        isSingleLine && styles.taskSingleLine,
       )}
     >
       {/*
