@@ -341,7 +341,15 @@ export function ActivityTray(props: ActivityTrayProps) {
       >
         {hasHeader && (
           <div className={styles.header}>
-            {/* Decorative—see the note on the row's status slot. */}
+            {/*
+              Decorative—see the note on the row's status slot.
+
+              Sized to match a row's glyph rather than a size down from it. The
+              summary and the titles below it are one column of text, and a
+              smaller glyph here would start that column 4px further left for
+              the header alone. It also means the collapsed tray, which is just
+              this header, keeps a full-size status indicator.
+            */}
             <div
               className={classNames(
                 styles.headerStatus,
@@ -349,9 +357,9 @@ export function ActivityTray(props: ActivityTrayProps) {
               )}
             >
               {summaryIcon ? (
-                <Icon symbol={summaryIcon} size="sm" />
+                <Icon symbol={summaryIcon} size="md" />
               ) : (
-                <ActivityTraySpinner size="sm" />
+                <ActivityTraySpinner size="md" />
               )}
             </div>
             <div className={styles.summary}>
