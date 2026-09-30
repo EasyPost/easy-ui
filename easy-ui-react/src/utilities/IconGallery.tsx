@@ -1,30 +1,17 @@
 import SearchIcon from "@easypost/easy-ui-icons/Search";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useClipboard } from "use-clipboard-copy";
+import { Box } from "../Box";
+import { HorizontalGrid } from "../HorizontalGrid";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import { TextField } from "../TextField";
-import { IconSymbol } from "../types";
 import { VerticalStack } from "../VerticalStack";
+import { GalleryIcon, galleryIcons } from "./icons";
 
 import styles from "./IconGallery.module.scss";
 
 const COPIED_TIMEOUT = 2000;
-
-export type GalleryIcon = {
-  /** React component that renders the icon's SVG. */
-  Component: IconSymbol;
-  /** Icon name as it appears in the import path, e.g. `AccountBalance`. */
-  name: string;
-  /** Lowercased haystack the filter matches against. */
-  searchText: string;
-};
-
-type IconGroup = {
-  /** Letter the names in the group start with, e.g. `A`. */
-  letter: string;
-  icons: GalleryIcon[];
-};
 
 /**
  * Browse the icons published by `@easypost/easy-ui-icons`. Icons are grouped
@@ -37,14 +24,23 @@ type IconGroup = {
 export function IconGallery() {
   const [filter, setFilter] = useState("");
   const [copiedName, setCopiedName] = useState<string | null>(null);
-  const clipboard = useClipboard({ copiedTimeout: COPIED_TIMEOUT });
+  const { copied, copy } = useClipboard({ copiedTimeout: COPIED_TIMEOUT });
 
-  const groups = useMemo(() => filterGroups(GROUPS, filter), [filter]);
+  // Stable so a copy only re-renders the tile that was clicked, not all 161.
+  const onCopy = useCallback(
+    (name: string) => {
+      copy(getImportStatement(name));
+      setCopiedName(name);
+    },
+    [copy],
+  );
+
   const query = filter.trim();
+  const groups = groupByLetter(filterIcons(galleryIcons, query));
 
   return (
     <VerticalStack gap="4">
-      <div className={styles.filter}>
+      <Box maxWidth={320}>
         <TextField
           type="search"
           size="sm"
@@ -54,35 +50,35 @@ export function IconGallery() {
           value={filter}
           onChange={setFilter}
         />
-      </div>
+      </Box>
       {groups.length === 0 ? (
         <Text variant="body2" color="neutral.600">
           No icons match “{query}”.
         </Text>
       ) : (
-        groups.map((group) => (
-          <VerticalStack key={group.letter} gap="1.5">
+        groups.map(([letter, icons]) => (
+          <VerticalStack key={letter} gap="1.5">
             <Text as="h3" variant="subtitle2">
-              {group.letter}
+              {letter}
             </Text>
-            <div className={styles.grid}>
-              {group.icons.map((icon) => (
+            <HorizontalGrid
+              columns="repeat(auto-fill, minmax(112px, 1fr))"
+              gap="1"
+            >
+              {icons.map((icon) => (
                 <IconTile
                   key={icon.name}
                   icon={icon}
-                  isCopied={clipboard.copied && copiedName === icon.name}
-                  onCopy={() => {
-                    clipboard.copy(getImportStatement(icon.name));
-                    setCopiedName(icon.name);
-                  }}
+                  isCopied={copied && copiedName === icon.name}
+                  onCopy={onCopy}
                 />
               ))}
-            </div>
+            </HorizontalGrid>
           </VerticalStack>
         ))
       )}
       <div aria-live="polite">
-        {clipboard.copied && copiedName && (
+        {copied && copiedName && (
           <Text visuallyHidden>Copied import for {copiedName}</Text>
         )}
       </div>
@@ -95,26 +91,31 @@ IconGallery.displayName = "IconGallery";
 type IconTileProps = {
   icon: GalleryIcon;
   isCopied: boolean;
-  onCopy: () => void;
+  onCopy: (name: string) => void;
 };
 
-function IconTile({ icon, isCopied, onCopy }: IconTileProps) {
-  const { Component, name } = icon;
+/**
+ * Memoized because copying re-renders the gallery twice — once on the click and
+ * again when the copied state times out — and only one tile's props change.
+ */
+const IconTile = React.memo(function IconTile({
+  icon: { Component, name },
+  isCopied,
+  onCopy,
+}: IconTileProps) {
   return (
     <button
       aria-label={`Copy import for ${name}`}
       className={styles.tile}
-      onClick={onCopy}
+      onClick={() => onCopy(name)}
     >
-      <span className={styles.glyph}>
-        <Icon symbol={Component} size="lg" />
-      </span>
-      <span className={styles.name}>
+      <Icon symbol={Component} size="lg" />
+      <Text variant="caption2" color="neutral.600" alignment="center" breakWord>
         {isCopied ? "Copied!" : <WrappableName name={name} />}
-      </span>
+      </Text>
     </button>
   );
-}
+});
 
 /**
  * Renders a name with a break opportunity before each of its words, so that a
@@ -136,73 +137,29 @@ function getImportStatement(name: string) {
 }
 
 /**
- * Reads the published icons out of the icon package.
- *
- * @remarks
- * Reads the package's build output rather than its `src` because only the
- * build turns each SVG into a React component.
+ * Narrows the gallery to icons matching a name substring. Whitespace in the
+ * query is dropped, so a name's words can be spaced out — "account balance"
+ * finds `AccountBalance`, "check 600" finds `Check600`.
  */
-function buildIcons(): GalleryIcon[] {
-  const modules: Record<string, { default?: IconSymbol }> = import.meta.glob(
-    "../../../easy-ui-icons/dist/*.mjs",
-    { eager: true },
-  );
-  const icons: GalleryIcon[] = [];
-
-  for (const [path, module] of Object.entries(modules)) {
-    const { default: Component } = module;
-    if (!Component) {
-      continue;
-    }
-    const name = path.slice(path.lastIndexOf("/") + 1, -".mjs".length);
-    icons.push({ Component, name, searchText: getSearchText(name) });
+function filterIcons(icons: GalleryIcon[], query: string) {
+  const needle = query.replace(/\s+/g, "").toLowerCase();
+  if (!needle) {
+    return icons;
   }
-
-  // The glob returns paths in directory order, which is case-sensitive, so
-  // sort explicitly to keep the alphabet groups below in reading order.
-  return icons.sort((a, b) => a.name.localeCompare(b.name));
+  return icons.filter((icon) => icon.name.toLowerCase().includes(needle));
 }
 
-/** Gathers the icons into groups by first letter. */
-function groupIcons(icons: GalleryIcon[]): IconGroup[] {
-  const groups: IconGroup[] = [];
+/** Gathers icons into `[letter, icons]` entries, preserving name order. */
+function groupByLetter(icons: GalleryIcon[]) {
+  const groups = new Map<string, GalleryIcon[]>();
   for (const icon of icons) {
     const letter = icon.name.slice(0, 1).toUpperCase();
-    const group = groups.find((candidate) => candidate.letter === letter);
+    const group = groups.get(letter);
     if (group) {
-      group.icons.push(icon);
+      group.push(icon);
     } else {
-      groups.push({ letter, icons: [icon] });
+      groups.set(letter, [icon]);
     }
   }
-  return groups;
+  return [...groups];
 }
-
-/**
- * Lets a filter find an icon by its spaced-out words, so that "account
- * balance" matches `AccountBalance`.
- */
-function getSearchText(name: string) {
-  return `${name} ${name.replace(/([a-z0-9])([A-Z])/g, "$1 $2")}`.toLowerCase();
-}
-
-/** Narrows the gallery to icons matching a name substring. */
-function filterGroups(groups: IconGroup[], filter: string) {
-  const query = filter.trim().toLowerCase();
-  if (!query) {
-    return groups;
-  }
-  return groups
-    .map((group) => ({
-      ...group,
-      icons: group.icons.filter((icon) => icon.searchText.includes(query)),
-    }))
-    .filter((group) => group.icons.length > 0);
-}
-
-// Declared last so every constant the build reads is already initialized.
-
-/** Every icon published by `@easypost/easy-ui-icons`, sorted by name. */
-export const galleryIcons = buildIcons();
-
-const GROUPS = groupIcons(galleryIcons);

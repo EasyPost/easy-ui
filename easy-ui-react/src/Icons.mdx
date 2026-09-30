@@ -1,7 +1,18 @@
 import React from "react";
 import { Markdown, Meta } from "@storybook/addon-docs/blocks";
+import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { IconGallery } from "./utilities/IconGallery";
+import { getTokenAliases } from "./utilities/tokens";
 import { Provider as EasyUIProvider } from "./Provider";
+
+export const sizesTable = [
+  "| Size | Value |",
+  "| --- | --- |",
+  ...getTokenAliases(tokens, "size.icon.{alias}")
+    .map((alias) => ({ alias, value: tokens[`size.icon.${alias}`] }))
+    .sort((a, b) => parseInt(a.value) - parseInt(b.value))
+    .map(({ alias, value }) => `| \`${alias}\` | ${value} |`),
+].join("\n");
 
 <Meta title="Foundations/Icons" />
 
@@ -47,18 +58,7 @@ export function Component() {
 
 `Icon` sizes come from the `size.icon` token scale and default to `md`:
 
-<Markdown>{`
-| Size | Value |
-| --- | --- |
-| \`2xs\` | 12px |
-| \`xs\` | 16px |
-| \`sm\` | 20px |
-| \`md\` | 24px |
-| \`lg\` | 32px |
-| \`xl\` | 40px |
-| \`2xl\` | 48px |
-| \`3xl\` | 56px |
-`}</Markdown>
+<Markdown>{sizesTable}</Markdown>
 
 ### Accessibility
 

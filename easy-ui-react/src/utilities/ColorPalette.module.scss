@@ -1,5 +1,6 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
+@use "./gallery";
 
 .filter {
   max-width: 320px;
@@ -16,24 +17,7 @@
   display: block;
   overflow: hidden;
   text-align: start;
-  cursor: pointer;
-  background: design-token("color.neutral.000");
-  border: design-token("shape.border_width.1") solid
-    design-token("color.neutral.100");
-  border-radius: design-token("shape.border_radius.lg");
-  transition-property: transform, box-shadow;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-in-out;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: design-token("shadow.level.1");
-  }
-
-  &:focus-visible {
-    outline-offset: 2px;
-    @include native-focus-ring;
-  }
+  @include gallery.card;
 }
 
 .chip {

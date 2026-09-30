@@ -5,7 +5,7 @@ import WarningIcon from "@easypost/easy-ui-icons/Warning";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { HorizontalStack } from "../HorizontalStack";
-import { galleryIcons } from "../utilities/IconGallery";
+import { galleryIcons } from "../utilities/icons";
 import {
   createColorTokensControl,
   createLabelledOptionsControl,

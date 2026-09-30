@@ -66,11 +66,19 @@ describe("<IconGallery />", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("should filter by the words in a name", async () => {
+  it("should ignore whitespace in the filter", async () => {
     const { user } = render(<IconGallery />);
-    await userType(user, screen.getByLabelText("Filter icons"), "account bal");
+    const field = screen.getByLabelText("Filter icons");
+
+    await userType(user, field, "account bal");
     expect(
       screen.getByRole("button", { name: "Copy import for AccountBalance" }),
+    ).toBeInTheDocument();
+
+    await user.clear(field);
+    await userType(user, field, "check 600");
+    expect(
+      screen.getByRole("button", { name: "Copy import for Check600" }),
     ).toBeInTheDocument();
   });
 
