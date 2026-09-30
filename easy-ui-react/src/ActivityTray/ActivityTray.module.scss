@@ -11,11 +11,10 @@ $ezui-activity-tray-max-visible-tasks: component-token(
 $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
 
 .container {
-  // Literal until the tokens package gains a `z_index` entry for this.
-  // The spec proposes `z_index.activity_tray: 1250`—above `nav` (1000) and `drawer`
-  // (1200), below `modal` (1300), so a modal covers the tray rather than the
-  // tray distracting from it.
-  @include component-token("activity-tray", "z-index", 1250);
+  // Above `nav` and `drawer`, below `modal`, so a modal covers the tray rather
+  // than the tray distracting from it.
+  /* prettier-ignore */
+  @include component-token("activity-tray", "z-index", design-token("z-index.activity_tray"));
   @include component-token("activity-tray", "width", 360px);
   // Nominal, not measured. A row with a description or a wrapped title is
   // taller, so `maxVisibleTasks` caps the list's height approximately rather
@@ -43,33 +42,54 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
   );
 
   position: fixed;
+  // Below `sm` the tray is a strip across the viewport, docked to the top or
+  // bottom edge its placement names. A 360px corner card on a 375px screen is
+  // a strip anyway, just a lopsided one.
+  right: design-token("space.2");
+  left: design-token("space.2");
   z-index: component-token("activity-tray", "z-index");
   display: flex;
-  max-width: calc(100vw - #{design-token("space.4")});
-  width: component-token("activity-tray", "width");
   // The container spans further than the surface it holds, so clicks that land
   // beside the tray still reach the page. `.tray` puts them back.
   pointer-events: none;
+
+  @include breakpoint-sm-up {
+    max-width: calc(100vw - #{design-token("space.4")});
+    width: component-token("activity-tray", "width");
+  }
 }
 
+// From `sm` up, each placement releases the side it doesn't dock to.
 .placementBottomEnd {
   bottom: design-token("space.2");
-  right: design-token("space.2");
+
+  @include breakpoint-sm-up {
+    left: auto;
+  }
 }
 
 .placementBottomStart {
   bottom: design-token("space.2");
-  left: design-token("space.2");
+
+  @include breakpoint-sm-up {
+    right: auto;
+  }
 }
 
 .placementTopEnd {
   top: design-token("space.2");
-  right: design-token("space.2");
+
+  @include breakpoint-sm-up {
+    left: auto;
+  }
 }
 
 .placementTopStart {
   top: design-token("space.2");
-  left: design-token("space.2");
+
+  @include breakpoint-sm-up {
+    right: auto;
+  }
 }
 
 // The surface `Menu`, `Select`, and `MultiSelect` share through
