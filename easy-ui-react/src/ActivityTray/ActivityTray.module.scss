@@ -219,7 +219,7 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
 }
 
 // Status is carried by the icon and the text as well as the color—these tint the
-// status slot and the progress bar, they are not the only signal.
+// status slot, they are not the only signal.
 // prettier-ignore
 .statusPending {
   @include component-token("activity-tray", "task.color", design-token("color.neutral.500"));
@@ -334,35 +334,6 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
   }
 }
 
-.progress {
-  display: flex;
-  align-items: center;
-  gap: design-token("space.1");
-}
-
-.progressTrack {
-  flex: 1 1 auto;
-  min-width: 0;
-  height: design-token("space.0.5");
-  border-radius: design-token("shape.border_radius.sm");
-  background-color: design-token("color.neutral.100");
-  overflow: hidden;
-}
-
-.progressFill {
-  width: component-token("activity-tray", "progress.fill");
-  height: 100%;
-  border-radius: inherit;
-  background-color: component-token("activity-tray", "task.color");
-  transition: width 200ms ease-out;
-}
-
 .announcement {
   @include visually-hidden;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .progressFill {
-    transition: none;
-  }
 }

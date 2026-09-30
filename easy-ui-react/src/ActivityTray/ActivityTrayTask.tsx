@@ -1,12 +1,12 @@
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import React, { ReactNode, useEffect, useId, useRef } from "react";
 import { Icon } from "../Icon";
+import { ProgressBar } from "../ProgressBar";
 import { Spinner } from "../Spinner";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 import { classNames, variationName } from "../utilities/css";
 import { useActivityTrayContext } from "./context";
-import { ActivityTrayProgress } from "./ActivityTrayProgress";
 import {
   TaskStatus,
   buildAnnouncement,
@@ -93,6 +93,10 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
   const titleId = useId();
   const isTerminal = isTerminalStatus(status);
   const statusIcon = getStatusIcon(status);
+  // For the spinner and the progress bar, which only show while the work is in
+  // flight. Mirrors `.statusPending` and `.statusRunning`, which neither can
+  // inherit since both set their color inline.
+  const statusColor = status === "running" ? "primary.500" : "neutral.500";
 
   // `undefined` means "inherit the tray's delay"; `null` means "never
   // auto-dismiss", which is why this isn't a `??`.
@@ -184,14 +188,7 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
         {statusIcon ? (
           <Icon symbol={statusIcon} size="md" />
         ) : (
-          // Mirrors `.statusPending` and `.statusRunning`, which `Spinner`
-          // can't inherit since it sets its color inline.
-          <Spinner
-            isIndeterminate
-            isDecorative
-            size="md"
-            color={status === "running" ? "primary.500" : "neutral.500"}
-          />
+          <Spinner isIndeterminate isDecorative size="md" color={statusColor} />
         )}
       </div>
       <div className={styles.taskContent}>
@@ -203,12 +200,25 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
         <Text id={titleId} variant="body2" breakWord>
           {title}
         </Text>
+        {/*
+          Named by the title rather than a label of its own, so the counter
+          sits at the end of the track. `maxValue` is the unit count, not 100,
+          so `aria-valuenow` is the real number of finished units, and the
+          counter doubles as `aria-valuetext`—"127 of 250 labels" rather than
+          "51 percent".
+        */}
         {hasProgress && (
-          <ActivityTrayProgress
-            completed={completed as number}
-            total={total as number}
-            unit={unit}
-            labelId={titleId}
+          <ProgressBar
+            aria-labelledby={titleId}
+            value={completed as number}
+            maxValue={total as number}
+            valueLabel={
+              unit
+                ? `${completed} of ${total} ${unit}`
+                : `${completed} of ${total}`
+            }
+            showValueLabel
+            color={statusColor}
           />
         )}
         {description && (
