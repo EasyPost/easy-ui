@@ -1,3 +1,4 @@
+import { EventListeners } from "overlayscrollbars";
 import { useOverlayScrollbars } from "overlayscrollbars-react";
 import { MutableRefObject, useEffect } from "react";
 
@@ -6,13 +7,16 @@ import { MutableRefObject, useEffect } from "react";
  *
  * @param scrollRef Ref of element to scroll
  * @param theme Name of theme to apply—see styles/_scrollbars.scss
+ * @param events OverlayScrollbars event listeners
  */
 export function useScrollbar(
   scrollRef: MutableRefObject<HTMLElement | null>,
   theme: string,
+  events?: EventListeners,
 ) {
   const [initialize] = useOverlayScrollbars({
     options: { scrollbars: { theme } },
+    events,
     defer: false,
   });
   useEffect(() => {

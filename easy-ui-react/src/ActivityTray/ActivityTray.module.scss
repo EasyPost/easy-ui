@@ -157,6 +157,13 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
   &[hidden] {
     display: none;
   }
+
+  // The viewport is a tab stop while it overflows—see `ActivityTray.tsx`. Inset,
+  // since the tray's rounded corners clip anything drawn outside it.
+  [data-overlayscrollbars-viewport]:focus-visible {
+    outline-offset: -2px;
+    @include native-focus-ring;
+  }
 }
 
 // `maxVisibleTasks` is a cap on a list of rows, so it applies from the second

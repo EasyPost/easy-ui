@@ -12,6 +12,7 @@ import React, {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
+import { OverlayScrollbars } from "overlayscrollbars";
 import { mergeProps, useFocusWithin, useHover } from "react-aria";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
@@ -44,6 +45,24 @@ const PLACEMENT_CLASSES: Record<ActivityTrayPlacement, string> = {
   "bottom-start": styles.placementBottomStart,
   "top-end": styles.placementTopEnd,
   "top-start": styles.placementTopStart,
+};
+
+// A capped list can scroll rows out of view that hold nothing focusable—a
+// running task with no actions—leaving keyboard users no way to reach them. The
+// viewport OverlayScrollbars scrolls is made a tab stop, but only while it
+// actually overflows, so a list that fits adds no stop to tab past.
+function syncViewportFocusability(instance: OverlayScrollbars) {
+  const { viewport } = instance.elements();
+  if (instance.state().hasOverflow.y) {
+    viewport.tabIndex = 0;
+  } else {
+    viewport.removeAttribute("tabindex");
+  }
+}
+
+const SCROLLBAR_EVENTS = {
+  initialized: syncViewportFocusability,
+  updated: syncViewportFocusability,
 };
 
 export type ActivityTrayProps = {
@@ -191,7 +210,7 @@ export function ActivityTray(props: ActivityTrayProps) {
 
   const trayRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  useScrollbar(listRef, "ezui-os-theme-overlay");
+  useScrollbar(listRef, "ezui-os-theme-overlay", SCROLLBAR_EVENTS);
 
   // A row that dismisses itself while holding focus would otherwise drop focus
   // onto `document.body`. The tray outlives any one row, and landing here keeps
