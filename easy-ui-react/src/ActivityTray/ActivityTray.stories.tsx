@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { action } from "storybook/actions";
 import { Button } from "../Button";
 import { Card } from "../Card";
+import { HorizontalStack } from "../HorizontalStack";
+import { Modal, ModalContainer } from "../Modal";
 import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";
 import { useNotification } from "../Notification";
@@ -181,10 +183,10 @@ export const MultipleTasks: Story = {
  * `maxVisibleTasks` rows and scrolls; it never grows to cover the page.
  *
  * It's still a lot of corner. Collapsing is the honest answer at this volume,
- * and aggregating tasks of the same kind into one row—"Buying labels, 3
- * batches"—is the open question in the spec. Nesting a second disclosure inside
- * each row is not: a row holds one line of detail, which isn't enough to hide
- * behind a chevron.
+ * and so is aggregating tasks of the same kind into one row—"Buying labels, 3
+ * batches"—before they reach the tray. Nesting a second disclosure inside each
+ * row is not: a row holds one line of detail, which isn't enough to hide behind
+ * a chevron.
  */
 export const ManyTasks: Story = {
   render: (args: ActivityTrayProps) => <ManyTasksStory {...args} />,
@@ -211,6 +213,166 @@ export const Collapsed: Story = {
             total={250}
             unit="labels"
           />
+          <ActivityTray.Task title="Generating manifest" status="running" />
+        </ActivityTray>
+      )}
+    </StoryFrame>
+  ),
+};
+
+/**
+ * Up to two actions per row. `onPress` for work the app does—cancel, retry—and
+ * `href` for somewhere to go, like the shipments that failed. Both are buttons.
+ */
+export const Actions: Story = {
+  render: (args: ActivityTrayProps) => (
+    <StoryFrame height={320}>
+      {(getContainer) => (
+        <ActivityTray
+          {...args}
+          getContainer={getContainer}
+          autoDismissDelay={null}
+        >
+          <ActivityTray.Task
+            title="Buying labels"
+            status="running"
+            completed={127}
+            total={250}
+            unit="labels"
+          >
+            <ActivityTray.Action onPress={action("Cancel")}>
+              Cancel
+            </ActivityTray.Action>
+          </ActivityTray.Task>
+          <ActivityTray.Task
+            title="Bought 247 of 250 labels"
+            status="partial"
+            description="3 shipments were missing a rate"
+            onDismiss={action("Dismiss")}
+          >
+            <ActivityTray.Action href="/shipments">Review</ActivityTray.Action>
+          </ActivityTray.Task>
+          <ActivityTray.Task
+            title="January report"
+            status="failed"
+            description="The report timed out"
+            onDismiss={action("Dismiss")}
+          >
+            <ActivityTray.Action onPress={action("Retry")}>
+              Retry
+            </ActivityTray.Action>
+          </ActivityTray.Task>
+        </ActivityTray>
+      )}
+    </StoryFrame>
+  ),
+};
+
+/**
+ * A cancel that costs something is confirmed by the app, not the tray. The
+ * action opens a `<Modal />`; the modal's underlay dims the tray, and the work
+ * keeps running underneath until the user decides.
+ */
+export const CancelConfirmation: Story = {
+  render: (args: ActivityTrayProps) => <CancelConfirmationStory {...args} />,
+};
+
+/**
+ * `isExpanded` and `onExpandedChange` hand the collapsed state to the app—to
+ * remember it across sessions, say, or to open the tray from elsewhere on the
+ * page.
+ */
+export const Controlled: Story = {
+  render: (args: ActivityTrayProps) => <ControlledStory {...args} />,
+};
+
+/**
+ * `renderSummary` rewrites the header—the only thing showing when the tray is
+ * collapsed. It gets the number of unfinished tasks and the total.
+ */
+export const CustomSummary: Story = {
+  render: (args: ActivityTrayProps) => (
+    <StoryFrame>
+      {(getContainer) => (
+        <ActivityTray
+          {...args}
+          getContainer={getContainer}
+          aria-label="Label purchases"
+          renderSummary={(running, total) =>
+            running > 0
+              ? `Buying labels in ${running} of ${total} batches`
+              : `${total} batches done`
+          }
+        >
+          <ActivityTray.Task
+            title="Batch 1"
+            status="running"
+            completed={80}
+            total={100}
+            unit="labels"
+          />
+          <ActivityTray.Task
+            title="Batch 2"
+            status="running"
+            completed={35}
+            total={100}
+            unit="labels"
+          />
+        </ActivityTray>
+      )}
+    </StoryFrame>
+  ),
+};
+
+/**
+ * Docked top-start and pushed down with `offset`, clear of the page's heading.
+ * Try the other corners from the controls.
+ */
+export const Placement: Story = {
+  args: {
+    placement: "top-start",
+    offset: { top: "112px", left: "16px" },
+  },
+  render: (args: ActivityTrayProps) => (
+    <StoryFrame>
+      {(getContainer) => (
+        <ActivityTray {...args} getContainer={getContainer}>
+          <ActivityTray.Task
+            title="Buying labels"
+            status="running"
+            completed={127}
+            total={250}
+            unit="labels"
+          />
+        </ActivityTray>
+      )}
+    </StoryFrame>
+  ),
+};
+
+/**
+ * Below the `sm` breakpoint the tray is a strip across the viewport. The
+ * breakpoint is a media query on the viewport, so this story only shows it on
+ * its own canvas, where it opens at a phone width—on the docs page it renders
+ * at the page's width like the rest.
+ */
+export const Mobile: Story = {
+  globals: { viewport: { value: "mobile2", isRotated: false } },
+  render: (args: ActivityTrayProps) => (
+    <StoryFrame height={360}>
+      {(getContainer) => (
+        <ActivityTray {...args} getContainer={getContainer}>
+          <ActivityTray.Task
+            title="Buying labels"
+            status="running"
+            completed={127}
+            total={250}
+            unit="labels"
+          >
+            <ActivityTray.Action onPress={action("Cancel")}>
+              Cancel
+            </ActivityTray.Action>
+          </ActivityTray.Task>
           <ActivityTray.Task title="Generating manifest" status="running" />
         </ActivityTray>
       )}
@@ -627,6 +789,107 @@ function WithToastStory(args: ActivityTrayProps) {
             cancel={cancel}
             dismiss={dismiss}
           />
+        </>
+      )}
+    </StoryFrame>
+  );
+}
+
+function CancelConfirmationStory(args: ActivityTrayProps) {
+  const { tasks, start, cancel, dismiss } = useSimulatedBulkPurchase();
+  const [confirming, setConfirming] = useState<SimulatedTask | null>(null);
+  return (
+    <StoryFrame
+      height={360}
+      intro={
+        <Text variant="body2" color="neutral.600">
+          Start a purchase, then cancel it from the tray.
+        </Text>
+      }
+    >
+      {(getContainer) => (
+        <>
+          <div style={{ marginTop: "var(--ezui-space-2)" }}>
+            <Button onPress={start}>Buy {PURCHASE_TOTAL} labels</Button>
+          </div>
+          <SimulatedTray
+            {...args}
+            getContainer={getContainer}
+            tasks={tasks}
+            cancel={(id) =>
+              setConfirming(tasks.find((task) => task.id === id) ?? null)
+            }
+            dismiss={dismiss}
+          />
+          <ModalContainer onDismiss={() => setConfirming(null)}>
+            {confirming && (
+              <Modal>
+                <Modal.Header>Stop buying labels?</Modal.Header>
+                <Modal.Body>
+                  <Text>
+                    Labels already bought stay bought. The rest of the batch
+                    won&apos;t be purchased.
+                  </Text>
+                </Modal.Body>
+                <Modal.Footer>
+                  <HorizontalStack align="end" gap="1">
+                    <Button
+                      variant="outlined"
+                      onPress={() => setConfirming(null)}
+                    >
+                      Keep going
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        cancel(confirming.id);
+                        setConfirming(null);
+                      }}
+                    >
+                      Stop
+                    </Button>
+                  </HorizontalStack>
+                </Modal.Footer>
+              </Modal>
+            )}
+          </ModalContainer>
+        </>
+      )}
+    </StoryFrame>
+  );
+}
+
+function ControlledStory(args: ActivityTrayProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  return (
+    <StoryFrame
+      intro={
+        <Text variant="body2" color="neutral.600">
+          The button and the tray&apos;s own toggle drive the same state.
+        </Text>
+      }
+    >
+      {(getContainer) => (
+        <>
+          <div style={{ marginTop: "var(--ezui-space-2)" }}>
+            <Button variant="outlined" onPress={() => setIsExpanded((v) => !v)}>
+              {isExpanded ? "Hide" : "Show"} background tasks
+            </Button>
+          </div>
+          <ActivityTray
+            {...args}
+            getContainer={getContainer}
+            isExpanded={isExpanded}
+            onExpandedChange={setIsExpanded}
+          >
+            <ActivityTray.Task
+              title="Buying labels"
+              status="running"
+              completed={127}
+              total={250}
+              unit="labels"
+            />
+            <ActivityTray.Task title="Generating manifest" status="running" />
+          </ActivityTray>
         </>
       )}
     </StoryFrame>

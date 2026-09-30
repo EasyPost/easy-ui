@@ -447,7 +447,7 @@ export function FakeClientSideRouter({
     >
       <VerticalStack gap="2">
         {typeof children === "function" ? children(path) : children}
-        <Text variant="body2" color="neutral.500">
+        <Text variant="body2" color="neutral.600">
           {`Router is on ${basePath}${path}`}
           {options ? ` with options ${options}` : ""}
         </Text>

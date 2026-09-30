@@ -33,7 +33,7 @@ They compose, and often both are right: a bulk action fires a toast to acknowled
 - **The work finishes in a moment.** Use a toast, or nothing.
 - **The user has to wait for it.** Use a `<Modal />` or an inline loading state. A tray says "carry on"; if they can't, don't say it.
 - **The progress belongs to a region of the page.** Put it in that region. A corner is for work the user has navigated away from.
-- **There's only ever one task and it's the whole page's subject.** An inline progress bar reads better than a floating one.
+- **There's only ever one task and it's the whole page's subject.** An inline `<ProgressBar />` reads better than a floating one.
 
 ## The app owns the tasks
 
@@ -61,6 +61,16 @@ The component is controlled. It renders the tasks it's handed and owns only its 
   ))}
 </ActivityTray>
 ```
+
+<Canvas of={ActivityTrayStories.BulkPurchase} />
+
+## Actions
+
+A row takes up to two `<ActivityTray.Action />` elements. Use `onPress` for something the app does—cancel, retry—and `href` for somewhere to go, like the list of shipments that failed. Keep the labels to a verb or two; the row's title already says what they act on.
+
+<Canvas of={ActivityTrayStories.Actions} />
+
+Actions are styled like the rest of the overlay family—text on a `neutral.050` hover, like a menu item—rather than as a `<Button />`, which would be too heavy for a 360px row.
 
 ### Confirming a cancel
 
@@ -109,7 +119,7 @@ const [confirming, setConfirming] = useState<Task | null>(null);
 </>;
 ```
 
-<Canvas of={ActivityTrayStories.BulkPurchase} />
+<Canvas of={ActivityTrayStories.CancelConfirmation} />
 
 ## Surviving navigation
 
@@ -185,7 +195,35 @@ A second disclosure **inside** each row—an accordion per task—is the wrong t
 
 ## Collapsed
 
+With two or more tasks the header doubles as a disclosure. Collapsed, the tray is that one line: the summary, and a status glyph that spins while anything is running. It's a good default for work measured in minutes, where the user doesn't need the detail in front of them the whole time. Start collapsed with `defaultExpanded={false}`.
+
 <Canvas of={ActivityTrayStories.Collapsed} />
+
+Rows stay mounted while collapsed. Their work keeps running, their outcomes are still announced, and their dismissal timers still run.
+
+### Controlled
+
+Pass `isExpanded` and `onExpandedChange` to own the state—to remember it between sessions, or to open the tray from somewhere else on the page.
+
+<Canvas of={ActivityTrayStories.Controlled} />
+
+### Summary
+
+The header counts by default: "2 of 3 tasks running". `renderSummary` rewrites it, and gets the number of unfinished tasks and the total. Name the work when all the tasks are the same kind of work; count them when they aren't.
+
+```tsx
+<ActivityTray
+  renderSummary={(running, total) =>
+    running > 0
+      ? `Buying labels in ${running} of ${total} batches`
+      : `${total} batches done`
+  }
+>
+  {children}
+</ActivityTray>
+```
+
+<Canvas of={ActivityTrayStories.CustomSummary} />
 
 ## Placement
 
@@ -200,12 +238,25 @@ The tray docks to a corner. Use `offset` to clear app chrome—a sticky footer, 
 </ActivityTray>
 ```
 
+<Canvas of={ActivityTrayStories.Placement} />
 <Controls
-  of={ActivityTrayStories.Simple}
-  include={["placement", "maxVisibleTasks"]}
+  of={ActivityTrayStories.Placement}
+  include={["placement", "offset"]}
 />
 
-Below the `sm` breakpoint the tray becomes a strip across the viewport, docked to the top or bottom edge its placement names. `offset` still applies to the sides it sets.
+Below the `sm` breakpoint the tray becomes a strip across the viewport, docked to the top or bottom edge its placement names. `offset` still applies to the sides it sets. The breakpoint follows the viewport, not the frame on this page, so open the [Mobile story](?path=/story/components-activitytray--mobile) on its own to see it at a phone width.
+
+### Rendering somewhere else
+
+The tray portals into `document.body` by default. `getContainer` points it somewhere else—a shadow root, or an app shell whose own stacking context the tray has to join. The tray renders nothing until the getter returns an element, rather than flashing in the body first, so a getter that reads a ref is fine.
+
+```tsx
+const shellRef = useRef<HTMLDivElement>(null);
+
+<div ref={shellRef}>
+  <ActivityTray getContainer={() => shellRef.current}>{children}</ActivityTray>
+</div>;
+```
 
 ### Alongside toasts and modals
 
@@ -216,10 +267,12 @@ Below the `sm` breakpoint the tray becomes a strip across the viewport, docked t
 
 The short version: **progress is polled, outcomes are pushed.**
 
-- **The tray is a landmark, not a live region.** `role="region"` with a name puts it in the landmark list, so a screen reader user can jump to it deliberately. A live region wrapping the whole tray would read every progress tick aloud.
+- **The tray is a landmark, not a live region.** `role="region"` with a name puts it in the landmark list, so a screen reader user can jump to it deliberately, and <kbd>F6</kbd> cycles to it the same way it reaches toasts. A live region wrapping the whole tray would read every progress tick aloud.
+- **Name it for what it holds.** The landmark is "Background tasks" by default. If the tray only ever holds one kind of work, say so with `aria-label`—"Label purchases".
 - **Progress reaches assistive technology through `role="progressbar"`**, with `aria-valuemax` set to the total and `aria-valuetext` reading "127 of 250 labels". The user goes looking for it rather than being told.
 - **Only terminal transitions are announced**, through one polite `aria-atomic` live region: "Bought 247 of 250 labels finished with errors. 3 shipments were missing a rate." Transitions landing in the same tick coalesce into one sentence.
-- **The status glyphs are decorative.** The status is already in the title, the progress bar, and the announcement.
+- **The status glyphs are decorative.** The status is already in the title, the progress bar, and the announcement, so the spinner is a `<Spinner isDecorative />`.
+- **The header is a disclosure.** Its toggle carries `aria-expanded` and `aria-controls`, and a collapsed list is `hidden`, not just clipped.
 - **Escape collapses the tray**, and never dismisses anything—the work is still running, and clearing the tray would say it stopped.
 - **Dismissing a row moves focus to the tray**, which outlives every row—the header doesn't, since it's gone once one task is left.
 - **A capped list is keyboard-scrollable.** While the list overflows, its scroll area is a tab stop, so rows with nothing focusable in them are still reachable.
