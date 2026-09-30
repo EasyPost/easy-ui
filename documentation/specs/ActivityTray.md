@@ -6,7 +6,7 @@ A `ActivityTray` is a persistent, non-blocking surface docked to a corner of the
 
 It exists for work the user starts and then walks away from — buying 250 labels, generating a report, importing a CSV. The user should be free to navigate elsewhere and keep working while it runs, and should still be told when it finishes.
 
-**There is a working prototype** at `easy-ui-react/src/ActivityTray/`, in Storybook under `Prototypes/ActivityTray`. It has no `index.ts`, so it is not an entry point of the published package and nothing can import it yet. Where the prototype and this document disagreed, the prototype won and this document was corrected; the places where it fell short of the spec are called out as such.
+**The component ships** from `@easypost/easy-ui/ActivityTray`, with docs in Storybook under `Components/ActivityTray`. It began as a prototype; where the prototype and this document disagreed, the prototype won and this document was corrected, and the places where it fell short of the spec are called out as such. The prerequisites below that it ships without are follow-ups rather than blockers, because each is internal and replacing it doesn't change the public API.
 
 ### What this is not
 
@@ -686,15 +686,15 @@ Three internal prerequisites:
 1. Add a `ProgressBar` component first and compose it. Right long-term — a linear bar is a generally useful primitive, and it is a gap in the system regardless of this component.
 2. Build the bar inside `ActivityTray` and extract it later. Faster, and avoids designing a public `ProgressBar` API under pressure from a single consumer.
 
-Recommendation is (2) for the prototype and (1) before `ActivityTray` ships publicly, so the bar's API is designed on its own terms. The prototype took (2): `ActivityTrayProgress` is private to the component.
+The component took (2): `ActivityTrayProgress` is private, so it isn't part of the public API. (1) remains the follow-up, so the bar's API is designed on its own terms, and `ActivityTray` switches to it without any change visible to consumers.
 
 **A decorative mode for `Spinner`.** `Spinner` is unusable as a glyph. It renders `role="status"` whenever `isIndeterminate` is set, so one per running row means several live regions in a component whose whole accessibility design is one narrow live region. Its only label channel is `children`, which it renders as visible text, so a `Spinner` with no label also logs a React Aria warning on every render — sixty-five of them across this component's test run, before the prototype stopped using it.
 
 Either would fix it: an `aria-label` prop, which silences the warning but leaves the live region; or a flag that makes the spinner purely presentational — no `role`, no label, `aria-hidden`. The second is what this component needs, and the pattern is general: every spinner rendered beside text that already says "Loading…" has the same problem.
 
-The prototype works around it with a private `ActivityTraySpinner`, a one-element CSS ring rather than a copy of `Spinner`'s three-arc animation. That is a duplication to delete, not to keep — it will drift from `Spinner`, and a design system with two spinners is a design system with a bug.
+The component works around it with a private `ActivityTraySpinner`, a one-element CSS ring rather than a copy of `Spinner`'s three-arc animation. That is a duplication to delete, not to keep — it will drift from `Spinner`, and a design system with two spinners is a design system with a bug.
 
-**A z-index token.** `z_index` currently holds `input_icon: 1`, `nav: 1000`, `drawer: 1200`, `modal: 1300`, `notification: 999999`. `ActivityTray` needs `z_index.activity_tray`. Proposed value **1250**: above `nav` and `drawer`, below `modal`.
+**A z-index token.** `z_index` currently holds `input_icon: 1`, `nav: 1000`, `drawer: 1200`, `modal: 1300`, `notification: 999999`. `ActivityTray` needs `z_index.activity_tray`; until it exists, the component sets a literal 1250 through its own component token. Proposed value **1250**: above `nav` and `drawer`, below `modal`.
 
 Below `modal` is the debatable half. It means an open modal covers the tray, and the modal underlay dims it. That is the right default — a modal is a focused, blocking task and a progress bar creeping along underneath it is a distraction the user cannot act on anyway — but it does mean a user who opens a modal loses sight of running work. Flagged as an open question.
 

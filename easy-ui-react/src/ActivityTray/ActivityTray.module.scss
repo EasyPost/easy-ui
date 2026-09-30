@@ -11,8 +11,7 @@ $ezui-activity-tray-max-visible-tasks: component-token(
 $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
 
 .container {
-  // Literal rather than a `z_index` token because adding one is a change to the
-  // published tokens package, which this prototype deliberately stays out of.
+  // Literal until the tokens package gains a `z_index` entry for this.
   // The spec proposes `z_index.activity_tray: 1250`—above `nav` (1000) and `drawer`
   // (1200), below `modal` (1300), so a modal covers the tray rather than the
   // tray distracting from it.

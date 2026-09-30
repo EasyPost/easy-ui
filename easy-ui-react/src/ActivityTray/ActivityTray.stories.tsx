@@ -13,10 +13,7 @@ import { TaskStatus } from "./utilities";
 type Story = StoryObj<typeof ActivityTray>;
 
 const meta: Meta<typeof ActivityTray> = {
-  // Under `Prototypes` rather than `Components`: this is the working sketch for
-  // documentation/specs/ActivityTray.md, and it has no `index.ts`, so it isn't a
-  // published entry point of `@easypost/easy-ui`.
-  title: "Prototypes/ActivityTray",
+  title: "Components/ActivityTray",
   component: ActivityTray,
   parameters: {
     controls: { exclude: ["children", "onExpandedChange", "getContainer"] },

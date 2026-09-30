@@ -425,3 +425,11 @@ ActivityTray.Task = ActivityTrayTask;
 ActivityTray.Action = ActivityTrayAction;
 
 ActivityTray.displayName = "ActivityTray";
+
+export type { ActivityTrayActionProps } from "./ActivityTrayAction";
+export type { ActivityTrayTaskProps } from "./ActivityTrayTask";
+export type {
+  ActivityTrayOffset,
+  ActivityTrayPlacement,
+  TaskStatus,
+} from "./utilities";
