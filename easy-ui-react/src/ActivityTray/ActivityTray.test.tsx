@@ -338,6 +338,33 @@ describe("<ActivityTray />", () => {
       expect(onDismiss).toHaveBeenCalled();
     });
 
+    it("should keep its auto-dismiss timer across re-renders", () => {
+      const onDismiss = vi.fn();
+      const renderTray = (completed: number) => (
+        <ActivityTray>
+          <ActivityTray.Task
+            title="Bought 40 labels"
+            status="succeeded"
+            onDismiss={() => onDismiss()}
+          />
+          <ActivityTray.Task
+            title="Buying labels"
+            status="running"
+            completed={completed}
+            total={250}
+          />
+        </ActivityTray>
+      );
+      const { rerender } = render(renderTray(0));
+      for (let completed = 1; completed <= 10; completed++) {
+        act(() => {
+          vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY / 10);
+        });
+        rerender(renderTray(completed));
+      }
+      expect(onDismiss).toHaveBeenCalledTimes(1);
+    });
+
     it("should hold a failed task until the user dismisses it", () => {
       const onDismiss = vi.fn();
       render(

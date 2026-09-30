@@ -125,8 +125,18 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
     }
   }, [status, title, description, announce]);
 
+  // Read through a ref so the timer doesn't depend on `onDismiss`'s identity.
+  // Callers typically pass an inline `() => dismiss(task.id)`, and restarting
+  // the delay on every render would mean a finished row never retires while a
+  // sibling task keeps re-rendering the tray with progress.
+  const onDismissRef = useRef(onDismiss);
   useEffect(() => {
-    if (!onDismiss || !shouldAutoDismiss(status) || autoDismissDelay == null) {
+    onDismissRef.current = onDismiss;
+  });
+  const canDismiss = Boolean(onDismiss);
+
+  useEffect(() => {
+    if (!canDismiss || !shouldAutoDismiss(status) || autoDismissDelay == null) {
       return;
     }
     // Paused means the pointer or focus is somewhere in the tray. Unpausing
@@ -135,9 +145,12 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
     if (isPaused) {
       return;
     }
-    const timeout = window.setTimeout(onDismiss, autoDismissDelay);
+    const timeout = window.setTimeout(
+      () => onDismissRef.current?.(),
+      autoDismissDelay,
+    );
     return () => window.clearTimeout(timeout);
-  }, [onDismiss, status, autoDismissDelay, isPaused]);
+  }, [canDismiss, status, autoDismissDelay, isPaused]);
 
   const handleDismiss = () => {
     // This row is about to unmount with focus on its own dismiss button, which
