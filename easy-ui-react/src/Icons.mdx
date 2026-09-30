@@ -1,0 +1,77 @@
+import React from "react";
+import { Markdown, Meta } from "@storybook/addon-docs/blocks";
+import { IconGallery } from "./utilities/IconGallery";
+import { Provider as EasyUIProvider } from "./Provider";
+
+<Meta title="Foundations/Icons" />
+
+# Icons
+
+Easy UI's icon set is a subset of [Material Symbols](https://fonts.google.com/icons?icon.set=Material+Symbols), drawn outlined at a weight of 300. Each icon ships from `@easypost/easy-ui-icons` as its own entry point, so importing one leaves the rest out of your bundle.
+
+Filter by name, and select any icon to copy its import statement.
+
+<EasyUIProvider>
+
+<div className="sb-unstyled">
+  <IconGallery />
+</div>
+
+</EasyUIProvider>
+
+### Usage
+
+An icon is a symbol, not a component you render on its own. Pass it to the [`Icon`](/docs/primitives-icon--docs) primitive, which applies the system's size and color tokens:
+
+```tsx
+import { Icon } from "@easypost/easy-ui/Icon";
+import AddIcon from "@easypost/easy-ui-icons/Add";
+
+export function Component() {
+  return <Icon symbol={AddIcon} color="primary.500" size="lg" />;
+}
+```
+
+Components that render an icon of their own take the same symbol directly, so reach for those rather than nesting an `Icon` inside them:
+
+```tsx
+import { Button } from "@easypost/easy-ui/Button";
+import AddIcon from "@easypost/easy-ui-icons/Add";
+
+export function Component() {
+  return <Button iconAtStart={AddIcon}>Add item</Button>;
+}
+```
+
+### Sizes
+
+`Icon` sizes come from the `size.icon` token scale and default to `md`:
+
+<Markdown>{`
+| Size | Value |
+| --- | --- |
+| \`2xs\` | 12px |
+| \`xs\` | 16px |
+| \`sm\` | 20px |
+| \`md\` | 24px |
+| \`lg\` | 32px |
+| \`xl\` | 40px |
+| \`2xl\` | 48px |
+| \`3xl\` | 56px |
+`}</Markdown>
+
+### Accessibility
+
+Icons are hidden from assistive technology by default, which is what you want when neighboring text already carries the meaning. When an icon is the only thing conveying meaning, name it with `accessibilityLabel`:
+
+```tsx
+<Icon symbol={WarningIcon} accessibilityLabel="Warning" />
+```
+
+### Weights
+
+A handful of icons are published at a heavier weight than the set's 300, carried as a suffix on the name — `Check600` sits next to `Check` in the gallery above. Reach for a weighted name only when a design calls for it.
+
+### Adding an icon
+
+Icons live in [`easy-ui-icons/src`](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-icons/src), one file per icon: a JSON file naming a Material Symbol, or a custom SVG. See the [Easy UI Icons README](https://github.com/EasyPost/easy-ui/tree/main/easy-ui-icons#adding-an-icon) for the steps.

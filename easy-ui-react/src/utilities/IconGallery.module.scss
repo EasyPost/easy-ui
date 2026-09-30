@@ -1,0 +1,59 @@
+@use "../styles/common" as *;
+@use "../styles/unstyled";
+
+.filter {
+  max-width: 320px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: design-token("space.1");
+}
+
+.tile {
+  @include unstyled.button;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: design-token("space.1");
+  padding: design-token("space.1.5") design-token("space.1");
+  cursor: pointer;
+  color: design-token("color.neutral.800");
+  background: design-token("color.neutral.000");
+  border: design-token("shape.border_width.1") solid
+    design-token("color.neutral.100");
+  border-radius: design-token("shape.border_radius.lg");
+  transition-property: transform, box-shadow;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: design-token("shadow.level.1");
+  }
+
+  &:focus-visible {
+    outline-offset: 2px;
+    @include native-focus-ring;
+  }
+}
+
+.glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: design-token("space.4");
+}
+
+.name {
+  @include font-style("caption2");
+
+  // Names run long enough to wrap in a column this narrow, and truncating
+  // hides the part that distinguishes them, so let them wrap. The component
+  // marks each word boundary so the break lands between words; `break-word`
+  // only takes over for a single word too long to fit on its own line.
+  text-align: center;
+  overflow-wrap: break-word;
+  color: design-token("color.neutral.600");
+}
