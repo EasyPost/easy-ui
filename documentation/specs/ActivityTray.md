@@ -6,7 +6,7 @@ A `ActivityTray` is a persistent, non-blocking surface docked to a corner of the
 
 It exists for work the user starts and then walks away from — buying 250 labels, generating a report, importing a CSV. The user should be free to navigate elsewhere and keep working while it runs, and should still be told when it finishes.
 
-**The component ships** from `@easypost/easy-ui/ActivityTray`, with docs in Storybook under `Components/ActivityTray`. It began as a prototype; where the prototype and this document disagreed, the prototype won and this document was corrected, and the places where it fell short of the spec are called out as such. The prerequisites below that it ships without are follow-ups rather than blockers, because each is internal and replacing it doesn't change the public API.
+**The component ships** from `@easypost/easy-ui/ActivityTray`, with docs in Storybook under `Components/ActivityTray`. It began as a prototype; where the prototype and this document disagreed, the prototype won and this document was corrected, and the places where it fell short of the spec are called out as such. Its three prerequisites—a z-index token, a `ProgressBar`, and a decorative `Spinner`—shipped with it; see [Dependencies](#dependencies).
 
 ### What this is not
 
@@ -86,8 +86,8 @@ The cost of "activity" is that it can read as an audit log or an activity feed, 
 - **Accessibility of continuously changing content.** Naively wrapping the tray in `aria-live` turns a progress bar into a screen reader flooding at whatever rate the app updates. The live behavior has to be deliberately narrow.
 - **It covers content.** A fixed corner element sits on top of whatever is in that corner — a floating action button, a chat widget, a sticky footer. The tray needs configurable offsets and a documented height cap, and consumers need to know it is there.
 - **Stacking against `Notification`.** `Notification` renders at `z-index: 999999` and is top-anchored by default, but `notificationPlacement.offset` lets consumers move it to the bottom, where it would sit on top of the tray. This needs a documented contract rather than escalating z-index.
-- **Easy UI has no linear progress primitive.** `Spinner` is radial and is the only thing available. See [Dependencies](#dependencies).
-- **`Spinner` cannot be used decoratively.** Its indeterminate mode renders a `role="status"` live region, and its only label channel is `children`, which it renders as visible text. A tray with four running rows would mount four live regions, and there is no way to ask for a silent one. See [Dependencies](#dependencies).
+- **Easy UI had no linear progress primitive.** `Spinner` is radial and was the only thing available. `ProgressBar` now fills the gap; see [Dependencies](#dependencies).
+- **`Spinner` could not be used decoratively.** Its indeterminate mode renders a `role="status"` live region, and its only label channel is `children`, which it renders as visible text. A tray with four running rows would mount four live regions, and there was no way to ask for a silent one. `isDecorative` now does; see [Dependencies](#dependencies).
 - **Cancellation is a promise the UI cannot keep alone.** A Cancel button that does not actually stop server-side work is worse than no button. Cancel is opt-in per task and the app is responsible for honoring it.
 - **Truthfulness of progress.** A determinate bar that stalls at 90% for two minutes is worse than an indeterminate one. The API should make indeterminate the easy default rather than pushing consumers toward fake percentages.
 
@@ -167,7 +167,7 @@ The rest of the styling follows existing precedent the same way, and the places 
 - **A row's status glyph hangs from the first line** when the row is more than one line tall, which is what aligning a glyph to a heading means everywhere else in the library. A title-only row is centered instead, glyph and actions together, since there is no first line to distinguish.
 - **The header's status glyph is the same size as a row's**, `size.icon.md`. The summary and the titles under it are one column of text, and sizing the header's glyph a step down — the obvious way to make a summary read as subordinate — starts that column 4px further left for the header alone, which reads as a misalignment rather than as a hierarchy. Weight carries that hierarchy instead, through `subtitle2` against `body2`. It also leaves the collapsed tray, which is only this header, with a full-size status indicator.
 - **Typography** is `subtitle2` for the header summary, `body2` for a row title, and `caption` with `color.neutral.600` for descriptions and the progress counter — 13px medium above 13px normal above 12px light, which is how the library separates a label from its content.
-- **The status ring** borrows `Spinner`'s values rather than inventing its own: a `color.neutral.050` track, a 1.5px stroke, and a 1s `cubic-bezier(0.5, 0, 0.5, 1)` rotation. Two spinners that turn at different speeds in the same viewport is the kind of detail that reads as sloppiness without being attributable to anything.
+- **The status ring** is `<Spinner isIndeterminate isDecorative />`, not a lookalike. Two spinners that turn at different speeds in the same viewport is the kind of detail that reads as sloppiness without being attributable to anything.
 - **The tray surface takes no focus ring** despite being focusable, matching `Popover`'s dialog: `tabindex="-1"` means it is only ever focused programmatically, and a ring on an element the user cannot tab to only ever looks like a mistake.
 
 ### API
@@ -510,8 +510,8 @@ Each `ActivityTray.Task` row renders a status affordance (a spinning ring while 
       <ul class="listItems">
         <li class="task">
           <div class="status">
-            <!-- decorative spinning ring; see Dependencies on `Spinner` -->
-            <div aria-hidden="true" class="spinner"></div>
+            <!-- <Spinner isIndeterminate isDecorative /> -->
+            <div aria-hidden="true" class="spinner">…</div>
           </div>
           <div class="content">
             <span id="task-title-:r2:" class="title">Buying labels</span>
@@ -672,22 +672,15 @@ No new surface. Titles and descriptions are strings rendered as text nodes, so n
 
 ## Dependencies
 
-No new third-party dependencies. React Aria's `useProgressBar` already ships with the package and gives the progress bar its ARIA attributes, exactly as `Spinner` uses it.
+No new third-party dependencies. From React Aria, which already ships with the package: `useProgressBar` through `ProgressBar`; `useLandmark`, which registers the region so <kbd>F6</kbd> reaches it the way it reaches the toast region; and `useDisclosure` with `useDisclosureState` for the header's expand and collapse.
 
-Three internal prerequisites. The z-index token is done; the other two ship as private workarounds and are follow-ups:
+Three internal prerequisites, all shipped with the component.
 
-**A linear progress primitive.** Easy UI has no `ProgressBar`. `Spinner` covers determinate progress radially, which does not work in a one-line row and reads poorly for `127 of 250`. Two options:
+**A linear progress primitive.** Easy UI had no `ProgressBar`. `Spinner` covers determinate progress radially, which does not work in a one-line row and reads poorly for `127 of 250`. The prototype built a private bar inside `ActivityTray`; before shipping it was extracted as a public, determinate-only [`ProgressBar`](./ProgressBar.md) on `useProgressBar`, and each row composes it with `aria-labelledby` pointing at the title and `valueLabel` reading "127 of 250 labels". A bar with no visible label puts its value at the end of the track, which is the row's one-line layout.
 
-1. Add a `ProgressBar` component first and compose it. Right long-term — a linear bar is a generally useful primitive, and it is a gap in the system regardless of this component.
-2. Build the bar inside `ActivityTray` and extract it later. Faster, and avoids designing a public `ProgressBar` API under pressure from a single consumer.
+**A decorative mode for `Spinner`.** `Spinner` was unusable as a glyph. It renders `role="status"` whenever `isIndeterminate` is set, so one per running row would mean several live regions in a component whose whole accessibility design is one narrow live region. Its only label channel is `children`, which it renders as visible text, so a `Spinner` with no label also logged a React Aria warning on every render.
 
-The component took (2): `ActivityTrayProgress` is private, so it isn't part of the public API. (1) remains the follow-up, so the bar's API is designed on its own terms, and `ActivityTray` switches to it without any change visible to consumers.
-
-**A decorative mode for `Spinner`.** `Spinner` is unusable as a glyph. It renders `role="status"` whenever `isIndeterminate` is set, so one per running row means several live regions in a component whose whole accessibility design is one narrow live region. Its only label channel is `children`, which it renders as visible text, so a `Spinner` with no label also logs a React Aria warning on every render — sixty-five of them across this component's test run, before the prototype stopped using it.
-
-Either would fix it: an `aria-label` prop, which silences the warning but leaves the live region; or a flag that makes the spinner purely presentational — no `role`, no label, `aria-hidden`. The second is what this component needs, and the pattern is general: every spinner rendered beside text that already says "Loading…" has the same problem.
-
-The component works around it with a private `ActivityTraySpinner`, a one-element CSS ring rather than a copy of `Spinner`'s three-arc animation. That is a duplication to delete, not to keep — it will drift from `Spinner`, and a design system with two spinners is a design system with a bug.
+`Spinner` now takes `isDecorative`: `aria-hidden`, no `role`, no label. The pattern is general—every spinner rendered beside text that already says "Loading…" has the same problem—and it replaced the prototype's private `ActivityTraySpinner`, which would have drifted from `Spinner`.
 
 **A z-index token.** `z_index` currently holds `input_icon: 1`, `nav: 1000`, `drawer: 1200`, `modal: 1300`, `notification: 999999`. `ActivityTray` uses a new `z_index.activity_tray`, set to **1250**: above `nav` and `drawer`, below `modal`.
 
