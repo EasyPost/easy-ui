@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import { vi } from "vitest";
 import {
   mockGetComputedStyle,
+  mockIntersectionObserver,
   render,
   userClick,
   userHover,
   userKeyboard,
   userTab,
 } from "../utilities/test";
+import { Modal, ModalContainer } from "../Modal";
 import { ActivityTray } from "./ActivityTray";
 import { DEFAULT_AUTO_DISMISS_DELAY } from "./utilities";
 
@@ -581,6 +583,37 @@ describe("<ActivityTray />", () => {
         "Buying labels finished. Generating manifest failed.",
       );
     });
+  });
+
+  it("should keep announcing while a modal hides the rest of the page", () => {
+    const task = (status: "running" | "succeeded") => (
+      <>
+        <ActivityTray>
+          <ActivityTray.Task title="Buying labels" status={status} />
+        </ActivityTray>
+        <ModalContainer>
+          <Modal>
+            <Modal.Header>Something else</Modal.Header>
+            <Modal.Body>Content</Modal.Body>
+          </Modal>
+        </ModalContainer>
+      </>
+    );
+    const restoreIntersectionObserver = mockIntersectionObserver();
+    const { rerender } = render(task("running"));
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
+    // The modal has hidden the tray itself from assistive technology.
+    expect(screen.queryByRole("region")).not.toBeInTheDocument();
+    rerender(task("succeeded"));
+    act(() => {
+      vi.advanceTimersByTime(0);
+    });
+    const liveRegion = document.querySelector('[aria-live="polite"]');
+    expect(liveRegion).toHaveTextContent("Buying labels finished.");
+    expect(liveRegion?.closest('[aria-hidden="true"]')).toBeNull();
+    restoreIntersectionObserver();
   });
 
   it("should render actions", async () => {

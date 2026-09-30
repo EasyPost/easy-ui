@@ -427,8 +427,13 @@ export function ActivityTray(props: ActivityTrayProps) {
         region added to the DOM at the same moment as its content is unreliable
         across screen readers. It holds only terminal outcomes—progress ticks
         reach assistive technology through each row's `progressbar` instead.
+
+        `data-live-announcer` exempts it from the `aria-hidden` an open modal
+        puts on the rest of the page, so work that finishes behind a modal is
+        still announced. The tray itself stays hidden, as it should.
       */}
       <div
+        data-live-announcer="true"
         aria-live="polite"
         aria-atomic="true"
         className={styles.announcement}
