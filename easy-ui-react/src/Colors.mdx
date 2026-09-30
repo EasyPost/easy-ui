@@ -1,0 +1,48 @@
+import React from "react";
+import { Markdown, Meta } from "@storybook/addon-docs/blocks";
+import { ColorPalette } from "./utilities/ColorPalette";
+import { Provider as EasyUIProvider } from "./Provider";
+
+<Meta title="Foundations/Colors" />
+
+# Colors
+
+Easy UI's base palette is the canonical set of colors the design system is built from. Each family runs from its darkest shade to its lightest, and every swatch maps to a [design token](/docs/foundations-design-tokens--docs) you can reference in code.
+
+Filter by family, shade, or hex, and select any swatch to copy its hex value.
+
+<EasyUIProvider>
+
+<div className="sb-unstyled">
+  <ColorPalette />
+</div>
+
+</EasyUIProvider>
+
+### Usage
+
+Reference a color through the SCSS `design-token()` helper rather than hardcoding a hex value, and reach for a theme-aware token so the color follows the active theme:
+
+```css
+@use "@easypost/easy-ui/styles/token-helpers" as *;
+
+.badge {
+  background: design-token("color.primary.500");
+}
+```
+
+Every base family above has a theme-aware counterpart on the same shade scale, mapped by the [theme tokens file](https://github.com/EasyPost/easy-ui/blob/main/easy-ui-tokens/src/theme/light.json):
+
+<Markdown>{`
+| Base family | Theme-aware |
+| --- | --- |
+| \`color.blue\` | \`color.primary\` |
+| \`color.purple\` | \`color.secondary\` |
+| \`color.green\` | \`color.positive\` |
+| \`color.red\` | \`color.negative\` |
+| \`color.orange\` | \`color.alert\` |
+| \`color.yellow\` | \`color.warning\` |
+| \`color.gray\` | \`color.neutral\` |
+`}</Markdown>
+
+Base colors are fixed values that do not respond to the active theme, so use one directly only when a value must stay the same across themes. See [Design Tokens](/docs/foundations-design-tokens--docs) for the full set of token groups.
