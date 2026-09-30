@@ -6,14 +6,20 @@ import React, {
   ReactNode,
   useCallback,
   useEffect,
-  useId,
   useMemo,
   useRef,
   useState,
 } from "react";
 import { createPortal } from "react-dom";
 import { OverlayScrollbars } from "overlayscrollbars";
-import { mergeProps, useFocusWithin, useHover } from "react-aria";
+import {
+  mergeProps,
+  useDisclosure,
+  useFocusWithin,
+  useHover,
+  useLandmark,
+} from "react-aria";
+import { useDisclosureState } from "react-stately";
 import { Icon } from "../Icon";
 import { Spinner } from "../Spinner";
 import { Text } from "../Text";
@@ -206,8 +212,6 @@ export function ActivityTray(props: ActivityTrayProps) {
     getContainer,
   } = props;
 
-  const listId = useId();
-
   const trayRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   useScrollbar(listRef, "ezui-os-theme-overlay", SCROLLBAR_EVENTS);
@@ -220,9 +224,21 @@ export function ActivityTray(props: ActivityTrayProps) {
     trayRef.current?.focus();
   }, []);
 
-  const [uncontrolledExpanded, setUncontrolledExpanded] =
-    useState(defaultExpanded);
-  const isExpanded = isExpandedProp ?? uncontrolledExpanded;
+  const disclosureState = useDisclosureState({
+    isExpanded: isExpandedProp,
+    defaultExpanded,
+    onExpandedChange,
+  });
+
+  // A named region is a landmark, which assistive technology can jump straight
+  // to. Registering it with React Aria also puts it in the F6 rotation, the same
+  // as the toast region. That matters more here than for most components: a
+  // fixed corner element is easy to never encounter, and this is where the
+  // progress lives.
+  const { landmarkProps } = useLandmark(
+    { role: "region", "aria-label": ariaLabel },
+    trayRef,
+  );
 
   // Hover and focus are tracked separately rather than as one flag, because
   // either can end while the other is still true—tabbing into the tray and then
@@ -286,13 +302,20 @@ export function ActivityTray(props: ActivityTrayProps) {
   // back and offer a disclosure with nothing behind it, so the row is the whole
   // tray and there's nothing to collapse.
   const hasHeader = tasks.length > 1;
+  const isExpanded = disclosureState.isExpanded;
 
-  const setExpanded = (nextIsExpanded: boolean) => {
-    if (isExpandedProp === undefined) {
-      setUncontrolledExpanded(nextIsExpanded);
-    }
-    onExpandedChange?.(nextIsExpanded);
-  };
+  // `useDisclosure` hides its panel whenever the state is collapsed, but with no
+  // header there's no toggle to reopen it, so a lone task always shows. The
+  // app's collapsed state is kept, not overwritten, and applies again once a
+  // second task brings the header back.
+  const { buttonProps, panelProps } = useDisclosure(
+    {},
+    useMemo(
+      () => ({ ...disclosureState, isExpanded: isExpanded || !hasHeader }),
+      [disclosureState, isExpanded, hasHeader],
+    ),
+    listRef,
+  );
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key !== "Escape" || !isExpanded || !hasHeader) {
@@ -301,7 +324,7 @@ export function ActivityTray(props: ActivityTrayProps) {
     // Collapse, never dismiss. The work is still running, and clearing the tray
     // on escape would tell the user it stopped.
     event.stopPropagation();
-    setExpanded(false);
+    disclosureState.collapse();
   };
 
   // Nothing to report, nothing in the DOM. The tray leaves no empty fixed
@@ -344,17 +367,12 @@ export function ActivityTray(props: ActivityTrayProps) {
       style={containerStyle}
     >
       <div
-        {...mergeProps(hoverProps, focusWithinProps)}
+        {...mergeProps(landmarkProps, hoverProps, focusWithinProps)}
         ref={trayRef}
         // Focusable only programmatically, as somewhere for focus to go when a
-        // row dismisses itself.
+        // row dismisses itself—and for F6 to land. After the spread, which
+        // leaves `tabIndex` unset until the landmark has been focused once.
         tabIndex={-1}
-        // A named region is a landmark, which assistive technology can jump
-        // straight to. That matters more here than for most components: a fixed
-        // corner element is easy to never encounter, and this is where the
-        // progress lives.
-        role="region"
-        aria-label={ariaLabel}
         className={styles.tray}
         onKeyDown={handleKeyDown}
       >
@@ -394,12 +412,7 @@ export function ActivityTray(props: ActivityTrayProps) {
                 {summary}
               </Text>
             </div>
-            <UnstyledButton
-              className={styles.toggle}
-              onPress={() => setExpanded(!isExpanded)}
-              aria-expanded={isExpanded}
-              aria-controls={listId}
-            >
+            <UnstyledButton {...buttonProps} className={styles.toggle}>
               <Text visuallyHidden>
                 {isExpanded ? "Collapse" : "Expand"} {ariaLabel.toLowerCase()}
               </Text>
@@ -412,15 +425,20 @@ export function ActivityTray(props: ActivityTrayProps) {
         )}
         {/*
           Rows stay mounted while collapsed—their work is still running, and so
-          are their dismissal timers. `hidden` is what takes them out of the
-          accessibility tree, which is what `aria-expanded` on the toggle is
-          claiming.
+          are their dismissal timers. `useDisclosure` sets `hidden` on this
+          through the ref, which is what takes them out of the accessibility
+          tree, as `aria-expanded` on the toggle is claiming.
+
+          Not a `group`: the only name on offer is the toggle's "Collapse
+          background activity", and the rows sit inside the tray's landmark
+          already.
         */}
         <div
-          id={listId}
+          {...panelProps}
+          role={undefined}
+          aria-labelledby={undefined}
           ref={listRef}
           className={classNames(styles.list, hasHeader && styles.listCapped)}
-          hidden={hasHeader && !isExpanded}
           data-overlayscrollbars-initialize
         >
           <ul className={styles.listItems}>

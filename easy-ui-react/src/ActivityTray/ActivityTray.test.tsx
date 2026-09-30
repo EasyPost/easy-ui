@@ -43,6 +43,22 @@ describe("<ActivityTray />", () => {
     ).toBeInTheDocument();
   });
 
+  it("should be reachable with F6, like other landmarks", async () => {
+    const { user } = render(
+      <>
+        <button type="button">Page content</button>
+        <ActivityTray>
+          <ActivityTray.Task title="Buying labels" status="running" />
+        </ActivityTray>
+      </>,
+    );
+    await userClick(user, screen.getByRole("button", { name: "Page content" }));
+    await userKeyboard(user, "{F6}");
+    expect(
+      screen.getByRole("region", { name: "Background tasks" }),
+    ).toHaveFocus();
+  });
+
   it("should support a custom accessible name", () => {
     render(
       <ActivityTray aria-label="Label purchases">
@@ -249,6 +265,32 @@ describe("<ActivityTray />", () => {
       await userKeyboard(user, "{Escape}");
       expect(screen.getByRole("button", { expanded: false })).toBeVisible();
       expect(onDismiss).not.toHaveBeenCalled();
+    });
+
+    it("should toggle from the keyboard", async () => {
+      const { user } = render(<ActivityTray>{twoTasks}</ActivityTray>);
+      await userTab(user);
+      expect(screen.getByRole("button", { expanded: true })).toHaveFocus();
+      await userKeyboard(user, "{Enter}");
+      expect(screen.getByRole("button", { expanded: false })).toHaveFocus();
+      expect(screen.queryByRole("list")).not.toBeInTheDocument();
+      await userKeyboard(user, " ");
+      expect(screen.getByRole("list")).toBeInTheDocument();
+    });
+
+    it("should keep its collapsed state while down to one task", () => {
+      const { rerender } = render(
+        <ActivityTray defaultExpanded={false}>{twoTasks}</ActivityTray>,
+      );
+      rerender(
+        <ActivityTray defaultExpanded={false}>
+          <ActivityTray.Task title="Buying labels" status="running" />
+        </ActivityTray>,
+      );
+      expect(screen.getByRole("list")).toBeVisible();
+      rerender(<ActivityTray defaultExpanded={false}>{twoTasks}</ActivityTray>);
+      expect(screen.getByRole("button", { expanded: false })).toBeVisible();
+      expect(screen.queryByRole("list")).not.toBeInTheDocument();
     });
 
     it("should keep a single task's list open", async () => {
