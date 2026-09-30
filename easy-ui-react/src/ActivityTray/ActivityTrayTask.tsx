@@ -1,4 +1,5 @@
 import CloseIcon from "@easypost/easy-ui-icons/Close";
+import { useEffectEvent } from "@react-aria/utils";
 import React, { ReactNode, useEffect, useId, useRef } from "react";
 import { Icon } from "../Icon";
 import { ProgressBar } from "../ProgressBar";
@@ -129,14 +130,11 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
     }
   }, [status, title, description, announce]);
 
-  // Read through a ref so the timer doesn't depend on `onDismiss`'s identity.
+  // An effect event so the timer doesn't depend on `onDismiss`'s identity.
   // Callers typically pass an inline `() => dismiss(task.id)`, and restarting
   // the delay on every render would mean a finished row never retires while a
   // sibling task keeps re-rendering the tray with progress.
-  const onDismissRef = useRef(onDismiss);
-  useEffect(() => {
-    onDismissRef.current = onDismiss;
-  });
+  const autoDismiss = useEffectEvent(() => onDismiss?.());
   const canDismiss = Boolean(onDismiss);
 
   useEffect(() => {
@@ -149,12 +147,9 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
     if (isPaused) {
       return;
     }
-    const timeout = window.setTimeout(
-      () => onDismissRef.current?.(),
-      autoDismissDelay,
-    );
+    const timeout = window.setTimeout(autoDismiss, autoDismissDelay);
     return () => window.clearTimeout(timeout);
-  }, [canDismiss, status, autoDismissDelay, isPaused]);
+  }, [canDismiss, status, autoDismissDelay, isPaused, autoDismiss]);
 
   const handleDismiss = () => {
     // This row is about to unmount with focus on its own dismiss button, which
@@ -186,9 +181,9 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
       */}
       <div className={styles.taskStatus}>
         {statusIcon ? (
-          <Icon symbol={statusIcon} size="md" />
+          <Icon symbol={statusIcon} />
         ) : (
-          <Spinner isIndeterminate isDecorative size="md" color={statusColor} />
+          <Spinner isIndeterminate isDecorative color={statusColor} />
         )}
       </div>
       <div className={styles.taskContent}>

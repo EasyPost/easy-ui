@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-export type ActivityTrayContextValue = {
+type ActivityTrayContextValue = {
   /**
    * Whether auto-dismissal is on hold because the pointer or focus is inside
    * the tray. Without this, a row can vanish out from under a cursor on its way

@@ -96,34 +96,33 @@ export type SpinnerProps = (ProgressProps | IndeterminateProps) & {
  * ```
  */
 export const Spinner = (props: SpinnerProps) => {
-  const {
-    children,
-    size = "md",
-    color = "neutral.500",
-    isIndeterminate = false,
-    isDecorative = false,
-    value,
-    ...restProps
-  } = props;
-  const { progressBarProps, labelProps } = useProgressBar({
-    ...restProps,
-    isIndeterminate,
-    value,
-    label: children,
-    // Never rendered—a decorative spinner drops these props—but it keeps
-    // React Aria from warning about a missing label.
-    ...(isDecorative && { "aria-label": "Loading" }),
-  });
-  const id = useId();
+  // Separate components so a decorative spinner skips `useProgressBar`
+  // entirely—it has no role, value, or label to compute.
+  return props.isDecorative ? (
+    <DecorativeSpinner {...props} />
+  ) : (
+    <AccessibleSpinner {...props} />
+  );
+};
+
+function getSpinnerStyle({
+  size = "md",
+  color = "neutral.500",
+  isIndeterminate,
+  value,
+}: SpinnerProps) {
   const degrees = !isIndeterminate && value && (value * 360) / 100;
-  const style = {
+  return {
     ...getComponentThemeToken("spinner", "color", "color", color),
     ...getComponentDesignToken("spinner", "size", "size.icon", size),
     ...(degrees && {
       ...getComponentToken("spinner", "degrees", `${degrees}deg`),
     }),
   } as React.CSSProperties;
-  const indicator = isIndeterminate ? (
+}
+
+function SpinnerIndicator({ isIndeterminate }: { isIndeterminate?: boolean }) {
+  return isIndeterminate ? (
     <div className={styles.indeterminate}>
       <div />
       <div />
@@ -132,22 +131,36 @@ export const Spinner = (props: SpinnerProps) => {
   ) : (
     <div className={styles.progress} />
   );
-  if (isDecorative) {
-    return (
-      <div aria-hidden="true" className={styles.spinner} style={style}>
-        {indicator}
-      </div>
-    );
-  }
+}
+
+function DecorativeSpinner(props: SpinnerProps) {
+  return (
+    <div
+      aria-hidden="true"
+      className={styles.spinner}
+      style={getSpinnerStyle(props)}
+    >
+      <SpinnerIndicator isIndeterminate={props.isIndeterminate} />
+    </div>
+  );
+}
+
+function AccessibleSpinner(props: SpinnerProps) {
+  const { children, isIndeterminate = false } = props;
+  const { progressBarProps, labelProps } = useProgressBar({
+    ...props,
+    label: children,
+  });
+  const id = useId();
   return (
     <div
       {...progressBarProps}
       className={styles.spinner}
-      style={style}
+      style={getSpinnerStyle(props)}
       role={isIndeterminate ? "status" : progressBarProps.role}
       aria-labelledby={progressBarProps["aria-labelledby"] ?? id}
     >
-      {indicator}
+      <SpinnerIndicator isIndeterminate={isIndeterminate} />
       <Text
         {...labelProps}
         id={labelProps.id ?? id}
@@ -158,4 +171,4 @@ export const Spinner = (props: SpinnerProps) => {
       </Text>
     </div>
   );
-};
+}

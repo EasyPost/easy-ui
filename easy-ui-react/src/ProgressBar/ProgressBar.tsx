@@ -1,3 +1,4 @@
+import { clamp } from "@react-aria/utils";
 import React, { ReactNode } from "react";
 import { useProgressBar } from "react-aria";
 import { Text } from "../Text";
@@ -122,8 +123,7 @@ export function ProgressBar(props: ProgressBarProps) {
   });
 
   const range = maxValue - minValue;
-  const percent =
-    range > 0 ? Math.min(Math.max((value - minValue) / range, 0), 1) * 100 : 0;
+  const percent = range > 0 ? clamp((value - minValue) / range, 0, 1) * 100 : 0;
   // Without a visible label the value has nothing to sit beside above the
   // track, so it sits at the end of the track instead—one line, not two.
   const isInline = !label && showValueLabel;

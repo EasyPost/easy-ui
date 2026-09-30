@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { action } from "storybook/actions";
 import { Button } from "../Button";
 import { Card } from "../Card";
@@ -436,7 +436,6 @@ type StoryFrameProps = {
  */
 function StoryFrame({ children, intro, height = 280 }: StoryFrameProps) {
   const [frame, setFrame] = useState<HTMLDivElement | null>(null);
-  const getContainer = useCallback(() => frame, [frame]);
   return (
     <VerticalStack gap="2">
       {intro ?? (
@@ -467,7 +466,7 @@ function StoryFrame({ children, intro, height = 280 }: StoryFrameProps) {
             Pretend this is a page.
           </Text>
         </VerticalStack>
-        {frame && children(getContainer)}
+        {frame && children(() => frame)}
       </div>
     </VerticalStack>
   );

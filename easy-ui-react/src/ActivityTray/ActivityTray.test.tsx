@@ -1,4 +1,5 @@
 import { act, screen } from "@testing-library/react";
+import { UserEvent } from "@testing-library/user-event";
 import React, { useState } from "react";
 import { vi } from "vitest";
 import {
@@ -409,40 +410,28 @@ describe("<ActivityTray />", () => {
       expect(onDismiss).toHaveBeenCalledTimes(1);
     });
 
-    it("should hold a failed task until the user dismisses it", () => {
-      const onDismiss = vi.fn();
-      render(
-        <ActivityTray>
-          <ActivityTray.Task
-            title="January report"
-            status="failed"
-            description="The report timed out"
-            onDismiss={onDismiss}
-          />
-        </ActivityTray>,
-      );
-      act(() => {
-        vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 10);
-      });
-      expect(onDismiss).not.toHaveBeenCalled();
-    });
-
-    it("should hold a partial task until the user dismisses it", () => {
-      const onDismiss = vi.fn();
-      render(
-        <ActivityTray>
-          <ActivityTray.Task
-            title="Bought 247 of 250 labels"
-            status="partial"
-            onDismiss={onDismiss}
-          />
-        </ActivityTray>,
-      );
-      act(() => {
-        vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 10);
-      });
-      expect(onDismiss).not.toHaveBeenCalled();
-    });
+    it.each([
+      ["failed", "January report"],
+      ["partial", "Bought 247 of 250 labels"],
+    ] as const)(
+      "should hold a %s task until the user dismisses it",
+      (status, title) => {
+        const onDismiss = vi.fn();
+        render(
+          <ActivityTray>
+            <ActivityTray.Task
+              title={title}
+              status={status}
+              onDismiss={onDismiss}
+            />
+          </ActivityTray>,
+        );
+        act(() => {
+          vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 10);
+        });
+        expect(onDismiss).not.toHaveBeenCalled();
+      },
+    );
 
     it("should support disabling auto-dismissal", () => {
       const onDismiss = vi.fn();
@@ -479,7 +468,19 @@ describe("<ActivityTray />", () => {
       expect(onDismiss).toHaveBeenCalled();
     });
 
-    it("should hold the timer while the pointer is inside the tray", async () => {
+    it.each([
+      [
+        "the pointer is inside the tray",
+        (user: UserEvent) => userHover(user, screen.getByRole("region")),
+      ],
+      [
+        // The row, not the tray the hover handlers sit on: reading a row means
+        // pointing at one, and that has to count as being inside the tray.
+        "the pointer is over a row",
+        (user: UserEvent) => userHover(user, screen.getByRole("listitem")),
+      ],
+      ["focus is inside the tray", (user: UserEvent) => userTab(user)],
+    ])("should hold the timer while %s", async (_, enter) => {
       const onDismiss = vi.fn();
       const { user } = render(
         <ActivityTray>
@@ -490,45 +491,7 @@ describe("<ActivityTray />", () => {
           />
         </ActivityTray>,
       );
-      await userHover(user, screen.getByRole("region"));
-      act(() => {
-        vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 2);
-      });
-      expect(onDismiss).not.toHaveBeenCalled();
-    });
-
-    it("should hold the timer while the pointer is over a row", async () => {
-      const onDismiss = vi.fn();
-      const { user } = render(
-        <ActivityTray>
-          <ActivityTray.Task
-            title="Bought 40 labels"
-            status="succeeded"
-            onDismiss={onDismiss}
-          />
-        </ActivityTray>,
-      );
-      // The row, not the tray the hover handlers sit on: reading a row means
-      // pointing at one, and that has to count as being inside the tray.
-      await userHover(user, screen.getByRole("listitem"));
-      act(() => {
-        vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 2);
-      });
-      expect(onDismiss).not.toHaveBeenCalled();
-    });
-
-    it("should hold the timer while focus is inside the tray", async () => {
-      const onDismiss = vi.fn();
-      const { user } = render(
-        <ActivityTray>
-          <ActivityTray.Task
-            title="Bought 40 labels"
-            status="succeeded"
-            onDismiss={onDismiss}
-          />
-        </ActivityTray>,
-      );
-      await userTab(user);
+      await enter(user);
       act(() => {
         vi.advanceTimersByTime(DEFAULT_AUTO_DISMISS_DELAY * 2);
       });

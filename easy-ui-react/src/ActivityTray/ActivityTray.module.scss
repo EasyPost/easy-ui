@@ -200,10 +200,7 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
   @include unstyled.list;
 }
 
-// prettier-ignore
 .task {
-  @include component-token("activity-tray", "task.color", design-token("color.neutral.500"));
-
   display: flex;
   align-items: flex-start;
   gap: design-token("space.1");

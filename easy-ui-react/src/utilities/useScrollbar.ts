@@ -1,6 +1,6 @@
 import { EventListeners } from "overlayscrollbars";
 import { useOverlayScrollbars } from "overlayscrollbars-react";
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject, useEffect, useMemo } from "react";
 
 /**
  * Attaches custom scrollbars to an overflow element.
@@ -14,8 +14,10 @@ export function useScrollbar(
   theme: string,
   events?: EventListeners,
 ) {
+  // Stable across renders, so OverlayScrollbars doesn't re-apply it each time.
+  const options = useMemo(() => ({ scrollbars: { theme } }), [theme]);
   const [initialize] = useOverlayScrollbars({
-    options: { scrollbars: { theme } },
+    options,
     events,
     defer: false,
   });

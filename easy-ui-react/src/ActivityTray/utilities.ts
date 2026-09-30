@@ -40,6 +40,8 @@ export const DEFAULT_AUTO_DISMISS_DELAY = 6000;
 /** How many rows fit before the expanded list scrolls. */
 export const DEFAULT_MAX_VISIBLE_TASKS = 4;
 
+type TerminalStatus = Exclude<TaskStatus, "pending" | "running">;
+
 const TERMINAL_STATUSES: TaskStatus[] = [
   "succeeded",
   "partial",
@@ -57,7 +59,7 @@ const TERMINAL_STATUSES: TaskStatus[] = [
  */
 const AUTO_DISMISSING_STATUSES: TaskStatus[] = ["succeeded", "canceled"];
 
-export function isTerminalStatus(status: TaskStatus) {
+export function isTerminalStatus(status: TaskStatus): status is TerminalStatus {
   return TERMINAL_STATUSES.includes(status);
 }
 
@@ -101,7 +103,7 @@ export function getMostSevereStatus(statuses: TaskStatus[]) {
   );
 }
 
-const TERMINAL_PHRASES: Record<string, string> = {
+const TERMINAL_PHRASES: Record<TerminalStatus, string> = {
   succeeded: "finished",
   partial: "finished with errors",
   failed: "failed",
@@ -119,11 +121,10 @@ const TERMINAL_PHRASES: Record<string, string> = {
  */
 export function buildAnnouncement(
   title: string,
-  status: TaskStatus,
+  status: TerminalStatus,
   description?: string,
 ) {
-  const phrase = TERMINAL_PHRASES[status];
-  const sentence = phrase ? `${title} ${phrase}.` : `${title}.`;
+  const sentence = `${title} ${TERMINAL_PHRASES[status]}.`;
   if (!description) {
     return sentence;
   }

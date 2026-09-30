@@ -310,10 +310,7 @@ export function ActivityTray(props: ActivityTrayProps) {
   // second task brings the header back.
   const { buttonProps, panelProps } = useDisclosure(
     {},
-    useMemo(
-      () => ({ ...disclosureState, isExpanded: isExpanded || !hasHeader }),
-      [disclosureState, isExpanded, hasHeader],
-    ),
+    { ...disclosureState, isExpanded: isExpanded || !hasHeader },
     listRef,
   );
 
@@ -350,7 +347,7 @@ export function ActivityTray(props: ActivityTrayProps) {
   // severe outcome present, so one failure isn't hidden behind nine successes.
   const headerStatus =
     runningCount > 0 ? "running" : getMostSevereStatus(statuses);
-  const summaryIcon = runningCount > 0 ? null : getStatusIcon(headerStatus);
+  const summaryIcon = getStatusIcon(headerStatus);
 
   const containerStyle = {
     ...getOffsetStyle(placement, offset),
@@ -394,17 +391,12 @@ export function ActivityTray(props: ActivityTrayProps) {
               )}
             >
               {summaryIcon ? (
-                <Icon symbol={summaryIcon} size="md" />
+                <Icon symbol={summaryIcon} />
               ) : (
                 // The header only spins while something is running, so it's
                 // always the running color—`.statusRunning`'s, which `Spinner`
                 // can't inherit since it sets its color inline.
-                <Spinner
-                  isIndeterminate
-                  isDecorative
-                  size="md"
-                  color="primary.500"
-                />
+                <Spinner isIndeterminate isDecorative color="primary.500" />
               )}
             </div>
             <div className={styles.summary}>
@@ -416,10 +408,7 @@ export function ActivityTray(props: ActivityTrayProps) {
               <Text visuallyHidden>
                 {isExpanded ? "Collapse" : "Expand"} {ariaLabel.toLowerCase()}
               </Text>
-              <Icon
-                symbol={isExpanded ? ArrowDropDownIcon : ArrowDropUpIcon}
-                size="md"
-              />
+              <Icon symbol={isExpanded ? ArrowDropDownIcon : ArrowDropUpIcon} />
             </UnstyledButton>
           </div>
         )}
