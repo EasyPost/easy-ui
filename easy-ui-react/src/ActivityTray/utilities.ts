@@ -2,7 +2,7 @@ import CancelIcon from "@easypost/easy-ui-icons/Cancel";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import WarningIcon from "@easypost/easy-ui-icons/Warning";
-import { IconSymbol } from "../types";
+import { IconSymbol, Offset } from "../types";
 
 /**
  * A task's lifecycle stage.
@@ -23,16 +23,8 @@ export type ActivityTrayPlacement =
 /**
  * Distance from the container's edges. Only the properties relevant to the
  * chosen `placement` are read; the rest are ignored.
- *
- * Deliberately shaped like `NotificationOffset` so the two components are
- * configured the same way. Both should eventually read from one shared type.
  */
-export type ActivityTrayOffset = {
-  top?: string;
-  right?: string;
-  bottom?: string;
-  left?: string;
-};
+export type ActivityTrayOffset = Offset;
 
 export const DEFAULT_ARIA_LABEL = "Background tasks";
 
