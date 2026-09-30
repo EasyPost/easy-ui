@@ -62,6 +62,53 @@ The component is controlled. It renders the tasks it's handed and owns only its 
 </ActivityTray>
 ```
 
+### Confirming a cancel
+
+`<ActivityTray.Action />` is a plain action, and the tray doesn't confirm anything on its own. Only the app knows whether a cancel costs something—abandoning a half-bought batch of labels does, stopping a report doesn't. When it does, open a `<Modal />` from the action and cancel on confirm:
+
+```tsx
+const [confirming, setConfirming] = useState<Task | null>(null);
+
+<>
+  <ActivityTray>
+    {tasks.map((task) => (
+      <ActivityTray.Task key={task.id} {...taskProps(task)}>
+        {task.status === "running" && (
+          <ActivityTray.Action onPress={() => setConfirming(task)}>
+            Cancel
+          </ActivityTray.Action>
+        )}
+      </ActivityTray.Task>
+    ))}
+  </ActivityTray>
+  <ModalContainer onDismiss={() => setConfirming(null)}>
+    {confirming && (
+      <Modal>
+        <Modal.Header>Stop buying labels?</Modal.Header>
+        <Modal.Body>
+          {confirming.completed} labels are already bought and stay bought.
+        </Modal.Body>
+        <Modal.Footer>
+          <HorizontalStack align="end" gap="1">
+            <Button variant="outlined" onPress={() => setConfirming(null)}>
+              Keep going
+            </Button>
+            <Button
+              onPress={() => {
+                cancel(confirming.id);
+                setConfirming(null);
+              }}
+            >
+              Stop
+            </Button>
+          </HorizontalStack>
+        </Modal.Footer>
+      </Modal>
+    )}
+  </ModalContainer>
+</>;
+```
+
 <Canvas of={ActivityTrayStories.BulkPurchase} />
 
 ## Surviving navigation
@@ -134,7 +181,7 @@ Past four or five rows the corner is still a lot of corner, and the cap only bou
 1. **Collapse.** `defaultExpanded={false}` for work measured in minutes. One line, and the user opens it when they care.
 2. **Aggregate before you pass tasks in.** Three batches of a bulk purchase are one thing to the user. Render them as one task with summed `completed` and `total`, and keep the per-batch detail wherever the real job list lives.
 
-A second disclosure **inside** each row—an accordion per task—is the wrong tool. A row holds a title, a bar, and one line of detail; there is nothing to hide behind a chevron, and it would make the common case (glance at the corner, see where things stand) take a click. Grouping tasks of the same kind into one row is the open question the spec is tracking; nested rows aren't.
+A second disclosure **inside** each row—an accordion per task—is the wrong tool. A row holds a title, a bar, and one line of detail; there is nothing to hide behind a chevron, and it would make the common case (glance at the corner, see where things stand) take a click. Grouping is the app's job: the tray has no `group` key, because combining progress across tasks—and deciding what a group with one failure in it reports—depends on what the tasks are.
 
 ## Collapsed
 
@@ -158,6 +205,13 @@ The tray docks to a corner. Use `offset` to clear app chrome—a sticky footer, 
   include={["placement", "maxVisibleTasks"]}
 />
 
+Below the `sm` breakpoint the tray becomes a strip across the viewport, docked to the top or bottom edge its placement names. `offset` still applies to the sides it sets.
+
+### Alongside toasts and modals
+
+- **Toasts** render at the top of the page by default and the tray docks to the bottom, so the two don't meet. If your app moves toasts to the bottom with `notificationPlacement.offset`, give the tray a `placement` or `offset` that keeps them apart—the tray doesn't adjust for them.
+- **Modals** stack above the tray, and their underlay dims it. A modal is a blocking task, and progress creeping along underneath it is something the user can't act on anyway. The work keeps running, rows keep updating, and an outcome that lands while the modal is open is still announced, and still on its row when the modal closes.
+
 ## Accessibility
 
 The short version: **progress is polled, outcomes are pushed.**
@@ -168,6 +222,9 @@ The short version: **progress is polled, outcomes are pushed.**
 - **The status glyphs are decorative.** The status is already in the title, the progress bar, and the announcement.
 - **Escape collapses the tray**, and never dismisses anything—the work is still running, and clearing the tray would say it stopped.
 - **Dismissing a row moves focus to the tray**, which outlives every row—the header doesn't, since it's gone once one task is left.
+- **A capped list is keyboard-scrollable.** While the list overflows, its scroll area is a tab stop, so rows with nothing focusable in them are still reachable.
+- **Outcomes are announced even behind a modal.** A modal hides the rest of the page from assistive technology, the tray included, but the tray's live region is exempt—so work finishing underneath is still announced.
+- **Actions are buttons, including ones with an `href`**, the same as `<Button />` with an `href`.
 - **Running tasks have no dismiss button.** Hiding a row whose work is still happening tells the user it stopped; a `<ActivityTray.Action />` with a real cancel handler is the honest version.
 
 ## Properties

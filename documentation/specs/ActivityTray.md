@@ -195,15 +195,10 @@ export type ActivityTrayPlacement =
  * Distance from the container's edges. Only the properties relevant to the
  * chosen `placement` are read.
  *
- * Shaped to match `NotificationOffset`. Both should be lifted into a shared
- * `Offset` type in `types.ts` — see open questions.
+ * An alias of the shared `Offset` in `types.ts`, which `NotificationOffset`
+ * also aliases, so the two components are configured the same way.
  */
-export type ActivityTrayOffset = {
-  top?: string;
-  right?: string;
-  bottom?: string;
-  left?: string;
-};
+export type ActivityTrayOffset = Offset;
 
 export type ActivityTrayProps = {
   /** `<ActivityTray.Task />` elements. */
@@ -679,7 +674,7 @@ No new surface. Titles and descriptions are strings rendered as text nodes, so n
 
 No new third-party dependencies. React Aria's `useProgressBar` already ships with the package and gives the progress bar its ARIA attributes, exactly as `Spinner` uses it.
 
-Three internal prerequisites:
+Three internal prerequisites. The z-index token is done; the other two ship as private workarounds and are follow-ups:
 
 **A linear progress primitive.** Easy UI has no `ProgressBar`. `Spinner` covers determinate progress radially, which does not work in a one-line row and reads poorly for `127 of 250`. Two options:
 
@@ -694,9 +689,9 @@ Either would fix it: an `aria-label` prop, which silences the warning but leaves
 
 The component works around it with a private `ActivityTraySpinner`, a one-element CSS ring rather than a copy of `Spinner`'s three-arc animation. That is a duplication to delete, not to keep — it will drift from `Spinner`, and a design system with two spinners is a design system with a bug.
 
-**A z-index token.** `z_index` currently holds `input_icon: 1`, `nav: 1000`, `drawer: 1200`, `modal: 1300`, `notification: 999999`. `ActivityTray` needs `z_index.activity_tray`; until it exists, the component sets a literal 1250 through its own component token. Proposed value **1250**: above `nav` and `drawer`, below `modal`.
+**A z-index token.** `z_index` currently holds `input_icon: 1`, `nav: 1000`, `drawer: 1200`, `modal: 1300`, `notification: 999999`. `ActivityTray` uses a new `z_index.activity_tray`, set to **1250**: above `nav` and `drawer`, below `modal`.
 
-Below `modal` is the debatable half. It means an open modal covers the tray, and the modal underlay dims it. That is the right default — a modal is a focused, blocking task and a progress bar creeping along underneath it is a distraction the user cannot act on anyway — but it does mean a user who opens a modal loses sight of running work. Flagged as an open question.
+Below `modal` is the debatable half. It means an open modal covers the tray, and the modal underlay dims it. That is the right default — a modal is a focused, blocking task and a progress bar creeping along underneath it is a distraction the user cannot act on anyway — but it does mean a user who opens a modal loses sight of running work. They don't lose the outcome: a modal `aria-hidden`s the rest of the page, but the tray's live region carries `data-live-announcer`, which React Aria exempts, so work finishing behind a modal is still announced.
 
 The gap between 1300 and 999999 is worth noting as pre-existing: `notification` was set far out of range rather than into the scale. Not this component's problem to fix, but it is why `ActivityTray` cannot simply be "one above notification."
 
@@ -745,15 +740,17 @@ Shipping it alongside phase one risks consumers reaching for the hook, discoveri
 
 ---
 
-## Open questions
+## Resolved questions
 
-1. **Stacking against `Modal`.** Should the tray be visible over a modal? This spec says no. A flow that opens a modal to start more background work is the case that argues yes.
-2. **Collision with `Notification`.** Consumers who move notifications to the bottom via `notificationPlacement.offset` will overlap the tray. Options: document it, or have the tray read notification placement from context and offset itself. The second is more magic than it is worth, probably.
-3. **Shared offset type.** `ActivityTrayOffset` duplicates `NotificationOffset`. Lift a shared `Offset` into `types.ts` as part of this work, or leave the duplication and clean it up separately?
-4. **Mobile.** A corner tray on a 375px viewport either covers a lot or shrinks to nothing. Full-width bottom sheet below the `sm` breakpoint, or out of scope for the first pass?
-5. **Aggregation.** `maxVisibleTasks` caps the tray's height but not its row count, so a dozen concurrent tasks is a dozen rows behind a scrollbar. The fix is grouping tasks of the same kind into one row — "Buying labels, 3 batches", with summed `completed` and `total`, which is what Google Drive does with "Uploading 12 items". Two places it could live: the app aggregates before passing tasks in (free, and today's answer), or `ActivityTray.Task` takes a `group` key and the tray does it (nicer, but the tray then owns how progress across grouped tasks is combined, and what a group with one failure in it reports). Not a nested accordion either way: a row holds one line of detail, which isn't enough to hide behind a chevron, and it would make glancing at the corner cost a click.
-6. **Cancel confirmation.** Cancel is currently a plain action. Bulk purchases involve money; does cancelling a half-finished purchase of 250 labels warrant a confirmation step, and if so is that the tray's job or the app's?
-7. **Link semantics for actions.** `ActivityTray.Action` with an `href` renders an `<a>` carrying `role="button"`, because `UnstyledButton` runs React Aria's `useButton()` over the anchor — the same as `Button` with an `href`. A "Review" action that navigates arguably should read as a link, but changing it here would make the tray inconsistent with every other Easy UI button. Package-wide question, inherited rather than introduced.
+These were open while the component was a prototype, and are settled for its release.
+
+1. **Stacking against `Modal`.** The tray stays below `Modal`. A modal is a blocking task, and progress underneath it is something the user can't act on. The tray's live region is exempt from the modal's `aria-hidden`, so outcomes are still announced; the tray itself is hidden and dimmed, as the rest of the page is.
+2. **Collision with `Notification`.** Documented, not handled. Toasts default to the top of the page and the tray to the bottom, so they only meet when an app moves toasts to the bottom on purpose—and that app can give the tray a `placement` or `offset` that clears them. Reading notification placement from context would be more magic than the case is worth.
+3. **Shared offset type.** Lifted. `Offset` lives in `types.ts`, and `NotificationOffset` and `ActivityTrayOffset` are both aliases of it, so neither public name changed.
+4. **Mobile.** Below the `sm` breakpoint the tray becomes a strip across the viewport, docked to the top or bottom edge its placement names, with the usual edge spacing. No bottom sheet: that's a different interaction model, and nothing about the tray's content needs one.
+5. **Aggregation.** The app's job. Grouping tasks into one row means combining their progress and deciding what a group with one failure in it reports, and both depend on what the tasks are. A `group` key on `ActivityTray.Task` stays possible later, and would be additive. Not a nested accordion either way: a row holds one line of detail, which isn't enough to hide behind a chevron, and it would make glancing at the corner cost a click.
+6. **Cancel confirmation.** The app's job. The tray can't know whether a cancel costs anything; the app can, and opens a `<Modal />` from the action's `onPress` when it does. The docs show the pattern.
+7. **Link semantics for actions.** Unchanged. `ActivityTray.Action` with an `href` is an `<a>` with `role="button"`, the same as `Button` with an `href`. Whether navigating buttons should read as links is a package-wide question, and the tray follows the package.
 
 ## Resources
 
