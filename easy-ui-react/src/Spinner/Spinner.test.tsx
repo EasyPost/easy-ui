@@ -44,4 +44,21 @@ describe("<Spinner />", () => {
     );
     expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
   });
+
+  it("should hide a decorative spinner from assistive technology", () => {
+    const { container } = render(
+      <Spinner isIndeterminate isDecorative>
+        waiting
+      </Spinner>,
+    );
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(screen.queryByText(/waiting|loading/i)).not.toBeInTheDocument();
+    expect(container.firstElementChild).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("should hide a decorative determinate spinner", () => {
+    const { container } = render(<Spinner value={50} isDecorative />);
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    expect(container.firstElementChild).toHaveAttribute("aria-hidden", "true");
+  });
 });

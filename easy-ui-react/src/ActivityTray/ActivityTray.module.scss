@@ -284,33 +284,6 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
   min-width: 0;
 }
 
-// Track width, track color, speed, and easing are all `Spinner`'s, so the two
-// read as the same spinner at a glance. The structure is simpler—one element
-// instead of `Spinner`'s four—because this one only has to be decorative.
-.spinner {
-  // Matches `Spinner`'s literal—there's no border-width token this thin.
-  @include component-token("activity-tray", "spinner-track-width", 1.5px);
-  @include component-token("activity-tray", "spinner-animation-speed", 1s);
-
-  flex: 0 0 auto;
-  width: component-token("activity-tray", "spinner-size");
-  height: component-token("activity-tray", "spinner-size");
-  border: component-token("activity-tray", "spinner-track-width") solid
-    design-token("color.neutral.050");
-  // Picks up `task.color` from the status class on the row.
-  border-top-color: currentcolor;
-  border-radius: 50%;
-  animation: activity-tray-spin
-    component-token("activity-tray", "spinner-animation-speed")
-    cubic-bezier(0.5, 0, 0.5, 1) infinite;
-}
-
-@keyframes activity-tray-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .taskActions {
   display: flex;
   flex: 0 0 auto;

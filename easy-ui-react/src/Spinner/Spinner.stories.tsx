@@ -65,3 +65,13 @@ export const Color: Story = {
   render: Template.bind({}),
   args: { children: "Loading...", color: "positive.500" },
 };
+
+export const Decorative: Story = {
+  render: (args: SpinnerProps) => (
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <Spinner {...args} />
+      <span>Buying 250 labels</span>
+    </div>
+  ),
+  args: { isIndeterminate: true, isDecorative: true, color: "primary.500" },
+};

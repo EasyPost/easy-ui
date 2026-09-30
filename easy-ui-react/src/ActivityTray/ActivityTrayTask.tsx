@@ -1,12 +1,12 @@
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import React, { ReactNode, useEffect, useId, useRef } from "react";
 import { Icon } from "../Icon";
+import { Spinner } from "../Spinner";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 import { classNames, variationName } from "../utilities/css";
 import { useActivityTrayContext } from "./context";
 import { ActivityTrayProgress } from "./ActivityTrayProgress";
-import { ActivityTraySpinner } from "./ActivityTraySpinner";
 import {
   TaskStatus,
   buildAnnouncement,
@@ -176,15 +176,22 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
     >
       {/*
         Both of these hide themselves from assistive technology—an unlabeled
-        `Icon` sets `aria-hidden`, and `ActivityTraySpinner` is decorative by
-        construction. The status reaches a screen reader through the title, the
+        `Icon` sets `aria-hidden`, and so does a `Spinner` marked
+        `isDecorative`. The status reaches a screen reader through the title, the
         progress bar, and the announcement instead.
       */}
       <div className={styles.taskStatus}>
         {statusIcon ? (
           <Icon symbol={statusIcon} size="md" />
         ) : (
-          <ActivityTraySpinner size="md" />
+          // Mirrors `.statusPending` and `.statusRunning`, which `Spinner`
+          // can't inherit since it sets its color inline.
+          <Spinner
+            isIndeterminate
+            isDecorative
+            size="md"
+            color={status === "running" ? "primary.500" : "neutral.500"}
+          />
         )}
       </div>
       <div className={styles.taskContent}>

@@ -15,6 +15,7 @@ import { createPortal } from "react-dom";
 import { OverlayScrollbars } from "overlayscrollbars";
 import { mergeProps, useFocusWithin, useHover } from "react-aria";
 import { Icon } from "../Icon";
+import { Spinner } from "../Spinner";
 import { Text } from "../Text";
 import { UnstyledButton } from "../UnstyledButton";
 import { classNames, getComponentToken, variationName } from "../utilities/css";
@@ -22,7 +23,6 @@ import { filterChildrenByDisplayName } from "../utilities/react";
 import { useScrollbar } from "../utilities/useScrollbar";
 import { ActivityTrayContext } from "./context";
 import { ActivityTrayAction } from "./ActivityTrayAction";
-import { ActivityTraySpinner } from "./ActivityTraySpinner";
 import { ActivityTrayTask, ActivityTrayTaskProps } from "./ActivityTrayTask";
 import {
   DEFAULT_ARIA_LABEL,
@@ -378,7 +378,15 @@ export function ActivityTray(props: ActivityTrayProps) {
               {summaryIcon ? (
                 <Icon symbol={summaryIcon} size="md" />
               ) : (
-                <ActivityTraySpinner size="md" />
+                // The header only spins while something is running, so it's
+                // always the running color—`.statusRunning`'s, which `Spinner`
+                // can't inherit since it sets its color inline.
+                <Spinner
+                  isIndeterminate
+                  isDecorative
+                  size="md"
+                  color="primary.500"
+                />
               )}
             </div>
             <div className={styles.summary}>
