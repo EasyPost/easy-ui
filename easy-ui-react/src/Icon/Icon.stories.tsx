@@ -5,7 +5,7 @@ import WarningIcon from "@easypost/easy-ui-icons/Warning";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { HorizontalStack } from "../HorizontalStack";
-import { IconSymbol } from "../types";
+import { galleryIcons } from "../utilities/icons";
 import {
   createColorTokensControl,
   createLabelledOptionsControl,
@@ -13,28 +13,6 @@ import {
 } from "../utilities/storybook";
 import { VerticalStack } from "../VerticalStack";
 import { Icon, IconProps } from "./Icon";
-
-type IconModule = { default: IconSymbol };
-type IconGalleryItem = { name: string; Component: IconSymbol };
-
-const iconModules: Record<string, IconModule> = import.meta.glob(
-  "../../../easy-ui-icons/dist/*.mjs",
-  { eager: true },
-);
-
-const icons = Object.entries(iconModules)
-  .map(([path, iconModule]) => {
-    const { default: Component } = iconModule;
-    if (!Component) {
-      return null;
-    }
-    const name = path
-      .split("/")
-      .pop()!
-      .replace(/\.mjs$/, "");
-    return { name, Component };
-  })
-  .filter(Boolean) as IconGalleryItem[];
 
 type Story = StoryObj<typeof Icon>;
 
@@ -84,7 +62,7 @@ export const Controls: Story = {
 export const Gallery: Story = {
   render: () => (
     <VerticalStack gap="1">
-      {icons.map(({ name, Component }) => (
+      {galleryIcons.map(({ name, Component }) => (
         <HorizontalStack key={name} blockAlign="center" gap="2">
           <Icon symbol={Component} /> {name}
         </HorizontalStack>
