@@ -3,6 +3,7 @@
     "input_icon": { "value": "1" },
     "nav": { "value": "1000" },
     "drawer": { "value": "1200" },
+    "activity_tray": { "value": "1250" },
     "modal": { "value": "1300" },
     "notification": { "value": "999999" }
   }

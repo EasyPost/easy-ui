@@ -28,6 +28,14 @@ A `<Spinner />` can display progress of the loading state when `value` is provid
 <Canvas of={SpinnerStories.Progress} />
 <Controls of={SpinnerStories.Progress} include={["value"]} />
 
+## Decorative
+
+When the text beside a spinner already says what's loading, use `isDecorative` to hide the spinner from assistive technology. Otherwise a screen reader hears the same thing twice—"Loading" from the spinner, then the text. The spinner renders no role, no label, and no `children`.
+
+Only use it when something else carries the loading state: visible text, a `role="progressbar"`, or a live region. On its own, a decorative spinner tells a screen reader user nothing.
+
+<Canvas of={SpinnerStories.Decorative} />
+
 ## Appearance
 
 A `<Spinner />` supports all icon sizes and various colors.

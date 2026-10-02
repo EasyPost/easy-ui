@@ -1,0 +1,295 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/addon-docs/blocks";
+import { ActivityTray } from "./ActivityTray";
+import * as ActivityTrayStories from "./ActivityTray.stories";
+
+<Meta of={ActivityTrayStories} />
+
+# ActivityTray
+
+A `<ActivityTray />` reports on work the app is doing in the background, from a corner of the screen, without blocking anything. Use it for work the user starts and then walks away from—buying 250 labels, generating a report, importing a CSV.
+
+<Canvas of={ActivityTrayStories.Simple} />
+
+## Not a toast
+
+The overlap with `<Notification />`'s toasts is real, and the difference is what each one is about. A toast is a **message**: something happened, it's worth a sentence, and there's nothing left to track. A tray row is a **task**: it has a duration, a progress figure, and an outcome the user may have to act on.
+
+|             | Toast           | Activity tray                 |
+| ----------- | --------------- | ----------------------------- |
+| Subject     | An event        | A unit of work                |
+| Lifetime    | 4 seconds       | As long as the work runs      |
+| How many    | One at a time   | Several, stacked              |
+| Progress    | None            | Determinate or indeterminate  |
+| Interaction | Read it         | Expand, cancel, retry, review |
+| Ends when   | The timer fires | The work does                 |
+
+They compose, and often both are right: a bulk action fires a toast to acknowledge the click and opens a tray row to carry the work.
+
+<Canvas of={ActivityTrayStories.WithToast} />
+
+## when not to use an ActivityTray
+
+- **The work finishes in a moment.** Use a toast, or nothing.
+- **The user has to wait for it.** Use a `<Modal />` or an inline loading state. A tray says "carry on"; if they can't, don't say it.
+- **The progress belongs to a region of the page.** Put it in that region. A corner is for work the user has navigated away from.
+- **There's only ever one task and it's the whole page's subject.** An inline `<ProgressBar />` reads better than a floating one.
+
+## The app owns the tasks
+
+The component is controlled. It renders the tasks it's handed and owns only its collapsed state and its dismissal timers—the task list lives in the app, next to whatever already knows about the work: a polling hook, a websocket, a mutation cache.
+
+```tsx
+<ActivityTray>
+  {tasks.map((task) => (
+    <ActivityTray.Task
+      key={task.id}
+      title={task.title}
+      status={task.status}
+      completed={task.completed}
+      total={task.total}
+      unit="labels"
+      description={task.description}
+      onDismiss={() => dismiss(task.id)}
+    >
+      {task.status === "running" && (
+        <ActivityTray.Action onPress={() => cancel(task.id)}>
+          Cancel
+        </ActivityTray.Action>
+      )}
+    </ActivityTray.Task>
+  ))}
+</ActivityTray>
+```
+
+<Canvas of={ActivityTrayStories.BulkPurchase} />
+
+## Actions
+
+A row takes up to two `<ActivityTray.Action />` elements. Use `onPress` for something the app does—cancel, retry—and `href` for somewhere to go, like the list of shipments that failed. Keep the labels to a verb or two; the row's title already says what they act on.
+
+<Canvas of={ActivityTrayStories.Actions} />
+
+Actions are styled like the rest of the overlay family—text on a `neutral.050` hover, like a menu item—rather than as a `<Button />`, which would be too heavy for a 360px row.
+
+### Confirming a cancel
+
+`<ActivityTray.Action />` is a plain action, and the tray doesn't confirm anything on its own. Only the app knows whether a cancel costs something—abandoning a half-bought batch of labels does, stopping a report doesn't. When it does, open a `<Modal />` from the action and cancel on confirm:
+
+```tsx
+const [confirming, setConfirming] = useState<Task | null>(null);
+
+<>
+  <ActivityTray>
+    {tasks.map((task) => (
+      <ActivityTray.Task key={task.id} {...taskProps(task)}>
+        {task.status === "running" && (
+          <ActivityTray.Action onPress={() => setConfirming(task)}>
+            Cancel
+          </ActivityTray.Action>
+        )}
+      </ActivityTray.Task>
+    ))}
+  </ActivityTray>
+  <ModalContainer onDismiss={() => setConfirming(null)}>
+    {confirming && (
+      <Modal>
+        <Modal.Header>Stop buying labels?</Modal.Header>
+        <Modal.Body>
+          {confirming.completed} labels are already bought and stay bought.
+        </Modal.Body>
+        <Modal.Footer>
+          <HorizontalStack align="end" gap="1">
+            <Button variant="outlined" onPress={() => setConfirming(null)}>
+              Keep going
+            </Button>
+            <Button
+              onPress={() => {
+                cancel(confirming.id);
+                setConfirming(null);
+              }}
+            >
+              Stop
+            </Button>
+          </HorizontalStack>
+        </Modal.Footer>
+      </Modal>
+    )}
+  </ModalContainer>
+</>;
+```
+
+<Canvas of={ActivityTrayStories.CancelConfirmation} />
+
+## Surviving navigation
+
+Persisting across URLs is a matter of **where the tray is mounted**, not a feature of the component. Mount it above your router—typically beside `<Provider />`—and a route change never unmounts it.
+
+```tsx
+<Provider>
+  <Router>{routes}</Router>
+  <ActivityTray>{...}</ActivityTray>
+</Provider>
+```
+
+<Canvas of={ActivityTrayStories.PersistsAcrossRoutes} />
+
+Carrying tasks across a **full page load**—a refresh, a new tab, another device—is a different problem, and not one the tray can solve. The work is running on a server, so the server is the only thing that knows about it. Refetch in-flight jobs on mount and feed them back in:
+
+```tsx
+function BackgroundTasks() {
+  const { data: tasks = [] } = useQuery({
+    queryKey: ["background-tasks"],
+    queryFn: fetchInFlightTasks,
+    refetchInterval: (query) =>
+      query.state.data?.some((task) => task.status === "running")
+        ? 2000
+        : false,
+  });
+  return <ActivityTray>{tasks.map(renderTask)}</ActivityTray>;
+}
+```
+
+Don't reach for `localStorage` here. A task's state lives on the server, and a cached copy is wrong the moment the job moves—which is exactly while the user is away.
+
+## Statuses
+
+Six stages, not three tones. `pending` and `running` spin; the four terminal stages carry an icon and a color.
+
+`succeeded` and `canceled` retire themselves after `autoDismissDelay`. `partial` and `failed` stay until the user dismisses them, because they carry information—which three shipments failed—that a timer would throw away.
+
+<Canvas of={ActivityTrayStories.Statuses} />
+
+The dismissal timer is held while the pointer or focus is anywhere in the tray, so a row can't disappear out from under someone reading it. Set `autoDismissDelay={null}` to turn auto-dismissal off entirely, on the tray or on one task.
+
+## Progress
+
+Pass `completed` and `total` for a determinate bar, and `unit` to name what's being counted—it's what the screen reader reads, as "127 of 250 labels".
+
+Omit `total` when the app can't honestly say how far along the work is. An indeterminate row is better than a bar stalled at 90%.
+
+<Canvas of={ActivityTrayStories.Indeterminate} />
+
+## Several tasks
+
+A single task is its own row—no header, no disclosure. Repeating the title above the row and offering a chevron with nothing behind it would be two lines of tray doing one line of work.
+
+A header appears with the second task, counting instead of naming, and the list scrolls once it passes `maxVisibleTasks`.
+
+<Canvas of={ActivityTrayStories.MultipleTasks} />
+
+While anything is still running the header says so; once everything has landed it takes on the most severe outcome present, so one failure isn't hidden behind nine successes.
+
+### When a lot is going on
+
+`maxVisibleTasks` is a height cap, not a count cap: the tray holds at that many rows and scrolls, so it never grows to cover the page.
+
+<Canvas of={ActivityTrayStories.ManyTasks} />
+
+Past four or five rows the corner is still a lot of corner, and the cap only bounds it. Two things actually reduce it, in order of how much they buy:
+
+1. **Collapse.** `defaultExpanded={false}` for work measured in minutes. One line, and the user opens it when they care.
+2. **Aggregate before you pass tasks in.** Three batches of a bulk purchase are one thing to the user. Render them as one task with summed `completed` and `total`, and keep the per-batch detail wherever the real job list lives.
+
+A second disclosure **inside** each row—an accordion per task—is the wrong tool. A row holds a title, a bar, and one line of detail; there is nothing to hide behind a chevron, and it would make the common case (glance at the corner, see where things stand) take a click. Grouping is the app's job: the tray has no `group` key, because combining progress across tasks—and deciding what a group with one failure in it reports—depends on what the tasks are.
+
+## Collapsed
+
+With two or more tasks the header doubles as a disclosure. Collapsed, the tray is that one line: the summary, and a status glyph that spins while anything is running. It's a good default for work measured in minutes, where the user doesn't need the detail in front of them the whole time. Start collapsed with `defaultExpanded={false}`.
+
+<Canvas of={ActivityTrayStories.Collapsed} />
+
+Rows stay mounted while collapsed. Their work keeps running, their outcomes are still announced, and their dismissal timers still run.
+
+### Controlled
+
+Pass `isExpanded` and `onExpandedChange` to own the state—to remember it between sessions, or to open the tray from somewhere else on the page.
+
+<Canvas of={ActivityTrayStories.Controlled} />
+
+### Summary
+
+The header counts by default: "2 of 3 tasks running". `renderSummary` rewrites it, and gets the number of unfinished tasks and the total. Name the work when all the tasks are the same kind of work; count them when they aren't.
+
+```tsx
+<ActivityTray
+  renderSummary={(running, total) =>
+    running > 0
+      ? `Buying labels in ${running} of ${total} batches`
+      : `${total} batches done`
+  }
+>
+  {children}
+</ActivityTray>
+```
+
+<Canvas of={ActivityTrayStories.CustomSummary} />
+
+## Placement
+
+The tray docks to a corner. Use `offset` to clear app chrome—a sticky footer, a support widget.
+
+```tsx
+<ActivityTray
+  placement="bottom-start"
+  offset={{ bottom: "72px", left: "16px" }}
+>
+  {children}
+</ActivityTray>
+```
+
+<Canvas of={ActivityTrayStories.Placement} />
+<Controls
+  of={ActivityTrayStories.Placement}
+  include={["placement", "offset"]}
+/>
+
+Below the `sm` breakpoint the tray becomes a strip across the viewport, docked to the top or bottom edge its placement names. `offset` still applies to the sides it sets. The breakpoint follows the viewport, not the frame on this page, so open the [Mobile story](?path=/story/components-activitytray--mobile) on its own to see it at a phone width.
+
+### Rendering somewhere else
+
+The tray portals into `document.body` by default. `getContainer` points it somewhere else—a shadow root, or an app shell whose own stacking context the tray has to join. The tray renders nothing until the getter returns an element, rather than flashing in the body first, so a getter that reads a ref is fine.
+
+```tsx
+const shellRef = useRef<HTMLDivElement>(null);
+
+<div ref={shellRef}>
+  <ActivityTray getContainer={() => shellRef.current}>{children}</ActivityTray>
+</div>;
+```
+
+### Alongside toasts and modals
+
+- **Toasts** render at the top of the page by default and the tray docks to the bottom, so the two don't meet. If your app moves toasts to the bottom with `notificationPlacement.offset`, give the tray a `placement` or `offset` that keeps them apart—the tray doesn't adjust for them.
+- **Modals** stack above the tray, and their underlay dims it. A modal is a blocking task, and progress creeping along underneath it is something the user can't act on anyway. The work keeps running, rows keep updating, and an outcome that lands while the modal is open is still announced, and still on its row when the modal closes.
+
+## Accessibility
+
+The short version: **progress is polled, outcomes are pushed.**
+
+- **The tray is a landmark, not a live region.** `role="region"` with a name puts it in the landmark list, so a screen reader user can jump to it deliberately, and <kbd>F6</kbd> cycles to it the same way it reaches toasts. A live region wrapping the whole tray would read every progress tick aloud.
+- **Name it for what it holds.** The landmark is "Background tasks" by default. If the tray only ever holds one kind of work, say so with `aria-label`—"Label purchases".
+- **Progress reaches assistive technology through `role="progressbar"`**, with `aria-valuemax` set to the total and `aria-valuetext` reading "127 of 250 labels". The user goes looking for it rather than being told.
+- **Only terminal transitions are announced**, through one polite `aria-atomic` live region: "Bought 247 of 250 labels finished with errors. 3 shipments were missing a rate." Transitions landing in the same tick coalesce into one sentence.
+- **The status glyphs are decorative.** The status is already in the title, the progress bar, and the announcement, so the spinner is a `<Spinner isDecorative />`.
+- **The header is a disclosure.** Its toggle carries `aria-expanded` and `aria-controls`, and a collapsed list is `hidden`, not just clipped.
+- **Escape collapses the tray**, and never dismisses anything—the work is still running, and clearing the tray would say it stopped.
+- **Dismissing a row moves focus to the tray**, which outlives every row—the header doesn't, since it's gone once one task is left.
+- **A capped list is keyboard-scrollable.** While the list overflows, its scroll area is a tab stop, so rows with nothing focusable in them are still reachable.
+- **Outcomes are announced even behind a modal.** A modal hides the rest of the page from assistive technology, the tray included, but the tray's live region is exempt—so work finishing underneath is still announced.
+- **Actions are buttons, including ones with an `href`**, the same as `<Button />` with an `href`.
+- **Running tasks have no dismiss button.** Hiding a row whose work is still happening tells the user it stopped; a `<ActivityTray.Action />` with a real cancel handler is the honest version.
+
+## Properties
+
+### ActivityTray
+
+<ArgTypes of={ActivityTray} />
+
+### ActivityTray.Task
+
+<ArgTypes of={ActivityTray.Task} />
+
+### ActivityTray.Action
+
+<ArgTypes of={ActivityTray.Action} />

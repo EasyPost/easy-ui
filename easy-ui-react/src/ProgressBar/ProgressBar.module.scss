@@ -1,0 +1,48 @@
+@use "../styles/common" as *;
+
+.progressBar {
+  display: flex;
+  flex-direction: column;
+  gap: design-token("space.0.5");
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: design-token("space.1");
+}
+
+.track {
+  height: design-token("space.0.5");
+  border-radius: design-token("shape.border_radius.sm");
+  background-color: design-token("color.neutral.100");
+  overflow: hidden;
+}
+
+.fill {
+  width: component-token("progress-bar", "fill");
+  height: 100%;
+  border-radius: inherit;
+  background-color: component-token("progress-bar", "color");
+  transition: width 150ms ease-out;
+}
+
+// No visible label: the value label follows the track on the same line.
+.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: design-token("space.1");
+
+  .track {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}
