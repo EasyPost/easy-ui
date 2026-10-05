@@ -4,6 +4,11 @@
 }
 .CalendarGridHeader {
   background-color: design-token("color.primary.700");
+  th {
+    // Set explicitly so a global `th { text-align: inherit }` reset, such as
+    // the one in Bootstrap's reboot, can't left align the weekday letters.
+    text-align: center;
+  }
   span {
     vertical-align: middle;
   }
