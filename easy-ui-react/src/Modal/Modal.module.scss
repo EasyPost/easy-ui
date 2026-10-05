@@ -89,6 +89,17 @@
   display: flex;
   flex-direction: column;
   overscroll-behavior: contain;
+
+  // once OverlayScrollbars initializes, it moves scrolling to its own viewport
+  // and marks this element as its host, which it expects to clip. its
+  // `overflow: hidden` has the same specificity as `.body` but lands earlier in
+  // the cascade, so the `overflow: auto` above would leave the host natively
+  // scrollable—and a body only one line tall overflows by a few pixels, enough
+  // to show a native scrollbar wherever scrollbars are always visible. keep
+  // `overflow: auto` for the pre-initialization pass and let the host win after
+  &[data-overlayscrollbars~="host"] {
+    overflow: hidden;
+  }
 }
 
 .content {
