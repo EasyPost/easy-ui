@@ -50,7 +50,25 @@ six`}
       />,
     );
     expect(screen.getByText(/one/i).closest("pre")).toHaveStyle({
-      "-webkit-line-clamp": 4,
+      "max-height": "calc(6em + 4px)",
+      overflow: "auto",
     });
+  });
+
+  it("should cap max lines by height instead of clamping with an ellipsis", () => {
+    render(
+      <CodeSnippet
+        code={`one
+two
+three
+four
+five
+six`}
+        language="javascript"
+        maxLines={4}
+      />,
+    );
+    const $pre = screen.getByText(/one/i).closest("pre");
+    expect($pre?.style.webkitLineClamp).toBe("");
   });
 });
