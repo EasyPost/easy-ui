@@ -2,6 +2,12 @@ import ezuiTokens from "@easypost/easy-ui-tokens/js/tokens";
 import { useMemo } from "react";
 import { pxToRem } from "../utilities/css";
 
+/** Unitless line height shared by the `pre` and `code` elements. */
+const LINE_HEIGHT = 1.5;
+
+/** Bottom padding on the `pre`, offset by an equal negative margin. */
+const BLOCK_PADDING_BOTTOM = 4;
+
 export function useEasyUiSyntaxHighlighterTheme(maxLines?: number) {
   return useMemo(
     () =>
@@ -54,7 +60,7 @@ export function buildTheme(
       wordSpacing: "normal",
       wordBreak: "normal",
       wordWrap: "normal",
-      lineHeight: "1.5",
+      lineHeight: `${LINE_HEIGHT}`,
       fontSize: config.fontSize,
       MozTabSize: "4",
       OTabSize: "4",
@@ -72,7 +78,7 @@ export function buildTheme(
       wordSpacing: "normal",
       wordBreak: "normal",
       wordWrap: "normal",
-      lineHeight: "1.5",
+      lineHeight: `${LINE_HEIGHT}`,
       fontSize: config.fontSize,
       MozTabSize: "4",
       OTabSize: "4",
@@ -84,12 +90,18 @@ export function buildTheme(
       margin: "0",
       background: "inherit",
       display: "-webkit-box",
-      paddingBottom: 4,
-      marginBottom: -4,
+      paddingBottom: BLOCK_PADDING_BOTTOM,
+      marginBottom: -BLOCK_PADDING_BOTTOM,
       ...(config.maxLines && {
         position: "relative",
         paddingRight: 4,
-        WebkitLineClamp: `${config.maxLines}`,
+        // cap the height to `maxLines` line boxes rather than using
+        // `-webkit-line-clamp`, which renders an ellipsis on the last visible
+        // line and reads as though the code itself were truncated. `em` here
+        // resolves against this element's own font size, so one line box is
+        // `LINE_HEIGHT` em; the padding is added back since `box-sizing` is
+        // `border-box` and would otherwise eat into the last line.
+        maxHeight: `calc(${config.maxLines * LINE_HEIGHT}em + ${BLOCK_PADDING_BOTTOM}px)`,
         overflow: "auto",
       }),
       WebkitBoxOrient: "vertical",
