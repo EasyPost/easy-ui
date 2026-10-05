@@ -1,5 +1,12 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.138
+
+### Patch Changes
+
+- 55c33f6: Center the weekday letters in the `Calendar` header so a global `th` text-align reset can't left align them
+- 4992424: Cap `<CodeSnippet />` `maxLines` by height instead of `-webkit-line-clamp`, which always ended the last visible line in an ellipsis
+
 ## 1.0.0-alpha.137
 
 ### Minor Changes
