@@ -557,38 +557,6 @@ function ScrollIntoView() {
   return <div ref={ref} />;
 }
 
-/**
- * A body only one line tall still overflows its own scroll host by a few
- * pixels, because the modal scrollbar theme pads the scroll area and the
- * scrollbar handle has a minimum size. OverlayScrollbars clips that overflow on
- * the host, so nothing should scroll and no scrollbar should appear here.
- *
- * Worth checking on a platform where scrollbars are always visible (Linux,
- * Windows): if the host is left natively scrollable, a native scrollbar shows
- * up alongside this single line. macOS hides it—its scrollbars are overlays
- * that fade when idle—so the host's computed `overflow` is the reliable tell
- * there: it should be `hidden`, not `auto`.
- */
-export const ShortBody: ModalStory = {
-  render: () => (
-    <Modal.Trigger defaultOpen>
-      <Button>Open modal</Button>
-      <Modal size="sm">
-        <Modal.Header>Session expired</Modal.Header>
-        <Modal.Body>
-          <Text>Your session has expired. Please log in again.</Text>
-        </Modal.Body>
-        <Modal.Footer
-          primaryAction={{
-            content: "Log in",
-            onAction: action("Log in clicked!"),
-          }}
-        />
-      </Modal>
-    </Modal.Trigger>
-  ),
-};
-
 export const WithFooterSlot: ModalStory = {
   render: () => (
     <Modal.Trigger onOpenChange={action("Modal open state changed!")}>
