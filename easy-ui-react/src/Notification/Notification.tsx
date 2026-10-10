@@ -12,6 +12,7 @@ import { NotificationContainer } from "./NotificationContainer";
 import { useNotificationState } from "./useNotificationState";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
+import { Offset } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { UnstyledButton } from "../UnstyledButton";
 import styles from "./Notification.module.scss";
@@ -320,16 +321,7 @@ export function useNotification() {
   return notification;
 }
 
-export type NotificationOffset = {
-  /** Top offset */
-  top?: string;
-  /** Right offset */
-  right?: string;
-  /** Bottom offset */
-  bottom?: string;
-  /** Left offset */
-  left?: string;
-};
+export type NotificationOffset = Offset;
 
 export type NotificationPosition = "fixed" | "absolute";
 

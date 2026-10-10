@@ -87,6 +87,21 @@ export type ZIndex = DesignTokenNamespace<"z-index">;
 
 export type Opacity = DesignTokenNamespace<"opacity">;
 
+/**
+ * Distance from a container's edges, for fixed and absolutely positioned
+ * surfaces that need to clear app chrome.
+ */
+export type Offset = {
+  /** Top offset */
+  top?: string;
+  /** Right offset */
+  right?: string;
+  /** Bottom offset */
+  bottom?: string;
+  /** Left offset */
+  left?: string;
+};
+
 type Enumerate<
   N extends number,
   Acc extends number[] = [],

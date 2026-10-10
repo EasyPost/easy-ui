@@ -1,0 +1,68 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes } from "@storybook/addon-docs/blocks";
+import { ProgressBar } from "./ProgressBar";
+import * as ProgressBarStories from "./ProgressBar.stories";
+
+<Meta of={ProgressBarStories} />
+
+# ProgressBar
+
+A `<ProgressBar />` shows how far along a task with a known end is—uploading a file, buying a batch of labels, working through a multi-step import.
+
+<Canvas of={ProgressBarStories.Simple} />
+
+## When not to use a ProgressBar
+
+- **Nobody knows how far along the work is.** Use `<Spinner isIndeterminate />`. The bar is determinate only: a linear indeterminate animation needs a design of its own, and a bar that fakes a percentage reads worse than a spinner that never claimed to know.
+- **The work runs in the background while the user does something else.** Use `<ActivityTray />`, which carries a bar like this one in each row and owns the announcements and dismissal around it.
+- **It's a measurement, not progress.** A bar that fills toward a quota is fine; a bar standing in for a score or a rating isn't, because a screen reader announces it as progress.
+
+## Value label
+
+The value label is shown beside the label, and it's what a screen reader reads as `aria-valuetext`. By default it's the value as a percentage. Pass `valueLabel` to say what's being counted instead—"127 of 250 labels" tells the user more than "51%".
+
+<Canvas of={ProgressBarStories.WithValueLabel} />
+
+`formatOptions` changes how the default is formatted, for when a number with a unit is all you need:
+
+```tsx
+<ProgressBar
+  label="Storage"
+  value={5}
+  maxValue={10}
+  formatOptions={{ style: "unit", unit: "gigabyte" }}
+/>
+```
+
+The value label shows by default when there's a `label` and hides when there isn't. `showValueLabel` overrides either way. Shown without a label, it sits at the end of the track rather than above it, so the bar stays one line—the layout for a bar named by text elsewhere, through `aria-labelledby`.
+
+## Colors
+
+`color` tints the filled portion of the bar. It defaults to `primary.500`. Color is never the only signal—pair a changed color with a label or value label that says the same thing.
+
+<Canvas of={ProgressBarStories.Colors} />
+
+## Without a visible label
+
+When the bar's subject is already on screen—a card title, a table row—name it with `aria-label` or `aria-labelledby` instead of repeating it.
+
+<Canvas of={ProgressBarStories.NoVisibleLabel} />
+
+<Canvas of={ProgressBarStories.InCard} />
+
+## Updating
+
+The bar eases between values over 150ms, the same timing the rest of the library uses. The transition is off when the user prefers reduced motion.
+
+<Canvas of={ProgressBarStories.Animated} />
+
+## Accessibility
+
+- **The bar is a `role="progressbar"`**, through React Aria's `useProgressBar`, with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-valuetext`.
+- **It needs a name.** Pass `label`, or `aria-label` / `aria-labelledby` when there's no visible label.
+- **Progress isn't announced as it changes.** A progress bar is something the user goes looking for. If the outcome matters, announce it yourself when the work finishes—or use `<ActivityTray />`, which does.
+- **Say what's being counted** with `valueLabel`. "127 of 250 labels" is more useful read aloud than "51%".
+
+## Properties
+
+<ArgTypes of={ProgressBar} />
