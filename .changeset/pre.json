@@ -10,6 +10,8 @@
     "@easypost/stylelint-easy-ui": "0.0.0"
   },
   "changesets": [
+    "activity-tray-z-index",
+    "activity-tray",
     "afraid-chicken-wash",
     "angry-brooms-agree",
     "big-suits-hear",
@@ -144,6 +146,7 @@
     "popular-mayflies-rescue",
     "pretty-adults-kick",
     "pretty-seals-flow",
+    "progress-bar",
     "proud-singers-chew",
     "puny-rivers-look",
     "purple-bananas-jog",
@@ -193,6 +196,7 @@
     "soft-boats-clean",
     "soft-shadows-layer",
     "spicy-moments-mate",
+    "spinner-decorative",
     "spotty-ends-judge",
     "stale-lies-repeat",
     "strange-icons-arrive",

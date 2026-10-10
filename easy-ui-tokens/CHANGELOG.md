@@ -1,5 +1,11 @@
 # @easypost/easy-ui-tokens
 
+## 1.0.0-alpha.18
+
+### Minor Changes
+
+- 3ffcd65: Adds `z_index.activity_tray` (1250), which stacks `<ActivityTray />` above `nav` and `drawer` and below `modal`.
+
 ## 1.0.0-alpha.17
 
 ### Patch Changes
