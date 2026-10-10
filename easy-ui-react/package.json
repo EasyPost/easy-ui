@@ -1,6 +1,6 @@
 {
   "name": "@easypost/easy-ui",
-  "version": "1.0.0-alpha.139",
+  "version": "1.0.0-alpha.140",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EasyPost/easy-ui.git",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@easypost/easy-ui-icons": "1.0.0-alpha.61",
-    "@easypost/easy-ui-tokens": "1.0.0-alpha.17",
+    "@easypost/easy-ui-tokens": "1.0.0-alpha.18",
     "@react-aria/overlays": "^3.32.1",
     "@react-aria/toast": "^3.1.1",
     "@react-aria/utils": "^3.34.1",

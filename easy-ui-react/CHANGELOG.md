@@ -1,5 +1,21 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.140
+
+### Minor Changes
+
+- 3ffcd65: Adds `<ActivityTray />`, which reports on background work—buying labels, generating a report, importing a CSV—from a corner of the screen without blocking the page. Each `<ActivityTray.Task />` is a row that names the work, shows determinate or indeterminate progress, and ends in a `succeeded`, `partial`, `failed`, or `canceled` state, with up to two `<ActivityTray.Action />` elements for Cancel, Retry, or View. Succeeded and canceled rows retire themselves after `autoDismissDelay`, held while the pointer or focus is inside the tray; partial and failed rows stay until dismissed. Past one task the tray gains a collapsible summary header. Terminal outcomes are announced through a single live region, and the tray is a named landmark.
+
+  `NotificationOffset` is now an alias of a shared `Offset` type, which `ActivityTrayOffset` also aliases. Its shape is unchanged.
+
+- 3ffcd65: Adds `<ProgressBar />`, a determinate linear progress bar built on React Aria's `useProgressBar`, with an optional visible label, a custom value label that doubles as `aria-valuetext`, and a theme color.
+- 3ffcd65: feat(Spinner): add `isDecorative` to hide a spinner from assistive technology when something beside it already carries the loading state
+
+### Patch Changes
+
+- Updated dependencies [3ffcd65]
+  - @easypost/easy-ui-tokens@1.0.0-alpha.18
+
 ## 1.0.0-alpha.139
 
 ### Patch Changes
