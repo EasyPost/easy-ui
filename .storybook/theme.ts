@@ -24,7 +24,7 @@ export const theme = create({
 
   brandTitle: "EasyPost Easy UI Storybook",
   brandUrl: "/",
-  brandImage: "/easypost-logo.svg?v=20230308",
+  brandImage: "easypost-logo.svg?v=20230308",
   brandTarget: "_self",
 
   appBg: colors.background,
