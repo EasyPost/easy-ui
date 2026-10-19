@@ -1,4 +1,3 @@
-import { useObjectRef } from "@react-aria/utils";
 import React, { ReactNode, forwardRef, useContext, useMemo } from "react";
 import {
   AriaLinkOptions,
@@ -6,6 +5,7 @@ import {
   useFocusRing,
   useHover,
   useLink,
+  useObjectRef,
 } from "react-aria";
 import { Icon } from "../Icon";
 import { Text } from "../Text";

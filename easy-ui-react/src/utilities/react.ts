@@ -6,8 +6,17 @@ import {
   ReactNode,
   cloneElement,
   isValidElement,
+  useEffect,
+  useLayoutEffect,
 } from "react";
 import { isFragment, isElement } from "react-is";
+
+/**
+ * `useLayoutEffect` on the client, and a no-op on the server, where
+ * `useLayoutEffect` warns.
+ */
+export const useIsomorphicLayoutEffect =
+  typeof document !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * Similar to React's built-in Children.toArray method, this utility takes

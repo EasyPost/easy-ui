@@ -1,11 +1,10 @@
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { Decorator } from "@storybook/react-vite";
 import React, { ComponentProps, ReactNode, SVGProps, useState } from "react";
-import type { Placement as AriaPlacement } from "react-aria";
+import { type Placement as AriaPlacement, RouterProvider } from "react-aria";
 import { getThemeTokenAliases } from "../Theme";
 import { getTokenAliases } from "./tokens";
 import { SortDescriptor } from "react-stately";
-import { RouterProvider } from "@react-aria/utils";
 import { Menu } from "../Menu";
 import { Text } from "../Text";
 import { VerticalStack } from "../VerticalStack";

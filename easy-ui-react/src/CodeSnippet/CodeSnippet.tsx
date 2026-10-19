@@ -1,4 +1,4 @@
-import { mergeRefs, useObjectRef } from "@react-aria/utils";
+import { mergeRefs, useObjectRef } from "react-aria";
 import React, { forwardRef, useContext, useRef } from "react";
 import { Card } from "../Card";
 import { SnippetLanguage, SyntaxHighlighter } from "./SyntaxHighlighter";

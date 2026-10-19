@@ -1,4 +1,4 @@
-import { AriaToastRegionProps, useToastRegion } from "@react-aria/toast";
+import { AriaToastRegionProps, useToastRegion } from "react-aria";
 import React from "react";
 import { TransitionGroup } from "react-transition-group";
 import { Notification, NotificationInternalState } from "./Notification";

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useToastQueue } from "@react-stately/toast";
+import { useToastQueue } from "react-stately";
 import {
   NotificationProps,
   AlertProps,

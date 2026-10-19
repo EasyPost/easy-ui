@@ -1,13 +1,12 @@
 import React, { ReactNode, useRef, useContext, createContext } from "react";
-import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import WarningIcon from "@easypost/easy-ui-icons/Warning";
 import DocumentScannerIcon from "@easypost/easy-ui-icons/DocumentScanner";
 import CurrencyExchangeIcon from "@easypost/easy-ui-icons/CurrencyExchange";
-import { AriaToastProps, useToast } from "@react-aria/toast";
-import { QueuedToast, ToastState } from "@react-stately/toast";
+import { AriaToastProps, mergeRefs, useObjectRef, useToast } from "react-aria";
+import { QueuedToast, ToastState } from "react-stately";
 import { NotificationContainer } from "./NotificationContainer";
 import { useNotificationState } from "./useNotificationState";
 import { Icon } from "../Icon";
