@@ -1,4 +1,10 @@
-import React, { ReactNode, useRef, useContext, createContext } from "react";
+import React, {
+  ReactNode,
+  useRef,
+  useContext,
+  createContext,
+  useMemo,
+} from "react";
 import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
@@ -359,19 +365,50 @@ export function NotificationProvider(props: NotificationProviderProps) {
     visibleToasts: combinedState.visibleToasts,
   };
 
-  const notification = {
-    showErrorAlert: combinedState.showErrorAlert,
-    showErrorToast: combinedState.showErrorToast,
-    showPromotionalToast: combinedState.showPromotionalToast,
-    showPromotionalAlert: combinedState.showPromotionalAlert,
-    showNeutralToast: combinedState.showNeutralToast,
-    showNeutralAlert: combinedState.showNeutralAlert,
-    showSuccessToast: combinedState.showSuccessToast,
-    showSuccessAlert: combinedState.showSuccessAlert,
-    showWarningToast: combinedState.showWarningToast,
-    showWarningAlert: combinedState.showWarningAlert,
-    closeActiveNotification: combinedState.closeActiveNotification,
-  };
+  const {
+    showErrorAlert,
+    showErrorToast,
+    showPromotionalToast,
+    showPromotionalAlert,
+    showNeutralToast,
+    showNeutralAlert,
+    showSuccessToast,
+    showSuccessAlert,
+    showWarningToast,
+    showWarningAlert,
+    closeActiveNotification,
+  } = combinedState;
+
+  // Keep the context value the same across renders so consumers can key
+  // effects and callbacks on `useNotification()`
+  const notification = useMemo(
+    () => ({
+      showErrorAlert,
+      showErrorToast,
+      showPromotionalToast,
+      showPromotionalAlert,
+      showNeutralToast,
+      showNeutralAlert,
+      showSuccessToast,
+      showSuccessAlert,
+      showWarningToast,
+      showWarningAlert,
+      closeActiveNotification,
+    }),
+    [
+      showErrorAlert,
+      showErrorToast,
+      showPromotionalToast,
+      showPromotionalAlert,
+      showNeutralToast,
+      showNeutralAlert,
+      showSuccessToast,
+      showSuccessAlert,
+      showWarningToast,
+      showWarningAlert,
+      closeActiveNotification,
+    ],
+  );
 
   return (
     <NotificationContext.Provider value={notification}>
