@@ -1,6 +1,6 @@
 import React, { DOMAttributes } from "react";
 import ExpandMore400 from "@easypost/easy-ui-icons/ExpandMore400";
-import { FocusableElement } from "@react-types/shared";
+import { FocusableElement } from "react-aria-components";
 import { HiddenSelect } from "react-aria";
 import { useInternalSelectContext } from "../Select/SelectContext";
 import { UnstyledButton } from "../UnstyledButton";

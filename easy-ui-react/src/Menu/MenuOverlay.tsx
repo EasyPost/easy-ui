@@ -1,9 +1,4 @@
-import {
-  CollectionChildren,
-  Key,
-  Selection,
-  SelectionMode,
-} from "@react-types/shared";
+import { CollectionChildren } from "@react-types/shared";
 import noop from "lodash/noop";
 import React, { useCallback } from "react";
 import {
@@ -13,8 +8,9 @@ import {
   mergeProps,
   useMenu,
   usePopover,
+  Key,
 } from "react-aria";
-import { useTreeState } from "react-stately";
+import { useTreeState, Selection, SelectionMode } from "react-stately";
 import { ResponsiveProp } from "../utilities/css";
 import { useScrollbar } from "../utilities/useScrollbar";
 import { useInternalMenuContext } from "./MenuContext";

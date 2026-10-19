@@ -1,5 +1,4 @@
 import { ListCollection } from "@react-stately/list";
-import { Node } from "@react-types/shared";
 import React, {
   ReactElement,
   ReactNode,
@@ -8,7 +7,7 @@ import React, {
 } from "react";
 import { AriaTabPanelProps, useTabPanel } from "react-aria";
 import { isFragment } from "react-is";
-import { TabListState, useCollection } from "react-stately";
+import { TabListState, useCollection, Node } from "react-stately";
 import { useTabPanels } from "./context";
 
 type TabPanelsPanelsProps = {

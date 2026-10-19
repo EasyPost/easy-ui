@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { FocusableElement } from "@react-types/shared";
+import { FocusableElement } from "react-aria-components";
 import {
   DOMAttributes,
   RefObject,

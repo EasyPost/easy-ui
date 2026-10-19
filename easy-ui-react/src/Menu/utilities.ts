@@ -1,4 +1,4 @@
-import { Key } from "@react-types/shared";
+import { Key } from "react-aria";
 import React, { useCallback, useEffect } from "react";
 import { TreeState } from "react-stately";
 import {

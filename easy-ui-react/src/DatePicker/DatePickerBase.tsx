@@ -6,7 +6,8 @@ import {
   DateValue,
 } from "react-aria";
 import { DatePickerState, DateRangePickerState } from "react-stately";
-import { FocusableElement, GroupDOMAttributes } from "@react-types/shared";
+import { GroupDOMAttributes } from "@react-types/shared";
+import { FocusableElement } from "react-aria-components";
 import { DatePickerTrigger } from "./DatePickerTrigger";
 import { DatePickerOverlay } from "./DatePickerOverlay";
 import { Label } from "../InputField/Label";

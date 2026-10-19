@@ -1,7 +1,6 @@
-import { Node } from "@react-types/shared";
 import React, { ReactNode, useRef } from "react";
 import { useTableHeaderRow } from "react-aria";
-import { TableState } from "react-stately";
+import { TableState, Node } from "react-stately";
 
 import styles from "./Row.module.scss";
 

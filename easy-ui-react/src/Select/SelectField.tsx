@@ -1,5 +1,5 @@
 import React, { ReactNode, DOMAttributes } from "react";
-import { FocusableElement } from "@react-types/shared";
+import { FocusableElement } from "react-aria-components";
 import { HiddenSelect } from "react-aria";
 import { useInternalSelectContext } from "./SelectContext";
 import { classNames } from "../utilities/css";

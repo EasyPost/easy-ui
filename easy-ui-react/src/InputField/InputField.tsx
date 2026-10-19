@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import { AriaTextFieldProps, useHover } from "react-aria";
-import { ValidationState } from "@react-types/shared";
+import { ValidationState } from "react-stately";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
 import { Label } from "./Label";
