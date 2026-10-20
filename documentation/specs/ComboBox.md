@@ -15,6 +15,7 @@ A `ComboBox` is a text input with a list of suggestions under it. The user types
 - Filters `defaultItems` as the user types, or shows `items` fetched by the consumer.
 - `isLoading` shows an indicator at the end of the input while a request is in flight.
 - `allowsCustomValue` keeps text that doesn't match a suggestion.
+- Options take a secondary `description` and can be grouped with `<ComboBox.Section />`, as in `Select`.
 - `footer` renders content below the suggestions, such as an attribution, that can't be focused or selected.
 
 ### Risks and Challenges
@@ -22,6 +23,7 @@ A `ComboBox` is a text input with a list of suggestions under it. The user types
 - **Fetched suggestions arrive after the input changes.** React Aria opens the list on an input change only if there's something to show, so suggestions that arrive after a debounce would stay hidden until the next keystroke. `ComboBox` opens the list when they arrive, as long as the user has typed since the list last opened or closed—so suggestions refetched for the text a selection filled in don't reopen it, and neither do results that land after Escape.
 - **Not `Popover`.** Easy UI's `Popover` is a dialog that takes focus. Focus has to stay in the input, so the list uses React Aria's non-modal `Popover`, as `MultiSelect` does.
 - **Not `MultiSelect`.** `MultiSelect` is built on the same React Aria `ComboBox`, but clears its input after each pick and holds its value as pills.
+- **Matching `Select`.** The field reuses `InputField`'s `Label`, `InputCaption`, `InputIcon`, and mixins, and the list reuses `Menu`'s mixins and overlay constants—the pieces `Select` is built from—so the two read as one family.
 
 ### Prior Art
 
@@ -54,12 +56,23 @@ type ComboBoxProps<T extends object> = AriaComboBoxProps<T> & {
   maxItemsUntilScroll?: number;
 };
 
-// A suggestion. String children are truncated to one line and used as
-// `textValue`, the text the input takes when it's selected.
-type ComboBoxOptionProps = ListBoxItemProps;
+// Mirrors `Select.Option`, plus `id` and `isDisabled`. Children are truncated
+// to one line; string children double as `textValue`, the text the input takes
+// when the option is selected.
+type ComboBoxOptionProps = {
+  id?: Key;
+  "aria-label"?: string;
+  children: ReactNode;
+  description?: ReactNode;
+  textValue?: string;
+  isDisabled?: boolean;
+};
 
-// Caption-styled text for `footer`.
-type ComboBoxFooterTextProps = { children: ReactNode };
+// Mirrors `Select.Section`. Sections are divided by a separator.
+type ComboBoxSectionProps = {
+  children: ReactNode;
+  "aria-label"?: string;
+};
 ```
 
 ### Example Usage
@@ -86,10 +99,16 @@ _Address autocomplete:_
   items={predictions}
   isLoading={isFetching}
   onSelectionChange={(key) => key && selectPrediction(key)}
-  footer={<ComboBox.FooterText>Powered by Google</ComboBox.FooterText>}
+  footer="Powered by Google"
 >
   {(item) => (
-    <ComboBox.Option id={item.place_id}>{item.description}</ComboBox.Option>
+    <ComboBox.Option
+      id={item.place_id}
+      textValue={item.structured_formatting.main_text}
+      description={item.structured_formatting.secondary_text}
+    >
+      {item.structured_formatting.main_text}
+    </ComboBox.Option>
   )}
 </ComboBox>
 ```
@@ -104,10 +123,10 @@ _Address autocomplete:_
     <Input />
     <Spinner />
   </Group>
-  <Text slot="description | errorMessage" />
+  <InputCaption /> {/* through the description or errorMessage slot */}
   <Popover>
     <ScrollContainer>
-      <ListBox>{options}</ListBox>
+      <ListBox>{sections and options}</ListBox>
     </ScrollContainer>
     <footer />
   </Popover>

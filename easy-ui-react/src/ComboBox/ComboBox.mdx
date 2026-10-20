@@ -1,3 +1,4 @@
+import React from "react";
 import { Canvas, Meta, ArgTypes, Controls } from "@storybook/addon-docs/blocks";
 import { ComboBox } from "./ComboBox";
 import * as ComboBoxStories from "./ComboBox.stories";
@@ -6,64 +7,129 @@ import * as ComboBoxStories from "./ComboBox.stories";
 
 # ComboBox
 
-The `<ComboBox />` component is a text input with a list of suggestions under it. It reads like a `<TextField />`—`label`, `helperText`, `errorText`, `validationState`, `isRequired`, and `size`—and shows its suggestions as the user types.
+The `<ComboBox />` component is a text input with a list of suggestions under it. The user types, the list narrows or is fetched, and the user picks a suggestion or—with `allowsCustomValue`—keeps what they typed.
 
-Use `<ComboBox />` to pick one value from suggestions, or to type a value with help from them. To pick several values, use `<MultiSelect />`; to pick one value from a short, fixed list without typing, use `<Select />`.
+Reach for `<Select />` to pick from a short, fixed list without typing, and `<MultiSelect />` to pick several values.
 
 ## Standard
 
-Pass `defaultItems` and render each one as a `<ComboBox.Option />`. Typing filters the list. Selecting an option fills the input with its text and calls `onSelectionChange` with its `id`.
+Simple `<ComboBox />` with `label`, `placeholder`, and `helperText`. Pass `defaultItems` and render each one as a `<ComboBox.Option />`; typing filters them. Selecting an option fills the input with its text and calls `onSelectionChange` with its `id`.
 
 <Canvas of={ComboBoxStories.Standard} />
 
-## Custom Value
+## Icon
+
+Use `iconAtStart` to add a left aligned icon.
+
+<Canvas of={ComboBoxStories.Icon} />
+
+## Small ComboBox
+
+Set `size="sm"` for a small `<ComboBox />`.
+
+<Canvas of={ComboBoxStories.SmallComboBox} />
+
+## Large ComboBox
+
+Set `size="lg"` for a large `<ComboBox />`.
+
+<Canvas of={ComboBoxStories.LargeComboBox} />
+
+## Label with emphasis
+
+Use `isLabelEmphasized=true` to display a label with emphasis.
+
+<Canvas of={ComboBoxStories.LabelWithEmphasis} />
+
+## Error
+
+When `validationState` is set to `invalid`, the `<ComboBox />` displays with error styles. If provided, `errorText` will be displayed as well and override `helperText`.
+
+<Canvas of={ComboBoxStories.Error} />
+
+## Visually hidden label
+
+A `label` can be visually hidden by omitting the `label` property, but to maintain accessibility, provide an `aria-label`.
+
+<Canvas of={ComboBoxStories.VisuallyHiddenLabel} />
+
+## Alongside a TextField
+
+`<ComboBox />` shares `<TextField />`'s label, input, and caption, so the two line up in a form.
+
+<Canvas of={ComboBoxStories.AlongsideTextField} />
+
+## Custom value
 
 By default, leaving the field reverts text that doesn't match an option. Set `allowsCustomValue` to keep what was typed.
 
 <Canvas of={ComboBoxStories.CustomValue} />
 
-## Fetched Suggestions
+## With Separator
 
-For suggestions fetched as the user types, control the input with `inputValue` and `onInputChange`, pass the results as `items`, and set `isLoading` while a request is in flight. `items` aren't filtered—they're shown as given. The list opens when they arrive.
+Options can be divided into sections via `<ComboBox.Section />`.
 
-`footer` renders content below the options, such as the "Powered by Google" attribution that the Places API requires. It isn't an option: it can't be focused or selected, and it shows only while the list is open. `<ComboBox.FooterText />` styles text for it.
+<Canvas of={ComboBoxStories.WithSeparator} />
+
+## Disabled Options
+
+Options can be disabled via the `disabledKeys` prop.
+
+<Canvas of={ComboBoxStories.DisabledOptions} />
+
+## Disabled ComboBox
+
+Use `isDisabled` to disable the field entirely.
+
+<Canvas of={ComboBoxStories.DisabledComboBox} />
+
+## With Secondary Text
+
+Each option can render a secondary `description`. Set `textValue` to the text the input should take when the option is selected.
+
+<Canvas of={ComboBoxStories.WithSecondaryText} />
+
+## Fetched suggestions
+
+For suggestions fetched as the user types, control the input with `inputValue` and `onInputChange`, pass the results as `items`, and set `isLoading` while a request is in flight. `items` aren't filtered—they're shown as given—and the list opens when they arrive.
+
+`footer` renders content below the options, such as the "Powered by Google" attribution the Places API requires. It isn't an option: it can't be focused or selected, and it shows only while the list is open. A string is styled as caption text.
 
 <Canvas of={ComboBoxStories.AsyncWithFooter} />
 
 ```tsx
-<ComboBox
-  aria-label="Street address"
-  allowsCustomValue
-  inputValue={street}
-  onInputChange={setStreet}
-  items={predictions}
-  isLoading={isLoading}
-  onSelectionChange={(key) => key && selectPrediction(key)}
-  footer={<ComboBox.FooterText>Powered by Google</ComboBox.FooterText>}
->
-  {(item) => (
-    <ComboBox.Option id={item.place_id}>{item.description}</ComboBox.Option>
-  )}
-</ComboBox>
+import { ComboBox } from "@easypost/easy-ui/ComboBox";
+
+export function Component() {
+  const [street, setStreet] = React.useState("");
+  const { predictions, isLoading } = usePredictions(street);
+
+  return (
+    <ComboBox
+      label="Street address"
+      allowsCustomValue
+      inputValue={street}
+      onInputChange={setStreet}
+      items={predictions}
+      isLoading={isLoading}
+      onSelectionChange={(key) => key && selectPrediction(key)}
+      footer="Powered by Google"
+    >
+      {(item) => (
+        <ComboBox.Option
+          id={item.place_id}
+          textValue={item.structured_formatting.main_text}
+          description={item.structured_formatting.secondary_text}
+        >
+          {item.structured_formatting.main_text}
+        </ComboBox.Option>
+      )}
+    </ComboBox>
+  );
+}
 ```
 
-Selecting an option calls `onInputChange` with the option's text, so a field that fetches on input change refetches after a selection. The list stays closed for those results, since the user hasn't typed since.
-
-## Sizes
-
-Set `size` to `"sm"`, `"md"`, or `"lg"`.
-
-<Canvas of={ComboBoxStories.Sizes} />
-
-## Invalid
-
-Set `validationState="invalid"` to show `errorText` in place of `helperText`.
-
-<Canvas of={ComboBoxStories.Invalid} />
-
-## Disabled
-
-<Canvas of={ComboBoxStories.Disabled} />
+Selecting an option calls `onInputChange` with the option's `textValue`, so a field that fetches on input change refetches after a selection. The list stays closed for those results, since the user hasn't typed since.
 
 ## Properties
 
@@ -74,3 +140,7 @@ Set `validationState="invalid"` to show `errorText` in place of `helperText`.
 ### ComboBox.Option
 
 <ArgTypes of={ComboBox.Option} />
+
+### ComboBox.Section
+
+<ArgTypes of={ComboBox.Section} />

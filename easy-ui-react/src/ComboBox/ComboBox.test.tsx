@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { vi } from "vitest";
 import { Key } from "react-aria-components";
 import { mockGetComputedStyle, render } from "../utilities/test";
+import { TextField } from "../TextField";
 import { ComboBox, ComboBoxProps } from "./ComboBox";
 
 type Fruit = { id: number; name: string };
@@ -95,6 +96,88 @@ describe("<ComboBox />", () => {
     );
   });
 
+  it("should render its label like other input fields", () => {
+    render(
+      <>
+        <TextField label="Text field" />
+        {getComboBox({ label: "Combo box" })}
+      </>,
+    );
+    const textFieldLabel = screen.getByText("Text field");
+    const comboBoxLabel = screen.getByText("Combo box");
+    expect(comboBoxLabel.tagName).toBe(textFieldLabel.tagName);
+    expect(comboBoxLabel.className).toBe(textFieldLabel.className);
+    expect(comboBoxLabel.parentElement?.className).toBe(
+      textFieldLabel.parentElement?.className,
+    );
+  });
+
+  it("should render its caption like other input fields", () => {
+    render(
+      <>
+        <TextField label="Text field" helperText="Text field help" />
+        {getComboBox({ helperText: "Combo box help" })}
+      </>,
+    );
+    const textFieldCaption = screen.getByText("Text field help");
+    const comboBoxCaption = screen.getByText("Combo box help");
+    expect(comboBoxCaption.className).toBe(textFieldCaption.className);
+    expect(comboBoxCaption.parentElement?.className).toBe(
+      textFieldCaption.parentElement?.className,
+    );
+  });
+
+  it("should render option descriptions", async () => {
+    const { user } = render(
+      <ComboBox label="Rate adjustment">
+        <ComboBox.Option id="standard" description="Added to all shipments">
+          Standard
+        </ComboBox.Option>
+      </ComboBox>,
+    );
+    await user.type(screen.getByRole("combobox"), "s");
+    expect(screen.getByRole("option", { name: /Standard/ })).toHaveTextContent(
+      "Added to all shipments",
+    );
+  });
+
+  it("should group options into sections", async () => {
+    const { user } = render(
+      <ComboBox label="Fruit">
+        <ComboBox.Section aria-label="Citrus">
+          <ComboBox.Option id="lemon">Lemon</ComboBox.Option>
+        </ComboBox.Section>
+        <ComboBox.Section aria-label="Berries">
+          <ComboBox.Option id="lingonberry">Lingonberry</ComboBox.Option>
+        </ComboBox.Section>
+      </ComboBox>,
+    );
+    await user.type(screen.getByRole("combobox"), "l");
+    expect(screen.getByRole("group", { name: "Citrus" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Berries" })).toBeInTheDocument();
+  });
+
+  it("should not select a disabled option", async () => {
+    const onSelectionChange = vi.fn();
+    const { user } = render(
+      getComboBox({ disabledKeys: [2], onSelectionChange }),
+    );
+    await user.type(screen.getByRole("combobox"), "ban");
+    const option = screen.getByRole("option", { name: "Banana" });
+    expect(option).toHaveAttribute("aria-disabled", "true");
+    await user.click(option);
+    expect(onSelectionChange).not.toHaveBeenCalled();
+  });
+
+  it("should warn when it has no label", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(getComboBox({ label: undefined }));
+    expect(warn).toHaveBeenCalledWith(
+      "An aria-label must be provided if omitting `label`",
+    );
+    warn.mockRestore();
+  });
+
   it("should show a loading indicator", () => {
     render(getComboBox({ isLoading: true }));
     expect(screen.getByRole("status", { name: "Loading" })).toBeInTheDocument();
@@ -103,7 +186,7 @@ describe("<ComboBox />", () => {
   it("should render a footer that isn't an option", async () => {
     const { user } = render(
       getComboBox({
-        footer: <ComboBox.FooterText>Powered by Google</ComboBox.FooterText>,
+        footer: "Powered by Google",
       }),
     );
     await user.type(screen.getByRole("combobox"), "a");

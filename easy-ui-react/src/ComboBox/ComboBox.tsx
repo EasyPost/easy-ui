@@ -1,24 +1,37 @@
-import React, { ReactNode, useContext, useEffect, useRef } from "react";
+import React, {
+  MutableRefObject,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import {
   ComboBox as AriaComboBox,
   ComboBoxProps as AriaComboBoxProps,
   ComboBoxStateContext,
   Group,
   Input,
+  Key,
   ListBox,
   ListBoxItem,
-  ListBoxItemProps,
+  ListBoxSection,
   Popover,
-  Text as AriaText,
+  TextContext,
+  useSlottedContext,
 } from "react-aria-components";
-import { ValidationState } from "@react-types/shared";
 import { InputSize } from "../InputField";
+import { InputCaption } from "../InputField/InputCaption";
 import { InputIcon } from "../InputField/InputIcon";
 import { Label } from "../InputField/Label";
-import { mapIconSize } from "../InputField/utilities";
+import {
+  logWarningForMissingAriaLabel,
+  mapIconSize,
+} from "../InputField/utilities";
 import {
   DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
   ITEM_HEIGHT,
+  OVERLAY_OFFSET,
+  OVERLAY_PADDING_FROM_CONTAINER,
   Y_PADDING_INSIDE_OVERLAY,
 } from "../Menu/utilities";
 import { Spinner } from "../Spinner";
@@ -27,6 +40,7 @@ import { IconSymbol } from "../types";
 import {
   classNames,
   getComponentToken,
+  getResponsiveValue,
   pxToRem,
   variationName,
 } from "../utilities/css";
@@ -35,6 +49,7 @@ import { useScrollbar } from "../utilities/useScrollbar";
 import styles from "./ComboBox.module.scss";
 
 export type ComboBoxSize = InputSize;
+export type ValidationState = "valid" | "invalid";
 
 export type ComboBoxProps<T extends object> = Omit<
   AriaComboBoxProps<T>,
@@ -48,37 +63,50 @@ export type ComboBoxProps<T extends object> = Omit<
   | "allowsEmptyCollection"
 > & {
   /**
-   * The options in the list, or a function that renders an option for each
-   * of `items` or `defaultItems`. Use `<ComboBox.Option />`.
+   * The options: `<ComboBox.Option />`s and `<ComboBox.Section />`s, or a
+   * function that renders a `<ComboBox.Option />` for each of `items` or
+   * `defaultItems`.
    */
   children: ReactNode | ((item: T) => ReactNode);
-  /** The content to display as the label. */
-  label?: ReactNode;
   /**
-   * Label text displays with emphasis.
+   * Accessibility label for the combo box.
+   */
+  "aria-label"?: string;
+  /**
+   * Whether the combo box is disabled.
    * @default false
    */
-  isLabelEmphasized?: boolean;
-  /** Helper text that appears below the input. */
-  helperText?: ReactNode;
+  isDisabled?: boolean;
   /**
-   * Error text that appears below the input. Shown in place of `helperText`
-   * when `validationState` is `"invalid"`.
+   * Whether user input is required on the combo box before form submission.
+   * @default false
    */
-  errorText?: ReactNode;
+  isRequired?: boolean;
   /**
    * Whether the input should display its "valid" or "invalid" visual styling.
    * @default valid
    */
   validationState?: ValidationState;
   /**
-   * Size of the input. Also sizes `iconAtStart` and the loading indicator.
+   * Label text displays with emphasis.
+   * @default false
+   */
+  isLabelEmphasized?: boolean;
+  /**
+   * Size affects the overall size of the combo box, but it also influences
+   * the size of iconAtStart and the loading indicator.
    * @default md
    */
   size?: ComboBoxSize;
-  /** Temporary text that occupies the input when it is empty. */
+  /** The content to display as the label. */
+  label?: ReactNode;
+  /** Error text that appears below the combo box. */
+  errorText?: ReactNode;
+  /** Helper text that appears below the combo box. */
+  helperText?: ReactNode;
+  /** Temporary text that occupies the combo box when it is empty. */
   placeholder?: string;
-  /** Left aligned icon on the input. */
+  /** Left aligned icon on the combo box. */
   iconAtStart?: IconSymbol;
   /**
    * Whether options are being fetched. Shows a loading indicator at the end
@@ -89,7 +117,7 @@ export type ComboBoxProps<T extends object> = Omit<
   /**
    * Content rendered below the options, such as a "Powered by Google"
    * attribution. It isn't an option: it can't be focused or selected, and it
-   * shows only while the list is open.
+   * shows only while the list is open. A string is styled as caption text.
    */
   footer?: ReactNode;
   /**
@@ -100,56 +128,76 @@ export type ComboBoxProps<T extends object> = Omit<
 };
 
 /**
- * A text input with a list of suggestions below it.
+ * The `<ComboBox />` component is a text input with a list of suggestions
+ * under it.
  *
  * @remarks
- * Typing filters `defaultItems`, or—for suggestions fetched as the user
- * types—pass `items` along with `inputValue` and `onInputChange`, and set
- * `isLoading` while a request is in flight. With `allowsCustomValue`, text
- * that doesn't match an option is kept as the value.
+ * Typing filters `defaultItems`. For suggestions fetched as the user types,
+ * control the input with `inputValue` and `onInputChange`, pass the results as
+ * `items`, and set `isLoading` while a request is in flight. With
+ * `allowsCustomValue`, text that doesn't match an option is kept as the value.
  *
  * @example
+ * _Filtering a list:_
  * ```tsx
- * <ComboBox label="Fruit" defaultItems={fruits}>
- *   {(item) => <ComboBox.Option id={item.id}>{item.name}</ComboBox.Option>}
- * </ComboBox>
+ * import { ComboBox } from "@easypost/easy-ui/ComboBox";
+ *
+ * export function Component() {
+ *  return (
+ *    <ComboBox label="Fruit" defaultItems={fruits} helperText="Helper text">
+ *      {(item) => <ComboBox.Option id={item.id}>{item.name}</ComboBox.Option>}
+ *    </ComboBox>
+ *  );
+ * }
  * ```
  *
  * @example
- * _Async suggestions with free text:_
+ * _Fetched suggestions with free text:_
  * ```tsx
- * <ComboBox
- *   aria-label="Street address"
- *   allowsCustomValue
- *   inputValue={street}
- *   onInputChange={setStreet}
- *   items={predictions}
- *   isLoading={isLoading}
- *   onSelectionChange={(key) => key && selectPrediction(key)}
- *   footer={<ComboBox.FooterText>Powered by Google</ComboBox.FooterText>}
- * >
- *   {(item) => (
- *     <ComboBox.Option id={item.place_id}>{item.description}</ComboBox.Option>
- *   )}
- * </ComboBox>
+ * import { ComboBox } from "@easypost/easy-ui/ComboBox";
+ *
+ * export function Component() {
+ *  const [street, setStreet] = React.useState("");
+ *  const { predictions, isLoading } = usePredictions(street);
+ *
+ *  return (
+ *    <ComboBox
+ *      label="Street address"
+ *      allowsCustomValue
+ *      inputValue={street}
+ *      onInputChange={setStreet}
+ *      items={predictions}
+ *      isLoading={isLoading}
+ *      onSelectionChange={(key) => key && selectPrediction(key)}
+ *      footer="Powered by Google"
+ *    >
+ *      {(item) => (
+ *        <ComboBox.Option id={item.place_id}>{item.description}</ComboBox.Option>
+ *      )}
+ *    </ComboBox>
+ *  );
+ * }
  * ```
  */
 export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
   const {
     children,
-    label,
-    isLabelEmphasized = false,
-    helperText,
-    errorText,
+    "aria-label": ariaLabel,
+    isDisabled = false,
+    isRequired = false,
     validationState = "valid",
+    isLabelEmphasized = false,
     size = "md",
+    label,
+    errorText,
+    helperText,
     placeholder,
     iconAtStart,
     isLoading = false,
     footer,
     maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
-    isDisabled = false,
     menuTrigger = "input",
+    onOpenChange,
     ...comboBoxProps
   } = props;
 
@@ -159,9 +207,19 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
   // after a selection or Escape.
   const hasTypedRef = useRef(false);
 
-  if (!label && !props["aria-label"] && !props["aria-labelledby"]) {
-    console.warn("An aria-label must be provided if omitting `label`");
-  }
+  logWarningForMissingAriaLabel(
+    label,
+    ariaLabel ?? comboBoxProps["aria-labelledby"],
+  );
+
+  // Only fetched (controlled) items arrive on their own; React Aria handles
+  // `defaultItems`, which it filters as the input changes.
+  const { items } = comboBoxProps;
+  const hasItems = items !== undefined && Array.from(items).length > 0;
+
+  const hasError = validationState === "invalid";
+  const showErrorText = hasError && errorText;
+  const showHelperText = !showErrorText && helperText;
 
   const popoverStyle = {
     ...getComponentToken("menu", "item_height", `${pxToRem(ITEM_HEIGHT)}rem`),
@@ -170,28 +228,23 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
       "padding.y",
       `${pxToRem(Y_PADDING_INSIDE_OVERLAY)}rem`,
     ),
-  };
-
-  // Only fetched (controlled) items arrive on their own; React Aria handles
-  // `defaultItems`, which it filters as the input changes.
-  const { items } = comboBoxProps;
-  const hasItems = items !== undefined && Array.from(items).length > 0;
-
-  const hasError = validationState === "invalid";
-  const showErrorText = hasError && !!errorText;
-  const showHelperText = !showErrorText && !!helperText;
+    // React Aria measures the field into `--trigger-width`.
+    ...getResponsiveValue("menu", "width", "var(--trigger-width)"),
+  } as React.CSSProperties;
 
   return (
     <AriaComboBox
       {...comboBoxProps}
+      aria-label={ariaLabel}
       className={styles.root}
       isDisabled={isDisabled}
+      isRequired={isRequired}
       isInvalid={hasError}
       validationBehavior="aria"
       menuTrigger={menuTrigger}
       onOpenChange={(isOpen, trigger) => {
         hasTypedRef.current = false;
-        comboBoxProps.onOpenChange?.(isOpen, trigger);
+        onOpenChange?.(isOpen, trigger);
       }}
     >
       <OpenOnArrival
@@ -220,9 +273,9 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
         <Input
           className={classNames(
             styles.input,
-            hasError && styles.errorInput,
-            iconAtStart && styles.iconStartInput,
-            isLoading && styles.loadingInput,
+            hasError && styles.inputError,
+            iconAtStart && styles.inputIconStart,
+            isLoading && styles.inputIconEnd,
             styles[variationName("inputSize", size)],
           )}
           placeholder={placeholder}
@@ -245,22 +298,26 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
           </span>
         )}
       </Group>
-      {(showErrorText || showHelperText) && (
-        <AriaText
-          slot={showErrorText ? "errorMessage" : "description"}
-          className={styles.caption}
-        >
-          <Text variant="caption" color={showErrorText ? "danger" : "subdued"}>
-            {showErrorText ? errorText : helperText}
-          </Text>
-        </AriaText>
-      )}
-      <Popover className={styles.popover} style={popoverStyle}>
+      {showErrorText ? (
+        <ComboBoxCaption slot="errorMessage" variant="error">
+          {errorText}
+        </ComboBoxCaption>
+      ) : showHelperText ? (
+        <ComboBoxCaption slot="description" variant="helper">
+          {helperText}
+        </ComboBoxCaption>
+      ) : null}
+      <Popover
+        className={styles.popover}
+        style={popoverStyle}
+        offset={OVERLAY_OFFSET}
+        containerPadding={OVERLAY_PADDING_FROM_CONTAINER}
+      >
         <ScrollContainer
           scrollRef={listRef}
           maxItemsUntilScroll={maxItemsUntilScroll}
         >
-          <ListBox className={styles.listBox}>{children}</ListBox>
+          <ListBox className={styles.listbox}>{children}</ListBox>
         </ScrollContainer>
         {footer && (
           <div
@@ -268,11 +325,38 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
             // Keep focus in the input so pressing the footer doesn't close the list.
             onMouseDown={(e) => e.preventDefault()}
           >
-            {footer}
+            {typeof footer === "string" ? (
+              <Text variant="caption" color="neutral.600">
+                {footer}
+              </Text>
+            ) : (
+              footer
+            )}
           </div>
         )}
       </Popover>
     </AriaComboBox>
+  );
+}
+
+/**
+ * `InputCaption`, wired to the combo box through React Aria's `description`
+ * and `errorMessage` slots.
+ */
+function ComboBoxCaption({
+  slot,
+  variant,
+  children,
+}: {
+  slot: "description" | "errorMessage";
+  variant: "helper" | "error";
+  children: ReactNode;
+}) {
+  const { id } = useSlottedContext(TextContext, slot) ?? {};
+  return (
+    <InputCaption variant={variant} {...{ id }}>
+      {children}
+    </InputCaption>
   );
 }
 
@@ -289,7 +373,7 @@ function OpenOnArrival({
   hasItems,
   isEnabled,
 }: {
-  hasTypedRef: React.MutableRefObject<boolean>;
+  hasTypedRef: MutableRefObject<boolean>;
   hasItems: boolean;
   isEnabled: boolean;
 }) {
@@ -320,7 +404,7 @@ function ScrollContainer({
   maxItemsUntilScroll,
   children,
 }: {
-  scrollRef: React.MutableRefObject<HTMLDivElement | null>;
+  scrollRef: MutableRefObject<HTMLDivElement | null>;
   maxItemsUntilScroll: number;
   children: ReactNode;
 }) {
@@ -339,44 +423,82 @@ function ScrollContainer({
   );
 }
 
-export type ComboBoxOptionProps = Omit<ListBoxItemProps, "className" | "style">;
+export type ComboBoxOptionProps = {
+  /**
+   * The option's unique key. Required when options are rendered from `items`
+   * or `defaultItems` that don't have an `id` of their own.
+   */
+  id?: Key;
+  /** An accessibility label for the option. */
+  "aria-label"?: string;
+  /** Rendered contents of the option. */
+  children: ReactNode;
+  /** Secondary text shown under the main option text. */
+  description?: ReactNode;
+  /**
+   * Plain text value of the option: the text the input takes when it's
+   * selected, and what typing filters on. Defaults to `children` when it's a
+   * string.
+   */
+  textValue?: string;
+  /**
+   * Whether the option is disabled.
+   * @default false
+   */
+  isDisabled?: boolean;
+};
 
 function ComboBoxOption(props: ComboBoxOptionProps) {
-  const { children, textValue, ...itemProps } = props;
-  const isText = typeof children === "string";
+  const { children, description, textValue, ...optionProps } = props;
   return (
     <ListBoxItem
-      {...itemProps}
-      textValue={textValue ?? (isText ? children : undefined)}
+      {...optionProps}
+      textValue={
+        textValue ?? (typeof children === "string" ? children : undefined)
+      }
       className={styles.option}
     >
-      {isText ? (
-        <Text variant="body1" truncate>
+      <div className={styles.optionContent}>
+        <Text variant={description ? "body2" : "body1"} truncate>
           {children}
         </Text>
-      ) : (
-        children
-      )}
+        {description && (
+          <span className={styles.optionDescription}>
+            <Text variant="caption" color="neutral.600" truncate>
+              {description}
+            </Text>
+          </span>
+        )}
+      </div>
     </ListBoxItem>
   );
 }
 
-function ComboBoxFooterText({ children }: { children: ReactNode }) {
-  return (
-    <Text variant="caption" color="neutral.400">
-      {children}
-    </Text>
-  );
+export type ComboBoxSectionProps = {
+  /** The section's `<ComboBox.Option />`s. */
+  children: ReactNode;
+  /** An accessibility label for the section. */
+  "aria-label"?: string;
+};
+
+function ComboBoxSection(props: ComboBoxSectionProps) {
+  return <ListBoxSection {...props} className={styles.section} />;
 }
 
 /**
- * An option in a `<ComboBox />`. String children are truncated to one line
- * and used as the option's `textValue`; otherwise, set `textValue`, which is
- * the text the input takes when the option is selected.
+ * Represents an option in a `<ComboBox />`.
+ *
+ * @remarks
+ * Should be rendered as a child of `<ComboBox />` or `<ComboBox.Section />`
+ * as `<ComboBox.Option />`.
  */
 ComboBox.Option = ComboBoxOption;
 
 /**
- * Text styled for a `<ComboBox />` `footer`, such as an attribution.
+ * Represents a section in a `<ComboBox />`.
+ *
+ * @remarks
+ * Should be used as a wrapper for `<ComboBox.Option />`s. Sections are
+ * divided by a separator.
  */
-ComboBox.FooterText = ComboBoxFooterText;
+ComboBox.Section = ComboBoxSection;

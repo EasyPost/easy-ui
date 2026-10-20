@@ -1,8 +1,9 @@
 import LocationOnIcon from "@easypost/easy-ui-icons/LocationOn";
+import SearchIcon from "@easypost/easy-ui-icons/Search";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useEffect, useRef, useState } from "react";
+import { TextField } from "../TextField";
 import { InputDecorator } from "../utilities/storybook";
-import { VerticalStack } from "../VerticalStack";
 import { ComboBox, ComboBoxProps } from "./ComboBox";
 
 type Fruit = { id: number; name: string };
@@ -21,21 +22,10 @@ const fruits: Fruit[] = [
   "Mango",
 ].map((name, i) => ({ id: i + 1, name }));
 
-type Prediction = { place_id: string; description: string };
-
-const addresses: Prediction[] = [
-  "417 Montgomery St, San Francisco, CA, USA",
-  "417 Market St, San Francisco, CA, USA",
-  "417 Mission St, San Francisco, CA, USA",
-  "4170 Lindell Blvd, St. Louis, MO, USA",
-  "417 N 8th St, Lehighton, PA, USA",
-  "4175 Veterans Memorial Hwy, Ronkonkoma, NY, USA",
-].map((description, i) => ({ place_id: `place-${i}`, description }));
-
 type Story = StoryObj<typeof ComboBox<Fruit>>;
 
 const Template = (args: Partial<ComboBoxProps<Fruit>>) => (
-  <ComboBox label="Fruit" defaultItems={fruits} {...args}>
+  <ComboBox defaultItems={fruits} {...args}>
     {(item) => <ComboBox.Option id={item.id}>{item.name}</ComboBox.Option>}
   </ComboBox>
 );
@@ -44,53 +34,180 @@ const meta: Meta<typeof ComboBox<Fruit>> = {
   title: "Components/ComboBox",
   component: ComboBox,
   decorators: [InputDecorator],
+  args: {
+    label: "Label",
+    placeholder: "Placeholder text",
+    helperText: "Helper text",
+  },
 };
 
 export default meta;
 
 export const Standard: Story = {
   render: Template.bind({}),
+};
+
+export const Icon: Story = {
+  render: Template.bind({}),
   args: {
-    placeholder: "Search fruit",
-    helperText: "Type to filter",
+    iconAtStart: SearchIcon,
   },
+};
+
+export const SmallComboBox: Story = {
+  render: (args) => (
+    <>
+      <Template {...args} size="sm" />
+      <Template {...args} size="sm" iconAtStart={SearchIcon} />
+      <Template {...args} size="sm" isLoading />
+    </>
+  ),
+};
+
+export const LargeComboBox: Story = {
+  render: (args) => (
+    <>
+      <Template {...args} size="lg" />
+      <Template {...args} size="lg" iconAtStart={SearchIcon} />
+      <Template {...args} size="lg" isLoading />
+    </>
+  ),
+};
+
+export const LabelWithEmphasis: Story = {
+  render: Template.bind({}),
+  args: {
+    isLabelEmphasized: true,
+  },
+};
+
+export const Error: Story = {
+  render: Template.bind({}),
+  args: {
+    errorText: "Something went wrong",
+    validationState: "invalid",
+  },
+};
+
+export const VisuallyHiddenLabel: Story = {
+  render: Template.bind({}),
+  args: {
+    label: null,
+    "aria-label": "Label",
+  },
+};
+
+/**
+ * Lined up with `<TextField />`s to show the two read as one form.
+ */
+export const AlongsideTextField: Story = {
+  render: (args) => (
+    <>
+      <TextField label="Text field" placeholder="Placeholder text" />
+      <Template {...args} label="Combo box" helperText={undefined} />
+      <TextField
+        size="sm"
+        label="Small text field"
+        placeholder="Placeholder text"
+      />
+      <Template
+        {...args}
+        size="sm"
+        label="Small combo box"
+        helperText={undefined}
+      />
+    </>
+  ),
 };
 
 export const CustomValue: Story = {
   render: Template.bind({}),
   args: {
     allowsCustomValue: true,
-    placeholder: "Pick or type a fruit",
     helperText: "Fruits not in the list are kept as typed",
   },
 };
 
-export const Sizes: Story = {
-  render: () => (
-    <VerticalStack gap="2">
-      <Template size="sm" label="Small" placeholder="Search fruit" />
-      <Template size="md" label="Medium" placeholder="Search fruit" />
-      <Template size="lg" label="Large" placeholder="Search fruit" />
-    </VerticalStack>
+export const WithSeparator: Story = {
+  render: (args) => (
+    <ComboBox {...args}>
+      <ComboBox.Section aria-label="Citrus">
+        <ComboBox.Option id="lemon">Lemon</ComboBox.Option>
+        <ComboBox.Option id="lime">Lime</ComboBox.Option>
+        <ComboBox.Option id="orange">Orange</ComboBox.Option>
+      </ComboBox.Section>
+      <ComboBox.Section aria-label="Berries">
+        <ComboBox.Option id="blueberry">Blueberry</ComboBox.Option>
+        <ComboBox.Option id="raspberry">Raspberry</ComboBox.Option>
+        <ComboBox.Option id="strawberry">Strawberry</ComboBox.Option>
+      </ComboBox.Section>
+    </ComboBox>
   ),
 };
 
-export const Invalid: Story = {
+export const DisabledOptions: Story = {
   render: Template.bind({}),
   args: {
-    isRequired: true,
-    validationState: "invalid",
-    errorText: "Choose a fruit",
+    disabledKeys: [2, 4],
   },
 };
 
-export const Disabled: Story = {
+export const DisabledComboBox: Story = {
   render: Template.bind({}),
   args: {
     isDisabled: true,
     defaultInputValue: "Apple",
   },
 };
+
+export const WithSecondaryText: Story = {
+  render: (args) => (
+    <ComboBox {...args} label="Rate adjustment">
+      <ComboBox.Option
+        id="standard"
+        textValue="Standard Adjustment"
+        description="One Rate Adjustment criteria is followed and added to all qualifying shipments"
+      >
+        Standard Adjustment
+      </ComboBox.Option>
+      <ComboBox.Option
+        id="cumulative"
+        textValue="Cumulative Adjustment"
+        description="Multiple Rate Adjustments are added together to create one total rate markup amount"
+      >
+        Cumulative Adjustment
+      </ComboBox.Option>
+      <ComboBox.Option
+        id="hierarchical"
+        textValue="Hierarchical Adjustment"
+        description="One Rate Adjustment will be added based on a priority order of possible Rate Adjustments"
+      >
+        Hierarchical Adjustment
+      </ComboBox.Option>
+    </ComboBox>
+  ),
+};
+
+type Prediction = {
+  place_id: string;
+  description: string;
+  main_text: string;
+  secondary_text: string;
+};
+
+const addresses: Prediction[] = [
+  ["417 Montgomery St", "San Francisco, CA, USA"],
+  ["417 Market St", "San Francisco, CA, USA"],
+  ["417 Mission St", "San Francisco, CA, USA"],
+  ["4170 Lindell Blvd", "St. Louis, MO, USA"],
+  ["417 N 8th St", "Lehighton, PA, USA"],
+  ["4175 Veterans Memorial Hwy", "Ronkonkoma, NY, USA"],
+].map(([main_text, secondary_text], i) => ({
+  place_id: `place-${i}`,
+  description: `${main_text}, ${secondary_text}`,
+  main_text,
+  secondary_text,
+}));
 
 /**
  * Suggestions fetched as the user types, with free text kept as the value and
@@ -104,7 +221,6 @@ function AddressField() {
   const [street, setStreet] = useState("");
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selected, setSelected] = useState<Prediction | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => () => clearTimeout(timeoutRef.current), []);
@@ -129,30 +245,27 @@ function AddressField() {
   };
 
   return (
-    <VerticalStack gap="2">
-      <ComboBox
-        label="Street address"
-        placeholder="Start typing an address, e.g. 417"
-        iconAtStart={LocationOnIcon}
-        allowsCustomValue
-        inputValue={street}
-        onInputChange={onInputChange}
-        items={predictions}
-        isLoading={isLoading}
-        onSelectionChange={(key) =>
-          setSelected(predictions.find((p) => p.place_id === key) ?? null)
-        }
-        footer={<ComboBox.FooterText>Powered by Google</ComboBox.FooterText>}
-      >
-        {(item) => (
-          <ComboBox.Option id={item.place_id}>
-            {item.description}
-          </ComboBox.Option>
-        )}
-      </ComboBox>
-      <span>
-        Selected place: <code>{selected?.place_id ?? "none"}</code>
-      </span>
-    </VerticalStack>
+    <ComboBox
+      label="Street address"
+      placeholder="Start typing an address, e.g. 417"
+      helperText="Choose a suggestion to fill in the rest of the address"
+      iconAtStart={LocationOnIcon}
+      allowsCustomValue
+      inputValue={street}
+      onInputChange={onInputChange}
+      items={predictions}
+      isLoading={isLoading}
+      footer="Powered by Google"
+    >
+      {(item) => (
+        <ComboBox.Option
+          id={item.place_id}
+          textValue={item.main_text}
+          description={item.secondary_text}
+        >
+          {item.main_text}
+        </ComboBox.Option>
+      )}
+    </ComboBox>
   );
 }

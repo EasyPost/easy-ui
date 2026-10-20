@@ -26,18 +26,19 @@
   @include Input.inputLg;
 }
 
-.errorInput {
+.inputError {
   @include Input.error;
 }
 
-.iconStartInput {
+.inputIconStart {
   @include Input.iconStartInput;
 }
 
-.loadingInput {
+.inputIconEnd {
   @include Input.iconEndInput;
 }
 
+// Sits where `InputField`'s end icon does.
 .loadingIndicator {
   display: inline-flex;
   position: absolute;
@@ -55,57 +56,66 @@
   top: design-token("space.2");
 }
 
-.caption {
-  margin-top: design-token("space.0.5");
-  // Defer to inner Text for line-height
-  line-height: 0;
-}
-
+// Sized to the field through the `menu` width token—see `popoverStyle`.
 .popover {
-  @include Menu.tokens;
-
-  display: flex;
-  flex-direction: column;
-  width: var(--trigger-width);
-
-  background: component-token("menu", "color.background");
-  border: design-token("shape.border_width.1") solid
-    component-token("menu", "color.border");
-  border-radius: component-token("menu", "border_radius");
-  box-shadow: component-token("menu", "shadow");
+  @include Menu.root;
 }
 
 .scrollContainer {
-  overflow: auto;
-  padding: component-token("menu", "padding.y") 0;
+  @include Menu.menu;
 }
 
-.listBox {
+.listbox {
   outline: none;
 }
 
 .option {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: component-token("menu", "item_height");
-  padding: 0 component-token("menu", "padding.x");
-  position: relative;
-  cursor: pointer;
+  text-decoration: none;
   outline: none;
 
-  &[data-hovered],
-  &[data-focused] {
-    background: component-token("menu", "color.background.hovered");
+  &:not([data-disabled]) {
+    cursor: pointer;
   }
 
-  &[data-disabled] {
-    opacity: 0.5;
-    cursor: default;
+  &[data-focused] .optionContent {
+    @include Menu.itemDataFocused;
+  }
+
+  &[data-disabled] .optionContent {
+    @include Menu.itemDataDisabled;
   }
 }
 
+.optionContent {
+  @include Menu.itemContent;
+  @include Menu.itemContentColor;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+  padding-top: design-token("space.1");
+  padding-bottom: design-token("space.1");
+}
+
+.optionDescription {
+  width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+// Matches `Select.Section`'s separator: a line centered in an item-height row.
+.section + .section::before {
+  @include Menu.separator;
+  display: block;
+  margin: calc(#{component-token("menu", "item_height")} / 2 - 0.5px)
+    component-token("menu", "padding.x");
+}
+
 .footer {
+  flex: 0 0 auto;
   border-top: design-token("shape.border_width.1") solid
     component-token("menu", "color.border");
   padding: design-token("space.1") component-token("menu", "padding.x");
