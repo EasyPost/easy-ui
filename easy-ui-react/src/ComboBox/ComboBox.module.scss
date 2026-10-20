@@ -1,0 +1,112 @@
+@use "../styles/common" as *;
+@use "../InputField/mixins" as Input;
+@use "../Menu/mixins" as Menu;
+
+.root {
+  @include Input.root;
+}
+
+.field {
+  @include Input.inputIconContainer;
+}
+
+.input {
+  @include Input.input;
+
+  &[data-hovered] {
+    @include Input.hovered;
+  }
+}
+
+.inputSizeSm {
+  @include Input.inputSm;
+}
+
+.inputSizeLg {
+  @include Input.inputLg;
+}
+
+.errorInput {
+  @include Input.error;
+}
+
+.iconStartInput {
+  @include Input.iconStartInput;
+}
+
+.loadingInput {
+  @include Input.iconEndInput;
+}
+
+.loadingIndicator {
+  display: inline-flex;
+  position: absolute;
+  top: design-token("space.1.5");
+  right: design-token("space.1.5");
+  pointer-events: none;
+  z-index: component-token("inputfield", "z-index");
+}
+
+.loadingIndicatorSm {
+  top: design-token("space.1");
+}
+
+.loadingIndicatorLg {
+  top: design-token("space.2");
+}
+
+.caption {
+  margin-top: design-token("space.0.5");
+  // Defer to inner Text for line-height
+  line-height: 0;
+}
+
+.popover {
+  @include Menu.tokens;
+
+  display: flex;
+  flex-direction: column;
+  width: var(--trigger-width);
+
+  background: component-token("menu", "color.background");
+  border: design-token("shape.border_width.1") solid
+    component-token("menu", "color.border");
+  border-radius: component-token("menu", "border_radius");
+  box-shadow: component-token("menu", "shadow");
+}
+
+.scrollContainer {
+  overflow: auto;
+  padding: component-token("menu", "padding.y") 0;
+}
+
+.listBox {
+  outline: none;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: component-token("menu", "item_height");
+  padding: 0 component-token("menu", "padding.x");
+  position: relative;
+  cursor: pointer;
+  outline: none;
+
+  &[data-hovered],
+  &[data-focused] {
+    background: component-token("menu", "color.background.hovered");
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.footer {
+  border-top: design-token("shape.border_width.1") solid
+    component-token("menu", "color.border");
+  padding: design-token("space.1") component-token("menu", "padding.x");
+}
