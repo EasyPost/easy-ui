@@ -74,6 +74,14 @@ export const LargeComboBox: Story = {
   ),
 };
 
+export const HiddenDropdownButton: Story = {
+  render: Template.bind({}),
+  args: {
+    hideDropdownButton: true,
+    helperText: "Type to see suggestions",
+  },
+};
+
 export const LabelWithEmphasis: Story = {
   render: Template.bind({}),
   args: {
@@ -250,6 +258,7 @@ function AddressField() {
       placeholder="Start typing an address, e.g. 417"
       helperText="Choose a suggestion to fill in the rest of the address"
       iconAtStart={LocationOnIcon}
+      hideDropdownButton
       allowsCustomValue
       inputValue={street}
       onInputChange={onInputChange}

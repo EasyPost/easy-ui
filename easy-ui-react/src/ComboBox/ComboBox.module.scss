@@ -1,6 +1,7 @@
 @use "../styles/common" as *;
 @use "../InputField/mixins" as Input;
 @use "../Menu/mixins" as Menu;
+@use "../styles/unstyled";
 
 .root {
   @include Input.root;
@@ -12,10 +13,12 @@
 
 .input {
   @include Input.input;
+}
 
-  &[data-hovered] {
-    @include Input.hovered;
-  }
+// On the field rather than the input, so hovering the dropdown button engages
+// the border too, as hovering anywhere on a `<Select />` does.
+.field[data-hovered] .input {
+  @include Input.hovered;
 }
 
 .inputSizeSm {
@@ -38,21 +41,41 @@
   @include Input.iconEndInput;
 }
 
-// Sits where `InputField`'s end icon does.
+// The dropdown button and loading indicator sit where `InputField`'s end
+// icon does, and where `<Select />` puts its chevron.
+.dropdownButton,
 .loadingIndicator {
   display: inline-flex;
   position: absolute;
   top: design-token("space.1.5");
   right: design-token("space.1.5");
-  pointer-events: none;
   z-index: component-token("inputfield", "z-index");
 }
 
-.loadingIndicatorSm {
+.dropdownButton {
+  @include unstyled.button;
+  color: component-token("inputfield", "color.text.gray.resting");
+  cursor: pointer;
+
+  &[data-hovered] {
+    color: component-token("inputfield", "color.text.gray.bold");
+  }
+
+  &[data-disabled] {
+    color: component-token("inputfield", "color.text.disabled");
+    cursor: default;
+  }
+}
+
+.loadingIndicator {
+  pointer-events: none;
+}
+
+.endSlotSm {
   top: design-token("space.1");
 }
 
-.loadingIndicatorLg {
+.endSlotLg {
   top: design-token("space.2");
 }
 

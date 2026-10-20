@@ -194,6 +194,41 @@ describe("<ComboBox />", () => {
     expect(onSelectionChange).not.toHaveBeenCalled();
   });
 
+  it("should open the full list with the dropdown button", async () => {
+    const { user } = render(getComboBox());
+    await user.click(screen.getByRole("button"));
+    expect(screen.getAllByRole("option")).toHaveLength(fruits.length);
+  });
+
+  it("should show every option from the dropdown button, even after filtering", async () => {
+    const { user } = render(getComboBox());
+    await user.type(screen.getByRole("combobox"), "ban");
+    await user.keyboard("{Escape}");
+    await user.click(screen.getByRole("button"));
+    expect(screen.getAllByRole("option")).toHaveLength(fruits.length);
+  });
+
+  it("should keep the dropdown button out of the tab order", () => {
+    render(getComboBox());
+    expect(screen.getByRole("button")).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("should disable the dropdown button with the field", () => {
+    render(getComboBox({ isDisabled: true }));
+    expect(screen.getByRole("button")).toBeDisabled();
+  });
+
+  it("should hide the dropdown button with hideDropdownButton", () => {
+    render(getComboBox({ hideDropdownButton: true }));
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+  });
+
+  it("should keep the dropdown button while loading", () => {
+    render(getComboBox({ isLoading: true }));
+    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getByRole("status", { name: "Loading" })).toBeInTheDocument();
+  });
+
   it("should warn when it has no label", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     render(getComboBox({ label: undefined }));

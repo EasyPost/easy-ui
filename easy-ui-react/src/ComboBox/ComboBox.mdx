@@ -13,7 +13,7 @@ Reach for `<Select />` to pick from a short, fixed list without typing, and `<Mu
 
 ## Standard
 
-Simple `<ComboBox />` with `label`, `placeholder`, and `helperText`. Pass `defaultItems` and render each one as a `<ComboBox.Option />`; typing filters them. Selecting an option fills the input with its text and calls `onSelectionChange` with its `id`.
+Simple `<ComboBox />` with `label`, `placeholder`, and `helperText`. Pass `defaultItems` and render each one as a `<ComboBox.Option />`; typing filters them, and the dropdown button at the end of the input opens the full list. Selecting an option fills the input with its text and calls `onSelectionChange` with its `id`.
 
 <Canvas of={ComboBoxStories.Standard} />
 
@@ -22,6 +22,12 @@ Simple `<ComboBox />` with `label`, `placeholder`, and `helperText`. Pass `defau
 Use `iconAtStart` to add a left aligned icon.
 
 <Canvas of={ComboBoxStories.Icon} />
+
+## Hidden dropdown button
+
+Set `hideDropdownButton` when there's nothing to browse until the user types—suggestions fetched for an address, say. Keyboard users open the list with the arrow keys either way; the button is kept out of the tab order.
+
+<Canvas of={ComboBoxStories.HiddenDropdownButton} />
 
 ## Small ComboBox
 
@@ -91,7 +97,7 @@ Each option can render a secondary `description`. Set `textValue` to the text th
 
 ## Fetched suggestions
 
-For suggestions fetched as the user types, control the input with `inputValue` and `onInputChange`, pass the results as `items`, and set `isLoading` while a request is in flight. `items` aren't filtered—they're shown as given—and the list opens when they arrive.
+For suggestions fetched as the user types, control the input with `inputValue` and `onInputChange`, pass the results as `items`, and set `isLoading` while a request is in flight. `items` aren't filtered—they're shown as given—and the list opens when they arrive. With nothing to show before the user types, hide the dropdown button.
 
 `footer` renders content below the options, such as the "Powered by Google" attribution the Places API requires. It isn't an option: it can't be focused or selected, and it shows only while the list is open. A string is styled as caption text.
 
@@ -107,6 +113,7 @@ export function Component() {
   return (
     <ComboBox
       label="Street address"
+      hideDropdownButton
       allowsCustomValue
       inputValue={street}
       onInputChange={setStreet}
@@ -149,6 +156,7 @@ Editing the text after a selection breaks the link between the two, so leaving t
 | Value                   | Text, plus the key of a selection | Items                     | An item                |
 | A selection shows as    | Editable text in the input        | Pills                     | A label in the trigger |
 | Typing                  | Edits the value                   | Searches; doesn't edit    | Jumps to a match       |
+| Browsing every option   | Dropdown button                   | Dropdown button           | The trigger            |
 | Free text as the value  | With `allowsCustomValue`          | No                        | No                     |
 | Reach for it to collect | Text that suggestions help fill   | Several items from a list | One item from a few    |
 

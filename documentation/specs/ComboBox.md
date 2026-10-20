@@ -12,6 +12,7 @@ A `ComboBox` is a text input with a list of suggestions under it. The user types
 ### Features
 
 - Reads as a `TextField`: `label`, `helperText`, `errorText`, `validationState`, `isRequired`, `size`, `iconAtStart`.
+- A dropdown button at the end of the input opens the full list, as React Aria's examples show and as `Select`'s chevron does. `hideDropdownButton` removes it for fields with nothing to browse until the user types.
 - Filters `defaultItems` as the user types, or shows `items` fetched by the consumer.
 - `isLoading` shows an indicator at the end of the input while a request is in flight.
 - `allowsCustomValue` keeps text that doesn't match a suggestion.
@@ -51,6 +52,7 @@ type ComboBoxProps<T extends object> = AriaComboBoxProps<T> & {
   size?: "sm" | "md" | "lg";
   placeholder?: string;
   iconAtStart?: IconSymbol;
+  hideDropdownButton?: boolean;
   isLoading?: boolean;
   footer?: ReactNode;
   maxItemsUntilScroll?: number;
@@ -90,6 +92,7 @@ _Address autocomplete:_
 ```tsx
 <ComboBox
   aria-label="Street address"
+  hideDropdownButton
   allowsCustomValue
   isRequired
   validationState={showValidation ? validation.street1 : "valid"}
@@ -121,7 +124,8 @@ _Address autocomplete:_
   <Group>
     <InputIcon />
     <Input />
-    <Spinner />
+    <Button />  {/* dropdown button, unless hideDropdownButton */}
+    <Spinner /> {/* over the button's place while isLoading */}
   </Group>
   <InputCaption /> {/* through the description or errorMessage slot */}
   <Popover>
@@ -149,6 +153,14 @@ _Address autocomplete:_
       aria-controls="listbox"
       aria-activedescendant="option-1"
     />
+    <button
+      tabindex="-1"
+      aria-label="Show suggestions"
+      aria-haspopup="listbox"
+      aria-expanded="true"
+    >
+      <!-- ExpandMore400 -->
+    </button>
     <div role="status" aria-label="Loading"></div>
   </div>
   <div id="caption">Helper or error text</div>
@@ -176,6 +188,7 @@ The value is the input's text; a selection is tracked as a key alongside it, but
 ### States and Interactions
 
 - Typing opens the list when there are suggestions, and closes it when there are none.
+- Pressing the dropdown button opens the full list, unfiltered by what's typed.
 - Fetched `items` that arrive after typing open the list.
 - Selecting a suggestion fills the input with its `textValue`, closes the list, and calls `onSelectionChange` with its key. A controlled `inputValue` receives the text through `onInputChange`.
 - Leaving the field reverts unmatched text to the selection, unless `allowsCustomValue` is set.
@@ -192,6 +205,7 @@ The value is the input's text; a selection is tracked as a key alongside it, but
 - Focus stays in the input. Arrow keys move a virtual focus through the options (`aria-activedescendant`).
 - Enter selects the focused option. Escape closes the list.
 - ArrowDown opens a closed list.
+- The dropdown button is kept out of the tab order, so Tab moves from the input to the next field.
 
 ### Performance
 

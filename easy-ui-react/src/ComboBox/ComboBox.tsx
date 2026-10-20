@@ -1,3 +1,4 @@
+import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
 import React, {
   MutableRefObject,
   ReactNode,
@@ -6,6 +7,7 @@ import React, {
   useRef,
 } from "react";
 import {
+  Button,
   ComboBox as AriaComboBox,
   ComboBoxProps as AriaComboBoxProps,
   ComboBoxStateContext,
@@ -20,6 +22,7 @@ import {
   useSlottedContext,
 } from "react-aria-components";
 import { InputSize } from "../InputField";
+import { Icon } from "../Icon";
 import { InputCaption } from "../InputField/InputCaption";
 import { InputIcon } from "../InputField/InputIcon";
 import { Label } from "../InputField/Label";
@@ -109,8 +112,16 @@ export type ComboBoxProps<T extends object> = Omit<
   /** Left aligned icon on the combo box. */
   iconAtStart?: IconSymbol;
   /**
+   * Hides the button at the end of the input that opens the full list.
+   * Hide it when there's no list to browse until the user types, as with
+   * suggestions fetched for an address.
+   * @default false
+   */
+  hideDropdownButton?: boolean;
+  /**
    * Whether options are being fetched. Shows a loading indicator at the end
-   * of the input; options already in the list stay visible.
+   * of the input, in place of the dropdown button's icon; options already in
+   * the list stay visible.
    * @default false
    */
   isLoading?: boolean;
@@ -132,7 +143,8 @@ export type ComboBoxProps<T extends object> = Omit<
  * under it.
  *
  * @remarks
- * Typing filters `defaultItems`. For suggestions fetched as the user types,
+ * Typing filters `defaultItems`, and the button at the end of the input opens
+ * the full list. For suggestions fetched as the user types,
  * control the input with `inputValue` and `onInputChange`, pass the results as
  * `items`, and set `isLoading` while a request is in flight. With
  * `allowsCustomValue`, text that doesn't match an option is kept as the value.
@@ -163,6 +175,7 @@ export type ComboBoxProps<T extends object> = Omit<
  *  return (
  *    <ComboBox
  *      label="Street address"
+ *      hideDropdownButton
  *      allowsCustomValue
  *      inputValue={street}
  *      onInputChange={setStreet}
@@ -193,6 +206,7 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
     helperText,
     placeholder,
     iconAtStart,
+    hideDropdownButton = false,
     isLoading = false,
     footer,
     maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
@@ -218,6 +232,7 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
   const hasItems = items !== undefined && Array.from(items).length > 0;
 
   const hasError = validationState === "invalid";
+  const hasEndSlot = !hideDropdownButton || isLoading;
   const showErrorText = hasError && errorText;
   const showHelperText = !showErrorText && helperText;
 
@@ -275,7 +290,7 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
             styles.input,
             hasError && styles.inputError,
             iconAtStart && styles.inputIconStart,
-            isLoading && styles.inputIconEnd,
+            hasEndSlot && styles.inputIconEnd,
             styles[variationName("inputSize", size)],
           )}
           placeholder={placeholder}
@@ -283,11 +298,26 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
             hasTypedRef.current = true;
           }}
         />
+        {!hideDropdownButton && (
+          // React Aria labels this button and keeps it out of the tab order;
+          // the input's own arrow keys open the list for keyboard users.
+          <Button
+            className={classNames(
+              styles.dropdownButton,
+              styles[variationName("endSlot", size)],
+            )}
+          >
+            {!isLoading && (
+              <Icon symbol={ExpandMoreIcon400} size={mapIconSize(size)} />
+            )}
+          </Button>
+        )}
         {isLoading && (
+          // Sits over the dropdown button's place without blocking it.
           <span
             className={classNames(
               styles.loadingIndicator,
-              styles[variationName("loadingIndicator", size)],
+              styles[variationName("endSlot", size)],
             )}
           >
             <Spinner
