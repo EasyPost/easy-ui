@@ -1,4 +1,4 @@
-import { RouterProvider as ReactAriaRouterProvider } from "@react-aria/utils";
+import { RouterProvider as ReactAriaRouterProvider } from "react-aria";
 import { Href, RouterOptions } from "@react-types/shared";
 import React, { ReactElement, ReactNode } from "react";
 import { NotificationPlacement, NotificationProvider } from "../Notification";

@@ -1,7 +1,13 @@
-import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import { AriaLabelingProps } from "@react-types/shared";
 import React, { ReactNode, forwardRef } from "react";
-import { mergeProps, useFocusRing, useHover, useSwitch } from "react-aria";
+import {
+  mergeProps,
+  mergeRefs,
+  useFocusRing,
+  useHover,
+  useObjectRef,
+  useSwitch,
+} from "react-aria";
 import { useToggleState } from "react-stately";
 import { Text } from "../Text";
 import { classNames } from "../utilities/css";

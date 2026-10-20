@@ -1,6 +1,5 @@
-import { useId } from "@react-aria/utils";
 import React, { ReactNode, useEffect, useMemo, useRef } from "react";
-import { Placement } from "react-aria";
+import { Placement, useId } from "react-aria";
 // The local `Popover` is this directory's own component, so React Aria's has to
 // be renamed to sit next to it.
 import { Dialog, Popover as AriaPopover } from "react-aria-components";

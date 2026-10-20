@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import { CollectionChildren, Key } from "@react-types/shared";
+import { CollectionChildren } from "@react-types/shared";
 import { useSelectState } from "react-stately";
-import { AriaSelectProps, useSelect } from "react-aria";
+import { AriaSelectProps, useSelect, Key } from "react-aria";
 import { InternalSelectContext } from "./SelectContext";
 import { SelectField, BaseSelectFieldProps } from "./SelectField";
 import { SelectOption } from "./SelectOption";

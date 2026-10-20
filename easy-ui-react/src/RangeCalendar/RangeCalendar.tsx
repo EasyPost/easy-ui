@@ -5,9 +5,9 @@ import {
   DateValue,
   MappedDateValue,
   DateRange,
+  RangeValue,
 } from "react-aria";
 import { useRangeCalendarState } from "react-stately";
-import { RangeValue } from "@react-types/shared";
 import { CalendarDate, createCalendar } from "@internationalized/date";
 import { CalendarBase, CalendarBaseStateProps } from "../Calendar/CalendarBase";
 

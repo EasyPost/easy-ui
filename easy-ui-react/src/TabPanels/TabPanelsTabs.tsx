@@ -1,7 +1,7 @@
-import { AriaLabelingProps, ItemElement, Node } from "@react-types/shared";
+import { AriaLabelingProps, ItemElement } from "@react-types/shared";
 import React, { useEffect } from "react";
 import { mergeProps, useTab, useTabList } from "react-aria";
-import { TabListState, useTabListState } from "react-stately";
+import { TabListState, useTabListState, Node } from "react-stately";
 import { Tabs } from "../Tabs";
 import { useTabPanels } from "./context";
 

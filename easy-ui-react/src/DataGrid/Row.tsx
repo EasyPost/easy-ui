@@ -1,4 +1,4 @@
-import { FocusableElement, Node } from "@react-types/shared";
+import { FocusableElement } from "react-aria-components";
 import React, {
   PointerEvent as PointerEventType,
   ReactNode,
@@ -7,7 +7,7 @@ import React, {
   useRef,
 } from "react";
 import { mergeProps, useFocusRing, useHover, useTableRow } from "react-aria";
-import { TableState } from "react-stately";
+import { TableState, Node } from "react-stately";
 import { classNames } from "../utilities/css";
 import { EXPAND_COLUMN_KEY } from "./constants";
 import { DataGridRowContext, useDataGridTable } from "./context";

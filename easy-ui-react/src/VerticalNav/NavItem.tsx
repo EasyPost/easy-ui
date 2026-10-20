@@ -1,4 +1,4 @@
-import { Node } from "@react-types/shared";
+import { Node } from "react-stately";
 import React, { ReactNode } from "react";
 import { mergeProps, useHover } from "react-aria";
 import { Icon } from "../Icon";

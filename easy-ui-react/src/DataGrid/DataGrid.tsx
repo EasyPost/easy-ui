@@ -1,4 +1,4 @@
-import { Key } from "@react-types/shared";
+import { Key } from "react-aria";
 import React, { useCallback, useMemo, useState } from "react";
 import { Cell, Column, Row, TableBody, TableHeader } from "react-stately";
 import { ActionsCellContent } from "./ActionsCellContent";

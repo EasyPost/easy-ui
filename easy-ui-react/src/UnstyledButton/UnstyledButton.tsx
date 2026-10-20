@@ -1,7 +1,12 @@
-import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import omit from "lodash/omit";
 import React, { forwardRef, useRef } from "react";
-import { AriaButtonProps, mergeProps, useButton } from "react-aria";
+import {
+  AriaButtonProps,
+  mergeProps,
+  mergeRefs,
+  useButton,
+  useObjectRef,
+} from "react-aria";
 import { classNames } from "../utilities/css";
 import { RouterLinkProps, useRouterLinkProps } from "../utilities/router";
 import { omitReactAriaSpecificProps } from "../Button/utilities";

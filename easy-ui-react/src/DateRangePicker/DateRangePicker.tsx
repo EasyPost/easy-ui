@@ -1,7 +1,11 @@
 import React, { ReactNode } from "react";
-import { useDateRangePicker, DateValue, MappedDateValue } from "react-aria";
+import {
+  useDateRangePicker,
+  DateValue,
+  MappedDateValue,
+  RangeValue,
+} from "react-aria";
 import { useDateRangePickerState } from "react-stately";
-import { RangeValue } from "@react-types/shared";
 import { RangeCalendar } from "../RangeCalendar";
 import { DatePickerBase } from "../DatePicker/DatePickerBase";
 

@@ -1,10 +1,6 @@
-import {
-  AriaLabelingProps,
-  Key,
-  Selection,
-  SelectionMode,
-  SortDescriptor,
-} from "@react-types/shared";
+import { AriaLabelingProps } from "@react-types/shared";
+import { Key } from "react-aria";
+import { Selection, SelectionMode, SortDescriptor } from "react-stately";
 import { ReactNode } from "react";
 import { IconSymbol } from "../types";
 

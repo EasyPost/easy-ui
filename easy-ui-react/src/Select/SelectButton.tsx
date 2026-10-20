@@ -1,5 +1,5 @@
 import ExpandMoreIcon400 from "@easypost/easy-ui-icons/ExpandMore400";
-import { FocusableElement } from "@react-types/shared";
+import { FocusableElement } from "react-aria-components";
 import React, { DOMAttributes, ReactNode, forwardRef } from "react";
 import { AriaButtonProps } from "react-aria";
 import { InputIcon } from "../InputField/InputIcon";

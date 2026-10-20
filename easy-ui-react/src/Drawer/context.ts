@@ -1,4 +1,4 @@
-import { FocusableElement } from "@react-types/shared";
+import { FocusableElement } from "react-aria-components";
 import { DOMAttributes, RefObject, createContext, useContext } from "react";
 import { OverlayTriggerState } from "react-stately";
 

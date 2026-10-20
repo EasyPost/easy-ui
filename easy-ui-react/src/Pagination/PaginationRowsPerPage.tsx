@@ -1,5 +1,5 @@
 import ExpandMore400 from "@easypost/easy-ui-icons/ExpandMore400";
-import { Key } from "@react-types/shared";
+import { Key } from "react-aria";
 import React, { useId } from "react";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";

@@ -1,4 +1,4 @@
-import { ToastStateProps, ToastQueue } from "@react-stately/toast";
+import { ToastStateProps, ToastQueue } from "react-stately";
 
 export const TOAST_TIMEOUT_DURATION = 4000;
 

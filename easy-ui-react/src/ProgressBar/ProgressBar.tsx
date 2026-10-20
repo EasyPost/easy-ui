@@ -1,4 +1,3 @@
-import { clamp } from "@react-aria/utils";
 import React, { ReactNode } from "react";
 import { useProgressBar } from "react-aria";
 import { Text } from "../Text";
@@ -9,6 +8,10 @@ import {
   getComponentToken,
 } from "../utilities/css";
 import styles from "./ProgressBar.module.scss";
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
 
 export type ProgressBarProps = {
   /** The current value. Clamped to `minValue` and `maxValue`. */

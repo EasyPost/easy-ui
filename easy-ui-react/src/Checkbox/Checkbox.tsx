@@ -1,8 +1,14 @@
 import CheckIcon from "@easypost/easy-ui-icons/Check600";
 import RemoveIcon from "@easypost/easy-ui-icons/Remove600";
-import { mergeRefs, useObjectRef } from "@react-aria/utils";
 import React, { ReactNode, forwardRef } from "react";
-import { mergeProps, useCheckbox, useFocusRing, useHover } from "react-aria";
+import {
+  mergeProps,
+  mergeRefs,
+  useCheckbox,
+  useFocusRing,
+  useHover,
+  useObjectRef,
+} from "react-aria";
 import { ValidationState, useToggleState } from "react-stately";
 import { Icon } from "../Icon";
 import { SelectorErrorTooltip } from "../SelectorErrorTooltip";
