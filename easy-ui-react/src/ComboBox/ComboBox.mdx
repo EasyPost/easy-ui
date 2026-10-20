@@ -11,6 +11,31 @@ The `<ComboBox />` component is a text input with a list of suggestions under it
 
 Reach for `<Select />` to pick from a short, fixed list without typing, and `<MultiSelect />` to pick several values.
 
+## Text, not chips
+
+A `<ComboBox />`'s value is the text in its input. Selecting an option fills the input with the option's `textValue`, and that text stays plain and editable—there's no chip or pill marking it as picked. The selection is still tracked: `onSelectionChange` reports the option's `id`, and `selectedKey` holds it.
+
+Editing the text after a selection breaks the link between the two, so leaving the field settles which one wins:
+
+- With `allowsCustomValue`, the edited text is kept and the selection clears—`onSelectionChange` is called with `null`.
+- Without it, the input reverts to the selected option's text.
+
+`<MultiSelect />` takes the other approach. Its value is a set of items shown as pills, its input only searches, and the input clears after each pick—an item is picked or removed whole, never half-edited.
+
+|                         | `<ComboBox />`                    | `<MultiSelect />`         | `<Select />`           |
+| ----------------------- | --------------------------------- | ------------------------- | ---------------------- |
+| Value                   | Text, plus the key of a selection | Items                     | An item                |
+| A selection shows as    | Editable text in the input        | Pills                     | A label in the trigger |
+| Typing                  | Edits the value                   | Searches; doesn't edit    | Jumps to a match       |
+| Free text as the value  | With `allowsCustomValue`          | No                        | No                     |
+| Reach for it to collect | Text that suggestions help fill   | Several items from a list | One item from a few    |
+
+Use a `<ComboBox />` when typed text is itself a valid answer—an address, a city, a search—and suggestions save typing. After picking "417 Montgomery St", a user can still add "Suite 200".
+
+When the value has to be an item rather than text—a carrier account, a customer, a warehouse—text that only resembles an option is ambiguous. That calls for the item to show as picked, as `<Select />` and `<MultiSelect />` show it.
+
+This follows the common precedent: a single-value combobox fills its input with text, and chips are for picking several values. That holds for the [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), [React Aria's `ComboBox`](https://react-spectrum.adobe.com/react-aria/ComboBox.html), on which this is built, [MUI's `Autocomplete`](https://mui.com/material-ui/react-autocomplete/), Downshift's `useCombobox`, and GitHub Primer's `Autocomplete`. Their multi-select counterparts—MUI's `multiple`, Downshift's `useMultipleSelection`, Primer's `TextInputWithTokens`—are where chips appear. A searchable select, such as react-select, is a third model: it shows the selection as a label that typing replaces, which in Easy UI is closest to `<Select />`.
+
 ## Standard
 
 Simple `<ComboBox />` with `label`, `placeholder`, and `helperText`. Pass `defaultItems` and render each one as a `<ComboBox.Option />`; typing filters them. Selecting an option fills the input with its text and calls `onSelectionChange` with its `id`.

@@ -67,6 +67,31 @@ describe("<ComboBox />", () => {
     expect(screen.getByRole("combobox")).toHaveValue("Durian");
   });
 
+  it("should clear the selection when its text is edited with allowsCustomValue", async () => {
+    const onSelectionChange = vi.fn();
+    const { user } = render(
+      getComboBox({ allowsCustomValue: true, onSelectionChange }),
+    );
+    await user.type(screen.getByRole("combobox"), "ch");
+    await user.click(screen.getByRole("option", { name: "Cherry" }));
+    expect(onSelectionChange).toHaveBeenLastCalledWith(3);
+    await user.type(screen.getByRole("combobox"), " pie");
+    await user.tab();
+    expect(screen.getByRole("combobox")).toHaveValue("Cherry pie");
+    expect(onSelectionChange).toHaveBeenLastCalledWith(null);
+  });
+
+  it("should revert edited text to the selection without allowsCustomValue", async () => {
+    const onSelectionChange = vi.fn();
+    const { user } = render(getComboBox({ onSelectionChange }));
+    await user.type(screen.getByRole("combobox"), "ch");
+    await user.click(screen.getByRole("option", { name: "Cherry" }));
+    await user.type(screen.getByRole("combobox"), " pie");
+    await user.tab();
+    expect(screen.getByRole("combobox")).toHaveValue("Cherry");
+    expect(onSelectionChange).toHaveBeenLastCalledWith(3);
+  });
+
   it("should describe the input with helper text", () => {
     render(getComboBox({ helperText: "Pick one" }));
     expect(screen.getByRole("combobox")).toHaveAccessibleDescription(

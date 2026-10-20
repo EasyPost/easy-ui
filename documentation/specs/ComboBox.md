@@ -169,6 +169,10 @@ _Address autocomplete:_
 
 ## Behavior
 
+### Value Model
+
+The value is the input's text; a selection is tracked as a key alongside it, but shown only as the option's `textValue` in the input—no chip. This follows the common precedent for single-value comboboxes (WAI-ARIA's combobox pattern, React Aria, MUI `Autocomplete`, Downshift, Primer), where chips belong to multi-select. Editing the text after a selection is settled on blur: with `allowsCustomValue` the text is kept and the selection clears; without it the text reverts to the selection. A value that must be an item rather than text belongs in `Select` or `MultiSelect`.
+
 ### States and Interactions
 
 - Typing opens the list when there are suggestions, and closes it when there are none.
