@@ -135,6 +135,46 @@ describe("<Notification />", () => {
     await clickNotification(user, screen.getByRole("button"));
     expect(screen.queryByRole("img", { hidden: true })).not.toBeInTheDocument();
   });
+
+  it("should keep useNotification()'s value the same across renders", async () => {
+    const effect = vi.fn();
+    function Recorder() {
+      const notification = useNotification();
+      React.useEffect(() => effect(notification), [notification]);
+      return null;
+    }
+    const { user } = render(
+      <NotificationProvider>
+        <Recorder />
+        <SimulatedNotificationTrigger type="alert" message="Hello World" />
+      </NotificationProvider>,
+    );
+    const mountCalls = effect.mock.calls.length;
+    await clickNotification(user, screen.getByRole("button"));
+    await clickNotification(user, screen.getAllByRole("button")[1]);
+    expect(effect).toHaveBeenCalledTimes(mountCalls);
+  });
+
+  it("should not loop when an effect keyed on useNotification() shows and closes an alert", () => {
+    const show = vi.fn();
+    function EffectAlert() {
+      const notification = useNotification();
+      React.useEffect(() => {
+        show();
+        notification.showErrorAlert({ message: "Hello World" });
+        return () => notification.closeActiveNotification();
+      }, [notification]);
+      return null;
+    }
+    render(
+      <NotificationProvider>
+        <EffectAlert />
+      </NotificationProvider>,
+    );
+    expect(screen.getByRole("alertdialog")).toBeInTheDocument();
+    // StrictMode may run the effect twice on mount, but never more
+    expect(show.mock.calls.length).toBeLessThanOrEqual(2);
+  });
 });
 
 async function clickNotification(user: UserEvent, el: HTMLElement) {
