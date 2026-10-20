@@ -34,7 +34,15 @@ Use a `<ComboBox />` when typed text is itself a valid answer—an address, a ci
 
 When the value has to be an item rather than text—a carrier account, a customer, a warehouse—text that only resembles an option is ambiguous. That calls for the item to show as picked, as `<Select />` and `<MultiSelect />` show it.
 
-This follows the common precedent: a single-value combobox fills its input with text, and chips are for picking several values. That holds for the [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), [React Aria's `ComboBox`](https://react-spectrum.adobe.com/react-aria/ComboBox.html), on which this is built, [MUI's `Autocomplete`](https://mui.com/material-ui/react-autocomplete/), Downshift's `useCombobox`, and GitHub Primer's `Autocomplete`. Their multi-select counterparts—MUI's `multiple`, Downshift's `useMultipleSelection`, Primer's `TextInputWithTokens`—are where chips appear. A searchable select, such as react-select, is a third model: it shows the selection as a label that typing replaces, which in Easy UI is closest to `<Select />`.
+This follows the common precedent: a single-value combobox fills its input with text, and chips are for picking several values. That holds for the [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), [React Aria's `ComboBox`](https://react-aria.adobe.com/ComboBox), on which this is built, [MUI's `Autocomplete`](https://mui.com/material-ui/react-autocomplete/), Downshift's `useCombobox`, and GitHub Primer's `Autocomplete`. Their multi-select counterparts—MUI's `multiple`, Downshift's `useMultipleSelection`, Primer's `TextInputWithTokens`—are where chips appear. A searchable select, such as react-select, is a third model: it shows the selection as a label that typing replaces, which in Easy UI is closest to `<Select />`.
+
+## ComboBox vs. Autocomplete
+
+React Aria also has an [`Autocomplete`](https://react-aria.adobe.com/Autocomplete), and its docs split the two: use ComboBox to select values from a set of options, and Autocomplete to filter a collection or provide text completions.
+
+`Autocomplete` isn't a field. It connects a text input to a collection—a menu, a listbox, a grid—and filters that collection as the user types, and it renders no popover of its own. It's what command palettes, searchable menus, and `@mention` completions inside a larger text are built from.
+
+`<ComboBox />` is a complete form field: a labeled input whose list opens and closes as the user types, with selection, Escape, and blur handled. Addresses, cities, and other fields whose suggestions complete the whole value use `<ComboBox />` with `allowsCustomValue`, which React Aria provides for values that aren't in the list.
 
 ## Standard
 
