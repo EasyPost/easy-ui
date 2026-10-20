@@ -371,7 +371,9 @@ export const StateOrProvince: Story = {
           helperText="Pick a US state, or type a province or region"
           allowsCustomValue
           defaultItems={usStates}
-          selectedKey={selectedKey}
+          // Selection is left uncontrolled, so React Aria fills the input
+          // with a picked state's name. Controlling `selectedKey` too would
+          // leave that to `onSelectionChange`.
           onSelectionChange={setSelectedKey}
           inputValue={inputValue}
           onInputChange={setInputValue}

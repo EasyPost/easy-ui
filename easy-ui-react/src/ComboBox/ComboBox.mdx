@@ -186,6 +186,8 @@ Editing the text after a selection breaks the link between the two, so leaving t
 - With `allowsCustomValue`, the edited text is kept and the selection clears—`onSelectionChange` is called with `null`.
 - Without it, the input reverts to the selected option's text.
 
+Selecting an option fills the input on its own unless both `inputValue` and `selectedKey` are controlled. In that case, the input's text is yours to set—update it in `onSelectionChange`. To track the selection without taking on the text, control `inputValue` and listen to `onSelectionChange`, leaving `selectedKey` uncontrolled, as [State or province](#state-or-province) does.
+
 ### ComboBox, MultiSelect, and Select
 
 |                         | `<ComboBox />`                    | `<MultiSelect />`         | `<Select />`           |

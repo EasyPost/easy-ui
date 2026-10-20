@@ -60,6 +60,41 @@ describe("<ComboBox />", () => {
     expect(onSelectionChange).toHaveBeenCalledWith(1);
   });
 
+  it("should fill a controlled input with the selected option", async () => {
+    function Controlled() {
+      const [inputValue, setInputValue] = useState("");
+      return getComboBox({
+        allowsCustomValue: true,
+        inputValue,
+        onInputChange: setInputValue,
+      });
+    }
+    const { user } = render(<Controlled />);
+    await user.type(screen.getByRole("combobox"), "ch");
+    await user.click(screen.getByRole("option", { name: "Cherry" }));
+    expect(screen.getByRole("combobox")).toHaveValue("Cherry");
+  });
+
+  it("should leave the input to onSelectionChange when selection and input are both controlled", async () => {
+    function Controlled() {
+      const [selectedKey, setSelectedKey] = useState<Key | null>(null);
+      const [inputValue, setInputValue] = useState("");
+      return getComboBox({
+        selectedKey,
+        onSelectionChange: (key) => {
+          setSelectedKey(key);
+          setInputValue(fruits.find((f) => f.id === key)?.name ?? "");
+        },
+        inputValue,
+        onInputChange: setInputValue,
+      });
+    }
+    const { user } = render(<Controlled />);
+    await user.type(screen.getByRole("combobox"), "ch");
+    await user.click(screen.getByRole("option", { name: "Cherry" }));
+    expect(screen.getByRole("combobox")).toHaveValue("Cherry");
+  });
+
   it("should keep free text with allowsCustomValue", async () => {
     const { user } = render(getComboBox({ allowsCustomValue: true }));
     await user.type(screen.getByRole("combobox"), "Durian");
