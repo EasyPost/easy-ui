@@ -97,7 +97,10 @@ Each option can render a secondary `description`. Set `textValue` to the text th
 
 ## Fetched suggestions
 
-For suggestions fetched as the user types, control the input with `inputValue` and `onInputChange`, pass the results as `items`, and set `isLoading` while a request is in flight. `items` aren't filtered—they're shown as given—and the list opens when they arrive. With nothing to show before the user types, hide the dropdown button.
+How the options are passed depends on when they're fetched:
+
+- **Fetched once**, such as a merchant's shipping services: pass them as `defaultItems` and set `isLoading` until they arrive. Typing filters them, just like a fixed list. See [Carrier and service](#carrier-and-service).
+- **Fetched as the user types**, such as address suggestions: control the input with `inputValue` and `onInputChange`, pass each response as `items`, and set `isLoading` while a request is in flight. `items` aren't filtered—they're shown as given—and the list opens when they arrive. With nothing to show before the user types, hide the dropdown button.
 
 `footer` renders content below the options, such as the "Powered by Google" attribution the Places API requires. It isn't an option: it can't be focused or selected, and it shows only while the list is open. A string is styled as caption text.
 
@@ -137,6 +140,40 @@ export function Component() {
 ```
 
 Selecting an option calls `onInputChange` with the option's `textValue`, so a field that fetches on input change refetches after a selection. The list stays closed for those results, since the user hasn't typed since.
+
+## Examples from the web app
+
+These stand in for fields in the EasyPost web app, with their labels, error text, and data.
+
+### Ship-to country
+
+A long, fixed list from the ship-to address form. Required, with its error shown once the field is left empty.
+
+<Canvas of={ComboBoxStories.ShipToCountry} />
+
+### State or province
+
+Today a `<Select />` of US states for US addresses and a `<TextField />` for every other country. With `allowsCustomValue`, one field covers both: a picked state is saved as its code, and anything else as typed.
+
+<Canvas of={ComboBoxStories.StateOrProvince} />
+
+### Carrier and service
+
+Assigning a shipping service to orders. The services are fetched once, so they're passed as `defaultItems` with `isLoading` while they load. Service waits on a carrier, and when a carrier has two accounts, each service names its account in its `description`.
+
+<Canvas of={ComboBoxStories.CarrierAndService} />
+
+### Shipment cell
+
+The shipping service cell in the orders table: `size="sm"`, labeled by its column with `aria-label`, and Luma's rulesets set apart from carrier services with `<ComboBox.Section />`.
+
+<Canvas of={ComboBoxStories.ShipmentCell} />
+
+### Package preset
+
+Choosing a package for an order: the merchant's saved packages, each with its dimensions and weight as a `description`, under a pinned Custom Package.
+
+<Canvas of={ComboBoxStories.PackagePreset} />
 
 ## Notes
 

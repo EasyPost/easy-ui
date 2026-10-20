@@ -2,8 +2,12 @@ import LocationOnIcon from "@easypost/easy-ui-icons/LocationOn";
 import SearchIcon from "@easypost/easy-ui-icons/Search";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useEffect, useRef, useState } from "react";
+import { Key } from "react-aria-components";
+import { HorizontalStack } from "../HorizontalStack";
+import { Text } from "../Text";
 import { TextField } from "../TextField";
 import { InputDecorator } from "../utilities/storybook";
+import { VerticalStack } from "../VerticalStack";
 import { ComboBox, ComboBoxProps } from "./ComboBox";
 
 type Fruit = { id: number; name: string };
@@ -278,3 +282,289 @@ function AddressField() {
     </ComboBox>
   );
 }
+
+// Examples from the EasyPost web app. Labels, placeholders, error text, and
+// data are taken from the fields they'd replace.
+
+const countries = [
+  ["AF", "Afghanistan"],
+  ["AX", "Aland Islands"],
+  ["AL", "Albania"],
+  ["AU", "Australia"],
+  ["AT", "Austria"],
+  ["BS", "Bahamas"],
+  ["BQ", "Bonaire, Sint Eustatius and Saba"],
+  ["BA", "Bosnia and Herzegovina"],
+  ["CA", "Canada"],
+  ["CN", "China"],
+  ["FR", "France"],
+  ["DE", "Germany"],
+  ["IN", "India"],
+  ["IE", "Ireland"],
+  ["JP", "Japan"],
+  ["MX", "Mexico"],
+  ["NL", "Netherlands"],
+  ["NZ", "New Zealand"],
+  ["ES", "Spain"],
+  ["GB", "United Kingdom"],
+  ["US", "United States"],
+].map(([code, name]) => ({ code, name }));
+
+/**
+ * The ship-to address's Country/Region field (`AddressModal`): a long, fixed
+ * list, required, with its error shown once the field is left empty.
+ */
+export const ShipToCountry: Story = {
+  render: () => {
+    const [selectedKey, setSelectedKey] = useState<Key | null>(null);
+    const [isTouched, setIsTouched] = useState(false);
+    return (
+      <ComboBox
+        label="Country/Region"
+        isLabelEmphasized
+        isRequired
+        placeholder="Select country"
+        defaultItems={countries}
+        selectedKey={selectedKey}
+        onSelectionChange={setSelectedKey}
+        onBlur={() => setIsTouched(true)}
+        validationState={isTouched && !selectedKey ? "invalid" : "valid"}
+        errorText="Field is required"
+      >
+        {(item) => (
+          <ComboBox.Option id={item.code}>{item.name}</ComboBox.Option>
+        )}
+      </ComboBox>
+    );
+  },
+};
+
+const usStates = [
+  ["AL", "Alabama"],
+  ["AK", "Alaska"],
+  ["AZ", "Arizona"],
+  ["CA", "California"],
+  ["CO", "Colorado"],
+  ["DC", "District of Columbia"],
+  ["FL", "Florida"],
+  ["GA", "Georgia"],
+  ["NY", "New York"],
+  ["PA", "Pennsylvania"],
+  ["TX", "Texas"],
+  ["WA", "Washington"],
+].map(([code, name]) => ({ code, name }));
+
+/**
+ * The address's state field. Today it's a `<Select />` of US states for US
+ * addresses and a `<TextField />` for everything else; with
+ * `allowsCustomValue`, one field covers both.
+ */
+export const StateOrProvince: Story = {
+  render: () => {
+    const [selectedKey, setSelectedKey] = useState<Key | null>(null);
+    const [inputValue, setInputValue] = useState("");
+    return (
+      <VerticalStack gap="1">
+        <ComboBox
+          label="State / Province"
+          placeholder="State / Province"
+          helperText="Pick a US state, or type a province or region"
+          allowsCustomValue
+          defaultItems={usStates}
+          selectedKey={selectedKey}
+          onSelectionChange={setSelectedKey}
+          inputValue={inputValue}
+          onInputChange={setInputValue}
+        >
+          {(item) => (
+            <ComboBox.Option id={item.code}>{item.name}</ComboBox.Option>
+          )}
+        </ComboBox>
+        <Text variant="caption" color="neutral.600">
+          Saved as: {String(selectedKey ?? inputValue) || "—"}
+        </Text>
+      </VerticalStack>
+    );
+  },
+};
+
+type CarrierService = {
+  carrier: string;
+  carrier_account_id: string;
+  service: string;
+  human_readable: string;
+  account_description: string;
+};
+
+const shippingServices: CarrierService[] = [
+  [
+    "FedEx",
+    "ca_fedex_main",
+    "FEDEX_GROUND",
+    "FedEx Ground",
+    "FedEx Main Account",
+  ],
+  [
+    "FedEx",
+    "ca_fedex_returns",
+    "FEDEX_GROUND",
+    "FedEx Ground",
+    "FedEx Returns Account",
+  ],
+  [
+    "FedEx",
+    "ca_fedex_main",
+    "FEDEX_2_DAY",
+    "FedEx 2Day®",
+    "FedEx Main Account",
+  ],
+  ["UPS", "ca_ups_main", "Ground", "UPS® Ground", "UPS Main Account"],
+  ["UPS", "ca_ups_main", "2ndDayAir", "UPS 2nd Day Air", "UPS Main Account"],
+  ["USPS", "ca_usps_main", "GroundAdvantage", "USPS Ground Advantage®", "USPS"],
+  ["USPS", "ca_usps_main", "Priority", "Priority Mail®", "USPS"],
+  ["USPS", "ca_usps_main", "First", "First-Class Mail®", "USPS"],
+].map(
+  ([
+    carrier,
+    carrier_account_id,
+    service,
+    human_readable,
+    account_description,
+  ]) => ({
+    carrier,
+    carrier_account_id,
+    service,
+    human_readable,
+    account_description,
+  }),
+);
+
+/** Stands in for `useGetShippingServices()`: the list is fetched once. */
+function useShippingServices() {
+  const [data, setData] = useState<CarrierService[] | null>(null);
+  useEffect(() => {
+    const timeout = setTimeout(() => setData(shippingServices), 1000);
+    return () => clearTimeout(timeout);
+  }, []);
+  return { services: data ?? [], isLoading: data === null };
+}
+
+/**
+ * Assigning a shipping service to orders (`SelectCarrierServiceModal`). The
+ * services are fetched once and filtered as the user types, so they're passed
+ * as `defaultItems`. Service waits on a carrier, and a carrier with two
+ * accounts names the account under each service.
+ */
+export const CarrierAndService: Story = {
+  render: () => {
+    const { services, isLoading } = useShippingServices();
+    const [carrier, setCarrier] = useState<Key | null>(null);
+    const carriers = [...new Set(services.map((s) => s.carrier))].map(
+      (name) => ({ name }),
+    );
+    const carrierServices = services.filter((s) => s.carrier === carrier);
+    const hasManyAccounts =
+      new Set(carrierServices.map((s) => s.carrier_account_id)).size > 1;
+    return (
+      <>
+        <ComboBox
+          label="Carrier"
+          isRequired
+          placeholder="Select Carrier"
+          defaultItems={carriers}
+          isLoading={isLoading}
+          selectedKey={carrier}
+          onSelectionChange={setCarrier}
+        >
+          {(item) => (
+            <ComboBox.Option id={item.name}>{item.name}</ComboBox.Option>
+          )}
+        </ComboBox>
+        <ComboBox
+          // A new carrier starts its service over.
+          key={String(carrier)}
+          label="Service"
+          isRequired
+          placeholder="Select Service"
+          isDisabled={!carrier}
+          defaultItems={carrierServices}
+        >
+          {(item) => (
+            <ComboBox.Option
+              id={`${item.carrier_account_id}:${item.service}`}
+              description={
+                hasManyAccounts ? item.account_description : undefined
+              }
+            >
+              {item.human_readable}
+            </ComboBox.Option>
+          )}
+        </ComboBox>
+      </>
+    );
+  },
+};
+
+/**
+ * The shipping service cell in the orders table: small, labeled by its
+ * column, with Luma's rulesets set apart from carrier services.
+ */
+export const ShipmentCell: Story = {
+  render: () => (
+    <HorizontalStack gap="2" blockAlign="center" wrap={false}>
+      <Text variant="body2">#1042</Text>
+      <div style={{ flex: 1 }}>
+        <ComboBox
+          aria-label="Shipment"
+          size="sm"
+          placeholder="Select shipping service"
+        >
+          <ComboBox.Section aria-label="Luma rulesets">
+            <ComboBox.Option id="cheapest">Cheapest Available</ComboBox.Option>
+            <ComboBox.Option id="fastest">Fastest Available</ComboBox.Option>
+          </ComboBox.Section>
+          <ComboBox.Section aria-label="Carrier services">
+            <ComboBox.Option id="fedex-ground">FedEx Ground</ComboBox.Option>
+            <ComboBox.Option id="ups-ground">UPS® Ground</ComboBox.Option>
+            <ComboBox.Option id="ups-2day">UPS 2nd Day Air</ComboBox.Option>
+            <ComboBox.Option id="usps-ga">
+              USPS Ground Advantage®
+            </ComboBox.Option>
+            <ComboBox.Option id="usps-priority">Priority Mail®</ComboBox.Option>
+          </ComboBox.Section>
+        </ComboBox>
+      </div>
+    </HorizontalStack>
+  ),
+};
+
+const savedPackages = [
+  ["Small Box", "12 x 10 x 4 | 0.5 lb"],
+  ["Light Box", "10 x 8 x 2 | 0.25 lb"],
+  ["Medium Box", "16 x 12 x 8 | 1 lb"],
+  ["Poly Mailer", "14 x 10 x 1 | 0.1 lb"],
+  ["Large Box", "24 x 18 x 12 | 2 lb"],
+];
+
+/**
+ * Picking a package for an order (`PackagingFields`): the merchant's saved
+ * packages, each with its dimensions and weight, under a pinned Custom Package.
+ */
+export const PackagePreset: Story = {
+  render: () => (
+    <ComboBox label="Package" isRequired placeholder="Select">
+      <ComboBox.Section aria-label="Custom">
+        <ComboBox.Option id="custom" description="Enter dimensions and weight">
+          Custom Package
+        </ComboBox.Option>
+      </ComboBox.Section>
+      <ComboBox.Section aria-label="Saved packages">
+        {savedPackages.map(([name, dimensions]) => (
+          <ComboBox.Option key={name} id={name} description={dimensions}>
+            {name}
+          </ComboBox.Option>
+        ))}
+      </ComboBox.Section>
+    </ComboBox>
+  ),
+};

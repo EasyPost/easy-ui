@@ -194,6 +194,14 @@ describe("<ComboBox />", () => {
     expect(onSelectionChange).not.toHaveBeenCalled();
   });
 
+  it("should filter defaultItems that load after it renders", async () => {
+    const { user, rerender } = render(getComboBox({ defaultItems: [] }));
+    rerender(getComboBox({ defaultItems: fruits }));
+    await user.type(screen.getByRole("combobox"), "ban");
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+    expect(screen.getByRole("option", { name: "Banana" })).toBeInTheDocument();
+  });
+
   it("should open the full list with the dropdown button", async () => {
     const { user } = render(getComboBox());
     await user.click(screen.getByRole("button"));
