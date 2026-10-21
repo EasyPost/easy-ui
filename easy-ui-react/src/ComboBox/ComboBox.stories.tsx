@@ -283,8 +283,7 @@ function AddressField() {
   );
 }
 
-// Examples from the EasyPost web app. Labels, placeholders, error text, and
-// data are taken from the fields they'd replace.
+// Real-world examples, with realistic labels, error text, and data.
 
 const countries = [
   ["AF", "Afghanistan"],
@@ -311,8 +310,8 @@ const countries = [
 ].map(([code, name]) => ({ code, name }));
 
 /**
- * The ship-to address's Country/Region field (`AddressModal`): a long, fixed
- * list, required, with its error shown once the field is left empty.
+ * An address form's Country/Region field: a long, fixed list, required, with
+ * its error shown once the field is left empty.
  */
 export const ShipToCountry: Story = {
   render: () => {
@@ -355,9 +354,8 @@ const usStates = [
 ].map(([code, name]) => ({ code, name }));
 
 /**
- * The address's state field. Today it's a `<Select />` of US states for US
- * addresses and a `<TextField />` for everything else; with
- * `allowsCustomValue`, one field covers both.
+ * An address's state field: a list of US states, with `allowsCustomValue` so
+ * other countries can type a province or region.
  */
 export const StateOrProvince: Story = {
   render: () => {
@@ -441,7 +439,7 @@ const shippingServices: CarrierService[] = [
   }),
 );
 
-/** Stands in for `useGetShippingServices()`: the list is fetched once. */
+/** Stands in for a request that fetches the list once. */
 function useShippingServices() {
   const [data, setData] = useState<CarrierService[] | null>(null);
   useEffect(() => {
@@ -452,8 +450,7 @@ function useShippingServices() {
 }
 
 /**
- * Assigning a shipping service to orders (`SelectCarrierServiceModal`). The
- * services are fetched once and filtered as the user types, so they're passed
+ * Assigning a shipping service to orders. The services are fetched once and filtered as the user types, so they're passed
  * as `defaultItems`. Service waits on a carrier, and a carrier with two
  * accounts names the account under each service.
  */
@@ -508,10 +505,10 @@ export const CarrierAndService: Story = {
 };
 
 /**
- * The shipping service cell in the orders table: small, labeled by its
- * column, with Luma's rulesets set apart from carrier services.
+ * A shipping service picker in an orders table row: small, labeled by its
+ * column, with rate rules set apart from carrier services.
  */
-export const ShipmentCell: Story = {
+export const TableCell: Story = {
   render: () => (
     <HorizontalStack gap="2" blockAlign="center" wrap={false}>
       <Text variant="body2">#1042</Text>
@@ -521,7 +518,7 @@ export const ShipmentCell: Story = {
           size="sm"
           placeholder="Select shipping service"
         >
-          <ComboBox.Section aria-label="Luma rulesets">
+          <ComboBox.Section aria-label="Rate rules">
             <ComboBox.Option id="cheapest">Cheapest Available</ComboBox.Option>
             <ComboBox.Option id="fastest">Fastest Available</ComboBox.Option>
           </ComboBox.Section>
@@ -549,8 +546,7 @@ const savedPackages = [
 ];
 
 /**
- * Picking a package for an order (`PackagingFields`): the merchant's saved
- * packages, each with its dimensions and weight, under a pinned Custom Package.
+ * Picking a package for an order: the account's saved packages, each with its dimensions and weight, under a pinned Custom Package.
  */
 export const PackagePreset: Story = {
   render: () => (
