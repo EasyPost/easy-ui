@@ -1,0 +1,145 @@
+@use "../styles/common" as *;
+@use "../InputField/mixins" as Input;
+@use "../Menu/mixins" as Menu;
+@use "../styles/unstyled";
+
+.root {
+  @include Input.root;
+}
+
+.field {
+  @include Input.inputIconContainer;
+}
+
+.input {
+  @include Input.input;
+}
+
+// On the field rather than the input, so hovering the dropdown button engages
+// the border too, as hovering anywhere on a `<Select />` does.
+.field[data-hovered] .input {
+  @include Input.hovered;
+}
+
+.inputSizeSm {
+  @include Input.inputSm;
+}
+
+.inputSizeLg {
+  @include Input.inputLg;
+}
+
+.inputError {
+  @include Input.error;
+}
+
+.inputIconStart {
+  @include Input.iconStartInput;
+}
+
+.inputIconEnd {
+  @include Input.iconEndInput;
+}
+
+// The dropdown button and loading indicator sit where `InputField`'s end
+// icon does, and where `<Select />` puts its chevron.
+.dropdownButton,
+.loadingIndicator {
+  display: inline-flex;
+  position: absolute;
+  top: design-token("space.1.5");
+  right: design-token("space.1.5");
+  z-index: component-token("inputfield", "z-index");
+}
+
+.dropdownButton {
+  @include unstyled.button;
+  color: component-token("inputfield", "color.text.gray.resting");
+  cursor: pointer;
+
+  &[data-hovered] {
+    color: component-token("inputfield", "color.text.gray.bold");
+  }
+
+  &[data-disabled] {
+    color: component-token("inputfield", "color.text.disabled");
+    cursor: default;
+  }
+}
+
+.loadingIndicator {
+  pointer-events: none;
+}
+
+.endSlotSm {
+  top: design-token("space.1");
+}
+
+.endSlotLg {
+  top: design-token("space.2");
+}
+
+// Sized to the field through the `menu` width token—see `popoverStyle`.
+.popover {
+  @include Menu.root;
+}
+
+.scrollContainer {
+  @include Menu.menu;
+}
+
+.listbox {
+  outline: none;
+}
+
+.option {
+  text-decoration: none;
+  outline: none;
+
+  &:not([data-disabled]) {
+    cursor: pointer;
+  }
+
+  &[data-focused] .optionContent {
+    @include Menu.itemDataFocused;
+  }
+
+  &[data-disabled] .optionContent {
+    @include Menu.itemDataDisabled;
+  }
+}
+
+.optionContent {
+  @include Menu.itemContent;
+  @include Menu.itemContentColor;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+  padding-top: design-token("space.1");
+  padding-bottom: design-token("space.1");
+}
+
+.optionDescription {
+  width: 100%;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+// Matches `Select.Section`'s separator: a line centered in an item-height row.
+.section + .section::before {
+  @include Menu.separator;
+  display: block;
+  margin: calc(#{component-token("menu", "item_height")} / 2 - 0.5px)
+    component-token("menu", "padding.x");
+}
+
+.footer {
+  flex: 0 0 auto;
+  border-top: design-token("shape.border_width.1") solid
+    component-token("menu", "color.border");
+  padding: design-token("space.1") component-token("menu", "padding.x");
+}

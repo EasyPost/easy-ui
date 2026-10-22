@@ -1,0 +1,230 @@
+import React from "react";
+import { Canvas, Meta, ArgTypes, Controls } from "@storybook/addon-docs/blocks";
+import { ComboBox } from "./ComboBox";
+import * as ComboBoxStories from "./ComboBox.stories";
+
+<Meta of={ComboBoxStories} />
+
+# ComboBox
+
+The `<ComboBox />` component is a text input with a list of suggestions under it. The user types, the list narrows or is fetched, and the user picks a suggestion or—with `allowsCustomValue`—keeps what they typed.
+
+Reach for `<Select />` to pick from a short, fixed list without typing, and `<MultiSelect />` to pick several values. See [Notes](#notes) for how they compare.
+
+## Standard
+
+Simple `<ComboBox />` with `label`, `placeholder`, and `helperText`. Pass `defaultItems` and render each one as a `<ComboBox.Option />`; typing filters them, and the dropdown button at the end of the input opens the full list. Selecting an option fills the input with its text and calls `onSelectionChange` with its `id`.
+
+<Canvas of={ComboBoxStories.Standard} />
+
+## Icon
+
+Use `iconAtStart` to add a left aligned icon.
+
+<Canvas of={ComboBoxStories.Icon} />
+
+## Hidden dropdown button
+
+Set `hideDropdownButton` when there's nothing to browse until the user types—suggestions fetched for an address, say. Keyboard users open the list with the arrow keys either way; the button is kept out of the tab order.
+
+<Canvas of={ComboBoxStories.HiddenDropdownButton} />
+
+## Small ComboBox
+
+Set `size="sm"` for a small `<ComboBox />`.
+
+<Canvas of={ComboBoxStories.SmallComboBox} />
+
+## Large ComboBox
+
+Set `size="lg"` for a large `<ComboBox />`.
+
+<Canvas of={ComboBoxStories.LargeComboBox} />
+
+## Label with emphasis
+
+Use `isLabelEmphasized=true` to display a label with emphasis.
+
+<Canvas of={ComboBoxStories.LabelWithEmphasis} />
+
+## Error
+
+When `validationState` is set to `invalid`, the `<ComboBox />` displays with error styles. If provided, `errorText` will be displayed as well and override `helperText`.
+
+<Canvas of={ComboBoxStories.Error} />
+
+## Visually hidden label
+
+A `label` can be visually hidden by omitting the `label` property, but to maintain accessibility, provide an `aria-label`.
+
+<Canvas of={ComboBoxStories.VisuallyHiddenLabel} />
+
+## Alongside a TextField
+
+`<ComboBox />` shares `<TextField />`'s label, input, and caption, so the two line up in a form.
+
+<Canvas of={ComboBoxStories.AlongsideTextField} />
+
+## Custom value
+
+By default, leaving the field reverts text that doesn't match an option. Set `allowsCustomValue` to keep what was typed.
+
+<Canvas of={ComboBoxStories.CustomValue} />
+
+## With Separator
+
+Options can be divided into sections via `<ComboBox.Section />`.
+
+<Canvas of={ComboBoxStories.WithSeparator} />
+
+## Disabled Options
+
+Options can be disabled via the `disabledKeys` prop.
+
+<Canvas of={ComboBoxStories.DisabledOptions} />
+
+## Disabled ComboBox
+
+Use `isDisabled` to disable the field entirely.
+
+<Canvas of={ComboBoxStories.DisabledComboBox} />
+
+## With Secondary Text
+
+Each option can render a secondary `description`. Set `textValue` to the text the input should take when the option is selected.
+
+<Canvas of={ComboBoxStories.WithSecondaryText} />
+
+## Fetched suggestions
+
+How the options are passed depends on when they're fetched:
+
+- **Fetched once**, such as an account's shipping services: pass them as `defaultItems` and set `isLoading` until they arrive. Typing filters them, just like a fixed list. See [Carrier and service](#carrier-and-service).
+- **Fetched as the user types**, such as address suggestions: control the input with `inputValue` and `onInputChange`, pass each response as `items`, and set `isLoading` while a request is in flight. `items` aren't filtered—they're shown as given—and the list opens when they arrive. With nothing to show before the user types, hide the dropdown button.
+
+`footer` renders content below the options, such as the "Powered by Google" attribution the Places API requires. It isn't an option: it can't be focused or selected, and it shows only while the list is open. A string is styled as caption text.
+
+<Canvas of={ComboBoxStories.AsyncWithFooter} />
+
+```tsx
+import { ComboBox } from "@easypost/easy-ui/ComboBox";
+
+export function Component() {
+  const [street, setStreet] = React.useState("");
+  const { predictions, isLoading } = usePredictions(street);
+
+  return (
+    <ComboBox
+      label="Street address"
+      hideDropdownButton
+      allowsCustomValue
+      inputValue={street}
+      onInputChange={setStreet}
+      items={predictions}
+      isLoading={isLoading}
+      onSelectionChange={(key) => key && selectPrediction(key)}
+      footer="Powered by Google"
+    >
+      {(item) => (
+        <ComboBox.Option
+          id={item.place_id}
+          textValue={item.structured_formatting.main_text}
+          description={item.structured_formatting.secondary_text}
+        >
+          {item.structured_formatting.main_text}
+        </ComboBox.Option>
+      )}
+    </ComboBox>
+  );
+}
+```
+
+Selecting an option calls `onInputChange` with the option's `textValue`, so a field that fetches on input change refetches after a selection. The list stays closed for those results, since the user hasn't typed since.
+
+## Real-world examples
+
+### Ship-to country
+
+A long, fixed list in an address form. Required, with its error shown once the field is left empty.
+
+<Canvas of={ComboBoxStories.ShipToCountry} />
+
+### State or province
+
+US addresses pick from a list of states; every other country types its province or region. With `allowsCustomValue`, one field covers both: a picked state is saved as its code, and anything else as typed.
+
+<Canvas of={ComboBoxStories.StateOrProvince} />
+
+### Carrier and service
+
+Assigning a shipping service to orders. The services are fetched once, so they're passed as `defaultItems` with `isLoading` while they load. Service waits on a carrier, and when a carrier has two accounts, each service names its account in its `description`.
+
+<Canvas of={ComboBoxStories.CarrierAndService} />
+
+### Table cell
+
+Picking a shipping service from a row of an orders table: `size="sm"`, labeled by its column with `aria-label`, and rate rules set apart from carrier services with `<ComboBox.Section />`.
+
+<Canvas of={ComboBoxStories.TableCell} />
+
+### Package preset
+
+Choosing a package for an order: the account's saved packages, each with its dimensions and weight as a `description`, under a pinned Custom Package.
+
+<Canvas of={ComboBoxStories.PackagePreset} />
+
+## Notes
+
+### Text, not chips
+
+A `<ComboBox />`'s value is the text in its input. Selecting an option fills the input with the option's `textValue`, and that text stays plain and editable—there's no chip or pill marking it as picked. The selection is still tracked: `onSelectionChange` reports the option's `id`, and `selectedKey` holds it.
+
+Editing the text after a selection breaks the link between the two, so leaving the field settles which one wins:
+
+- With `allowsCustomValue`, the edited text is kept and the selection clears—`onSelectionChange` is called with `null`.
+- Without it, the input reverts to the selected option's text.
+
+Selecting an option fills the input on its own unless both `inputValue` and `selectedKey` are controlled. In that case, the input's text is yours to set—update it in `onSelectionChange`. To track the selection without taking on the text, control `inputValue` and listen to `onSelectionChange`, leaving `selectedKey` uncontrolled, as [State or province](#state-or-province) does.
+
+### ComboBox, MultiSelect, and Select
+
+|                         | `<ComboBox />`                    | `<MultiSelect />`         | `<Select />`           |
+| ----------------------- | --------------------------------- | ------------------------- | ---------------------- |
+| Value                   | Text, plus the key of a selection | Items                     | An item                |
+| A selection shows as    | Editable text in the input        | Pills                     | A label in the trigger |
+| Typing                  | Edits the value                   | Searches; doesn't edit    | Jumps to a match       |
+| Browsing every option   | Dropdown button                   | Dropdown button           | The trigger            |
+| Free text as the value  | With `allowsCustomValue`          | No                        | No                     |
+| Reach for it to collect | Text that suggestions help fill   | Several items from a list | One item from a few    |
+
+Use a `<ComboBox />` when typed text is itself a valid answer—an address, a city, a search—and suggestions save typing. After picking "417 Montgomery St", a user can still add "Suite 200".
+
+When the value has to be an item rather than text—a carrier account, a customer, a warehouse—text that only resembles an option is ambiguous. That calls for the item to show as picked, as `<Select />` shows it, or as a pill in `<MultiSelect />`, whose input only searches and clears after each pick.
+
+### ComboBox vs. Autocomplete
+
+React Aria also has an [`Autocomplete`](https://react-aria.adobe.com/Autocomplete), and its docs split the two: use ComboBox to select values from a set of options, and Autocomplete to filter a collection or provide text completions.
+
+`Autocomplete` isn't a field. It connects a text input to a collection—a menu, a listbox, a grid—and filters that collection as the user types, and it renders no popover of its own. It's what command palettes, searchable menus, and `@mention` completions inside a larger text are built from.
+
+`<ComboBox />` is a complete form field: a labeled input whose list opens and closes as the user types, with selection, Escape, and blur handled. Addresses, cities, and other fields whose suggestions complete the whole value use `<ComboBox />` with `allowsCustomValue`, which React Aria provides for values that aren't in the list.
+
+### Precedent
+
+A single-value combobox filling its input with text, with chips reserved for picking several values, is the common pattern. It holds for the [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), [React Aria's `ComboBox`](https://react-aria.adobe.com/ComboBox), on which this is built, [MUI's `Autocomplete`](https://mui.com/material-ui/react-autocomplete/), Downshift's `useCombobox`, and GitHub Primer's `Autocomplete`. Their multi-select counterparts—MUI's `multiple`, Downshift's `useMultipleSelection`, Primer's `TextInputWithTokens`—are where chips appear.
+
+A searchable select, such as react-select, is a third model: it shows the selection as a label that typing replaces, which in Easy UI is closest to `<Select />`.
+
+## Properties
+
+### ComboBox
+
+<ArgTypes of={ComboBox} />
+
+### ComboBox.Option
+
+<ArgTypes of={ComboBox.Option} />
+
+### ComboBox.Section
+
+<ArgTypes of={ComboBox.Section} />
