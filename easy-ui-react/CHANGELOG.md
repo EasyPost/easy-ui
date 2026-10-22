@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.141
+
+### Minor Changes
+
+- eeac6b3: Adds `<ComboBox />`, a text input with a list of suggestions under it, built on React Aria's `ComboBox`, with a dropdown button that opens the full list (`hideDropdownButton` removes it). It takes `TextField`'s `label`, `helperText`, `errorText`, `validationState`, `isRequired`, and `size`; filters `defaultItems` as the user types or shows fetched `items` with an `isLoading` indicator; keeps free text with `allowsCustomValue`; and renders an optional `footer`, such as a "Powered by Google" attribution, below the options. `<ComboBox.Option />` and `<ComboBox.Section />` mirror `Select`'s, including an option `description`.
+
+### Patch Changes
+
+- 41a33d8: Upgrades React Aria to `react-aria` 3.53, `react-aria-components` 1.22 and `react-stately` 3.51, and imports the toast hooks, `mergeRefs`, `useObjectRef`, `useId` and `RouterProvider` from `react-aria` and `react-stately` instead of the scoped packages, along with the `Key`, `RangeValue`, `Node`, `Selection`, `SelectionMode`, `SortDescriptor`, `ValidationState` and `FocusableElement` types. Drops the `@react-aria/toast` and `@react-stately/toast` dependencies.
+- 12505bc: Keeps `useNotification()`'s value the same across renders, so effects and callbacks keyed on it no longer rerun after every notification
+
 ## 1.0.0-alpha.140
 
 ### Minor Changes
