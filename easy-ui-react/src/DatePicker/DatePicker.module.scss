@@ -70,6 +70,11 @@
   &.literalSegment {
     color: design-token("color.neutral.500");
   }
+  // Literals (e.g. "/") aren't focusable, so they don't need the padding
+  // that gives the focus highlight room around editable segments
+  &.literal {
+    padding: 0;
+  }
   &:focus-visible {
     outline: none;
     background-color: design-token("color.primary.500");
