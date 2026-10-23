@@ -31,6 +31,14 @@ Use `size="sm"` to render a smaller `<DateRangePicker />`.
 
 <Controls of={DateRangePickerStories.Sizes} include={["size"]} />
 
+## Narrow Width
+
+The range always stays on one line, like a text input's value. When the field is too narrow for the whole range, the end is cut off short of the calendar icon. Moving focus into a hidden segment scrolls it into view, and the range scrolls back to its start once focus leaves the field.
+
+<Canvas of={DateRangePickerStories.NarrowWidth} />
+
+<Controls of={DateRangePickerStories.NarrowWidth} include={["size"]} />
+
 ## Set minimum and maximum value
 
 Set minimum and maximum allowed date that a user may select or enter. Dates outside the minimum and maximum value are disabled and unreachable.

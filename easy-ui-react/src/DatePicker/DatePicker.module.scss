@@ -9,15 +9,25 @@
 .datePickerTrigger {
   display: flex;
   align-items: center;
-  // With the segments' padding, spaces a range's dash as it was before the
-  // padding was halved
-  gap: design-token("space.0.25");
   @include Input.input;
 
   &:hover {
     @include Input.hovered;
   }
   @include Input.iconEndInput;
+}
+
+// Keeps the date or range on one line, like a text input's value. When the
+// field is too narrow, the overflow is clipped short of the icon, and
+// focusing a hidden segment scrolls it into view.
+.dateFields {
+  display: flex;
+  align-items: center;
+  // With the segments' padding, spaces a range's dash as it was before the
+  // padding was halved
+  gap: design-token("space.0.25");
+  min-width: 0;
+  overflow: hidden;
 }
 
 .datePickerTriggerContainer {
@@ -40,6 +50,9 @@
 
 .datePickerTrigger > :last-child {
   top: calc(design-token("space.1-5") - design-token("shape.border_width.1"));
+  // The calendar's rings sit above its box, which pushes the box below the
+  // date's digits; raising the icon by space.0.125 lines the box up with them
+  transform: translateY(calc(-1 * #{design-token("space.0.125")}));
 }
 
 .datePickerSm .datePickerTrigger > :last-child {
