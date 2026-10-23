@@ -55,7 +55,6 @@ function DateSegment(props: DateSegmentProps) {
       className={classNames(
         styles.DateSegment,
         type === "literal" && styles.literal,
-        type === "literal" && !state.value && styles.literalSegment,
       )}
     >
       {segment.text}
