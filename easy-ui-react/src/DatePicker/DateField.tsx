@@ -28,7 +28,7 @@ export function DateFieldField(props: DateFieldFieldProps) {
 
   return (
     <div {...fieldProps} ref={dateFieldRef}>
-      <HorizontalStack blockAlign="center">
+      <HorizontalStack blockAlign="center" wrap={false}>
         {state.segments.map((segment, i) => (
           <DateSegment key={i} segment={segment} state={state} />
         ))}

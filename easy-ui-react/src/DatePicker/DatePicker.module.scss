@@ -1,6 +1,7 @@
 @use "../styles/common" as *;
 @use "../InputField/mixins" as Input;
 @use "../Menu/mixins" as Menu;
+@use "../DataGrid/mixins" as DataGrid;
 
 .DatePicker {
   @include Input.root;
@@ -9,15 +10,29 @@
 .datePickerTrigger {
   display: flex;
   align-items: center;
-  // With the segments' padding, spaces a range's dash as it was before the
-  // padding was halved
-  gap: design-token("space.0.25");
   @include Input.input;
 
   &:hover {
     @include Input.hovered;
   }
   @include Input.iconEndInput;
+}
+
+// Keeps the date or range on one line, like a text input's value. When the
+// field is too narrow, the overflow is clipped short of the icon, and it
+// scrolls sideways, by wheel, trackpad, or touch, or by focusing a hidden
+// segment, without drawing a scrollbar.
+.dateFields {
+  display: flex;
+  align-items: center;
+  // With the segments' padding, spaces a range's dash as it was before the
+  // padding was halved
+  gap: design-token("space.0.25");
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  @include DataGrid.hide-scrollbars;
 }
 
 .datePickerTriggerContainer {
@@ -40,6 +55,9 @@
 
 .datePickerTrigger > :last-child {
   top: calc(design-token("space.1-5") - design-token("shape.border_width.1"));
+  // The calendar's rings sit above its box, which pushes the box below the
+  // date's digits; raising the icon by space.0.125 lines the box up with them
+  transform: translateY(calc(-1 * #{design-token("space.0.125")}));
 }
 
 .datePickerSm .datePickerTrigger > :last-child {

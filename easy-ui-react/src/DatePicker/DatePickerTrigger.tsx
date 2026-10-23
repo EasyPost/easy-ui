@@ -56,13 +56,15 @@ export function DatePickerTrigger(props: DatePickerTriggerProps) {
         {...groupProps}
       >
         <UnstyledButton {...buttonProps} className={className} ref={triggerRef}>
-          <DateFieldField {...(fieldProps ? fieldProps : startFieldProps)} />
-          {endFieldProps && (
-            <>
-              <Text variant="caption">&mdash;</Text>
-              <DateFieldField {...endFieldProps} />
-            </>
-          )}
+          <div className={styles.dateFields} onBlur={scrollToStartOnBlur}>
+            <DateFieldField {...(fieldProps ? fieldProps : startFieldProps)} />
+            {endFieldProps && (
+              <>
+                <Text variant="caption">&mdash;</Text>
+                <DateFieldField {...endFieldProps} />
+              </>
+            )}
+          </div>
           <InputIcon
             alignment="end"
             icon={CalendarMonth}
@@ -78,4 +80,14 @@ export function DatePickerTrigger(props: DatePickerTriggerProps) {
       )}
     </VerticalStack>
   );
+}
+
+/**
+ * Like a text input, a field too narrow for its date shows the date's start
+ * again once focus leaves it.
+ */
+function scrollToStartOnBlur(event: React.FocusEvent<HTMLDivElement>) {
+  if (!event.currentTarget.contains(event.relatedTarget)) {
+    event.currentTarget.scrollLeft = 0;
+  }
 }

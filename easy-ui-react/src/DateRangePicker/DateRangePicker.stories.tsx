@@ -50,6 +50,20 @@ export const Sizes: Story = {
   },
 };
 
+export const NarrowWidth: Story = {
+  render: (args) => (
+    <div style={{ maxWidth: 240, width: "100%" }}>
+      <DateRangePicker {...args} />
+    </div>
+  ),
+  args: {
+    defaultValue: {
+      start: today(getLocalTimeZone()).subtract({ days: 7 }),
+      end: today(getLocalTimeZone()),
+    },
+  },
+};
+
 export const LimitAvailableDates: Story = {
   render: Template.bind({}),
   args: {

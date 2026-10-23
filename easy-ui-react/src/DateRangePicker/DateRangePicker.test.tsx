@@ -1,6 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import {
   CalendarDate,
   startOfMonth,
@@ -134,5 +134,30 @@ describe("<DateRangePicker />", () => {
       />,
     );
     expect(screen.getByText("This date is invalid")).toBeInTheDocument();
+  });
+
+  it("should scroll a clipped range back to its start once focus leaves it", () => {
+    render(
+      <DateRangePicker
+        aria-label="Date range picker"
+        defaultValue={defaultValue}
+      />,
+    );
+    const endYear = screen.getByRole("spinbutton", {
+      name: /year, end date/i,
+    });
+    const startMonth = screen.getByRole("spinbutton", {
+      name: /month, start date/i,
+    });
+    const dateFields = endYear.closest<HTMLElement>("[class*=dateFields]")!;
+
+    // jsdom doesn't scroll focused elements into view, so stand in for it
+    act(() => endYear.focus());
+    dateFields.scrollLeft = 40;
+    act(() => startMonth.focus());
+    expect(dateFields.scrollLeft).toBe(40);
+
+    act(() => startMonth.blur());
+    expect(dateFields.scrollLeft).toBe(0);
   });
 });
