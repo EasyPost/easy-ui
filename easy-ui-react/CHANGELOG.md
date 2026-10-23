@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.143
+
+### Patch Changes
+
+- b568d23: fix(DatePicker): keep `DatePicker` and `DateRangePicker` values on one line; a value too wide for its field is clipped short of the calendar icon and scrolls sideways by wheel, trackpad, touch, or focus, and the calendar icon sits 1px higher to line up with the date
+
 ## 1.0.0-alpha.142
 
 ### Patch Changes
