@@ -111,6 +111,7 @@ export function Text({
   color,
   fontVariantNumeric,
   id,
+  role,
   textWrap,
   transform = "none",
   truncate = false,
@@ -145,7 +146,12 @@ export function Text({
   } as React.CSSProperties;
 
   return (
-    <Component className={className} style={style} id={id ? id : undefined}>
+    <Component
+      className={className}
+      style={style}
+      id={id ? id : undefined}
+      role={role}
+    >
       {children}
     </Component>
   );
