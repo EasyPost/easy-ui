@@ -299,6 +299,55 @@ export const SectionAction: Story = {
   ),
 };
 
+export const SectionTitleVariant: Story = {
+  render: () => (
+    <FormLayout>
+      <FormLayout.Header>
+        <FormLayout.Title>Form Title</FormLayout.Title>
+        <FormLayout.HelperText>Form info text</FormLayout.HelperText>
+      </FormLayout.Header>
+      <FormLayout.Section>
+        <HorizontalStack gap="2" align="space-between" blockAlign="center">
+          <FormLayout.Header>
+            <FormLayout.Title variant="subtitle1">
+              Section Title 2
+            </FormLayout.Title>
+            <FormLayout.HelperText>Section info text</FormLayout.HelperText>
+          </FormLayout.Header>
+          <Button
+            size="sm"
+            variant="outlined"
+            color="support"
+            onPress={sectionAction}
+          >
+            Action
+          </Button>
+        </HorizontalStack>
+        <TextField
+          label="Input 1"
+          placeholder="Placeholder text"
+          helperText="Helper text"
+        />
+        <TextField
+          label="Input 2"
+          placeholder="Placeholder text"
+          helperText="Helper text"
+        />
+        <TextField
+          label="Input 3"
+          placeholder="Placeholder text"
+          helperText="Helper text"
+        />
+        <TextField
+          label="Input 4"
+          placeholder="Placeholder text"
+          helperText="Helper text"
+        />
+      </FormLayout.Section>
+    </FormLayout>
+  ),
+};
+
 export const WithTabs: Story = {
   render: () => (
     <FormLayout>

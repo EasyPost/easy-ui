@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext } from "react";
-import { Text } from "../Text";
+import { Text, TextVariant } from "../Text";
 import { Heading } from "../types";
 import { WithinSectionContext } from "./context";
 
@@ -17,13 +17,22 @@ export type TitleProps = {
   as?: Heading;
 
   /**
+   * Text variant of the title. Use a smaller variant than the default when
+   * the title sits beside other content, such as a checkbox or a button, so
+   * that the title's box matches its text.
+   *
+   * @default heading3 (heading5 within a `FormLayout.Section`)
+   */
+  variant?: TextVariant;
+
+  /**
    * Content of the title text.
    */
   children: ReactNode;
 };
 
 export function Title(props: TitleProps) {
-  const { as = "span", children, ...restProps } = props;
+  const { as = "span", variant, children, ...restProps } = props;
   const withinSection = useContext(WithinSectionContext);
   const textProps = withinSection
     ? ({
@@ -33,7 +42,12 @@ export function Title(props: TitleProps) {
       } as const)
     : ({ variant: "heading3" } as const);
   return (
-    <Text as={as} {...restProps} {...textProps}>
+    <Text
+      as={as}
+      {...restProps}
+      {...textProps}
+      variant={variant ?? textProps.variant}
+    >
       {children}
     </Text>
   );
