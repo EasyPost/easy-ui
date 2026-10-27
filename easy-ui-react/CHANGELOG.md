@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.144
+
+### Patch Changes
+
+- a5d72fe: fix(Text): pass `role` through to the rendered element
+
 ## 1.0.0-alpha.143
 
 ### Patch Changes
