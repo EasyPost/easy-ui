@@ -48,6 +48,11 @@ describe("<Text />", () => {
     );
   });
 
+  it("should apply role", () => {
+    render(<Text role="alert">Here is some text</Text>);
+    expect(screen.getByRole("alert")).toHaveTextContent("Here is some text");
+  });
+
   it("should apply color", () => {
     render(<Text color="neutral.300">Here is some text</Text>);
     expect(screen.getByText("Here is some text")).toHaveStyle(
