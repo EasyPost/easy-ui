@@ -56,12 +56,20 @@
   transition-duration: component-token("drawer", "animation-duration");
 }
 
+// The drawer jumps to its starting position without a transition. Content
+// that measures itself while mounting, such as Tabs, can make the browser
+// place the drawer at its open position first, and a transition here would
+// then slide the drawer out to its starting position before it slides in.
 .underlayBoxAppear {
   transform: translateX(25%);
+  transition-property: none;
 }
 
+// This is also the appear transition's active class, so it turns the
+// transition back on for the slide in.
 .underlayBoxAppearDone {
   transform: translateX(0);
+  transition-property: transform;
 }
 
 .underlayBoxExit {
