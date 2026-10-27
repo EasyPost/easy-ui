@@ -147,4 +147,32 @@ describe("<FormLayout />", () => {
     await userClick(user, screen.getByRole("button", { name: "Submit" }));
     expect(handleSubmit).toHaveBeenCalled();
   });
+
+  it("should render a section title with the default variant", () => {
+    render(
+      <FormLayout.Section>
+        <FormLayout.Title>Section Title</FormLayout.Title>
+      </FormLayout.Section>,
+    );
+    expect(
+      screen.getByText("Section Title", { selector: "span" }),
+    ).toHaveAttribute("class", expect.stringContaining("heading5"));
+  });
+
+  it("should render a title with a custom variant", () => {
+    render(
+      <FormLayout.Section>
+        <FormLayout.Title variant="subtitle1">Section Title</FormLayout.Title>
+      </FormLayout.Section>,
+    );
+    const title = screen.getByText("Section Title", { selector: "span" });
+    expect(title).toHaveAttribute(
+      "class",
+      expect.stringContaining("subtitle1"),
+    );
+    expect(title).not.toHaveAttribute(
+      "class",
+      expect.stringContaining("heading5"),
+    );
+  });
 });
