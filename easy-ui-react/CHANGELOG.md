@@ -1,5 +1,15 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.145
+
+### Minor Changes
+
+- 158638b: feat(FormLayout): add a `variant` prop to `FormLayout.Title`
+
+### Patch Changes
+
+- f59f641: fix(Drawer): finish opening on the drawer's own transition; until some transition inside it happened to end, an opened `Drawer` stayed transparent and shifted right by a quarter of the window, with controls near its right edge off-screen
+
 ## 1.0.0-alpha.144
 
 ### Patch Changes
