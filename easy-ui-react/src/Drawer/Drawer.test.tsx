@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import React from "react";
 import { vi } from "vitest";
 import { Button } from "../Button";
@@ -18,6 +18,7 @@ import {
   useDrawerTrigger,
 } from "./Drawer";
 import { DrawerTriggerProps } from "./DrawerTrigger";
+import styles from "./Drawer.module.scss";
 import { VerticalStack } from "../VerticalStack";
 import { HorizontalStack } from "../HorizontalStack";
 
@@ -79,6 +80,24 @@ describe("<Drawer />", () => {
   it("should support being controlled", () => {
     renderDrawer({ isOpen: true });
     expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("should move to its open state without waiting on a transition inside it", () => {
+    enableReactTransitionGroup();
+    renderDrawer({ isOpen: true });
+    const dialog = screen.getByRole("dialog");
+    const box = dialog.closest(`.${styles.underlayBox}`) as HTMLElement;
+    const underlay = dialog.closest(`.${styles.underlayBg}`) as HTMLElement;
+
+    // Nothing inside the drawer has fired a transitionend yet
+    expect(box).toHaveClass(styles.underlayBoxAppearDone);
+    expect(underlay).toHaveClass(styles.underlayBgEnterDone);
+
+    fireEvent.transitionEnd(box);
+    expect(box).not.toHaveClass(styles.underlayBoxAppear);
+    expect(box).toHaveClass(styles.underlayBoxAppearDone);
+    expect(underlay).toHaveClass(styles.underlayBgEnterDone);
+    expect(underlay).not.toHaveClass("undefined");
   });
 
   it("should support rendering in a container", async () => {

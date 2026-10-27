@@ -51,6 +51,11 @@ export function DrawerUnderlay(props: DrawerUnderlayProps) {
       }
     };
 
+  // Each layer's active class sets its open state. That makes the layer run its
+  // own transition, and the transitionend from that transition finishes opening.
+  // Without active classes, opening would wait for some other transition inside
+  // the drawer to end, and the drawer would stay transparent and shifted to the
+  // side until one did.
   return (
     <Overlay>
       <CSSTransition
@@ -61,7 +66,11 @@ export function DrawerUnderlay(props: DrawerUnderlayProps) {
         nodeRef={underlayBgRef}
         addEndListener={createAnimationEndListener(underlayBgRef)}
         classNames={{
+          appear: styles.underlayBgEnter,
+          appearActive: styles.underlayBgEnterDone,
+          appearDone: styles.underlayBgEnterDone,
           enter: styles.underlayBgEnter,
+          enterActive: styles.underlayBgEnterDone,
           enterDone: styles.underlayBgEnterDone,
           exit: styles.underlayBgExit,
         }}
@@ -78,7 +87,8 @@ export function DrawerUnderlay(props: DrawerUnderlayProps) {
             addEndListener={createAnimationEndListener(ref)}
             classNames={{
               appear: styles.underlayBoxAppear,
-              appearDone: styles.underlayBoxDone,
+              appearActive: styles.underlayBoxAppearDone,
+              appearDone: styles.underlayBoxAppearDone,
               exit: styles.underlayBoxExit,
             }}
           >
