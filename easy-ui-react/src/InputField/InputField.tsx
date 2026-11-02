@@ -9,6 +9,7 @@ import { PasswordButton } from "./PasswordButton";
 import { InputIcon } from "./InputIcon";
 import { InputText } from "./inputText";
 import { useInputField } from "./useInputField";
+import { useAutoGrow } from "./useAutoGrow";
 import styles from "./InputField.module.scss";
 import {
   getElementType,
@@ -81,6 +82,11 @@ export type InputFieldProps = AriaTextFieldProps & {
   defaultValue?: string;
   /** Specifies the visible height of a text area, in lines. */
   rows?: number;
+  /**
+   * Makes a text area grow with its content, from `rows` up to this many
+   * lines, after which it scrolls.
+   */
+  maxRows?: number;
   /** Left aligned icon on input. */
   iconAtStart?: IconSymbol;
   /** Right aligned icon on input. */
@@ -118,6 +124,7 @@ export function InputField(props: InputFieldProps) {
     textAtStart,
     textAtEnd,
     rows,
+    maxRows,
   } = props;
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const ref = React.useRef(null);
@@ -131,15 +138,14 @@ export function InputField(props: InputFieldProps) {
   const iconAndTextPropsDefined =
     (!!iconAtEnd && !!textAtEnd) || (!!iconAtStart && !!textAtStart);
   const smallSizeTextarea = size === "sm" && Component === "textarea";
-  const definedIconsWithTextarea =
-    (!!iconAtEnd || !!iconAtStart) && Component === "textarea";
+  const definedIconAtEndWithTextarea = !!iconAtEnd && Component === "textarea";
   const definedPrefixSuffixWithTextarea =
     (!!textAtStart || !!textAtEnd) && Component === "textarea";
 
   logWarningsForInvalidPropConfiguration(
     bothIconPropsDefined,
     smallSizeTextarea,
-    definedIconsWithTextarea,
+    definedIconAtEndWithTextarea,
     iconAndTextPropsDefined,
   );
 
@@ -150,7 +156,7 @@ export function InputField(props: InputFieldProps) {
   const showErrorText = hasError && errorText;
   const showHelperText = !showErrorText && helperText;
   const canUseIcon =
-    !bothIconPropsDefined && !isPassword && !definedIconsWithTextarea;
+    !bothIconPropsDefined && !isPassword && !definedIconAtEndWithTextarea;
   const canUseTextAtStartAndAtEnd = !definedPrefixSuffixWithTextarea;
   const hasStartIcon = canUseIcon && iconAtStart;
   const hasEndIcon = canUseIcon && iconAtEnd;
@@ -160,11 +166,15 @@ export function InputField(props: InputFieldProps) {
   const captionProps = showHelperText ? helperTextProps : errorTextProps;
   const captionText = showHelperText ? helperText : errorText;
   const adjustedSize = smallSizeTextarea ? "md" : size;
+  const isAutoGrow = Component === "textarea" && maxRows !== undefined;
+
+  useAutoGrow(ref, { isEnabled: isAutoGrow, maxRows, value });
 
   const className = classNames(
     styles.input,
     isInputHovered && styles.hovered,
     Component === "textarea" && styles.textArea,
+    isAutoGrow && styles.autoGrow,
     isPassword && styles.passwordInput,
     hasError && styles.errorInput,
     hasStartIcon && styles.iconStartInput,

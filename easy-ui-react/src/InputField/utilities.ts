@@ -14,7 +14,7 @@ export function mapIconSize(size: InputSize) {
 export function logWarningsForInvalidPropConfiguration(
   bothIconPropsDefined: boolean,
   smallSizeTextarea: boolean,
-  definedIconsWithTextarea: boolean,
+  definedIconAtEndWithTextarea: boolean,
   iconAndTextPropsDefined: boolean,
 ) {
   if (bothIconPropsDefined) {
@@ -25,8 +25,8 @@ export function logWarningsForInvalidPropConfiguration(
     console.warn("`textarea` cannot be defined with size `sm`");
   }
 
-  if (definedIconsWithTextarea) {
-    console.warn("Cannot define `textarea` with `iconAtEnd` or `iconAtStart`");
+  if (definedIconAtEndWithTextarea) {
+    console.warn("Cannot define `textarea` with `iconAtEnd`");
   }
 
   if (iconAndTextPropsDefined) {
