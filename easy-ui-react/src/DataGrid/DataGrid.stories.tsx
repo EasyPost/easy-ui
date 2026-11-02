@@ -6,6 +6,8 @@ import { Meta, StoryObj } from "@storybook/react-vite";
 import React, { CSSProperties, ReactNode, useEffect, useState } from "react";
 import { Key } from "react-aria";
 import { useAsyncList } from "react-stately";
+import { Box } from "../Box";
+import { HorizontalStack } from "../HorizontalStack";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
 import { Spinner } from "../Spinner";
@@ -572,9 +574,11 @@ function LoadingExpandedRowContent({ rowKey }: { rowKey: Key }) {
     return () => clearTimeout(timeout);
   }, []);
   return isLoading ? (
-    <Spinner isIndeterminate size="sm">
-      Loading row {rowKey}..
-    </Spinner>
+    <Box paddingY="4">
+      <HorizontalStack align="center">
+        <Spinner isIndeterminate>Loading row {rowKey}..</Spinner>
+      </HorizontalStack>
+    </Box>
   ) : (
     <PlaceholderBox width="100%" height="240px">
       Loaded row {rowKey} content
