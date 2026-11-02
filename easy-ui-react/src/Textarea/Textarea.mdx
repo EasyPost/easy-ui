@@ -29,11 +29,15 @@ Use `iconAtStart` to place an icon at the top left of the `<Textarea />`. It sta
 
 ## Auto-grow
 
-Set `maxRows` to grow the `<Textarea />` with its content, from `rows` up to `maxRows` lines, after which it scrolls. Manual resizing is turned off while auto-growing.
+Set `autoGrow` to grow the `<Textarea />` with its content, starting from `rows`. Manual resizing is turned off while auto-growing.
 
 <Canvas of={TextareaStories.AutoGrow} />
 
-Together, `iconAtStart` and `maxRows` make a chat composer.
+To cap the growth, add `maxRows`. The `<Textarea />` grows up to `maxRows` lines, then scrolls. `maxRows` has no effect without `autoGrow`.
+
+<Canvas of={TextareaStories.AutoGrowWithMaxRows} />
+
+Together, `iconAtStart`, `autoGrow`, and `maxRows` make a chat composer.
 
 <Canvas of={TextareaStories.ChatComposer} />
 

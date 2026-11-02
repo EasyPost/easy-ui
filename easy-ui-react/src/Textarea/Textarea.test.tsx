@@ -84,7 +84,7 @@ describe("<Textarea />", () => {
     warn.mockRestore();
   });
 
-  describe("maxRows", () => {
+  describe("autoGrow", () => {
     // jsdom has no layout, so stub the metrics the auto-grow hook reads: 24px
     // lines, 11px padding, and 1px borders, so one row is 48px tall.
     let scrollHeight = 0;
@@ -120,21 +120,21 @@ describe("<Textarea />", () => {
 
     it("should grow to fit its content", () => {
       scrollHeight = 22 + 24 * 2;
-      render(<Textarea label="label" maxRows={4} />);
+      render(<Textarea label="label" autoGrow maxRows={4} />);
       const textarea = screen.getByLabelText("label");
       expect(textarea).toHaveStyle({ height: "72px", overflowY: "hidden" });
     });
 
     it("should cap its height at maxRows and scroll", () => {
       scrollHeight = 22 + 24 * 6;
-      render(<Textarea label="label" maxRows={4} />);
+      render(<Textarea label="label" autoGrow maxRows={4} />);
       const textarea = screen.getByLabelText("label");
       expect(textarea).toHaveStyle({ height: "120px", overflowY: "auto" });
     });
 
     it("should resize as the user types", async () => {
       scrollHeight = 22 + 24;
-      const { user } = render(<Textarea label="label" maxRows={4} />);
+      const { user } = render(<Textarea label="label" autoGrow maxRows={4} />);
       const textarea = screen.getByLabelText("label");
       expect(textarea).toHaveStyle({ height: "48px" });
       scrollHeight = 22 + 24 * 3;
@@ -145,21 +145,51 @@ describe("<Textarea />", () => {
     it("should resize when a controlled value changes", () => {
       scrollHeight = 22 + 24;
       const { rerender } = render(
-        <Textarea label="label" maxRows={4} value="" onChange={() => {}} />,
+        <Textarea
+          label="label"
+          autoGrow
+          maxRows={4}
+          value=""
+          onChange={() => {}}
+        />,
       );
       const textarea = screen.getByLabelText("label");
       expect(textarea).toHaveStyle({ height: "48px" });
       scrollHeight = 22 + 24 * 2;
       rerender(
-        <Textarea label="label" maxRows={4} value="a" onChange={() => {}} />,
+        <Textarea
+          label="label"
+          autoGrow
+          maxRows={4}
+          value="a"
+          onChange={() => {}}
+        />,
       );
       expect(textarea).toHaveStyle({ height: "72px" });
     });
 
-    it("should leave the height alone without maxRows", () => {
+    it("should grow without limit when maxRows is omitted", () => {
+      scrollHeight = 22 + 24 * 20;
+      render(<Textarea label="label" autoGrow />);
+      const textarea = screen.getByLabelText("label");
+      expect(textarea).toHaveStyle({ height: "504px", overflowY: "hidden" });
+    });
+
+    it("should leave the height alone without autoGrow", () => {
       scrollHeight = 22 + 24 * 6;
       render(<Textarea label="label" />);
       expect(screen.getByLabelText("label").style.height).toBe("");
+    });
+
+    it("should warn and ignore maxRows without autoGrow in untyped code", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      scrollHeight = 22 + 24 * 6;
+      // @ts-expect-error `maxRows` requires `autoGrow`
+      render(<Textarea label="label" maxRows={4} />);
+      expect(screen.getByLabelText("label").style.height).toBe("");
+      expect(warn).toHaveBeenCalledWith(
+        "`maxRows` has no effect without `autoGrow`",
+      );
     });
   });
 });

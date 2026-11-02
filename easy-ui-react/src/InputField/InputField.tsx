@@ -83,8 +83,13 @@ export type InputFieldProps = AriaTextFieldProps & {
   /** Specifies the visible height of a text area, in lines. */
   rows?: number;
   /**
-   * Makes a text area grow with its content, from `rows` up to this many
-   * lines, after which it scrolls.
+   * Makes a text area grow with its content, starting from `rows`.
+   * @default false
+   */
+  autoGrow?: boolean;
+  /**
+   * Caps an auto-growing text area at this many lines, after which it
+   * scrolls. Requires `autoGrow`.
    */
   maxRows?: number;
   /** Left aligned icon on input. */
@@ -124,6 +129,7 @@ export function InputField(props: InputFieldProps) {
     textAtStart,
     textAtEnd,
     rows,
+    autoGrow = false,
     maxRows,
   } = props;
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -147,6 +153,7 @@ export function InputField(props: InputFieldProps) {
     smallSizeTextarea,
     definedIconAtEndWithTextarea,
     iconAndTextPropsDefined,
+    maxRows !== undefined && !autoGrow,
   );
 
   logWarningForMissingAriaLabel(label, ariaLabel);
@@ -166,7 +173,7 @@ export function InputField(props: InputFieldProps) {
   const captionProps = showHelperText ? helperTextProps : errorTextProps;
   const captionText = showHelperText ? helperText : errorText;
   const adjustedSize = smallSizeTextarea ? "md" : size;
-  const isAutoGrow = Component === "textarea" && maxRows !== undefined;
+  const isAutoGrow = Component === "textarea" && autoGrow;
 
   useAutoGrow(ref, { isEnabled: isAutoGrow, maxRows, value });
 

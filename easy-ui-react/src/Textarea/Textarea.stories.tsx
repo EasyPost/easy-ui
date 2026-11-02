@@ -54,7 +54,18 @@ export const AutoGrow: Story = {
   args: {
     label: "Label",
     placeholder: "Type a few lines",
+    helperText: "Grows with its content, without limit",
+    autoGrow: true,
+  },
+};
+
+export const AutoGrowWithMaxRows: Story = {
+  render: Template.bind({}),
+  args: {
+    label: "Label",
+    placeholder: "Type a few lines",
     helperText: "Grows to five lines, then scrolls",
+    autoGrow: true,
     maxRows: 5,
   },
 };
@@ -65,6 +76,7 @@ export const ChatComposer: Story = {
     "aria-label": "Message",
     placeholder: "Ask a question",
     iconAtStart: EmojiObjectsIcon,
+    autoGrow: true,
     maxRows: 5,
   },
 };
