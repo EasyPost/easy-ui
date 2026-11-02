@@ -5,6 +5,7 @@ import {
   mergeProps,
   mergeRefs,
   useButton,
+  useFocusRing,
   useObjectRef,
 } from "react-aria";
 import { classNames } from "../utilities/css";
@@ -87,6 +88,13 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
     // them navigable.
     const routerLinkProps = useRouterLinkProps(props, !isDisabled);
 
+    // Browsers ring a focused button even when a pointer put focus there, and
+    // Chrome focuses a button on click, so React Aria's focus-visible state
+    // decides instead: `data-focus-visible` is only set for keyboard focus.
+    // Styles key off the attribute, including those of components built on
+    // this one through `className`.
+    const { focusProps, isFocusVisible } = useFocusRing();
+
     return (
       <As
         {...mergeProps(
@@ -95,7 +103,9 @@ export const UnstyledButton = forwardRef<null, UnstyledButtonProps>(
           ),
           elementProps,
           routerLinkProps,
+          focusProps,
         )}
+        data-focus-visible={isFocusVisible || undefined}
         disabled={isDisabled}
         ref={mergedRef}
         className={classNames(styles.UnstyledButton, className)}

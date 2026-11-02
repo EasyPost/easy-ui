@@ -68,9 +68,12 @@
   }
 
   &:focus {
-    box-shadow: component-token("inputfield", "box_shadow");
     outline: none;
     z-index: component-token("inputfield", "z-index");
+  }
+
+  &[data-focus-visible] {
+    box-shadow: component-token("inputfield", "box_shadow");
   }
 
   &:hover {
