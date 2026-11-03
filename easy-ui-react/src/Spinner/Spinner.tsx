@@ -1,4 +1,4 @@
-import React, { useId, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { useProgressBar } from "react-aria";
 import { IconSize } from "../Icon";
 import { Text } from "../Text";
@@ -157,36 +157,23 @@ function DecorativeSpinner(props: SpinnerProps) {
 
 function AccessibleSpinner(props: SpinnerProps) {
   const { children, isIndeterminate = false } = props;
-  const { progressBarProps, labelProps } = useProgressBar({
-    ...props,
-    label: children,
-  });
-  const id = useId();
-  // Fall back to a hidden "Loading" label only when nothing else names the
-  // spinner. `aria-labelledby` beats `aria-label`, so pointing it at the
-  // fallback unconditionally would drown out a passed `aria-label`.
-  const hasLabel = !!children;
-  const hasFallbackLabel =
-    !hasLabel && !props["aria-label"] && !props["aria-labelledby"];
+  // A spinner needs a name. Use `children` when given; otherwise fall back to
+  // a hidden "Loading"—but only if no `aria-label` or `aria-labelledby` names
+  // it already, since a label would take precedence over them.
+  const isNamedByAria = !!(props["aria-label"] || props["aria-labelledby"]);
+  const label = children || (isNamedByAria ? undefined : "Loading");
+  const { progressBarProps, labelProps } = useProgressBar({ ...props, label });
   return (
     <div
       {...progressBarProps}
       className={styles.spinner}
       style={getSpinnerStyle(props)}
       role={isIndeterminate ? "status" : progressBarProps.role}
-      aria-labelledby={
-        hasFallbackLabel ? id : progressBarProps["aria-labelledby"]
-      }
     >
       <SpinnerIndicator isIndeterminate={isIndeterminate} />
-      {hasLabel && (
-        <Text {...labelProps} variant="subtitle2">
-          {children}
-        </Text>
-      )}
-      {hasFallbackLabel && (
-        <Text id={id} visuallyHidden variant="subtitle2">
-          Loading
+      {label && (
+        <Text {...labelProps} visuallyHidden={!children} variant="subtitle2">
+          {label}
         </Text>
       )}
     </div>
