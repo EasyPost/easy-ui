@@ -28,6 +28,10 @@ A `<Spinner />` can display progress of the loading state when `value` is provid
 <Canvas of={SpinnerStories.Progress} />
 <Controls of={SpinnerStories.Progress} include={["value"]} />
 
+## Accessible name
+
+A `<Spinner />` is named by its `children`. Without them, it's named by `aria-label` or `aria-labelledby` when one is passed, and by a visually hidden "Loading" otherwise. Pass an `aria-label` to say what's loading, like `<Spinner isIndeterminate aria-label="Generating labels" />`.
+
 ## Decorative
 
 When the text beside a spinner already says what's loading, use `isDecorative` to hide the spinner from assistive technology. Otherwise a screen reader hears the same thing twice—"Loading" from the spinner, then the text. The spinner renders no role, no label, and no `children`.
