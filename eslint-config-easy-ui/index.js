@@ -1,44 +1,69 @@
-/** @type {import('eslint').Linter.Config} */
-module.exports = {
-  extends: [
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended",
-  ],
-  plugins: ["turbo"],
-  settings: {
-    react: {
-      version: "detect",
+const { fixupPluginRules } = require("@eslint/compat");
+const js = require("@eslint/js");
+const prettierRecommended = require("eslint-plugin-prettier/recommended");
+const react = require("eslint-plugin-react");
+const reactHooks = require("eslint-plugin-react-hooks");
+const turbo = require("eslint-plugin-turbo");
+const globals = require("globals");
+const tseslint = require("typescript-eslint");
+
+/** @type {import('eslint').Linter.Config[]} */
+module.exports = [
+  {
+    files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"],
+    ...react.configs.flat.recommended,
+    plugins: {
+      // eslint-plugin-react 7.x still calls context APIs that ESLint 10
+      // removed (e.g. context.getFilename), so shim them until it supports v10
+      // https://github.com/jsx-eslint/eslint-plugin-react/issues/3977
+      react: fixupPluginRules(react),
+      "react-hooks": reactHooks,
+      turbo,
     },
-  },
-  env: {
-    node: true,
-    browser: true,
-  },
-  overrides: [
-    {
-      files: ["**/*.js", "**/*.mjs", "**/*.jsx"],
-      extends: ["eslint:recommended"],
-      parserOptions: {
-        ecmaVersion: "2021",
-        sourceType: "module",
+    languageOptions: {
+      ...react.configs.flat.recommended.languageOptions,
+      globals: {
+        ...globals.node,
+        ...globals.browser,
       },
     },
-    {
-      files: ["**/*.ts", "**/*.tsx"],
-      extends: ["plugin:@typescript-eslint/recommended"],
-      plugins: ["@typescript-eslint"],
-      parser: "@typescript-eslint/parser",
-      rules: {
-        "@typescript-eslint/no-unused-vars": [
-          "error",
-          {
-            argsIgnorePattern: "^_",
-            varsIgnorePattern: "^_",
-            caughtErrorsIgnorePattern: "^_",
-          },
-        ],
+    settings: {
+      react: {
+        version: "detect",
       },
     },
-  ],
-};
+    rules: {
+      ...react.configs.flat.recommended.rules,
+      // Matches the eslint-plugin-react-hooks v5 recommended set. The React
+      // Compiler rules added to v7's recommended config are not enabled yet.
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+    },
+  },
+  {
+    files: ["**/*.{js,mjs,cjs,jsx}"],
+    ...js.configs.recommended,
+    languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "module",
+    },
+  },
+  ...tseslint.configs.recommended.map((config) => ({
+    ...config,
+    files: ["**/*.{ts,tsx}"],
+  })),
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+    },
+  },
+  prettierRecommended,
+];
