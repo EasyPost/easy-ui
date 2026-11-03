@@ -1,6 +1,6 @@
 @use "../styles/common" as *;
 @use "../styles/unstyled";
-@use "../InputField/_mixins" as InputField;
+@use "../InputField/mixins" as InputField;
 
 .ColorPickerInput {
   @include InputField.root;
