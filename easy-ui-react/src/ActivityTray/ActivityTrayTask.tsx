@@ -149,7 +149,7 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
     }
     const timeout = window.setTimeout(autoDismiss, autoDismissDelay);
     return () => window.clearTimeout(timeout);
-  }, [canDismiss, status, autoDismissDelay, isPaused, autoDismiss]);
+  }, [canDismiss, status, autoDismissDelay, isPaused]);
 
   const handleDismiss = () => {
     // This row is about to unmount with focus on its own dismiss button, which

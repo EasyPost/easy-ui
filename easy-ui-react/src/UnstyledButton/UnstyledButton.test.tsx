@@ -136,4 +136,23 @@ describe("<UnstyledButton />", () => {
       expect.stringContaining("UnstyledButton"),
     );
   });
+
+  it("should mark keyboard focus as focus-visible", async () => {
+    render(<UnstyledButton>Testing</UnstyledButton>);
+    await userEvent.tab();
+    expect(screen.getByRole("button")).toHaveFocus();
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "data-focus-visible",
+      "true",
+    );
+  });
+
+  it("should not mark pointer focus as focus-visible", async () => {
+    render(<UnstyledButton>Testing</UnstyledButton>);
+    await userEvent.click(screen.getByRole("button"));
+    expect(screen.getByRole("button")).toHaveFocus();
+    expect(screen.getByRole("button")).not.toHaveAttribute(
+      "data-focus-visible",
+    );
+  });
 });

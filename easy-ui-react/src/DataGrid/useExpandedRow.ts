@@ -2,6 +2,7 @@ import { useResizeObserver } from "@react-aria/utils";
 import {
   CSSProperties,
   MutableRefObject,
+  useCallback,
   useLayoutEffect,
   useMemo,
   useState,
@@ -29,27 +30,53 @@ export function useExpandedRow({
       : false;
   });
 
-  useLayoutEffect(() => {
-    if (containerRef.current && expandedRow) {
-      setExpandedRowRect(getExpandedRowContentRect(containerRef.current));
+  const updateExpandedRowRect = useCallback(() => {
+    if (!containerRef.current) {
+      return;
     }
-  }, [containerRef, expandedRow]);
+    const rect = getExpandedRowContentRect(containerRef.current);
+    setExpandedRowRect((prevRect) =>
+      prevRect && rect.height === prevRect.height && rect.y === prevRect.y
+        ? prevRect
+        : rect,
+    );
+  }, [containerRef]);
+
+  useLayoutEffect(() => {
+    if (expandedRow) {
+      updateExpandedRowRect();
+    }
+  }, [expandedRow, updateExpandedRowRect]);
 
   useResizeObserver({
     ref: containerRef,
     onResize() {
-      if (containerRef.current && expandedRow) {
-        const rect = getExpandedRowContentRect(containerRef.current);
-        if (
-          !expandedRowRect ||
-          rect.height !== expandedRowRect.height ||
-          rect.y !== expandedRowRect.y
-        ) {
-          setExpandedRowRect(rect);
-        }
+      if (expandedRow) {
+        updateExpandedRowRect();
       }
     },
   });
+
+  // The expanded content can change size on its own after it opens, such as
+  // when a spinner is replaced by data fetched on open, without the container
+  // resizing. Observe the content too so the row keeps up with its height.
+  const isExpanded = Boolean(expandedRow);
+  useLayoutEffect(() => {
+    const $content =
+      isExpanded && containerRef.current
+        ? getExpandedRowContentEl(containerRef.current)
+        : null;
+    if (!$content || typeof window.ResizeObserver === "undefined") {
+      return;
+    }
+    const observer = new window.ResizeObserver(() => {
+      updateExpandedRowRect();
+    });
+    observer.observe($content);
+    return () => {
+      observer.disconnect();
+    };
+  }, [containerRef, isExpanded, updateExpandedRowRect]);
 
   const expandedRowStyle = useMemo(() => {
     return {

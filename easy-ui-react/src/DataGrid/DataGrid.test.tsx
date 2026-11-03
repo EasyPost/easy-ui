@@ -1,4 +1,5 @@
 import {
+  act,
   getAllByRole,
   getByLabelText,
   getByRole,
@@ -150,6 +151,67 @@ describe("<DataGrid />", () => {
 
     expect(handleExpandedChange).toBeCalledTimes(2);
     expect(handleExpandedChange.mock.calls[0][0]).toEqual(1);
+  });
+
+  it("should measure the expanded row again when its content resizes", async () => {
+    const observers: { callback: () => void; elements: Element[] }[] = [];
+    const originalResizeObserver = window.ResizeObserver;
+    window.ResizeObserver = class {
+      elements: Element[] = [];
+      constructor(callback: () => void) {
+        observers.push({ callback, elements: this.elements });
+      }
+      observe(element: Element) {
+        this.elements.push(element);
+      }
+      unobserve() {}
+      disconnect() {
+        this.elements.length = 0;
+      }
+    } as unknown as typeof ResizeObserver;
+
+    let contentHeight = 40;
+    const offsetHeightSpy = vi
+      .spyOn(HTMLElement.prototype, "offsetHeight", "get")
+      .mockImplementation(function (this: HTMLElement) {
+        return this.hasAttribute("data-ezui-data-grid-expanded-row-content")
+          ? contentHeight
+          : 0;
+      });
+
+    try {
+      const { user } = render(
+        createDataGrid({
+          renderExpandedRow: (rowKey: Key) => <div>Row {rowKey} content</div>,
+        }),
+      );
+      await expandRow(user, 1);
+      expect(
+        getOuterContainer().style.getPropertyValue(
+          getExpandedRowHeightTokenName(),
+        ),
+      ).toBe("40px");
+
+      contentHeight = 120;
+      const $content = screen
+        .getByText("Row 1 content")
+        .closest("[data-ezui-data-grid-expanded-row-content]") as HTMLElement;
+      const contentObservers = observers.filter((o) =>
+        o.elements.includes($content),
+      );
+      expect(contentObservers).toHaveLength(1);
+      act(() => {
+        contentObservers.forEach((o) => o.callback());
+      });
+      expect(
+        getOuterContainer().style.getPropertyValue(
+          getExpandedRowHeightTokenName(),
+        ),
+      ).toBe("120px");
+    } finally {
+      offsetHeightSpy.mockRestore();
+      window.ResizeObserver = originalResizeObserver;
+    }
   });
 
   it("should support a kebab menu", async () => {
@@ -442,6 +504,13 @@ function getFooter() {
 function getMaxRowsTokenName() {
   const [name] = Object.keys(
     getComponentToken("data-grid", "max-rows", "ignored"),
+  );
+  return name;
+}
+
+function getExpandedRowHeightTokenName() {
+  const [name] = Object.keys(
+    getComponentToken("data-grid", "expanded-row-height", "ignored"),
   );
   return name;
 }

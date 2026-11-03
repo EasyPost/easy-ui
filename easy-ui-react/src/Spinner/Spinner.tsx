@@ -1,4 +1,4 @@
-import React, { useId, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { useProgressBar } from "react-aria";
 import { IconSize } from "../Icon";
 import { Text } from "../Text";
@@ -44,6 +44,16 @@ export type SpinnerProps = (ProgressProps | IndeterminateProps) & {
    * The label for spinner.
    */
   children?: ReactNode;
+  /**
+   * Accessible name for the spinner when it has no visible label. Without
+   * one, a spinner with no `children` is named "Loading".
+   */
+  "aria-label"?: string;
+  /**
+   * Id of an element that names the spinner. Takes the place of the
+   * "Loading" fallback, like `aria-label`.
+   */
+  "aria-labelledby"?: string;
   /**
    * Adjust color of spinner and label.
    * @default "neutral.500"
@@ -147,28 +157,25 @@ function DecorativeSpinner(props: SpinnerProps) {
 
 function AccessibleSpinner(props: SpinnerProps) {
   const { children, isIndeterminate = false } = props;
-  const { progressBarProps, labelProps } = useProgressBar({
-    ...props,
-    label: children,
-  });
-  const id = useId();
+  // A spinner needs a name. Use `children` when given; otherwise fall back to
+  // a hidden "Loading"—but only if no `aria-label` or `aria-labelledby` names
+  // it already, since a label would take precedence over them.
+  const isNamedByAria = !!(props["aria-label"] || props["aria-labelledby"]);
+  const label = children || (isNamedByAria ? undefined : "Loading");
+  const { progressBarProps, labelProps } = useProgressBar({ ...props, label });
   return (
     <div
       {...progressBarProps}
       className={styles.spinner}
       style={getSpinnerStyle(props)}
       role={isIndeterminate ? "status" : progressBarProps.role}
-      aria-labelledby={progressBarProps["aria-labelledby"] ?? id}
     >
       <SpinnerIndicator isIndeterminate={isIndeterminate} />
-      <Text
-        {...labelProps}
-        id={labelProps.id ?? id}
-        visuallyHidden={!children}
-        variant="subtitle2"
-      >
-        {children ? children : "Loading"}
-      </Text>
+      {label && (
+        <Text {...labelProps} visuallyHidden={!children} variant="subtitle2">
+          {label}
+        </Text>
+      )}
     </div>
   );
 }

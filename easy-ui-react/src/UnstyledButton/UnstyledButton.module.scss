@@ -1,3 +1,5 @@
+@use "../styles/common" as *;
+
 .UnstyledButton {
   appearance: none;
   margin: 0;
@@ -7,4 +9,14 @@
   font-size: inherit;
   line-height: inherit;
   color: inherit;
+}
+
+// `:where()` keeps these at zero specificity, so a component that styles its
+// own focus state through `className` still wins.
+:where(.UnstyledButton):focus {
+  outline: none;
+}
+
+:where(.UnstyledButton)[data-focus-visible] {
+  @include native-focus-ring;
 }
