@@ -3,11 +3,14 @@ import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import tokens from "@easypost/easy-ui-tokens/js/tokens";
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
-import React, { CSSProperties, ReactNode, useState } from "react";
+import React, { CSSProperties, ReactNode, useEffect, useState } from "react";
 import { Key } from "react-aria";
 import { useAsyncList } from "react-stately";
+import { Box } from "../Box";
+import { HorizontalStack } from "../HorizontalStack";
 import { Icon } from "../Icon";
 import { Menu } from "../Menu";
+import { Spinner } from "../Spinner";
 import { Text } from "../Text";
 import {
   PlaceholderBox,
@@ -190,6 +193,19 @@ export const WithRowExpansion: Story = {
       <PlaceholderBox width="100%" height="140px">
         Space for row {rowKey} content
       </PlaceholderBox>
+    ),
+  },
+};
+
+// The expanded content starts as a spinner and grows once its data arrives,
+// the way content fetched as the row opens does. The row should grow with it
+// rather than cut the content off over the next row.
+export const WithRowExpansionLoadingContent: Story = {
+  render: Template.bind({}),
+  args: {
+    "aria-label": "Example data grid with row expansion loading its content",
+    renderExpandedRow: (rowKey: Key) => (
+      <LoadingExpandedRowContent rowKey={rowKey} />
     ),
   },
 };
@@ -551,6 +567,25 @@ function AutoHeightFillTemplate(args: Partial<DataGridProps>) {
  * padding, so drawing it doesn't change the height being demonstrated. The
  * caption sits outside the box for the same reason.
  */
+function LoadingExpandedRowContent({ rowKey }: { rowKey: Key }) {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timeout);
+  }, []);
+  return isLoading ? (
+    <Box paddingY="4">
+      <HorizontalStack align="center">
+        <Spinner isIndeterminate>Loading row {rowKey}..</Spinner>
+      </HorizontalStack>
+    </Box>
+  ) : (
+    <PlaceholderBox width="100%" height="240px">
+      Loaded row {rowKey} content
+    </PlaceholderBox>
+  );
+}
+
 function HighlightedContainer({
   caption,
   children,
