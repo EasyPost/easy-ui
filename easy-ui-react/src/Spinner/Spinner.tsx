@@ -45,6 +45,16 @@ export type SpinnerProps = (ProgressProps | IndeterminateProps) & {
    */
   children?: ReactNode;
   /**
+   * Accessible name for the spinner when it has no visible label. Without
+   * one, a spinner with no `children` is named "Loading".
+   */
+  "aria-label"?: string;
+  /**
+   * Id of an element that names the spinner. Takes the place of the
+   * "Loading" fallback, like `aria-label`.
+   */
+  "aria-labelledby"?: string;
+  /**
    * Adjust color of spinner and label.
    * @default "neutral.500"
    */
@@ -152,23 +162,33 @@ function AccessibleSpinner(props: SpinnerProps) {
     label: children,
   });
   const id = useId();
+  // Fall back to a hidden "Loading" label only when nothing else names the
+  // spinner. `aria-labelledby` beats `aria-label`, so pointing it at the
+  // fallback unconditionally would drown out a passed `aria-label`.
+  const hasLabel = !!children;
+  const hasFallbackLabel =
+    !hasLabel && !props["aria-label"] && !props["aria-labelledby"];
   return (
     <div
       {...progressBarProps}
       className={styles.spinner}
       style={getSpinnerStyle(props)}
       role={isIndeterminate ? "status" : progressBarProps.role}
-      aria-labelledby={progressBarProps["aria-labelledby"] ?? id}
+      aria-labelledby={
+        hasFallbackLabel ? id : progressBarProps["aria-labelledby"]
+      }
     >
       <SpinnerIndicator isIndeterminate={isIndeterminate} />
-      <Text
-        {...labelProps}
-        id={labelProps.id ?? id}
-        visuallyHidden={!children}
-        variant="subtitle2"
-      >
-        {children ? children : "Loading"}
-      </Text>
+      {hasLabel && (
+        <Text {...labelProps} variant="subtitle2">
+          {children}
+        </Text>
+      )}
+      {hasFallbackLabel && (
+        <Text id={id} visuallyHidden variant="subtitle2">
+          Loading
+        </Text>
+      )}
     </div>
   );
 }
