@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.147
+
+### Patch Changes
+
+- afd852b: Upgrades `react-syntax-highlighter` to v16, which moves to `refractor` v5, and removes the `window.Prism.manual` workaround in `CodeSnippet` that the older `refractor` needed to avoid hydration errors.
+
 ## 1.0.0-alpha.146
 
 ### Minor Changes
