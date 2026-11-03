@@ -5,14 +5,44 @@ export type TextareaSize = "md" | "lg";
 
 export type TextareaProps = Omit<
   InputFieldProps,
-  "type" | "iconAtStart" | "iconAtEnd"
+  "type" | "iconAtStart" | "iconAtEnd" | "autoGrow" | "maxRows"
 > & {
   /**
    * Size of textarea.
    * @default md
    */
   size?: TextareaSize;
-};
+  /** Icon pinned to the top left of the textarea. */
+  iconAtStart?: InputFieldProps["iconAtStart"];
+} & TextareaAutoGrowProps;
+
+/**
+ * `maxRows` only means something on an auto-growing textarea, so the type
+ * allows it only alongside `autoGrow`.
+ */
+export type TextareaAutoGrowProps =
+  | {
+      /**
+       * Grows the textarea with its content, starting from `rows`. Disables
+       * manual resizing.
+       * @default false
+       */
+      autoGrow?: false;
+      maxRows?: never;
+    }
+  | {
+      /**
+       * Grows the textarea with its content, starting from `rows`. Disables
+       * manual resizing.
+       * @default false
+       */
+      autoGrow: true;
+      /**
+       * Caps the textarea at this many lines, after which it scrolls.
+       * Omit it to grow without limit.
+       */
+      maxRows?: number;
+    };
 
 /**
  * Allows users to input text on multiple lines.
@@ -63,6 +93,24 @@ export type TextareaProps = Omit<
  *      />
  *      <span>description entered: {description}</span>
  *    </>
+ *  );
+ * }
+ * ```
+ * @example
+ * _Chat composer that grows to five lines, with a leading icon:_
+ * ```tsx
+ * import EmojiObjectsIcon from "@easypost/easy-ui-icons/EmojiObjects";
+ * import { Textarea } from "@easypost/easy-ui/Textarea";
+ *
+ * export function Component() {
+ *  return (
+ *    <Textarea
+ *      aria-label="Message"
+ *      placeholder="Ask a question"
+ *      iconAtStart={EmojiObjectsIcon}
+ *      autoGrow
+ *      maxRows={5}
+ *    />
  *  );
  * }
  * ```

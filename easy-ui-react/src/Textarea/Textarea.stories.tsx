@@ -1,3 +1,4 @@
+import EmojiObjectsIcon from "@easypost/easy-ui-icons/EmojiObjects";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { InputDecorator } from "../utilities/storybook";
@@ -36,6 +37,47 @@ export const CustomRowHeight: Story = {
     placeholder: "Placeholder text",
     helperText: "Optional helper text",
     rows: 3,
+  },
+};
+
+export const IconAtStart: Story = {
+  render: Template.bind({}),
+  args: {
+    label: "Label",
+    placeholder: "Placeholder text",
+    iconAtStart: EmojiObjectsIcon,
+  },
+};
+
+export const AutoGrow: Story = {
+  render: Template.bind({}),
+  args: {
+    label: "Label",
+    placeholder: "Type a few lines",
+    helperText: "Grows with its content, without limit",
+    autoGrow: true,
+  },
+};
+
+export const AutoGrowWithMaxRows: Story = {
+  render: Template.bind({}),
+  args: {
+    label: "Label",
+    placeholder: "Type a few lines",
+    helperText: "Grows to five lines, then scrolls",
+    autoGrow: true,
+    maxRows: 5,
+  },
+};
+
+export const ChatComposer: Story = {
+  render: Template.bind({}),
+  args: {
+    "aria-label": "Message",
+    placeholder: "Ask a question",
+    iconAtStart: EmojiObjectsIcon,
+    autoGrow: true,
+    maxRows: 5,
   },
 };
 

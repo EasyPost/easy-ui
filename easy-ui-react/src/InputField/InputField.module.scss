@@ -102,6 +102,11 @@
   min-height: component-token("inputfield", "min-height-textarea");
 }
 
+// Height is managed by `useAutoGrow`, so a drag handle would fight it.
+.autoGrow {
+  resize: none;
+}
+
 .passwordBtnError,
 .passwordBtnError:focus,
 .passwordBtnError:active {

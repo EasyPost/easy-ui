@@ -14,8 +14,9 @@ export function mapIconSize(size: InputSize) {
 export function logWarningsForInvalidPropConfiguration(
   bothIconPropsDefined: boolean,
   smallSizeTextarea: boolean,
-  definedIconsWithTextarea: boolean,
+  definedIconAtEndWithTextarea: boolean,
   iconAndTextPropsDefined: boolean,
+  maxRowsWithoutAutoGrow: boolean,
 ) {
   if (bothIconPropsDefined) {
     console.warn("Cannot simultaneously define `iconAtEnd` and `iconAtStart`");
@@ -25,14 +26,18 @@ export function logWarningsForInvalidPropConfiguration(
     console.warn("`textarea` cannot be defined with size `sm`");
   }
 
-  if (definedIconsWithTextarea) {
-    console.warn("Cannot define `textarea` with `iconAtEnd` or `iconAtStart`");
+  if (definedIconAtEndWithTextarea) {
+    console.warn("Cannot define `textarea` with `iconAtEnd`");
   }
 
   if (iconAndTextPropsDefined) {
     console.warn(
       "Cannot simultaneously define `iconAtEnd` and `textAtEnd` or `iconAtStart` and `textAtStart`",
     );
+  }
+
+  if (maxRowsWithoutAutoGrow) {
+    console.warn("`maxRows` has no effect without `autoGrow`");
   }
 }
 

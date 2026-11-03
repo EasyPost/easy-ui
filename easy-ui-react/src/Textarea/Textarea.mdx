@@ -21,6 +21,26 @@ To specify the visible height of a text area in lines, use the `rows` property.
 
 <Canvas of={TextareaStories.CustomRowHeight} />
 
+## Icon at start
+
+Use `iconAtStart` to place an icon at the top left of the `<Textarea />`. It stays on the first line as the field grows. `iconAtEnd` isn't supported.
+
+<Canvas of={TextareaStories.IconAtStart} />
+
+## Auto-grow
+
+Set `autoGrow` to grow the `<Textarea />` with its content, starting from `rows`. Manual resizing is turned off while auto-growing.
+
+<Canvas of={TextareaStories.AutoGrow} />
+
+To cap the growth, add `maxRows`. The `<Textarea />` grows up to `maxRows` lines, then scrolls. `maxRows` has no effect without `autoGrow`.
+
+<Canvas of={TextareaStories.AutoGrowWithMaxRows} />
+
+Together, `iconAtStart`, `autoGrow`, and `maxRows` make a chat composer.
+
+<Canvas of={TextareaStories.ChatComposer} />
+
 ## Large Textarea
 
 Set `size="lg"` for a large `<Textarea />`.
