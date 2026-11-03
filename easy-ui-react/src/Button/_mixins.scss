@@ -7,9 +7,14 @@
   border-radius: design-token("shape.border_radius.md");
   cursor: pointer;
 
+  // Only keyboard focus gets a ring. `data-focus-visible` comes from
+  // `<UnstyledButton />`; see its comment for why `:focus` isn't enough.
   &:focus {
-    box-shadow: design-token("shadow.button");
     outline: none;
+  }
+
+  &[data-focus-visible] {
+    box-shadow: design-token("shadow.button");
   }
 
   &:disabled {
@@ -21,7 +26,7 @@
   background-color: component-token("button", "resting.color");
   color: component-token("button", "filled.font.color");
 
-  &:focus {
+  &[data-focus-visible] {
     background-color: component-token("button", "hover.focus.color");
   }
 
@@ -37,7 +42,7 @@
   &:not(:disabled):active {
     color: component-token("button", "filled.active.font.color");
     background-color: component-token("button", "active.color");
-    &:focus {
+    &[data-focus-visible] {
       box-shadow: none;
     }
   }
@@ -54,7 +59,7 @@
     component-token("button", "resting.color");
   color: component-token("button", "resting.color");
 
-  &:focus {
+  &[data-focus-visible] {
     border: design-token("shape.border_width.1") solid
       component-token("button", "hover.focus.color");
     color: component-token("button", "hover.focus.color");
@@ -74,7 +79,7 @@
     color: component-token("button", "active.color");
     border: design-token("shape.border_width.1") solid
       component-token("button", "active.color");
-    &:focus {
+    &[data-focus-visible] {
       box-shadow: none;
     }
   }
@@ -92,7 +97,7 @@
   border: design-token("shape.border_width.1") solid transparent;
   text-decoration: underline;
 
-  &:focus {
+  &[data-focus-visible] {
     border: design-token("shape.border_width.1") solid
       component-token("button", "hover.focus.color");
   }
@@ -115,7 +120,7 @@
   background-color: transparent;
   border: design-token("shape.border_width.1") solid transparent;
 
-  &:focus {
+  &[data-focus-visible] {
     border: design-token("shape.border_width.1") solid
       component-token("button", "hover.focus.color");
   }

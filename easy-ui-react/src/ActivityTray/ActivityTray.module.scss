@@ -154,8 +154,11 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
   }
 
   &:focus {
-    box-shadow: design-token("shadow.button");
     outline: none;
+  }
+
+  &[data-focus-visible] {
+    box-shadow: design-token("shadow.button");
   }
 }
 
@@ -305,8 +308,11 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
   }
 
   &:focus {
-    box-shadow: design-token("shadow.button");
     outline: none;
+  }
+
+  &[data-focus-visible] {
+    box-shadow: design-token("shadow.button");
   }
 }
 
@@ -326,8 +332,11 @@ $ezui-activity-tray-row-height: component-token("activity-tray", "row-height");
   }
 
   &:focus {
-    box-shadow: design-token("shadow.button");
     outline: none;
+  }
+
+  &[data-focus-visible] {
+    box-shadow: design-token("shadow.button");
   }
 }
 
