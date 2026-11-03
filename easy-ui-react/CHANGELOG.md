@@ -1,5 +1,17 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.146
+
+### Minor Changes
+
+- 6e87eb1: `<Textarea />` accepts `iconAtStart`, which pins an icon to its first line, and `autoGrow`, which grows the field with its content from `rows`. Add `maxRows` to cap the growth at that many lines, after which the field scrolls. Manual resizing is off while a textarea auto-grows. `iconAtEnd` still isn't supported on a textarea.
+
+### Patch Changes
+
+- 5e45321: fix(UnstyledButton): show focus rings for keyboard focus only; `UnstyledButton`, `Button`, `IconButton`, `DropdownButton`, the `ActivityTray` buttons, and the `InputField` password toggle no longer ring after a click, and `UnstyledButton` sets `data-focus-visible` for keyboard focus
+- 8111ac7: fix(DataGrid): measure an expanded row again when its content resizes, so content that grows after the row opens, like data fetched on open, no longer gets cut off or overlaps the next row
+- 7652b2d: fix(Spinner): name a `<Spinner />` by its `aria-label` or `aria-labelledby`. It used to point `aria-labelledby` at its hidden "Loading" fallback even when one was passed, and `aria-labelledby` outranks `aria-label`, so a spinner without `children` always announced "Loading". The fallback now renders only when nothing else names the spinner.
+
 ## 1.0.0-alpha.145
 
 ### Minor Changes
