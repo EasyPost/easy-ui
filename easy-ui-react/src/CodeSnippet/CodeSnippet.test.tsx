@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { mockGetComputedStyle } from "../utilities/test";
 import { CodeSnippet } from "./CodeSnippet";
+import { SnippetLanguage } from "./SyntaxHighlighter";
 
 describe("<CodeSnippet />", () => {
   let restoreGetComputedStyle: () => void;
@@ -70,5 +71,22 @@ six`}
     );
     const $pre = screen.getByText(/one/i).closest("pre");
     expect($pre?.style.webkitLineClamp).toBe("");
+  });
+
+  it.each<[SnippetLanguage, string]>([
+    ["csharp", `var x = "hi";`],
+    ["go", `func main() { fmt.Println("hi") }`],
+    ["java", `String x = "hi";`],
+    ["javascript", `const x = "hi";`],
+    ["json", `{ "x": "hi" }`],
+    ["php", `<?php $x = "hi"; ?>`],
+    ["python", `x = "hi"`],
+    ["ruby", `x = "hi"`],
+    ["shell", `$ curl https://example.com`],
+  ])("should syntax highlight %s", (language, code) => {
+    const { container } = render(
+      <CodeSnippet code={code} language={language} />,
+    );
+    expect(container.querySelector(".token")).toBeInTheDocument();
   });
 });
