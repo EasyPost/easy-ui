@@ -3,6 +3,7 @@
 import react from "@vitejs/plugin-react";
 import { glob } from "glob";
 import { defineConfig } from "vite";
+import { configDefaults } from "vitest/config";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import VitePluginReactRemoveAttributes from "vite-plugin-react-remove-attributes";
 import { cleanPkgJsonForDist } from "../scripts/copyDistFiles.mjs";
@@ -78,7 +79,7 @@ export default defineConfig({
     environment: "jsdom",
     css: true,
     setupFiles: "./vitest.setup.ts",
-    exclude: ["src/utilities/test.ts"],
+    exclude: [...configDefaults.exclude, "src/utilities/test.ts"],
   },
 });
 
