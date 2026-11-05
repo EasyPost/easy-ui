@@ -5,6 +5,12 @@ updates:
     schedule:
       interval: "daily"
     versioning-strategy: increase
+    ignore:
+      # Keep Node's type definitions on the same major as the Node runtime
+      # (.nvmrc). Newer majors type-check APIs that don't exist at runtime.
+      # Bump this together with .nvmrc when upgrading Node.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     # # Disable version checks while keeping dependabot config
     # open-pull-requests-limit: 0
     # ignore:
