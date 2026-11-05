@@ -97,7 +97,10 @@ export async function hoverOverTooltipTrigger(
   el: HTMLElement,
   { runTimers = true } = {},
 ) {
-  fireEvent.mouseMove(document.body);
+  // react-aria only opens tooltips on hover once the interaction modality is
+  // "pointer". It tracks that from pointer events when `PointerEvent` exists
+  // (jsdom 30+), so prime it with a mouse-type pointer move.
+  fireEvent.pointerMove(document.body, { pointerType: "mouse" });
   await userHover(user, el);
   if (runTimers) {
     act(() => {
