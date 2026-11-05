@@ -69,7 +69,7 @@
     "turbo": "^2.4.4",
     "typescript": "~5.5.4",
     "vite": "^8.3.6",
-    "vitest": "^4.1.12"
+    "vitest": "^5.1.0"
   },
   "overrides": {
     "nwsapi": "2.2.13",
