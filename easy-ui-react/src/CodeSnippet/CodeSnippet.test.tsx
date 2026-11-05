@@ -50,10 +50,11 @@ six`}
         maxLines={4}
       />,
     );
-    expect(screen.getByText(/one/i).closest("pre")).toHaveStyle({
-      "max-height": "calc(6em + 4px)",
-      overflow: "auto",
-    });
+    const pre = screen.getByText(/one/i).closest("pre") as HTMLPreElement;
+    // jsdom resolves `calc()` in computed styles (to px against its default
+    // font size), so check the declared value to keep asserting the formula.
+    expect(pre.style.maxHeight).toBe("calc(6em + 4px)");
+    expect(pre).toHaveStyle({ overflow: "auto" });
   });
 
   it("should cap max lines by height instead of clamping with an ellipsis", () => {
