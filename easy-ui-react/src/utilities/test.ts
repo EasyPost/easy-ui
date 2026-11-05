@@ -51,11 +51,15 @@ export function mockGetComputedStyle() {
 
 export function mockIntersectionObserver() {
   const originalIntersectionObserver = window.IntersectionObserver;
-  window.IntersectionObserver = vi.fn(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  })) as unknown as typeof window.IntersectionObserver;
+  // Vitest 4 only lets `vi.fn` be called with `new` when its implementation
+  // is a `function` or `class`, not an arrow function.
+  window.IntersectionObserver = vi.fn(function () {
+    return {
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    };
+  }) as unknown as typeof window.IntersectionObserver;
   return () => {
     window.IntersectionObserver = originalIntersectionObserver;
   };
