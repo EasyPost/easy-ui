@@ -2,7 +2,7 @@
 
 import react from "@vitejs/plugin-react";
 import { glob } from "glob";
-import { defineConfig } from "vite";
+import { defineConfig, esmExternalRequirePlugin } from "vite";
 import { configDefaults } from "vitest/config";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import VitePluginReactRemoveAttributes from "vite-plugin-react-remove-attributes";
@@ -19,6 +19,10 @@ export default defineConfig({
       attributes: ["data-testid"],
     }),
     react({ jsxRuntime: "automatic" }),
+    // Bundled CommonJS deps (e.g. `use-sync-external-store/shim`) call
+    // `require("react")`. In ESM output Rolldown otherwise leaves a `require`
+    // shim that throws at import time, so rewrite those calls into imports.
+    esmExternalRequirePlugin({ external: [/^react(-dom)?(\/.*)?$/] }),
     viteStaticCopy({
       targets: [
         { src: "package.json", dest: ".", transform: cleanPkgJsonForDist },
@@ -51,11 +55,11 @@ export default defineConfig({
       ]),
       cssFileName: "style",
     },
-    rollupOptions: {
+    rolldownOptions: {
+      // `react` and `react-dom` are externalized by `esmExternalRequirePlugin`
+      // above; listing them here too would bypass its `require` rewrite.
       external: (id) =>
         [
-          "react",
-          "react-dom",
           "vitest",
           "@testing-library/react",
           "@testing-library/user-event",
