@@ -1,5 +1,13 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.148
+
+### Patch Changes
+
+- 565818b: chore: build with Vite 8 (Rolldown); exports are unchanged, but shared helpers now live in `__chunks__/` files instead of being inlined into every module
+- Updated dependencies [565818b]
+  - @easypost/easy-ui-icons@1.0.0-alpha.62
+
 ## 1.0.0-alpha.147
 
 ### Patch Changes
