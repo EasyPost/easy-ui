@@ -2,6 +2,7 @@
 
 import react from "@vitejs/plugin-react";
 import { glob } from "glob";
+import { createRequire } from "node:module";
 import { defineConfig, esmExternalRequirePlugin } from "vite";
 import { configDefaults } from "vitest/config";
 import { viteStaticCopy } from "vite-plugin-static-copy";
@@ -13,7 +14,29 @@ const { default: removeReactAttributes } =
     default: typeof VitePluginReactRemoveAttributes;
   };
 
+const require = createRequire(import.meta.url);
+
 export default defineConfig({
+  resolve: {
+    alias: {
+      // Make `decode-named-character-reference` resolve to its plain lookup
+      // table.
+      //
+      // CodeSnippet → react-syntax-highlighter → refractor → parse-entities
+      // pulls in `decode-named-character-reference`. Its package.json exports
+      // two builds:
+      //   "browser" → index.dom.js — calls `document.createElement` at import
+      //   "default" → index.js     — a static lookup table, works everywhere
+      // Vite's library build matches "browser", so the DOM build gets bundled
+      // and importing CodeSnippet throws `document is not defined` on a server
+      // (SSR). `require.resolve` follows Node's resolution, which matches
+      // "default".
+      //
+      // See https://simplerpostage.atlassian.net/browse/EZUI-38
+      "decode-named-character-reference":
+        require.resolve("decode-named-character-reference"),
+    },
+  },
   plugins: [
     removeReactAttributes({
       attributes: ["data-testid"],
