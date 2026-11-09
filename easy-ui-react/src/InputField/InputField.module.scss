@@ -69,6 +69,21 @@
   }
 }
 
+// A small field is too short for the default padding plus focus ring to clear
+// its borders, so tighten the visible button and let a pseudo-element keep the
+// hit area at 24px (WCAG 2.5.8). `right` grows by the padding removed so the
+// icon stays where it is.
+.passwordBtnSm {
+  padding: design-token("space.0.25");
+  right: calc(#{design-token("space.1")} + #{design-token("space.0.25")});
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * #{design-token("space.0.25")});
+  }
+}
+
 // Keep the field reading as engaged while keyboard focus is on its toggle.
 .inputIconContainer:has(.passwordBtn[data-focus-visible])
   .input:not(.errorInput) {

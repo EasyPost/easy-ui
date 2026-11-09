@@ -4,6 +4,7 @@ import VisibilityOffIcon from "@easypost/easy-ui-icons/VisibilityOff";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 import { InputSize } from "./InputField";
+import { classNames } from "../utilities/css";
 import { UnstyledButton } from "../UnstyledButton";
 import { mapIconSize } from "./utilities";
 import styles from "./InputField.module.scss";
@@ -43,7 +44,10 @@ export function PasswordButton(props: PasswordButtonProps) {
   } = props;
   return (
     <UnstyledButton
-      className={styles.passwordBtn}
+      className={classNames(
+        styles.passwordBtn,
+        inputSize === "sm" && styles.passwordBtnSm,
+      )}
       onPress={toggleVisibility}
       isDisabled={isDisabled}
     >
