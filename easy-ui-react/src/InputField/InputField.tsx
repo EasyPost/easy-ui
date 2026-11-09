@@ -210,7 +210,7 @@ export function InputField(props: InputFieldProps) {
           {label}
         </Label>
       )}
-      <div className={styles.inputIconContainer}>
+      <div className={styles.inputIconContainer} {...hoverProps}>
         {hasStartIcon && (
           <InputIcon
             alignment="start"
@@ -224,7 +224,6 @@ export function InputField(props: InputFieldProps) {
         )}
         <Component
           {...elementProps}
-          {...hoverProps}
           className={className}
           ref={ref}
           type={inputType}
@@ -241,8 +240,6 @@ export function InputField(props: InputFieldProps) {
         )}
         {isPassword ? (
           <PasswordButton
-            isInputHovered={isInputHovered}
-            hasError={hasError}
             inputSize={adjustedSize}
             isDisabled={isDisabled}
             isPasswordVisible={isPasswordVisible}

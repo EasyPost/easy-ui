@@ -32,69 +32,66 @@
 }
 
 .passwordInput {
-  border-radius: component-token("inputfield", "border_radius") 0 0
-    component-token("inputfield", "border_radius");
-  border-right: none;
-  padding-right: component-token("inputfield", "password-input-padding-right");
-  &:focus,
-  &:active {
-    border-radius: component-token("inputfield", "border_radius");
-    border-right: design-token("shape.border_width.1") solid
-      component-token("inputfield", "color.border.engaged");
+  padding-right: component-token("inputfield", "icon-input-padding");
+
+  // Edge draws its own reveal toggle inside password inputs; ours replaces it.
+  &::-ms-reveal {
+    display: none;
   }
 }
 
+// Sits inside the input's border so the input's own focus ring wraps the
+// whole field, rather than the field being split into two bordered halves.
 .passwordBtn {
-  background-color: component-token("inputfield", "color.background");
+  position: absolute;
+  top: 50%;
+  right: design-token("space.1");
+  transform: translateY(-50%);
+  z-index: component-token("inputfield", "z-index");
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: design-token("space.0.5");
+  border-radius: design-token("shape.border_radius.md");
   color: component-token("inputfield", "color.text.gray.resting");
-  border-radius: 0 component-token("inputfield", "border_radius")
-    component-token("inputfield", "border_radius") 0;
-  border: design-token("shape.border_width.1") solid
-    component-token("inputfield", "color.border.resting");
-  border-left: none;
-  padding: calc(
-    #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
-  );
-  padding-left: design-token("space.1.5");
-
-  &:focus,
-  &:active {
-    border: design-token("shape.border_width.1") solid
-      component-token("inputfield", "color.border.engaged");
-    padding-left: calc(
-      #{design-token("space.1.5")} - #{design-token("shape.border_width.1")}
-    );
-    border-radius: component-token("inputfield", "border_radius");
-  }
-
-  &:focus {
-    outline: none;
-    z-index: component-token("inputfield", "z-index");
-  }
-
-  &[data-focus-visible] {
-    box-shadow: component-token("inputfield", "box_shadow");
-  }
 
   &:hover {
     color: component-token("inputfield", "color.text.gray.bold");
   }
 
-  &:disabled {
-    background-color: component-token(
-      "inputfield",
-      "color.background.disabled"
-    );
+  &[data-focus-visible] {
+    outline: none;
+    box-shadow: component-token("inputfield", "box_shadow");
   }
+
+  &:disabled {
+    color: component-token("inputfield", "color.text.disabled");
+  }
+}
+
+// A small field is too short for the default padding plus focus ring to clear
+// its borders, so tighten the visible button and let a pseudo-element keep the
+// hit area at 24px (WCAG 2.5.8). `right` grows by the padding removed so the
+// icon stays where it is.
+.passwordBtnSm {
+  padding: design-token("space.0.25");
+  right: calc(#{design-token("space.1")} + #{design-token("space.0.25")});
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * #{design-token("space.0.25")});
+  }
+}
+
+// Keep the field reading as engaged while keyboard focus is on its toggle.
+.inputIconContainer:has(.passwordBtn[data-focus-visible])
+  .input:not(.errorInput) {
+  border-color: component-token("inputfield", "color.border.engaged");
 }
 
 .hovered {
   @include Input.hovered;
-}
-
-.input:active + .passwordBtn,
-.input:focus + .passwordBtn {
-  border-color: component-token("inputfield", "color.border.resting");
 }
 
 .textArea {
@@ -105,30 +102,6 @@
 // Height is managed by `useAutoGrow`, so a drag handle would fight it.
 .autoGrow {
   resize: none;
-}
-
-.passwordBtnError,
-.passwordBtnError:focus,
-.passwordBtnError:active {
-  border-color: component-token("inputfield", "color.border.danger");
-}
-
-.passwordBtnSm {
-  padding-top: calc(
-    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
-  );
-  padding-bottom: calc(
-    #{design-token("space.1")} - #{design-token("shape.border_width.1")}
-  );
-}
-
-.passwordBtnLg {
-  padding-top: calc(
-    #{design-token("space.2")} - #{design-token("shape.border_width.1")}
-  );
-  padding-bottom: calc(
-    #{design-token("space.2")} - #{design-token("shape.border_width.1")}
-  );
 }
 
 .icon {
