@@ -27,7 +27,7 @@ describe("<Icon />", () => {
   it("should apply specified color", () => {
     render(<Icon symbol={CheckCircleIcon} color="neutral.300" />);
     const $svg = screen.getByRole("img", { hidden: true });
-    expect($svg.closest("span")).toHaveStyle(
+    expect($svg.closest("span")).toHaveCustomProperties(
       getComponentThemeToken("icon", "color", "color", "neutral.300"),
     );
   });
@@ -35,7 +35,7 @@ describe("<Icon />", () => {
   it("should apply specified size", () => {
     render(<Icon symbol={CheckCircleIcon} size="sm" />);
     const $svg = screen.getByRole("img", { hidden: true });
-    expect($svg.closest("span")).toHaveStyle(
+    expect($svg.closest("span")).toHaveCustomProperties(
       getResponsiveDesignToken("icon", "size", "size.icon", "sm"),
     );
   });

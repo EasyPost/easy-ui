@@ -4,7 +4,7 @@ import Help from "@easypost/easy-ui-icons/Help";
 import { screen } from "@testing-library/react";
 import { UserEvent } from "@testing-library/user-event";
 import React from "react";
-import { vi } from "vitest";
+import { onTestFinished, vi } from "vitest";
 import {
   mockGetComputedStyle,
   render,
@@ -14,6 +14,22 @@ import {
   userTab,
 } from "../utilities/test";
 import { SearchNav } from "./SearchNav";
+import searchNavStyles from "./SearchNav.module.scss";
+import condensedStyles from "./CondensedSearchNav.module.scss";
+
+// SearchNav renders a desktop and a condensed layout and switches between them
+// with media queries. jsdom (31+) evaluates media queries against a fixed
+// 1024px viewport that can't be resized, so tests see the desktop layout. This
+// stands in for a narrow viewport by showing the condensed layout instead.
+function forceCondensedLayout() {
+  const style = document.createElement("style");
+  style.textContent = `
+    .${searchNavStyles.desktop} { display: none !important; }
+    .${condensedStyles.condensed} { display: flex !important; }
+  `;
+  document.head.appendChild(style);
+  onTestFinished(() => style.remove());
+}
 
 describe("<SearchNav />", () => {
   let restoreGetComputedStyle: () => void;
@@ -81,6 +97,15 @@ describe("<SearchNav />", () => {
     const { user } = render(getSearchNav({}));
     await tabToAndEnterKeySelectTrigger(user);
     expect(
+      screen.getByRole("listbox", { name: "docs version" }),
+    ).toBeInTheDocument();
+  });
+
+  it("should support tab triggering SearchNav.Selector when condensed", async () => {
+    forceCondensedLayout();
+    const { user } = render(getSearchNav({}));
+    await tabToAndEnterKeySelectTrigger(user);
+    expect(
       screen.getByRole("group", { name: "docs version" }),
     ).toBeInTheDocument();
   });
@@ -90,7 +115,8 @@ describe("<SearchNav />", () => {
     expect(screen.getByLabelText("search")).toBeInTheDocument();
   });
 
-  it("should support expanding the SearchNav.CTAGroup menu", async () => {
+  it("should support expanding the SearchNav.CTAGroup menu when condensed", async () => {
+    forceCondensedLayout();
     const { user } = render(getSearchNav({}));
     const menuBtn = screen.getByRole("button", { name: "menu" });
     expect(menuBtn).toBeInTheDocument();

@@ -20,14 +20,14 @@ describe("<VerticalStack />", () => {
 
   it("should support gap", () => {
     render(<VerticalStack {...props} gap="2" />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getResponsiveDesignToken("vertical-stack", "gap", "space", "2"),
     );
   });
 
   it("should support responsive gap", () => {
     render(<VerticalStack {...props} gap={{ xs: "2", md: "4" }} />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getResponsiveDesignToken("vertical-stack", "gap", "space", {
         xs: "2",
         md: "4",
@@ -37,28 +37,28 @@ describe("<VerticalStack />", () => {
 
   it("should support align", () => {
     render(<VerticalStack {...props} align="center" />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getComponentToken("vertical-stack", "align", "center"),
     );
   });
 
   it("should support inline align", () => {
     render(<VerticalStack {...props} inlineAlign="center" />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getComponentToken("vertical-stack", "inline-align", "center"),
     );
   });
 
   it("should support inline", () => {
     render(<VerticalStack {...props} inline />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getComponentToken("vertical-stack", "display", "inline-flex"),
     );
   });
 
   it("should support reverse order", () => {
     render(<VerticalStack {...props} reverseOrder />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getComponentToken("vertical-stack", "order", "column-reverse"),
     );
   });

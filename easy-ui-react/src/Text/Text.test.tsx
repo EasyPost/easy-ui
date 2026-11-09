@@ -55,7 +55,7 @@ describe("<Text />", () => {
 
   it("should apply color", () => {
     render(<Text color="neutral.300">Here is some text</Text>);
-    expect(screen.getByText("Here is some text")).toHaveStyle(
+    expect(screen.getByText("Here is some text")).toHaveCustomProperties(
       getComponentThemeToken("text", "color", "color", "neutral.300"),
     );
   });
