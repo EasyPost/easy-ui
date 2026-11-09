@@ -4,17 +4,11 @@ import VisibilityOffIcon from "@easypost/easy-ui-icons/VisibilityOff";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 import { InputSize } from "./InputField";
-import { classNames, variationName } from "../utilities/css";
 import { UnstyledButton } from "../UnstyledButton";
 import { mapIconSize } from "./utilities";
 import styles from "./InputField.module.scss";
 
 export type PasswordButtonProps = {
-  /**
-   * Controls visual styles in the presence of an error.
-   * @default false
-   */
-  hasError?: boolean;
   /**
    * Size of associated input.
    * @default 'md'
@@ -30,11 +24,6 @@ export type PasswordButtonProps = {
    * @default false
    */
   isPasswordVisible?: boolean;
-  /**
-   * Whether the associated input is hovered.
-   * @default false
-   */
-  isInputHovered?: boolean;
   /** Callback function when password button is clicked. */
   toggleVisibility?: () => void;
 };
@@ -42,26 +31,19 @@ export type PasswordButtonProps = {
 /**
  * @privateRemarks
  * The PasswordButton component has been designed for use on on the InputField
- * component. Renders a button with a visibility toggle that aligns at
- * the end of the input.
+ * component. Renders a visibility toggle positioned inside the end of the
+ * input, so the input's border and focus ring wrap both.
  */
 export function PasswordButton(props: PasswordButtonProps) {
   const {
-    hasError = false,
     inputSize = "md",
     isDisabled = false,
     isPasswordVisible = false,
     toggleVisibility,
-    isInputHovered = false,
   } = props;
   return (
     <UnstyledButton
-      className={classNames(
-        styles.passwordBtn,
-        isInputHovered && styles.hovered,
-        hasError && styles.passwordBtnError,
-        styles[variationName("passwordBtn", inputSize)],
-      )}
+      className={styles.passwordBtn}
       onPress={toggleVisibility}
       isDisabled={isDisabled}
     >

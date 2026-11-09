@@ -142,7 +142,6 @@
     )
     calc(#{design-token("space.1.5")} - #{design-token("shape.border_width.1")});
   max-height: component-token("inputfield", "max-height-sm");
-  @include component-token("inputfield", "password-input-padding-right", 0);
   @include component-token(
     "inputfield",
     "icon-input-padding",
@@ -155,7 +154,6 @@
     #{design-token("space.2")} - #{design-token("shape.border_width.1")}
   );
   @include component-token("inputfield", "min-height-textarea", 56px);
-  @include component-token("inputfield", "password-input-padding-right", 0);
 }
 
 @mixin error {
