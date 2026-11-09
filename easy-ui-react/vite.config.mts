@@ -2,6 +2,7 @@
 
 import react from "@vitejs/plugin-react";
 import { glob } from "glob";
+import { createRequire } from "node:module";
 import { defineConfig, esmExternalRequirePlugin } from "vite";
 import { configDefaults } from "vitest/config";
 import { viteStaticCopy } from "vite-plugin-static-copy";
@@ -13,7 +14,18 @@ const { default: removeReactAttributes } =
     default: typeof VitePluginReactRemoveAttributes;
   };
 
+const require = createRequire(import.meta.url);
+
 export default defineConfig({
+  resolve: {
+    alias: {
+      // The package's browser entry makes a DOM element at import, which
+      // throws wherever CodeSnippet renders on a server. Its default entry is
+      // a lookup table that works in both
+      "decode-named-character-reference":
+        require.resolve("decode-named-character-reference"),
+    },
+  },
   plugins: [
     removeReactAttributes({
       attributes: ["data-testid"],
