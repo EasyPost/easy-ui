@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.150
+
+### Patch Changes
+
+- f8e2b44: fix: `CodeSnippet` and `CodeBlock` no longer throw `document is not defined` when imported on a server
+
 ## 1.0.0-alpha.149
 
 ### Patch Changes
