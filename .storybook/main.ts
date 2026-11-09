@@ -56,8 +56,15 @@ const config: StorybookConfig = {
     // `dist/**/*.d.ts` whenever a build was present, and every `forwardRef`
     // component came back with no props at all. `<Box />` showed it first
     // because it has no hand-written argTypes to fall back on.
+    //
+    // Storybook merges `typescript` shallowly, so this object replaces its
+    // default docgen options rather than extending them. Restate the two that
+    // turn string-literal unions into radio/select controls and optional
+    // booleans into toggles; without them those props fall back to "Set object".
     reactDocgenTypescriptOptions: {
       tsconfigPath: "easy-ui-react/tsconfig.json",
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
     },
   },
 };
