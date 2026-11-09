@@ -54,7 +54,9 @@ six`}
     // jsdom resolves `calc()` in computed styles (to px against its default
     // font size), so check the declared value to keep asserting the formula.
     expect(pre.style.maxHeight).toBe("calc(6em + 4px)");
-    expect(pre).toHaveStyle({ overflow: "auto" });
+    // The capped `<pre>` scrolls through OverlayScrollbars, which takes it over
+    // as its viewport and replaces the theme's native `overflow: auto`.
+    expect(pre).toHaveAttribute("data-overlayscrollbars-viewport");
   });
 
   it("should cap max lines by height instead of clamping with an ellipsis", () => {

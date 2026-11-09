@@ -74,14 +74,14 @@ describe("<HorizontalGrid />", () => {
 
   it("should support gap", () => {
     render(<HorizontalGrid {...props} gap="2" />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getResponsiveDesignToken("horizontal-grid", "gap", "space", "2"),
     );
   });
 
   it("should support responsive gap", () => {
     render(<HorizontalGrid {...props} gap={{ xs: "2", md: "4" }} />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getResponsiveDesignToken("horizontal-grid", "gap", "space", {
         xs: "2",
         md: "4",
@@ -91,14 +91,14 @@ describe("<HorizontalGrid />", () => {
 
   it("should support align items", () => {
     render(<HorizontalGrid {...props} alignItems="center" />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getComponentToken("horizontal-grid", "align-items", "center"),
     );
   });
 
   it("should support inline", () => {
     render(<HorizontalGrid {...props} inline />);
-    expect(screen.getByText("One").parentElement).toHaveStyle(
+    expect(screen.getByText("One").parentElement).toHaveCustomProperties(
       getComponentToken("horizontal-grid", "display", "inline-grid"),
     );
   });
