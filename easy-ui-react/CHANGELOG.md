@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.151
+
+### Minor Changes
+
+- 836b6c7: Adds `inputProps` to `<ComboBox />`, which puts `data-*` attributes on its input rather than its wrapper, so a field can carry password managers' opt-outs (`data-1p-ignore`, `data-lpignore`, `data-bwignore`, `data-form-type`).
+
 ## 1.0.0-alpha.150
 
 ### Patch Changes
