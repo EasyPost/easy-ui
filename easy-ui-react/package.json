@@ -72,7 +72,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
-    "sass": "^1.108.0",
+    "sass": "^1.108.1",
     "vite-plugin-react-remove-attributes": "^1.0.3",
     "vite-plugin-static-copy": "^4.1.1"
   }
