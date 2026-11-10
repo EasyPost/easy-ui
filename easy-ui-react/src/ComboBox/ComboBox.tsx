@@ -136,6 +136,17 @@ export type ComboBoxProps<T extends object> = Omit<
    * @default 5
    */
   maxItemsUntilScroll?: number;
+  /**
+   * `data-*` attributes for the input itself. Other `data-*` attributes on
+   * the combo box go on its wrapper. Use it for password managers' opt-outs,
+   * which they read from the input.
+   */
+  inputProps?: ComboBoxInputProps;
+};
+
+/** `data-*` attributes for the combo box's input. */
+export type ComboBoxInputProps = {
+  [dataAttribute: `data-${string}`]: string | number | boolean | undefined;
 };
 
 /**
@@ -148,6 +159,10 @@ export type ComboBoxProps<T extends object> = Omit<
  * control the input with `inputValue` and `onInputChange`, pass the results as
  * `items`, and set `isLoading` while a request is in flight. With
  * `allowsCustomValue`, text that doesn't match an option is kept as the value.
+ *
+ * Password managers' opt-outs (`data-1p-ignore`, `data-lpignore`,
+ * `data-bwignore`, `data-form-type`) go in `inputProps`, which puts them on
+ * the input.
  *
  * @example
  * _Filtering a list:_
@@ -212,6 +227,7 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
     maxItemsUntilScroll = DEFAULT_MAX_ITEMS_UNTIL_SCROLL,
     menuTrigger = "input",
     onOpenChange,
+    inputProps,
     ...comboBoxProps
   } = props;
 
@@ -293,6 +309,7 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
             hasEndSlot && styles.inputIconEnd,
             styles[variationName("inputSize", size)],
           )}
+          {...inputProps}
           placeholder={placeholder}
           onChange={() => {
             hasTypedRef.current = true;

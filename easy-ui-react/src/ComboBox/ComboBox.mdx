@@ -141,6 +141,23 @@ export function Component() {
 
 Selecting an option calls `onInputChange` with the option's `textValue`, so a field that fetches on input change refetches after a selection. The list stays closed for those results, since the user hasn't typed since.
 
+### Password managers
+
+Password managers can put their icon and autofill menu over the suggestions in a field they mistake for a login or address field. React Aria already sets `autocomplete="off"`, which they ignore; each one reads its own opt-out attribute from the input instead. Pass all four in `inputProps`, which puts `data-*` attributes on the input; `data-*` attributes on `<ComboBox />` itself, such as a `data-testid`, go on its wrapper.
+
+```tsx
+<ComboBox
+  label="Street address"
+  inputProps={{
+    "data-1p-ignore": true, // 1Password
+    "data-lpignore": "true", // LastPass
+    "data-bwignore": true, // Bitwarden
+    "data-form-type": "other", // Dashlane
+  }}
+  …
+>
+```
+
 ## Real-world examples
 
 ### Ship-to country
