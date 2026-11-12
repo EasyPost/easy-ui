@@ -1,49 +1,101 @@
-import React, { ReactNode } from "react";
+import React, {
+  ReactNode,
+  isValidElement,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+} from "react";
 import { useToggleState } from "react-stately";
 import { Card } from "../Card";
 import { HorizontalGrid } from "../HorizontalGrid";
-import { HorizontalStack } from "../HorizontalStack";
-import { Text } from "../Text";
+import { Text, TextProps } from "../Text";
 import { Toggle, ToggleProps } from "../Toggle";
 import { VerticalStack } from "../VerticalStack";
 import { classNames } from "../utilities/css";
+import { flattenChildren, useIsomorphicLayoutEffect } from "../utilities/react";
+import {
+  SplitToggleCardInternalContext,
+  SplitToggleCardState,
+  SplitToggleCardStateContext,
+  SplitToggleCardVariant,
+  useSplitToggleCardInternalContext,
+  useSplitToggleCardState,
+} from "./context";
 
 import styles from "./SplitToggleCard.module.scss";
 
-const SWITCH_PANEL_MIN_WIDTH = "80px";
-
-export type SplitToggleCardStatusLabels = {
-  /** Label shown under the switch when it's on. */
-  on: ReactNode;
-  /** Label shown under the switch when it's off. */
-  off: ReactNode;
+export {
+  useSplitToggleCardState,
+  type SplitToggleCardState,
+  type SplitToggleCardVariant,
 };
 
-export type SplitToggleCardCardVariant = "outlined" | "solid";
+const SWITCH_PANEL_MIN_WIDTH = "80px";
 
-export type SplitToggleCardProps = Omit<ToggleProps, "children"> & {
+type ToggleStateProps =
+  "isSelected" | "defaultSelected" | "onChange" | "isDisabled" | "isReadOnly";
+
+export type SplitToggleCardProps = Omit<ToggleProps, "children" | "variant"> & {
   /**
-   * Content beside the switch. The content doesn't label the switch, so
-   * point `aria-labelledby` at the content's title.
+   * The card's parts: `<SplitToggleCard.ToggleContainer />` and
+   * `<SplitToggleCard.ContentContainer />`.
+   *
+   * As a shorthand, pass content alone and the card puts it beside a
+   * switch. The content doesn't label the switch, so point
+   * `aria-labelledby` at its title.
    */
   children: ReactNode;
 
   /**
-   * Text under the switch that states its current state, such as
-   * "Enrolled" and "Not enrolled". The switch panel sizes itself to the
-   * longer label, so nothing moves when the state changes.
-   */
-  statusLabels?: SplitToggleCardStatusLabels;
-
-  /**
    * Card surface. Use `solid` when the card sits inside another card; it
-   * drops the border and uses quieter backgrounds. Separate from `variant`,
-   * which sets the switch's color.
+   * drops the border and uses quieter backgrounds. Set the switch's color
+   * on `<SplitToggleCard.Toggle variant />`.
    *
    * @default outlined
    */
-  cardVariant?: SplitToggleCardCardVariant;
+  variant?: SplitToggleCardVariant;
 };
+
+export type SplitToggleCardToggleContainerProps = {
+  /** Usually `<SplitToggleCard.Toggle />` and `<SplitToggleCard.Status />`. */
+  children: ReactNode;
+};
+
+export type SplitToggleCardToggleProps = Omit<
+  ToggleProps,
+  "children" | ToggleStateProps
+>;
+
+export type SplitToggleCardStatusProps = {
+  /** Shown when the switch is on. Ignored if `children` is set. */
+  on?: ReactNode;
+
+  /** Shown when the switch is off. Ignored if `children` is set. */
+  off?: ReactNode;
+
+  /**
+   * A custom status. It's rendered once for each state so the panel can
+   * size itself to the wider one, so keep it free of side effects. Read
+   * the state it draws with `useSplitToggleCardState()`.
+   */
+  children?: ReactNode;
+
+  /**
+   * Make the status the switch's description. Leave it off when the status
+   * only repeats on and off, which the switch already announces.
+   *
+   * @default false
+   */
+  describesToggle?: boolean;
+};
+
+export type SplitToggleCardContentContainerProps = {
+  /** Content beside the switch, usually led by `<SplitToggleCard.Title />`. */
+  children: ReactNode;
+};
+
+export type SplitToggleCardTitleProps = Omit<TextProps, "id">;
 
 /**
  * An interactive binary control with related content.
@@ -52,147 +104,262 @@ export type SplitToggleCardProps = Omit<ToggleProps, "children"> & {
  * Use a SplitToggleCard when an "on/off" or "yes/no" input is
  * needed with related content.
  *
- * The children aren't the switch's label. Name the switch by pointing
- * `aria-labelledby` at the content's title.
+ * It's a compound component. Each part reads the card's state from
+ * context, so any part can be replaced with your own, built with
+ * `useSplitToggleCardState()`.
+ *
+ * - `<SplitToggleCard.ToggleContainer />` is the switch panel.
+ * - `<SplitToggleCard.Toggle />` is the switch.
+ * - `<SplitToggleCard.Status />` states the current state under the switch.
+ * - `<SplitToggleCard.ContentContainer />` holds the content.
+ * - `<SplitToggleCard.Title />` titles the content and names the switch.
+ *
+ * The switch's state goes on the root.
  *
  * @example
  * ```tsx
- * <SplitToggleCard aria-labelledby={titleId}>
- *   <Text id={titleId}>Toggle Label</Text>
- * </SplitToggleCard>
- * ```
- *
- * @example
- * _Default value:_
- * ```tsx
- * <SplitToggleCard aria-labelledby={titleId} defaultSelected={true}>
- *   <Text id={titleId}>Toggle Label</Text>
- * </SplitToggleCard>
- * ```
- *
- * @example
- * _Controlled:_
- * ```tsx
- * <SplitToggleCard
- *   aria-labelledby={titleId}
- *   isSelected={isSelected}
- *   onChange={(isSelected) => setIsSelected(isSelected)}
- * >
- *   <Text id={titleId}>Toggle Label</Text>
- * </SplitToggleCard>
- * ```
- *
- * @example
- * _Status labels:_
- * ```tsx
- * <SplitToggleCard
- *   aria-labelledby={titleId}
- *   isSelected={isEnrolled}
- *   onChange={setIsEnrolled}
- *   statusLabels={{ on: "Enrolled", off: "Not enrolled" }}
- * >
- *   <Text id={titleId}>Shipping Insurance</Text>
+ * <SplitToggleCard isSelected={isEnrolled} onChange={setIsEnrolled}>
+ *   <SplitToggleCard.ToggleContainer>
+ *     <SplitToggleCard.Toggle />
+ *     <SplitToggleCard.Status on="Enrolled" off="Not enrolled" />
+ *   </SplitToggleCard.ToggleContainer>
+ *   <SplitToggleCard.ContentContainer>
+ *     <SplitToggleCard.Title>Shipping Insurance</SplitToggleCard.Title>
+ *     <Text variant="body2">Insure every eligible shipment.</Text>
+ *   </SplitToggleCard.ContentContainer>
  * </SplitToggleCard>
  * ```
  *
  * @example
  * _Solid, for use inside another card:_
  * ```tsx
- * <SplitToggleCard aria-labelledby={titleId} cardVariant="solid">
- *   <Text id={titleId}>Toggle Label</Text>
+ * <SplitToggleCard variant="solid">
+ *   <SplitToggleCard.ToggleContainer>
+ *     <SplitToggleCard.Toggle />
+ *   </SplitToggleCard.ToggleContainer>
+ *   <SplitToggleCard.ContentContainer>
+ *     <SplitToggleCard.Title>Toggle Label</SplitToggleCard.Title>
+ *   </SplitToggleCard.ContentContainer>
  * </SplitToggleCard>
  * ```
  *
  * @example
- * _Disabled:_
+ * _Custom status:_
  * ```tsx
- * <SplitToggleCard aria-labelledby={titleId} isDisabled={true}>
- *   <Text id={titleId}>Toggle Label</Text>
- * </SplitToggleCard>
+ * function EnrollmentStatus() {
+ *   const { isSelected } = useSplitToggleCardState();
+ *   return <Badge>{isSelected ? "Enrolled" : "Not enrolled"}</Badge>;
+ * }
+ *
+ * <SplitToggleCard.Status>
+ *   <EnrollmentStatus />
+ * </SplitToggleCard.Status>
  * ```
  *
  * @example
- * _Read-only:_
+ * _Shorthand, with content only:_
  * ```tsx
- * <SplitToggleCard
- *   aria-labelledby={titleId}
- *   isSelected={true}
- *   isReadOnly={true}
- * >
+ * <SplitToggleCard aria-labelledby={titleId} defaultSelected={true}>
  *   <Text id={titleId}>Toggle Label</Text>
  * </SplitToggleCard>
  * ```
  */
-export const SplitToggleCard = (props: SplitToggleCardProps) => {
+export function SplitToggleCard(props: SplitToggleCardProps) {
   const {
     children,
-    statusLabels,
-    cardVariant = "outlined",
+    variant = "outlined",
     isSelected,
     defaultSelected,
     onChange,
+    isDisabled = false,
+    isReadOnly = false,
     ...toggleProps
   } = props;
 
-  // Owned here, not in Toggle, so the status label can follow the state
-  // when the card is uncontrolled.
-  const state = useToggleState({
+  const toggleState = useToggleState({
     isSelected,
     defaultSelected,
     onChange,
-    isReadOnly: toggleProps.isReadOnly,
+    isReadOnly,
   });
+  const titleId = useId();
+  const [statusId, setStatusId] = useState<string | null>(null);
 
-  const isSolid = cardVariant === "solid";
+  const state: SplitToggleCardState = {
+    isSelected: toggleState.isSelected,
+    setSelected: toggleState.setSelected,
+    toggle: toggleState.toggle,
+    isDisabled,
+    isReadOnly,
+    variant,
+    titleId,
+  };
 
-  const toggle = (
-    <Toggle
-      {...toggleProps}
-      isSelected={state.isSelected}
-      onChange={state.setSelected}
-    />
+  const isComposed = flattenChildren(children).some(
+    (child) =>
+      isValidElement(child) &&
+      (child.type === SplitToggleCardToggleContainer ||
+        child.type === SplitToggleCardContentContainer),
   );
 
   return (
-    <Card.Container variant={cardVariant}>
-      <HorizontalGrid
-        columns={[`minmax(${SWITCH_PANEL_MIN_WIDTH}, max-content)`, "1fr"]}
-      >
-        <Card.Area
-          background={isSolid ? "neutral.050" : "secondary"}
-          padding="3"
-        >
-          <HorizontalStack align="center">
-            {statusLabels ? (
-              <VerticalStack gap="1" inlineAlign="center">
-                {toggle}
-                {/* The switch already tells assistive tech its state. */}
-                <span className={styles.statusLabels} aria-hidden="true">
-                  <span
-                    className={classNames(!state.isSelected && styles.hidden)}
-                  >
-                    <Text variant="caption" color="subdued">
-                      {statusLabels.on}
-                    </Text>
-                  </span>
-                  <span
-                    className={classNames(state.isSelected && styles.hidden)}
-                  >
-                    <Text variant="caption" color="subdued">
-                      {statusLabels.off}
-                    </Text>
-                  </span>
-                </span>
-              </VerticalStack>
+    <SplitToggleCardInternalContext.Provider
+      value={{ toggleProps, statusId, setStatusId }}
+    >
+      <SplitToggleCardStateContext.Provider value={state}>
+        <Card.Container variant={variant}>
+          <HorizontalGrid
+            columns={[`minmax(${SWITCH_PANEL_MIN_WIDTH}, max-content)`, "1fr"]}
+          >
+            {isComposed ? (
+              children
             ) : (
-              toggle
+              <>
+                <SplitToggleCardToggleContainer>
+                  <SplitToggleCardToggle />
+                </SplitToggleCardToggleContainer>
+                <SplitToggleCardContentContainer>
+                  {children}
+                </SplitToggleCardContentContainer>
+              </>
             )}
-          </HorizontalStack>
-        </Card.Area>
-        <Card.Area background={isSolid ? "neutral.025" : "primary"} padding="2">
-          {children}
-        </Card.Area>
-      </HorizontalGrid>
-    </Card.Container>
+          </HorizontalGrid>
+        </Card.Container>
+      </SplitToggleCardStateContext.Provider>
+    </SplitToggleCardInternalContext.Provider>
   );
-};
+}
+
+function SplitToggleCardToggleContainer(
+  props: SplitToggleCardToggleContainerProps,
+) {
+  const { children } = props;
+  const { variant } = useSplitToggleCardState();
+  return (
+    <Card.Area
+      background={variant === "solid" ? "neutral.050" : "secondary"}
+      padding="3"
+    >
+      <VerticalStack gap="1" inlineAlign="center">
+        {children}
+      </VerticalStack>
+    </Card.Area>
+  );
+}
+
+function SplitToggleCardToggle(props: SplitToggleCardToggleProps) {
+  const state = useSplitToggleCardState();
+  const { toggleProps, statusId } = useSplitToggleCardInternalContext();
+  const merged = { ...toggleProps, ...props } as SplitToggleCardToggleProps;
+  const hasOwnName = Boolean(merged["aria-label"] || merged["aria-labelledby"]);
+  const describedBy =
+    [merged["aria-describedby"], statusId].filter(Boolean).join(" ") ||
+    undefined;
+
+  useEffect(() => {
+    if (!hasOwnName && !document.getElementById(state.titleId)) {
+      console.warn(
+        "SplitToggleCard.Toggle has no name. Render a <SplitToggleCard.Title />, put `titleId` from useSplitToggleCardState() on your own title, or pass aria-labelledby.",
+      );
+    }
+  }, [hasOwnName, state.titleId]);
+
+  return (
+    <Toggle
+      {...merged}
+      aria-labelledby={hasOwnName ? merged["aria-labelledby"] : state.titleId}
+      aria-describedby={describedBy}
+      isSelected={state.isSelected}
+      onChange={state.setSelected}
+      isDisabled={state.isDisabled}
+      isReadOnly={state.isReadOnly}
+    />
+  );
+}
+
+function SplitToggleCardStatus(props: SplitToggleCardStatusProps) {
+  const { on, off, children, describesToggle = false } = props;
+  const state = useSplitToggleCardState();
+  const { setStatusId } = useSplitToggleCardInternalContext();
+  const id = useId();
+
+  useIsomorphicLayoutEffect(() => {
+    if (!describesToggle) {
+      return;
+    }
+    setStatusId(id);
+    return () => setStatusId(null);
+  }, [describesToggle, id, setStatusId]);
+
+  const onState = useMemo(() => ({ ...state, isSelected: true }), [state]);
+  const offState = useMemo(() => ({ ...state, isSelected: false }), [state]);
+
+  // Both copies share one grid cell, so the panel is as wide as the wider
+  // copy and nothing moves when the state changes.
+  return (
+    <span
+      className={styles.status}
+      aria-hidden={describesToggle ? undefined : true}
+    >
+      {[onState, offState].map((copyState) => {
+        const isVisible = copyState.isSelected === state.isSelected;
+        return (
+          <span
+            key={String(copyState.isSelected)}
+            id={isVisible ? id : undefined}
+            className={classNames(
+              styles.statusCopy,
+              !isVisible && styles.hidden,
+            )}
+            data-state={copyState.isSelected ? "on" : "off"}
+          >
+            <SplitToggleCardStateContext.Provider value={copyState}>
+              {children ?? (
+                <Text variant="caption" color="subdued">
+                  {copyState.isSelected ? on : off}
+                </Text>
+              )}
+            </SplitToggleCardStateContext.Provider>
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+function SplitToggleCardContentContainer(
+  props: SplitToggleCardContentContainerProps,
+) {
+  const { children } = props;
+  const { variant } = useSplitToggleCardState();
+  return (
+    <Card.Area
+      background={variant === "solid" ? "neutral.025" : "primary"}
+      padding="2"
+    >
+      {children}
+    </Card.Area>
+  );
+}
+
+function SplitToggleCardTitle(props: SplitToggleCardTitleProps) {
+  const { titleId } = useSplitToggleCardState();
+  return (
+    <Text variant="subtitle2" color="primary.800" {...props} id={titleId} />
+  );
+}
+
+/** The switch panel of a `<SplitToggleCard />`. */
+SplitToggleCard.ToggleContainer = SplitToggleCardToggleContainer;
+
+/** The switch of a `<SplitToggleCard />`. Its state is set on the root. */
+SplitToggleCard.Toggle = SplitToggleCardToggle;
+
+/** The current state, shown under the switch of a `<SplitToggleCard />`. */
+SplitToggleCard.Status = SplitToggleCardStatus;
+
+/** The content area of a `<SplitToggleCard />`. */
+SplitToggleCard.ContentContainer = SplitToggleCardContentContainer;
+
+/** The title of a `<SplitToggleCard />`, which also names its switch. */
+SplitToggleCard.Title = SplitToggleCardTitle;

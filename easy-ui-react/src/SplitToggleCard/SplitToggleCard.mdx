@@ -9,31 +9,77 @@ import * as SplitToggleCardStories from "./SplitToggleCard.stories";
 
 A `<SplitToggleCard />` is an interactive binary control with related content.
 
+It's a compound component. The switch's state goes on the root, and the parts read it from context:
+
+- `<SplitToggleCard.ToggleContainer />` is the switch panel.
+- `<SplitToggleCard.Toggle />` is the switch.
+- `<SplitToggleCard.Status />` states the current state under the switch.
+- `<SplitToggleCard.ContentContainer />` holds the content.
+- `<SplitToggleCard.Title />` titles the content and names the switch.
+
+```tsx
+<SplitToggleCard isSelected={isEnrolled} onChange={setIsEnrolled}>
+  <SplitToggleCard.ToggleContainer>
+    <SplitToggleCard.Toggle />
+    <SplitToggleCard.Status on="Enrolled" off="Not enrolled" />
+  </SplitToggleCard.ToggleContainer>
+  <SplitToggleCard.ContentContainer>
+    <SplitToggleCard.Title>Automatic Shipping Insurance</SplitToggleCard.Title>
+    <Text variant="body2">Insure every eligible shipment.</Text>
+  </SplitToggleCard.ContentContainer>
+</SplitToggleCard>
+```
+
 <Canvas of={SplitToggleCardStories.Standard} />
 
 ## Naming the switch
 
-The children aren't the switch's label. Give the content's title an `id` and point `aria-labelledby` at it, so the switch's name is the title you can see. Don't copy the title into an `aria-label`, because it goes stale when the title changes.
+`<SplitToggleCard.Title />` names the switch, so a screen reader announces the title you can see. If you use your own title element, give it `titleId` from `useSplitToggleCardState()`, or pass `aria-labelledby` to `<SplitToggleCard.Toggle />`. Don't copy the title into an `aria-label`, because it goes stale when the title changes.
+
+## Status
+
+For a setting that matters, such as one that costs money, add `<SplitToggleCard.Status />` to state the current state under the switch. The panel sizes itself to the wider status, on one line, so nothing moves when the state changes.
+
+Screen readers skip the status by default, because the switch already announces whether it's on. If the status says more than on or off, set `describesToggle` to make it the switch's description.
+
+<Canvas of={SplitToggleCardStories.Status} />
+
+## Custom Status
+
+Pass your own component as the children of `<SplitToggleCard.Status />`, and read the state with `useSplitToggleCardState()`. The status renders its children once for each state and hides the copy for the other state, so the panel fits the wider one. Inside the status, `isSelected` is the state that copy draws. Keep custom statuses free of side effects, since they render twice.
 
 ```tsx
-const titleId = useId();
+function EnrollmentStatus() {
+  const { isSelected } = useSplitToggleCardState();
+  return (
+    <Text variant="caption" color={isSelected ? "positive.600" : "subdued"}>
+      {isSelected ? "Enrolled" : "Not enrolled"}
+    </Text>
+  );
+}
 
-<SplitToggleCard aria-labelledby={titleId}>
-  <Text id={titleId}>Automatic Shipping Insurance</Text>
-</SplitToggleCard>;
+<SplitToggleCard.Status>
+  <EnrollmentStatus />
+</SplitToggleCard.Status>;
 ```
 
-## Status Labels
+<Canvas of={SplitToggleCardStories.CustomStatus} />
 
-For a setting that matters, such as one that costs money, use `statusLabels` to state the current state under the switch. The panel sizes itself to the longer label, on one line, so nothing moves when the state changes. Screen readers skip the label because the switch already announces whether it's on.
+## Replacing Parts
 
-<Canvas of={SplitToggleCardStories.StatusLabels} />
+Any part can be replaced with your own component. `useSplitToggleCardState()` returns `isSelected`, `setSelected`, `toggle`, `isDisabled`, `isReadOnly`, `variant`, and `titleId`. Set the switch's color with `variant` on `<SplitToggleCard.Toggle />`. Keep at least one of the two container parts, because the card checks for them to tell parts from shorthand content.
 
-## Solid Card
+## Solid
 
-Use `cardVariant="solid"` when the card sits inside another card. It drops the border and uses quieter backgrounds, so it doesn't compete with the card around it. Step the content's type down to match, for example `subtitle2` and `caption`.
+Use `variant="solid"` when the card sits inside another card. It drops the border and uses quieter backgrounds, so it doesn't compete with the card around it. Step the content's type down to match, for example `subtitle2` and `caption`.
 
 <Canvas of={SplitToggleCardStories.Solid} />
+
+## Shorthand
+
+Pass content alone, and the card puts it beside a switch. The content doesn't label the switch, so point `aria-labelledby` at its title.
+
+<Canvas of={SplitToggleCardStories.Shorthand} />
 
 ## Default Selected
 
@@ -77,4 +123,18 @@ A `<SplitToggleCard />` can be read-only using `isReadOnly`.
 
 ## Properties
 
+### SplitToggleCard
+
 <ArgTypes of={SplitToggleCard} />
+
+### SplitToggleCard.Toggle
+
+<ArgTypes of={SplitToggleCard.Toggle} />
+
+### SplitToggleCard.Status
+
+<ArgTypes of={SplitToggleCard.Status} />
+
+### SplitToggleCard.Title
+
+<ArgTypes of={SplitToggleCard.Title} />
