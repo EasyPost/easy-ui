@@ -11,6 +11,30 @@ A `<SplitToggleCard />` is an interactive binary control with related content.
 
 <Canvas of={SplitToggleCardStories.Standard} />
 
+## Naming the switch
+
+The children aren't the switch's label. Give the content's title an `id` and point `aria-labelledby` at it, so the switch's name is the title you can see. Don't copy the title into an `aria-label`, because it goes stale when the title changes.
+
+```tsx
+const titleId = useId();
+
+<SplitToggleCard aria-labelledby={titleId}>
+  <Text id={titleId}>Automatic Shipping Insurance</Text>
+</SplitToggleCard>;
+```
+
+## Status Labels
+
+For a setting that matters, such as one that costs money, use `statusLabels` to state the current state under the switch. The panel sizes itself to the longer label, on one line, so nothing moves when the state changes. Screen readers skip the label because the switch already announces whether it's on.
+
+<Canvas of={SplitToggleCardStories.StatusLabels} />
+
+## Solid Card
+
+Use `cardVariant="solid"` when the card sits inside another card. It drops the border and uses quieter backgrounds, so it doesn't compete with the card around it. Step the content's type down to match, for example `subtitle2` and `caption`.
+
+<Canvas of={SplitToggleCardStories.Solid} />
+
 ## Default Selected
 
 A `<SplitToggleCard />` can be selected using `defaultSelected` (uncontrolled).

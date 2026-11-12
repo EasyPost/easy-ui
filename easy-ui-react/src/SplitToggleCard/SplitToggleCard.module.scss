@@ -1,0 +1,15 @@
+// Both labels share one grid cell so the panel is as wide as the longer
+// label, and nothing moves when the state changes.
+.statusLabels {
+  display: grid;
+  justify-items: center;
+  white-space: nowrap;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}
