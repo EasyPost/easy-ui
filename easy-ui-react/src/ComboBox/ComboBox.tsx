@@ -21,7 +21,7 @@ import {
   TextContext,
   useSlottedContext,
 } from "react-aria-components";
-import { InputSize } from "../InputField";
+import { InputSize, NecessityIndicator } from "../InputField";
 import { Icon } from "../Icon";
 import { InputCaption } from "../InputField/InputCaption";
 import { InputIcon } from "../InputField/InputIcon";
@@ -82,9 +82,16 @@ export type ComboBoxProps<T extends object> = Omit<
   isDisabled?: boolean;
   /**
    * Whether user input is required on the combo box before form submission.
+   * Marks the label as required.
    * @default false
    */
   isRequired?: boolean;
+  /**
+   * How the label marks whether the combo box is required. `"icon"` shows a
+   * `*` on required combo boxes; `"label"` shows "(required)" or "(optional)".
+   * @default icon
+   */
+  necessityIndicator?: NecessityIndicator;
   /**
    * Whether the input should display its "valid" or "invalid" visual styling.
    * @default valid
@@ -213,6 +220,7 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
     "aria-label": ariaLabel,
     isDisabled = false,
     isRequired = false,
+    necessityIndicator,
     validationState = "valid",
     isLabelEmphasized = false,
     size = "md",
@@ -288,6 +296,8 @@ export function ComboBox<T extends object>(props: ComboBoxProps<T>) {
           fieldSize={size}
           hasError={hasError}
           isLabelEmphasized={isLabelEmphasized}
+          isRequired={isRequired}
+          necessityIndicator={necessityIndicator}
         >
           {label}
         </Label>

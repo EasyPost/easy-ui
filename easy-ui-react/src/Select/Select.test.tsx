@@ -35,6 +35,13 @@ describe("<Select />", () => {
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });
 
+  it("should mark its label when required, outside the accessible name", () => {
+    render(getSelect({ selectProps: { isRequired: true } }));
+    expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByRole("button", { name: /^Label/ })).toBeInTheDocument();
+    expect(screen.getByRole("button")).not.toHaveAccessibleName(/\*/);
+  });
+
   it("should display placeholder text", () => {
     render(getSelect({ selectProps: { placeholder: "placeholder" } }));
     expect(screen.getByText("placeholder")).toBeInTheDocument();

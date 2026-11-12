@@ -156,6 +156,12 @@ describe("<ComboBox />", () => {
     );
   });
 
+  it("should mark its label when required, outside the accessible name", () => {
+    render(getComboBox({ isRequired: true }));
+    expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByRole("combobox", { name: "Fruit" })).toBeInTheDocument();
+  });
+
   it("should render its label like other input fields", () => {
     render(
       <>

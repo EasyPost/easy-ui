@@ -10,7 +10,7 @@ import { GroupDOMAttributes } from "@react-types/shared";
 import { FocusableElement } from "react-aria-components";
 import { DatePickerTrigger } from "./DatePickerTrigger";
 import { DatePickerOverlay } from "./DatePickerOverlay";
-import { Label } from "../InputField/Label";
+import { Label, NecessityIndicator } from "../InputField/Label";
 import { logWarningForMissingAriaLabel } from "../InputField/utilities";
 import { classNames, variationName } from "../utilities/css";
 import styles from "./DatePicker.module.scss";
@@ -35,6 +35,8 @@ type OverlayProps = {
 export type DatePickerProps = {
   "aria-label"?: string;
   label?: string;
+  isRequired?: boolean;
+  necessityIndicator?: NecessityIndicator;
   triggerProps: TriggerProps;
   overlayProps: OverlayProps;
   labelProps: DOMAttributes<FocusableElement>;
@@ -44,6 +46,8 @@ export type DatePickerProps = {
 export function DatePickerBase(props: DatePickerProps) {
   const {
     label,
+    isRequired,
+    necessityIndicator,
     "aria-label": ariaLabel,
     triggerProps,
     overlayProps,
@@ -63,7 +67,13 @@ export function DatePickerBase(props: DatePickerProps) {
   return (
     <div className={className}>
       {label && (
-        <Label fieldSize={size} hasError={isInvalid} {...labelProps}>
+        <Label
+          fieldSize={size}
+          hasError={isInvalid}
+          isRequired={isRequired}
+          necessityIndicator={necessityIndicator}
+          {...labelProps}
+        >
           {label}
         </Label>
       )}

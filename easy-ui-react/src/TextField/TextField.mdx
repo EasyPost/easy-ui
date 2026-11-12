@@ -51,6 +51,16 @@ Use `isLabelEmphasized=true` to display a label with emphasis.
 
 <Canvas of={TextFieldStories.LabelWithEmphasis} />
 
+## Required
+
+`isRequired` marks the label with a trailing `*`. Don't type the `*` into `label` yourself. The marker is hidden from assistive technology, so the field's accessible name stays "Business name", and screen readers announce the required state from the input's `required` attribute.
+
+To spell it out, set `necessityIndicator="label"`. A required field then shows "(required)", which is hidden from assistive technology the same way. A field that isn't required shows "(optional)", which is read as part of the name, so use it for forms that mark their optional fields instead. A field with only an `aria-label` has no visible label and shows neither.
+
+Every field built on the shared label supports both props: `TextField`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `DateRangePicker`, and `ColorPickerInputField`.
+
+<Canvas of={TextFieldStories.Required} />
+
 ## Error
 
 When `validationState` is set to `invalid`, the `<TextField />` displays with error styles.
