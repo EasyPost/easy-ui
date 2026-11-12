@@ -2,6 +2,7 @@ import { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from "storybook/actions";
 import React, { ComponentProps, FormEvent } from "react";
 import { Button } from "../Button";
+import { Card } from "../Card";
 import { HorizontalStack } from "../HorizontalStack";
 import { TextField } from "../TextField";
 import { FormLayout } from "./FormLayout";
@@ -345,6 +346,29 @@ export const SectionTitleVariant: Story = {
         />
       </FormLayout.Section>
     </FormLayout>
+  ),
+};
+
+export const InACard: Story = {
+  render: () => (
+    <Card>
+      <FormLayout padding="0">
+        <FormLayout.Header>
+          <FormLayout.Title>Form Title</FormLayout.Title>
+          <FormLayout.HelperText>Form info text</FormLayout.HelperText>
+        </FormLayout.Header>
+        <TextField
+          label="Input 1"
+          placeholder="Placeholder text"
+          helperText="Helper text"
+        />
+        <TextField
+          label="Input 2"
+          placeholder="Placeholder text"
+          helperText="Helper text"
+        />
+      </FormLayout>
+    </Card>
   ),
 };
 
