@@ -52,8 +52,8 @@ export function TabPanelsPanels(props: TabPanelsPanelsProps) {
 
   return (
     <TabPanelsPanel
-      {...props}
       key={tabListState?.selectedKey}
+      {...props}
       state={tabListState}
     >
       {selectedItem && selectedItem.props.children}

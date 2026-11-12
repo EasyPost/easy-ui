@@ -55,7 +55,7 @@ export const Placement: Story = {
   render: (args) => (
     <>
       {overlayPlacements.map((placement) => (
-        <Tooltip {...args} key={placement} placement={placement}>
+        <Tooltip key={placement} {...args} placement={placement}>
           <a href="#">{startCase(placement)}</a>
         </Tooltip>
       ))}
