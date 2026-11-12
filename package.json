@@ -47,7 +47,6 @@
     "test:watch:react": "npm run test:watch --workspace @easypost/easy-ui"
   },
   "devDependencies": {
-    "@babel/core": "^8.1.0",
     "@changesets/cli": "^3.0.3",
     "@storybook/addon-a11y": "^10.6.6",
     "@storybook/addon-docs": "^10.6.6",
@@ -55,7 +54,6 @@
     "@types/node": "^24.19.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "babel-loader": "^10.1.1",
     "eslint": "^10.14.0",
     "eslint-plugin-storybook": "10.6.6",
     "jsdom": "^31.0.0",
