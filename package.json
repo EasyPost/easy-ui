@@ -66,12 +66,18 @@
     "stylelint": "^18.0.0",
     "turbo": "^2.4.4",
     "typescript": "~5.5.4",
-    "vite": "^8.3.6",
+    "vite": "^8.3.7",
     "vitest": "^5.1.0"
   },
   "overrides": {
+    "eslint-plugin-react": {
+      "eslint": "$eslint"
+    },
     "nwsapi": "2.2.13",
-    "prismjs": "^1.30.0"
+    "prismjs": "^1.30.0",
+    "vite-plugin-react-remove-attributes": {
+      "vite": "$vite"
+    }
   },
   "packageManager": "npm@11.19.0",
   "volta": {
