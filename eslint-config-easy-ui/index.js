@@ -43,6 +43,10 @@ export default [
       "@eslint-react/no-context-provider": "off",
       "@eslint-react/no-forward-ref": "off",
       "@eslint-react/no-use-context": "off",
+      // Trigger and slot components (Modal, Drawer, Tooltip, Popover, etc.)
+      // inject props into consumer-provided children by design.
+      "@eslint-react/no-children-to-array": "off",
+      "@eslint-react/no-clone-element": "off",
       // Matches the eslint-plugin-react-hooks v5 recommended set. The React
       // Compiler rules added to v7's recommended config are not enabled yet.
       "react-hooks/rules-of-hooks": "error",

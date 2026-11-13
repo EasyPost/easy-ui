@@ -22,8 +22,10 @@ export function ActionsCellContent({ rowActions }: ActionsCellContentProps) {
     <span className={styles.ActionsCellContent}>
       {rowActions.map((rowAction, i) =>
         rowAction.type === "menu" ? (
+          // eslint-disable-next-line @eslint-react/no-array-index-key -- row actions have no unique id
           <MenuRowAction key={i} rowAction={rowAction} />
         ) : (
+          // eslint-disable-next-line @eslint-react/no-array-index-key -- row actions have no unique id
           <ActionRowAction key={i} rowAction={rowAction} />
         ),
       )}

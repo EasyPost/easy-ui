@@ -34,8 +34,8 @@ export function Subnav(props: SubnavProps) {
   return (
     <SubnavLevelContext.Provider value={level}>
       <div className={styles.Subnav}>
-        {[...state.collection].map((item, i) => (
-          <SubnavItem key={String(i)} level={level} state={state} item={item} />
+        {[...state.collection].map((item) => (
+          <SubnavItem key={item.key} level={level} state={state} item={item} />
         ))}
       </div>
     </SubnavLevelContext.Provider>

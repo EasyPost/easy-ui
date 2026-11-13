@@ -30,6 +30,7 @@ export function DateFieldField(props: DateFieldFieldProps) {
     <div {...fieldProps} ref={dateFieldRef}>
       <HorizontalStack blockAlign="center" wrap={false}>
         {state.segments.map((segment, i) => (
+          // eslint-disable-next-line @eslint-react/no-array-index-key -- segments are positional and never reorder
           <DateSegment key={i} segment={segment} state={state} />
         ))}
       </HorizontalStack>

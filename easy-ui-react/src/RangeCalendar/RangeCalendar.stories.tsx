@@ -78,10 +78,10 @@ export const ShowDaysOutsideCurrentMonth: Story = {
 
 export const ControlledSelection: Story = {
   render: () => {
-    const [date, setDate] = React.useState<DateRange>({
+    const [date, setDate] = React.useState<DateRange>(() => ({
       start: today(getLocalTimeZone()),
       end: today(getLocalTimeZone()).subtract({ days: 5 }),
-    });
+    }));
 
     return <RangeCalendar value={date} onChange={setDate} />;
   },
@@ -89,10 +89,10 @@ export const ControlledSelection: Story = {
 
 export const InvalidSelection: Story = {
   render: () => {
-    const [date, setDate] = React.useState<DateRange>({
+    const [date, setDate] = React.useState<DateRange>(() => ({
       start: today(getLocalTimeZone()).subtract({ days: 7 }),
       end: today(getLocalTimeZone()),
-    });
+    }));
 
     const isInvalid = date ? date.end.compare(date.start) >= 7 : false;
 

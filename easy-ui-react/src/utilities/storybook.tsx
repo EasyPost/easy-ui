@@ -155,15 +155,7 @@ export const InlineStoryOnDarkBackgroundDecorator: Decorator = (Story) => (
 
 // TODO: Is there a way to use better styling for this?
 export const FullScreenStoryPreviewStyle = () => {
-  return (
-    <style
-      dangerouslySetInnerHTML={{
-        __html: `html,body,#storybook-root {
-          height: 100%;
-        }`,
-      }}
-    />
-  );
+  return <style>{`html,body,#storybook-root { height: 100%; }`}</style>;
 };
 
 /**

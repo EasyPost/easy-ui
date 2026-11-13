@@ -124,6 +124,7 @@ const IconTile = React.memo(function IconTile({
  */
 function WrappableName({ name }: { name: string }) {
   return name.split(/(?=[A-Z])/).map((word, index) => (
+    // eslint-disable-next-line @eslint-react/no-array-index-key -- words of a static name never reorder
     <React.Fragment key={index}>
       {index > 0 && <wbr />}
       {word}
