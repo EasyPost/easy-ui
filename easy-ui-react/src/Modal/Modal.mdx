@@ -189,6 +189,48 @@ This is handled automatically: a focus-trapping modal relaxes its focus trap and
 </Modal.Trigger>;
 ```
 
+### Relaxing a modal while a third-party overlay is open
+
+`allowsThirdPartyOverlays` is fixed when the modal renders. When a modal only needs to host a third-party overlay for part of its lifetime—e.g. it opens Stripe's Financial Connections frame after the user picks an option—call `useThirdPartyOverlay(isOpen)` from inside the modal's content instead.
+
+While `isOpen` is `true`, the modal and every focus-trapping modal above it stop trapping focus and stop hiding the page, without remounting the modal's content. The modal stays visible, so it can show a loading state while the overlay loads, and Escape (while focus is in the modal) and interaction outside still close it. Trapping resumes as soon as `isOpen` is `false`.
+
+```tsx
+function ConnectBankAccount() {
+  const [isStripeOpen, setIsStripeOpen] = useState(false);
+  useThirdPartyOverlay(isStripeOpen);
+
+  async function connect() {
+    setIsStripeOpen(true);
+    try {
+      await stripe.collectFinancialConnectionsAccounts({ clientSecret });
+    } finally {
+      setIsStripeOpen(false);
+    }
+  }
+
+  return isStripeOpen ? (
+    <Spinner />
+  ) : (
+    <Button onPress={connect}>Connect bank account</Button>
+  );
+}
+
+<Modal.Trigger>
+  <Button>Add bank account</Button>
+  <Modal>
+    <Modal.Header>Add bank account</Modal.Header>
+    <Modal.Body>
+      <ConnectBankAccount />
+    </Modal.Body>
+  </Modal>
+</Modal.Trigger>;
+```
+
+Call `useThirdPartyOverlay` from a component rendered inside a `<Modal />` (like `ConnectBankAccount` above). It throws outside of one.
+
+Close the modal only after the third-party overlay has closed, e.g. once Stripe's promise resolves as above. On close, focus returns to the trigger only if it's inside the modal or on the page body, so closing while focus is still inside the overlay's frame leaves focus there.
+
 ## Nesting behavior
 
 When modals nest, the connection between a parent modal and its nested child can present in one of two ways:
