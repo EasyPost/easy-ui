@@ -138,11 +138,13 @@ export function ForgeLayoutBreadcrumbs(props: ForgeLayoutBreadcrumbsProps) {
     <HorizontalStack blockAlign="center" gap="0.5">
       {breadcrumbs.map((breadcrumb, idx) => {
         if (idx === 0) {
+          // eslint-disable-next-line @eslint-react/no-array-index-key -- breadcrumbs are positional ReactNodes
           return <Fragment key={idx}>{breadcrumb}</Fragment>;
         } else {
           return (
+            // eslint-disable-next-line @eslint-react/no-array-index-key -- breadcrumbs are positional ReactNodes
             <Fragment key={idx}>
-              <ForgeLayoutBreadcrumb key={idx}>{">"}</ForgeLayoutBreadcrumb>
+              <ForgeLayoutBreadcrumb>{">"}</ForgeLayoutBreadcrumb>
               {breadcrumb}
             </Fragment>
           );

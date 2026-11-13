@@ -69,7 +69,7 @@ export function PaginationPages(props: PaginationPagesProps) {
     <div className={styles.pageRow}>
       {items.map((item, i) =>
         item === ELLIPSIS ? (
-          // Ellipses are interchangeable, so their index is a stable enough key
+          // eslint-disable-next-line @eslint-react/no-array-index-key -- ellipses are interchangeable, so their index is a stable enough key
           <PaginationEllipsis key={`${ELLIPSIS}-${i}`} />
         ) : (
           <PaginationPageButton

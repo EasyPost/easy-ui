@@ -117,10 +117,10 @@ export function ActivityTrayTask(props: ActivityTrayTaskProps) {
 
   // `undefined` on the first render, so a task that mounts already terminal—a
   // page reload landing on finished work—still gets announced.
-  const previousStatus = useRef<TaskStatus | undefined>(undefined);
+  const previousStatusRef = useRef<TaskStatus | undefined>(undefined);
   useEffect(() => {
-    const previous = previousStatus.current;
-    previousStatus.current = status;
+    const previous = previousStatusRef.current;
+    previousStatusRef.current = status;
     if (previous === status) {
       return;
     }

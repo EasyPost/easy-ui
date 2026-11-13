@@ -79,7 +79,7 @@ export const ShowDaysOutsideCurrentMonth: Story = {
 
 export const ControlledSelection: Story = {
   render: () => {
-    const [date, setDate] = React.useState<DateValue>(
+    const [date, setDate] = React.useState<DateValue>(() =>
       today(getLocalTimeZone()),
     );
     const handleChange = (v: DateValue) => {
@@ -92,7 +92,7 @@ export const ControlledSelection: Story = {
 
 export const InvalidSelection: Story = {
   render: () => {
-    const [date, setDate] = React.useState<DateValue>(
+    const [date, setDate] = React.useState<DateValue>(() =>
       today(getLocalTimeZone()),
     );
     const { locale } = useLocale();

@@ -295,7 +295,7 @@ export const CustomPlacement: StoryObj<MenuOverlayProps<unknown>> = {
 export const MultipleSelection: Story = {
   render: () => {
     const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
-      new Set([]),
+      () => new Set([]),
     );
     return (
       <Menu>
@@ -323,7 +323,7 @@ export const MultipleSelection: Story = {
 export const MultipleSelectionWithSelectAll: Story = {
   render: () => {
     const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
-      new Set([]),
+      () => new Set([]),
     );
     return (
       <Menu>

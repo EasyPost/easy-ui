@@ -26,6 +26,7 @@ export function CalendarGrid({ state, ...props }: CalendarGridProps) {
       <thead {...headerProps} className={styles.CalendarGridHeader}>
         <tr>
           {weekDays.map((day, index) => (
+            // eslint-disable-next-line @eslint-react/no-array-index-key -- narrow weekday labels repeat (e.g. two "T"s)
             <th key={index}>
               <Text variant="caption3" color="neutral.000">
                 {day}
@@ -43,8 +44,10 @@ export function CalendarGrid({ state, ...props }: CalendarGridProps) {
                 date &&
                 (isSameMonth(visibleStartDate, date) ||
                   showDaysOutsideCurrentMonth) ? (
+                  // eslint-disable-next-line @eslint-react/no-array-index-key -- cells are positional within a week
                   <CalendarCell key={i} state={state} date={date} />
                 ) : (
+                  // eslint-disable-next-line @eslint-react/no-array-index-key -- cells are positional within a week
                   <td key={i} />
                 ),
               )}

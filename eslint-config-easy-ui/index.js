@@ -1,39 +1,52 @@
-const { fixupPluginRules } = require("@eslint/compat");
-const js = require("@eslint/js");
-const prettierRecommended = require("eslint-plugin-prettier/recommended");
-const react = require("eslint-plugin-react");
-const reactHooks = require("eslint-plugin-react-hooks");
-const turbo = require("eslint-plugin-turbo");
-const globals = require("globals");
-const tseslint = require("typescript-eslint");
+import eslintReact from "@eslint-react/eslint-plugin";
+import js from "@eslint/js";
+import prettierRecommended from "eslint-plugin-prettier/recommended";
+import reactHooks from "eslint-plugin-react-hooks";
+import turbo from "eslint-plugin-turbo";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 /** @type {import('eslint').Linter.Config[]} */
-module.exports = [
+export default [
   {
     files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"],
-    ...react.configs.flat.recommended,
+    ...eslintReact.configs.recommended,
     plugins: {
-      // eslint-plugin-react 7.x still calls context APIs that ESLint 10
-      // removed (e.g. context.getFilename), so shim them until it supports v10
-      // https://github.com/jsx-eslint/eslint-plugin-react/issues/3977
-      react: fixupPluginRules(react),
+      ...eslintReact.configs.recommended.plugins,
       "react-hooks": reactHooks,
       turbo,
     },
     languageOptions: {
-      ...react.configs.flat.recommended.languageOptions,
+      ...eslintReact.configs.recommended.languageOptions,
       globals: {
         ...globals.node,
         ...globals.browser,
       },
     },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
     rules: {
-      ...react.configs.flat.recommended.rules,
+      ...eslintReact.configs.recommended.rules,
+      // Hooks rules come from eslint-plugin-react-hooks below, so turn off
+      // @eslint-react's ports of them to avoid duplicate reports.
+      "@eslint-react/rules-of-hooks": "off",
+      "@eslint-react/exhaustive-deps": "off",
+      // Ports of the React Compiler rules. Not enabled yet, matching the
+      // react-hooks setup below.
+      "@eslint-react/error-boundaries": "off",
+      "@eslint-react/purity": "off",
+      "@eslint-react/set-state-in-effect": "off",
+      "@eslint-react/set-state-in-render": "off",
+      "@eslint-react/static-components": "off",
+      "@eslint-react/unsupported-syntax": "off",
+      "@eslint-react/use-memo": "off",
+      // These push React 19-only APIs, but the peer range reaches back to
+      // React 16.14.
+      "@eslint-react/no-context-provider": "off",
+      "@eslint-react/no-forward-ref": "off",
+      "@eslint-react/no-use-context": "off",
+      // Trigger and slot components (Modal, Drawer, Tooltip, Popover, etc.)
+      // inject props into consumer-provided children by design.
+      "@eslint-react/no-children-to-array": "off",
+      "@eslint-react/no-clone-element": "off",
       // Matches the eslint-plugin-react-hooks v5 recommended set. The React
       // Compiler rules added to v7's recommended config are not enabled yet.
       "react-hooks/rules-of-hooks": "error",
