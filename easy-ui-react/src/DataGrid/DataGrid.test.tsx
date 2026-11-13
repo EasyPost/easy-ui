@@ -42,6 +42,19 @@ describe("<DataGrid />", () => {
     expect(screen.getByLabelText("Test DataGrid")).toBeInTheDocument();
   });
 
+  it("should keep text on one line by default", () => {
+    render(createDataGrid());
+    expect(getOuterContainer().className).not.toContain("allowsTextWrap");
+  });
+
+  it("should support allowing text to wrap", () => {
+    render(createDataGrid({ allowsTextWrap: true }));
+    expect(getOuterContainer()).toHaveAttribute(
+      "class",
+      expect.stringContaining("allowsTextWrap"),
+    );
+  });
+
   it("should support max rows", () => {
     render(createDataGrid({ maxRows: 8 }));
     expect(getOuterContainer()).toHaveCustomProperties(
