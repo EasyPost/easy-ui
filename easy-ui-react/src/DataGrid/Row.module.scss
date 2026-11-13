@@ -26,6 +26,14 @@
     "cell-bg",
     design-token("color.neutral.050")
   );
+
+  // Boxes the row's kebab so its row actions stand out while the row is
+  // hovered; hovering the kebab itself steps up a shade.
+  @include component-token(
+    "kebab-button",
+    "resting-color",
+    design-token("color.neutral.100")
+  );
 }
 
 .selected {
