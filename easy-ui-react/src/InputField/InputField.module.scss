@@ -15,6 +15,10 @@
   line-height: 0;
 }
 
+.necessityIndicator {
+  margin-inline-start: design-token("space.0.25");
+}
+
 .input {
   @include Input.input;
 }

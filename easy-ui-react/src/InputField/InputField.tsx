@@ -3,7 +3,7 @@ import { AriaTextFieldProps, useHover } from "react-aria";
 import { ValidationState } from "react-stately";
 import { IconSymbol } from "../types";
 import { classNames, variationName } from "../utilities/css";
-import { Label } from "./Label";
+import { Label, NecessityIndicator } from "./Label";
 import { InputCaption } from "./InputCaption";
 import { PasswordButton } from "./PasswordButton";
 import { InputIcon } from "./InputIcon";
@@ -16,6 +16,8 @@ import {
   logWarningForMissingAriaLabel,
   logWarningsForInvalidPropConfiguration,
 } from "./utilities";
+
+export type { NecessityIndicator };
 
 export type InputType =
   "text" | "email" | "password" | "tel" | "search" | undefined;
@@ -39,9 +41,16 @@ export type InputFieldProps = AriaTextFieldProps & {
   isDisabled?: boolean;
   /**
    * Whether user input is required on the input before form submission.
+   * Marks the label as required.
    * @default false
    */
   isRequired?: boolean;
+  /**
+   * How the label marks whether the input is required. `"icon"` shows a `*`
+   * on required inputs; `"label"` shows "(required)" or "(optional)".
+   * @default icon
+   */
+  necessityIndicator?: NecessityIndicator;
   /**
    * Whether the input should display its "valid" or "invalid" visual styling.
    * @default valid
@@ -114,6 +123,7 @@ export function InputField(props: InputFieldProps) {
     size = "md",
     isDisabled = false,
     isRequired = false,
+    necessityIndicator,
     validationState = "valid",
     isLabelEmphasized = false,
     autoFocus = false,
@@ -205,6 +215,8 @@ export function InputField(props: InputFieldProps) {
           fieldSize={adjustedSize}
           hasError={hasError}
           isLabelEmphasized={isLabelEmphasized}
+          isRequired={isRequired}
+          necessityIndicator={necessityIndicator}
           {...labelProps}
         >
           {label}

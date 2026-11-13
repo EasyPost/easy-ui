@@ -109,6 +109,14 @@ describe("<DatePicker />", () => {
     dateFields.every((field) => expect(field).toHaveAttribute("aria-disabled"));
   });
 
+  it("should mark its label when required, outside the accessible name", () => {
+    render(<DatePicker label="Ship date" isRequired />);
+    expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+    expect(
+      screen.getByRole("group", { name: "Ship date" }),
+    ).toBeInTheDocument();
+  });
+
   it("should render its label like other input fields", () => {
     render(
       <>

@@ -99,6 +99,8 @@ export function Select<T extends object, K extends Key>(
 ) {
   const {
     isDisabled,
+    isRequired,
+    necessityIndicator,
     validationState,
     isLabelEmphasized,
     size = "md",
@@ -148,6 +150,8 @@ export function Select<T extends object, K extends Key>(
     <InternalSelectContext.Provider value={context}>
       <SelectField
         isDisabled={isDisabled}
+        isRequired={isRequired}
+        necessityIndicator={necessityIndicator}
         validationState={validationState}
         isLabelEmphasized={isLabelEmphasized}
         size={size}
