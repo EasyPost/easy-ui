@@ -13,6 +13,7 @@
 
 .content {
   @include font-style("body1");
+  white-space: component-token("data-grid", "white-space");
   display: inline-flex;
   align-items: center;
   height: calc(
@@ -86,4 +87,10 @@
 
 .static {
   text-align: center;
+
+  // The empty state spans the whole row, so its message wraps to the grid's
+  // width rather than widening the grid to fit it
+  .content {
+    white-space: normal;
+  }
 }

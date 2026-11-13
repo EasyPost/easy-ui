@@ -34,6 +34,7 @@ export function Table<C extends Column, R extends RowType>(
   props: TableProps<C, R>,
 ) {
   const {
+    allowsTextWrap = false,
     headerVariant,
     maxRows = DEFAULT_MAX_ROWS,
     renderExpandedRow = (r) => r,
@@ -83,6 +84,7 @@ export function Table<C extends Column, R extends RowType>(
     styles.DataGrid,
     styles[variationName("size", size)],
     isAutoHeight && styles.maxRowsAuto,
+    allowsTextWrap && styles.allowsTextWrap,
   );
 
   const tableClassName = classNames(

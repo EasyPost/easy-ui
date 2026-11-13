@@ -206,6 +206,16 @@ function SortableDataGrid(args: DataGridProps) {
 
 <Controls of={DataGridStories.WithCustomSize} />
 
+## Text Wrapping
+
+Rows are a fixed height for each `size`, so `DataGrid` keeps the text in its cells and column headers on one line. A data grid narrower than its content scrolls sideways rather than wrapping text out of its rows.
+
+Pass `allowsTextWrap` to let text wrap when rows have the height for it, such as at `size="lg"`. To wrap a single cell instead, render its content in `<Text whiteSpace="normal">`.
+
+<Canvas of={DataGridStories.WithTextWrap} />
+
+<Controls of={DataGridStories.WithTextWrap} />
+
 ## With Custom Rendering
 
 `DataGrid` supports custom rendering of content for row and column cells using the `renderRowCell` and `renderColumnCell` props.
@@ -218,17 +228,12 @@ In the example below, to make the status text green or red depending on whether 
   renderRowCell={(cell, columnKey) => {
     if (columnKey === "status") {
       return (
-        <span
-          style={{
-            whiteSpace: "nowrap",
-            color: cell === "Inactive" ? "red" : "green",
-          }}
-        >
+        <span style={{ color: cell === "Inactive" ? "red" : "green" }}>
           {String(cell)}
         </span>
       );
     }
-    return <span style={{ whiteSpace: "nowrap" }}>{String(cell)}</span>;
+    return String(cell);
   }}
 />
 ```

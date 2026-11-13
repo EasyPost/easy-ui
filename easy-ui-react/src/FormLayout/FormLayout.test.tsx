@@ -4,6 +4,7 @@ import { vi } from "vitest";
 import { Button } from "../Button";
 import { HorizontalStack } from "../HorizontalStack";
 import { TextField } from "../TextField";
+import { getComponentDesignToken } from "../utilities/css";
 import { render, userClick } from "../utilities/test";
 import { FormLayout } from "./FormLayout";
 
@@ -146,6 +147,37 @@ describe("<FormLayout />", () => {
 
     await userClick(user, screen.getByRole("button", { name: "Submit" }));
     expect(handleSubmit).toHaveBeenCalled();
+  });
+
+  it("should pad by space.3 by default", () => {
+    render(<FormLayout data-testid="form-layout">Content</FormLayout>);
+    expect(screen.getByTestId("form-layout")).toHaveCustomProperties(
+      getComponentDesignToken("form-layout", "padding", "space", "3"),
+    );
+  });
+
+  it("should support a custom padding", () => {
+    render(
+      <FormLayout data-testid="form-layout" padding="0">
+        Content
+      </FormLayout>,
+    );
+    expect(screen.getByTestId("form-layout")).toHaveCustomProperties(
+      getComponentDesignToken("form-layout", "padding", "space", "0"),
+    );
+  });
+
+  it("should keep a consumer's style alongside the padding", () => {
+    render(
+      <FormLayout data-testid="form-layout" style={{ maxWidth: 400 }}>
+        Content
+      </FormLayout>,
+    );
+    const formLayout = screen.getByTestId("form-layout");
+    expect(formLayout).toHaveStyle({ maxWidth: "400px" });
+    expect(formLayout).toHaveCustomProperties(
+      getComponentDesignToken("form-layout", "padding", "space", "3"),
+    );
   });
 
   it("should render a section title with the default variant", () => {

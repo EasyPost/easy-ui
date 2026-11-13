@@ -41,13 +41,13 @@
     "clean": "FORCE_COLOR=1 turbo run clean && rm -rf ./node_modules",
     "dev": "FORCE_COLOR=1 turbo run dev",
     "format": "prettier . --write",
-    "lint": "FORCE_COLOR=1 turbo run lint",
+    "lint": "FORCE_COLOR=1 turbo run lint lint:root",
+    "lint:root": "eslint .storybook scripts eslint.config.mjs --max-warnings 0",
     "start:storybook": "storybook dev -p 9003",
     "test": "FORCE_COLOR=1 turbo run test",
     "test:watch:react": "npm run test:watch --workspace @easypost/easy-ui"
   },
   "devDependencies": {
-    "@babel/core": "^8.1.0",
     "@changesets/cli": "^3.0.3",
     "@storybook/addon-a11y": "^10.6.6",
     "@storybook/addon-docs": "^10.6.6",
@@ -55,7 +55,6 @@
     "@types/node": "^24.19.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "babel-loader": "^10.1.1",
     "eslint": "^10.14.0",
     "eslint-plugin-storybook": "10.6.6",
     "jsdom": "^31.0.0",
@@ -72,8 +71,14 @@
     "vitest": "^5.1.0"
   },
   "overrides": {
+    "eslint-plugin-react": {
+      "eslint": "$eslint"
+    },
     "nwsapi": "2.2.13",
-    "prismjs": "^1.30.0"
+    "prismjs": "^1.30.0",
+    "vite-plugin-react-remove-attributes": {
+      "vite": "$vite"
+    }
   },
   "packageManager": "npm@11.19.0",
   "volta": {

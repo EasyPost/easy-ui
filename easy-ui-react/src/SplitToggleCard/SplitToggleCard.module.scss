@@ -1,0 +1,19 @@
+// Both copies of the status share one grid cell, so the panel is as wide
+// as the wider copy and nothing moves when the state changes.
+.status {
+  display: grid;
+  justify-items: center;
+  white-space: nowrap;
+}
+
+.statusCopy {
+  grid-area: 1 / 1;
+  // Size to the status itself, not to an inherited line box, so the panel
+  // centers what you see.
+  display: flex;
+  justify-content: center;
+}
+
+.hidden {
+  visibility: hidden;
+}

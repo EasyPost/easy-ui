@@ -12,7 +12,13 @@ import {
   userKeyboard,
 } from "../utilities/test";
 import { Select } from "../Select";
-import { Modal, ModalContainer, ModalProps, useModalTrigger } from "./Modal";
+import {
+  Modal,
+  ModalContainer,
+  ModalProps,
+  useModalTrigger,
+  useThirdPartyOverlay,
+} from "./Modal";
 import { ModalHeaderTitleProps } from "./ModalHeader";
 import { ModalTriggerProps } from "./ModalTrigger";
 
@@ -568,6 +574,86 @@ describe("<Modal />", () => {
     expect(trigger).toHaveFocus();
   });
 
+  it("useThirdPartyOverlay stops hiding the page while active", async () => {
+    const { user } = render(<HookThirdPartyModal />);
+    expect(isElementHidden(screen.getByTestId("outside"))).toBe(true);
+
+    await userClick(user, screen.getByRole("button", { name: "Start flow" }));
+    const injected = await injectBodyNode();
+
+    // The modal relaxes in place, so a third-party frame injected into the body
+    // isn't `inert`'d, and the page outside the modal is reachable again.
+    expect(isElementHidden(injected)).toBe(false);
+    expect(isElementHidden(screen.getByTestId("outside"))).toBe(false);
+  });
+
+  it("useThirdPartyOverlay relaxes focus containment without remounting content", async () => {
+    const { user } = render(<HookThirdPartyModal />);
+    const content = screen.getByTestId("modal-content");
+
+    await userClick(user, screen.getByRole("button", { name: "Start flow" }));
+    await flushFocus();
+
+    focusOutside(screen.getByTestId("outside"));
+    expect(screen.getByTestId("outside")).toHaveFocus();
+    // Same node: toggling the hook doesn't swap the underlay or remount content.
+    expect(screen.getByTestId("modal-content")).toBe(content);
+  });
+
+  it("useThirdPartyOverlay restores trapping once inactive", async () => {
+    const { user } = render(<HookThirdPartyModal />);
+
+    await userClick(user, screen.getByRole("button", { name: "Start flow" }));
+    await userClick(user, screen.getByRole("button", { name: "End flow" }));
+    await flushFocus();
+
+    const injected = await injectBodyNode();
+    expect(isElementHidden(injected)).toBe(true);
+    const dialog = screen.getByRole("dialog");
+    focusOutside(screen.getByTestId("outside"));
+    expect(screen.getByTestId("outside")).not.toHaveFocus();
+    expect(dialog.contains(document.activeElement)).toBe(true);
+  });
+
+  it("useThirdPartyOverlay keeps Escape closing the modal", async () => {
+    const { user } = render(<HookThirdPartyModal />);
+
+    await userClick(user, screen.getByRole("button", { name: "Start flow" }));
+    await userKeyboard(user, "{Escape}");
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("useThirdPartyOverlay relaxes focus-trapping ancestor modals", async () => {
+    const { user } = render(
+      <Modal.Trigger defaultOpen>
+        <Button>Open outer</Button>
+        <Modal>
+          <Modal.Header>Outer</Modal.Header>
+          <Modal.Body>
+            <Modal.Trigger>
+              <Button>Open inner</Button>
+              <Modal>
+                <Modal.Header>Inner</Modal.Header>
+                <Modal.Body>
+                  <ThirdPartyFlowToggle />
+                </Modal.Body>
+              </Modal>
+            </Modal.Trigger>
+          </Modal.Body>
+        </Modal>
+      </Modal.Trigger>,
+    );
+
+    await userClick(user, screen.getByRole("button", { name: "Open inner" }));
+    await userClick(user, screen.getByRole("button", { name: "Start flow" }));
+    const injected = await injectBodyNode();
+
+    // Both modals trap by default; the hook in the inner one relaxes the outer
+    // one too, so neither re-`inert`s the injected frame.
+    expect(isElementHidden(injected)).toBe(false);
+  });
+
   it("keeps focus in the topmost modal when a replacing child is open", async () => {
     const { user } = render(
       <Modal.Trigger defaultOpen childNestingBehavior="replace">
@@ -722,6 +808,39 @@ function focusOutside(element: HTMLElement) {
   act(() => {
     element.focus();
   });
+}
+
+// Toggles `useThirdPartyOverlay` from inside a modal, standing in for content
+// that opens a third-party frame (e.g. Stripe Financial Connections).
+function ThirdPartyFlowToggle() {
+  const [isFlowOpen, setIsFlowOpen] = useState(false);
+  useThirdPartyOverlay(isFlowOpen);
+  return (
+    <>
+      <div data-testid="modal-content">Modal content</div>
+      <Button onPress={() => setIsFlowOpen(true)}>Start flow</Button>
+      <Button onPress={() => setIsFlowOpen(false)}>End flow</Button>
+    </>
+  );
+}
+
+// A standard modal whose content uses `useThirdPartyOverlay`, plus a focusable
+// sibling outside it.
+function HookThirdPartyModal() {
+  return (
+    <>
+      <button data-testid="outside">Outside</button>
+      <Modal.Trigger defaultOpen>
+        <Button>Open modal</Button>
+        <Modal>
+          <Modal.Header>Header</Modal.Header>
+          <Modal.Body>
+            <ThirdPartyFlowToggle />
+          </Modal.Body>
+        </Modal>
+      </Modal.Trigger>
+    </>
+  );
 }
 
 // A standard (focus-trapping) modal with a focusable sibling outside it, used to
