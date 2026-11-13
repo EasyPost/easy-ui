@@ -75,6 +75,12 @@
   @include component-token("data-grid", "sticky-right-offset", -12px);
   @include component-token("data-grid", "action-cell-width", 44px);
   @include component-token("data-grid", "expanded-row-opacity", 0);
+  // Rows are a fixed height, so a cell or header whose text wraps spills out of
+  // its row. Keeping text on one line holds each cell at its content's width,
+  // and a grid narrower than its content scrolls sideways instead.
+  // `.allowsTextWrap` hands wrapping back to grids whose rows have the height
+  // for it.
+  @include component-token("data-grid", "white-space", nowrap);
 
   border: component-token("data-grid", "border-width") solid
     component-token("data-grid", "border-color");
@@ -145,6 +151,10 @@
 
 .sizeLg {
   @include component-token("data-grid", "body-row-height", 80px);
+}
+
+.allowsTextWrap {
+  @include component-token("data-grid", "white-space", normal);
 }
 
 .innerContainer {

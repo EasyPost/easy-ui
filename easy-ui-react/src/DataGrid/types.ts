@@ -56,6 +56,20 @@ export type DataGridProps<
   C extends Column = Column,
   R extends Row = Row,
 > = AriaLabelingProps & {
+  /**
+   * Whether text in cells and column headers can wrap onto more than one line.
+   *
+   * @remarks
+   * Rows are a fixed height for each `size`, so by default text stays on one
+   * line and a grid narrower than its content scrolls sideways. Allow wrapping
+   * only when rows have the height for the lines it adds, such as `size="lg"`.
+   * To wrap a single cell, render its content in
+   * `<Text whiteSpace="normal">`.
+   *
+   * @default false
+   */
+  allowsTextWrap?: boolean;
+
   /** Use columns and rows to specify data grid content. */
   children?: never;
 
