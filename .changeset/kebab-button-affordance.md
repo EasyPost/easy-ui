@@ -2,4 +2,4 @@
 "@easypost/easy-ui": patch
 ---
 
-fix: `KebabButton` shows a pointer cursor and a hover/pressed background so it reads as clickable, matching Easy UI's other buttons
+fix: `KebabButton` uses a heavier icon, shows a pointer cursor, and gains hover/pressed backgrounds; inside a hovered `DataGrid` row it rests in a `neutral.100` box so row actions are easier to spot
