@@ -229,6 +229,8 @@ function ConnectBankAccount() {
 
 Call `useThirdPartyOverlay` from a component rendered inside a `<Modal />` (like `ConnectBankAccount` above). It throws outside of one.
 
+Close the modal only after the third-party overlay has closed, e.g. once Stripe's promise resolves as above. On close, focus returns to the trigger only if it's inside the modal or on the page body, so closing while focus is still inside the overlay's frame leaves focus there.
+
 ## Nesting behavior
 
 When modals nest, the connection between a parent modal and its nested child can present in one of two ways:
