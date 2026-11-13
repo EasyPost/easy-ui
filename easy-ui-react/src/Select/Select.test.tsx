@@ -35,11 +35,31 @@ describe("<Select />", () => {
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument();
   });
 
-  it("should mark its label when required, outside the accessible name", () => {
+  it("should announce required in the trigger's accessible name", () => {
+    // The trigger is a `button`, which can't carry `aria-required`, so the
+    // label's hidden "(required)" is the only cue assistive tech gets.
     render(getSelect({ selectProps: { isRequired: true } }));
     expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
-    expect(screen.getByRole("button", { name: /^Label/ })).toBeInTheDocument();
-    expect(screen.getByRole("button")).not.toHaveAccessibleName(/\*/);
+    const trigger = screen.getByRole("button");
+    expect(trigger).toHaveAccessibleName(/^Label \(required\)/);
+    expect(trigger).not.toHaveAccessibleName(/\*/);
+  });
+
+  it("should not announce required when not required", () => {
+    render(getSelect());
+    expect(screen.getByRole("button")).not.toHaveAccessibleName(/required/);
+  });
+
+  it("should announce (required) from the label necessity indicator", () => {
+    render(
+      getSelect({
+        selectProps: { isRequired: true, necessityIndicator: "label" },
+      }),
+    );
+    expect(screen.getByText("(required)")).not.toHaveAttribute("aria-hidden");
+    expect(screen.getByRole("button")).toHaveAccessibleName(
+      /^Label \(required\)/,
+    );
   });
 
   it("should display placeholder text", () => {

@@ -114,6 +114,10 @@ export function SelectField(props: SelectFieldProps) {
           isLabelEmphasized={isLabelEmphasized}
           isRequired={isRequired}
           necessityIndicator={necessityIndicator}
+          // The trigger is a `button`, which can't carry `aria-required`, and
+          // HiddenSelect is hidden from assistive tech, so the label has to
+          // say "required" itself.
+          includeNecessityIndicatorInAccessibilityName
           {...labelProps}
         >
           {label}

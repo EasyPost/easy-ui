@@ -3,6 +3,7 @@ import { Text } from "../Text";
 import { InputSize } from "./InputField";
 import styles from "./InputField.module.scss";
 import { classNames } from "../utilities/css";
+import { VisuallyHidden } from "react-aria";
 import { Label as AriaLabel } from "react-aria-components";
 
 /**
@@ -39,6 +40,13 @@ export type LabelProps = {
    * @default 'icon'
    */
   necessityIndicator?: NecessityIndicator;
+  /**
+   * Whether the necessity indicator is read as part of the field's accessible
+   * name. Set it for fields whose element can't carry a required state, such
+   * as `Select`'s `button` trigger, so assistive tech still hears "required".
+   * @default false
+   */
+  includeNecessityIndicatorInAccessibilityName?: boolean;
   /** Label content. */
   children: ReactNode;
 };
@@ -53,6 +61,9 @@ export type LabelProps = {
  * "(required)" are hidden from assistive tech so they stay out of the field's
  * accessible name; the input's `required` attribute conveys that state.
  * "(optional)" is left in the accessible name since nothing else conveys it.
+ * Fields whose element has no required state (`Select`'s `button` trigger)
+ * set `includeNecessityIndicatorInAccessibilityName`, which, as in Spectrum,
+ * reads the indicator as "(required)".
  */
 export function Label(props: LabelProps) {
   const {
@@ -61,6 +72,7 @@ export function Label(props: LabelProps) {
     hasError = false,
     isRequired = false,
     necessityIndicator = "icon",
+    includeNecessityIndicatorInAccessibilityName = false,
     children,
     ...labelProps
   } = props;
@@ -77,16 +89,27 @@ export function Label(props: LabelProps) {
       <Text variant={textVariant} as={as} color={color}>
         {children}
         {necessityIndicator === "icon" && isRequired && (
-          <span aria-hidden="true" className={styles.necessityIndicator}>
-            *
-          </span>
+          <>
+            <span aria-hidden="true" className={styles.necessityIndicator}>
+              *
+            </span>
+            {includeNecessityIndicatorInAccessibilityName && (
+              <VisuallyHidden>{" (required)"}</VisuallyHidden>
+            )}
+          </>
         )}
         {necessityIndicator === "label" && (
           // A text-node space (not a margin) so the accessible name reads
           // "Name (optional)" rather than "Name(optional)".
           <>
             {" "}
-            <span aria-hidden={isRequired ? "true" : undefined}>
+            <span
+              aria-hidden={
+                isRequired && !includeNecessityIndicatorInAccessibilityName
+                  ? "true"
+                  : undefined
+              }
+            >
               {isRequired ? "(required)" : "(optional)"}
             </span>
           </>
