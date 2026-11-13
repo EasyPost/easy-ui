@@ -3,6 +3,22 @@
 .KebabButton {
   display: inline-flex;
   border-radius: design-token("shape.border_radius.md");
+  cursor: pointer;
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+// A resting kebab has no container, so hover and press paint one in. This
+// gives it the same affordance as Easy UI's other buttons. The open-menu
+// state below wins over both.
+.KebabButton:hover:not(:disabled):not([aria-expanded="true"]) {
+  background-color: design-token("color.neutral.100");
+}
+
+.KebabButton:active:not(:disabled):not([aria-expanded="true"]) {
+  background-color: design-token("color.neutral.200");
 }
 
 .KebabButton[aria-expanded="true"] {
