@@ -8,6 +8,10 @@
 
 .statusCopy {
   grid-area: 1 / 1;
+  // Size to the status itself, not to an inherited line box, so the panel
+  // centers what you see.
+  display: flex;
+  justify-content: center;
 }
 
 .hidden {

@@ -238,9 +238,10 @@ function SplitToggleCardToggleContainer(
   return (
     <Card.Area
       background={variant === "solid" ? "neutral.050" : "secondary"}
-      padding="3"
+      paddingX="3"
+      paddingY="2"
     >
-      <VerticalStack gap="1" inlineAlign="center">
+      <VerticalStack gap="0.5" align="center" inlineAlign="center">
         {children}
       </VerticalStack>
     </Card.Area>
@@ -337,7 +338,8 @@ function SplitToggleCardContentContainer(
       background={variant === "solid" ? "neutral.025" : "primary"}
       padding="2"
     >
-      {children}
+      {/* Centered so it lines up with the switch panel, whichever is taller. */}
+      <VerticalStack align="center">{children}</VerticalStack>
     </Card.Area>
   );
 }
