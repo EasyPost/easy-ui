@@ -1,5 +1,26 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.152
+
+### Minor Changes
+
+- 18e4808: fix: `DataGrid` keeps cell and column header text on one line so it no longer spills out of fixed-height rows; pass `allowsTextWrap` to let text wrap
+- e86f705: feat(FormLayout): add a `padding` prop and inherit text color
+
+  `FormLayout` takes a `padding` prop that accepts a space token. It defaults to `"3"`, matching the previous fixed padding, and accepts `"0"` for forms inside a surface that already pads them.
+
+  `FormLayout` no longer sets `color: primary.800`, so its text inherits from the surface it sits on. Pages that relied on that navy should set `color` on their own surface.
+
+- 77c9b9c: Add `useThirdPartyOverlay(isOpen)` to `Modal`. Called from inside a modal's content, it relaxes that modal's focus trap and background hiding (and every focus-trapping ancestor's) while `isOpen` is `true`, without remounting the content. Use it when a modal only hosts a third-party overlay, like Stripe's Financial Connections frame, for part of its lifetime; `allowsThirdPartyOverlays` stays the choice when a modal always hosts one.
+- c255ffb: feat: mark a field's label when `isRequired` is set. `TextField`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `DateRangePicker`, and `ColorPickerInputField` now show a trailing `*` on the label of a required field. The `*` is hidden from assistive technology, so the accessible name stays the label text and the required state comes from the input. `Select`'s trigger is a `button`, which can't carry a required state, so its label also reads "(required)" to assistive technology. A new `necessityIndicator` prop, modeled on React Spectrum's, takes `"icon"` (the default `*`) or `"label"`, which shows "(required)" or "(optional)". `DatePicker` and `DateRangePicker` now accept `isRequired`. Remove any `*` typed into a `label` and set `isRequired` instead.
+- 9e0cc99: Makes `<SplitToggleCard />` a compound component with `ToggleContainer`, `Toggle`, `Status`, `ContentContainer`, and `Title` parts, plus a `useSplitToggleCardState()` hook for building custom parts. `<SplitToggleCard.Status />` states the current state under the switch, with `on` and `off` labels or a custom component, in a panel sized to the wider status. `<SplitToggleCard.Title />` names the switch. Passing content alone still works as a shorthand.
+
+  The root's `variant` now sets the card surface (`outlined` or `solid`, for use inside another card) instead of the switch's color. Set the switch's color with `<SplitToggleCard.Toggle variant />`.
+
+### Patch Changes
+
+- 3e3999c: chore: replace `@react-types/grid` dependency with `@react-stately/grid`
+
 ## 1.0.0-alpha.151
 
 ### Minor Changes
