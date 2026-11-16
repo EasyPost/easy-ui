@@ -1,5 +1,13 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.153
+
+### Patch Changes
+
+- 8db3dff: fix: `DataGrid` no longer draws a doubled line between the rows and the footer (or the grid's bottom edge) when its rows scroll
+- cd43a20: fix: `KebabButton` uses a heavier icon, shows a pointer cursor, and gains hover/pressed backgrounds; inside a hovered `DataGrid` row it rests in a `neutral.100` box so row actions are easier to spot
+- ffc7de9: fix(ProductLayout): portal the collapsed sidebar into the layout container on every render. The sidebar read the container from a ref during render, so it fell back to `document.body` if it rendered before the container mounted; the container is now held in state.
+
 ## 1.0.0-alpha.152
 
 ### Minor Changes
