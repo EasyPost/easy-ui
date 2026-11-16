@@ -33,6 +33,14 @@ A `<Checkbox />` can be marked indeterminate using `isIndeterminate`.
 
 <Controls of={CheckboxStories.Indeterminate} include={["isIndeterminate"]} />
 
+## Required
+
+A `<Checkbox />` can be marked required using `isRequired`. The input gets the required state, so assistive technology announces it, and the label gets a trailing `*`. The `*` is hidden from assistive technology, so the accessible name stays the label text.
+
+<Canvas of={CheckboxStories.Required} />
+
+<Controls of={CheckboxStories.Required} include={["isRequired"]} />
+
 ## Errors
 
 A `<Checkbox />` can be marked invalid using `validationState="invalid"`.

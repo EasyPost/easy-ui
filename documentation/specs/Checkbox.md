@@ -64,6 +64,13 @@ type CheckboxProps = {
   isReadOnly?: boolean;
 
   /**
+   * Whether the checkbox must be selected before form submission. Marks the
+   * label with a trailing `*`.
+   * @default false
+   */
+  isRequired?: boolean;
+
+  /**
    * Whether the checkbox should be selected (controlled).
    */
   isSelected?: boolean;

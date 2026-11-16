@@ -53,6 +53,13 @@ export type CheckboxProps = {
   isReadOnly?: boolean;
 
   /**
+   * Whether the checkbox must be selected before form submission. Marks the
+   * label with a trailing `*`.
+   * @default false
+   */
+  isRequired?: boolean;
+
+  /**
    * Whether the checkbox should be selected (controlled).
    */
   isSelected?: boolean;
@@ -126,6 +133,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       isDisabled,
       isIndeterminate,
       isReadOnly,
+      isRequired = false,
       isNested,
       size = DEFAULT_SIZE,
       validationState,
@@ -175,9 +183,18 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     const RootComponent = children ? "label" : "span";
     const rootProps = children ? hoverProps : {};
+    // React Aria only sets `aria-required` unless `validationBehavior` is
+    // "native"; set `required` too, as `InputField` does.
+    const requiredProps = { required: isRequired };
     const inputProps = children
-      ? mergeProps(restProps, inputPropsFromAria, focusProps)
-      : mergeProps(restProps, inputPropsFromAria, focusProps, hoverProps);
+      ? mergeProps(restProps, inputPropsFromAria, requiredProps, focusProps)
+      : mergeProps(
+          restProps,
+          inputPropsFromAria,
+          requiredProps,
+          focusProps,
+          hoverProps,
+        );
 
     return (
       <span className={className} data-testid="root">
@@ -201,6 +218,14 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             <span className={styles.text}>
               <Text variant={textVariant} color={textColor}>
                 {children}
+                {isRequired && (
+                  <span
+                    aria-hidden="true"
+                    className={styles.necessityIndicator}
+                  >
+                    *
+                  </span>
+                )}
               </Text>
             </span>
           )}

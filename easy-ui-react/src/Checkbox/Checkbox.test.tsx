@@ -58,6 +58,21 @@ describe("<Checkbox />", () => {
     expect(screen.getByRole("checkbox")).not.toBeChecked();
   });
 
+  it("should support isRequired", () => {
+    render(<Checkbox isRequired>Checkbox item</Checkbox>);
+    const checkbox = screen.getByRole("checkbox", { name: "Checkbox item" });
+    expect(checkbox).toBeRequired();
+    expect(checkbox).toHaveAttribute("required");
+    expect(checkbox).toHaveAttribute("aria-required", "true");
+    expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("should not mark the label when not required", () => {
+    render(<Checkbox>Checkbox item</Checkbox>);
+    expect(screen.getByRole("checkbox")).not.toBeRequired();
+    expect(screen.queryByText("*")).not.toBeInTheDocument();
+  });
+
   it("should support isIndeterminate", () => {
     render(<Checkbox isIndeterminate>Checkbox item</Checkbox>);
     expect(

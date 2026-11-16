@@ -61,6 +61,14 @@ export const Indeterminate: Story = {
   },
 };
 
+export const Required: Story = {
+  render: Template.bind({}),
+  args: {
+    children: "I certify that the information provided is accurate",
+    isRequired: true,
+  },
+};
+
 export const Error: Story = {
   render: Template.bind({}),
   args: {
