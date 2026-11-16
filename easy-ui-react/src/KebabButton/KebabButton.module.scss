@@ -3,6 +3,25 @@
 .KebabButton {
   display: inline-flex;
   border-radius: design-token("shape.border_radius.md");
+  cursor: pointer;
+
+  // Left unset here so an ancestor can paint a resting box in (DataGrid
+  // does on row hover); an undefined token resolves to `transparent`.
+  background-color: component-token("kebab-button", "resting-color");
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+// Hover and press each step one shade above the resting box. The open-menu
+// state below wins over both.
+.KebabButton:hover:not(:disabled):not([aria-expanded="true"]) {
+  background-color: design-token("color.neutral.200");
+}
+
+.KebabButton:active:not(:disabled):not([aria-expanded="true"]) {
+  background-color: design-token("color.neutral.300");
 }
 
 .KebabButton[aria-expanded="true"] {

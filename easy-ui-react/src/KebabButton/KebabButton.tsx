@@ -1,5 +1,5 @@
 import React from "react";
-import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
+import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert600";
 import { AriaButtonProps } from "react-aria";
 import { UnstyledButton } from "../UnstyledButton/UnstyledButton";
 import { Text } from "../Text";
