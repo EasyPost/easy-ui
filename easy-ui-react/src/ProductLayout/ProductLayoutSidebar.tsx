@@ -73,7 +73,7 @@ function DialogSidebar(props: ProductLayoutSidebarProps) {
 
 function DialogSidebarOverlay(props: { children: ReactNode }) {
   const { children } = props;
-  const { layoutContainerRef, sidebarTriggerState } = useProductLayout();
+  const { layoutContainer, sidebarTriggerState } = useProductLayout();
   const ref = React.useRef(null);
   const { modalProps, underlayProps } = useModalOverlay(
     { isDismissable: true, isKeyboardDismissDisabled: false },
@@ -81,7 +81,7 @@ function DialogSidebarOverlay(props: { children: ReactNode }) {
     ref,
   );
   return (
-    <Overlay portalContainer={layoutContainerRef.current ?? undefined}>
+    <Overlay portalContainer={layoutContainer ?? undefined}>
       <div className={styles.overlay} {...underlayProps}>
         <div ref={ref} {...modalProps}>
           {children}

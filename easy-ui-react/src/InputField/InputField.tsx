@@ -12,7 +12,6 @@ import { useInputField } from "./useInputField";
 import { useAutoGrow } from "./useAutoGrow";
 import styles from "./InputField.module.scss";
 import {
-  getElementType,
   logWarningForMissingAriaLabel,
   logWarningsForInvalidPropConfiguration,
 } from "./utilities";
@@ -138,7 +137,7 @@ export function InputField(props: InputFieldProps) {
     useInputField(props, ref);
   const { isHovered: isInputHovered, hoverProps } = useHover(props);
 
-  const Component = getElementType(isMultiline);
+  const Component = isMultiline ? "textarea" : "input";
 
   const bothIconPropsDefined = !!iconAtEnd && !!iconAtStart;
   const iconAndTextPropsDefined =

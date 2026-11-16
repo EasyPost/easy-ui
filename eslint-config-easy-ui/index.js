@@ -34,10 +34,7 @@ module.exports = [
     },
     rules: {
       ...react.configs.flat.recommended.rules,
-      // Matches the eslint-plugin-react-hooks v5 recommended set. The React
-      // Compiler rules added to v7's recommended config are not enabled yet.
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      ...reactHooks.configs.flat.recommended.rules,
     },
   },
   {

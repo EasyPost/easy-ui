@@ -43,14 +43,6 @@ export function DrawerUnderlay(props: DrawerUnderlayProps) {
     ref,
   );
 
-  const createAnimationEndListener =
-    (ref: React.MutableRefObject<HTMLDivElement | null>) =>
-    (done: () => void) => {
-      if (ref.current) {
-        ref.current.addEventListener("transitionend", done, false);
-      }
-    };
-
   // Each layer's active class sets its open state. That makes the layer run its
   // own transition, and the transitionend from that transition finishes opening.
   // Without active classes, opening would wait for some other transition inside
@@ -64,7 +56,9 @@ export function DrawerUnderlay(props: DrawerUnderlayProps) {
         onEntered={() => setAnimationExited(false)}
         onExited={() => setAnimationExited(true)}
         nodeRef={underlayBgRef}
-        addEndListener={createAnimationEndListener(underlayBgRef)}
+        addEndListener={(done) =>
+          underlayBgRef.current?.addEventListener("transitionend", done, false)
+        }
         classNames={{
           appear: styles.underlayBgEnter,
           appearActive: styles.underlayBgEnterDone,
@@ -84,7 +78,9 @@ export function DrawerUnderlay(props: DrawerUnderlayProps) {
             in={state.isOpen}
             appear
             nodeRef={ref}
-            addEndListener={createAnimationEndListener(ref)}
+            addEndListener={(done) =>
+              ref.current?.addEventListener("transitionend", done, false)
+            }
             classNames={{
               appear: styles.underlayBoxAppear,
               appearActive: styles.underlayBoxAppearDone,

@@ -13,11 +13,11 @@ type DrawerBodyProps = {
 
 export function DrawerBody(props: DrawerBodyProps) {
   const { children } = props;
-  const drawerContext = useDrawerContext();
-  useScrollbar(drawerContext.bodyRef, "ezui-os-theme-drawer");
+  const { bodyRef, headerInterceptorRef } = useDrawerContext();
+  useScrollbar(bodyRef, "ezui-os-theme-drawer");
   return (
-    <div className={styles.body} ref={drawerContext.bodyRef}>
-      <div data-intercept="header" ref={drawerContext.headerInterceptorRef} />
+    <div className={styles.body} ref={bodyRef}>
+      <div data-intercept="header" ref={headerInterceptorRef} />
       {children}
     </div>
   );
