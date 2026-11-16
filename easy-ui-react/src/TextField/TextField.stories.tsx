@@ -139,6 +139,16 @@ export const LabelWithEmphasis: Story = {
   },
 };
 
+export const Required: Story = {
+  render: () => (
+    <>
+      <TextField label="Business name" isRequired />
+      <TextField label="Business name" isRequired necessityIndicator="label" />
+      <TextField label="Suite or unit" necessityIndicator="label" />
+    </>
+  ),
+};
+
 export const Error: Story = {
   render: Template.bind({}),
   args: {
@@ -179,7 +189,13 @@ export const Controls: Story = {
     isRequired: {
       control: "boolean",
       description:
-        "Whether user input is required on the input before form submission.",
+        "Whether user input is required on the input before form submission. Marks the label as required.",
+    },
+    necessityIndicator: {
+      options: ["icon", "label"],
+      control: { type: "radio" },
+      description:
+        'How the label marks whether the input is required. "icon" shows a * on required inputs; "label" shows "(required)" or "(optional)".',
     },
     errorText: {
       control: "text",
@@ -217,6 +233,7 @@ export const Controls: Story = {
     label: "Label",
     isDisabled: false,
     isRequired: false,
+    necessityIndicator: "icon",
     validationState: "valid",
     isLabelEmphasized: false,
     autoFocus: false,

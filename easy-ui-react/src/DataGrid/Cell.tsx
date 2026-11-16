@@ -1,4 +1,4 @@
-import { GridNode } from "@react-types/grid";
+import { GridNode } from "@react-stately/grid";
 import React, { useRef, ReactNode } from "react";
 import {
   Key,

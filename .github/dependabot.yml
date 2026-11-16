@@ -11,6 +11,42 @@ updates:
       # Bump this together with .nvmrc when upgrading Node.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
+    # Families that release in lockstep and must stay on matching versions
+    # arrive as one PR instead of several out-of-sync ones.
+    groups:
+      react-aria:
+        patterns:
+          - "react-aria"
+          - "react-aria-components"
+          - "react-stately"
+          - "@react-aria/*"
+          - "@react-stately/*"
+          - "@react-types/*"
+          - "@internationalized/*"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-is"
+          - "@types/react"
+          - "@types/react-dom"
+          - "@types/react-is"
+      material-symbols:
+        patterns:
+          - "@material-symbols/*"
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/*"
+      turbo:
+        patterns:
+          - "turbo"
+          - "eslint-plugin-turbo"
     # # Disable version checks while keeping dependabot config
     # open-pull-requests-limit: 0
     # ignore:

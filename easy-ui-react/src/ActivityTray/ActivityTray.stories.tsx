@@ -493,7 +493,7 @@ const PURCHASE_TICK_SIZE = 7;
  */
 function useSimulatedBulkPurchase() {
   const [tasks, setTasks] = useState<SimulatedTask[]>([]);
-  const nextId = useRef(1);
+  const nextIdRef = useRef(1);
 
   useEffect(() => {
     const running = tasks.some((task) => task.status === "running");
@@ -528,7 +528,7 @@ function useSimulatedBulkPurchase() {
   }, [tasks]);
 
   const start = () => {
-    const id = nextId.current++;
+    const id = nextIdRef.current++;
     setTasks((current) => [
       ...current,
       {

@@ -34,6 +34,20 @@ describe("<ColorPickerInputField />", () => {
     expect(screen.getByText("Primary color")).toBeInTheDocument();
   });
 
+  it("should mark its label when required, outside the accessible name", () => {
+    render(
+      <ColorPickerInputField
+        defaultValue="#ff0000"
+        label="Primary color"
+        isRequired
+      />,
+    );
+    expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+    expect(
+      screen.getByRole("textbox", { name: "Primary color" }),
+    ).toBeRequired();
+  });
+
   it("should open", async () => {
     const { user } = render(
       <ColorPickerInputField

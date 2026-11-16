@@ -94,10 +94,10 @@ export const ControlledSelection: Story = {
 
 export const InvalidSelection: Story = {
   render: () => {
-    const [date, setDate] = React.useState<DateRange | null>({
+    const [date, setDate] = React.useState<DateRange | null>(() => ({
       start: today(getLocalTimeZone()).subtract({ days: 7 }),
       end: today(getLocalTimeZone()),
-    });
+    }));
 
     const isInvalid = date ? date.end.compare(date.start) >= 7 : false;
 

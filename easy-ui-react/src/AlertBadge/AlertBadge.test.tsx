@@ -39,7 +39,7 @@ describe("<AlertBadge />", () => {
     expect(screen.getByText(/intent of AlertBadge/i)).toBeInTheDocument();
     expect(screen.getByTestId("root")).toBeInTheDocument();
     const $svg = screen.getByRole("img", { hidden: true });
-    expect($svg.closest("span")).toHaveStyle(
+    expect($svg.closest("span")).toHaveCustomProperties(
       getResponsiveDesignToken("icon", "size", "size.icon", "2xs"),
     );
   });

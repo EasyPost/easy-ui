@@ -77,7 +77,7 @@ describe("<Box />", () => {
     it("should support padding", () => {
       render(<Box {...props} padding="2" />);
       for (const side of ["top", "right", "bottom", "left"]) {
-        expect(getBox()).toHaveStyle(
+        expect(getBox()).toHaveCustomProperties(
           getResponsiveDesignToken("box", `padding-${side}`, "space", "2"),
         );
       }
@@ -85,7 +85,7 @@ describe("<Box />", () => {
 
     it("should support responsive padding", () => {
       render(<Box {...props} padding={{ xs: "2", md: "4" }} />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getResponsiveDesignToken("box", "padding-top", "space", {
           xs: "2",
           md: "4",
@@ -95,7 +95,7 @@ describe("<Box />", () => {
 
     it("should support axis padding", () => {
       render(<Box {...props} paddingX="2" paddingY="4" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getResponsiveDesignToken("box", "padding-left", "space", "2"),
         ...getResponsiveDesignToken("box", "padding-right", "space", "2"),
         ...getResponsiveDesignToken("box", "padding-top", "space", "4"),
@@ -105,7 +105,7 @@ describe("<Box />", () => {
 
     it("should let a specific side win over an axis and a shorthand", () => {
       render(<Box {...props} padding="1" paddingY="2" paddingTop="3" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getResponsiveDesignToken("box", "padding-top", "space", "3"),
         ...getResponsiveDesignToken("box", "padding-bottom", "space", "2"),
         ...getResponsiveDesignToken("box", "padding-left", "space", "1"),
@@ -114,21 +114,21 @@ describe("<Box />", () => {
 
     it("should support a zero space token", () => {
       render(<Box {...props} padding="0" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getResponsiveDesignToken("box", "padding-top", "space", "0"),
       );
     });
 
     it("should support margin", () => {
       render(<Box {...props} margin="2" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken("box", "margin-top-xs", "var(--ezui-space-2)"),
       );
     });
 
     it("should support negative margin", () => {
       render(<Box {...props} marginTop="-1.5" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken(
           "box",
           "margin-top-xs",
@@ -139,7 +139,7 @@ describe("<Box />", () => {
 
     it("should support auto margin", () => {
       render(<Box {...props} marginX="auto" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "margin-left-xs", "auto"),
         ...getComponentToken("box", "margin-right-xs", "auto"),
       });
@@ -147,7 +147,7 @@ describe("<Box />", () => {
 
     it("should support gap", () => {
       render(<Box {...props} gap="2" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getResponsiveDesignToken("box", "column-gap", "space", "2"),
         ...getResponsiveDesignToken("box", "row-gap", "space", "2"),
       });
@@ -155,7 +155,7 @@ describe("<Box />", () => {
 
     it("should let an axis gap win over gap", () => {
       render(<Box {...props} gap="2" rowGap="4" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getResponsiveDesignToken("box", "column-gap", "space", "2"),
         ...getResponsiveDesignToken("box", "row-gap", "space", "4"),
       });
@@ -165,21 +165,21 @@ describe("<Box />", () => {
   describe("size", () => {
     it("should treat numbers as px", () => {
       render(<Box {...props} width={240} />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken("box", "width-xs", "240px"),
       );
     });
 
     it("should pass strings through untouched", () => {
       render(<Box {...props} height="calc(100vh - 96px)" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken("box", "height-xs", "calc(100vh - 96px)"),
       );
     });
 
     it("should support a constrained centered container", () => {
       render(<Box {...props} width="100%" maxWidth={700} marginX="auto" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "width-xs", "100%"),
         ...getComponentToken("box", "max-width-xs", "700px"),
         ...getComponentToken("box", "margin-left-xs", "auto"),
@@ -188,7 +188,7 @@ describe("<Box />", () => {
 
     it("should support responsive sizes", () => {
       render(<Box {...props} maxWidth={{ xs: "100%", lg: 900 }} />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "max-width-xs", "100%"),
         ...getComponentToken("box", "max-width-lg", "900px"),
       });
@@ -196,7 +196,7 @@ describe("<Box />", () => {
 
     it("should support aspect ratio without inferring px", () => {
       render(<Box {...props} aspectRatio="16 / 9" minHeight={0} />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "aspect-ratio-xs", "16 / 9"),
         ...getComponentToken("box", "min-height-xs", "0px"),
       });
@@ -206,7 +206,7 @@ describe("<Box />", () => {
   describe("surface", () => {
     it("should support background", () => {
       render(<Box {...props} background="primary.500" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken(
           "box",
           "background-xs",
@@ -217,14 +217,14 @@ describe("<Box />", () => {
 
     it("should support color", () => {
       render(<Box {...props} color="neutral.900" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentThemeToken("box", "color", "color", "neutral.900"),
       );
     });
 
     it("should support border radius", () => {
       render(<Box {...props} borderRadius="lg" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         borderRadiusStyle({
           topLeft: "var(--ezui-shape-border-radius-lg)",
           topRight: "var(--ezui-shape-border-radius-lg)",
@@ -248,7 +248,7 @@ describe("<Box />", () => {
 
     it("should support border radius on an edge pair", () => {
       render(<Box {...props} borderRadiusBottom="md" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         borderRadiusStyle({
           bottomRight: "var(--ezui-shape-border-radius-md)",
           bottomLeft: "var(--ezui-shape-border-radius-md)",
@@ -258,7 +258,7 @@ describe("<Box />", () => {
 
     it("should support border radius on a single corner", () => {
       render(<Box {...props} borderRadiusTopRight="sm" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         borderRadiusStyle({ topRight: "var(--ezui-shape-border-radius-sm)" }),
       );
     });
@@ -272,7 +272,7 @@ describe("<Box />", () => {
           borderRadiusTopLeft="sm"
         />,
       );
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         borderRadiusStyle({
           topLeft: "var(--ezui-shape-border-radius-sm)",
           topRight: "var(--ezui-shape-border-radius-md)",
@@ -284,7 +284,7 @@ describe("<Box />", () => {
 
     it("should let a horizontal edge border radius win over a vertical one", () => {
       render(<Box {...props} borderRadiusTop="md" borderRadiusLeft="sm" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         borderRadiusStyle({
           topLeft: "var(--ezui-shape-border-radius-md)",
           topRight: "var(--ezui-shape-border-radius-md)",
@@ -295,14 +295,14 @@ describe("<Box />", () => {
 
     it("should support box shadow", () => {
       render(<Box {...props} boxShadow="2" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentDesignToken("box", "box-shadow", "shadow.level", "2"),
       );
     });
 
     it("should infer a solid border width from a border color", () => {
       render(<Box {...props} borderColor="neutral.100" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentThemeToken(
           "box",
           "border-color",
@@ -322,7 +322,7 @@ describe("<Box />", () => {
     it("should apply a border width to every side", () => {
       render(<Box {...props} borderWidth="1" />);
       for (const side of ["top", "right", "bottom", "left"]) {
-        expect(getBox()).toHaveStyle(
+        expect(getBox()).toHaveCustomProperties(
           getComponentDesignToken(
             "box",
             `border-${side}-width`,
@@ -337,7 +337,7 @@ describe("<Box />", () => {
       render(
         <Box {...props} borderBottomWidth="1" borderColor="neutral.100" />,
       );
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentDesignToken(
           "box",
           "border-bottom-width",
@@ -361,7 +361,7 @@ describe("<Box />", () => {
   describe("self in parent", () => {
     it("should expand a numeric flex shorthand into longhands", () => {
       render(<Box {...props} flex="1" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "flex-grow-xs", "1"),
         ...getComponentToken("box", "flex-shrink-xs", "1"),
         ...getComponentToken("box", "flex-basis-xs", "0%"),
@@ -370,7 +370,7 @@ describe("<Box />", () => {
 
     it("should expand the flex keywords", () => {
       render(<Box {...props} flex="none" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "flex-grow-xs", "0"),
         ...getComponentToken("box", "flex-shrink-xs", "0"),
         ...getComponentToken("box", "flex-basis-xs", "auto"),
@@ -379,7 +379,7 @@ describe("<Box />", () => {
 
     it("should expand a multi-value flex shorthand", () => {
       render(<Box {...props} flex="0 0 200px" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "flex-grow-xs", "0"),
         ...getComponentToken("box", "flex-shrink-xs", "0"),
         ...getComponentToken("box", "flex-basis-xs", "200px"),
@@ -388,7 +388,7 @@ describe("<Box />", () => {
 
     it("should let a flex longhand win over the shorthand", () => {
       render(<Box {...props} flex="1" flexShrink={0} />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "flex-grow-xs", "1"),
         ...getComponentToken("box", "flex-shrink-xs", "0"),
       });
@@ -396,7 +396,7 @@ describe("<Box />", () => {
 
     it("should support unitless flex grow, shrink, and order", () => {
       render(<Box {...props} flexGrow={2} flexShrink={0} order={1} />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "flex-grow-xs", "2"),
         ...getComponentToken("box", "flex-shrink-xs", "0"),
         ...getComponentToken("box", "order-xs", "1"),
@@ -405,21 +405,21 @@ describe("<Box />", () => {
 
     it("should support align self", () => {
       render(<Box {...props} alignSelf="center" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken("box", "align-self-xs", "center"),
       );
     });
 
     it("should support justify self", () => {
       render(<Box {...props} justifySelf="end" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken("box", "justify-self-xs", "end"),
       );
     });
 
     it("should expand a grid column span into longhands", () => {
       render(<Box {...props} gridColumn="span 2" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "grid-column-start-xs", "span 2"),
         ...getComponentToken("box", "grid-column-end-xs", "auto"),
       });
@@ -427,7 +427,7 @@ describe("<Box />", () => {
 
     it("should expand a grid line pair into longhands", () => {
       render(<Box {...props} gridColumn="1 / 3" gridRow="2 / 4" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "grid-column-start-xs", "1"),
         ...getComponentToken("box", "grid-column-end-xs", "3"),
         ...getComponentToken("box", "grid-row-start-xs", "2"),
@@ -437,7 +437,7 @@ describe("<Box />", () => {
 
     it("should copy a named grid area across all four longhands", () => {
       render(<Box {...props} gridArea="sidebar" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "grid-row-start-xs", "sidebar"),
         ...getComponentToken("box", "grid-column-start-xs", "sidebar"),
         ...getComponentToken("box", "grid-row-end-xs", "sidebar"),
@@ -447,7 +447,7 @@ describe("<Box />", () => {
 
     it("should not copy a numeric grid area, which CSS leaves as auto", () => {
       render(<Box {...props} gridArea="1" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "grid-row-start-xs", "1"),
         ...getComponentToken("box", "grid-column-start-xs", "auto"),
         ...getComponentToken("box", "grid-row-end-xs", "auto"),
@@ -457,7 +457,7 @@ describe("<Box />", () => {
 
     it("should expand a four-value grid area", () => {
       render(<Box {...props} gridArea="1 / 2 / 3 / 4" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "grid-row-start-xs", "1"),
         ...getComponentToken("box", "grid-column-start-xs", "2"),
         ...getComponentToken("box", "grid-row-end-xs", "3"),
@@ -467,7 +467,7 @@ describe("<Box />", () => {
 
     it("should let grid column win over grid area on its own axis", () => {
       render(<Box {...props} gridArea="main" gridColumn="span 2" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "grid-column-start-xs", "span 2"),
         ...getComponentToken("box", "grid-column-end-xs", "auto"),
         ...getComponentToken("box", "grid-row-start-xs", "main"),
@@ -477,7 +477,7 @@ describe("<Box />", () => {
 
     it("should support responsive grid placement", () => {
       render(<Box {...props} gridColumn={{ xs: "span 1", lg: "span 3" }} />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "grid-column-start-xs", "span 1"),
         ...getComponentToken("box", "grid-column-start-lg", "span 3"),
       });
@@ -487,14 +487,14 @@ describe("<Box />", () => {
   describe("children layout", () => {
     it("should support display", () => {
       render(<Box {...props} display="inline-flex" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken("box", "display-xs", "inline-flex"),
       );
     });
 
     it("should support responsive display", () => {
       render(<Box {...props} display={{ xs: "none", md: "block" }} />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "display-xs", "none"),
         ...getComponentToken("box", "display-md", "block"),
       });
@@ -511,7 +511,7 @@ describe("<Box />", () => {
           alignItems="center"
         />,
       );
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "flex-direction-xs", "column"),
         ...getComponentToken("box", "flex-wrap-xs", "wrap"),
         ...getComponentToken("box", "justify-content-xs", "space-between"),
@@ -531,7 +531,7 @@ describe("<Box />", () => {
           gridAutoColumns="1fr"
         />,
       );
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "display-xs", "grid"),
         ...getComponentToken("box", "justify-items-xs", "center"),
         ...getComponentToken("box", "align-content-xs", "space-between"),
@@ -543,7 +543,7 @@ describe("<Box />", () => {
 
     it("should expand a numeric grid template into equal tracks", () => {
       render(<Box {...props} display="grid" gridTemplateColumns={3} />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken(
           "box",
           "grid-template-columns-xs",
@@ -561,7 +561,7 @@ describe("<Box />", () => {
           gridTemplateRows={["auto", "1fr"]}
         />,
       );
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken(
           "box",
           "grid-template-columns-xs",
@@ -579,7 +579,7 @@ describe("<Box />", () => {
           gridTemplateColumns="repeat(auto-fit, minmax(275px, 1fr))"
         />,
       );
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken(
           "box",
           "grid-template-columns-xs",
@@ -596,7 +596,7 @@ describe("<Box />", () => {
           gridTemplateColumns={{ xs: 1, lg: 4 }}
         />,
       );
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken(
           "box",
           "grid-template-columns-xs",
@@ -618,7 +618,7 @@ describe("<Box />", () => {
           gridTemplateAreas='"aside main" "aside footer"'
         />,
       );
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken(
           "box",
           "grid-template-areas-xs",
@@ -631,7 +631,7 @@ describe("<Box />", () => {
   describe("position", () => {
     it("should support position", () => {
       render(<Box {...props} position="sticky" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken("box", "position-xs", "sticky"),
       );
     });
@@ -639,7 +639,7 @@ describe("<Box />", () => {
     it("should expand inset to every edge", () => {
       render(<Box {...props} position="absolute" inset="0" />);
       for (const edge of ["top", "right", "bottom", "left"]) {
-        expect(getBox()).toHaveStyle(
+        expect(getBox()).toHaveCustomProperties(
           getComponentToken("box", `${edge}-xs`, "var(--ezui-space-0)"),
         );
       }
@@ -647,7 +647,7 @@ describe("<Box />", () => {
 
     it("should let an edge win over inset", () => {
       render(<Box {...props} inset="0" top="50%" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "top-xs", "50%"),
         ...getComponentToken("box", "bottom-xs", "var(--ezui-space-0)"),
       });
@@ -655,7 +655,7 @@ describe("<Box />", () => {
 
     it("should support free lengths for edges", () => {
       render(<Box {...props} top={-4} left="calc(50% - 8px)" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "top-xs", "-4px"),
         ...getComponentToken("box", "left-xs", "calc(50% - 8px)"),
       });
@@ -663,7 +663,7 @@ describe("<Box />", () => {
 
     it("should support z index", () => {
       render(<Box {...props} zIndex="modal" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentDesignToken("box", "z-index", "z-index", "modal"),
       );
     });
@@ -672,7 +672,7 @@ describe("<Box />", () => {
   describe("content behavior", () => {
     it("should expand overflow to both axes", () => {
       render(<Box {...props} overflow="hidden" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "overflow-x-xs", "hidden"),
         ...getComponentToken("box", "overflow-y-xs", "hidden"),
       });
@@ -680,7 +680,7 @@ describe("<Box />", () => {
 
     it("should let an axis win over overflow", () => {
       render(<Box {...props} overflow="hidden" overflowY="auto" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "overflow-x-xs", "hidden"),
         ...getComponentToken("box", "overflow-y-xs", "auto"),
       });
@@ -688,14 +688,14 @@ describe("<Box />", () => {
 
     it("should support object fit", () => {
       render(<Box as="img" src="/logo.png" alt="" objectFit="contain" />);
-      expect(screen.getByAltText("")).toHaveStyle(
+      expect(screen.getByAltText("")).toHaveCustomProperties(
         getComponentToken("box", "object-fit", "contain"),
       );
     });
 
     it("should support text align and white space", () => {
       render(<Box {...props} textAlign="center" whiteSpace="nowrap" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "text-align-xs", "center"),
         ...getComponentToken("box", "white-space", "nowrap"),
       });
@@ -703,7 +703,7 @@ describe("<Box />", () => {
 
     it("should support overscroll behavior", () => {
       render(<Box {...props} overflowY="auto" overscrollBehavior="contain" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "overflow-y-xs", "auto"),
         ...getComponentToken("box", "overscroll-behavior", "contain"),
       });
@@ -715,7 +715,7 @@ describe("<Box />", () => {
       render(
         <Box {...props} transform="scale(0.4)" transformOrigin="top left" />,
       );
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "transform-xs", "scale(0.4)"),
         ...getComponentToken("box", "transform-origin-xs", "top left"),
       });
@@ -723,7 +723,7 @@ describe("<Box />", () => {
 
     it("should pass a transform through untouched", () => {
       render(<Box {...props} transform="translate(-50%, -50%) rotate(3deg)" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentToken(
           "box",
           "transform-xs",
@@ -734,7 +734,7 @@ describe("<Box />", () => {
 
     it("should support responsive transform", () => {
       render(<Box {...props} transform={{ xs: "scale(0.5)", lg: "none" }} />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "transform-xs", "scale(0.5)"),
         ...getComponentToken("box", "transform-lg", "none"),
       });
@@ -744,7 +744,7 @@ describe("<Box />", () => {
   describe("interaction", () => {
     it("should support cursor and pointer events", () => {
       render(<Box {...props} cursor="pointer" pointerEvents="none" />);
-      expect(getBox()).toHaveStyle({
+      expect(getBox()).toHaveCustomProperties({
         ...getComponentToken("box", "cursor", "pointer"),
         ...getComponentToken("box", "pointer-events", "none"),
       });
@@ -752,7 +752,7 @@ describe("<Box />", () => {
 
     it("should support opacity", () => {
       render(<Box {...props} opacity="underlay" />);
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getComponentDesignToken("box", "opacity", "opacity", "underlay"),
       );
     });
@@ -826,7 +826,7 @@ describe("<Box />", () => {
       // @ts-expect-error testing style omission
       render(<Box {...props} style={{ color: "red" }} padding="2" />);
       expect(getBox().style.color).toBe("");
-      expect(getBox()).toHaveStyle(
+      expect(getBox()).toHaveCustomProperties(
         getResponsiveDesignToken("box", "padding-top", "space", "2"),
       );
     });

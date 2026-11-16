@@ -1,5 +1,44 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.152
+
+### Minor Changes
+
+- 18e4808: fix: `DataGrid` keeps cell and column header text on one line so it no longer spills out of fixed-height rows; pass `allowsTextWrap` to let text wrap
+- e86f705: feat(FormLayout): add a `padding` prop and inherit text color
+
+  `FormLayout` takes a `padding` prop that accepts a space token. It defaults to `"3"`, matching the previous fixed padding, and accepts `"0"` for forms inside a surface that already pads them.
+
+  `FormLayout` no longer sets `color: primary.800`, so its text inherits from the surface it sits on. Pages that relied on that navy should set `color` on their own surface.
+
+- 77c9b9c: Add `useThirdPartyOverlay(isOpen)` to `Modal`. Called from inside a modal's content, it relaxes that modal's focus trap and background hiding (and every focus-trapping ancestor's) while `isOpen` is `true`, without remounting the content. Use it when a modal only hosts a third-party overlay, like Stripe's Financial Connections frame, for part of its lifetime; `allowsThirdPartyOverlays` stays the choice when a modal always hosts one.
+- c255ffb: feat: mark a field's label when `isRequired` is set. `TextField`, `Textarea`, `Select`, `ComboBox`, `DatePicker`, `DateRangePicker`, and `ColorPickerInputField` now show a trailing `*` on the label of a required field. The `*` is hidden from assistive technology, so the accessible name stays the label text and the required state comes from the input. `Select`'s trigger is a `button`, which can't carry a required state, so its label also reads "(required)" to assistive technology. A new `necessityIndicator` prop, modeled on React Spectrum's, takes `"icon"` (the default `*`) or `"label"`, which shows "(required)" or "(optional)". `DatePicker` and `DateRangePicker` now accept `isRequired`. Remove any `*` typed into a `label` and set `isRequired` instead.
+- 9e0cc99: Makes `<SplitToggleCard />` a compound component with `ToggleContainer`, `Toggle`, `Status`, `ContentContainer`, and `Title` parts, plus a `useSplitToggleCardState()` hook for building custom parts. `<SplitToggleCard.Status />` states the current state under the switch, with `on` and `off` labels or a custom component, in a panel sized to the wider status. `<SplitToggleCard.Title />` names the switch. Passing content alone still works as a shorthand.
+
+  The root's `variant` now sets the card surface (`outlined` or `solid`, for use inside another card) instead of the switch's color. Set the switch's color with `<SplitToggleCard.Toggle variant />`.
+
+### Patch Changes
+
+- 3e3999c: chore: replace `@react-types/grid` dependency with `@react-stately/grid`
+
+## 1.0.0-alpha.151
+
+### Minor Changes
+
+- 836b6c7: Adds `inputProps` to `<ComboBox />`, which puts `data-*` attributes on its input rather than its wrapper, so a field can carry password managers' opt-outs (`data-1p-ignore`, `data-lpignore`, `data-bwignore`, `data-form-type`).
+
+## 1.0.0-alpha.150
+
+### Patch Changes
+
+- f8e2b44: fix: `CodeSnippet` and `CodeBlock` no longer throw `document is not defined` when imported on a server
+
+## 1.0.0-alpha.149
+
+### Patch Changes
+
+- 691be0b: feat(TextField): move the password visibility toggle inside the input. The input and toggle used to split one border between them, so focusing either one outlined only half the field. The toggle now sits inside the input's border, the input's focus ring wraps the whole field, and the toggle shows its own inset ring when it has keyboard focus.
+
 ## 1.0.0-alpha.148
 
 ### Patch Changes

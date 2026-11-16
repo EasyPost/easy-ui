@@ -65,7 +65,9 @@ describe("<PillGroup />", () => {
         <PillGroup.Pill label="Foobaz 456" icon={LocalShippingIcon} />
       </PillGroup>,
     );
-    expect(screen.getByRole("row", { name: "Foobaz 123" })).toHaveStyle(
+    expect(
+      screen.getByRole("row", { name: "Foobaz 123" }),
+    ).toHaveCustomProperties(
       getComponentThemeToken("pill", "background", "color", "primary.800"),
     );
   });

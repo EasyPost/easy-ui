@@ -1,5 +1,6 @@
 import React, { ComponentProps, ElementType, ReactNode } from "react";
-import { classNames } from "../utilities/css";
+import { SpaceScale } from "../types";
+import { classNames, getComponentDesignToken } from "../utilities/css";
 import { Grid } from "./Grid";
 import { Header } from "./Header";
 import { HelperText } from "./HelperText";
@@ -20,10 +21,20 @@ export type FormLayoutProps<T extends ElementType> = ComponentProps<T> & {
    * Content of the form layout.
    */
   children: ReactNode;
+
+  /**
+   * Space around the form layout's content. Use `"0"` when the surrounding
+   * surface, such as a card, already pads its content.
+   *
+   * @default 3
+   */
+  padding?: SpaceScale;
 };
 
 /**
  * Arranges a layout of form elements with preset spacing.
+ *
+ * Text inherits its color from the surrounding surface.
  *
  * @example
  * ```tsx
@@ -58,10 +69,23 @@ export type FormLayoutProps<T extends ElementType> = ComponentProps<T> & {
 export function FormLayout<T extends ElementType = "div">(
   props: FormLayoutProps<T>,
 ) {
-  const { as: As = "div", children, ...restProps } = props;
+  const {
+    as: As = "div",
+    children,
+    padding = "3",
+    style,
+    ...restProps
+  } = props;
   const className = classNames(styles.FormLayout);
   return (
-    <As className={className} {...restProps}>
+    <As
+      className={className}
+      style={{
+        ...getComponentDesignToken("form-layout", "padding", "space", padding),
+        ...style,
+      }}
+      {...restProps}
+    >
       {children}
     </As>
   );

@@ -239,7 +239,7 @@ describe("<Popover />", () => {
         overlayProps: { "aria-label": "Rates", width: "auto" },
       }),
     );
-    expect(getOverlay()).toHaveStyle({
+    expect(getOverlay()).toHaveCustomProperties({
       "--ezui-c-popover-min-width": "var(--trigger-width)",
       "--ezui-c-popover-width-xs": "auto",
     });
@@ -252,7 +252,7 @@ describe("<Popover />", () => {
         overlayProps: { "aria-label": "Rates", width: "trigger" },
       }),
     );
-    expect(getOverlay()).toHaveStyle({
+    expect(getOverlay()).toHaveCustomProperties({
       "--ezui-c-popover-width-xs": "var(--trigger-width)",
     });
     // A hard width, so the floor would be redundant.
@@ -268,7 +268,9 @@ describe("<Popover />", () => {
         overlayProps: { "aria-label": "Rates" },
       }),
     );
-    expect(getOverlay()).toHaveStyle({ "--ezui-c-popover-width-xs": "auto" });
+    expect(getOverlay()).toHaveCustomProperties({
+      "--ezui-c-popover-width-xs": "auto",
+    });
     expect(
       getOverlay().style.getPropertyValue("--ezui-c-popover-min-width"),
     ).toBe("");
@@ -281,7 +283,9 @@ describe("<Popover />", () => {
         overlayProps: { "aria-label": "Rates", width: 320 },
       }),
     );
-    expect(getOverlay()).toHaveStyle({ "--ezui-c-popover-width-xs": "320px" });
+    expect(getOverlay()).toHaveCustomProperties({
+      "--ezui-c-popover-width-xs": "320px",
+    });
   });
 
   it("should render the container with the default surface styles", () => {
@@ -292,7 +296,7 @@ describe("<Popover />", () => {
       }),
     );
     // The surface `Menu`, `Select`, and `MultiSelect` share.
-    expect(getContainer()).toHaveStyle({
+    expect(getContainer()).toHaveCustomProperties({
       "--ezui-c-box-background-xs": "var(--ezui-color-neutral-000)",
       "--ezui-c-box-border-color": "var(--ezui-color-neutral-300)",
       "--ezui-c-box-border-top-width": "var(--ezui-shape-border-width-1)",
@@ -314,7 +318,7 @@ describe("<Popover />", () => {
         },
       }),
     );
-    expect(getContainer()).toHaveStyle({
+    expect(getContainer()).toHaveCustomProperties({
       "--ezui-c-box-background-xs": "var(--ezui-color-primary-100)",
       "--ezui-c-box-border-top-left-radius-xs":
         "var(--ezui-shape-border-radius-xl)",

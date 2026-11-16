@@ -58,7 +58,7 @@ describe("<Spinner />", () => {
 
   it("should apply color", () => {
     render(<Spinner isIndeterminate color="positive.500" />);
-    expect(screen.getByRole("status")).toHaveStyle(
+    expect(screen.getByRole("status")).toHaveCustomProperties(
       getComponentThemeToken("spinner", "color", "color", "positive.500"),
     );
     expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
@@ -66,7 +66,7 @@ describe("<Spinner />", () => {
 
   it("should apply size", () => {
     render(<Spinner isIndeterminate size="xl" />);
-    expect(screen.getByRole("status")).toHaveStyle(
+    expect(screen.getByRole("status")).toHaveCustomProperties(
       getComponentThemeToken("spinner", "size", "size.icon", "xl"),
     );
     expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();

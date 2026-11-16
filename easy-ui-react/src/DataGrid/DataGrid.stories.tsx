@@ -125,12 +125,8 @@ const Template = (args: Partial<DataGridProps>) => {
     <DataGrid
       columns={columns}
       rows={rows}
-      renderColumnCell={(column) => (
-        <span style={{ whiteSpace: "nowrap" }}>{String(column.name)}</span>
-      )}
-      renderRowCell={(item) => (
-        <span style={{ whiteSpace: "nowrap" }}>{String(item)}</span>
-      )}
+      renderColumnCell={(column) => String(column.name)}
+      renderRowCell={(item) => String(item)}
       {...args}
     />
   );
@@ -264,6 +260,29 @@ export const WithCustomSize: Story = {
   },
 };
 
+/**
+ * Text stays on one line by default, so a data grid narrower than its content
+ * scrolls sideways. `allowsTextWrap` lets text wrap instead, which suits rows
+ * with the height for the extra lines.
+ */
+export const WithTextWrap: Story = {
+  render: (args) => (
+    <div style={{ maxWidth: 480 }}>
+      <Template {...args} />
+    </div>
+  ),
+  args: {
+    "aria-label": "Example data grid with text wrap",
+    allowsTextWrap: true,
+    size: "lg",
+  },
+  parameters: {
+    controls: {
+      include: ["allowsTextWrap", "size"],
+    },
+  },
+};
+
 export const WithCustomRendering: Story = {
   render: Template.bind({}),
   args: {
@@ -272,17 +291,12 @@ export const WithCustomRendering: Story = {
     renderRowCell(cell, columnKey) {
       if (columnKey === "status") {
         return (
-          <span
-            style={{
-              whiteSpace: "nowrap",
-              color: cell === "Inactive" ? "red" : "green",
-            }}
-          >
+          <span style={{ color: cell === "Inactive" ? "red" : "green" }}>
             {String(cell)}
           </span>
         );
       }
-      return <span style={{ whiteSpace: "nowrap" }}>{String(cell)}</span>;
+      return String(cell);
     },
   },
 };
@@ -300,7 +314,7 @@ export const WithIcons: Story = {
           </span>
         );
       }
-      return <span style={{ whiteSpace: "nowrap" }}>{String(cell)}</span>;
+      return String(cell);
     },
   },
 };
@@ -495,12 +509,8 @@ function WithSortTemplate(args: Partial<DataGridProps>) {
     <DataGrid
       columns={columns}
       rows={list.items}
-      renderColumnCell={(column) => (
-        <span style={{ whiteSpace: "nowrap" }}>{String(column.name)}</span>
-      )}
-      renderRowCell={(item) => (
-        <span style={{ whiteSpace: "nowrap" }}>{String(item)}</span>
-      )}
+      renderColumnCell={(column) => String(column.name)}
+      renderRowCell={(item) => String(item)}
       sortDescriptor={list.sortDescriptor}
       onSortChange={list.sort}
       columnKeysAllowingSort={columns.map((c) => c.key)}
@@ -516,12 +526,8 @@ function WithFooterTemplate(args: Partial<DataGridProps>) {
     <DataGrid
       columns={columns}
       rows={rows}
-      renderColumnCell={(column) => (
-        <span style={{ whiteSpace: "nowrap" }}>{String(column.name)}</span>
-      )}
-      renderRowCell={(item) => (
-        <span style={{ whiteSpace: "nowrap" }}>{String(item)}</span>
-      )}
+      renderColumnCell={(column) => String(column.name)}
+      renderRowCell={(item) => String(item)}
       renderFooter={() => (
         <DataGrid.Footer
           center={

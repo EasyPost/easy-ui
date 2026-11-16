@@ -4,7 +4,7 @@ import { HiddenSelect } from "react-aria";
 import { useInternalSelectContext } from "./SelectContext";
 import { classNames } from "../utilities/css";
 import { IconSymbol } from "../types";
-import { Label } from "../InputField/Label";
+import { Label, NecessityIndicator } from "../InputField/Label";
 import { InputCaption } from "../InputField/InputCaption";
 import styles from "./Select.module.scss";
 import { Text } from "../Text";
@@ -25,9 +25,16 @@ export type BaseSelectFieldProps = {
   isDisabled?: boolean;
   /**
    * Whether user input is required on the select field before form submission.
+   * Marks the label as required.
    * @default false
    */
   isRequired?: boolean;
+  /**
+   * How the label marks whether the select field is required. `"icon"` shows
+   * a `*` on required fields; `"label"` shows "(required)" or "(optional)".
+   * @default icon
+   */
+  necessityIndicator?: NecessityIndicator;
   /**
    * Whether the input should display its "valid" or "invalid" visual styling.
    * @default valid
@@ -72,6 +79,8 @@ type SelectFieldProps = BaseSelectFieldProps & SelectFieldAttributeProps;
 export function SelectField(props: SelectFieldProps) {
   const {
     isDisabled = false,
+    isRequired = false,
+    necessityIndicator,
     validationState = "valid",
     isLabelEmphasized = false,
     size = "md",
@@ -103,6 +112,12 @@ export function SelectField(props: SelectFieldProps) {
           fieldSize={size}
           hasError={hasError}
           isLabelEmphasized={isLabelEmphasized}
+          isRequired={isRequired}
+          necessityIndicator={necessityIndicator}
+          // The trigger is a `button`, which can't carry `aria-required`, and
+          // HiddenSelect is hidden from assistive tech, so the label has to
+          // say "required" itself.
+          includeNecessityIndicatorInAccessibilityName
           {...labelProps}
         >
           {label}

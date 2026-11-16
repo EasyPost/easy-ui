@@ -11,6 +11,7 @@ import { ModalContext } from "./context";
 import { useIntersectionDetection } from "./useIntersectionDetection";
 import { ModalContainer } from "./ModalContainer";
 import { useModalTrigger } from "./context";
+import { useThirdPartyOverlay } from "./useThirdPartyOverlay";
 import type { ModalNestingBehavior } from "./context";
 import type { ModalFooterProps } from "./ModalFooter";
 import type {
@@ -148,7 +149,7 @@ Modal.Body = ModalBody;
  */
 Modal.Footer = ModalFooter;
 
-export { ModalContainer, useModalTrigger };
+export { ModalContainer, useModalTrigger, useThirdPartyOverlay };
 export type {
   ModalNestingBehavior,
   ModalHeaderProps,

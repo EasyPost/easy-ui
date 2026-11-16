@@ -49,9 +49,16 @@ export type ColorPickerInputFieldProps = Omit<ColorPickerProps, "children"> & {
   isReadOnly?: InputFieldProps["isReadOnly"];
   /**
    * Whether user input is required on the input before form submission.
+   * Marks the label as required.
    * @default false
    */
   isRequired?: InputFieldProps["isRequired"];
+  /**
+   * How the label marks whether the input is required. `"icon"` shows a `*`
+   * on required inputs; `"label"` shows "(required)" or "(optional)".
+   * @default icon
+   */
+  necessityIndicator?: InputFieldProps["necessityIndicator"];
   /**
    * Whether the element should receive focus on render.
    * @default false
@@ -92,6 +99,7 @@ export function ColorPickerInputField(props: ColorPickerInputFieldProps) {
     isDisabled,
     isReadOnly,
     isRequired,
+    necessityIndicator,
     placeholder,
     autoFocus,
     "aria-label": ariaLabel,
@@ -120,6 +128,8 @@ export function ColorPickerInputField(props: ColorPickerInputFieldProps) {
             isLabelEmphasized={isLabelEmphasized}
             fieldSize={size}
             hasError={validationState === "invalid"}
+            isRequired={isRequired}
+            necessityIndicator={necessityIndicator}
           >
             {label}
           </Label>

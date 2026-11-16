@@ -35,8 +35,8 @@ export function NotificationTransition({
   }, []);
   return (
     <CSSTransition
-      {...transitionGroupProps}
       key={transitionKey}
+      {...transitionGroupProps}
       appear={true}
       nodeRef={nodeRef}
       unmountOnExit

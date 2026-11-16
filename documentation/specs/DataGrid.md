@@ -37,6 +37,12 @@ const rows = [
 
 ```ts
 type DataGridProps<C extends Column> = AriaLabelingProps & {
+  /**
+   * Whether text in cells and column headers can wrap onto more than one line.
+   * @default false
+   */
+  allowsTextWrap?: boolean;
+
   /** Use columns and rows to specify data grid content. */
   children?: never;
 

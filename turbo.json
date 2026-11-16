@@ -13,6 +13,9 @@
       "persistent": true
     },
     "lint": {},
+    "//#lint:root": {
+      "cache": false
+    },
     "test": {}
   }
 }

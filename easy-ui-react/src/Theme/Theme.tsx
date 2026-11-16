@@ -183,6 +183,9 @@ function Style({ isRoot }: { isRoot: boolean }) {
       }`;
   }, [resolvedColorScheme, selector, themeCreator]);
 
+  // Raw HTML keeps selectors like `a > b` from being entity-escaped when
+  // server rendered. The CSS is built from theme tokens, not user input.
+  // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml
   return <style id={fingerprint} dangerouslySetInnerHTML={{ __html: css }} />;
 }
 

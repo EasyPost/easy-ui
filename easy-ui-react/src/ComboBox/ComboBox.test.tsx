@@ -156,6 +156,12 @@ describe("<ComboBox />", () => {
     );
   });
 
+  it("should mark its label when required, outside the accessible name", () => {
+    render(getComboBox({ isRequired: true }));
+    expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByRole("combobox", { name: "Fruit" })).toBeInTheDocument();
+  });
+
   it("should render its label like other input fields", () => {
     render(
       <>
@@ -342,6 +348,37 @@ describe("<ComboBox />", () => {
       vi.advanceTimersByTime(300);
     });
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+  });
+
+  it("should put inputProps on the input, through re-renders", async () => {
+    const getOptedOutComboBox = (isLoading: boolean) => (
+      <ComboBox
+        label="Fruit"
+        defaultItems={fruits}
+        isLoading={isLoading}
+        data-testid="street"
+        inputProps={{
+          "data-1p-ignore": true,
+          "data-lpignore": "true",
+          "data-bwignore": true,
+          "data-form-type": "other",
+        }}
+      >
+        {(item) => <ComboBox.Option id={item.id}>{item.name}</ComboBox.Option>}
+      </ComboBox>
+    );
+    const { user, rerender } = render(getOptedOutComboBox(false));
+    const input = screen.getByRole("combobox");
+    await user.type(input, "a");
+    rerender(getOptedOutComboBox(true));
+    expect(screen.getByRole("combobox")).toBe(input);
+    expect(input).toHaveAttribute("data-1p-ignore", "true");
+    expect(input).toHaveAttribute("data-lpignore", "true");
+    expect(input).toHaveAttribute("data-bwignore", "true");
+    expect(input).toHaveAttribute("data-form-type", "other");
+    expect(document.querySelector("[data-form-type]")).toBe(input);
+    expect(screen.getByTestId("street")).not.toBe(input);
+    expect(screen.getByTestId("street")).toContainElement(input);
   });
 });
 

@@ -125,6 +125,14 @@ describe("<DateRangePicker />", () => {
     dateFields.every((field) => expect(field).toHaveAttribute("aria-disabled"));
   });
 
+  it("should mark its label when required, outside the accessible name", () => {
+    render(<DateRangePicker label="Ship dates" isRequired />);
+    expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+    expect(
+      screen.getByRole("group", { name: "Ship dates" }),
+    ).toBeInTheDocument();
+  });
+
   it("should show error message when date is invalid", async () => {
     render(
       <DateRangePicker

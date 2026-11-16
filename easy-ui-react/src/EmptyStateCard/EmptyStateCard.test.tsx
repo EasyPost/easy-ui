@@ -59,14 +59,14 @@ describe("<EmptyStateCard />", () => {
       "class",
       expect.stringContaining("heading5"),
     );
-    expect(screen.getByText(/Header text/i)).toHaveStyle(
+    expect(screen.getByText(/Header text/i)).toHaveCustomProperties(
       getComponentThemeToken("text", "color", "color", "neutral.000"),
     );
     expect(screen.getByText(/Body text/i)).toHaveAttribute(
       "class",
       expect.stringContaining("subtitle1"),
     );
-    expect(screen.getByText(/Body text/i)).toHaveStyle(
+    expect(screen.getByText(/Body text/i)).toHaveCustomProperties(
       getComponentThemeToken("text", "color", "color", "neutral.000"),
     );
   });
@@ -104,7 +104,9 @@ describe("<EmptyStateCard />", () => {
         </EmptyStateCard.Section>
       </EmptyStateCard>,
     );
-    expect(screen.getByText(/Header text/i).parentElement).toHaveStyle(
+    expect(
+      screen.getByText(/Header text/i).parentElement,
+    ).toHaveCustomProperties(
       getResponsiveDesignToken("vertical-stack", "gap", "space", "4"),
     );
   });
@@ -125,7 +127,7 @@ describe("<EmptyStateCard />", () => {
     );
     expect(
       screen.getByText(/Button/i).parentElement?.parentElement,
-    ).toHaveStyle(
+    ).toHaveCustomProperties(
       getResponsiveDesignToken("horizontal-stack", "gap", "space", "3"),
     );
   });
@@ -144,7 +146,9 @@ describe("<EmptyStateCard />", () => {
         </EmptyStateCard.Section>
       </EmptyStateCard>,
     );
-    expect(screen.getByRole("button").parentElement?.parentElement).toHaveStyle(
+    expect(
+      screen.getByRole("button").parentElement?.parentElement,
+    ).toHaveCustomProperties(
       getComponentToken("vertical-stack", "inline-align", "center"),
     );
   });

@@ -74,28 +74,28 @@ describe("<Card />", () => {
 
   it("should render shadow", () => {
     render(<Card boxShadow="2">Content</Card>);
-    expect(screen.getByTestId("container")).toHaveStyle(
+    expect(screen.getByTestId("container")).toHaveCustomProperties(
       getComponentThemeToken("card", "box-shadow", "shadow.level", "2"),
     );
   });
 
   it("should render custom background keyword", () => {
     render(<Card background="primary">Content</Card>);
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getComponentThemeToken("card-area", "background", "color", "neutral.000"),
     );
   });
 
   it("should render custom background token", () => {
     render(<Card background="neutral.100">Content</Card>);
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getComponentThemeToken("card-area", "background", "color", "neutral.100"),
     );
   });
 
   it("should render border radius", () => {
     render(<Card borderRadius="lg">Content</Card>);
-    expect(screen.getByTestId("container")).toHaveStyle(
+    expect(screen.getByTestId("container")).toHaveCustomProperties(
       getComponentThemeToken(
         "card",
         "border-radius",
@@ -107,16 +107,16 @@ describe("<Card />", () => {
 
   it("should render custom padding", () => {
     render(<Card padding="1">Content</Card>);
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getResponsiveDesignToken("card-area", "padding-top", "space", "1"),
     );
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getResponsiveDesignToken("card-area", "padding-right", "space", "1"),
     );
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getResponsiveDesignToken("card-area", "padding-bottom", "space", "1"),
     );
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getResponsiveDesignToken("card-area", "padding-left", "space", "1"),
     );
   });
@@ -124,11 +124,11 @@ describe("<Card />", () => {
   it("should render custom paddingX", () => {
     render(<Card paddingX="2">Content</Card>);
 
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getResponsiveDesignToken("card-area", "padding-right", "space", "2"),
     );
 
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getResponsiveDesignToken("card-area", "padding-left", "space", "2"),
     );
   });
@@ -146,7 +146,7 @@ describe("<Card />", () => {
       "class",
       expect.stringContaining("variantOutlined"),
     );
-    expect(screen.getByTestId("area")).toHaveStyle(
+    expect(screen.getByTestId("area")).toHaveCustomProperties(
       getComponentThemeToken("card-area", "background", "color", "neutral.050"),
     );
   });

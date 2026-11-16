@@ -56,6 +56,10 @@ type ComboBoxProps<T extends object> = AriaComboBoxProps<T> & {
   isLoading?: boolean;
   footer?: ReactNode;
   maxItemsUntilScroll?: number;
+  // `data-*` attributes for the input, such as password managers' opt-outs.
+  // `data-*` attributes on ComboBox itself go on its wrapper, as React Aria
+  // puts them.
+  inputProps?: { [dataAttribute: `data-${string}`]: string | number | boolean };
 };
 
 // Mirrors `Select.Option`, plus `id` and `isDisabled`. Children are truncated

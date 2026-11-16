@@ -82,7 +82,7 @@ export const InvalidSelection: Story = {
   render: () => {
     const { locale } = useLocale();
     const [date, setDate] = React.useState<MappedDateValue<DateValue> | null>(
-      endOfWeek(today(getLocalTimeZone()), locale),
+      () => endOfWeek(today(getLocalTimeZone()), locale),
     );
 
     const isInvalid = date ? isWeekend(date, locale) : false;

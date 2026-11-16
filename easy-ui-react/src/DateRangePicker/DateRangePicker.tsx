@@ -8,6 +8,7 @@ import {
 import { useDateRangePickerState } from "react-stately";
 import { RangeCalendar } from "../RangeCalendar";
 import { DatePickerBase } from "../DatePicker/DatePickerBase";
+import { NecessityIndicator } from "../InputField";
 
 export type DateRangePickerProps = {
   /**
@@ -42,6 +43,18 @@ export type DateRangePickerProps = {
    * Whether the input is disabled.
    */
   isDisabled?: boolean;
+  /**
+   * Whether user input is required before form submission. Marks the label
+   * as required.
+   * @default false
+   */
+  isRequired?: boolean;
+  /**
+   * How the label marks whether the input is required. `"icon"` shows a `*`
+   * on required inputs; `"label"` shows "(required)" or "(optional)".
+   * @default icon
+   */
+  necessityIndicator?: NecessityIndicator;
   /**
    * Whether the input value is invalid.
    */
@@ -100,6 +113,8 @@ export function DateRangePicker(props: DateRangePickerProps) {
     size = "md",
     isDisabled,
     isInvalid,
+    isRequired,
+    necessityIndicator,
     errorMessage,
     "aria-label": ariaLabel,
   } = props;
@@ -135,6 +150,8 @@ export function DateRangePicker(props: DateRangePickerProps) {
       overlayProps={overlayProps}
       state={state}
       label={label}
+      isRequired={isRequired}
+      necessityIndicator={necessityIndicator}
       aria-label={ariaLabel}
     >
       {/** When DatePicker is invalid, error message display under both DatePicker and Calendar. Set calendar to valid prevent error message displaying twice  */}

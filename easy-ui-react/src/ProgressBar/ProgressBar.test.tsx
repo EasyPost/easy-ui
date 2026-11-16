@@ -83,39 +83,39 @@ describe("<ProgressBar />", () => {
     render(
       <ProgressBar label="Steps" value={15} minValue={10} maxValue={20} />,
     );
-    expect(screen.getByRole("progressbar")).toHaveStyle(
+    expect(screen.getByRole("progressbar")).toHaveCustomProperties(
       getComponentToken("progress-bar", "fill", "50%"),
     );
   });
 
   it("should clamp the fill to the range", () => {
     const { rerender } = render(<ProgressBar label="Upload" value={150} />);
-    expect(screen.getByRole("progressbar")).toHaveStyle(
+    expect(screen.getByRole("progressbar")).toHaveCustomProperties(
       getComponentToken("progress-bar", "fill", "100%"),
     );
     rerender(<ProgressBar label="Upload" value={-10} />);
-    expect(screen.getByRole("progressbar")).toHaveStyle(
+    expect(screen.getByRole("progressbar")).toHaveCustomProperties(
       getComponentToken("progress-bar", "fill", "0%"),
     );
   });
 
   it("should not divide by zero on an empty range", () => {
     render(<ProgressBar label="Upload" value={0} maxValue={0} />);
-    expect(screen.getByRole("progressbar")).toHaveStyle(
+    expect(screen.getByRole("progressbar")).toHaveCustomProperties(
       getComponentToken("progress-bar", "fill", "0%"),
     );
   });
 
   it("should apply color", () => {
     render(<ProgressBar label="Upload" value={40} color="positive.500" />);
-    expect(screen.getByRole("progressbar")).toHaveStyle(
+    expect(screen.getByRole("progressbar")).toHaveCustomProperties(
       getComponentThemeToken("progress-bar", "color", "color", "positive.500"),
     );
   });
 
   it("should default to primary.500", () => {
     render(<ProgressBar label="Upload" value={40} />);
-    expect(screen.getByRole("progressbar")).toHaveStyle(
+    expect(screen.getByRole("progressbar")).toHaveCustomProperties(
       getComponentThemeToken("progress-bar", "color", "color", "primary.500"),
     );
   });

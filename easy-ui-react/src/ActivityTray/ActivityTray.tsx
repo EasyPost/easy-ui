@@ -251,28 +251,28 @@ export function ActivityTray(props: ActivityTrayProps) {
   });
 
   const [announcement, setAnnouncement] = useState("");
-  const pendingAnnouncements = useRef<string[]>([]);
-  const flushTimeout = useRef<number | null>(null);
+  const pendingAnnouncementsRef = useRef<string[]>([]);
+  const flushTimeoutRef = useRef<number | null>(null);
 
   // Two tasks finishing in the same tick would otherwise race, each overwriting
   // the other's sentence before a screen reader got to it. Collecting them and
   // flushing once produces one announcement holding both.
   const announce = useCallback((message: string) => {
-    pendingAnnouncements.current.push(message);
-    if (flushTimeout.current != null) {
+    pendingAnnouncementsRef.current.push(message);
+    if (flushTimeoutRef.current != null) {
       return;
     }
-    flushTimeout.current = window.setTimeout(() => {
-      flushTimeout.current = null;
-      setAnnouncement(pendingAnnouncements.current.join(" "));
-      pendingAnnouncements.current = [];
+    flushTimeoutRef.current = window.setTimeout(() => {
+      flushTimeoutRef.current = null;
+      setAnnouncement(pendingAnnouncementsRef.current.join(" "));
+      pendingAnnouncementsRef.current = [];
     }, 0);
   }, []);
 
   useEffect(() => {
     return () => {
-      if (flushTimeout.current != null) {
-        window.clearTimeout(flushTimeout.current);
+      if (flushTimeoutRef.current != null) {
+        window.clearTimeout(flushTimeoutRef.current);
       }
     };
   }, []);

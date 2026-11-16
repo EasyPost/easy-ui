@@ -13,6 +13,14 @@ import * as FormLayoutStories from "./FormLayout.stories";
 
 Use `FormLayout.Header`, `FormLayout.Tile` and `FormLayout.HelperText` to render a header with title and helper text for the closest `FormLayout` and `FormLayout.Section`.
 
+`FormLayout`'s text inherits its color from the surface it sits on.
+
+## Padding
+
+`FormLayout` pads its content by `space.3`. Use the `padding` prop to set another space token, or `padding="0"` when the surrounding surface, such as a `Card`, already pads its content.
+
+<Canvas of={FormLayoutStories.InACard} />
+
 ## Sections
 
 `FormLayout` can be divided into logical sections. Each section is rendered as a `fieldset` with its title as a `legend`.

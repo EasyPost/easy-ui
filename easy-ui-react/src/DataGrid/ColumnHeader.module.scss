@@ -34,6 +34,7 @@
 
 .content {
   @include font-style("subtitle1");
+  white-space: component-token("data-grid", "white-space");
   display: inline-flex;
   align-items: center;
   height: component-token("data-grid", "header-row-height");

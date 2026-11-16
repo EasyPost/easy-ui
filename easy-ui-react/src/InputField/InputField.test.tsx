@@ -102,6 +102,51 @@ describe("<InputField />", () => {
     rerender(<InputField label="label" onChange={onChange} />);
     expect(screen.getByDisplayValue("text")).toBeInTheDocument();
   });
+
+  describe("necessity indicator", () => {
+    it("should not mark the label when not required", () => {
+      render(<InputField label="Business name" />);
+      expect(screen.queryByText("*")).not.toBeInTheDocument();
+    });
+
+    it("should mark the label with a hidden asterisk when required", () => {
+      render(<InputField label="Business name" isRequired />);
+      expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+      const input = screen.getByRole("textbox", { name: "Business name" });
+      expect(input).toBeRequired();
+    });
+
+    it("should mark the label with a hidden (required) when required", () => {
+      render(
+        <InputField
+          label="Business name"
+          isRequired
+          necessityIndicator="label"
+        />,
+      );
+      expect(screen.getByText("(required)")).toHaveAttribute(
+        "aria-hidden",
+        "true",
+      );
+      expect(screen.queryByText("*")).not.toBeInTheDocument();
+      expect(
+        screen.getByRole("textbox", { name: "Business name" }),
+      ).toBeRequired();
+    });
+
+    it("should mark the label with (optional) when not required", () => {
+      render(<InputField label="Business name" necessityIndicator="label" />);
+      expect(screen.getByText("(optional)")).not.toHaveAttribute("aria-hidden");
+      expect(
+        screen.getByRole("textbox", { name: "Business name (optional)" }),
+      ).not.toBeRequired();
+    });
+
+    it("should show nothing on a field with only an aria-label", () => {
+      render(<InputField aria-label="Business name" isRequired />);
+      expect(screen.queryByText("*")).not.toBeInTheDocument();
+    });
+  });
 });
 
 export async function type(user: UserEvent, el: HTMLElement, phrase: string) {
