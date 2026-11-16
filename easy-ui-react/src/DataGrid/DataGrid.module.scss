@@ -97,6 +97,12 @@
 // Only the header and rows scroll. Keeping the footer out of this element is
 // what keeps the scrollbars, and the scroll geometry they report, tied to the
 // rows alone.
+//
+// The bound stops one border short of the last visible row's bottom edge. That
+// row's own divider would otherwise sit flush against the edge below it, the
+// footer's top border or the frame's, and draw a doubled line. The last row in
+// the grid drops its divider anyway, so a grid that fits its rows still doesn't
+// scroll.
 .scrollContainer {
   /* stylelint-disable scss/operator-no-newline-after */
   max-height: calc(
@@ -104,7 +110,7 @@
       (
         component-token("data-grid", "body-row-height") *
           component-token("data-grid", "max-rows")
-      )
+      ) - component-token("data-grid", "border-width")
   );
   /* stylelint-enable scss/operator-no-newline-after */
   overflow: auto;

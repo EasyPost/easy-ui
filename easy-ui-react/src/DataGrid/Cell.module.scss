@@ -87,6 +87,9 @@
 
 .static {
   text-align: center;
+  // The static row is the only one the grid draws, so the edge below it, the
+  // footer's or the frame's, is all that divides it from what follows
+  border-bottom: 0;
 
   // The empty state spans the whole row, so its message wraps to the grid's
   // width rather than widening the grid to fit it
