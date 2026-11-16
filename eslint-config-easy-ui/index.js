@@ -29,8 +29,8 @@ export default [
       // @eslint-react's ports of them to avoid duplicate reports.
       "@eslint-react/rules-of-hooks": "off",
       "@eslint-react/exhaustive-deps": "off",
-      // Ports of the React Compiler rules. Not enabled yet, matching the
-      // react-hooks setup below.
+      // Ports of the React Compiler rules, which eslint-plugin-react-hooks
+      // also reports below.
       "@eslint-react/error-boundaries": "off",
       "@eslint-react/purity": "off",
       "@eslint-react/set-state-in-effect": "off",
@@ -47,10 +47,7 @@ export default [
       // inject props into consumer-provided children by design.
       "@eslint-react/no-children-to-array": "off",
       "@eslint-react/no-clone-element": "off",
-      // Matches the eslint-plugin-react-hooks v5 recommended set. The React
-      // Compiler rules added to v7's recommended config are not enabled yet.
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      ...reactHooks.configs.flat.recommended.rules,
     },
   },
   {

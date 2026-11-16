@@ -1,17 +1,11 @@
-import React, {
-  ReactNode,
-  useRef,
-  useContext,
-  createContext,
-  useMemo,
-} from "react";
+import React, { ReactNode, useContext, createContext, useMemo } from "react";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import ErrorIcon from "@easypost/easy-ui-icons/Error";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import WarningIcon from "@easypost/easy-ui-icons/Warning";
 import DocumentScannerIcon from "@easypost/easy-ui-icons/DocumentScanner";
 import CurrencyExchangeIcon from "@easypost/easy-ui-icons/CurrencyExchange";
-import { AriaToastProps, mergeRefs, useObjectRef, useToast } from "react-aria";
+import { AriaToastProps, useObjectRef, useToast } from "react-aria";
 import { QueuedToast, ToastState } from "react-stately";
 import { NotificationContainer } from "./NotificationContainer";
 import { useNotificationState } from "./useNotificationState";
@@ -111,8 +105,7 @@ export const Notification = React.forwardRef<
   HTMLDivElement,
   NotificationItemStateProps
 >((props, forwardedRef) => {
-  const ref = useRef(null);
-  const mergedRef = useObjectRef(mergeRefs(ref, forwardedRef));
+  const ref = useObjectRef(forwardedRef);
   const { state, toast: notification } = props;
   const {
     type = "toast",
@@ -148,7 +141,7 @@ export const Notification = React.forwardRef<
   return (
     <div
       {...notificationPropsWithAdjustedAriaRole}
-      ref={mergedRef}
+      ref={ref}
       className={classNames(
         styles.Notification,
         styles[variationName("status", status)],

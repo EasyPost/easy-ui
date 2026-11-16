@@ -13,14 +13,15 @@ type ModalBodyProps = {
 
 export function ModalBody(props: ModalBodyProps) {
   const { children } = props;
-  const modalContext = useModalContext();
-  useScrollbar(modalContext.bodyRef, "ezui-os-theme-modal");
+  const { bodyRef, headerInterceptorRef, footerInterceptorRef } =
+    useModalContext();
+  useScrollbar(bodyRef, "ezui-os-theme-modal");
   return (
-    <div className={styles.body} ref={modalContext.bodyRef}>
+    <div className={styles.body} ref={bodyRef}>
       <div className={styles.content}>
-        <div data-intercept="header" ref={modalContext.headerInterceptorRef} />
+        <div data-intercept="header" ref={headerInterceptorRef} />
         {children}
-        <div data-intercept="footer" ref={modalContext.footerInterceptorRef} />
+        <div data-intercept="footer" ref={footerInterceptorRef} />
       </div>
     </div>
   );
