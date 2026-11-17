@@ -26,6 +26,10 @@ const meta: Meta<typeof Checkbox> = {
     errorText: {
       control: "text",
     },
+    necessityIndicator: {
+      options: ["icon", "label"],
+      control: { type: "radio" },
+    },
   },
   parameters: {
     controls: {
@@ -62,11 +66,17 @@ export const Indeterminate: Story = {
 };
 
 export const Required: Story = {
-  render: Template.bind({}),
-  args: {
-    children: "I certify that the information provided is accurate",
-    isRequired: true,
-  },
+  render: () => (
+    <VerticalStack gap="1">
+      <Checkbox isRequired>
+        I certify that the information provided is accurate
+      </Checkbox>
+      <Checkbox isRequired necessityIndicator="label">
+        I certify that the information provided is accurate
+      </Checkbox>
+      <Checkbox necessityIndicator="label">Email me shipment updates</Checkbox>
+    </VerticalStack>
+  ),
 };
 
 export const Error: Story = {

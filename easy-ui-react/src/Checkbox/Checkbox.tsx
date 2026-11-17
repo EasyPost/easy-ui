@@ -11,6 +11,8 @@ import {
 } from "react-aria";
 import { ValidationState, useToggleState } from "react-stately";
 import { Icon } from "../Icon";
+import { NecessityIndicator } from "../InputField";
+import { NecessityIndicatorMarker } from "../InputField/Label";
 import { SelectorErrorTooltip } from "../SelectorErrorTooltip";
 import { Text } from "../Text";
 import { classNames, variationName } from "../utilities/css";
@@ -54,7 +56,7 @@ export type CheckboxProps = {
 
   /**
    * Whether the checkbox must be selected before form submission. Marks the
-   * label with a trailing `*`.
+   * label as required.
    * @default false
    */
   isRequired?: boolean;
@@ -78,6 +80,13 @@ export type CheckboxProps = {
    * Handler that is called when the checkbox's selection state changes.
    */
   onChange?: (isSelected: boolean) => void;
+
+  /**
+   * How the label marks whether the checkbox is required. `"icon"` shows a
+   * `*` on required checkboxes; `"label"` shows "(required)" or "(optional)".
+   * @default icon
+   */
+  necessityIndicator?: NecessityIndicator;
 
   /**
    * Size of the checkbox.
@@ -135,6 +144,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       isReadOnly,
       isRequired = false,
       isNested,
+      necessityIndicator = "icon",
       size = DEFAULT_SIZE,
       validationState,
       defaultSelected: _defaultSelected,
@@ -218,14 +228,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             <span className={styles.text}>
               <Text variant={textVariant} color={textColor}>
                 {children}
-                {isRequired && (
-                  <span
-                    aria-hidden="true"
-                    className={styles.necessityIndicator}
-                  >
-                    *
-                  </span>
-                )}
+                <NecessityIndicatorMarker
+                  isRequired={isRequired}
+                  necessityIndicator={necessityIndicator}
+                />
               </Text>
             </span>
           )}

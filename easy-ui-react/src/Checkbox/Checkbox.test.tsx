@@ -73,6 +73,29 @@ describe("<Checkbox />", () => {
     expect(screen.queryByText("*")).not.toBeInTheDocument();
   });
 
+  it("should support necessityIndicator label when required", () => {
+    render(
+      <Checkbox isRequired necessityIndicator="label">
+        Checkbox item
+      </Checkbox>,
+    );
+    expect(
+      screen.getByRole("checkbox", { name: "Checkbox item" }),
+    ).toBeRequired();
+    expect(screen.getByText("(required)")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+    expect(screen.queryByText("*")).not.toBeInTheDocument();
+  });
+
+  it("should support necessityIndicator label when optional", () => {
+    render(<Checkbox necessityIndicator="label">Checkbox item</Checkbox>);
+    expect(
+      screen.getByRole("checkbox", { name: "Checkbox item (optional)" }),
+    ).not.toBeRequired();
+  });
+
   it("should support isIndeterminate", () => {
     render(<Checkbox isIndeterminate>Checkbox item</Checkbox>);
     expect(

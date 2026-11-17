@@ -35,11 +35,13 @@ A `<Checkbox />` can be marked indeterminate using `isIndeterminate`.
 
 ## Required
 
-A `<Checkbox />` can be marked required using `isRequired`. The input gets the required state, so assistive technology announces it, and the label gets a trailing `*`. The `*` is hidden from assistive technology, so the accessible name stays the label text.
+`isRequired` marks the input as required, so screen readers announce it, and marks the label with a trailing `*`. Don't type the `*` into the label yourself. The marker is hidden from assistive technology, so the accessible name stays the label text.
+
+To spell it out, set `necessityIndicator="label"`. A required checkbox then shows "(required)", which is hidden from assistive technology the same way. A checkbox that isn't required shows "(optional)", which is read as part of the name, so use it for forms that mark their optional fields instead. A checkbox without a label shows neither.
+
+Both props work the same as on `TextField` and the other fields.
 
 <Canvas of={CheckboxStories.Required} />
-
-<Controls of={CheckboxStories.Required} include={["isRequired"]} />
 
 ## Errors
 

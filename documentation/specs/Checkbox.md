@@ -65,10 +65,17 @@ type CheckboxProps = {
 
   /**
    * Whether the checkbox must be selected before form submission. Marks the
-   * label with a trailing `*`.
+   * label as required.
    * @default false
    */
   isRequired?: boolean;
+
+  /**
+   * How the label marks whether the checkbox is required. `"icon"` shows a
+   * `*` on required checkboxes; `"label"` shows "(required)" or "(optional)".
+   * @default icon
+   */
+  necessityIndicator?: "icon" | "label";
 
   /**
    * Whether the checkbox should be selected (controlled).
