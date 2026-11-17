@@ -45,12 +45,28 @@
   @include Button.variantFilled;
 }
 
+.variantGhost {
+  padding: design-token("space.1.5");
+  @include Button.variantGhost;
+}
+
 .sizeMd {
   @include font-style("button");
 }
 
-.sizeSm {
+.sizeSm,
+.sizeXs {
   @include font-style("small-button");
+}
+
+.sizeSm.variantGhost {
+  padding: design-token("space.1");
+}
+
+// A 16px icon plus 2px of padding is 20px, about one line of body text,
+// so the button can sit inline without growing the line.
+.sizeXs.variantGhost {
+  padding: design-token("space.0.25");
 }
 
 .sizeSm.variantFilled {

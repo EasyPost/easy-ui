@@ -10,8 +10,8 @@ import { RouterLinkProps } from "../utilities/router";
 import styles from "./IconButton.module.scss";
 import { UnstyledButton } from "../UnstyledButton";
 
-export type IconButtonVariant = "filled" | "outlined";
-export type IconButtonSize = "sm" | "md";
+export type IconButtonVariant = "filled" | "outlined" | "ghost";
+export type IconButtonSize = "xs" | "sm" | "md";
 
 export type IconButtonProps = AriaButtonProps &
   RouterLinkProps & {
@@ -21,7 +21,10 @@ export type IconButtonProps = AriaButtonProps &
     variant?: IconButtonVariant;
     /** Icon symbol */
     icon: IconSymbol;
-    /** Button size */
+    /**
+     * Button size. `xs` is about the height of a line of body text, for
+     * inline actions, and is only supported with the `ghost` variant.
+     */
     size?: IconButtonSize;
     /** Description of icon */
     accessibilityLabel: string;
@@ -35,9 +38,13 @@ export type IconButtonProps = AriaButtonProps &
  *
  * @remarks
  * Use to communicate an action the user can take in order to continue
- * flow in the UI. Supports multiple colors, an outlined variation, and
- * an accessibility label that describes the icon. Underlying element
- * is a button.
+ * flow in the UI. Supports multiple colors, outlined and ghost
+ * variations, and an accessibility label that describes the icon.
+ * Underlying element is a button.
+ *
+ * Use the ghost variant for quiet actions, such as a back arrow in a
+ * page header or an edit icon beside a value. It's transparent and
+ * borderless until hovered.
  *
  * @example
  * _Default:_
@@ -74,6 +81,26 @@ export type IconButtonProps = AriaButtonProps &
  * }
  * ```
  * @example
+ * _Ghost variant, inline beside text:_
+ * ```tsx
+ * import { IconButton } from "@easypost/easy-ui/IconButton";
+ * import DeleteIcon from "@easypost/easy-ui-icons/Delete";
+ *
+ * export function Component() {
+ *  return (
+ *    <IconButton
+ *      onPress={() => alert("clicked")}
+ *      icon={DeleteIcon}
+ *      accessibilityLabel="Delete"
+ *      variant="ghost"
+ *      color="support"
+ *      size="xs"
+ *    />
+ *  );
+ * }
+ * ```
+ *
+ * @example
  * _Success color:_
  * ```tsx
  * import { IconButton } from "@easypost/easy-ui/IconButton";
@@ -103,9 +130,14 @@ export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
   } = props;
 
   logWarningIfInvalidColorVariantCombination(color, variant);
+  if (size === "xs" && variant !== "ghost") {
+    console.warn(
+      `The size 'xs' is not supported with the '${variant}' variant`,
+    );
+  }
 
   // xs icon is more consistent with non-icon button sm size
-  const iconSize = size === "sm" ? "xs" : "md";
+  const iconSize = size === "md" ? "md" : "xs";
 
   return (
     <UnstyledButton

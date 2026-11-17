@@ -80,4 +80,86 @@ describe("<IconButton />", () => {
       expect.stringContaining("sizeMd"),
     );
   });
+
+  describe("ghost variant", () => {
+    let warn: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      warn.mockRestore();
+    });
+
+    it("should apply the ghost variant class", () => {
+      render(
+        <IconButton
+          variant="ghost"
+          icon={ArrowBackIcon}
+          accessibilityLabel="Back"
+        />,
+      );
+      expect(screen.getByRole("button")).toHaveAttribute(
+        "class",
+        expect.stringContaining("variantGhost"),
+      );
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("should support the support color without warning", () => {
+      render(
+        <IconButton
+          variant="ghost"
+          color="support"
+          icon={ArrowBackIcon}
+          accessibilityLabel="Back"
+        />,
+      );
+      expect(screen.getByRole("button")).toHaveAttribute(
+        "class",
+        expect.stringContaining("colorSupport"),
+      );
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("should warn about an unsupported color", () => {
+      render(
+        <IconButton
+          variant="ghost"
+          color="success"
+          icon={ArrowBackIcon}
+          accessibilityLabel="Back"
+        />,
+      );
+      expect(warn).toHaveBeenCalledWith(
+        "The color 'success' is not supported with the 'ghost' variant",
+      );
+    });
+
+    it("should apply the extra small size class", () => {
+      render(
+        <IconButton
+          variant="ghost"
+          size="xs"
+          icon={ArrowBackIcon}
+          accessibilityLabel="Back"
+        />,
+      );
+      expect(screen.getByRole("button")).toHaveAttribute(
+        "class",
+        expect.stringContaining("sizeXs"),
+      );
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("should warn when the extra small size is used without ghost", () => {
+      render(
+        <IconButton size="xs" icon={ArrowBackIcon} accessibilityLabel="Back" />,
+      );
+      expect(warn).toHaveBeenCalledWith(
+        "The size 'xs' is not supported with the 'filled' variant",
+      );
+    });
+  });
 });

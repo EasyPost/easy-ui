@@ -138,6 +138,39 @@
   }
 }
 
+// Transparent and borderless at rest, with a neutral fill on hover and
+// press so a bare icon still reads as pressable. Focus uses only the
+// ring from `base`.
+@mixin variantGhost {
+  color: component-token("button", "resting.color");
+  background-color: transparent;
+
+  &[data-focus-visible] {
+    color: component-token("button", "hover.focus.color");
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.300");
+  }
+
+  &:link {
+    text-decoration: none;
+  }
+
+  &:active:not(:disabled) {
+    color: component-token("button", "active.color");
+    background-color: design-token("color.neutral.100");
+    &[data-focus-visible] {
+      box-shadow: none;
+    }
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: component-token("button", "hover.focus.color");
+    background-color: design-token("color.neutral.050");
+  }
+}
+
 // prettier-ignore
 @mixin colorPrimary {
   @include component-token("button", "filled.font.color", design-token("color.neutral.000"));

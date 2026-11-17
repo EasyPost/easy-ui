@@ -13,7 +13,8 @@ export type ButtonColor =
   | "neutral"
   | "support"
   | "inverse";
-export type IconButtonVariant = "filled" | "outlined";
+export type IconButtonVariant = "filled" | "outlined" | "ghost";
+export type IconButtonSize = "xs" | "sm" | "md";
 export type IconButtonProps = {
   /**
    * Button color
@@ -27,6 +28,12 @@ export type IconButtonProps = {
   variant?: IconButtonVariant;
   /** Icon symbol */
   icon: IconSymbol;
+  /**
+   * Button size. `xs` is about the height of a line of body text, for
+   * inline actions, and is only supported with the `ghost` variant.
+   * @default "md"
+   */
+  size?: IconButtonSize;
   /** Description of icon */
   accessibilityLabel: string;
   /**
@@ -55,6 +62,12 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 <IconButton color="success" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
 <IconButton color="support" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
 <IconButton color="inverse" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
+// Ghost: transparent and borderless at rest, light neutral fill on hover.
+// Supports primary, secondary, and support.
+<IconButton color="primary" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
+<IconButton color="support" variant="ghost" size="sm" icon={ArrowBackIcon} accessibilityLabel="Back" />
+// Ghost at text height, inline beside a value
+<IconButton color="support" variant="ghost" size="xs" icon={DeleteIcon} accessibilityLabel="Delete" />
 // Click event
 <IconButton  icon={ArrowBackIcon} accessibilityLabel="Back"  onPress={myEventHandler} />
 ```
