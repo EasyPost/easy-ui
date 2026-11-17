@@ -157,6 +157,45 @@ describe("<Menu />", () => {
     );
   });
 
+  it("separates sections when the last section has one item", async () => {
+    render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        items: [
+          <Menu.Section key="s-1" aria-label="Section 1">
+            <Menu.Item key="i-1">1</Menu.Item>
+            <Menu.Item key="i-2">2</Menu.Item>
+          </Menu.Section>,
+          <Menu.Section key="s-2" aria-label="Section 2">
+            <Menu.Item key="i-3">3</Menu.Item>
+          </Menu.Section>,
+        ],
+      }),
+    );
+    expect(screen.getAllByRole("separator")).toHaveLength(1);
+  });
+
+  it("separates each pair of adjacent sections", async () => {
+    render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        items: [
+          <Menu.Section key="s-1" aria-label="Section 1">
+            <Menu.Item key="i-1">1</Menu.Item>
+          </Menu.Section>,
+          <Menu.Section key="s-2" aria-label="Section 2">
+            <Menu.Item key="i-2">2</Menu.Item>
+            <Menu.Item key="i-3">3</Menu.Item>
+          </Menu.Section>,
+          <Menu.Section key="s-3" aria-label="Section 3">
+            <Menu.Item key="i-4">4</Menu.Item>
+          </Menu.Section>,
+        ],
+      }),
+    );
+    expect(screen.getAllByRole("separator")).toHaveLength(2);
+  });
+
   it("supports Menu.Section title", async () => {
     render(
       getMenu({

@@ -43,16 +43,15 @@ export function MenuSectionContent<T>({
   });
   const { separatorProps } = useSeparator({ elementType: "li" });
 
-  const isNotFirstOrLast =
-    section.key !== state.collection.getFirstKey() &&
-    section.nextKey !== state.collection.getLastKey();
   const hasContent = section.hasChildNodes || section.rendered;
+  // The separator renders before its section, so it can never trail the
+  // menu; only the first section goes without one.
+  const hasSeparator =
+    section.key !== state.collection.getFirstKey() && hasContent;
 
   return (
     <>
-      {isNotFirstOrLast && (
-        <li {...separatorProps} className={styles.separator} />
-      )}
+      {hasSeparator && <li {...separatorProps} className={styles.separator} />}
       {hasContent && (
         <li {...itemProps}>
           {section.hasChildNodes && (

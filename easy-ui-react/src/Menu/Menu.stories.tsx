@@ -74,6 +74,26 @@ export const WithSeparator: Story = {
   },
 };
 
+export const WithSingleItemLastSection: Story = {
+  render: Template.bind({}),
+  args: {
+    children: (
+      <Menu.Overlay
+        onAction={action("onAction")}
+        onSelectionChange={selectionChangeAction("onSelectionChange")}
+      >
+        <Menu.Section aria-label="Edit commands">
+          <Menu.Item key="edit">Edit</Menu.Item>
+          <Menu.Item key="duplicate">Duplicate</Menu.Item>
+        </Menu.Section>
+        <Menu.Section aria-label="Danger zone">
+          <Menu.Item key="delete">Delete</Menu.Item>
+        </Menu.Section>
+      </Menu.Overlay>
+    ),
+  },
+};
+
 export const WithTitle: Story = {
   render: Template.bind({}),
   args: {
