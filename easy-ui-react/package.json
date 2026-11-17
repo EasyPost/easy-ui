@@ -6,12 +6,21 @@
     "url": "git+https://github.com/EasyPost/easy-ui.git",
     "directory": "easy-ui-react"
   },
+  "type": "module",
   "exports": {
+    "./package.json": "./package.json",
+    "./style.css": "./dist/style.css",
+    "./styles/*": "./dist/styles/*",
+    "./types": {
+      "types": "./dist/types.d.ts"
+    },
+    "./utilities/*": {
+      "types": "./dist/utilities/*.d.ts",
+      "default": "./dist/utilities/*.js"
+    },
     "./*": {
-      "types": "./dist/*.d.ts",
-      "import": "./dist/*.mjs",
-      "require": "./dist/*.js",
-      "default": "./dist/*"
+      "types": "./dist/*/index.d.ts",
+      "default": "./dist/*/index.js"
     }
   },
   "sideEffects": [
@@ -52,11 +61,13 @@
     "use-clipboard-copy": "^0.2.0"
   },
   "peerDependencies": {
+    "@internationalized/date": "^3.12.3",
     "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-is": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
+    "@internationalized/date": "^3.12.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",

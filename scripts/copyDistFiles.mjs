@@ -6,13 +6,37 @@ import { fileURLToPath } from "url";
  * Removes fields unnecessary for distribution from a package.json
  * file contents.
  *
+ * Packages are published from their `dist` folder, so `exports` targets are
+ * rewritten from `./dist/*` to `./*`. They have to be kept: Node's ESM
+ * resolver (used by SSR and by test runners that don't bundle node_modules)
+ * neither guesses file extensions nor resolves directory `index` files.
+ *
  * @param {string} pkgFileContent package.json file contents
  */
 export function cleanPkgJsonForDist(pkgFileContent) {
   // eslint-disable-next-line no-unused-vars
   const { scripts, devDependencies, exports, publishConfig, ...restPkg } =
     JSON.parse(pkgFileContent);
-  return JSON.stringify(restPkg, null, 2);
+  const distPkg = exports
+    ? { ...restPkg, exports: rebaseExportsToDist(exports) }
+    : restPkg;
+  return JSON.stringify(distPkg, null, 2);
+}
+
+/**
+ * Rewrites every `./dist/` target in an `exports` field to be relative to the
+ * `dist` folder itself.
+ */
+function rebaseExportsToDist(exports) {
+  if (typeof exports === "string") {
+    return exports.replace(/^\.\/dist\//, "./");
+  }
+  return Object.fromEntries(
+    Object.entries(exports).map(([key, value]) => [
+      key,
+      rebaseExportsToDist(value),
+    ]),
+  );
 }
 
 /*

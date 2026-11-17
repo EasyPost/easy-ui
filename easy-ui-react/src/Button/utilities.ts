@@ -1,4 +1,4 @@
-import omit from "lodash/omit";
+import omit from "lodash/omit.js";
 import { ButtonColor } from "./Button";
 import { ButtonVariant } from "./Button";
 import type { IconButtonVariant } from "../IconButton";

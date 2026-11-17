@@ -108,6 +108,40 @@ If hosting yourself, include this declaration in your stylesheets, replacing the
 
 When server rendering an app that uses Easy UI and React <18, your app must be wrapped with a single instance of React Aria's `SSRProvider`. If an app is using an additional version of React Aria, ensure there's only one version of `@react-aria/ssr` using NPM's `overrides` or Yarn's `resolutions` property.
 
+### Module Format
+
+Easy UI is published as ES modules only. Its dependencies, such as React Aria and `@internationalized/date`, aren't bundled into it; they're installed alongside it and shared with your app, so keep your app's versions of them compatible with Easy UI's.
+
+### Testing with Jest
+
+Jest loads modules as CommonJS, so it has to transform Easy UI and the ES-only packages it depends on. Remove them from `transformIgnorePatterns`:
+
+```js
+const ESM_PACKAGES = [
+  "@easypost/easy-ui",
+  "@easypost/easy-ui-icons",
+  "@easypost/easy-ui-tokens",
+  "react-syntax-highlighter",
+  "refractor",
+  "hastscript",
+  "hast-util-.*",
+  "property-information",
+  "space-separated-tokens",
+  "comma-separated-tokens",
+  "parse-entities",
+  "character-entities.*",
+  "character-reference-invalid",
+  "decode-named-character-reference",
+  "is-(alphabetical|alphanumerical|decimal|hexadecimal)",
+];
+
+module.exports = {
+  transformIgnorePatterns: [`node_modules/(?!(${ESM_PACKAGES.join("|")})/)`],
+};
+```
+
+With Next.js's `next/jest`, list the same packages in `transpilePackages` in `next.config.js` instead. Vitest needs no configuration.
+
 ## Development
 
 We use Storybook to create a simple, hot-reloading playground for development on these components.

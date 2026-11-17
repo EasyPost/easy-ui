@@ -1,5 +1,5 @@
 import { RouterOptions } from "@react-types/shared";
-import omit from "lodash/omit";
+import omit from "lodash/omit.js";
 import React, {
   ComponentPropsWithoutRef,
   ElementType,
