@@ -8,6 +8,7 @@ import {
   InlineStoryOnDarkBackgroundDecorator,
   createLabelledOptionsControl,
   getFilledButtonsColorMapping,
+  getGhostButtonsColorMapping,
   getOutlinedButtonsColorMapping,
 } from "../utilities/storybook";
 import { IconButton, IconButtonProps } from "./IconButton";
@@ -59,9 +60,44 @@ Outlined.argTypes = {
   color: getOutlinedButtonsColorMapping(),
 };
 
+export const Ghost: Story = {
+  render: Template.bind({}),
+  args: {
+    variant: "ghost",
+    color: "primary",
+    icon: ArrowBackIcon,
+  },
+};
+
+Ghost.argTypes = {
+  color: getGhostButtonsColorMapping(),
+};
+
+export const GhostSizes: Story = {
+  render: () => (
+    <>
+      <IconButton variant="ghost" color="support" {...sharedIconButtonProps} />
+      <IconButton
+        variant="ghost"
+        color="support"
+        size="sm"
+        {...sharedIconButtonProps}
+      />
+    </>
+  ),
+  decorators: [InlineStoryDecorator],
+};
+
 export const Inverse: Story = {
   render: () => (
-    <IconButton color="inverse" variant="outlined" {...sharedIconButtonProps} />
+    <>
+      <IconButton
+        color="inverse"
+        variant="outlined"
+        {...sharedIconButtonProps}
+      />
+      <IconButton color="inverse" variant="ghost" {...sharedIconButtonProps} />
+    </>
   ),
   decorators: [InlineStoryOnDarkBackgroundDecorator],
 };
@@ -76,6 +112,7 @@ export const Disabled: Story = {
     <>
       <IconButton {...sharedIconButtonProps} isDisabled />
       <IconButton variant="outlined" {...sharedIconButtonProps} isDisabled />
+      <IconButton variant="ghost" {...sharedIconButtonProps} isDisabled />
     </>
   ),
   decorators: [InlineStoryDecorator],

@@ -1,6 +1,7 @@
 import omit from "lodash/omit";
 import { ButtonColor } from "./Button";
 import { ButtonVariant } from "./Button";
+import type { IconButtonVariant } from "../IconButton";
 
 export const FILLED_BUTTON_COLORS = [
   "primary",
@@ -23,15 +24,19 @@ export const LINK_BUTTON_COLORS = ["primary", "secondary"];
 
 export const TEXT_BUTTON_COLORS = ["primary", "secondary"];
 
+// Ghost is outlined without the border, so it supports the same colors.
+export const GHOST_BUTTON_COLORS = OUTLINED_BUTTON_COLORS;
+
 export function logWarningIfInvalidColorVariantCombination(
   color: ButtonColor,
-  variant: ButtonVariant,
+  variant: ButtonVariant | IconButtonVariant,
 ): void {
   const validColorVariantCombinations = {
     filled: FILLED_BUTTON_COLORS,
     outlined: OUTLINED_BUTTON_COLORS,
     link: LINK_BUTTON_COLORS,
     text: TEXT_BUTTON_COLORS,
+    ghost: GHOST_BUTTON_COLORS,
   };
   if (!validColorVariantCombinations[variant]?.includes(color)) {
     console.warn(

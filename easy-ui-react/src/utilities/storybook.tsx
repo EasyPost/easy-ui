@@ -13,6 +13,7 @@ import {
   OUTLINED_BUTTON_COLORS,
   LINK_BUTTON_COLORS,
   TEXT_BUTTON_COLORS,
+  GHOST_BUTTON_COLORS,
 } from "../Button/utilities";
 import { InputType } from "storybook/internal/types";
 
@@ -125,6 +126,23 @@ export function getTextButtonsColorMapping() {
         defaultValue: { summary: "primary" },
       },
       description: "Supported colors for text variant",
+    },
+  );
+}
+
+export function getGhostButtonsColorMapping() {
+  return createLabelledOptionsControl(
+    Object.fromEntries(GHOST_BUTTON_COLORS.map((key) => [key, key])),
+    {},
+    {
+      table: {
+        type: {
+          summary:
+            '"primary" | "secondary" | "support" | "warning" | "inverse"',
+        },
+        defaultValue: { summary: "primary" },
+      },
+      description: "Supported colors for ghost variant",
     },
   );
 }

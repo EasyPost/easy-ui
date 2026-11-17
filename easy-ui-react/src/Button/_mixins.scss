@@ -138,6 +138,36 @@
   }
 }
 
+// `variantOutlined` without the border: the same colors in every state,
+// with no background. Focus uses only the ring from `base`.
+@mixin variantGhost {
+  color: component-token("button", "resting.color");
+  background-color: transparent;
+
+  &[data-focus-visible] {
+    color: component-token("button", "hover.focus.color");
+  }
+
+  &:disabled {
+    color: design-token("color.neutral.300");
+  }
+
+  &:link {
+    text-decoration: none;
+  }
+
+  &:active:not(:disabled) {
+    color: component-token("button", "active.color");
+    &[data-focus-visible] {
+      box-shadow: none;
+    }
+  }
+
+  &:hover:not(:disabled):not(:active) {
+    color: component-token("button", "hover.focus.color");
+  }
+}
+
 // prettier-ignore
 @mixin colorPrimary {
   @include component-token("button", "filled.font.color", design-token("color.neutral.000"));

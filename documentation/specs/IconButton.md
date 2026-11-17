@@ -13,7 +13,7 @@ export type ButtonColor =
   | "neutral"
   | "support"
   | "inverse";
-export type IconButtonVariant = "filled" | "outlined";
+export type IconButtonVariant = "filled" | "outlined" | "ghost";
 export type IconButtonProps = {
   /**
    * Button color
@@ -55,6 +55,12 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 <IconButton color="success" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
 <IconButton color="support" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
 <IconButton color="inverse" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
+// Ghost: outlined without the border. Supports the same colors as outlined.
+<IconButton color="primary" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
+<IconButton color="secondary" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
+<IconButton color="support" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
+<IconButton color="warning" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
+<IconButton color="inverse" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
 // Click event
 <IconButton  icon={ArrowBackIcon} accessibilityLabel="Back"  onPress={myEventHandler} />
 ```

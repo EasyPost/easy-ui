@@ -45,12 +45,21 @@
   @include Button.variantFilled;
 }
 
+.variantGhost {
+  padding: design-token("space.1.5");
+  @include Button.variantGhost;
+}
+
 .sizeMd {
   @include font-style("button");
 }
 
 .sizeSm {
   @include font-style("small-button");
+}
+
+.sizeSm.variantGhost {
+  padding: design-token("space.1");
 }
 
 .sizeSm.variantFilled {

@@ -22,6 +22,20 @@ Use `variant="outlined"` to render an outlined variant.
 
 <Controls of={IconButtonStories.Outlined} include={["color"]} />
 
+## Ghost
+
+Use `variant="ghost"` for quiet actions, such as a back arrow beside a page title or an edit icon beside a value. It's the outlined variant without the border: the icon takes the same color in every state, with no background. Ghost supports the same colors as outlined: `primary`, `secondary`, `support`, `warning`, and `inverse`.
+
+<Canvas of={IconButtonStories.Ghost} />
+
+<Controls of={IconButtonStories.Ghost} include={["color"]} />
+
+### Ghost sizes
+
+Ghost comes in `md` and `sm`, the same sizes as the other variants.
+
+<Canvas of={IconButtonStories.GhostSizes} />
+
 ## Inverse
 
 <Canvas of={IconButtonStories.Inverse} />
