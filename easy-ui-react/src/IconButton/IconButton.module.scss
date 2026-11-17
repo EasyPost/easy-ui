@@ -54,20 +54,12 @@
   @include font-style("button");
 }
 
-.sizeSm,
-.sizeXs {
+.sizeSm {
   @include font-style("small-button");
 }
 
 .sizeSm.variantGhost {
   padding: design-token("space.1");
-}
-
-// `sm` and `md` match `<Button />`'s heights (32px and 48px). `xs` sits
-// below that scale: a 24px icon with no padding is 24px, one line of
-// `body1` text, so the button can sit inline without growing the line.
-.sizeXs.variantGhost {
-  padding: 0;
 }
 
 .sizeSm.variantFilled {

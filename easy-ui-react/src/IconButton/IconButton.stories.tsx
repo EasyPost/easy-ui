@@ -1,7 +1,5 @@
 import AddIcon from "@easypost/easy-ui-icons/Add";
 import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
-import DeleteIcon from "@easypost/easy-ui-icons/Delete";
-import EditIcon from "@easypost/easy-ui-icons/Edit";
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
@@ -13,7 +11,6 @@ import {
   getGhostButtonsColorMapping,
   getOutlinedButtonsColorMapping,
 } from "../utilities/storybook";
-import { Text } from "../Text";
 import { IconButton, IconButtonProps } from "./IconButton";
 
 type Story = StoryObj<typeof IconButton>;
@@ -86,39 +83,6 @@ export const GhostSizes: Story = {
         size="sm"
         {...sharedIconButtonProps}
       />
-      <IconButton
-        variant="ghost"
-        color="support"
-        size="xs"
-        {...sharedIconButtonProps}
-      />
-    </>
-  ),
-  decorators: [InlineStoryDecorator],
-};
-
-export const GhostInline: Story = {
-  render: () => (
-    <>
-      <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-        <Text>API key disabled</Text>
-        <IconButton
-          variant="ghost"
-          color="support"
-          size="xs"
-          icon={DeleteIcon}
-          accessibilityLabel="Delete API key"
-        />
-      </span>
-      <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-        <Text>jane@example.com</Text>
-        <IconButton
-          variant="ghost"
-          size="xs"
-          icon={EditIcon}
-          accessibilityLabel="Edit email"
-        />
-      </span>
     </>
   ),
   decorators: [InlineStoryDecorator],

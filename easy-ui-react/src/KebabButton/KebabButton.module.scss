@@ -1,0 +1,11 @@
+@use "../styles/common" as *;
+
+.KebabButton {
+  display: inline-flex;
+  border-radius: design-token("shape.border_radius.md");
+}
+
+.KebabButton[aria-expanded="true"] {
+  background-color: design-token("color.primary.700");
+  color: design-token("color.neutral.000");
+}

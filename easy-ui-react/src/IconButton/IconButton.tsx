@@ -11,7 +11,7 @@ import styles from "./IconButton.module.scss";
 import { UnstyledButton } from "../UnstyledButton";
 
 export type IconButtonVariant = "filled" | "outlined" | "ghost";
-export type IconButtonSize = "xs" | "sm" | "md";
+export type IconButtonSize = "sm" | "md";
 
 export type IconButtonProps = AriaButtonProps &
   RouterLinkProps & {
@@ -21,12 +21,7 @@ export type IconButtonProps = AriaButtonProps &
     variant?: IconButtonVariant;
     /** Icon symbol */
     icon: IconSymbol;
-    /**
-     * Button size. `sm` and `md` match `<Button />`'s heights (32px and
-     * 48px). `xs` is 24px, a 24px icon with no padding, the height of a
-     * line of `body1` text, for actions inline with text or in a table
-     * row. `xs` is only supported with the `ghost` variant.
-     */
+    /** Button size */
     size?: IconButtonSize;
     /** Description of icon */
     accessibilityLabel: string;
@@ -45,9 +40,8 @@ export type IconButtonProps = AriaButtonProps &
  * Underlying element is a button.
  *
  * Use the ghost variant for quiet actions, such as a back arrow in a
- * page header, an edit icon beside a value, or a row's actions. It's
- * transparent and borderless until hovered, and holds a solid fill
- * while a menu or popover it triggers is open.
+ * page header or an edit icon beside a value. It's transparent and
+ * borderless until hovered.
  *
  * @example
  * _Default:_
@@ -84,20 +78,19 @@ export type IconButtonProps = AriaButtonProps &
  * }
  * ```
  * @example
- * _Ghost variant, inline beside text:_
+ * _Ghost variant:_
  * ```tsx
  * import { IconButton } from "@easypost/easy-ui/IconButton";
- * import DeleteIcon from "@easypost/easy-ui-icons/Delete";
+ * import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
  *
  * export function Component() {
  *  return (
  *    <IconButton
  *      onPress={() => alert("clicked")}
- *      icon={DeleteIcon}
- *      accessibilityLabel="Delete"
+ *      icon={ArrowBackIcon}
+ *      accessibilityLabel="Back"
  *      variant="ghost"
  *      color="support"
- *      size="xs"
  *    />
  *  );
  * }
@@ -133,14 +126,8 @@ export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
   } = props;
 
   logWarningIfInvalidColorVariantCombination(color, variant);
-  if (size === "xs" && variant !== "ghost") {
-    console.warn(
-      `The size 'xs' is not supported with the '${variant}' variant`,
-    );
-  }
 
-  // `sm` uses an xs icon, which is more consistent with a non-icon button's
-  // `sm` size. `xs` has no padding, so its full-size icon sets its height.
+  // xs icon is more consistent with non-icon button sm size
   const iconSize = size === "sm" ? "xs" : "md";
 
   return (

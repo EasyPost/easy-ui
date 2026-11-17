@@ -141,14 +141,6 @@
 // Transparent and borderless at rest, with a neutral fill on hover and
 // press so a bare icon still reads as pressable. Focus uses only the
 // ring from `base`.
-//
-// The hover fill is `neutral.100` rather than `neutral.050` so it still
-// shows on surfaces that are themselves `neutral.050`, such as a hovered
-// `DataGrid` row.
-//
-// While the button's menu or popover is open (`aria-expanded="true"`), it
-// holds a solid fill through hover and press, so the trigger reads as
-// attached to what it opened.
 @mixin variantGhost {
   color: component-token("button", "resting.color");
   background-color: transparent;
@@ -165,22 +157,17 @@
     text-decoration: none;
   }
 
-  &:active:not(:disabled):not([aria-expanded="true"]) {
+  &:active:not(:disabled) {
     color: component-token("button", "active.color");
-    background-color: design-token("color.neutral.200");
+    background-color: design-token("color.neutral.100");
     &[data-focus-visible] {
       box-shadow: none;
     }
   }
 
-  &:hover:not(:disabled):not(:active):not([aria-expanded="true"]) {
+  &:hover:not(:disabled):not(:active) {
     color: component-token("button", "hover.focus.color");
-    background-color: design-token("color.neutral.100");
-  }
-
-  &[aria-expanded="true"]:not(:disabled) {
-    color: design-token("color.neutral.000");
-    background-color: design-token("color.primary.700");
+    background-color: design-token("color.neutral.050");
   }
 }
 

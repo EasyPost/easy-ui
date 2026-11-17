@@ -137,29 +137,20 @@ describe("<IconButton />", () => {
       );
     });
 
-    it("should apply the extra small size class", () => {
+    it("should apply the small size class", () => {
       render(
         <IconButton
           variant="ghost"
-          size="xs"
+          size="sm"
           icon={ArrowBackIcon}
           accessibilityLabel="Back"
         />,
       );
       expect(screen.getByRole("button")).toHaveAttribute(
         "class",
-        expect.stringContaining("sizeXs"),
+        expect.stringContaining("sizeSm"),
       );
       expect(warn).not.toHaveBeenCalled();
-    });
-
-    it("should warn when the extra small size is used without ghost", () => {
-      render(
-        <IconButton size="xs" icon={ArrowBackIcon} accessibilityLabel="Back" />,
-      );
-      expect(warn).toHaveBeenCalledWith(
-        "The size 'xs' is not supported with the 'filled' variant",
-      );
     });
   });
 });
