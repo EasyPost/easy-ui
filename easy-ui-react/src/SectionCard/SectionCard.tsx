@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { omit } from "lodash";
+import omit from "lodash/omit.js";
 import {
   Card,
   CardAreaProps,

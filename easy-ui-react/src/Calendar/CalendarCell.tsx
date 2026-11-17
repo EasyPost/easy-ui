@@ -1,5 +1,5 @@
 import React from "react";
-import { has } from "lodash";
+import has from "lodash/has.js";
 import { useCalendarCell, useLocale } from "react-aria";
 import { CalendarState, RangeCalendarState } from "react-stately";
 import { CalendarDate, isSameDay, getDayOfWeek } from "@internationalized/date";

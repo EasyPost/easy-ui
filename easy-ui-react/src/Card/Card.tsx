@@ -1,5 +1,5 @@
-import omit from "lodash/omit";
-import pick from "lodash/pick";
+import omit from "lodash/omit.js";
+import pick from "lodash/pick.js";
 import React, { AllHTMLAttributes, ElementType, ReactNode } from "react";
 import {
   BorderRadius,

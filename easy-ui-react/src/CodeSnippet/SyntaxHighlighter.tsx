@@ -1,14 +1,14 @@
-import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/prism-light.js";
 
-import csharp from "react-syntax-highlighter/dist/esm/languages/prism/csharp";
-import go from "react-syntax-highlighter/dist/esm/languages/prism/go";
-import java from "react-syntax-highlighter/dist/esm/languages/prism/java";
-import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
-import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
-import php from "react-syntax-highlighter/dist/esm/languages/prism/php";
-import python from "react-syntax-highlighter/dist/esm/languages/prism/python";
-import ruby from "react-syntax-highlighter/dist/esm/languages/prism/ruby";
-import shell from "react-syntax-highlighter/dist/esm/languages/prism/shell-session";
+import csharp from "react-syntax-highlighter/dist/esm/languages/prism/csharp.js";
+import go from "react-syntax-highlighter/dist/esm/languages/prism/go.js";
+import java from "react-syntax-highlighter/dist/esm/languages/prism/java.js";
+import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript.js";
+import json from "react-syntax-highlighter/dist/esm/languages/prism/json.js";
+import php from "react-syntax-highlighter/dist/esm/languages/prism/php.js";
+import python from "react-syntax-highlighter/dist/esm/languages/prism/python.js";
+import ruby from "react-syntax-highlighter/dist/esm/languages/prism/ruby.js";
+import shell from "react-syntax-highlighter/dist/esm/languages/prism/shell-session.js";
 
 export type SnippetLanguage =
   | "csharp"

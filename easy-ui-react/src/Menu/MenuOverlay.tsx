@@ -1,5 +1,5 @@
 import { CollectionChildren } from "@react-types/shared";
-import noop from "lodash/noop";
+import noop from "lodash/noop.js";
 import React, { useCallback } from "react";
 import {
   DismissButton,
