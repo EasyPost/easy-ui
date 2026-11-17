@@ -137,7 +137,8 @@ export function getGhostButtonsColorMapping() {
     {
       table: {
         type: {
-          summary: '"primary" | "secondary" | "support"',
+          summary:
+            '"primary" | "secondary" | "support" | "warning" | "inverse"',
         },
         defaultValue: { summary: "primary" },
       },

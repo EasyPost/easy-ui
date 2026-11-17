@@ -24,7 +24,8 @@ export const LINK_BUTTON_COLORS = ["primary", "secondary"];
 
 export const TEXT_BUTTON_COLORS = ["primary", "secondary"];
 
-export const GHOST_BUTTON_COLORS = ["primary", "secondary", "support"];
+// Ghost is outlined without the border, so it supports the same colors.
+export const GHOST_BUTTON_COLORS = OUTLINED_BUTTON_COLORS;
 
 export function logWarningIfInvalidColorVariantCombination(
   color: ButtonColor,

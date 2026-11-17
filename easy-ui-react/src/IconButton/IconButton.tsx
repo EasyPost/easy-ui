@@ -40,8 +40,8 @@ export type IconButtonProps = AriaButtonProps &
  * Underlying element is a button.
  *
  * Use the ghost variant for quiet actions, such as a back arrow in a
- * page header or an edit icon beside a value. It's transparent and
- * borderless until hovered.
+ * page header or an edit icon beside a value. It's the outlined variant
+ * without the border, and supports the same colors.
  *
  * @example
  * _Default:_

@@ -55,11 +55,12 @@ import ArrowBackIcon from "@easypost/easy-ui-icons/ArrowBack";
 <IconButton color="success" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
 <IconButton color="support" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
 <IconButton color="inverse" variant="outlined"  icon={ArrowBackIcon} accessibilityLabel="Back"  />
-// Ghost: transparent and borderless at rest, light neutral fill on hover.
-// Supports primary, secondary, and support.
+// Ghost: outlined without the border. Supports the same colors as outlined.
 <IconButton color="primary" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
 <IconButton color="secondary" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
 <IconButton color="support" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
+<IconButton color="warning" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
+<IconButton color="inverse" variant="ghost" icon={ArrowBackIcon} accessibilityLabel="Back" />
 // Click event
 <IconButton  icon={ArrowBackIcon} accessibilityLabel="Back"  onPress={myEventHandler} />
 ```

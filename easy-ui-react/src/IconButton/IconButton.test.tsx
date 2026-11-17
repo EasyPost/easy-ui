@@ -107,21 +107,30 @@ describe("<IconButton />", () => {
       expect(warn).not.toHaveBeenCalled();
     });
 
-    it("should support the support color without warning", () => {
-      render(
-        <IconButton
-          variant="ghost"
-          color="support"
-          icon={ArrowBackIcon}
-          accessibilityLabel="Back"
-        />,
-      );
-      expect(screen.getByRole("button")).toHaveAttribute(
-        "class",
-        expect.stringContaining("colorSupport"),
-      );
-      expect(warn).not.toHaveBeenCalled();
-    });
+    it.each([
+      ["primary", "colorPrimary"],
+      ["secondary", "colorSecondary"],
+      ["support", "colorSupport"],
+      ["warning", "colorWarning"],
+      ["inverse", "colorInverse"],
+    ] as const)(
+      "should support the outlined color '%s' without warning",
+      (color, className) => {
+        render(
+          <IconButton
+            variant="ghost"
+            color={color}
+            icon={ArrowBackIcon}
+            accessibilityLabel="Back"
+          />,
+        );
+        expect(screen.getByRole("button")).toHaveAttribute(
+          "class",
+          expect.stringContaining(className),
+        );
+        expect(warn).not.toHaveBeenCalled();
+      },
+    );
 
     it("should warn about an unsupported color", () => {
       render(

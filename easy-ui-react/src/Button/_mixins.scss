@@ -138,9 +138,8 @@
   }
 }
 
-// Transparent and borderless at rest, with a neutral fill on hover and
-// press so a bare icon still reads as pressable. Focus uses only the
-// ring from `base`.
+// `variantOutlined` without the border: the same colors in every state,
+// with no background. Focus uses only the ring from `base`.
 @mixin variantGhost {
   color: component-token("button", "resting.color");
   background-color: transparent;
@@ -159,7 +158,6 @@
 
   &:active:not(:disabled) {
     color: component-token("button", "active.color");
-    background-color: design-token("color.neutral.100");
     &[data-focus-visible] {
       box-shadow: none;
     }
@@ -167,7 +165,6 @@
 
   &:hover:not(:disabled):not(:active) {
     color: component-token("button", "hover.focus.color");
-    background-color: design-token("color.neutral.050");
   }
 }
 

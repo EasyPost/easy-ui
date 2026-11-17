@@ -90,7 +90,14 @@ export const GhostSizes: Story = {
 
 export const Inverse: Story = {
   render: () => (
-    <IconButton color="inverse" variant="outlined" {...sharedIconButtonProps} />
+    <>
+      <IconButton
+        color="inverse"
+        variant="outlined"
+        {...sharedIconButtonProps}
+      />
+      <IconButton color="inverse" variant="ghost" {...sharedIconButtonProps} />
+    </>
   ),
   decorators: [InlineStoryOnDarkBackgroundDecorator],
 };
