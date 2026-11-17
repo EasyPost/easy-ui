@@ -24,7 +24,7 @@ Use `variant="outlined"` to render an outlined variant.
 
 ## Ghost
 
-Use `variant="ghost"` for quiet actions, such as a back arrow beside a page title or an edit icon beside a value. It's transparent and borderless at rest, and shows a light fill on hover. Ghost supports `primary`, `secondary`, and `support` colors.
+Use `variant="ghost"` for quiet actions, such as a back arrow beside a page title, an edit icon beside a value, or a row's actions. It's transparent and borderless at rest, and shows a light fill on hover. While a menu or popover it triggers is open, it holds a solid fill. Ghost supports `primary`, `secondary`, and `support` colors.
 
 <Canvas of={IconButtonStories.Ghost} />
 
@@ -32,7 +32,7 @@ Use `variant="ghost"` for quiet actions, such as a back arrow beside a page titl
 
 ### Ghost sizes
 
-Ghost comes in `md`, `sm`, and `xs`. Use `xs` for an action inline with text: at 20px it's about the height of a line of body text. `xs` is only supported with the ghost variant.
+Ghost comes in `md`, `sm`, and `xs`. `md` and `sm` match `<Button />`'s heights, 48px and 32px. `xs` is a 24px icon with no padding, the height of a line of `body1` text, for actions inline with text or in a table row. `<KebabButton />` and `<DataGrid />`'s row actions are ghost `xs`. `xs` is only supported with the ghost variant.
 
 <Canvas of={IconButtonStories.GhostSizes} />
 

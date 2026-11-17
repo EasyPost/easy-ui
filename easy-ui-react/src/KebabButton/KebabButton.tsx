@@ -1,11 +1,8 @@
 import React from "react";
 import MoreVertIcon from "@easypost/easy-ui-icons/MoreVert";
 import { AriaButtonProps } from "react-aria";
-import { UnstyledButton } from "../UnstyledButton/UnstyledButton";
-import { Text } from "../Text";
-import { Icon } from "../Icon";
+import { IconButton } from "../IconButton";
 import { RouterLinkProps } from "../utilities/router";
-import styles from "./KebabButton.module.scss";
 
 export type KebabButtonProps = AriaButtonProps &
   RouterLinkProps & {
@@ -19,17 +16,23 @@ export type KebabButtonProps = AriaButtonProps &
  *
  * @remarks
  * Can be used alongside Easy UI's `<Menu />` as the trigger
- * element.
+ * element. Renders a ghost `<IconButton />` at `xs` with a vertical
+ * ellipsis, so it holds a solid fill while its menu is open.
  */
 export const KebabButton = React.forwardRef<null, KebabButtonProps>(
   (props, inRef) => {
     const { accessibilityLabel = "Actions", ...restProps } = props;
 
     return (
-      <UnstyledButton ref={inRef} className={styles.KebabButton} {...restProps}>
-        <Text visuallyHidden>{accessibilityLabel}</Text>
-        <Icon symbol={MoreVertIcon} />
-      </UnstyledButton>
+      <IconButton
+        ref={inRef}
+        variant="ghost"
+        color="support"
+        size="xs"
+        icon={MoreVertIcon}
+        accessibilityLabel={accessibilityLabel}
+        {...restProps}
+      />
     );
   },
 );

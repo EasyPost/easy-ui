@@ -1,9 +1,7 @@
 import React, { useCallback, useState } from "react";
-import { Icon } from "../Icon";
+import { IconButton } from "../IconButton";
 import { Menu } from "../Menu";
-import { Text } from "../Text";
 import { KebabButton } from "../KebabButton";
-import { UnstyledPressButton } from "../UnstyledButton/UnstyledPressButton";
 import { useDataGridRow } from "./context";
 import {
   ActionRowAction as ActionRowActionType,
@@ -65,9 +63,13 @@ function ActionRowAction({ rowAction }: { rowAction: ActionRowActionType }) {
     onAction();
   }, [onAction]);
   return (
-    <UnstyledPressButton onPress={handleClick}>
-      <Text visuallyHidden>{rowAction.accessibilityLabel}</Text>
-      <Icon symbol={rowAction.iconSymbol} />
-    </UnstyledPressButton>
+    <IconButton
+      variant="ghost"
+      color="support"
+      size="xs"
+      icon={rowAction.iconSymbol}
+      accessibilityLabel={rowAction.accessibilityLabel}
+      onPress={handleClick}
+    />
   );
 }

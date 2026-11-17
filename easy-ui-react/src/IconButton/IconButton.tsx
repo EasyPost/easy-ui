@@ -22,8 +22,10 @@ export type IconButtonProps = AriaButtonProps &
     /** Icon symbol */
     icon: IconSymbol;
     /**
-     * Button size. `xs` is about the height of a line of body text, for
-     * inline actions, and is only supported with the `ghost` variant.
+     * Button size. `sm` and `md` match `<Button />`'s heights (32px and
+     * 48px). `xs` is 24px, a 24px icon with no padding, the height of a
+     * line of `body1` text, for actions inline with text or in a table
+     * row. `xs` is only supported with the `ghost` variant.
      */
     size?: IconButtonSize;
     /** Description of icon */
@@ -43,8 +45,9 @@ export type IconButtonProps = AriaButtonProps &
  * Underlying element is a button.
  *
  * Use the ghost variant for quiet actions, such as a back arrow in a
- * page header or an edit icon beside a value. It's transparent and
- * borderless until hovered.
+ * page header, an edit icon beside a value, or a row's actions. It's
+ * transparent and borderless until hovered, and holds a solid fill
+ * while a menu or popover it triggers is open.
  *
  * @example
  * _Default:_
@@ -136,8 +139,9 @@ export const IconButton = forwardRef<null, IconButtonProps>((props, inRef) => {
     );
   }
 
-  // xs icon is more consistent with non-icon button sm size
-  const iconSize = size === "md" ? "md" : "xs";
+  // `sm` uses an xs icon, which is more consistent with a non-icon button's
+  // `sm` size. `xs` has no padding, so its full-size icon sets its height.
+  const iconSize = size === "sm" ? "xs" : "md";
 
   return (
     <UnstyledButton
