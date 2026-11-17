@@ -1,5 +1,16 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.154
+
+### Minor Changes
+
+- 3acf453: feat: `Checkbox` accepts `isRequired`. The input gets `required` and `aria-required`, so assistive technology announces it as required, and the label shows a trailing `*` that is hidden from assistive technology. Like the fields, `Checkbox` also takes `necessityIndicator`: `"icon"` (the default `*`) or `"label"`, which shows "(required)" or "(optional)".
+- 77df115: feat: `IconButton` adds a `ghost` variant: the outlined variant without the border, in the same colors (`primary`, `secondary`, `support`, `warning`, and `inverse`)
+
+### Patch Changes
+
+- 6f7442d: fix: `Menu` draws the separator before a last section that has only one item
+
 ## 1.0.0-alpha.153
 
 ### Patch Changes
