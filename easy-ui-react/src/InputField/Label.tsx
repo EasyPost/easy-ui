@@ -88,33 +88,65 @@ export function Label(props: LabelProps) {
     <AriaLabel {...labelProps} className={classNames(styles.label)}>
       <Text variant={textVariant} as={as} color={color}>
         {children}
-        {necessityIndicator === "icon" && isRequired && (
-          <>
-            <span aria-hidden="true" className={styles.necessityIndicator}>
-              *
-            </span>
-            {includeNecessityIndicatorInAccessibilityName && (
-              <VisuallyHidden>{" (required)"}</VisuallyHidden>
-            )}
-          </>
-        )}
-        {necessityIndicator === "label" && (
-          // A text-node space (not a margin) so the accessible name reads
-          // "Name (optional)" rather than "Name(optional)".
-          <>
-            {" "}
-            <span
-              aria-hidden={
-                isRequired && !includeNecessityIndicatorInAccessibilityName
-                  ? "true"
-                  : undefined
-              }
-            >
-              {isRequired ? "(required)" : "(optional)"}
-            </span>
-          </>
-        )}
+        <NecessityIndicatorMarker
+          isRequired={isRequired}
+          necessityIndicator={necessityIndicator}
+          includeNecessityIndicatorInAccessibilityName={
+            includeNecessityIndicatorInAccessibilityName
+          }
+        />
       </Text>
     </AriaLabel>
+  );
+}
+
+export type NecessityIndicatorMarkerProps = Pick<
+  LabelProps,
+  | "isRequired"
+  | "necessityIndicator"
+  | "includeNecessityIndicatorInAccessibilityName"
+>;
+
+/**
+ * @privateRemarks
+ * The trailing `*`, "(required)", or "(optional)" that follows a label's
+ * text. Rendered by `Label`, and by components such as `Checkbox` whose label
+ * isn't a `Label`. See `Label` for how each is exposed to assistive tech.
+ */
+export function NecessityIndicatorMarker(props: NecessityIndicatorMarkerProps) {
+  const {
+    isRequired = false,
+    necessityIndicator = "icon",
+    includeNecessityIndicatorInAccessibilityName = false,
+  } = props;
+  return (
+    <>
+      {necessityIndicator === "icon" && isRequired && (
+        <>
+          <span aria-hidden="true" className={styles.necessityIndicator}>
+            *
+          </span>
+          {includeNecessityIndicatorInAccessibilityName && (
+            <VisuallyHidden>{" (required)"}</VisuallyHidden>
+          )}
+        </>
+      )}
+      {necessityIndicator === "label" && (
+        // A text-node space (not a margin) so the accessible name reads
+        // "Name (optional)" rather than "Name(optional)".
+        <>
+          {" "}
+          <span
+            aria-hidden={
+              isRequired && !includeNecessityIndicatorInAccessibilityName
+                ? "true"
+                : undefined
+            }
+          >
+            {isRequired ? "(required)" : "(optional)"}
+          </span>
+        </>
+      )}
+    </>
   );
 }

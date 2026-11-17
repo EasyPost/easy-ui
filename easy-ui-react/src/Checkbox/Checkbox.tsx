@@ -11,6 +11,8 @@ import {
 } from "react-aria";
 import { ValidationState, useToggleState } from "react-stately";
 import { Icon } from "../Icon";
+import { NecessityIndicator } from "../InputField";
+import { NecessityIndicatorMarker } from "../InputField/Label";
 import { SelectorErrorTooltip } from "../SelectorErrorTooltip";
 import { Text } from "../Text";
 import { classNames, variationName } from "../utilities/css";
@@ -53,6 +55,13 @@ export type CheckboxProps = {
   isReadOnly?: boolean;
 
   /**
+   * Whether the checkbox must be selected before form submission. Marks the
+   * label as required.
+   * @default false
+   */
+  isRequired?: boolean;
+
+  /**
    * Whether the checkbox should be selected (controlled).
    */
   isSelected?: boolean;
@@ -71,6 +80,13 @@ export type CheckboxProps = {
    * Handler that is called when the checkbox's selection state changes.
    */
   onChange?: (isSelected: boolean) => void;
+
+  /**
+   * How the label marks whether the checkbox is required. `"icon"` shows a
+   * `*` on required checkboxes; `"label"` shows "(required)" or "(optional)".
+   * @default icon
+   */
+  necessityIndicator?: NecessityIndicator;
 
   /**
    * Size of the checkbox.
@@ -126,7 +142,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       isDisabled,
       isIndeterminate,
       isReadOnly,
+      isRequired = false,
       isNested,
+      necessityIndicator = "icon",
       size = DEFAULT_SIZE,
       validationState,
       defaultSelected: _defaultSelected,
@@ -175,9 +193,18 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     const RootComponent = children ? "label" : "span";
     const rootProps = children ? hoverProps : {};
+    // React Aria only sets `aria-required` unless `validationBehavior` is
+    // "native"; set `required` too, as `InputField` does.
+    const requiredProps = { required: isRequired };
     const inputProps = children
-      ? mergeProps(restProps, inputPropsFromAria, focusProps)
-      : mergeProps(restProps, inputPropsFromAria, focusProps, hoverProps);
+      ? mergeProps(restProps, inputPropsFromAria, requiredProps, focusProps)
+      : mergeProps(
+          restProps,
+          inputPropsFromAria,
+          requiredProps,
+          focusProps,
+          hoverProps,
+        );
 
     return (
       <span className={className} data-testid="root">
@@ -201,6 +228,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             <span className={styles.text}>
               <Text variant={textVariant} color={textColor}>
                 {children}
+                <NecessityIndicatorMarker
+                  isRequired={isRequired}
+                  necessityIndicator={necessityIndicator}
+                />
               </Text>
             </span>
           )}

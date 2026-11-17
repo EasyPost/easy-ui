@@ -58,6 +58,44 @@ describe("<Checkbox />", () => {
     expect(screen.getByRole("checkbox")).not.toBeChecked();
   });
 
+  it("should support isRequired", () => {
+    render(<Checkbox isRequired>Checkbox item</Checkbox>);
+    const checkbox = screen.getByRole("checkbox", { name: "Checkbox item" });
+    expect(checkbox).toBeRequired();
+    expect(checkbox).toHaveAttribute("required");
+    expect(checkbox).toHaveAttribute("aria-required", "true");
+    expect(screen.getByText("*")).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("should not mark the label when not required", () => {
+    render(<Checkbox>Checkbox item</Checkbox>);
+    expect(screen.getByRole("checkbox")).not.toBeRequired();
+    expect(screen.queryByText("*")).not.toBeInTheDocument();
+  });
+
+  it("should support necessityIndicator label when required", () => {
+    render(
+      <Checkbox isRequired necessityIndicator="label">
+        Checkbox item
+      </Checkbox>,
+    );
+    expect(
+      screen.getByRole("checkbox", { name: "Checkbox item" }),
+    ).toBeRequired();
+    expect(screen.getByText("(required)")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+    expect(screen.queryByText("*")).not.toBeInTheDocument();
+  });
+
+  it("should support necessityIndicator label when optional", () => {
+    render(<Checkbox necessityIndicator="label">Checkbox item</Checkbox>);
+    expect(
+      screen.getByRole("checkbox", { name: "Checkbox item (optional)" }),
+    ).not.toBeRequired();
+  });
+
   it("should support isIndeterminate", () => {
     render(<Checkbox isIndeterminate>Checkbox item</Checkbox>);
     expect(
