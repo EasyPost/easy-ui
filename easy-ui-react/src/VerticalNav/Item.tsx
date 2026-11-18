@@ -20,12 +20,33 @@ export type ItemProps<T extends ElementType = "a"> = ComponentProps<T> &
      * navigation items.
      */
     icon?: IconSymbol;
+  } & ItemLabelProps;
 
-    /**
-     * Label shown on the navigation item.
-     */
-    label: string;
-  };
+type ItemLabelProps =
+  | {
+      /**
+       * Label shown on the navigation item.
+       */
+      label: string;
+
+      /**
+       * Plain-text representation of the item, used for the underlying
+       * collection. Defaults to `label`.
+       */
+      textValue?: string;
+    }
+  | {
+      /**
+       * Label shown on the navigation item.
+       */
+      label: ReactNode;
+
+      /**
+       * Plain-text representation of the item, used for the underlying
+       * collection. Required when `label` isn't a string.
+       */
+      textValue: string;
+    };
 
 export type ItemPropsForStately = ItemProps & { textValue: string };
 
@@ -41,8 +62,8 @@ type ReactStatelyItemInterface = {
  * properties and behavior of the items in our VerticalNav and
  * VerticalNav.Subnav lists.
  *
- * We map our Item's label prop to the underlying textValue prop to silence
- * warnings about Aria's accessibility paradigm.
+ * When no textValue is given, we map a string label to the underlying
+ * textValue prop to silence warnings about Aria's accessibility paradigm.
  */
 export function Item<T extends ElementType = "a">(_props: ItemProps<T>) {
   return null;
@@ -53,6 +74,13 @@ const originalGetCollectionNode = (
 ).getCollectionNode;
 
 const getCollectionNode = (props: ItemProps, context: object) =>
-  originalGetCollectionNode({ ...props, textValue: props.label }, context);
+  originalGetCollectionNode(
+    {
+      ...props,
+      textValue:
+        props.textValue ?? (typeof props.label === "string" ? props.label : ""),
+    },
+    context,
+  );
 
 Object.assign(Item, ReactStatelyItem, { getCollectionNode });

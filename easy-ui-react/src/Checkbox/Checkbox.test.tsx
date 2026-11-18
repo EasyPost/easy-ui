@@ -20,6 +20,11 @@ describe("<Checkbox />", () => {
     expect(screen.getByRole("checkbox")).not.toBeChecked();
   });
 
+  it("should support id", () => {
+    render(<Checkbox id="terms">Accept</Checkbox>);
+    expect(screen.getByRole("checkbox")).toHaveAttribute("id", "terms");
+  });
+
   it("should support uncontrolled", async () => {
     const { user } = render(
       <Checkbox defaultSelected={true}>Checkbox item</Checkbox>,

@@ -6,7 +6,10 @@ import { SnippetLanguages, SnippetLanguage } from "./SyntaxHighlighter";
 type Story = StoryObj<typeof CodeSnippet>;
 
 const Template = (args: CodeSnippetProps) => (
-  <CodeSnippet {...args} code={getSnippets()[args.language]} />
+  <CodeSnippet
+    {...args}
+    code={getSnippets()[args.language ?? SnippetLanguages.TEXT]}
+  />
 );
 
 const meta: Meta<typeof CodeSnippet> = {
@@ -38,6 +41,13 @@ export const MaxLines: Story = {
   args: {
     maxLines: 8,
     showLineNumbers: true,
+  },
+};
+
+export const PlainText: Story = {
+  render: Template.bind({}),
+  args: {
+    language: SnippetLanguages.TEXT,
   },
 };
 
@@ -256,5 +266,8 @@ puts tracker`,
     "carrier": "USPS"
   }
 }'`,
+    [SnippetLanguages.TEXT]: `Content-Type: application/json
+User-Agent: EasyPost/v2 WebhookFetcher
+X-Hmac-Signature: hmac-sha256-hex=0f1e2d3c4b5a69788796a5b4c3d2e1f0`,
   };
 }

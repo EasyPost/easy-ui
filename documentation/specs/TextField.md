@@ -36,7 +36,8 @@ The `TextField` component allows users to input text on a single line and provid
 ```ts
 import type { AriaTextFieldProps } from "react-aria";
 
-export type InputType = "text" | "email" | "password" | "tel" | "search";
+export type InputType =
+  "text" | "email" | "password" | "tel" | "search" | "url" | "number";
 export type TextFieldSize = "sm" | "md" | "lg";
 export type ValidationState = "valid" | "invalid";
 

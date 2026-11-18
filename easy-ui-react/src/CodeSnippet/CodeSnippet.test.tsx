@@ -76,6 +76,19 @@ six`}
     expect($pre?.style.webkitLineClamp).toBe("");
   });
 
+  it.each<[string, SnippetLanguage | undefined]>([
+    ["text", "text"],
+    ["no language", undefined],
+  ])("should render plain text for %s", (_, language) => {
+    const { container } = render(
+      <CodeSnippet code="Content-Type: application/json" language={language} />,
+    );
+    expect(
+      screen.getByText("Content-Type: application/json"),
+    ).toBeInTheDocument();
+    expect(container.querySelector(".token")).not.toBeInTheDocument();
+  });
+
   it.each<[SnippetLanguage, string]>([
     ["csharp", `var x = "hi";`],
     ["go", `func main() { fmt.Println("hi") }`],

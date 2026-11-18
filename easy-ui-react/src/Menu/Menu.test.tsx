@@ -110,6 +110,57 @@ describe("<Menu />", () => {
     expect(screen.getByRole("menuitem")).toHaveAttribute("aria-disabled");
   });
 
+  it("supports Menu.Item isDisabled", async () => {
+    const handleAction = vi.fn();
+    const { user } = render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        menuOverlayProps: { onAction: handleAction },
+        items: [
+          <Menu.Item key="click" isDisabled>
+            Click me
+          </Menu.Item>,
+        ],
+      }),
+    );
+    await clickMenuItem(user, screen.getAllByRole("menuitem")[0]);
+    expect(handleAction).not.toBeCalled();
+    expect(screen.getByRole("menuitem")).toHaveAttribute("aria-disabled");
+  });
+
+  it("supports Menu.Item textValue", async () => {
+    const { user } = render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        items: [
+          <Menu.Item key="a" textValue="Apple">
+            <span>Apple</span>
+          </Menu.Item>,
+          <Menu.Item key="b" textValue="Banana">
+            <span>Banana</span>
+          </Menu.Item>,
+        ],
+      }),
+    );
+    await userKeyboard(user, "b");
+    expect(screen.getAllByRole("menuitem")[1]).toHaveFocus();
+  });
+
+  it("keeps Menu.Item isDisabled and textValue off link items", async () => {
+    render(
+      getMenu({
+        menuProps: { defaultOpen: true },
+        items: [
+          <Menu.Item key="i-1" href="https://easypost.com" textValue="One">
+            1
+          </Menu.Item>,
+        ],
+      }),
+    );
+    expect(screen.getByRole("menuitem")).not.toHaveAttribute("textValue");
+    expect(screen.getByRole("menuitem")).not.toHaveAttribute("isDisabled");
+  });
+
   it("supports maxItemsUntilScroll", async () => {
     render(
       getMenu({

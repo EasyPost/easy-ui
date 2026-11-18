@@ -1,4 +1,4 @@
-import { AriaLabelingProps } from "@react-types/shared";
+import { AriaLabelingProps, DOMProps } from "@react-types/shared";
 import React, { ReactNode } from "react";
 import { useRadioGroup } from "react-aria";
 import { useRadioGroupState } from "react-stately";
@@ -8,34 +8,35 @@ import { RadioGroupItem, RadioGroupItemProps } from "./RadioGroupItem";
 
 import styles from "./RadioGroup.module.scss";
 
-export type RadioGroupProps<K extends string> = AriaLabelingProps & {
-  /** Radio buttons to render inside the radio group. */
-  children?: ReactNode;
+export type RadioGroupProps<K extends string> = AriaLabelingProps &
+  DOMProps & {
+    /** Radio buttons to render inside the radio group. */
+    children?: ReactNode;
 
-  /** The default value (uncontrolled). */
-  defaultValue?: K;
+    /** The default value (uncontrolled). */
+    defaultValue?: K;
 
-  /** Whether the radio is disabled. */
-  isDisabled?: boolean;
+    /** Whether the radio is disabled. */
+    isDisabled?: boolean;
 
-  /** Whether the radio group can be selected but not changed by the user. */
-  isReadOnly?: boolean;
+    /** Whether the radio group can be selected but not changed by the user. */
+    isReadOnly?: boolean;
 
-  /** Label for the radio group. */
-  label?: ReactNode;
+    /** Label for the radio group. */
+    label?: ReactNode;
 
-  /**
-   * The name of the radio group, used when submitting an HTML form.
-   * See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name_and_radio_buttons).
-   */
-  name?: string;
+    /**
+     * The name of the radio group, used when submitting an HTML form.
+     * See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name_and_radio_buttons).
+     */
+    name?: string;
 
-  /** Handler that is called when the value changes. */
-  onChange?: (value: K) => void;
+    /** Handler that is called when the value changes. */
+    onChange?: (value: K) => void;
 
-  /** The current value (controlled). */
-  value?: K;
-};
+    /** The current value (controlled). */
+    value?: K;
+  };
 
 function RadioGroupContainer<K extends string>(props: RadioGroupProps<K>) {
   const { children, label } = props;

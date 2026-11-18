@@ -141,7 +141,9 @@ export function CodeBlock(props: CodeBlockProps) {
   const snippet =
     snippets.length === 1
       ? snippets[0]
-      : snippets.find((snippet) => snippet.props.language === language);
+      : snippets.find(
+          (snippet) => (snippet.props.language ?? "text") === language,
+        );
 
   if (!snippet) {
     throw new Error("No snippet matching supplied language");
@@ -150,7 +152,7 @@ export function CodeBlock(props: CodeBlockProps) {
   const header = headers[0];
 
   const languages = useMemo(() => {
-    return snippets.map((snippet) => snippet.props.language);
+    return snippets.map((snippet) => snippet.props.language ?? "text");
   }, [snippets]);
 
   const context = useMemo(() => {

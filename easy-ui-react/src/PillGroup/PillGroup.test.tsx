@@ -107,6 +107,18 @@ describe("<PillGroup />", () => {
     expect(callbackFn).toHaveBeenCalled();
   });
 
+  it("passes a static pill's id to onRemove", async () => {
+    const callbackFn = vi.fn();
+    const { user } = render(
+      <PillGroup label="Label" onRemove={callbackFn}>
+        <PillGroup.Pill id="first" label="First" />
+        <PillGroup.Pill id="second" label="Second" />
+      </PillGroup>,
+    );
+    await userClick(user, screen.getAllByRole("button")[1]);
+    expect(callbackFn).toHaveBeenCalledWith(new Set(["second"]));
+  });
+
   it("supports usePillListState hook and removing a pill via mouse click", async () => {
     const { user } = render(<SimulatePillGroupRemoval />);
     // initially we should have 3

@@ -40,7 +40,8 @@ export type SnippetLanguages =
   | "php"
   | "python"
   | "ruby"
-  | "shell";
+  | "shell"
+  | "text";
 
 type CodeSnippetProps = Partial<Omit<HTMLDivElement, "children">> & {
   /**
@@ -54,9 +55,12 @@ type CodeSnippetProps = Partial<Omit<HTMLDivElement, "children">> & {
   code: string;
 
   /**
-   * The language of the code snippet.
+   * The language of the code snippet. `"text"` renders it as plain text,
+   * without highlighting.
+   *
+   * @default "text"
    */
-  language: SnippetLanguages;
+  language?: SnippetLanguages;
 
   /**
    * Constrains the height of code block to a set number of lines.

@@ -169,7 +169,7 @@ export const Controls: Story = {
   render: Template.bind({}),
   argTypes: {
     type: {
-      options: ["text", "email", "password", "tel", "search"],
+      options: ["text", "email", "password", "tel", "search", "url", "number"],
       control: { type: "radio" },
       description:
         "Sets the underlying HTML input type. Setting type to password adds a clickable and focusable right aligned visibility icon.",

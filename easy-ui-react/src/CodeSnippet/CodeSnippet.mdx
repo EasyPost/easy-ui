@@ -15,6 +15,12 @@ Use the `code` and `language` props to control the contents of the `<CodeSnippet
 
 <Controls of={CodeSnippetStories.Default} include={["language"]} />
 
+## Plain Text
+
+Set `language="text"`, or leave `language` off, to show content that isn't code, such as HTTP headers, without highlighting.
+
+<Canvas of={CodeSnippetStories.PlainText} />
+
 ## Line Numbers
 
 A `<CodeSnippet />` can show line numbers using `showLineNumbers`.

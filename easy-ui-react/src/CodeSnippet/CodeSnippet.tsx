@@ -20,9 +20,12 @@ export type CodeSnippetProps = Partial<Omit<HTMLDivElement, "children">> & {
   code: string;
 
   /**
-   * The language of the code snippet.
+   * The language of the code snippet. `"text"` renders it as plain text,
+   * without highlighting.
+   *
+   * @default "text"
    */
-  language: SnippetLanguage;
+  language?: SnippetLanguage;
 
   /**
    * Constrains the height of code block to a set number of lines.
@@ -75,7 +78,7 @@ export const CodeSnippet = forwardRef<HTMLDivElement, CodeSnippetProps>(
     const codeBlockContext = useContext(CodeBlockContext);
     const isWithinCodeBlock = Boolean(codeBlockContext);
     const Component = isWithinCodeBlock ? Card.Area : Card;
-    const { code, language, maxLines, showLineNumbers } = props;
+    const { code, language = "text", maxLines, showLineNumbers } = props;
     const codeBlockRef = useRef<HTMLDivElement | null>(null);
     const mergedRef = useObjectRef(mergeRefs(ref, codeBlockRef));
     const syntaxTheme = useEasyUiSyntaxHighlighterTheme(maxLines);
