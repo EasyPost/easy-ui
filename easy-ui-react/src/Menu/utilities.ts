@@ -50,20 +50,20 @@ export function getUnmergedPopoverStyles(
 }
 
 export function getAllSelectableItems<T>(state: TreeState<T>): Set<Key> {
+  // `selectionManager.isDisabled()` covers both `disabledKeys` and an item's
+  // own `isDisabled` prop, as `useMenuItem()` and the keyboard delegate do.
+  // `state.disabledKeys` alone misses the prop.
+  const isSelectable = (key: Key) =>
+    key !== SELECT_ALL_KEY && !state.selectionManager.isDisabled(key);
   return [...state.collection].reduce((acc, item) => {
     if (item.type === "section") {
       [...item.childNodes].forEach((child) => {
-        if (
-          child.key !== SELECT_ALL_KEY &&
-          !state.disabledKeys.has(child.key)
-        ) {
+        if (isSelectable(child.key)) {
           acc.add(child.key);
         }
       });
-    } else {
-      if (item.key !== SELECT_ALL_KEY && !state.disabledKeys.has(item.key)) {
-        acc.add(item.key);
-      }
+    } else if (isSelectable(item.key)) {
+      acc.add(item.key);
     }
     return acc;
   }, new Set<Key>());

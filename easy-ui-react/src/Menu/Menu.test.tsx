@@ -367,6 +367,41 @@ describe("<Menu />", () => {
     ).toBeTruthy();
   });
 
+  it.each([
+    [
+      "isDisabled",
+      {},
+      <Menu.Item key="3" isDisabled>
+        3
+      </Menu.Item>,
+    ],
+    ["disabledKeys", { disabledKeys: ["3"] }, <Menu.Item key="3">3</Menu.Item>],
+  ])(
+    "displays select all checkbox as selected when every enabled option is selected (%s)",
+    async (_, menuOverlayProps, disabledItem) => {
+      const { user } = render(
+        getMenu({
+          menuProps: { defaultOpen: true },
+          menuOverlayProps: { selectionMode: "multiple", ...menuOverlayProps },
+          items: [
+            <Menu.Item key="all">Select All</Menu.Item>,
+            <Menu.Item key="1">1</Menu.Item>,
+            <Menu.Item key="2">2</Menu.Item>,
+            disabledItem,
+          ],
+        }),
+      );
+      const checkboxes = screen.getAllByRole("menuitemcheckbox");
+      await clickMenuItem(user, checkboxes[1]);
+      await clickMenuItem(user, checkboxes[2]);
+      const $selectAll = screen.getByRole("checkbox", {
+        name: /select all/i,
+      }) as HTMLInputElement;
+      expect($selectAll.indeterminate).toBeFalsy();
+      expect($selectAll).toBeChecked();
+    },
+  );
+
   it("should select all options when select all checkbox is selected", async () => {
     const { user } = render(
       getMenu({
