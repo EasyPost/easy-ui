@@ -8,7 +8,9 @@ type Story = StoryObj<typeof CodeBlock>;
 type TemplateProps = Omit<CodeBlockProps, "language" | "onLanguageChange">;
 
 const getSnippetEntries = () =>
-  getAllSnippetEntries().filter(([language]) => language !== "json");
+  getAllSnippetEntries().filter(
+    ([language]) => language !== "json" && language !== "text",
+  );
 
 const Template = (props: TemplateProps) => {
   const [language, setLanguage] = useState(() => getSnippetEntries()[0][0]);

@@ -39,6 +39,11 @@ type CheckboxProps = {
   children?: ReactNode;
 
   /**
+   * The input element's unique identifier.
+   */
+  id?: string;
+
+  /**
    * Whether the checkbox should be selected (uncontrolled).
    */
   defaultSelected?: boolean;

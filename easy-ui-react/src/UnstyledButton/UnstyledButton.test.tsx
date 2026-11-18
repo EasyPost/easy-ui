@@ -5,6 +5,15 @@ import { vi } from "vitest";
 import { Icon } from "../Icon";
 import CheckCircleIcon from "@easypost/easy-ui-icons/CheckCircle";
 import { UnstyledButton } from "./UnstyledButton";
+import { UnstyledPressButton } from "./UnstyledPressButton";
+
+describe("<UnstyledPressButton />", () => {
+  it("should forward a button ref", () => {
+    const ref = React.createRef<HTMLButtonElement>();
+    render(<UnstyledPressButton ref={ref}>Button</UnstyledPressButton>);
+    expect(ref.current).toBe(screen.getByRole("button"));
+  });
+});
 
 describe("<UnstyledButton />", () => {
   it("should render an unstyled button", () => {
@@ -15,6 +24,40 @@ describe("<UnstyledButton />", () => {
   it("should render an unstyled button with text", () => {
     render(<UnstyledButton>Testing</UnstyledButton>);
     expect(screen.getByText(/testing/i)).toBeInTheDocument();
+  });
+
+  it("should forward an element ref", () => {
+    const buttonRef = React.createRef<HTMLButtonElement>();
+    const anchorRef = React.createRef<HTMLAnchorElement>();
+    render(
+      <>
+        <UnstyledButton ref={buttonRef}>Button</UnstyledButton>
+        <UnstyledButton ref={anchorRef} href="/link">
+          Link
+        </UnstyledButton>
+      </>,
+    );
+    expect(buttonRef.current).toBe(screen.getByText("Button"));
+    expect(buttonRef.current?.tagName).toBe("BUTTON");
+    expect(anchorRef.current).toBe(screen.getByText("Link"));
+    expect(anchorRef.current?.tagName).toBe("A");
+  });
+
+  it("should call onMouseEnter and onMouseLeave", async () => {
+    const handleMouseEnter = vi.fn();
+    const handleMouseLeave = vi.fn();
+    render(
+      <UnstyledButton
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        Button
+      </UnstyledButton>,
+    );
+    await userEvent.hover(screen.getByRole("button"));
+    expect(handleMouseEnter).toHaveBeenCalled();
+    await userEvent.unhover(screen.getByRole("button"));
+    expect(handleMouseLeave).toHaveBeenCalled();
   });
 
   it("should render an anchor tag", () => {

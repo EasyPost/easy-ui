@@ -138,6 +138,18 @@ type MenuItemProps = {
    */
   closeOnSelect?: boolean;
 
+  /**
+   * Whether the item is disabled. Equivalent to including its key in
+   * `disabledKeys` on `<Menu.Overlay />`.
+   */
+  isDisabled?: boolean;
+
+  /**
+   * A plain-text representation of the item's contents, used for typeahead.
+   * Defaults to `children` when it's a string.
+   */
+  textValue?: string;
+
   /** A URL to link to if the menu item should be a link. */
   href?: string;
 

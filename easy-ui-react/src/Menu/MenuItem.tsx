@@ -32,6 +32,19 @@ export type MenuItemProps = {
    */
   closeOnSelect?: boolean;
 
+  /**
+   * Whether the item is disabled. Equivalent to including its key in
+   * `disabledKeys` on `<Menu.Overlay />`.
+   */
+  isDisabled?: boolean;
+
+  /**
+   * A plain-text representation of the item's contents, used for typeahead.
+   * Defaults to `children` when it's a string. Set it when `children` isn't
+   * plain text.
+   */
+  textValue?: string;
+
   /** A URL to link to if the menu item should be a link. */
   href?: string;
 
@@ -92,7 +105,9 @@ export function MenuItemContent<T>({ item, state }: MenuItemContentProps<T>) {
           "as",
           "children",
           "closeOnSelect",
+          "isDisabled",
           "routerOptions",
+          "textValue",
           // a native anchor takes the href `useMenuItem()` resolved through the
           // client-side router, and re-applying the raw one here would undo it.
           // A custom `hrefComponent` keeps the raw value; it resolves its own

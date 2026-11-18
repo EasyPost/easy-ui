@@ -19,7 +19,8 @@ export type SnippetLanguage =
   | "php"
   | "python"
   | "ruby"
-  | "shell";
+  | "shell"
+  | "text";
 
 const SnippetLanguages: Record<string, SnippetLanguage> = {
   CSHARP: "csharp",
@@ -31,6 +32,7 @@ const SnippetLanguages: Record<string, SnippetLanguage> = {
   PYTHON: "python",
   RUBY: "ruby",
   SHELL: "shell",
+  TEXT: "text",
 };
 
 const friendlySnippetLanguageNames = {
@@ -43,6 +45,7 @@ const friendlySnippetLanguageNames = {
   [SnippetLanguages.PYTHON]: "Python",
   [SnippetLanguages.RUBY]: "Ruby",
   [SnippetLanguages.SHELL]: "cURL",
+  [SnippetLanguages.TEXT]: "Plain text",
 };
 
 SyntaxHighlighter.registerLanguage(SnippetLanguages.CSHARP, csharp);

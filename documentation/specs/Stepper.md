@@ -72,7 +72,7 @@ export type StepProps = AriaButtonProps & {
   /**
    * Step content, the actual step text itself.
    */
-  children: ReactNode;
+  children?: ReactNode;
 };
 ```
 

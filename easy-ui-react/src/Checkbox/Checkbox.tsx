@@ -40,6 +40,11 @@ export type CheckboxProps = {
   errorText?: ReactNode;
 
   /**
+   * The input element's unique identifier.
+   */
+  id?: string;
+
+  /**
    * Disables the checkbox.
    */
   isDisabled?: boolean;

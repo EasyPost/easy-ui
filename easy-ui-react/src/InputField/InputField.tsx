@@ -19,7 +19,14 @@ import {
 export type { NecessityIndicator };
 
 export type InputType =
-  "text" | "email" | "password" | "tel" | "search" | undefined;
+  | "text"
+  | "email"
+  | "password"
+  | "tel"
+  | "search"
+  | "url"
+  | "number"
+  | undefined;
 export type InputSize = "sm" | "md" | "lg";
 
 export type InputFieldProps = AriaTextFieldProps & {

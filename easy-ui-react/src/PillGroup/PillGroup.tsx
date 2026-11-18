@@ -1,7 +1,14 @@
 import React, { useMemo } from "react";
 import { useListData } from "react-stately";
 import type { TagGroupProps, TagListProps } from "react-aria-components";
-import { TagGroup, TagList, Tag, Label, Button } from "react-aria-components";
+import {
+  TagGroup,
+  TagList,
+  Tag,
+  Label,
+  Button,
+  type Key,
+} from "react-aria-components";
 import CloseIcon from "@easypost/easy-ui-icons/Close";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
@@ -180,6 +187,11 @@ export function PillGroup<T extends object>(props: PillGroupProps<T>) {
 }
 
 export type PillProps = {
+  /**
+   * The pill's unique identifier, passed to `onRemove`. Static pills need one
+   * for removal to identify them.
+   */
+  id?: Key;
   /** Left aligned icon */
   icon?: IconSymbol;
   /** Visual label for individual pill */

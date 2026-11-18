@@ -32,34 +32,35 @@ _Note that radios are only made meaningful as a part of a broader group. Due to 
 ### API
 
 ```ts
-type RadioGroupProps = AriaLabelingProps & {
-  /** Radio buttons to render inside the radio group. */
-  children?: ReactNode;
+type RadioGroupProps = AriaLabelingProps &
+  DOMProps & {
+    /** Radio buttons to render inside the radio group. */
+    children?: ReactNode;
 
-  /** The default value (uncontrolled). */
-  defaultValue?: string;
+    /** The default value (uncontrolled). */
+    defaultValue?: string;
 
-  /** Whether the radio is disabled. */
-  isDisabled?: boolean;
+    /** Whether the radio is disabled. */
+    isDisabled?: boolean;
 
-  /** Whether the radio group can be selected but not changed by the user. */
-  isReadOnly?: boolean;
+    /** Whether the radio group can be selected but not changed by the user. */
+    isReadOnly?: boolean;
 
-  /** Label for the radio group. */
-  label?: ReactNode;
+    /** Label for the radio group. */
+    label?: ReactNode;
 
-  /**
-   * The name of the radio group, used when submitting an HTML form.
-   * See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name_and_radio_buttons).
-   */
-  name?: string;
+    /**
+     * The name of the radio group, used when submitting an HTML form.
+     * See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name_and_radio_buttons).
+     */
+    name?: string;
 
-  /** Handler that is called when the value changes. */
-  onChange?: (value: string) => void;
+    /** Handler that is called when the value changes. */
+    onChange?: (value: string) => void;
 
-  /** The current value (controlled). */
-  value?: string;
-};
+    /** The current value (controlled). */
+    value?: string;
+  };
 
 type RadioGroupItemProps = {
   /**

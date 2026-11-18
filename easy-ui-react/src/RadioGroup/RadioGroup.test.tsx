@@ -29,6 +29,15 @@ describe("<RadioGroup />", () => {
     );
   });
 
+  it("should support id", () => {
+    render(
+      <RadioGroup label="Options" id="options">
+        <RadioGroup.Item value="first">First item</RadioGroup.Item>
+      </RadioGroup>,
+    );
+    expect(screen.getByRole("radiogroup")).toHaveAttribute("id", "options");
+  });
+
   it("should support uncontrolled", async () => {
     const { user } = render(
       <RadioGroup label="Options" defaultValue="first">

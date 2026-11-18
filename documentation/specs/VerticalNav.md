@@ -52,10 +52,13 @@ type ExpandableVerticalNavProps = BaseVerticalNavProps & {
 
 type VerticalNavItemProps<T extends ElementType = "a"> = ComponentProps<T> & {
   as?: T;
-  label: string;
   icon?: IconSymbol;
   children?: ReactNode;
-};
+} & (
+    | { label: string; textValue?: string }
+    // a node label needs a plain-text `textValue` for the collection
+    | { label: ReactNode; textValue: string }
+  );
 
 type VerticalNavSubnavProps = {
   selectedKey?: Key;

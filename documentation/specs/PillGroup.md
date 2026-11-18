@@ -80,6 +80,8 @@ export type PillGroupProps<T> = Pick<TagGroupProps, "onRemove"> &
   };
 
 export type PillProps = {
+  /** The pill's unique identifier, passed to `onRemove`. */
+  id?: Key;
   /** Left aligned icon */
   icon?: IconSymbol;
   /** Visual label for individual pill */

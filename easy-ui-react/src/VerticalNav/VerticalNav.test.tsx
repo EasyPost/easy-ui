@@ -55,6 +55,33 @@ describe("<VerticalNav />", () => {
     expect(handleClick).toBeCalled();
   });
 
+  it("should support a node label with a textValue", () => {
+    render(
+      <VerticalNav aria-label="Sidebar">
+        <VerticalNav.Item
+          key="1"
+          label={<span data-testid="node-label">Item 1</span>}
+          textValue="Item 1"
+          href="/1"
+        />
+      </VerticalNav>,
+    );
+    expect(screen.getByTestId("node-label")).toBeInTheDocument();
+    const $link = screen.getByRole("link", { name: "Item 1" });
+    expect($link).toHaveAttribute("href", "/1");
+    expect($link).not.toHaveAttribute("textValue");
+  });
+
+  it("should require a textValue for a node label", () => {
+    render(
+      <VerticalNav aria-label="Sidebar">
+        {/* @ts-expect-error a node label requires a textValue */}
+        <VerticalNav.Item key="1" label={<span>Item 1</span>} href="/1" />
+      </VerticalNav>,
+    );
+    expect(screen.getByRole("link", { name: "Item 1" })).toBeInTheDocument();
+  });
+
   it("should support a supplementary action", async () => {
     const handleClick = vi.fn();
     const { user } = render(

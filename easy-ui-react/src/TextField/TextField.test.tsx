@@ -21,6 +21,22 @@ describe("<TextField />", () => {
     ).toBeInTheDocument();
   });
 
+  it("should render a url textfield", () => {
+    render(<TextField label="Website" type="url" />);
+    expect(screen.getByRole("textbox", { name: "Website" })).toHaveAttribute(
+      "type",
+      "url",
+    );
+  });
+
+  it("should render a number textfield", () => {
+    render(<TextField label="Amount" type="number" />);
+    expect(screen.getByRole("spinbutton", { name: "Amount" })).toHaveAttribute(
+      "type",
+      "number",
+    );
+  });
+
   it("should render a password textfield", () => {
     render(<TextField type="password" label="password" />);
     expect(

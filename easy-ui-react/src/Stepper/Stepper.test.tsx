@@ -19,6 +19,16 @@ describe("<Stepper />", () => {
     expect(screen.getAllByRole("button").length).toBe(4);
   });
 
+  it("should render steps without children", () => {
+    render(
+      <Stepper activeStepIndex={0}>
+        <Stepper.Step stepIndex={0} isComplete={false} isAccessible />
+        <Stepper.Step stepIndex={1} isComplete={false} isAccessible={false} />
+      </Stepper>,
+    );
+    expect(screen.getAllByRole("button").length).toBe(2);
+  });
+
   it("should render a stepper with appropriate orientation styles", () => {
     const { rerender } = render(
       getStepper({ stepperProps: { orientation: "vertical" } }),
