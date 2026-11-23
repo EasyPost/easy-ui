@@ -8,6 +8,41 @@ import { CodeBlockContext } from "../CodeBlock/context";
 
 import styles from "./CodeSnippet.module.scss";
 
+// Line numbers are their own column. Inline numbers sit in the line, so tab
+// stops start in the gutter and tab-indented code collapses.
+function renderCodeTag({
+  children,
+  style,
+  ...rest
+}: React.ComponentPropsWithoutRef<"code">) {
+  if (Array.isArray(children) && children.length === 2 && children[0]) {
+    const [lineNumbers, lines] = children;
+    return (
+      <code {...rest} style={{ ...style, display: "flex" }}>
+        {lineNumbers}
+        <span
+          style={{ display: "block", flex: "1 0 auto", tabSize: "inherit" }}
+        >
+          {lines}
+        </span>
+      </code>
+    );
+  }
+
+  return (
+    <code {...rest} style={style}>
+      {children}
+    </code>
+  );
+}
+
+const lineNumberContainerStyle: React.CSSProperties = {
+  flex: "none",
+  paddingRight: "1em",
+  textAlign: "right",
+  userSelect: "none",
+};
+
 export type CodeSnippetProps = Partial<Omit<HTMLDivElement, "children">> & {
   /**
    * `children` is not supported. Use `code` instead.
@@ -94,6 +129,10 @@ export const CodeSnippet = forwardRef<HTMLDivElement, CodeSnippetProps>(
             language={language}
             style={syntaxTheme}
             showLineNumbers={showLineNumbers}
+            showInlineLineNumbers={false}
+            lineNumberContainerStyle={lineNumberContainerStyle}
+            lineNumberStyle={syntaxTheme.linenumber}
+            CodeTag={renderCodeTag}
           >
             {code}
           </SyntaxHighlighter>
