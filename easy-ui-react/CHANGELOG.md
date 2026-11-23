@@ -1,5 +1,11 @@
 # @easypost/easy-ui
 
+## 1.0.0-alpha.156
+
+### Patch Changes
+
+- 9e9d72e: fix: `CodeBlock`, `ActivityTray` and `SearchNav` keep their subcomponents on React 18, because `react-is` is no longer bundled
+
 ## 1.0.0-alpha.155
 
 ### Minor Changes
